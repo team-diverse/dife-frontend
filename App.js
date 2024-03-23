@@ -39,6 +39,10 @@ export default function App() {
     'NotoSansCJKkr-Bold': require('./src/assets/fonts/NotoSansCJKkr-Bold.otf'),
     'NotoSansCJKkr-Medium': require('./src/assets/fonts/NotoSansCJKkr-Medium.otf'),
     'NotoSansCJKkr-Regular': require('./src/assets/fonts/NotoSansCJKkr-Regular.otf'),
+<<<<<<< HEAD
+=======
+    
+>>>>>>> d5df400 (feat: 폰트 사용을 위한 폰트 로드 코드 추가)
   });
 
   if (!loaded) {
