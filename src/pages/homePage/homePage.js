@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const HomePage = () => {
   return (
     <View style={styles.container}>
-      <Text>chattingPage</Text>
+      <Text>HomePage</Text>
     </View>
   );
 }

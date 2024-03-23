@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const MemberPage = () => {
   return (
     <View style={styles.container}>
-      <Text>chattingPage</Text>
+      <Text>MemberPage</Text>
     </View>
   );
 }
