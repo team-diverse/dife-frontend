@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default chattingPage;
+export default ChattingPage;
