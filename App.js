@@ -2,6 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { customTheme } from './src/styles/customTheme.js';
+import { useFonts } from 'expo-font';
 
 import ChattingPage from './src/pages/chattingPage/chattingPage.js';
 import MatchingPage from './src/pages/matchingPage/matchingPage.js';
@@ -18,6 +19,17 @@ import MyDf24 from './src/components/icon_24/svg_js/my_df_24.js';
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  const [loaded] = useFonts({
+    'NotoSansCJKkr-Bold': require('./src/assets/fonts/NotoSansCJKkr-Bold.otf'),
+    'NotoSansCJKkr-Medium': require('./src/assets/fonts/NotoSansCJKkr-Medium.otf'),
+    'NotoSansCJKkr-Regular': require('./src/assets/fonts/NotoSansCJKkr-Regular.otf'),
+    
+  });
+
+  if (!loaded) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
       <Tab.Navigator initialRouteName="homePage"
