@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const chattingPage = () => {
+const memberPage = () => {
   return (
     <View style={styles.container}>
       <Text>chattingPage</Text>
@@ -17,4 +17,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default chattingPage;
+export default memberPage;
