@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 import EventStyles from './eventStyles';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import TopBar from '../../components/TobBar.js';
 
 const EventPage = () => {
     return (
-        <View>
-            <Text>Event</Text>
-        </View>
+        <SafeAreaView style={EventStyles.container}>
+            <TopBar tobBar="이벤트"/>
+            {/* <Text>Event</Text> */}
+        </SafeAreaView>
     )
 }
 
