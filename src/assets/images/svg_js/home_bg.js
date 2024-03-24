@@ -8,10 +8,14 @@ const HomeBg = (props) => (
     height='100%'
     fill="none"
 <<<<<<< HEAD
+<<<<<<< HEAD
     viewBox="0 -100 375 715"
 =======
     viewBox="0 -150 375 715"
 >>>>>>> c2436d5 (style: homePage 제작을 위한 컴포넌트 제작 및 정리)
+=======
+    viewBox="0 -100 375 715"
+>>>>>>> 57030e9 (feat: homepage 기본 틀 완성)
     {...props}
   >
     <Path
