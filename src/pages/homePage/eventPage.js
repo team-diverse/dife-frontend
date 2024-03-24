@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { View, FlatList, SafeAreaView } from 'react-native';
 import EventStyles from './eventStyles';
 import TopBar from '../../components/TopBar.js';
@@ -50,16 +51,25 @@ const EventPage = () => {
         </SafeAreaView>
 =======
 import { View, Text } from 'react-native';
+=======
+import { View, Text, SafeAreaView } from 'react-native';
+>>>>>>> a6584a8 (feat: 상단바 컴포넌트 생성 및 eventPage 적용)
 import EventStyles from './eventStyles';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import TopBar from '../../components/TobBar.js';
 
 const EventPage = () => {
     return (
+<<<<<<< HEAD
         <View>
             <Text>Event</Text>
         </View>
 >>>>>>> 9d6afdd (feat: stack navigation 기능 추가 및 eventpage 관련 파일 생성)
+=======
+        <SafeAreaView style={EventStyles.container}>
+            <TopBar tobBar="이벤트"/>
+            {/* <Text>Event</Text> */}
+        </SafeAreaView>
+>>>>>>> a6584a8 (feat: 상단바 컴포넌트 생성 및 eventPage 적용)
     )
 }
 
