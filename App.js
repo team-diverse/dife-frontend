@@ -16,9 +16,12 @@ import ConnectDf24 from './src/components/icon_24/connect_df_24.js';
 import HomeDf24 from './src/components/icon_24/home_df_24.js';
 import CommuDf24 from './src/components/icon_24/commu_df_24.js';
 import MyDf24 from './src/components/icon_24/my_df_24.js';
+<<<<<<< HEAD
 
 import EventPage from './src/pages/homePage/eventPage.js';
 import NotificationPage from './src/pages/homePage/notificationPage.js';
+=======
+>>>>>>> 52cdf0d (style: component 폴더 정리)
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
