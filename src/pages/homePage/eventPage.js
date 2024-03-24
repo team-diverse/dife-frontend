@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+<<<<<<< HEAD
 import { View, FlatList, SafeAreaView } from 'react-native';
 import EventStyles from './eventStyles';
 import TopBar from '../../components/TopBar.js';
@@ -47,6 +48,18 @@ const EventPage = () => {
                 keyExtractor={item => item.id}
             />
         </SafeAreaView>
+=======
+import { View, Text } from 'react-native';
+import EventStyles from './eventStyles';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const EventPage = () => {
+    return (
+        <View>
+            <Text>Event</Text>
+        </View>
+>>>>>>> 9d6afdd (feat: stack navigation 기능 추가 및 eventpage 관련 파일 생성)
     )
 }
 

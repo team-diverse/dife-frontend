@@ -3,13 +3,20 @@
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import HomeStyles from './homeStyles.js';
 
 import { useNavigation } from '@react-navigation/native';
 import { View, Text, StatusBar } from 'react-native';
+=======
+import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
+
+>>>>>>> 9d6afdd (feat: stack navigation 기능 추가 및 eventpage 관련 파일 생성)
 import HomeStyles from './homeStyles.js';
+
+import { useNavigation } from '@react-navigation/native';
 
 import HomeBg from '../../assets/images/svg_js/home_bg.js';
 import LogoBr from '../../components/logo/logo_br.js';
@@ -34,6 +41,7 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
     age="23",
     }) => {
   const navigation = useNavigation();
+<<<<<<< HEAD
 
   const [showNewCard, setShowNewCard] = useState(false);
 
@@ -169,6 +177,8 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
     name = "Amyyheart",
     country="France",
     age="23"}) => {
+=======
+>>>>>>> 9d6afdd (feat: stack navigation 기능 추가 및 eventpage 관련 파일 생성)
   const statusBarHeight = StatusBar.currentHeight || 0;
 
   const [showNewCard, setShowNewCard] = useState(false);
@@ -260,11 +270,11 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
           <HomeSchEv />
           <Text style={HomeStyles.TXhomeSch}>학교정보</Text>
           <HomeSchoolInfo style={HomeStyles.homeSchIcon}/>
-          <View style={HomeStyles.homeEv}>
+          <TouchableOpacity style={HomeStyles.homeEv} onPress={() => navigation.navigate('Event')}>
             <HomeSchEv />
             <Text style={HomeStyles.TXhomeEv}>이벤트</Text>
             <HomeEvent style={HomeStyles.homeEvIcon}/>
-          </View>
+          </TouchableOpacity>
         </View>
       </LinearGradient>
     </View>

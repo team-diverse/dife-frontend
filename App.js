@@ -2,7 +2,10 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+<<<<<<< HEAD
 import { customTheme } from './src/styles/customTheme.js';
+=======
+>>>>>>> 9d6afdd (feat: stack navigation 기능 추가 및 eventpage 관련 파일 생성)
 import { useFonts } from 'expo-font';
 
 import ChattingPage from './src/pages/chattingPage/chattingPage.js';
@@ -23,6 +26,8 @@ import NotificationPage from './src/pages/homePage/notificationPage.js';
 =======
 >>>>>>> 52cdf0d (style: component 폴더 정리)
 
+import EventPage from './src/pages/homePage/eventPage.js';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -31,8 +36,11 @@ function HomeStack() {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}} />
       <Stack.Screen name="Event" component={EventPage} options={{headerShown: false}} />
+<<<<<<< HEAD
 
       <Stack.Screen name="Notification" component={NotificationPage} options={{headerShown: false}} />
+=======
+>>>>>>> 9d6afdd (feat: stack navigation 기능 추가 및 eventpage 관련 파일 생성)
     </Stack.Navigator>
   );
 }
@@ -43,9 +51,12 @@ export default function App() {
     'NotoSansCJKkr-Medium': require('./src/assets/fonts/NotoSansCJKkr-Medium.otf'),
     'NotoSansCJKkr-Regular': require('./src/assets/fonts/NotoSansCJKkr-Regular.otf'),
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     
 >>>>>>> d5df400 (feat: 폰트 사용을 위한 폰트 로드 코드 추가)
+=======
+>>>>>>> 9d6afdd (feat: stack navigation 기능 추가 및 eventpage 관련 파일 생성)
   });
 
   if (!loaded) {
