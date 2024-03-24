@@ -10,7 +10,10 @@ const HomeStyles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
+<<<<<<< HEAD
         backgroundColor: '#0029F4',
+=======
+>>>>>>> 609215a (refactor: styleSheet 다른 파일로 분리)
     },
     linearGradient: {
         flex: 1,
@@ -27,11 +30,19 @@ const HomeStyles = StyleSheet.create({
     },
     logo: {
         flex: 1,
+<<<<<<< HEAD
         marginTop: 4,
         marginLeft: -8
     },
     notify: {
         marginTop: 10,
+=======
+        marginTop: 1,
+        marginLeft: -8
+    },
+    notify: {
+        marginTop: 7,
+>>>>>>> 609215a (refactor: styleSheet 다른 파일로 분리)
         marginRight: 25,
     },
     textConnectWithContainer: {
