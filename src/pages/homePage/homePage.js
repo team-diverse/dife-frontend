@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import HomeStyles from './homeStyles.js';
@@ -12,6 +13,9 @@ import { useNavigation } from '@react-navigation/native';
 import { View, Text, StatusBar } from 'react-native';
 =======
 import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
+=======
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+>>>>>>> f1c9494 (refactor: 상태바 높이 고려하기 위해 SafeAreaView 추가)
 
 >>>>>>> 9d6afdd (feat: stack navigation 기능 추가 및 eventpage 관련 파일 생성)
 import HomeStyles from './homeStyles.js';
@@ -41,6 +45,7 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
     age="23",
     }) => {
   const navigation = useNavigation();
+<<<<<<< HEAD
 <<<<<<< HEAD
 
   const [showNewCard, setShowNewCard] = useState(false);
@@ -180,6 +185,8 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
 =======
 >>>>>>> 9d6afdd (feat: stack navigation 기능 추가 및 eventpage 관련 파일 생성)
   const statusBarHeight = StatusBar.currentHeight || 0;
+=======
+>>>>>>> f1c9494 (refactor: 상태바 높이 고려하기 위해 SafeAreaView 추가)
 
   const [showNewCard, setShowNewCard] = useState(false);
 
@@ -188,8 +195,8 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
   };
 
   return (
-    <View style={HomeStyles.container}>
-      <LinearGradient style={[HomeStyles.linearGradient, { paddingTop: statusBarHeight }]} colors={['#0029F4', '#6199C1', '#6199C1']}>
+    <SafeAreaView style={HomeStyles.container}>
+      <LinearGradient style={HomeStyles.linearGradient} colors={['#0029F4', '#6199C1', '#6199C1']}>
         <HomeBg style={HomeStyles.svg} preserveAspectRatio='none'/>
         
         <View style={HomeStyles.topContainer}>
@@ -277,7 +284,7 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
           </TouchableOpacity>
         </View>
       </LinearGradient>
-    </View>
+    </SafeAreaView>
   );
 };
 

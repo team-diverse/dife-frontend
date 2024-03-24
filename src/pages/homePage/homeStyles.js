@@ -11,13 +11,16 @@ const HomeStyles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
 <<<<<<< HEAD
+<<<<<<< HEAD
         backgroundColor: '#0029F4',
 =======
 >>>>>>> 609215a (refactor: styleSheet 다른 파일로 분리)
+=======
+        backgroundColor: '#0029F4',
+>>>>>>> f1c9494 (refactor: 상태바 높이 고려하기 위해 SafeAreaView 추가)
     },
     linearGradient: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
     },
     svg: {
@@ -31,6 +34,7 @@ const HomeStyles = StyleSheet.create({
     logo: {
         flex: 1,
 <<<<<<< HEAD
+<<<<<<< HEAD
         marginTop: 4,
         marginLeft: -8
     },
@@ -43,6 +47,13 @@ const HomeStyles = StyleSheet.create({
     notify: {
         marginTop: 7,
 >>>>>>> 609215a (refactor: styleSheet 다른 파일로 분리)
+=======
+        marginTop: 4,
+        marginLeft: -8
+    },
+    notify: {
+        marginTop: 10,
+>>>>>>> f1c9494 (refactor: 상태바 높이 고려하기 위해 SafeAreaView 추가)
         marginRight: 25,
     },
     textConnectWithContainer: {
