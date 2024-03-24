@@ -4,12 +4,12 @@ import { View, Text, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { customTheme } from '../../styles/customTheme.js';
 
 import HomeBg from '../../assets/images/svg_js/home_bg.js';
-import LogoBr from '../../components/logo/svg_js/logo_br.js';
-import Notify from '../../components/icon_32/svg_js/notification_32.js';
-import Homecard from '../../components/Homecard.js';
-import HomecardDifeF from '../../components/svg_js/homecard_dife_f.js';
-import HomeSchEv from '../../components/HomeSchEv.js';
-import HomeProfile from '../../components/HomeProfile.js';
+import LogoBr from '../../components/logo/logo_br.js';
+import Notify from '../../components/icon_32/notification_32.js';
+import Homecard from '../../components/homeCompo/Homecard.js';
+import HomecardDifeF from '../../components/homeCompo/homecard_dife_f.js';
+import HomeSchEv from '../../components/homeCompo/HomeSchEv.js';
+import HomeProfile from '../../components/homeCompo/HomeProfile.js';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -39,10 +39,10 @@ const HomePage = () => {
           <Homecard />
           <View style={styles.homecardDifeF}>
             <HomecardDifeF />
-          {/* <View style={styles.homeProfile}>
-            <HomeProfile />
-          </View> */}
         </View>
+          <View style={styles.homeProfile}>
+            <HomeProfile />
+          </View>
         <View style={styles.homeSchEv}>
           <HomeSchEv />
           <HomeSchEv />
@@ -103,10 +103,12 @@ const styles = StyleSheet.create({
   },
   homecardDifeF: {
     position: 'absolute',
-    marginTop: 120,
+    top: 120,
   },
   homeProfile: {
     position: 'absolute',
+    left: 20,
+    top: 20,
   },
   homeSchEv: {
     flexDirection: 'row',

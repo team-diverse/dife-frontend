@@ -10,11 +10,11 @@ import HomePage from './src/pages/homePage/homePage.js';
 import CommunityPage from './src/pages/commuityPage/commuityPage.js';
 import MemberPage from './src/pages/memberPage/memberPage.js';
 
-import ChatDf24 from './src/components/icon_24/svg_js/chat_df_24.js';
-import ConnectDf24 from './src/components/icon_24/svg_js/connect_df_24.js';
-import HomeDf24 from './src/components/icon_24/svg_js/home_df_24.js';
-import CommuDf24 from './src/components/icon_24/svg_js/commu_df_24.js';
-import MyDf24 from './src/components/icon_24/svg_js/my_df_24.js';
+import ChatDf24 from './src/components/icon_24/chat_df_24.js';
+import ConnectDf24 from './src/components/icon_24/connect_df_24.js';
+import HomeDf24 from './src/components/icon_24/home_df_24.js';
+import CommuDf24 from './src/components/icon_24/commu_df_24.js';
+import MyDf24 from './src/components/icon_24/my_df_24.js';
 
 const Tab = createBottomTabNavigator();
 
