@@ -56,9 +56,11 @@ import { View, Text, SafeAreaView } from 'react-native';
 >>>>>>> a6584a8 (feat: 상단바 컴포넌트 생성 및 eventPage 적용)
 import EventStyles from './eventStyles';
 import TopBar from '../../components/TobBar.js';
+import EventCard from '../../components/eventCompo/EventCard.js';
 
 const EventPage = () => {
     return (
+<<<<<<< HEAD
 <<<<<<< HEAD
         <View>
             <Text>Event</Text>
@@ -66,8 +68,11 @@ const EventPage = () => {
 >>>>>>> 9d6afdd (feat: stack navigation 기능 추가 및 eventpage 관련 파일 생성)
 =======
         <SafeAreaView style={EventStyles.container}>
+=======
+        <SafeAreaView style={[EventStyles.container, { alignItems: 'center' }]}>
+>>>>>>> 1f30a5d (feat: EventCard 컴포넌트 제작 및 EventPage에 적용)
             <TopBar tobBar="이벤트"/>
-            {/* <Text>Event</Text> */}
+            <EventCard title="[프로그램] 2022-1학기 해외파견교환학생 설명회 홍보" date="2022.02.14 ~ 2022.02.15" eventImg={require('../../assets/images/test_img/test_haedam.jpg')} />
         </SafeAreaView>
 >>>>>>> a6584a8 (feat: 상단바 컴포넌트 생성 및 eventPage 적용)
     )
