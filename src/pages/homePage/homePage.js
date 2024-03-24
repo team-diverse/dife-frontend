@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
@@ -134,9 +135,13 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
 };
 =======
 import React from 'react';
+=======
+import React, { useState } from 'react';
+>>>>>>> 0a96641 (feat: homepage 카드 뒷면 틀 완성)
 import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, StyleSheet, Dimensions, StatusBar } from 'react-native';
 import { customTheme } from '../../styles/customTheme.js';
+
 
 import HomeBg from '../../assets/images/svg_js/home_bg.js';
 import LogoBr from '../../components/logo/logo_br.js';
@@ -153,6 +158,7 @@ import HeartInac24 from '../../components/icon_24/heart_inac_24.js';
 import AddFriendInac24 from '../../components/icon_24/addFriend_inac_24.js';
 import ChatInac24 from '../../components/icon_24/chat_inac_24.js';
 import HomeLine from '../../components/homeCompo/HomeLine.js';
+import HomecardBackBtn from '../../components/homeCompo/HomecardBackBtn.js';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -164,6 +170,12 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
     country="France",
     age="23"}) => {
   const statusBarHeight = StatusBar.currentHeight || 0;
+
+  const [showNewCard, setShowNewCard] = useState(false);
+
+  const handleAddFriendPress = () => {
+    setShowNewCard(true);
+  };
 
   return (
     <View style={styles.container}>
@@ -179,18 +191,45 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
           </View>
         </View>
 
+
         <View style={styles.textConnectWithContainer}>
           <Text style={styles.TXconnect} >커넥트</Text>
           <Text style={styles.TXwithnewfriend} >새로운 친구와 함께해요!</Text>
         </View>
 
-        <View style={styles.homecardContainer}>
-          <HomeArrow style={{transform: [{ scaleX: -1 }] }}/>
-          <View style={styles.homecard}>
-            <Homecard />
-            <View style={styles.homecardDifeF}>
-              <HomecardDifeF />
+
+        {showNewCard ? (
+          <View style={styles.homecardContainer}>
+            <HomeArrow style={{transform: [{ scaleX: -1 }] }}/>
+            <View style={[styles.homecard, { alignItems: 'center' }]}>
+              <Homecard />
+              <View style={styles.homecardDifeF}>
+                <HomecardDifeF />
+              </View>
+              <View style={styles.homecardBack}>
+                <HomeProfile profile={require('../../assets/images/test_img/test_haedam.jpg')}/>
+                <Text style={styles.viewProfile}>프로필 상세보기</Text>
+                <View style={styles.addFriendOk}>
+                  <Text style={styles.TXname}>{name}</Text>
+                  <Text style={styles.myinfo}>에게 친구신청하시겠습니까?</Text>
+                </View>
+                
+              </View>
+              <View style={styles.homecardBackBtn}>
+                  <HomecardBackBtn btnText="아니오" onPress={() => setShowNewCard(false)} />
+                  <HomecardBackBtn btnText="신청하기"/>
+                </View>
             </View>
+            <HomeArrow />
+          </View>
+        ) : (
+          <View style={styles.homecardContainer}>
+            <HomeArrow style={{transform: [{ scaleX: -1 }] }}/>
+            <View style={styles.homecard}>
+              <Homecard />
+              <View style={styles.homecardDifeF}>
+                <HomecardDifeF />
+              </View>
             <View style={styles.homeProfile}>
               <HomeProfile profile={require('../../assets/images/test_img/test_haedam.jpg')}/>
               <View style={styles.tagContainer}>
@@ -203,17 +242,19 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
                 <Text style={[styles.TXname, { fontWeight: 'NotoSansCJKkr-Medium' }]}>{name}</Text>
                 <Text style={styles.myinfo}> | {country} | {age}</Text>
               </View>
+              </View>
+              <View style={styles.connectIconContainer}>
+                  <HeartInac24 style={styles.connectIcon}/>
+                  <HomeLine style={styles.connectIcon}/>
+                  <AddFriendInac24 style={styles.connectIcon} onPress={handleAddFriendPress}/>
+                  <HomeLine style={styles.connectIcon}/>
+                  <ChatInac24 style={styles.connectIcon}/>
+              </View>
             </View>
-            <View style={styles.connectIconContainer}>
-                <HeartInac24 style={styles.connectIcon}/>
-                <HomeLine style={styles.connectIcon}/>
-                <AddFriendInac24 style={styles.connectIcon}/>
-                <HomeLine style={styles.connectIcon}/>
-                <ChatInac24 style={styles.connectIcon}/>
-            </View>
-          </View>
           <HomeArrow />
-        </View>
+          </View>
+        )}
+
 
         <View style={styles.homeSchEv}>
           <HomeSchEv />
@@ -361,6 +402,29 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 48,
     left: 47,
+  },
+
+
+  homecardBack: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 30,
+  },
+  viewProfile: {
+    ...fontCaption,
+    color: customTheme.textSecondary,
+    marginTop: 20,
+    textDecorationLine: 'underline'
+  },
+  addFriendOk: {
+    flexDirection: 'row',
+    marginTop: 33,
+  },
+  homecardBackBtn: {
+    position: 'absolute',
+    flexDirection: 'row',
+    bottom: 20,
   },
   
 });
