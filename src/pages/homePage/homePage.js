@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { View, Text, StatusBar, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 
 import HomeStyles from './homeStyles.js';
 
@@ -29,7 +29,6 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
     age="23",
     }) => {
   const navigation = useNavigation();
-  const statusBarHeight = StatusBar.currentHeight || 0;
 
   const [showNewCard, setShowNewCard] = useState(false);
 
@@ -38,8 +37,8 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
   };
 
   return (
-    <View style={HomeStyles.container}>
-      <LinearGradient style={[HomeStyles.linearGradient, { paddingTop: statusBarHeight }]} colors={['#0029F4', '#6199C1', '#6199C1']}>
+    <SafeAreaView style={HomeStyles.container}>
+      <LinearGradient style={HomeStyles.linearGradient} colors={['#0029F4', '#6199C1', '#6199C1']}>
         <HomeBg style={HomeStyles.svg} preserveAspectRatio='none'/>
         
         <View style={HomeStyles.topContainer}>
@@ -127,7 +126,7 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
           </TouchableOpacity>
         </View>
       </LinearGradient>
-    </View>
+    </SafeAreaView>
   );
 };
 
