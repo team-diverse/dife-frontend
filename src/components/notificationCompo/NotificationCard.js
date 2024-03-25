@@ -2,8 +2,13 @@ import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 import { customTheme } from '../../styles/customTheme.js';
 
+<<<<<<< HEAD
 import ChatInac24 from '../icon_24/chat_inac_24.js';
 import AddFriendInac24 from '../icon_24/addFriend_inac_24.js';
+=======
+import ChatDf24 from '../icon_24/chat_df_24.js';
+import ConnectDf24 from '../icon_24/connect_df_24.js';
+>>>>>>> fe679ee (feat: notificationPage 기본 틀 완성)
 import HeartInac24 from '../icon_24/heart_inac_24.js';
 
 const { fontCaption, fontNavi } = customTheme;
@@ -11,9 +16,15 @@ const { fontCaption, fontNavi } = customTheme;
 const NotificationCard = ({icon='아이콘', name='이름', context='내용', time='시간'}) => {
   let iconSvg;
   if (icon === 'chat') {
+<<<<<<< HEAD
     iconSvg = <ChatInac24 />;
   } else if (icon === 'connect') {
     iconSvg = <AddFriendInac24 />;
+=======
+    iconSvg = <ChatDf24 />;
+  } else if (icon === 'connect') {
+    iconSvg = <ConnectDf24 />;
+>>>>>>> fe679ee (feat: notificationPage 기본 틀 완성)
   } else if (icon === 'heart') {
     iconSvg = <HeartInac24 />;
   }
