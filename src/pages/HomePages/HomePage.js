@@ -22,12 +22,58 @@ import ChatInac24 from '../../components/icon24/ChatInac24.js';
 import HomeLine from '../../components/HomeCompo/HomeLine.js';
 import HomecardBackBtn from '../../components/HomeCompo/HomecardBackBtn.js';
 
-const HomePage = ({introduction = "adipiscing varius eu sit nulla, luctus tincidunt ex at ullamcorper cursus odio laoreet placerat.",
-    name = "Amyyheart",
-    country="France",
-    age="23",
-    }) => {
+
+const HomePage = ({cnt=3}) => {
   const navigation = useNavigation();
+
+  const profileDataList = [
+    {
+      profileImg: require('../../assets/images/test_img/test_profileImg.png'),
+      tag1: 'enfp',
+      tag2: 'Sports',
+      tag3: 'Drawing',
+      introduction: "adipiscing varius eu sit nulla, luctus tincidunt ex at ullamcorper cursus odio laoreet placerat.",
+      name: "Amyyheart",
+      country: "France",
+      age: "23"
+    },
+    {
+      profileImg: require('../../assets/images/test_img/test_haedam.jpg'),
+      tag1: 'entp',
+      tag2: 'music',
+      tag3: 'running',
+      introduction: "안녕하세요! 새로운 친구를 사귀고 싶은 해담입니다. 여행을 좋아하고 새로운 경험을 즐기며 삶을 즐겁게 살고 있어요.",
+      name: "개해담",
+      country: "한국",
+      age: "1"
+    },
+    {
+      profileImg: require('../../assets/images/test_img/test_event.png'),
+      tag1: 'istj',
+      tag2: 'study',
+      tag3: 'reading',
+      introduction: "안녕하세요! 저는 운영체제를 사랑하는 운영이라고 합니다. 만나서 반가워요.",
+      name: "운영",
+      country: "한국",
+      age: "23"
+    },
+  ];
+
+  const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
+
+  const handleNextProfile = () => {
+    if (currentProfileIndex < profileDataList.length - 1) {
+      setCurrentProfileIndex(currentProfileIndex + 1);
+    }
+  };
+
+  const handlePrevProfile = () => {
+    if (currentProfileIndex > 0) {
+      setCurrentProfileIndex(currentProfileIndex - 1);
+    }
+  };
+
+  const { profileImg, tag1, tag2, tag3, introduction, name, country, age } = profileDataList[currentProfileIndex];
 
   const [showNewCard, setShowNewCard] = useState(false);
 
@@ -45,7 +91,7 @@ const HomePage = ({introduction = "adipiscing varius eu sit nulla, luctus tincid
             <LogoBr />
           </View>
           <TouchableOpacity style={HomeStyles.notify} onPress={() => navigation.navigate('Notification')}>
-            <Notification32 />
+            <Notification32 count={cnt}/>
           </TouchableOpacity>
         </View>
 
@@ -58,14 +104,16 @@ const HomePage = ({introduction = "adipiscing varius eu sit nulla, luctus tincid
 
         {showNewCard ? (
           <View style={HomeStyles.homecardContainer}>
-            <HomeArrow style={{transform: [{ scaleX: -1 }] }}/>
+            <TouchableOpacity onPress={handlePrevProfile}>
+              <HomeArrow style={{transform: [{ scaleX: -1 }] }}/>
+            </TouchableOpacity>
             <View style={[HomeStyles.homecard, { alignItems: 'center' }]}>
               <Homecard />
               <View style={HomeStyles.homecardDifeF}>
                 <HomecardDifeF />
               </View>
               <View style={HomeStyles.homecardBack}>
-                <HomeProfile profile={require('../../assets/images/test_img/test_haedam.jpg')}/>
+                <HomeProfile profile={profileImg}/>
                 <Text style={HomeStyles.viewProfile}>프로필 상세보기</Text>
                 <View style={HomeStyles.addFriendOk}>
                   <Text style={HomeStyles.TXname}>{name}</Text>
@@ -78,22 +126,26 @@ const HomePage = ({introduction = "adipiscing varius eu sit nulla, luctus tincid
                   <HomecardBackBtn btnText="신청하기"/>
                 </View>
             </View>
-            <HomeArrow />
+            <TouchableOpacity onPress={handleNextProfile}>
+              <HomeArrow />
+            </TouchableOpacity>
           </View>
         ) : (
           <View style={HomeStyles.homecardContainer}>
-            <HomeArrow style={{transform: [{ scaleX: -1 }] }}/>
+            <TouchableOpacity onPress={handlePrevProfile}>
+              <HomeArrow style={{transform: [{ scaleX: -1 }] }}/>
+            </TouchableOpacity>
             <View style={HomeStyles.homecard}>
               <Homecard />
               <View style={HomeStyles.homecardDifeF}>
                 <HomecardDifeF />
               </View>
             <View style={HomeStyles.homeProfile}>
-              <HomeProfile profile={require('../../assets/images/test_img/test_haedam.jpg')}/>
+              <HomeProfile profile={profileImg}/>
               <View style={HomeStyles.tagContainer}>
-                <HomeTag text="Enfp"/>
-                <HomeTag text="Sports"/>
-                <HomeTag text="Drawing"/>
+                <HomeTag text={tag1}/>
+                <HomeTag text={tag2}/>
+                <HomeTag text={tag3}/>
               </View>
               <Text style={HomeStyles.introduction}>{introduction}</Text>
               <View style={HomeStyles.myinfoContainer}>
@@ -109,7 +161,9 @@ const HomePage = ({introduction = "adipiscing varius eu sit nulla, luctus tincid
                   <ChatInac24 style={HomeStyles.connectIcon}/>
               </View>
             </View>
-          <HomeArrow />
+            <TouchableOpacity onPress={handleNextProfile}>
+              <HomeArrow />
+            </TouchableOpacity>
           </View>
         )}
 

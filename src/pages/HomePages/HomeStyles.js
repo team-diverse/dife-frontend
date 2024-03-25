@@ -26,7 +26,7 @@ const HomeStyles = StyleSheet.create({
     },
     notify: {
         marginTop: 10,
-        marginRight: 25,
+        marginRight: 20,
     },
     textConnectWithContainer: {
         flexDirection: 'row',
