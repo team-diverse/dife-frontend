@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { customTheme } from '../styles/customTheme.js';
 import { useNavigation } from '@react-navigation/native';
 
-import ArrowRight from './icon_32/ArrowRight_32_.js';
+import ArrowRight32 from './icon32/ArrowRight32.js';
 
 const { fontHead20 } = customTheme;
 
@@ -18,7 +18,7 @@ const TopBar = ({ tobBar = "상단바" }) => {
         <View style={styles.rectangle}>
             <View style={styles.container}>
                 <TouchableOpacity onPress={handleGoBack}>
-                    <ArrowRight style={styles.arrow} />
+                    <ArrowRight32 style={styles.arrow} />
                 </TouchableOpacity>
                 <View style={styles.text}>
                     <Text style={styles.textStyle}>{tobBar}</Text>
