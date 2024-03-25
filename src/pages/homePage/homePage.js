@@ -256,7 +256,7 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
               </View>
               <Text style={HomeStyles.introduction}>{introduion}</Text>
               <View style={HomeStyles.myinfoContainer}>
-                <Text style={[HomeStyles.TXname, { fontWeight: 'NotoSansCJKkr-Medium' }]}>{name}</Text>
+                <Text style={[HomeStyles.TXname, { fontFamily: 'NotoSansCJKkr-Medium' }]}>{name}</Text>
                 <Text style={HomeStyles.myinfo}> | {country} | {age}</Text>
               </View>
               </View>
