@@ -27,6 +27,7 @@ import NotificationPage from './src/pages/homePage/notificationPage.js';
 >>>>>>> 52cdf0d (style: component 폴더 정리)
 
 import EventPage from './src/pages/homePage/eventPage.js';
+import NotificationPage from './src/pages/homePage/notificationPage.js';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -37,10 +38,14 @@ function HomeStack() {
       <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}} />
       <Stack.Screen name="Event" component={EventPage} options={{headerShown: false}} />
 <<<<<<< HEAD
+<<<<<<< HEAD
 
       <Stack.Screen name="Notification" component={NotificationPage} options={{headerShown: false}} />
 =======
 >>>>>>> 9d6afdd (feat: stack navigation 기능 추가 및 eventpage 관련 파일 생성)
+=======
+      <Stack.Screen name="Notification" component={NotificationPage} options={{headerShown: false}} />
+>>>>>>> 8e3acd5 (feat: notificationPage 상단바 적용 및 homePage에서 notificatinPage로 이동하는 기능 구현)
     </Stack.Navigator>
   );
 }

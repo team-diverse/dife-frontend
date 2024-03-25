@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import { View, SafeAreaView,  } from 'react-native';
 import TopBar from '../../components/TopBar.js';
@@ -45,6 +46,17 @@ const NotificationPage = () => {
                 )}
                 keyExtractor={item => item.id}
             />
+=======
+import React, { useState } from 'react';
+import { SafeAreaView } from 'react-native';
+import EventStyles from './eventStyles';
+import TopBar from '../../components/TobBar.js';
+
+const NotificationPage = () => {
+    return (
+        <SafeAreaView style={[EventStyles.container, { alignItems: 'center' }]}>
+            <TopBar tobBar="알림"/>
+>>>>>>> 8e3acd5 (feat: notificationPage 상단바 적용 및 homePage에서 notificatinPage로 이동하는 기능 구현)
         </SafeAreaView>
     )
 }

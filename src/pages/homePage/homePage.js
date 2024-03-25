@@ -203,9 +203,9 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
           <View style={HomeStyles.logo}>
             <LogoBr />
           </View>
-          <View style={HomeStyles.notify}>
+          <TouchableOpacity style={HomeStyles.notify} onPress={() => navigation.navigate('Notification')}>
             <Notify />
-          </View>
+          </TouchableOpacity>
         </View>
 
 
