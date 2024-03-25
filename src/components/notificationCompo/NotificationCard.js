@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { customTheme } from '../../styles/customTheme.js';
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 import ChatInac24 from '../icon_24/chat_inac_24.js';
@@ -15,6 +16,11 @@ import ChatInac24 from '../icon_24/chat_inac_24.js';
 import AddFriendInac24 from '../icon_24/addFriend_inac_24.js';
 >>>>>>> 66e82ce (style: notificationCard svg 이미지 변경)
 import HeartInac24 from '../icon_24/heart_inac_24.js';
+=======
+import ChatInac24 from '../icon24/ChatInac24.js';
+import AddFriendInac24 from '../icon24/AddFriendInac24.js';
+import HeartInac24 from '../icon24/HeartInac24.js';
+>>>>>>> 43acbdb (refactor: 파일명과 객체명 일치 및 안 쓰이는 부분 정리)
 
 const { fontCaption, fontNavi } = customTheme;
 

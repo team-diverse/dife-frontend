@@ -53,12 +53,15 @@ import { SafeAreaView } from 'react-native';
 import EventStyles from './eventStyles';
 =======
 import React from 'react';
+<<<<<<< HEAD:src/pages/homePage/notificationPage.js
 import { View, SafeAreaView, FlatList } from 'react-native';
 >>>>>>> fe679ee (feat: notificationPage 기본 틀 완성)
+=======
+import { SafeAreaView, FlatList } from 'react-native';
+>>>>>>> 43acbdb (refactor: 파일명과 객체명 일치 및 안 쓰이는 부분 정리):src/pages/HomePages/NotificationPage.js
 import TopBar from '../../components/TobBar.js';
-import NotificationCard from '../../components/notificationCompo/NotificationCard.js'
-import NotificationStyles from './notificationStyles.js';
-import ChatDf24 from '../../components/icon_24/chat_df_24.js';
+import NotificationCard from '../../components/NotificationCompo/NotificationCard.js'
+import NotificationStyles from './NotificationStyles.js';
 
 const NotificationPage = () => {
     const notificationData = [

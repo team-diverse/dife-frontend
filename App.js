@@ -8,12 +8,13 @@ import { customTheme } from './src/styles/customTheme.js';
 >>>>>>> 9d6afdd (feat: stack navigation 기능 추가 및 eventpage 관련 파일 생성)
 import { useFonts } from 'expo-font';
 
-import ChattingPage from './src/pages/chattingPage/chattingPage.js';
-import MatchingPage from './src/pages/matchingPage/matchingPage.js';
-import HomePage from './src/pages/homePage/homePage.js';
-import CommunityPage from './src/pages/commuityPage/commuityPage.js';
-import MemberPage from './src/pages/memberPage/memberPage.js';
+import ChattingPage from './src/pages/ChattingPages/ChattingPage.js';
+import MatchingPage from './src/pages/MatchingPages/MatchingPage.js';
+import HomePage from './src/pages/HomePages/HomePage.js';
+import CommunityPage from './src/pages/CommuityPages/CommuityPage.js';
+import MemberPage from './src/pages/MemberPages/MemberPage.js';
 
+<<<<<<< HEAD
 import ChatDf24 from './src/components/icon_24/chat_df_24.js';
 import ConnectDf24 from './src/components/icon_24/connect_df_24.js';
 import HomeDf24 from './src/components/icon_24/home_df_24.js';
@@ -25,9 +26,16 @@ import EventPage from './src/pages/homePage/eventPage.js';
 import NotificationPage from './src/pages/homePage/notificationPage.js';
 =======
 >>>>>>> 52cdf0d (style: component 폴더 정리)
+=======
+import ChatDf24 from './src/components/icon24/ChatDf24.js';
+import ConnectDf24 from './src/components/icon24/ConnectDf24.js';
+import HomeDf24 from './src/components/icon24/HomeDf24.js';
+import CommuDf24 from './src/components/icon24/CommuDf24.js';
+import MyDf24 from './src/components/icon24/MyDf24.js';
+>>>>>>> 43acbdb (refactor: 파일명과 객체명 일치 및 안 쓰이는 부분 정리)
 
-import EventPage from './src/pages/homePage/eventPage.js';
-import NotificationPage from './src/pages/homePage/notificationPage.js';
+import EventPage from './src/pages/HomePages/EventPage.js';
+import NotificationPage from './src/pages/HomePages/NotificationPage.js';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();

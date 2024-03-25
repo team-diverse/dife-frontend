@@ -5,6 +5,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { customTheme } from '../styles/customTheme.js';
 import { useNavigation } from '@react-navigation/native';
 
+<<<<<<< HEAD
 =======
 import { View, Text, StyleSheet } from 'react-native';
 import { customTheme } from '../styles/customTheme.js';
@@ -16,6 +17,9 @@ import { useNavigation } from '@react-navigation/native';
 
 >>>>>>> 1f30a5d (feat: EventCard 컴포넌트 제작 및 EventPage에 적용)
 import ArrowRight from './icon_32/ArrowRight_32_.js';
+=======
+import ArrowRight32 from './icon32/ArrowRight32.js';
+>>>>>>> 43acbdb (refactor: 파일명과 객체명 일치 및 안 쓰이는 부분 정리)
 
 const { fontHead20 } = customTheme;
 
@@ -35,7 +39,7 @@ const TopBar = ({ tobBar = "상단바" }) => {
         <View style={styles.rectangle}>
             <View style={styles.container}>
                 <TouchableOpacity onPress={handleGoBack}>
-                    <ArrowRight style={styles.arrow} />
+                    <ArrowRight32 style={styles.arrow} />
                 </TouchableOpacity>
                 <View style={styles.text}>
                     <Text style={styles.textStyle}>{tobBar}</Text>

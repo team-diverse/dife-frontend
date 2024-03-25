@@ -1,9 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { customTheme } from '../../styles/customTheme';
 
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
-
 const { fontHead18, fontSub16, fontCaption } = customTheme;
 
 const HomeStyles = StyleSheet.create({
@@ -23,10 +20,8 @@ const HomeStyles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
     },
-    svg: {
+    homebg: {
         position: 'absolute',
-        width: screenWidth,
-        height: screenHeight,
     },
     topContainer: {
         flexDirection: 'row',
@@ -106,7 +101,6 @@ const HomeStyles = StyleSheet.create({
     },
     myinfoContainer: {
         flexDirection: 'row',
-        // marginTop: 6,
     },
     TXname: {
         fontSize: 12,

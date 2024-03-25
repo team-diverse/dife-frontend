@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/pages/homePage/eventPage.js
 import React, { useState } from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -59,8 +60,16 @@ import { View, Text, SafeAreaView } from 'react-native';
 import { View, FlatList, SafeAreaView } from 'react-native';
 >>>>>>> f2e9e76 (feat: eventPage 스크롤 구현)
 import EventStyles from './eventStyles';
+=======
+import React from 'react';
+import { View, FlatList, SafeAreaView } from 'react-native';
+
+import EventStyles from './EventStyles.js';
+
+>>>>>>> 43acbdb (refactor: 파일명과 객체명 일치 및 안 쓰이는 부분 정리):src/pages/HomePages/EventPage.js
 import TopBar from '../../components/TobBar.js';
-import EventCard from '../../components/eventCompo/EventCard.js';
+import EventCard from '../../components/EventCompo/EventCard.js';
+
 
 const EventPage = () => {
     const eventData = [
