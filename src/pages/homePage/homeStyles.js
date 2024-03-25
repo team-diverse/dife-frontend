@@ -97,7 +97,7 @@ const HomeStyles = StyleSheet.create({
         marginTop: 12,
         marginBottom: 6,
     },
-    introdution: {
+    introduction: {
         ...fontCaption,
         width: 200,
         height: 51,
