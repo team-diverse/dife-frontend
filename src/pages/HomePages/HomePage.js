@@ -22,7 +22,7 @@ import ChatInac24 from '../../components/icon24/ChatInac24.js';
 import HomeLine from '../../components/HomeCompo/HomeLine.js';
 import HomecardBackBtn from '../../components/HomeCompo/HomecardBackBtn.js';
 
-const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidunt ex at ullamcorper cursus odio laoreet placerat.",
+const HomePage = ({introduction = "adipiscing varius eu sit nulla, luctus tincidunt ex at ullamcorper cursus odio laoreet placerat.",
     name = "Amyyheart",
     country="France",
     age="23",
@@ -95,7 +95,7 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
                 <HomeTag text="Sports"/>
                 <HomeTag text="Drawing"/>
               </View>
-              <Text style={HomeStyles.introduction}>{introduion}</Text>
+              <Text style={HomeStyles.introduction}>{introduction}</Text>
               <View style={HomeStyles.myinfoContainer}>
                 <Text style={HomeStyles.TXname}>{name}</Text>
                 <Text style={HomeStyles.myinfo}> | {country} | {age}</Text>
