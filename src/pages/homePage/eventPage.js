@@ -84,9 +84,15 @@ const EventPage = () => {
         },
         {
             id: '4',
-            title: '[프로그램] 해담이 탐구회',
-            date: '2022.11.13 ~ 2022.11.13',
-            eventImg: require('../../assets/images/test_img/test_haedam.jpg')
+            title: '[프로그램] 2022-1학기 해외파견교환학생 설명회 홍보',
+            date: '2022.02.14 ~ 2022.02.15',
+            eventImg: require('../../assets/images/test_img/test_event.png')
+        },
+        {
+            id: '5',
+            title: '[프로그램] 2022-1학기 해외파견교환학생 설명회 홍보',
+            date: '2022.02.14 ~ 2022.02.15',
+            eventImg: require('../../assets/images/test_img/test_event2.png')
         },
     ];
 
@@ -103,7 +109,9 @@ const EventPage = () => {
         <SafeAreaView style={[EventStyles.container, { alignItems: 'center' }]}>
 >>>>>>> 1f30a5d (feat: EventCard 컴포넌트 제작 및 EventPage에 적용)
             <TopBar tobBar="이벤트"/>
+            <View style={EventStyles.flatlist}>
             <FlatList
+            contentContainerStyle={EventStyles.flatlistContent}
                 data={eventData}
                 renderItem={({ item }) => (
                     <EventCard
@@ -114,6 +122,7 @@ const EventPage = () => {
                 )}
                 keyExtractor={item => item.id}
             />
+            </View>
         </SafeAreaView>
 >>>>>>> a6584a8 (feat: 상단바 컴포넌트 생성 및 eventPage 적용)
     )
