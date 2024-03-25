@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { View, FlatList, SafeAreaView } from 'react-native';
 import EventStyles from './eventStyles';
 import TopBar from '../../components/TopBar.js';
@@ -54,11 +55,41 @@ import { View, Text } from 'react-native';
 =======
 import { View, Text, SafeAreaView } from 'react-native';
 >>>>>>> a6584a8 (feat: 상단바 컴포넌트 생성 및 eventPage 적용)
+=======
+import { View, FlatList, SafeAreaView } from 'react-native';
+>>>>>>> f2e9e76 (feat: eventPage 스크롤 구현)
 import EventStyles from './eventStyles';
 import TopBar from '../../components/TobBar.js';
 import EventCard from '../../components/eventCompo/EventCard.js';
 
 const EventPage = () => {
+    const eventData = [
+        {
+            id: '1',
+            title: '[프로그램] 2022-1학기 해외파견교환학생 설명회 홍보',
+            date: '2022.02.14 ~ 2022.02.15',
+            eventImg: require('../../assets/images/test_img/test_event.png')
+        },
+        {
+            id: '2',
+            title: '[프로그램] 2022-1학기 해외파견교환학생 설명회 홍보',
+            date: '2022.02.14 ~ 2022.02.15',
+            eventImg: require('../../assets/images/test_img/test_event2.png')
+        },
+        {
+            id: '3',
+            title: '[프로그램] 해담이 탐구회',
+            date: '2022.11.13 ~ 2022.11.13',
+            eventImg: require('../../assets/images/test_img/test_haedam.jpg')
+        },
+        {
+            id: '4',
+            title: '[프로그램] 해담이 탐구회',
+            date: '2022.11.13 ~ 2022.11.13',
+            eventImg: require('../../assets/images/test_img/test_haedam.jpg')
+        },
+    ];
+
     return (
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -72,7 +103,17 @@ const EventPage = () => {
         <SafeAreaView style={[EventStyles.container, { alignItems: 'center' }]}>
 >>>>>>> 1f30a5d (feat: EventCard 컴포넌트 제작 및 EventPage에 적용)
             <TopBar tobBar="이벤트"/>
-            <EventCard title="[프로그램] 2022-1학기 해외파견교환학생 설명회 홍보" date="2022.02.14 ~ 2022.02.15" eventImg={require('../../assets/images/test_img/test_haedam.jpg')} />
+            <FlatList
+                data={eventData}
+                renderItem={({ item }) => (
+                    <EventCard
+                        title={item.title}
+                        date={item.date}
+                        eventImg={item.eventImg}
+                    />
+                )}
+                keyExtractor={item => item.id}
+            />
         </SafeAreaView>
 >>>>>>> a6584a8 (feat: 상단바 컴포넌트 생성 및 eventPage 적용)
     )
