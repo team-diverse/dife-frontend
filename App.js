@@ -17,6 +17,7 @@ import CommuDf24 from './src/components/icon_24/commu_df_24.js';
 import MyDf24 from './src/components/icon_24/my_df_24.js';
 
 import EventPage from './src/pages/homePage/eventPage.js';
+import NotificationPage from './src/pages/homePage/notificationPage.js';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -26,6 +27,7 @@ function HomeStack() {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}} />
       <Stack.Screen name="Event" component={EventPage} options={{headerShown: false}} />
+      <Stack.Screen name="Notification" component={NotificationPage} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 }
