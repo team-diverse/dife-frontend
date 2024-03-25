@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { Path } from 'react-native-svg';
 
-const Notify = (props) => (
+const Notification32 = (props) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
     width={32}
@@ -20,4 +20,4 @@ const Notify = (props) => (
     />
   </Svg>
 )
-export default Notify;
+export default Notification32;

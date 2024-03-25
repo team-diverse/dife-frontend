@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, SafeAreaView, FlatList } from 'react-native';
+import { SafeAreaView, FlatList } from 'react-native';
 import TopBar from '../../components/TobBar.js';
-import NotificationCard from '../../components/notificationCompo/NotificationCard.js'
-import NotificationStyles from './notificationStyles.js';
-import ChatDf24 from '../../components/icon_24/chat_df_24.js';
+import NotificationCard from '../../components/NotificationCompo/NotificationCard.js'
+import NotificationStyles from './NotificationStyles.js';
 
 const NotificationPage = () => {
     const notificationData = [

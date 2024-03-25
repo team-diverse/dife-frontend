@@ -4,20 +4,20 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 
-import ChattingPage from './src/pages/chattingPage/chattingPage.js';
-import MatchingPage from './src/pages/matchingPage/matchingPage.js';
-import HomePage from './src/pages/homePage/homePage.js';
-import CommunityPage from './src/pages/commuityPage/commuityPage.js';
-import MemberPage from './src/pages/memberPage/memberPage.js';
+import ChattingPage from './src/pages/ChattingPages/ChattingPage.js';
+import MatchingPage from './src/pages/MatchingPages/MatchingPage.js';
+import HomePage from './src/pages/HomePages/HomePage.js';
+import CommunityPage from './src/pages/CommuityPages/CommuityPage.js';
+import MemberPage from './src/pages/MemberPages/MemberPage.js';
 
-import ChatDf24 from './src/components/icon_24/chat_df_24.js';
-import ConnectDf24 from './src/components/icon_24/connect_df_24.js';
-import HomeDf24 from './src/components/icon_24/home_df_24.js';
-import CommuDf24 from './src/components/icon_24/commu_df_24.js';
-import MyDf24 from './src/components/icon_24/my_df_24.js';
+import ChatDf24 from './src/components/icon24/ChatDf24.js';
+import ConnectDf24 from './src/components/icon24/ConnectDf24.js';
+import HomeDf24 from './src/components/icon24/HomeDf24.js';
+import CommuDf24 from './src/components/icon24/CommuDf24.js';
+import MyDf24 from './src/components/icon24/MyDf24.js';
 
-import EventPage from './src/pages/homePage/eventPage.js';
-import NotificationPage from './src/pages/homePage/notificationPage.js';
+import EventPage from './src/pages/HomePages/EventPage.js';
+import NotificationPage from './src/pages/HomePages/NotificationPage.js';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
