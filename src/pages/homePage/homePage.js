@@ -96,7 +96,7 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
                 <HomeTag text="Sports"/>
                 <HomeTag text="Drawing"/>
               </View>
-              <Text style={HomeStyles.introdution}>{introduion}</Text>
+              <Text style={HomeStyles.introduction}>{introduion}</Text>
               <View style={HomeStyles.myinfoContainer}>
                 <Text style={[HomeStyles.TXname, { fontWeight: 'NotoSansCJKkr-Medium' }]}>{name}</Text>
                 <Text style={HomeStyles.myinfo}> | {country} | {age}</Text>
