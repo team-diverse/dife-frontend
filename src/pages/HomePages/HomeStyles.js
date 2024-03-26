@@ -26,7 +26,7 @@ const HomeStyles = StyleSheet.create({
     },
     notify: {
         marginTop: 10,
-        marginRight: 25,
+        marginRight: 20,
     },
     textConnectWithContainer: {
         flexDirection: 'row',
@@ -52,12 +52,12 @@ const HomeStyles = StyleSheet.create({
         top: 8,
         shadowColor: '#3C454E4A',
         shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.29,
+        shadowOpacity: 0.71,
         shadowRadius: 6,
     },
     homecardDifeF: {
         position: 'absolute',
-        top: 70,
+        top: 69,
     },
     homeProfile: {
         position: 'absolute',

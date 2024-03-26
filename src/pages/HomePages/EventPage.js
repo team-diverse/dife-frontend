@@ -49,11 +49,13 @@ const EventPage = () => {
             contentContainerStyle={EventStyles.flatlistContent}
                 data={eventData}
                 renderItem={({ item }) => (
+                    <View style={EventStyles.eventCard}>
                     <EventCard
                         title={item.title}
                         date={item.date}
                         eventImg={item.eventImg}
                     />
+                    </View>
                 )}
                 keyExtractor={item => item.id}
             />
