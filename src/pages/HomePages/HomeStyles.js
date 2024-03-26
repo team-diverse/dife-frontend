@@ -57,7 +57,7 @@ const HomeStyles = StyleSheet.create({
     },
     homecardDifeF: {
         position: 'absolute',
-        top: 70,
+        top: 69,
     },
     homeProfile: {
         position: 'absolute',
@@ -103,7 +103,7 @@ const HomeStyles = StyleSheet.create({
         marginTop: 28,
         shadowColor: '#3C454E4A',
         shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.71,
+        shadowOpacity: 0.29,
         shadowRadius: 6,
     },
     TXhomeSch: {

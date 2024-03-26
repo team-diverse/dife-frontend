@@ -114,7 +114,7 @@ const HomePage = ({cnt=3}) => {
                 <HomecardDifeB />
               </View>
               <View style={HomeStyles.homecardBack}>
-                  <HomeProfile profile={profileImg}/>
+                  <HomeProfile profile={profileImg} back={true}/>
                 <Text style={HomeStyles.viewProfile}>프로필 상세보기</Text>
                 <View style={HomeStyles.addFriendOk}>
                   <Text style={HomeStyles.TXname}>{name}</Text>

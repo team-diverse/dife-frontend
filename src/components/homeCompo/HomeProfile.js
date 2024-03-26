@@ -2,12 +2,13 @@ import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import { customTheme } from '../../styles/customTheme.js';
 
-const HomeProfile = ({profile}) => {
+const HomeProfile = ({ profile, back=false }) => {
+  const containerStyle = back ? { width: 100.647, height: 118 } : null;
+
   return (
-    <View style={styles.rectangle}>
+    <View style={[styles.rectangle, containerStyle]}>
       <Image source={profile} style={styles.image} />
     </View>
-
   );
 };
 
