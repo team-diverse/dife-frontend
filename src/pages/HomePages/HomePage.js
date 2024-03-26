@@ -21,6 +21,7 @@ import AddFriendInac24 from '../../components/icon24/AddFriendInac24.js';
 import ChatInac24 from '../../components/icon24/ChatInac24.js';
 import HomeLine from '../../components/HomeCompo/HomeLine.js';
 import HomecardBackBtn from '../../components/HomeCompo/HomecardBackBtn.js';
+import HomecardDifeB from '../../components/HomeCompo/HomecardDifeB.js';
 
 
 const HomePage = ({cnt=3}) => {
@@ -110,10 +111,10 @@ const HomePage = ({cnt=3}) => {
             <View style={[HomeStyles.homecard, { alignItems: 'center' }]}>
               <Homecard />
               <View style={HomeStyles.homecardDifeF}>
-                <HomecardDifeF />
+                <HomecardDifeB />
               </View>
               <View style={HomeStyles.homecardBack}>
-                <HomeProfile profile={profileImg}/>
+                  <HomeProfile profile={profileImg}/>
                 <Text style={HomeStyles.viewProfile}>프로필 상세보기</Text>
                 <View style={HomeStyles.addFriendOk}>
                   <Text style={HomeStyles.TXname}>{name}</Text>
