@@ -8,7 +8,7 @@ import HeartInac24 from '../icon24/HeartInac24.js';
 
 const { fontCaption, fontNavi } = customTheme;
 
-const NotificationCard = ({icon='아이콘', name='이름', context='내용', time='시간'}) => {
+const NotificationCard = ({icon, name='name', context='context', time='time'}) => {
   let iconSvg;
   if (icon === 'chat') {
     iconSvg = <ChatInac24 />;
@@ -16,6 +16,8 @@ const NotificationCard = ({icon='아이콘', name='이름', context='내용', ti
     iconSvg = <AddFriendInac24 />;
   } else if (icon === 'heart') {
     iconSvg = <HeartInac24 />;
+  } else {
+    iconSvg = <Text>icon</Text>;
   }
 
   return (
