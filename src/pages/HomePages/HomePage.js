@@ -29,6 +29,11 @@ const HomePage = ({cnt=3}) => {
 
   const profileDataList = [
     {
+      tag1: 'istj',
+      introduction: "제 이름은 테스트용입니다.",
+      age: "23"
+    },
+    {
       profileImg: require('../../assets/images/test_img/test_profileImg.png'),
       tag1: 'enfp',
       tag2: 'Sports',
@@ -58,6 +63,7 @@ const HomePage = ({cnt=3}) => {
       country: "한국",
       age: "23"
     },
+    
   ];
 
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
@@ -74,7 +80,7 @@ const HomePage = ({cnt=3}) => {
     }
   };
 
-  const { profileImg, tag1, tag2, tag3, introduction, name, country, age } = profileDataList[currentProfileIndex];
+  const { profileImg=null, tag1="tag1", tag2="tag2", tag3="tag3", introduction="introduction", name="name", country="country", age="age" } = profileDataList[currentProfileIndex];
 
   const [showNewCard, setShowNewCard] = useState(false);
 
