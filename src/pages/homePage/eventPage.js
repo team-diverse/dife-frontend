@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, FlatList, SafeAreaView } from 'react-native';
 import EventStyles from './eventStyles';
-import TopBar from '../../components/TobBar.js';
+import TopBar from '../../components/TopBar.js';
 import EventCard from '../../components/eventCompo/EventCard.js';
 
 const EventPage = () => {
@@ -34,7 +34,7 @@ const EventPage = () => {
 
     return (
         <SafeAreaView style={[EventStyles.container, { alignItems: 'center' }]}>
-            <TopBar tobBar="이벤트"/>
+            <TopBar topBar="이벤트"/>
             <FlatList
                 data={eventData}
                 renderItem={({ item }) => (

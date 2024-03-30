@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, SafeAreaView, FlatList } from 'react-native';
-import TopBar from '../../components/TobBar.js';
+import TopBar from '../../components/TopBar.js';
 import NotificationCard from '../../components/notificationCompo/NotificationCard.js'
 import NotificationStyles from './notificationStyles.js';
 import ChatDf24 from '../../components/icon_24/chat_df_24.js';
@@ -32,7 +32,7 @@ const NotificationPage = () => {
 
     return (
         <SafeAreaView style={[NotificationStyles.container, { alignItems: 'center' }]}>
-            <TopBar tobBar="알림"/>
+            <TopBar topBar="알림"/>
             <FlatList style={NotificationStyles.flatlist}
                 data={notificationData}
                 renderItem={({ item }) => (
