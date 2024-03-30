@@ -10,10 +10,10 @@ const HomeStyles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: '#0029F4',
     },
     linearGradient: {
         flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
     },
     svg: {
@@ -26,11 +26,11 @@ const HomeStyles = StyleSheet.create({
     },
     logo: {
         flex: 1,
-        marginTop: 4,
+        marginTop: 1,
         marginLeft: -8
     },
     notify: {
-        marginTop: 10,
+        marginTop: 7,
         marginRight: 25,
     },
     textConnectWithContainer: {
