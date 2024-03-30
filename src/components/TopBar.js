@@ -7,7 +7,7 @@ import ArrowRight from './icon_32/ArrowRight_32_.js';
 
 const { fontHead20 } = customTheme;
 
-const TopBar = ({ tobBar = "상단바" }) => {
+const TopBar = ({ topBar = "TopBar" }) => {
     const navigation = useNavigation();
 
     const handleGoBack = () => {
@@ -21,7 +21,7 @@ const TopBar = ({ tobBar = "상단바" }) => {
                     <ArrowRight style={styles.arrow} />
                 </TouchableOpacity>
                 <View style={styles.text}>
-                    <Text style={styles.textStyle}>{tobBar}</Text>
+                    <Text style={styles.textStyle}>{topBar}</Text>
                 </View>
             </View>
         </View>
