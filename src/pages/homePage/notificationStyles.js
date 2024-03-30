@@ -6,7 +6,7 @@ const NotificationStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: customTheme.bgBasic,
     },
-    flatlist: {
+    flatList: {
         width: '100%',
     },
 });
