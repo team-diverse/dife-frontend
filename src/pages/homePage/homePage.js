@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
-import { View, Text, StatusBar } from 'react-native';
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+
 import HomeStyles from './homeStyles.js';
+
+import { useNavigation } from '@react-navigation/native';
 
 import HomeBg from '../../assets/images/svg_js/home_bg.js';
 import LogoBr from '../../components/logo/logo_br.js';
@@ -23,8 +26,9 @@ import HomecardBackBtn from '../../components/homeCompo/HomecardBackBtn.js';
 const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidunt ex at ullamcorper cursus odio laoreet placerat.",
     name = "Amyyheart",
     country="France",
-    age="23"}) => {
-  const statusBarHeight = StatusBar.currentHeight || 0;
+    age="23",
+    }) => {
+  const navigation = useNavigation();
 
   const [showNewCard, setShowNewCard] = useState(false);
 
@@ -33,8 +37,8 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
   };
 
   return (
-    <View style={HomeStyles.container}>
-      <LinearGradient style={[HomeStyles.linearGradient, { paddingTop: statusBarHeight }]} colors={['#0029F4', '#6199C1', '#6199C1']}>
+    <SafeAreaView style={HomeStyles.container}>
+      <LinearGradient style={HomeStyles.linearGradient} colors={['#0029F4', '#6199C1', '#6199C1']}>
         <HomeBg style={HomeStyles.svg} preserveAspectRatio='none'/>
         
         <View style={HomeStyles.topContainer}>
@@ -115,14 +119,14 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
           <HomeSchEv />
           <Text style={HomeStyles.TXhomeSch}>학교정보</Text>
           <HomeSchoolInfo style={HomeStyles.homeSchIcon}/>
-          <View style={HomeStyles.homeEv}>
+          <TouchableOpacity style={HomeStyles.homeEv} onPress={() => navigation.navigate('Event')}>
             <HomeSchEv />
             <Text style={HomeStyles.TXhomeEv}>이벤트</Text>
             <HomeEvent style={HomeStyles.homeEvIcon}/>
-          </View>
+          </TouchableOpacity>
         </View>
       </LinearGradient>
-    </View>
+    </SafeAreaView>
   );
 };
 
