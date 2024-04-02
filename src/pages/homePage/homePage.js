@@ -31,8 +31,6 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
     age="23",
     }) => {
   const navigation = useNavigation();
-    age="23"}) => {
-  const statusBarHeight = StatusBar.currentHeight || 0;
 
   const [showNewCard, setShowNewCard] = useState(false);
 
@@ -49,9 +47,9 @@ const HomePage = ({introduion = "adipiscing varius eu sit nulla, luctus tincidun
           <View style={HomeStyles.logo}>
             <LogoBr />
           </View>
-          <View style={HomeStyles.notify}>
+          <TouchableOpacity style={HomeStyles.notify} onPress={() => navigation.navigate('Notification')}>
             <Notify />
-          </View>
+          </TouchableOpacity>
         </View>
 
 
