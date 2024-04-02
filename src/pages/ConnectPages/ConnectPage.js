@@ -10,14 +10,22 @@ import ConnectSearchFilter from '@components/ConnectCompo/ConnectSearchFilter.js
 
 const ConnectPage = () => {
   return (
-    <SafeAreaView style={[ConnectStyles.container, { alignItems: 'center' }]}>
-      <ConnectTop />
-      <ConnectSearch />
-      <ConnectSearchIcon />
-      <ConnectSearchCancel />
-      <ConnectAddUser />
-      <ConnectSearchFilter />
-    </SafeAreaView>
+    <View style={ConnectStyles.container}>
+      <ConnectTop style={ConnectStyles.connectTop}/>
+        <SafeAreaView style={ConnectStyles.safeAreaView}>
+          <View style={ConnectStyles.textIconContainer}>
+            <Text style={ConnectStyles.connectTitle}>Connect</Text>
+            <ConnectAddUser style={ConnectStyles.addUserIcon}/>
+          </View>
+          <View style={ConnectStyles.searchContainer}>
+            <ConnectSearchFilter style={ConnectStyles.searchFilter}/>
+          <View style={ConnectStyles.searchIconContainer}>
+              <ConnectSearch style={ConnectStyles.search}/>
+              <ConnectSearchIcon style={ConnectStyles.searchIcon}/>
+            </View>
+          </View>
+        </SafeAreaView>
+      </View>
   );
 }
 

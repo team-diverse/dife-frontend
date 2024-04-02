@@ -10,7 +10,7 @@ const ConnectSearch = () => {
 
 const styles = StyleSheet.create({
   rectangle: {
-    width: 286,
+    width: '100%',
     height: 48,
     backgroundColor: CustomTheme.bgBasic,
     borderRadius: 24,
