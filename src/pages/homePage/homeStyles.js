@@ -14,6 +14,7 @@ const HomeStyles = StyleSheet.create({
     },
     linearGradient: {
         flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
     },
     svg: {
