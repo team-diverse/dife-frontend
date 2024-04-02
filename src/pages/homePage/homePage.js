@@ -5,6 +5,8 @@ import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import HomeStyles from './homeStyles.js';
 
 import { useNavigation } from '@react-navigation/native';
+import { View, Text, StatusBar } from 'react-native';
+import HomeStyles from './homeStyles.js';
 
 import HomeBg from '../../assets/images/svg_js/home_bg.js';
 import LogoBr from '../../components/logo/logo_br.js';

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { customTheme } from './src/styles/customTheme.js';
 import { useFonts } from 'expo-font';
 
 import ChattingPage from './src/pages/chattingPage/chattingPage.js';
@@ -27,6 +28,7 @@ function HomeStack() {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}} />
       <Stack.Screen name="Event" component={EventPage} options={{headerShown: false}} />
+
       <Stack.Screen name="Notification" component={NotificationPage} options={{headerShown: false}} />
     </Stack.Navigator>
   );
