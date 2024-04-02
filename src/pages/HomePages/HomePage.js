@@ -14,7 +14,7 @@ import HomeSchEv from '@components/HomeCompo/HomeSchEv.js';
 import HomeProfile from '@components/HomeCompo/HomeProfile.js';
 import HomeSchoolInfo from '@components/HomeCompo/HomeScoolInfo.js';
 import HomeEvent from '@components/HomeCompo/HomeEvent.js';
-import HomeTag from '@components/HomeCompo/HomeTag.js';
+import Tag from '@components/Tag.js';
 import HomeArrow from '@components/HomeCompo/HomeArrow.js';
 import HeartInac24 from '@components/Icon24/HeartInac24.js';
 import AddFriendInac24 from '@components/Icon24/AddFriendInac24.js';
@@ -150,9 +150,9 @@ const HomePage = ({cnt=3}) => {
             <View style={HomeStyles.homeProfile}>
               <HomeProfile profile={profileImg}/>
               <View style={HomeStyles.tagContainer}>
-                <HomeTag text={tag1}/>
-                <HomeTag text={tag2}/>
-                <HomeTag text={tag3}/>
+                <Tag text={tag1}/>
+                <Tag text={tag2}/>
+                <Tag text={tag3}/>
               </View>
               <Text style={HomeStyles.introduction}>{introduction}</Text>
               <View style={HomeStyles.myinfoContainer}>
