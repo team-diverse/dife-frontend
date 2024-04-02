@@ -4,7 +4,7 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 
 const { fontCaption } = CustomTheme;
 
-const HomeTag = ({text}) => {
+const Tag = ({text}) => {
   const calculateWidth = () => {
     return text.length * 10 + 1;
   };
@@ -32,4 +32,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeTag;
+export default Tag;
