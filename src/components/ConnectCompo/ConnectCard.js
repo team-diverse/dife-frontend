@@ -20,7 +20,7 @@ const ConnectCard = ({profile=null, name='name', country='country', age='age', m
           <Text style={styles.TXname}>{name}</Text>
           <View style={styles.iconContainer}>
             <HeartInac24 />
-            <ConnectPlusIcon />
+            <ConnectPlusIcon style={{marginLeft: 9}}/>
           </View>
         </View>
         <Text style={styles.TXbasicInfo}>{country} | {age} | {major}</Text>
@@ -61,10 +61,14 @@ const styles = StyleSheet.create({
   textIconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 6,
   },
   iconContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'flex-end',
+    marginRight: 11,
   },
   TXname: {
     fontSize: 14,
@@ -73,14 +77,15 @@ const styles = StyleSheet.create({
   },
   TXbasicInfo: {
     ...fontCaption,
+    marginBottom: 6,
   },
   TXintroduction: {
     ...fontSub14,
     width: 187,
+    marginBottom: 6,
   },
   tagContainer: {
     flexDirection: 'row',
-    marginTop: 6,
 },
 });
 
