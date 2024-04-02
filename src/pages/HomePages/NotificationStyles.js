@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { customTheme } from '@styles/customTheme';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
 const NotificationStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: customTheme.bgBasic,
+        backgroundColor: CustomTheme.bgBasic,
     },
     flatlist: {
         width: '100%',

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { customTheme } from '@styles/customTheme.js';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
 const HomeLine = () => {
   return (
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   line: {
     width: 1,
     height: 39,
-    backgroundColor: customTheme.borderColor,
+    backgroundColor: CustomTheme.borderColor,
   },
 });
 

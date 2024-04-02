@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { customTheme } from '@styles/customTheme.js';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
-const HomeSchEv = () => {
+const Homecard = () => {
   return (
     <View style={styles.rectangle} />
   );
@@ -10,11 +10,11 @@ const HomeSchEv = () => {
 
 const styles = StyleSheet.create({
   rectangle: {
-    width: 120,
-    height: 148,
-    backgroundColor: customTheme.bgBasic,
+    width: 260,
+    height: 360,
+    backgroundColor: CustomTheme.bgBasic,
     borderRadius: 20,
   },
 });
 
-export default HomeSchEv;
+export default Homecard;

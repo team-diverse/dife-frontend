@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
-import { customTheme } from '@styles/customTheme.js';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
 
-const { fontCaption } = customTheme;
+const { fontCaption } = CustomTheme;
 
 const EventCard = ({title='title', date='date', eventImg=null}) => {
   return (
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: 326,
     height: 159,
-    backgroundColor: customTheme.textDisable,
+    backgroundColor: CustomTheme.textDisable,
     borderRadius: 20,
     marginVertical: 8,
     overflow: 'hidden',
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   eventTextContainer: {
     position: 'absolute',
     width: '100%',
-    backgroundColor: customTheme.bgBasic,
+    backgroundColor: CustomTheme.bgBasic,
     paddingLeft: 10,
     paddingTop: 8,
     paddingBottom: 11,

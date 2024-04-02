@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
-import { customTheme } from '@styles/customTheme.js';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
 const HomeProfile = ({ profile=null, back=false }) => {
   const containerStyle = back ? { width: 100.647, height: 118 } : null;
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   rectangle: {
     width: 116,
     height: 136,
-    backgroundColor: customTheme.textDisable,
+    backgroundColor: CustomTheme.textDisable,
     borderRadius: 16,
     overflow: 'hidden',
   },

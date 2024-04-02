@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { customTheme } from '@styles/customTheme.js';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
-const { fontCaption } = customTheme;
+const { fontCaption } = CustomTheme;
 
 const HomeTag = ({text}) => {
   const calculateWidth = () => {
@@ -19,7 +19,7 @@ const HomeTag = ({text}) => {
 const styles = StyleSheet.create({
   rectangle: {
     height: 19,
-    backgroundColor: customTheme.bgBasic,
+    backgroundColor: CustomTheme.bgBasic,
     borderWidth: 1,
     borderColor: '#B0D0FF',
     borderRadius: 40,

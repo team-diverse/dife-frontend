@@ -11,17 +11,17 @@ import HomePage from '@pages/HomePages/HomePage.js';
 import CommunityPage from '@pages/CommuityPages/CommuityPage.js';
 import MemberPage from '@pages/MemberPages/MemberPage.js';
 
-import ChatDf24 from '@components/icon24/ChatDf24.js';
-import ConnectDf24 from '@components/icon24/ConnectDf24.js';
-import HomeDf24 from '@components/icon24/HomeDf24.js';
-import CommuDf24 from '@components/icon24/CommuDf24.js';
-import MyDf24 from '@components/icon24/MyDf24.js';
+import ChatDf24 from '@components/Icon24/ChatDf24.js';
+import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
+import HomeDf24 from '@components/Icon24/HomeDf24.js';
+import CommuDf24 from '@components/Icon24/CommuDf24.js';
+import MyDf24 from '@components/Icon24/MyDf24.js';
 
-import ChatAc32 from '@components/icon32/ChatAc32.js';
-import ConnectAc32 from '@components/icon32/ConnectAc32.js';
-import HomeAc32 from '@components/icon32/HomeAc32.js';
-import CommuAc32 from '@components/icon32/CommuAc32.js';
-import MyAc32 from '@components/icon32/MyAc32.js';
+import ChatAc32 from '@components/Icon32/ChatAc32.js';
+import ConnectAc32 from '@components/Icon32/ConnectAc32.js';
+import HomeAc32 from '@components/Icon32/HomeAc32.js';
+import CommuAc32 from '@components/Icon32/CommuAc32.js';
+import MyAc32 from '@components/Icon32/MyAc32.js';
 
 import EventPage from '@pages/HomePages/EventPage.js';
 import NotificationPage from '@pages/HomePages/NotificationPage.js';

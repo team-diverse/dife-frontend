@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, FlatList } from 'react-native';
 import TopBar from '@components/TobBar.js';
-import NotificationCard from '@components/notificationCompo/NotificationCard.js';
+import NotificationCard from '@components/NotificationCompo/NotificationCard.js';
 import NotificationStyles from '@pages/HomePages/NotificationStyles.js';
 
 const NotificationPage = () => {

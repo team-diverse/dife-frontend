@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { customTheme } from '@styles/customTheme.js';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
-import ChatInac24 from '@components/icon24/ChatInac24.js';
-import AddFriendInac24 from '@components/icon24/AddFriendInac24.js';
-import HeartInac24 from '@components/icon24/HeartInac24.js';
+import ChatInac24 from '@components/Icon24/ChatInac24.js';
+import AddFriendInac24 from '@components/Icon24/AddFriendInac24.js';
+import HeartInac24 from '@components/Icon24/HeartInac24.js';
 
-const { fontCaption, fontNavi } = customTheme;
+const { fontCaption, fontNavi } = CustomTheme;
 
 const NotificationCard = ({icon, name='name', context='context', time='time'}) => {
   let iconSvg;
@@ -40,11 +40,11 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: '100%',
     height: 54,
-    backgroundColor: customTheme.bgBasic,
+    backgroundColor: CustomTheme.bgBasic,
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: customTheme.bgList,
+    borderBottomColor: CustomTheme.bgList,
   },
   notify: {
     flex: 1,
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   time: {
     ...fontNavi,
-    color: customTheme.textDisable,
+    color: CustomTheme.textDisable,
     marginRight: 28,
   },
 });

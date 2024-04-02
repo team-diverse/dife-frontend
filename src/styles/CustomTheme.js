@@ -1,4 +1,4 @@
-export const customTheme = {
+export const CustomTheme = {
   primaryDefault: '#012CFF',
   primaryPressed: '#0D2372',
   primaryMedium: '#2964E0',
