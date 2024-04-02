@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { customTheme } from '../styles/customTheme.js';
+import { customTheme } from '@styles/customTheme.js';
 import { useNavigation } from '@react-navigation/native';
 
-import ArrowRight32 from './icon32/ArrowRight32.js';
+import ArrowRight32 from '@components/icon32/ArrowRight32.js';
 
 const { fontHead20 } = customTheme;
 

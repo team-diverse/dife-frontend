@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { customTheme } from '../../styles/customTheme.js';
+import { customTheme } from '@styles/customTheme.js';
 
-import ChatInac24 from '../icon24/ChatInac24.js';
-import AddFriendInac24 from '../icon24/AddFriendInac24.js';
-import HeartInac24 from '../icon24/HeartInac24.js';
+import ChatInac24 from '@components/icon24/ChatInac24.js';
+import AddFriendInac24 from '@components/icon24/AddFriendInac24.js';
+import HeartInac24 from '@components/icon24/HeartInac24.js';
 
 const { fontCaption, fontNavi } = customTheme;
 
