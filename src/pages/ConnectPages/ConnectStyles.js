@@ -1,19 +1,25 @@
 import { StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
-const { fontHead20 } = CustomTheme;
+const { fontHead20, fontHead18, fontCaption } = CustomTheme;
 
 const ConnectStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: CustomTheme.bgBasic,
     },
+    topDifeContainer: {
+        alignItems: 'center',
+    },
     connectTop: {
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
-        zIndex: 1,
+    },
+    connectDife: {
+        alignItems: 'center',
+        marginTop: -1,
     },
     safeAreaView: {
         flex: 1,
@@ -21,7 +27,6 @@ const ConnectStyles = StyleSheet.create({
         top: 0,
         left: 0,
         right: 0,
-        zIndex: 2,
     },
     textIconContainer: {
         flexDirection: 'row',
@@ -63,6 +68,49 @@ const ConnectStyles = StyleSheet.create({
     searchIcon: {
         position: 'absolute',
         right: 12,
+    },
+    midContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 145,
+    },
+    tabContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        marginLeft: 30,
+    },
+    TXtab: {
+        ...fontHead18,
+        color: '#8C8D91',
+        textDecorationLine: 'underline',
+        marginRight: 18,
+    },
+    resetContainer: {
+        flexDirection: 'row',
+        marginRight: 30,
+        alignItems: 'center',
+    },
+    TXreset: {
+        ...fontCaption,
+        color: CustomTheme.primaryMedium,
+    },
+    flatlist: {
+        flex: 1,
+        marginTop: 22,
+        width: '100%',
+    },
+    flatlistContent: {
+        alignItems: 'center',
+    },
+    cardContainer: {
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginHorizontal: 25,
+        shadowColor: '#3C454E4A',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.71,
+        shadowRadius: 6,
     },
 });
 
