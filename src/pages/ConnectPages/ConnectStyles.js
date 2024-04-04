@@ -54,6 +54,11 @@ const ConnectStyles = StyleSheet.create({
         flex: 1,
         marginLeft: 20,
     },
+    searchFilterContent: {
+        backgroundColor: '#fff',
+        padding: 16,
+        height: 450,
+    },
     searchIconContainer: {
         flexDirection: 'row',
         alignItems: 'center',
