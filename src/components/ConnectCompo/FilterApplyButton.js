@@ -24,6 +24,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: CustomTheme.bgBasic,
+    shadowColor: '#3C454E',
+    shadowOffset: { width: 0, height: -1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
   },
   apply: {
     flexDirection: 'row',

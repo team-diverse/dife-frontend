@@ -136,6 +136,7 @@ const FilterBottomSlide = (props) => {
                 >
 
 
+                  <View style={styles.line} />
                   <ScrollView style={styles.listContainer}>
                     <TouchableOpacity style={styles.list} onPress={() => toggleCollapsed(0)}>
                       <Text style={styles.listText}>MBTI</Text>
@@ -263,9 +264,15 @@ const styles = StyleSheet.create({
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,
   },
+  line: {
+    width: 47,
+    height: 3,
+    backgroundColor: '#CFCFCF',
+    marginTop: 8,
+  },
   listContainer: {
     width: '100%',
-    marginTop: 46,
+    marginTop: 35,
   },
   list: {
     width: '100%',
