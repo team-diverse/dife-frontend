@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, StyleSheet, Modal, Text, Animated, TouchableWithoutFeedback, Dimensions, PanResponder, TouchableOpacity, FlatList } from 'react-native';
+import { View, StyleSheet, Modal, Text, Animated, TouchableWithoutFeedback, Dimensions, PanResponder, TouchableOpacity, ScrollView } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import Collapsible from 'react-native-collapsible';
 import FilterInfoCircle from '@components/ConnectCompo/FilterInfoCircle.js';
 import FilterArrowBottom from '@components/ConnectCompo/FilterArrowBottom.js';
+import FilterArrowTop from '@components/ConnectCompo/FilterArrowTop';
 import FilterCategory from '@components/ConnectCompo/FilterCategory.js';
 import FilterCheckboxList from '@components/ConnectCompo/FilterCheckboxList.js';
 import FilterApplyButton from '@components/ConnectCompo/FilterApplyButton.js';
@@ -110,11 +111,10 @@ const FilterBottomSlide = (props) => {
                 >
 
 
-
-                  <View style={styles.listContainer}>
+                  <ScrollView style={styles.listContainer}>
                     <TouchableOpacity style={styles.list} onPress={() => toggleCollapsed(0)}>
                       <Text style={styles.listText}>MBTI</Text>
-                      <FilterArrowBottom style={styles.listIcon}/>
+                      {collapsedStates[0] ? <FilterArrowBottom style={styles.listIcon}/> : <FilterArrowTop style={styles.listIcon}/>}
                     </TouchableOpacity>
                     <Collapsible collapsed={collapsedStates[0]}>
                       <View style={styles.infoTextContainer}>
@@ -153,7 +153,7 @@ const FilterBottomSlide = (props) => {
 
                     <TouchableOpacity style={styles.list} onPress={() => toggleCollapsed(1)}>
                       <Text style={styles.listText}>취미/관심사</Text>
-                      <FilterArrowBottom style={styles.listIcon}/>
+                      {collapsedStates[1] ? <FilterArrowBottom style={styles.listIcon}/> : <FilterArrowTop style={styles.listIcon}/>}
                     </TouchableOpacity>
                     <Collapsible collapsed={collapsedStates[1]}>
                       <View style={styles.infoTextContainer}>
@@ -199,7 +199,7 @@ const FilterBottomSlide = (props) => {
 
                     <TouchableOpacity style={styles.list} onPress={() => toggleCollapsed(2)}>
                       <Text style={styles.listText}>언어</Text>
-                      <FilterArrowBottom style={styles.listIcon}/>
+                      {collapsedStates[2] ? <FilterArrowBottom style={styles.listIcon}/> : <FilterArrowTop style={styles.listIcon}/>}
                     </TouchableOpacity>
                     <Collapsible collapsed={collapsedStates[2]}>
                       <View style={styles.infoTextContainer}>
@@ -212,7 +212,7 @@ const FilterBottomSlide = (props) => {
                       <FilterCheckboxList checked={isCheckedList[3]} onPress={() => handlePress(3)} text='Español / Spanish' />
                       <FilterCheckboxList checked={isCheckedList[4]} onPress={() => handlePress(4)} text='한국어 / Korean' />
                     </Collapsible>
-                  </View>
+                  </ScrollView>
 
                   <FilterApplyButton />
 
@@ -272,6 +272,7 @@ const styles = StyleSheet.create({
   infoText: {
     ...fontCaption,
     color: '#8C8D91',
+    marginLeft: 3,
   },
   categoryContainer: {
     flexDirection: 'row',
