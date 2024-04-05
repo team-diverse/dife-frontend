@@ -4,20 +4,24 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 
 const { fontSub16 } = CustomTheme;
 
-const FilterCategory = ({ text }) => {
+const FilterCategory = ({ text='category', mbtiCnt=null, setMbtiCnt=null, hobbyCnt=null, setHobbyCnt=null, isDisabled=false }) => {
   const [isActive, setIsActive] = useState(false);
   const [isPressed, setIsPressed] = useState(false); 
 
-  const handlePressIn = () => {
-    setIsPressed(true); 
-  };
-
-  const handlePressOut = () => {
-    setIsPressed(false);
-  };
-
   const handlePress = () => {
-    setIsActive(!isActive);
+    if (mbtiCnt != null) {
+      if (!isActive && mbtiCnt >= 3) {
+        return;
+      }
+      setIsActive(!isActive);
+      setMbtiCnt(prevCnt => prevCnt + (isActive ? -1 : 1));
+    } else if (hobbyCnt != null) {
+      if (!isActive && hobbyCnt >= 3) {
+        return;
+      }
+      setIsActive(!isActive);
+      setHobbyCnt(prevCnt => prevCnt + (isActive ? -1 : 1));
+    }
   };
 
   const getContainerStyle = () => {
@@ -40,12 +44,15 @@ const FilterCategory = ({ text }) => {
     }
   };
 
+
   return (
     <TouchableOpacity
       onPress={handlePress}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      activeOpacity={1}>
+      onPressIn={() => setIsPressed(true)}
+      onPressOut={() => setIsPressed(false)}
+      activeOpacity={1}
+      disabled={isDisabled}
+    >
       <View style={getContainerStyle()}>
         <Text style={getTextStyle()}>{text}</Text>
       </View>
