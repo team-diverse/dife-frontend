@@ -120,7 +120,6 @@ const ConnectPage = () => {
             contentContainerStyle={ConnectStyles.flatlistContent}
                 data={connectData}
                 renderItem={({ item }) => (
-                    <View style={ConnectStyles.cardContainer}>
                     <ConnectCard
                       profile={item.profile}
                       name={item.name}
@@ -131,7 +130,6 @@ const ConnectPage = () => {
                       tag2={item.tag2}
                       tag3={item.tag3}
                     />
-                    </View>
                 )}
                 keyExtractor={item => item.id}
             />
