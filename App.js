@@ -25,6 +25,7 @@ import MyAc32 from '@components/Icon32/MyAc32.js';
 
 import EventPage from '@pages/HomePages/EventPage.js';
 import NotificationPage from '@pages/HomePages/NotificationPage.js';
+import ConnectLikeUserPage from '@pages/ConnectPages/ConnectLikeUserPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -35,6 +36,15 @@ function HomeStack() {
       <Stack.Screen name="Home" component={HomePage} options={{headerShown: false}} />
       <Stack.Screen name="Event" component={EventPage} options={{headerShown: false}} />
       <Stack.Screen name="Notification" component={NotificationPage} options={{headerShown: false}} />
+    </Stack.Navigator>
+  );
+}
+
+function ConnectStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Connect" component={ConnectPage} options={{headerShown: false}} />
+      <Stack.Screen name="ConnectLikeUser" component={ConnectLikeUserPage} options={{headerShown: false}} />
     </Stack.Navigator>
   );
 }
@@ -64,7 +74,7 @@ export default function App() {
               iconComponent = focused
               ? <ChatAc32 width={32} height={32} fill={color} />
               : <ChatDf24 width={size} height={size} fill={color} />;
-            } else if (route.name === 'matchingPage') {
+            } else if (route.name === 'connectPage') {
               iconComponent = focused
               ? <ConnectAc32 width={32} height={32} fill={color} />
               : <ConnectDf24 width={size} height={size} fill={color} />;
@@ -89,7 +99,7 @@ export default function App() {
         })}
       >
         <Tab.Screen name="chattingPage" component={ChattingPage} options={{ headerShown: false }} />
-        <Tab.Screen name="matchingPage" component={ConnectPage} options={{ headerShown: false }} />
+        <Tab.Screen name="connectPage" component={ConnectStack} options={{ headerShown: false }} />
         <Tab.Screen name="homePage" component={HomeStack} options={{ headerShown: false }} />
         <Tab.Screen name="communityPage" component={CommunityPage} options={{ headerShown: false }} />
         <Tab.Screen name="memberPage" component={MemberPage} options={{ headerShown: false }} />
