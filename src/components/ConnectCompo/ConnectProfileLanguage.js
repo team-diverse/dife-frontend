@@ -8,9 +8,13 @@ const { fontSub14 } = CustomTheme;
 const ConnectProfileLanguage = ({language='language'}) => {
     
     return (
-        <View style={styles.rectangle}>
-          <Text style={styles.language}>{language}</Text>
-          <View style={styles.line}/>
+        <View>
+          {language.map((item, index) => (
+              <View style={styles.rectangle}>
+                <Text key={index} style={styles.language}>{item}</Text>
+                <View style={styles.line} />
+              </View>
+            ))}
         </View>
     )
 };
@@ -29,7 +33,7 @@ const styles = StyleSheet.create({
   language: {
     ...fontSub14,
     marginLeft: 5,
-    marginVertical: 11,
+    marginBottom: 11,
   },
 });
 
