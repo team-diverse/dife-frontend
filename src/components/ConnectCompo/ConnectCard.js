@@ -9,7 +9,7 @@ import Tag from '@components/Tag.js';
 
 const { fontSub14, fontCaption } = CustomTheme;
 
-const ConnectCard = ({profile=null, name='name', country='country', age='age', major='major', introduction='introduction', tag1='tag1', tag2='tag2', tag3='tag3'}) => {
+const ConnectCard = ({profile=null, name='name', country='country', age='age', major='major', introduction='introduction', tag=['tag']}) => {
   return (
     <View style={styles.rectangle}>
       <View style={styles.profile}>
@@ -26,9 +26,7 @@ const ConnectCard = ({profile=null, name='name', country='country', age='age', m
         <Text style={styles.TXbasicInfo}>{country} | {age} | {major}</Text>
         <Text style={styles.TXintroduction}>{introduction}</Text>
         <View style={styles.tagContainer}>
-          <Tag text={tag1}/>
-          <Tag text={tag2}/>
-          <Tag text={tag3}/>
+          <Tag tag={tag}/>
         </View>
       </View>
     </View>
