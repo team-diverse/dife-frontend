@@ -25,9 +25,7 @@ const ConnectPage = () => {
       age: '23',
       major: 'Industrial Design',
       introduction: 'adipiscing varius eu sit nulla, luctus tincidunt ex at ullamcorper cursus odio laoreet placerat.',
-      tag1: 'enfp',
-      tag2: 'Sports',
-      tag3: 'Drawing',
+      tags: ['enfp', 'Sports', 'Drawing'],
     },
   ]
 
@@ -77,8 +75,7 @@ const ConnectPage = () => {
           <View style={ConnectStyles.textIconContainer}>
             <Text style={ConnectStyles.connectTitle}>Connect</Text>
             <ConnectLikeUser style={ConnectStyles.addUserIcon}
-              // onPress={() => navigation.navigate('ConnectLikeUser')}/>
-              onPress={() => navigation.navigate('ConnectProfile')}/>
+              onPress={() => navigation.navigate('ConnectLikeUser')}/>
           </View>
           <View style={ConnectStyles.searchContainer}>
             <TouchableOpacity onPress={pressButton}>
@@ -122,16 +119,12 @@ const ConnectPage = () => {
               data={connectData}
               renderItem={({ item }) => (
                   <ConnectCard
-                    onPress={() => navigation.navigate('ConnectProfile')}
-                    // ConnectProfile 페이지 연결은 임시로.. 각 프로필 연결 시, 삭제하거나 수정
                     profile={item.profile}
                     name={item.name}
                     country={item.country}
                     major={item.major}
                     introduction={item.introduction}
-                    tag1={item.tag1}
-                    tag2={item.tag2}
-                    tag3={item.tag3}
+                    tag={item.tags}
                   />
                 )}
                 keyExtractor={item => item.id}
