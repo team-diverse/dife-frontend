@@ -15,9 +15,12 @@ const ConnectProfileStyles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: 20,
     },
+    scrollView: {
+        width: '100%',
+    },
     background: {
         position: 'absolute',
-        marginTop: 69,
+        marginTop: 72,
     },
     simpleProfileContainer: {
         alignItems: 'center',

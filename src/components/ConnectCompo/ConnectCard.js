@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
+import { useNavigation } from '@react-navigation/native';
 
 import HeartInac24 from '@components/Icon24/HeartInac24';
 import HeartAc24 from '@components/Icon24/HeartAc24';
@@ -10,6 +11,8 @@ import Tag from '@components/Tag.js';
 const { fontSub14, fontCaption } = CustomTheme;
 
 const ConnectCard = ({profile=null, name='name', country='country', age='age', major='major', introduction='introduction', tag=['tag']}) => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.rectangle}>
       <View style={styles.profile}>
@@ -20,7 +23,9 @@ const ConnectCard = ({profile=null, name='name', country='country', age='age', m
           <Text style={styles.TXname}>{name}</Text>
           <View style={styles.iconContainer}>
             <HeartInac24 />
-            <ConnectPlusIcon style={{marginLeft: 9}}/>
+            <TouchableOpacity onPress={() => navigation.navigate('ConnectProfile')}>
+              <ConnectPlusIcon style={{marginLeft: 9}}/>
+            </TouchableOpacity>
           </View>
         </View>
         <Text style={styles.TXbasicInfo}>{country} | {age} | {major}</Text>
