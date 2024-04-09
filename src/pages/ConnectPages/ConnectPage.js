@@ -77,7 +77,8 @@ const ConnectPage = () => {
           <View style={ConnectStyles.textIconContainer}>
             <Text style={ConnectStyles.connectTitle}>Connect</Text>
             <ConnectLikeUser style={ConnectStyles.addUserIcon}
-              onPress={() => navigation.navigate('ConnectLikeUser')}/>
+              // onPress={() => navigation.navigate('ConnectLikeUser')}/>
+              onPress={() => navigation.navigate('ConnectProfile')}/>
           </View>
           <View style={ConnectStyles.searchContainer}>
             <TouchableOpacity onPress={pressButton}>
@@ -117,19 +118,21 @@ const ConnectPage = () => {
           <View style={ConnectStyles.cardContainer}>
             <View style={ConnectStyles.flatlist}>
             <FlatList
-            contentContainerStyle={ConnectStyles.flatlistContent}
-                data={connectData}
-                renderItem={({ item }) => (
-                    <ConnectCard
-                      profile={item.profile}
-                      name={item.name}
-                      country={item.country}
-                      major={item.major}
-                      introduction={item.introduction}
-                      tag1={item.tag1}
-                      tag2={item.tag2}
-                      tag3={item.tag3}
-                    />
+              contentContainerStyle={ConnectStyles.flatlistContent}
+              data={connectData}
+              renderItem={({ item }) => (
+                  <ConnectCard
+                    onPress={() => navigation.navigate('ConnectProfile')}
+                    // ConnectProfile 페이지 연결은 임시로.. 각 프로필 연결 시, 삭제하거나 수정
+                    profile={item.profile}
+                    name={item.name}
+                    country={item.country}
+                    major={item.major}
+                    introduction={item.introduction}
+                    tag1={item.tag1}
+                    tag2={item.tag2}
+                    tag3={item.tag3}
+                  />
                 )}
                 keyExtractor={item => item.id}
             />
