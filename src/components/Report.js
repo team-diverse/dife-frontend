@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { RadioButtonGroup } from './RadioButton/RadioButtonGroup';
 import Modal from 'react-native-modal';
-import ReportCompleteIcon from '@components/CommonCompo/ReportCompleteIcon';
+import CompleteIcon from '@components/CommonCompo/CompleteIcon';
 
 const { fontSub14 } = CustomTheme;
 
@@ -41,7 +41,7 @@ const { fontSub14 } = CustomTheme;
       <View style={styles.rectangle}>
         {showComplete ? (
           <View style={styles.reportCompleteContainer}>
-            <ReportCompleteIcon />
+            <CompleteIcon />
             <Text style={styles.reportCompleteText}>신고 완료</Text>
           </View>
         ) : (
