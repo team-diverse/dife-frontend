@@ -4,12 +4,12 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 
 const { fontCaption } = CustomTheme;
 
-const Tag = ({tag='tag'}) => {
+const Tag = ({tag=['tag']}) => {
   return (
     <View style={styles.container}>
       {tag.map((item, index) => (
-        <View style={[styles.rectangle, { width: item.length * 10 + 1 }]}>
-          <Text key={index} style={styles.text}>{item}</Text>
+        <View key={index} style={[styles.rectangle, { width: item.length * 10 + 1 }]}>
+          <Text style={styles.text}>{item}</Text>
         </View>
       ))}
     </View>
