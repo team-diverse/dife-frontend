@@ -22,10 +22,16 @@ import ChatInac24 from '@components/Icon24/ChatInac24.js';
 import HomeLine from '@components/HomeCompo/HomeLine.js';
 import HomecardBackBtn from '@components/HomeCompo/HomecardBackBtn.js';
 import HomecardDifeB from '@components/HomeCompo/HomecardDifeB.js';
-
+import ConnectRequest from '@components/ConnectRequest';
 
 const HomePage = ({cnt=3}) => {
   const navigation = useNavigation();
+
+  const [ modalVisible, setModalVisible ] = useState(false);
+
+  const pressButton = () => {
+      setModalVisible(true);
+  }
 
   const profileDataList = [
     {
@@ -123,9 +129,13 @@ const HomePage = ({cnt=3}) => {
                 
               </View>
               <View style={HomeStyles.homecardBackBtn}>
-                  <HomecardBackBtn btnText="아니오" onPress={() => setShowNewCard(false)} />
-                  <HomecardBackBtn btnText="신청하기"/>
-                </View>
+                <HomecardBackBtn btnText="아니오" onPress={() => setShowNewCard(false)}/>
+                <HomecardBackBtn btnText="신청하기" onPress={pressButton}/>
+              </View>
+              <ConnectRequest
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+              />
             </View>
             <TouchableOpacity onPress={handleNextProfile}>
               <HomeArrow />
