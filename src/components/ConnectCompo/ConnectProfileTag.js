@@ -4,7 +4,7 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 
 const { fontBody14 } = CustomTheme;
 
-const ConnectProfileTag = ({tag='tag'}) => {
+const ConnectProfileTag = ({tag=['tag']}) => {
   return (
     <View style={styles.container}>
       {tag.map((item, index) => (
