@@ -57,6 +57,7 @@ const ConnectProfileStyles = StyleSheet.create({
     TXreport: {
         ...fontBody14,
         color: CustomTheme.textDisable,
+        textDecorationLine: 'underline',
     },
 });
 
