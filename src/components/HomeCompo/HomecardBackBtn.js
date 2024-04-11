@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
@@ -8,6 +8,11 @@ const HomecardBackBtn = ({ btnText, onPress }) => {
   const btnStyle = btnText === '신청하기' ? styles.btnApply : styles.btnCancel;
   const btnTextStyle = btnText === '신청하기' ? styles.btnTextA : styles.btnTextC;
 
+  const [ modalVisible, setModalVisible ] = useState(false);
+
+  const pressButton = () => {
+      setModalVisible(true);
+  }
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={[styles.btn, btnStyle]}>

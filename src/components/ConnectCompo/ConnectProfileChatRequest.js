@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
+import ConnectRequest from '@components/ConnectRequest';
 
 const { fontSub16 } = CustomTheme;
 
 const ConnectProfileChatRequest = () => {
+  const [ modalVisible, setModalVisible ] = useState(false);
+
+  const pressButton = () => {
+      setModalVisible(true);
+  }
+
   return (
-    <TouchableOpacity>
       <View style={styles.rectangle}>
-        <View style={styles.chat}>
+        <TouchableOpacity style={styles.chat}>
           <Text style={styles.TXchat}>채팅하기</Text>
-        </View>
-        <View style={styles.request}>
-          <Text style={styles.TXrequest}>커넥트 요청</Text>
-        </View>
+        </TouchableOpacity>
+          <TouchableOpacity style={styles.request} onPress={pressButton}>
+            <Text style={styles.TXrequest}>커넥트 요청</Text>
+          </TouchableOpacity>
+          <ConnectRequest
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+          />
       </View>
-    </TouchableOpacity>
   );
 };
 
