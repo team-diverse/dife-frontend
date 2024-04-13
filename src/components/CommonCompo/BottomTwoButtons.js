@@ -7,17 +7,25 @@ const { fontSub16 } = CustomTheme;
 
 const BottomTwoButtons = ({ button1, button2 }) => {
   const [ modalVisible, setModalVisible ] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const pressButton = () => {
+  // const pressButton1 = () => {}
+  const containerStyle = button2 === '커넥트 요청하기' ? styles.rectangle : styles.rectangleLogin;
+
+  const pressButton2 = () => {
+    if (button2 === '커넥트 요청하기') {
       setModalVisible(true);
+    } else if (button2 === '로그인') {
+      setIsLoggedIn(true);
+    }
   }
 
   return (
-      <View style={styles.rectangle}>
+      <View style={containerStyle}>
         <TouchableOpacity style={styles.chat}>
           <Text style={styles.TXchat}>{button1}</Text>
         </TouchableOpacity>
-          <TouchableOpacity style={styles.request} onPress={pressButton}>
+          <TouchableOpacity style={styles.request} onPress={pressButton2}>
             <Text style={styles.TXrequest}>{button2}</Text>
           </TouchableOpacity>
           <ConnectRequest
@@ -40,6 +48,14 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: -1 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
+  },
+  rectangleLogin: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 72,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: CustomTheme.bgBasic,
   },
   chat: {
     height: 44,
