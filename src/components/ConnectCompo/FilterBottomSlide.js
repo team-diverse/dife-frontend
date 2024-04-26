@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Modal, Text, Animated, TouchableWithoutFeedback, Dimensions, PanResponder, TouchableOpacity, ScrollView } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import Collapsible from 'react-native-collapsible';
-import FilterInfoCircle from '@components/ConnectCompo/FilterInfoCircle.js';
+import InfoCircle from '@components/CommonCompo/InfoCircle.js';
 import FilterArrowBottom from '@components/ConnectCompo/FilterArrowBottom.js';
 import FilterArrowTop from '@components/ConnectCompo/FilterArrowTop';
 import FilterCategory from '@components/ConnectCompo/FilterCategory.js';
@@ -144,7 +144,7 @@ const FilterBottomSlide = (props) => {
                     </TouchableOpacity>
                     <Collapsible collapsed={collapsedStates[0]}>
                       <View style={styles.infoTextContainer}>
-                        <FilterInfoCircle />
+                        <InfoCircle />
                         <Text style={styles.infoText}>최대 3개까지 선택 가능</Text>
                       </View>
                       <View style={styles.categoryContainer}>
@@ -183,7 +183,7 @@ const FilterBottomSlide = (props) => {
                     </TouchableOpacity>
                     <Collapsible collapsed={collapsedStates[1]}>
                       <View style={styles.infoTextContainer}>
-                        <FilterInfoCircle />
+                        <InfoCircle />
                         <Text style={styles.infoText}>최대 3개까지 선택 가능</Text>
                       </View>
                       <View style={styles.categoryContainer}>
@@ -229,7 +229,7 @@ const FilterBottomSlide = (props) => {
                     </TouchableOpacity>
                     <Collapsible collapsed={collapsedStates[2]}>
                       <View style={styles.infoTextContainer}>
-                        <FilterInfoCircle />
+                        <InfoCircle />
                         <Text style={styles.infoText}>중복 선택 가능</Text>
                       </View>
                       <Checkbox checked={isCheckedList[0]} onPress={() => handlePress(0)} text='English / English' />
