@@ -8,6 +8,11 @@ const LoginStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: CustomTheme.bgBasic,
     },
+    backgroundLogin: {
+        position: 'absolute',
+        top: 124,
+        left: -70,
+    },
     TextTitle: {
         fontSize: 32,
         lineHeight: 37,

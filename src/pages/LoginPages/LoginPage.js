@@ -1,13 +1,17 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import LoginStyles from '@pages/LoginPages/LoginStyles';
 import Checkbox from '@components/CommonCompo/Checkbox';
 import BottomTwoButtons from '@components/CommonCompo/BottomTwoButtons';
 import IconNotSeePw from '@components/LoginCompo/IconNotSeePw';
 import IconSeePw from '@components/LoginCompo/IconSeePw';
+import LoginBackground from 'src/components/LoginCompo/LoginBackground';
 
 const LoginPage = () => {
+    const navigation = useNavigation();
+
     const loginData = ['Dife와 함께하는\n캠퍼스 라이프!', '지금 바로 시작하기'];
     const [valueID, onChangeID] = useState('');
     const [valuePW, onChangePW] = useState('');
@@ -24,6 +28,7 @@ const LoginPage = () => {
     return (
         <TouchableWithoutFeedback onPress={handleKeyboard}>
         <SafeAreaView style={[LoginStyles.container]}>
+            <LoginBackground style={LoginStyles.backgroundLogin}/>
             <Text style={LoginStyles.TextTitle}>{loginData[0]}</Text>
             <Text style={LoginStyles.TextSubTitle}>{loginData[1]}</Text>
             <Text style={LoginStyles.TextId}>ID (Email Address)</Text>
