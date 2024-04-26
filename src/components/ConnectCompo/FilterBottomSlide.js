@@ -7,7 +7,7 @@ import FilterArrowBottom from '@components/ConnectCompo/FilterArrowBottom.js';
 import FilterArrowTop from '@components/ConnectCompo/FilterArrowTop';
 import FilterCategory from '@components/ConnectCompo/FilterCategory.js';
 import Checkbox from '@components/CommonCompo/Checkbox.js';
-import FilterApplyButton from '@components/ConnectCompo/FilterApplyButton.js';
+import ApplyButton from '@components/CommonCompo/ApplyButton.js';
 
 const { fontCaption } = CustomTheme;
 
@@ -240,7 +240,7 @@ const FilterBottomSlide = (props) => {
                     </Collapsible>
                   </ScrollView>
 
-                  <FilterApplyButton />
+                  <ApplyButton text="적용하기" background="true" />
 
               </Animated.View>
             </View>
