@@ -56,7 +56,9 @@ const LoginPage = () => {
                 login='true' />
             <View style={LoginStyles.ButtonSignupPwContainer}>
                 <BottomTwoButtons button1='회원가입' button2='로그인' />
-                <Text style={LoginStyles.TextReport}>비밀번호를 까먹었어요</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('FindPassword')}>
+                    <Text style={LoginStyles.TextReport}>비밀번호를 까먹었어요</Text>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
         </TouchableWithoutFeedback>
