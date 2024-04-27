@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, SafeAreaView, FlatList, Keyboard, TouchableOpacity } from 'react-native';
-import ConnectStyles from '@pages/ConnectPages/ConnectStyles.js';
-import ConnectTop from '@components/ConnectCompo/ConnectTop.js';
-import ConnectSearchIcon from '@components/ConnectCompo/ConnectSearchIcon.js';
-import ConnectSearchCancel from '@components/ConnectCompo/ConnectSearchCancel.js';
-import ConnectLikeUser from '@components/ConnectCompo/ConnectLikeUser.js';
-import FilterIcon from '@components/ConnectCompo/FilterIcon.js';
-import FilterBottomSlide from '@components/ConnectCompo/FilterBottomSlide.js';
-import ConnectCard from '@components/ConnectCompo/ConnectCard.js';
-import ConnectDife from '@components/ConnectCompo/ConnectDife.js';
-import ConnectReset from '@components/ConnectCompo/ConnectReset.js';
+import ConnectStyles from '@pages/connect/ConnectStyles.js';
+import ConnectTop from '@components/connect/ConnectTop.js';
+import ConnectSearchIcon from '@components/connect/ConnectSearchIcon.js';
+import ConnectSearchCancel from '@components/connect/ConnectSearchCancel.js';
+import ConnectLikeUser from '@components/connect/ConnectLikeUser.js';
+import FilterIcon from '@components/connect/FilterIcon.js';
+import FilterBottomSlide from '@components/connect/FilterBottomSlide.js';
+import ConnectCard from '@components/connect/ConnectCard.js';
+import ConnectDife from '@components/connect/ConnectDife.js';
+import ConnectReset from '@components/connect/ConnectReset.js';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 
@@ -75,7 +75,7 @@ const ConnectPage = () => {
           <View style={ConnectStyles.textIconContainer}>
             <Text style={ConnectStyles.connectTitle}>Connect</Text>
             <ConnectLikeUser style={ConnectStyles.addUserIcon}
-              onPress={() => navigation.navigate('ConnectLikeUser')}/>
+              onPress={() => navigation.navigate('ConnectLikeUserPage')}/>
           </View>
           <View style={ConnectStyles.searchContainer}>
             <TouchableOpacity onPress={pressButton}>
