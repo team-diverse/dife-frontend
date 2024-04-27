@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import Modal from 'react-native-modal';
-import CompleteIcon from '@components/CommonCompo/CompleteIcon';
-import ConnectRequestIcon from '@components/CommonCompo/ConnectRequestIcon';
+import CompleteIcon from '@components/common/CompleteIcon';
+import ConnectRequestIcon from '@components/common/ConnectRequestIcon';
 
 const ConnectRequest = ({ modalVisible, setModalVisible }) => {
   const [showConnectRequest, setShowConnectRequest] = useState(true);

@@ -2,8 +2,8 @@ import React from 'react';
 import { View, StyleSheet, Text, SafeAreaView } from 'react-native';
 import TobBar from '@components/TobBar.js';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import LikeUserOneToOne from '@pages/ConnectPages/LikeUserOneToOne';
-import LikeUserGroup from '@pages/ConnectPages/LikeUserGroup';
+import LikeUserOneToOne from '@pages/connect/LikeUserOneToOne';
+import LikeUserGroup from '@pages/connect/LikeUserGroup';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
 const ConnectLikeUserPage = () => {

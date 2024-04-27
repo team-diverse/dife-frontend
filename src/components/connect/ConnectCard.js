@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import HeartInac24 from '@components/Icon24/HeartInac24';
 import HeartAc24 from '@components/Icon24/HeartAc24';
-import ConnectPlusIcon from '@components/ConnectCompo/ConnectPlusIcon';
+import ConnectPlusIcon from '@components/connect/ConnectPlusIcon';
 import Tag from '@components/Tag.js';
 
 const { fontSub14, fontCaption } = CustomTheme;
@@ -23,7 +23,7 @@ const ConnectCard = ({profile=null, name='name', country='country', age='age', m
           <Text style={styles.TXname}>{name}</Text>
           <View style={styles.iconContainer}>
             <HeartInac24 />
-            <TouchableOpacity onPress={() => navigation.navigate('ConnectProfile')}>
+            <TouchableOpacity onPress={() => navigation.navigate('ConnectProfilePage')}>
               <ConnectPlusIcon style={{marginLeft: 9}}/>
             </TouchableOpacity>
           </View>

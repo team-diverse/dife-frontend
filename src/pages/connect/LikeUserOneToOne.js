@@ -1,8 +1,8 @@
 import React from 'react';
 import { SafeAreaView, View, FlatList } from 'react-native';
-import ConnectLikeUserStyles from '@pages/ConnectPages/ConnectLikeUserStyles.js';
+import ConnectLikeUserStyles from '@pages/connect/ConnectLikeUserStyles.js';
 import ConnectStyles from './ConnectStyles';
-import ConnectCard from '@components/ConnectCompo/ConnectCard.js';
+import ConnectCard from '@components/connect/ConnectCard.js';
 
 const LikeUserOneToOne = () => {
     const connectData = [
