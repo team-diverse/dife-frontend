@@ -36,7 +36,7 @@ const FindPasswordPage = () => {
                 <InfoCircle color='#FF3E3E'/>
                 <Text style={FindPasswordStyles.textNotMember}>등록된 회원정보가 없습니다</Text>
             </View>
-            <ApplyButton text="비밀번호 재발급받기" />
+            <ApplyButton text="비밀번호 재발급받기" onPress={() => navigation.navigate('FindPasswordVerifying')}/>
         </SafeAreaView>
     )
 }
