@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const { fontSub16 } = CustomTheme;
 
-const ApplyButton = ({ text="applyBtn", background=false, onPress=null }) => {
+const ApplyButton = ({ text="applyBtn", background=false, onPress=null, disabled=false }) => {
   const navigation = useNavigation();
 
   const rectangleStyle = background ? styles.rectangle : {};
@@ -17,9 +17,9 @@ const ApplyButton = ({ text="applyBtn", background=false, onPress=null }) => {
   };
 
   return (
-    <TouchableOpacity onPress={handlePress}>
+    <TouchableOpacity onPress={handlePress} disabled={disabled}>
       <View style={rectangleStyle}>
-        <View style={styles.apply}>
+        <View style={[styles.apply, disabled && styles.disabled]}>
           <Text style={styles.text}>{text}</Text>
         </View>
       </View>
@@ -56,6 +56,9 @@ const styles = StyleSheet.create({
     color: CustomTheme.bgBasic,
     paddingHorizontal: 59,
     paddingVertical: 10,
+  },
+  disabled: {
+    backgroundColor: CustomTheme.borderColor,
   },
 });
 

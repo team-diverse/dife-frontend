@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import { CustomTheme } from '@styles/CustomTheme.js';
 import ConnectRequest from '@components/ConnectRequest';
 
@@ -8,8 +10,13 @@ const { fontSub16 } = CustomTheme;
 const BottomTwoButtons = ({ button1, button2 }) => {
   const [ modalVisible, setModalVisible ] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigation = useNavigation();
 
-  // const pressButton1 = () => {}
+  const pressButton1 = () => {
+    if (button1 === '회원가입') {
+      navigation.navigate('SignUp');
+    }
+  }
   const containerStyle = button2 === '커넥트 요청하기' ? styles.rectangle : styles.rectangleLogin;
 
   const pressButton2 = () => {
@@ -22,7 +29,7 @@ const BottomTwoButtons = ({ button1, button2 }) => {
 
   return (
       <View style={containerStyle}>
-        <TouchableOpacity style={styles.chat}>
+        <TouchableOpacity style={styles.chat} onPress={pressButton1}>
           <Text style={styles.TXchat}>{button1}</Text>
         </TouchableOpacity>
           <TouchableOpacity style={styles.request} onPress={pressButton2}>
