@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
+import * as Notifications from 'expo-notifications';
 
 import ChattingPage from '@pages/ChattingPages/ChattingPage.js';
 import ConnectPage from '@pages/ConnectPages/ConnectPage.js';
@@ -35,18 +36,6 @@ import AccessPage from '@pages/LoginPages/AccessPage';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-function LoginStack() {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Access" component={AccessPage} options={{headerShown: false}} />
-      <Stack.Screen name="Login" component={LoginPage} options={{headerShown: false}} />
-      <Stack.Screen name="FindPassword" component={FindPasswordPage} options={{headerShown: false}} />
-      <Stack.Screen name="FindPasswordVerifying" component={FindPasswordVerifyingPage} options={{headerShown: false}} />
-      <Stack.Screen name="SignUp" component={SignUpPage} options={{headerShown: false}} />
-    </Stack.Navigator>
-  )
-}
-
 function HomeStack() {
   return (
     <Stack.Navigator>
@@ -69,6 +58,29 @@ function ConnectStack() {
 }
 
 export default function App() {
+  const [initialRoute, setInitialRoute] = useState('Access');
+
+  const CheckAccess = async () => {
+    const { status } = await Notifications.getPermissionsAsync();
+    
+    switch (status) {
+      case 'granted':
+        console.log('알림 권한 부여');
+        setInitialRoute('Login');
+        break;
+      case 'denied':
+        console.log('알림 권한 거부');
+        break;
+      default:
+        console.log('자세히 확인하기..');
+        break;
+    }
+  };
+
+  useEffect(() => {
+    CheckAccess();
+  }, []);
+
   const [loaded] = useFonts({
     'NotoSansCJKkr-Bold': require('./src/assets/fonts/NotoSansCJKkr-Bold.otf'),
     'NotoSansCJKkr-Medium': require('./src/assets/fonts/NotoSansCJKkr-Medium.otf'),
@@ -76,6 +88,7 @@ export default function App() {
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
   if (!loaded) {
     return null;
@@ -127,8 +140,12 @@ export default function App() {
           <Tab.Screen name="memberPage" component={MemberPage} options={{ headerShown: false }} />
         </Tab.Navigator>
         ) : (
-          <Stack.Navigator>
-            <Tab.Screen name="loginPage" component={LoginStack} options={{ headerShown: false }} />
+          <Stack.Navigator initialRouteName={initialRoute}>
+            <Stack.Screen name="Access" component={AccessPage} options={{ headerShown: false }} />
+            <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
+            <Stack.Screen name="FindPassword" component={FindPasswordPage} options={{ headerShown: false }} />
+            <Stack.Screen name="FindPasswordVerifying" component={FindPasswordVerifyingPage} options={{ headerShown: false }} />
+            <Stack.Screen name="SignUp" component={SignUpPage} options={{ headerShown: false }} />
           </Stack.Navigator>
         )}
     </NavigationContainer>

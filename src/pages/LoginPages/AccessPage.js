@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native'
 
 import AccessStyles from '@pages/LoginPages/AccessStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
@@ -56,7 +56,7 @@ const AccessPage = () => {
             <View style={AccessStyles.guide}>
                 <Text style={AccessStyles.textGuide}>권한을 허용하지 않을 시 Dife 서비스 이용이 어렵습니다.</Text>
             </View>
-            <ApplyButton text="확인" />
+            <ApplyButton text="확인" access="true" />
         </SafeAreaView>
     )
 }
