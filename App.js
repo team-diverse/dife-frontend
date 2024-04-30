@@ -30,6 +30,7 @@ import LoginPage from '@pages/LoginPages/LoginPage';
 import FindPasswordPage from '@pages/LoginPages/FindPasswordPage';
 import FindPasswordVerifyingPage from '@pages/LoginPages/FindPasswordVerifyingPage';
 import SignUpPage from '@pages/LoginPages/SignUpPage';
+import AccessPage from '@pages/LoginPages/AccessPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -37,6 +38,7 @@ const Stack = createNativeStackNavigator();
 function LoginStack() {
   return (
     <Stack.Navigator>
+      <Stack.Screen name="Access" component={AccessPage} options={{headerShown: false}} />
       <Stack.Screen name="Login" component={LoginPage} options={{headerShown: false}} />
       <Stack.Screen name="FindPassword" component={FindPasswordPage} options={{headerShown: false}} />
       <Stack.Screen name="FindPasswordVerifying" component={FindPasswordVerifyingPage} options={{headerShown: false}} />
