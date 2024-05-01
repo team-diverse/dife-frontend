@@ -5,7 +5,7 @@ import { customTheme } from '../../styles/customTheme.js';
 
 const { fontCaption } = customTheme;
 
-const EventCard = ({title='제목', date='날짜', eventImg}) => {
+const EventCard = ({title='title', date='date', eventImg=null}) => {
   return (
     <View style={styles.rectangle}>
         <Image source={eventImg} style={styles.image}/>
