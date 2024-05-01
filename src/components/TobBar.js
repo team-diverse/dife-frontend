@@ -1,11 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { customTheme } from '../styles/customTheme.js';
+import { CustomTheme } from '@styles/CustomTheme.js';
 import { useNavigation } from '@react-navigation/native';
 
-import ArrowRight32 from './icon32/ArrowRight32.js';
+import ArrowRight32 from '@components/Icon32/ArrowRight32.js';
 
-const { fontHead20 } = customTheme;
+const { fontHead20 } = CustomTheme;
 
 const TopBar = ({ tobBar = "상단바" }) => {
     const navigation = useNavigation();
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '100%',
         height: 48,
-        backgroundColor: customTheme.bgBasic,
+        backgroundColor: CustomTheme.bgBasic,
     },
     container: {
         position: 'absolute',
