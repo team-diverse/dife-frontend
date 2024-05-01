@@ -107,7 +107,7 @@ const ProfilePage = () => {
                     <Text style={ProfileStyles.textIntroductionCount}>{text.length}/60</Text>
                 </View>
                 <View style={ProfileStyles.buttonCheck}>
-                    <ApplyButton text="다음" onPress={() => navigation.navigate('Profile')} disabled=''/>
+                    <ApplyButton text="다음" onPress={() => navigation.navigate('ProfileMbti')} disabled=''/>
                 </View>
             </SafeAreaView>
         </TouchableWithoutFeedback>
