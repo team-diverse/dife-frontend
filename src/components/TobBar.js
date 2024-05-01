@@ -13,7 +13,7 @@ const TopBar = ({ tobBar = "상단바" }) => {
     const handleGoBack = () => {
         navigation.goBack();
     };
-
+  
     return (
         <View style={styles.rectangle}>
             <View style={styles.container}>
@@ -24,29 +24,41 @@ const TopBar = ({ tobBar = "상단바" }) => {
                     <Text style={styles.textStyle}>{tobBar}</Text>
                 </View>
             </View>
-        </View>
+
+const TopBar = ({tobBar="상단바"}) => {
+    return (
+        <View style={styles.rectangle}>
+            <View style={styles.container}>
+                <TouchableOpacity onPress={handleGoBack}>
+                    <ArrowRight style={styles.arrow} />
+                </TouchableOpacity>
+                <View style={styles.text}>
+                    <Text style={styles.textStyle}>{tobBar}</Text>
+                </View>
+            </View>
+          </View>
     );
 };
 
 const styles = StyleSheet.create({
-    rectangle: {
-        position: 'relative',
-        justifyContent: 'center',
-        width: '100%',
-        height: 48,
-        backgroundColor: customTheme.bgBasic,
-    },
-    container: {
-        position: 'absolute',
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    arrow: {
-        marginLeft: 20,
-    },
-    textStyle: {
-        ...fontHead20,
-    },
+  rectangle: {
+    position: 'relative',
+    justifyContent: 'center',
+    width: '100%',
+    height: 48,
+    backgroundColor: customTheme.bgBasic,
+  },
+  container: {
+    position: 'absolute',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  arrow: {
+    marginLeft: 20,
+  },
+  textStyle: {
+    ...fontHead20,
+  },
 });
 
 export default TopBar;
