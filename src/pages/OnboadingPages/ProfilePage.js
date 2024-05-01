@@ -14,7 +14,7 @@ import { RadioButtonGroup } from '@components/RadioButton/RadioButtonGroup';
 import IconProfileChange from '@components/OnboadingCompo/IconProfileChange';
 import IconProfileBorder from '@components/OnboadingCompo/IconProfileBorder';
 
-const NicknamePage = () => {
+const ProfilePage = () => {
     const navigation = useNavigation();
     const [image, setImage] = useState(null);
 
@@ -114,4 +114,4 @@ const NicknamePage = () => {
     )
 }
 
-export default NicknamePage;
+export default ProfilePage;
