@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { customTheme } from '../styles/customTheme.js';
 import { useNavigation } from '@react-navigation/native';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32.js';
+import ArrowRight from './icon_32/ArrowRight_32_.js';
 
-const { fontHead20 } = CustomTheme;
+const { fontHead20 } = customTheme;
 
-const TopBar = ({ tobBar = "상단바" }) => {
+const TopBar = ({ topBar = "TopBar" }) => {
     const navigation = useNavigation();
 
     const handleGoBack = () => {
@@ -18,10 +18,10 @@ const TopBar = ({ tobBar = "상단바" }) => {
         <View style={styles.rectangle}>
             <View style={styles.container}>
                 <TouchableOpacity onPress={handleGoBack}>
-                    <ArrowRight32 style={styles.arrow} />
+                    <ArrowRight style={styles.arrow} />
                 </TouchableOpacity>
                 <View style={styles.text}>
-                    <Text style={styles.textStyle}>{tobBar}</Text>
+                    <Text style={styles.textStyle}>{topBar}</Text>
                 </View>
             </View>
         </View>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '100%',
         height: 48,
-        backgroundColor: CustomTheme.bgBasic,
+        backgroundColor: customTheme.bgBasic,
     },
     container: {
         position: 'absolute',
