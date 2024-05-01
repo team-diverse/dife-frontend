@@ -91,7 +91,7 @@ const StudentVerificationPage = () => {
                 </TouchableOpacity>
             )}
             <View style={StudentVerificationStyles.buttonCheck}>
-                <ApplyButton text="완료" disabled=''/>
+                <ApplyButton text="완료" onPress={() => navigation.navigate('CompleteProfile')} disabled=''/>
             </View>
         </SafeAreaView>
     )
