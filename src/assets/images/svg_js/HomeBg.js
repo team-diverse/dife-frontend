@@ -7,7 +7,7 @@ const HomeBg = (props) => (
     width='100%'
     height='100%'
     fill="none"
-    viewBox="0 -100 375 715"
+    viewBox="0 -100 375 910"
     {...props}
   >
     <Path
