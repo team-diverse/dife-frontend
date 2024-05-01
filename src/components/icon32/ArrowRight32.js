@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Svg, { Path } from 'react-native-svg';
 
-const ArrowRight = (props) => (
+const ArrowRight32 = (props) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
     width={32}
@@ -18,4 +18,4 @@ const ArrowRight = (props) => (
     />
   </Svg>
 )
-export default ArrowRight;
+export default ArrowRight32;
