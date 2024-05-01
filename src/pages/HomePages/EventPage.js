@@ -11,9 +11,7 @@ const EventPage = () => {
     const eventData = [
         {
             id: '1',
-            title: '[프로그램] 2022-1학기 해외파견교환학생 설명회 홍보',
             date: '2022.02.14 ~ 2022.02.15',
-            eventImg: require('../../assets/images/test_img/test_event.png')
         },
         {
             id: '2',
