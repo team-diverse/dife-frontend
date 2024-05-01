@@ -27,6 +27,11 @@ const NotificationPage = () => {
             context: '님이 회원님에게 커넥트 요청을 보냈습니다.',
             time: '09 : 25',
         },
+        {
+            id: '4',
+            name: 'Dann',
+            context: '님이 새로 채팅을 보냈습니다. \n “Hi there!”',
+        },
     ]
 
     return (
