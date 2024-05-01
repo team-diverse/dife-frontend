@@ -1,37 +1,54 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { customTheme } from '../../styles/customTheme';
 
-const screenWidth = Dimensions.get('window').width;
-const screenHeight = Dimensions.get('window').height;
-
 const { fontHead18, fontSub16, fontCaption } = customTheme;
 
 const HomeStyles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
+<<<<<<< HEAD
+<<<<<<< HEAD
         backgroundColor: '#0029F4',
+=======
+>>>>>>> 609215a (refactor: styleSheet 다른 파일로 분리)
+=======
+        backgroundColor: '#0029F4',
+>>>>>>> f1c9494 (refactor: 상태바 높이 고려하기 위해 SafeAreaView 추가)
     },
     linearGradient: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
     },
-    svg: {
+    homebg: {
         position: 'absolute',
-        width: screenWidth,
-        height: screenHeight,
     },
     topContainer: {
         flexDirection: 'row',
     },
     logo: {
         flex: 1,
+<<<<<<< HEAD
+<<<<<<< HEAD
         marginTop: 4,
         marginLeft: -8
     },
     notify: {
         marginTop: 10,
+=======
+        marginTop: 1,
+        marginLeft: -8
+    },
+    notify: {
+        marginTop: 7,
+>>>>>>> 609215a (refactor: styleSheet 다른 파일로 분리)
+=======
+        marginTop: 4,
+        marginLeft: -8
+    },
+    notify: {
+        marginTop: 10,
+>>>>>>> f1c9494 (refactor: 상태바 높이 고려하기 위해 SafeAreaView 추가)
         marginRight: 25,
     },
     textConnectWithContainer: {
@@ -75,7 +92,7 @@ const HomeStyles = StyleSheet.create({
         marginTop: 12,
         marginBottom: 6,
     },
-    introdution: {
+    introduction: {
         ...fontCaption,
         width: 200,
         height: 51,
@@ -84,7 +101,6 @@ const HomeStyles = StyleSheet.create({
     },
     myinfoContainer: {
         flexDirection: 'row',
-        // marginTop: 6,
     },
     TXname: {
         fontSize: 12,
