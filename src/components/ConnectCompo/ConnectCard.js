@@ -1,0 +1,92 @@
+import React from 'react';
+import { View, Text, Image, StyleSheet } from 'react-native';
+import { CustomTheme } from '@styles/CustomTheme.js';
+
+import HeartInac24 from '@components/Icon24/HeartInac24';
+import HeartAc24 from '@components/Icon24/HeartAc24';
+import ConnectPlusIcon from '@components/ConnectCompo/ConnectPlusIcon';
+import Tag from '@components/Tag.js';
+
+const { fontSub14, fontCaption } = CustomTheme;
+
+const ConnectCard = ({profile=null, name='name', country='country', age='age', major='major', introduction='introduction', tag1='tag1', tag2='tag2', tag3='tag3'}) => {
+  return (
+    <View style={styles.rectangle}>
+      <View style={styles.profile}>
+        <Image source={profile} style={styles.imgProfile}/>
+      </View>
+      <View style={styles.cardContainer}>
+        <View style={styles.textIconContainer}>
+          <Text style={styles.TXname}>{name}</Text>
+          <View style={styles.iconContainer}>
+            <HeartInac24 />
+            <ConnectPlusIcon style={{marginLeft: 9}}/>
+          </View>
+        </View>
+        <Text style={styles.TXbasicInfo}>{country} | {age} | {major}</Text>
+        <Text style={styles.TXintroduction}>{introduction}</Text>
+        <View style={styles.tagContainer}>
+          <Tag text={tag1}/>
+          <Tag text={tag2}/>
+          <Tag text={tag3}/>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  rectangle: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 173,
+    backgroundColor: CustomTheme.bgBasic,
+    borderRadius: 20,
+    overflow: 'hidden'
+  },
+  profile: {
+    width: 92,
+    height: 173,
+    backgroundColor: CustomTheme.textDisable,
+    overflow: 'hidden',
+  },
+  imgProfile: {
+    width: '100%',
+    height: '100%',
+  },
+  cardContainer: {
+    marginTop: 8,
+    marginLeft: 12,
+  },
+  textIconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 6,
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    marginRight: 11,
+  },
+  TXname: {
+    fontSize: 14,
+    lineHeight: 17,
+    fontFamily: 'NotoSansCJKkr-Bold',
+  },
+  TXbasicInfo: {
+    ...fontCaption,
+    marginBottom: 6,
+  },
+  TXintroduction: {
+    ...fontSub14,
+    width: 187,
+    marginBottom: 6,
+  },
+  tagContainer: {
+    flexDirection: 'row',
+},
+});
+
+export default ConnectCard;

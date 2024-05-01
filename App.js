@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 
 import ChattingPage from '@pages/ChattingPages/ChattingPage.js';
-import MatchingPage from '@pages/MatchingPages/MatchingPage.js';
+import ConnectPage from '@pages/ConnectPages/ConnectPage.js';
 import HomePage from '@pages/HomePages/HomePage.js';
 import CommunityPage from '@pages/CommuityPages/CommuityPage.js';
 import MemberPage from '@pages/MemberPages/MemberPage.js';
@@ -89,7 +89,7 @@ export default function App() {
         })}
       >
         <Tab.Screen name="chattingPage" component={ChattingPage} options={{ headerShown: false }} />
-        <Tab.Screen name="matchingPage" component={MatchingPage} options={{ headerShown: false }} />
+        <Tab.Screen name="matchingPage" component={ConnectPage} options={{ headerShown: false }} />
         <Tab.Screen name="homePage" component={HomeStack} options={{ headerShown: false }} />
         <Tab.Screen name="communityPage" component={CommunityPage} options={{ headerShown: false }} />
         <Tab.Screen name="memberPage" component={MemberPage} options={{ headerShown: false }} />
