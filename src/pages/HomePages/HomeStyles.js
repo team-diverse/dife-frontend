@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { customTheme } from '../../styles/customTheme';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
-const { fontHead18, fontSub16, fontCaption } = customTheme;
+const { fontHead18, fontSub16, fontCaption } = CustomTheme;
 
 const HomeStyles = StyleSheet.create({
     container: {
@@ -36,12 +36,12 @@ const HomeStyles = StyleSheet.create({
     },
     TXconnect: {
         ...fontHead18,
-        color: customTheme.bgList,
+        color: CustomTheme.bgList,
         marginRight: 4,
     },
     TXwithnewfriend: {
         ...fontCaption,
-        color: customTheme.bgList,
+        color: CustomTheme.bgList,
     },
     homecardContainer: {
         flexDirection: 'row',
@@ -142,7 +142,7 @@ const HomeStyles = StyleSheet.create({
     },
     viewProfile: {
         ...fontCaption,
-        color: customTheme.textSecondary,
+        color: CustomTheme.textSecondary,
         marginTop: 20,
         textDecorationLine: 'underline'
     },
