@@ -6,7 +6,7 @@ import ProfileHobbyStyles from '@pages/OnboadingPages/ProfileHobbyStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
-import Progress3 from '@components/OnboadingCompo/Progress3';
+import Progress4 from '@components/OnboadingCompo/Progress4';
 import FilterCategory from '@components/ConnectCompo/FilterCategory';
 import ApplyButton from '@components/CommonCompo/ApplyButton';
 
@@ -45,7 +45,7 @@ const ProfileHobbyPage = () => {
                 <ArrowRight32 style={ProfileHobbyStyles.iconArrow} color={CustomTheme.textPrimary} />
             </TouchableOpacity>
             <View style={[ProfileHobbyStyles.iconProgress]}>
-                <Progress3 />
+                <Progress4 />
             </View> 
             <Text style={ProfileHobbyStyles.textTitle}>{ProfileData[0]}</Text>
             <Text style={ProfileHobbyStyles.textSubTitle}>{ProfileData[1]}</Text>

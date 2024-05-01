@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
-const { fontBody18, fontSub16, fontSub14, fontCaption } = CustomTheme;
+const { fontHead24, fontBody18, fontSub16, fontSub14, fontCaption } = CustomTheme;
 
 const ProfileStyles = StyleSheet.create({
     container: {
@@ -18,9 +18,7 @@ const ProfileStyles = StyleSheet.create({
         marginTop: 5,
     },
     textTitle: {
-        fontSize: 32,
-        lineHeight: 37,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        ...fontHead24,
         marginTop: 41,
         marginLeft: 24,
     },
