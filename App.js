@@ -190,6 +190,7 @@ import ProfilePage from '@pages/OnboadingPages/ProfilePage';
 import ProfileMbtiPage from '@pages/OnboadingPages/ProfileMbtiPage';
 import ProfileHobbyPage from '@pages/OnboadingPages/ProfileHobbyPage';
 import ProfileLanguagePage from '@pages/OnboadingPages/ProfileLanguagePage';
+import StudentVerificationPage from '@pages/OnboadingPages/StudentVerificationPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -273,6 +274,7 @@ export default function App() {
             <Stack.Screen name="ProfileMbti" component={ProfileMbtiPage} options={{ headerShown: false }} />
             <Stack.Screen name="ProfileHobby" component={ProfileHobbyPage} options={{ headerShown: false }} />
             <Stack.Screen name="ProfileLanguage" component={ProfileLanguagePage} options={{ headerShown: false }} />
+            <Stack.Screen name="StudentVerification" component={StudentVerificationPage} options={{ headerShown: false }} />
           </Stack.Navigator>
         )}
     </NavigationContainer>

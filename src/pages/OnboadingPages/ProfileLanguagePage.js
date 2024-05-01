@@ -53,7 +53,7 @@ const ProfileLanguagePage = () => {
                 <Checkbox checked={isCheckedList[4]} onPress={() => handlePress(4)} text='한국어 / Korean' />
             </View>
             <View style={ProfileLanguageStyles.buttonCheck}>
-                <ApplyButton text="다음" onPress={() => navigation.navigate('Certification')} disabled=''/>
+                <ApplyButton text="다음" onPress={() => navigation.navigate('StudentVerification')} disabled=''/>
             </View>
         </SafeAreaView>
     )
