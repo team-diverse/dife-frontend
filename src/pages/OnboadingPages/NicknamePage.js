@@ -65,7 +65,7 @@ const NicknamePage = () => {
                     <Text style={NicknameStyles.textUnavailableNickname}>이미 사용 중인 닉네임이에요.</Text>
                 )}
                 <View style={NicknameStyles.buttonCheck}>
-                    <ApplyButton text="확인" disabled=''/>
+                    <ApplyButton text="확인" onPress={() => navigation.navigate('Profile')} disabled=''/>
                 </View>
             </SafeAreaView>
         </TouchableWithoutFeedback>

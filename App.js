@@ -186,6 +186,7 @@ import FindPasswordVerifyingPage from '@pages/LoginPages/FindPasswordVerifyingPa
 import SignUpPage from '@pages/LoginPages/SignUpPage';
 import AccessPage from '@pages/LoginPages/AccessPage';
 import NicknamePage from '@pages/OnboadingPages/NicknamePage';
+import ProfilePage from '@pages/OnboadingPages/ProfilePage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -265,6 +266,7 @@ export default function App() {
             <Stack.Screen name="FindPasswordVerifying" component={FindPasswordVerifyingPage} options={{ headerShown: false }} />
             <Stack.Screen name="SignUp" component={SignUpPage} options={{ headerShown: false }} />
             <Stack.Screen name="Nickname" component={NicknamePage} options={{ headerShown: false }} />
+            <Stack.Screen name="Profile" component={ProfilePage} options={{ headerShown: false }} />
           </Stack.Navigator>
         )}
     </NavigationContainer>
