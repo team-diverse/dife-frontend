@@ -6,7 +6,7 @@ import ProfileMbtiStyles from '@pages/OnboadingPages/ProfileMbtiStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
-import Progress4 from '@components/OnboadingCompo/Progress4';
+import Progress3 from '@components/OnboadingCompo/Progress3';
 import FilterCategory from '@components/ConnectCompo/FilterCategory';
 import ApplyButton from '@components/CommonCompo/ApplyButton';
 
@@ -45,7 +45,7 @@ const ProfileHobbyPage = () => {
                 <ArrowRight32 style={ProfileMbtiStyles.iconArrow} color={CustomTheme.textPrimary} />
             </TouchableOpacity>
             <View style={[ProfileMbtiStyles.iconProgress]}>
-                <Progress4 />
+                <Progress3 />
             </View>
             <Text style={ProfileMbtiStyles.textTitle}>{ProfileData[0]}</Text>
             <Text style={ProfileMbtiStyles.textSubTitle}>{ProfileData[1]}</Text>

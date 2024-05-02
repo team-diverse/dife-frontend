@@ -30,10 +30,10 @@ const LoadingVerificationPage = () => {
                         <Text style={LoadingVerificationStyles.textModal}>인증이 완료되면{'\n'}모든 기능을 사용할 수 있어요</Text>
                         <Checkbox style={LoadingVerificationStyles.checkboxRememberMe}
                             checked={isChecked}
-                            onPress={() => {handlePress}}
+                            onPress={() => {handlePress()}}
                             text='인증 완료 알림 받기'
                             login='true' />
-                        <Text style={LoadingVerificationStyles.textMove}>로그인 화면으로 돌아가기</Text>
+                        <Text style={LoadingVerificationStyles.textMove} onPress={() => navigation.navigate('Login')}>로그인 화면으로 돌아가기</Text>
                     </View>
                 </View>
             </View>
