@@ -192,6 +192,7 @@ import ProfileHobbyPage from '@pages/OnboadingPages/ProfileHobbyPage';
 import ProfileLanguagePage from '@pages/OnboadingPages/ProfileLanguagePage';
 import StudentVerificationPage from '@pages/OnboadingPages/StudentVerificationPage';
 import CompleteProfilePage from '@pages/OnboadingPages/CompleteProfilePage';
+import LoadingVerificationPage from '@pages/OnboadingPages/LoadingVerificationPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -277,6 +278,7 @@ export default function App() {
             <Stack.Screen name="ProfileLanguage" component={ProfileLanguagePage} options={{ headerShown: false }} />
             <Stack.Screen name="StudentVerification" component={StudentVerificationPage} options={{ headerShown: false }} />
             <Stack.Screen name="CompleteProfile" component={CompleteProfilePage} options={{ headerShown: false }} />
+            <Stack.Screen name="LoadingVerification" component={LoadingVerificationPage} options={{ headerShown: false }} />
           </Stack.Navigator>
         )}
     </NavigationContainer>
