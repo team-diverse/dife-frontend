@@ -4,15 +4,18 @@ import ConnectStyles from '@pages/ConnectPages/ConnectStyles.js';
 import ConnectTop from '@components/ConnectCompo/ConnectTop.js';
 import ConnectSearchIcon from '@components/ConnectCompo/ConnectSearchIcon.js';
 import ConnectSearchCancel from '@components/ConnectCompo/ConnectSearchCancel.js';
-import ConnectAddUser from '@components/ConnectCompo/ConnectAddUser.js';
+import ConnectLikeUser from '@components/ConnectCompo/ConnectLikeUser.js';
 import FilterIcon from '@components/ConnectCompo/FilterIcon.js';
 import FilterBottomSlide from '@components/ConnectCompo/FilterBottomSlide.js';
 import ConnectCard from '@components/ConnectCompo/ConnectCard.js';
 import ConnectDife from '@components/ConnectCompo/ConnectDife.js';
 import ConnectReset from '@components/ConnectCompo/ConnectReset.js';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 
 const ConnectPage = () => {
+  const navigation = useNavigation();
+
   const connectData = [
     {
       id: '1',
@@ -73,7 +76,8 @@ const ConnectPage = () => {
         <SafeAreaView style={ConnectStyles.safeAreaView}>
           <View style={ConnectStyles.textIconContainer}>
             <Text style={ConnectStyles.connectTitle}>Connect</Text>
-            <ConnectAddUser style={ConnectStyles.addUserIcon}/>
+            <ConnectLikeUser style={ConnectStyles.addUserIcon}
+              onPress={() => navigation.navigate('ConnectLikeUser')}/>
           </View>
           <View style={ConnectStyles.searchContainer}>
             <TouchableOpacity onPress={pressButton}>
@@ -116,7 +120,6 @@ const ConnectPage = () => {
             contentContainerStyle={ConnectStyles.flatlistContent}
                 data={connectData}
                 renderItem={({ item }) => (
-                    <View style={ConnectStyles.cardContainer}>
                     <ConnectCard
                       profile={item.profile}
                       name={item.name}
@@ -127,7 +130,6 @@ const ConnectPage = () => {
                       tag2={item.tag2}
                       tag3={item.tag3}
                     />
-                    </View>
                 )}
                 keyExtractor={item => item.id}
             />
