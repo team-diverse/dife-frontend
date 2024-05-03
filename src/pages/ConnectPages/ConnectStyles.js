@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
-const { fontHead20, fontHead18, fontCaption } = CustomTheme;
+const { fontHead20, fontHead18, fontSub16, fontCaption } = CustomTheme;
 
 const ConnectStyles = StyleSheet.create({
     container: {
@@ -54,6 +54,11 @@ const ConnectStyles = StyleSheet.create({
         flex: 1,
         marginLeft: 20,
     },
+    searchFilterContent: {
+        backgroundColor: '#fff',
+        padding: 16,
+        height: 450,
+    },
     searchIconContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -63,7 +68,13 @@ const ConnectStyles = StyleSheet.create({
         marginRight: 24,
     },
     search: {
+        ...fontSub16,
         position: 'relative',
+        width: '100%',
+        height: 48,
+        backgroundColor: CustomTheme.bgBasic,
+        borderRadius: 24,
+        paddingLeft: 20,
     },
     searchIcon: {
         position: 'absolute',

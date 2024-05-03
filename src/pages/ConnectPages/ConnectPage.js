@@ -1,15 +1,16 @@
-import React from 'react';
-import { View, Text, SafeAreaView, FlatList } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, SafeAreaView, FlatList, Keyboard, TouchableOpacity } from 'react-native';
 import ConnectStyles from '@pages/ConnectPages/ConnectStyles.js';
 import ConnectTop from '@components/ConnectCompo/ConnectTop.js';
-import ConnectSearch from '@components/ConnectCompo/ConnectSearch.js';
 import ConnectSearchIcon from '@components/ConnectCompo/ConnectSearchIcon.js';
 import ConnectSearchCancel from '@components/ConnectCompo/ConnectSearchCancel.js';
 import ConnectAddUser from '@components/ConnectCompo/ConnectAddUser.js';
-import ConnectSearchFilter from '@components/ConnectCompo/ConnectSearchFilter.js';
-import ConnectCard from '@components/ConnectCompo/ConnectCard';
-import ConnectDife from '@components/ConnectCompo/ConnectDife';
-import ConnectReset from '@components/ConnectCompo/ConnectReset';
+import FilterIcon from '@components/ConnectCompo/FilterIcon.js';
+import FilterBottomSlide from '@components/ConnectCompo/FilterBottomSlide.js';
+import ConnectCard from '@components/ConnectCompo/ConnectCard.js';
+import ConnectDife from '@components/ConnectCompo/ConnectDife.js';
+import ConnectReset from '@components/ConnectCompo/ConnectReset.js';
+import axios from 'axios';
 
 const ConnectPage = () => {
   const connectData = [
@@ -26,6 +27,43 @@ const ConnectPage = () => {
       tag3: 'Drawing',
     },
   ]
+
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchData, setSearchData] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+
+  const [ modalVisible, setModalVisible ] = useState(false);
+
+  const pressButton = () => {
+      setModalVisible(true);
+  }
+
+  const handleSearch = () => {
+    if (searchTerm.trim() !== '') {
+      axios.get(`${searchTerm}`)
+        .then(response => {
+          setSearchData(response.data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  };
+
+  const handleFocus = () => {
+    setIsSearching(true);
+  };
+
+  const handleBlur = () => {
+    setIsSearching(false);
+  };
+
+  const handleCancel = () => {
+    setSearchTerm('');
+    setIsSearching(false);
+    Keyboard.dismiss();
+  };
+
   return (
     <View style={ConnectStyles.container}>
       <View style={ConnectStyles.topDifeContainer}>
@@ -38,10 +76,27 @@ const ConnectPage = () => {
             <ConnectAddUser style={ConnectStyles.addUserIcon}/>
           </View>
           <View style={ConnectStyles.searchContainer}>
-            <ConnectSearchFilter style={ConnectStyles.searchFilter}/>
+            <TouchableOpacity onPress={pressButton}>
+              <FilterIcon style={ConnectStyles.searchFilter}/>
+            </TouchableOpacity>
+            <FilterBottomSlide
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+            />
             <View style={ConnectStyles.searchIconContainer}>
-              <ConnectSearch style={ConnectStyles.search}/>
-              <ConnectSearchIcon style={ConnectStyles.searchIcon}/>
+            <TextInput
+                style={ConnectStyles.search}
+                placeholder="검색"
+                value={searchTerm}
+                onChangeText={setSearchTerm}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+              />
+              {isSearching ? (
+              <ConnectSearchCancel style={ConnectStyles.searchIcon} onPress={handleCancel} />
+            ) : (
+              <ConnectSearchIcon style={ConnectStyles.searchIcon} onPress={handleSearch} />
+            )}
             </View>
           </View>
 
