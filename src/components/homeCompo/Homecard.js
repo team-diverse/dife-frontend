@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { customTheme } from '../../styles/customTheme.js';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
 const Homecard = () => {
   return (
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   rectangle: {
     width: 260,
     height: 360,
-    backgroundColor: customTheme.bgBasic,
+    backgroundColor: CustomTheme.bgBasic,
     borderRadius: 20,
   },
 });

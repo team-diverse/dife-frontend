@@ -1,8 +1,8 @@
 import React from 'react';
 import Svg, { Path, Circle, Text } from 'react-native-svg';
-import { customTheme } from '../../styles/customTheme';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
-const { fontNavi } = customTheme;
+const { fontNavi } = CustomTheme;
 
 const Notification32 = ({ count }) => {
   return (
