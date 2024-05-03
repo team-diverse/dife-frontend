@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { customTheme } from '../../styles/customTheme.js';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
-const { fontCaption } = customTheme;
+const { fontCaption } = CustomTheme;
 
 const HomecardBackBtn = ({ btnText, onPress }) => {
   const btnStyle = btnText === '신청하기' ? styles.btnApply : styles.btnCancel;
@@ -21,9 +21,9 @@ const styles = StyleSheet.create({
   btn: {
     width: 102,
     height: 37,
-    backgroundColor: customTheme.bgBasic,
+    backgroundColor: CustomTheme.bgBasic,
     borderWidth: 1,
-    borderColor: customTheme.primaryMedium,
+    borderColor: CustomTheme.primaryMedium,
     borderRadius: 12,
     padding: 10,
     justifyContent: 'center',
@@ -31,15 +31,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   btnApply: {
-    backgroundColor: customTheme.primaryMedium,
+    backgroundColor: CustomTheme.primaryMedium,
 
   },
   btnCancel: {
-    backgroundColor: customTheme.bgBasic,
+    backgroundColor: CustomTheme.bgBasic,
   },
   btnTextA: {
     ...fontCaption,
-    color: customTheme.bgBasic,
+    color: CustomTheme.bgBasic,
   },
   btnTextC: {
     ...fontCaption,
