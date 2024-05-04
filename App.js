@@ -1,15 +1,15 @@
 import * as React from 'react';
-import { SafeAreaView, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
-import ChattingPage from '@pages/ChattingPages/ChattingPage.js';
-import ConnectPage from '@pages/ConnectPages/ConnectPage.js';
-import HomePage from '@pages/HomePages/HomePage.js';
+import ChattingPage from '@pages/ChattingPages/ChattingPage';
+import ConnectPage from '@pages/ConnectPages/ConnectPage';
+import HomePage from '@pages/HomePages/HomePage';
 import CommunityPage from '@pages/CommuityPages/CommuityPage.js';
-import MemberPage from '@pages/MemberPages/MemberPage.js';
+import MemberPage from '@pages/MemberPages/MemberPage';
 
 import ChatDf24 from '@components/Icon24/ChatDf24.js';
 import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
@@ -26,6 +26,7 @@ import MyAc32 from '@components/Icon32/MyAc32.js';
 import EventPage from '@pages/HomePages/EventPage.js';
 import NotificationPage from '@pages/HomePages/NotificationPage.js';
 import ConnectLikeUserPage from '@pages/ConnectPages/ConnectLikeUserPage';
+import ConnectProfilePage from '@pages/ConnectPages/ConnectProfilePage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -45,6 +46,8 @@ function ConnectStack() {
     <Stack.Navigator>
       <Stack.Screen name="Connect" component={ConnectPage} options={{headerShown: false}} />
       <Stack.Screen name="ConnectLikeUser" component={ConnectLikeUserPage} options={{headerShown: false}} />
+      <Stack.Screen name="ConnectProfile" component={ConnectProfilePage} options={{headerShown: false}} />
+      {/* ConnectProfile 페이지 연결은 임시로.. 각 프로필 연결 시, 삭제하거나 수정 */}
     </Stack.Navigator>
   );
 }
