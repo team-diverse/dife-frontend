@@ -2,14 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
-const { fontCaption } = CustomTheme;
+const { fontBody14 } = CustomTheme;
 
-const Tag = ({tag=['tag']}) => {
+const ConnectProfileTag = ({tag=['tag']}) => {
   return (
     <View style={styles.container}>
       {tag.map((item, index) => (
-        <View key={index} style={[styles.rectangle, { width: item.length * 10 + 1 }]}>
-          <Text style={styles.text}>{item}</Text>
+        <View style={[styles.rectangle]}>
+          <Text key={index} style={styles.text}>{item}</Text>
         </View>
       ))}
     </View>
@@ -23,7 +23,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   rectangle: {
-    height: 19,
+    width: 80,
+    height: 32,
     backgroundColor: CustomTheme.bgBasic,
     borderWidth: 1,
     borderColor: '#B0D0FF',
@@ -31,10 +32,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 8,
+    marginBottom: 8,
   },
   text: {
-    ...fontCaption,
+    ...fontBody14,
   },
 });
 
-export default Tag;
+export default ConnectProfileTag;

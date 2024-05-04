@@ -22,22 +22,26 @@ import ChatInac24 from '@components/Icon24/ChatInac24.js';
 import HomeLine from '@components/HomeCompo/HomeLine.js';
 import HomecardBackBtn from '@components/HomeCompo/HomecardBackBtn.js';
 import HomecardDifeB from '@components/HomeCompo/HomecardDifeB.js';
-
+import ConnectRequest from '@components/ConnectRequest';
 
 const HomePage = ({cnt=3}) => {
   const navigation = useNavigation();
 
+  const [ modalVisible, setModalVisible ] = useState(false);
+
+  const pressButton = () => {
+      setModalVisible(true);
+  }
+
   const profileDataList = [
     {
-      tag1: 'istj',
+      tags: ['istj'],
       introduction: "제 이름은 테스트용입니다.",
       age: "23"
     },
     {
       profileImg: require('../../assets/images/test_img/test_profileImg.png'),
-      tag1: 'enfp',
-      tag2: 'Sports',
-      tag3: 'Drawing',
+      tags: ['enfp', 'Sports', 'Drawing'],
       introduction: "adipiscing varius eu sit nulla, luctus tincidunt ex at ullamcorper cursus odio laoreet placerat.",
       name: "Amyyheart",
       country: "France",
@@ -45,9 +49,7 @@ const HomePage = ({cnt=3}) => {
     },
     {
       profileImg: require('../../assets/images/test_img/test_haedam.jpg'),
-      tag1: 'entp',
-      tag2: 'music',
-      tag3: 'running',
+      tags: ['entp', 'music', 'running'],
       introduction: "안녕하세요! 새로운 친구를 사귀고 싶은 해담입니다. 여행을 좋아하고 새로운 경험을 즐기며 삶을 즐겁게 살고 있어요.",
       name: "개해담",
       country: "한국",
@@ -55,9 +57,7 @@ const HomePage = ({cnt=3}) => {
     },
     {
       profileImg: require('../../assets/images/test_img/test_event.png'),
-      tag1: 'istj',
-      tag2: 'study',
-      tag3: 'reading',
+      tags: ['istj', 'study', 'reading'],
       introduction: "안녕하세요! 저는 운영체제를 사랑하는 운영이라고 합니다. 만나서 반가워요.",
       name: "운영",
       country: "한국",
@@ -80,7 +80,7 @@ const HomePage = ({cnt=3}) => {
     }
   };
 
-  const { profileImg=null, tag1="tag1", tag2="tag2", tag3="tag3", introduction="introduction", name="name", country="country", age="age" } = profileDataList[currentProfileIndex];
+  const { profileImg=null, tags=["tag"], introduction="introduction", name="name", country="country", age="age" } = profileDataList[currentProfileIndex];
 
   const [showNewCard, setShowNewCard] = useState(false);
 
@@ -129,9 +129,13 @@ const HomePage = ({cnt=3}) => {
                 
               </View>
               <View style={HomeStyles.homecardBackBtn}>
-                  <HomecardBackBtn btnText="아니오" onPress={() => setShowNewCard(false)} />
-                  <HomecardBackBtn btnText="신청하기"/>
-                </View>
+                <HomecardBackBtn btnText="아니오" onPress={() => setShowNewCard(false)}/>
+                <HomecardBackBtn btnText="신청하기" onPress={pressButton}/>
+              </View>
+              <ConnectRequest
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+              />
             </View>
             <TouchableOpacity onPress={handleNextProfile}>
               <HomeArrow />
@@ -150,9 +154,7 @@ const HomePage = ({cnt=3}) => {
             <View style={HomeStyles.homeProfile}>
               <HomeProfile profile={profileImg}/>
               <View style={HomeStyles.tagContainer}>
-                <Tag text={tag1}/>
-                <Tag text={tag2}/>
-                <Tag text={tag3}/>
+                <Tag tag={tags}/>
               </View>
               <Text style={HomeStyles.introduction}>{introduction}</Text>
               <View style={HomeStyles.myinfoContainer}>

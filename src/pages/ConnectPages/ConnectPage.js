@@ -25,9 +25,7 @@ const ConnectPage = () => {
       age: '23',
       major: 'Industrial Design',
       introduction: 'adipiscing varius eu sit nulla, luctus tincidunt ex at ullamcorper cursus odio laoreet placerat.',
-      tag1: 'enfp',
-      tag2: 'Sports',
-      tag3: 'Drawing',
+      tags: ['enfp', 'Sports', 'Drawing'],
     },
   ]
 
@@ -117,19 +115,17 @@ const ConnectPage = () => {
           <View style={ConnectStyles.cardContainer}>
             <View style={ConnectStyles.flatlist}>
             <FlatList
-            contentContainerStyle={ConnectStyles.flatlistContent}
-                data={connectData}
-                renderItem={({ item }) => (
-                    <ConnectCard
-                      profile={item.profile}
-                      name={item.name}
-                      country={item.country}
-                      major={item.major}
-                      introduction={item.introduction}
-                      tag1={item.tag1}
-                      tag2={item.tag2}
-                      tag3={item.tag3}
-                    />
+              contentContainerStyle={ConnectStyles.flatlistContent}
+              data={connectData}
+              renderItem={({ item }) => (
+                  <ConnectCard
+                    profile={item.profile}
+                    name={item.name}
+                    country={item.country}
+                    major={item.major}
+                    introduction={item.introduction}
+                    tag={item.tags}
+                  />
                 )}
                 keyExtractor={item => item.id}
             />
