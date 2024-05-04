@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useFonts } from 'expo-font';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
-import ChattingPage from './src/pages/chattingPage/chattingPage.js';
-import MatchingPage from './src/pages/matchingPage/matchingPage.js';
-import HomePage from './src/pages/homePage/homePage.js';
-import CommunityPage from './src/pages/commuityPage/commuityPage.js';
-import MemberPage from './src/pages/memberPage/memberPage.js';
+import ChattingPage from '@pages/ChattingPages/ChattingPage';
+import ConnectPage from '@pages/ConnectPages/ConnectPage';
+import HomePage from '@pages/HomePages/HomePage';
+import CommunityPage from '@pages/CommuityPages/CommuityPage.js';
+import MemberPage from '@pages/MemberPages/MemberPage';
 
 import ChatDf24 from '@components/Icon24/ChatDf24.js';
 import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
