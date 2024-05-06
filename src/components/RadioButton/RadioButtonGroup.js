@@ -1,26 +1,42 @@
-import React, { createContext } from 'react';
-import { View } from 'react-native';
-import RadioButtonItems from '@components/RadioButton/RadioButtonItems';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
+import {RadioButton} from 'react-native-paper';
+import RadioButtonItem from "@components/RadioButton/RadioButtonItem";
 
-const RadioGroupContext = createContext({});
+const RadioButtonGroup = ({values, onValueChange}) => {
+    const [selected, setSelected] = useState('');
 
-const RadioButtonGroup = (props) => {
-  const { Provider } = RadioGroupContext;
+    const handleChange = (value) => {
+        setSelected(value);
+        onValueChange(value);
+    }
 
-  const { selected, children, onSelected, containerStyle } = props;
-
-  return (
-    <Provider
-      value={{
-        onSelected,
-        selected,
-      }}
-    >
-      <View style={[containerStyle]}>{children}</View>
-    </Provider>
-  );
+    return (
+        <RadioButton.Group style={styles.radioButtonItemContainer} value={values[0]}
+                           onValueChange={handleChange}>
+            <View>
+                {
+                    values.map((value, index) => {
+                        return (
+                            <RadioButtonItem
+                                key={index}
+                                value={value}
+                                isSelected={value === selected}
+                                onValueChange={handleChange} label={value}/>
+                        )
+                    })
+                }
+            </View>
+        </RadioButton.Group>
+    )
 };
 
-RadioButtonGroup.RadioButtonItems = RadioButtonItems;
 
-export { RadioGroupContext, RadioButtonGroup };
+const styles = StyleSheet.create({
+    radioButtonItemContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+});
+
+export default RadioButtonGroup;
