@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Modal, Text, Animated, TouchableWithoutFeedback, Dimensions, PanResponder, TouchableOpacity, ScrollView } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import Collapsible from 'react-native-collapsible';
-import FilterInfoCircle from '@components/ConnectCompo/FilterInfoCircle.js';
-import FilterArrowBottom from '@components/ConnectCompo/FilterArrowBottom.js';
-import FilterArrowTop from '@components/ConnectCompo/FilterArrowTop';
-import FilterCategory from '@components/ConnectCompo/FilterCategory.js';
-import FilterCheckboxList from '@components/ConnectCompo/FilterCheckboxList.js';
-import FilterApplyButton from '@components/ConnectCompo/FilterApplyButton.js';
+import FilterInfoCircle from '@components/connect/FilterInfoCircle.js';
+import FilterArrowBottom from '@components/connect/FilterArrowBottom.js';
+import FilterArrowTop from '@components/connect/FilterArrowTop';
+import FilterCategory from '@components/connect/FilterCategory.js';
+import FilterCheckboxList from '@components/connect/FilterCheckboxList.js';
+import FilterApplyButton from '@components/connect/FilterApplyButton.js';
 
 const { fontCaption } = CustomTheme;
 

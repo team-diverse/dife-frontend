@@ -5,11 +5,11 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useFonts } from 'expo-font';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
-import ChattingPage from '@pages/ChattingPages/ChattingPage';
-import ConnectPage from '@pages/ConnectPages/ConnectPage';
-import HomePage from '@pages/HomePages/HomePage';
-import CommunityPage from '@pages/CommuityPages/CommuityPage.js';
-import MemberPage from '@pages/MemberPages/MemberPage';
+import ChattingPage from '@pages/chat/ChattingPage.js';
+import ConnectPage from '@pages/connect/ConnectPage.js';
+import HomePage from '@pages/home/HomePage.js';
+import CommunityPage from '@pages/community/CommuityPage.js';
+import MemberPage from '@pages/member/MemberPage.js';
 
 import ChatDf24 from '@components/Icon24/ChatDf24.js';
 import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
@@ -23,10 +23,10 @@ import HomeAc32 from '@components/Icon32/HomeAc32.js';
 import CommuAc32 from '@components/Icon32/CommuAc32.js';
 import MyAc32 from '@components/Icon32/MyAc32.js';
 
-import EventPage from '@pages/HomePages/EventPage.js';
-import NotificationPage from '@pages/HomePages/NotificationPage.js';
-import ConnectLikeUserPage from '@pages/ConnectPages/ConnectLikeUserPage';
-import ConnectProfilePage from '@pages/ConnectPages/ConnectProfilePage';
+import EventPage from '@pages/home/EventPage.js';
+import NotificationPage from '@pages/home/NotificationPage.js';
+import ConnectLikeUserPage from '@pages/connect/ConnectLikeUserPage';
+import ConnectProfilePage from '@pages/connect/ConnectProfilePage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();

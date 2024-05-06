@@ -3,26 +3,26 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import HomeStyles from '@pages/HomePages/HomeStyles.js';
+import HomeStyles from '@pages/home/HomeStyles.js';
 
 import HomeBg from '@assets/images/svg_js/HomeBg.js';
 import LogoBr from '@components/Logo/LogoBr.js';
 import Notification32 from '@components/Icon32/Notification32.js';
-import Homecard from '@components/HomeCompo/Homecard.js';
-import HomecardDifeF from '@components/HomeCompo/HomecardDifeF.js';
-import HomeSchEv from '@components/HomeCompo/HomeSchEv.js';
-import HomeProfile from '@components/HomeCompo/HomeProfile.js';
-import HomeSchoolInfo from '@components/HomeCompo/HomeScoolInfo.js';
-import HomeEvent from '@components/HomeCompo/HomeEvent.js';
+import Homecard from '@components/home/Homecard.js';
+import HomecardDifeF from '@components/home/HomecardDifeF.js';
+import HomeSchEv from '@components/home/HomeSchEv.js';
+import HomeProfile from '@components/home/HomeProfile.js';
+import HomeSchoolInfo from '@components/home/HomeScoolInfo.js';
+import HomeEvent from '@components/home/HomeEvent.js';
 import Tag from '@components/Tag.js';
-import HomeArrow from '@components/HomeCompo/HomeArrow.js';
+import HomeArrow from '@components/home/HomeArrow.js';
 import HeartInac24 from '@components/Icon24/HeartInac24.js';
 import AddFriendInac24 from '@components/Icon24/AddFriendInac24.js';
 import ChatInac24 from '@components/Icon24/ChatInac24.js';
-import HomeLine from '@components/HomeCompo/HomeLine.js';
-import HomecardBackBtn from '@components/HomeCompo/HomecardBackBtn.js';
-import HomecardDifeB from '@components/HomeCompo/HomecardDifeB.js';
-import ConnectRequest from '@components/ConnectRequest';
+import HomeLine from '@components/home/HomeLine.js';
+import HomecardBackBtn from '@components/home/HomecardBackBtn.js';
+import HomecardDifeB from '@components/home/HomecardDifeB.js';
+import ConnectRequest from '@components/connect/ConnectRequest';
 
 const HomePage = ({cnt=3}) => {
   const navigation = useNavigation();
@@ -97,7 +97,7 @@ const HomePage = ({cnt=3}) => {
           <View style={HomeStyles.logo}>
             <LogoBr />
           </View>
-          <TouchableOpacity style={HomeStyles.notify} onPress={() => navigation.navigate('Notification')}>
+          <TouchableOpacity style={HomeStyles.notify} onPress={() => navigation.navigate('NotificationPage')}>
             <Notification32 count={cnt}/>
           </TouchableOpacity>
         </View>
@@ -181,7 +181,7 @@ const HomePage = ({cnt=3}) => {
           <HomeSchEv />
           <Text style={HomeStyles.TXhomeSch}>학교정보</Text>
           <HomeSchoolInfo style={HomeStyles.homeSchIcon}/>
-          <TouchableOpacity style={HomeStyles.homeEv} onPress={() => navigation.navigate('Event')}>
+          <TouchableOpacity style={HomeStyles.homeEv} onPress={() => navigation.navigate('EventPage')}>
             <HomeSchEv />
             <Text style={HomeStyles.TXhomeEv}>이벤트</Text>
             <HomeEvent style={HomeStyles.homeEvIcon}/>

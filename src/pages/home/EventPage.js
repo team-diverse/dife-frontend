@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, FlatList, SafeAreaView } from 'react-native';
 
-import EventStyles from '@pages/HomePages/EventStyles.js';
+import EventStyles from '@pages/home/EventStyles.js';
 
 import TopBar from '@components/TobBar.js';
-import EventCard from '@components/EventCompo/EventCard.js';
+import EventCard from '@components/event/EventCard.js';
 
 
 const EventPage = () => {
