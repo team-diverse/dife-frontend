@@ -33,7 +33,7 @@ const ConnectCard = ({
                         <HeartInac24 />
                         <TouchableOpacity
                             onPress={() =>
-                                navigation.navigate("ConnectProfile")
+                                navigation.navigate("ConnectProfilePage")
                             }
                         >
                             <ConnectPlusIcon style={{ marginLeft: 9 }} />
