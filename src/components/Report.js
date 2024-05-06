@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { RadioButtonGroup } from './RadioButton/RadioButtonGroup';
 import Modal from 'react-native-modal';
-import CompleteIcon from '@components/CommonCompo/CompleteIcon';
+import CompleteIcon from '@components/common/CompleteIcon';
 
 const { fontSub14 } = CustomTheme;
 

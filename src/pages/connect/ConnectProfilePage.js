@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, View, Text, TouchableOpacity } from 'react-native';
 
-import ConnectProfileTopBar from '@components/ConnectCompo/ConnectProfileTopBar';
+import ConnectProfileTopBar from '@components/connect/ConnectProfileTopBar';
 import HeartInac24 from '@components/Icon24/HeartInac24';
-import ConnectProfileBackground from '@components/ConnectCompo/ConnectProfileBackground';
-import ConnectProfileStyles from '@pages/ConnectPages/ConnectProfileStyles';
-import ConnectProfile from '@components/ConnectCompo/ConnectProfile';
-import ConnectProfileIntroduction from '@components/ConnectCompo/ConnectProfileIntroduction';
-import ConnectProfileTag from '@components/ConnectCompo/ConnectProfileTag';
-import ConnectProfileChatRequest from '@components/ConnectCompo/ConnectProfileChatRequest';
-import ConnectProfileLanguage from '@components/ConnectCompo/ConnectProfileLanguage';
+import ConnectProfileBackground from '@components/connect/ConnectProfileBackground';
+import ConnectProfileStyles from '@pages/connect/ConnectProfileStyles';
+import ConnectProfile from '@components/connect/ConnectProfile';
+import ConnectProfileIntroduction from '@components/connect/ConnectProfileIntroduction';
+import ConnectProfileTag from '@components/connect/ConnectProfileTag';
+import ConnectProfileChatRequest from '@components/connect/ConnectProfileChatRequest';
+import ConnectProfileLanguage from '@components/connect/ConnectProfileLanguage';
 import Report from '@components/Report';
 
 const ConnectProfilePage = () => {
@@ -25,7 +25,7 @@ const ConnectProfilePage = () => {
             introduction: '안녕하세요, 저는 프랑스에서 온 에이미 입니다, 산업디자인을 전공하고 있습니다. 언제든지 채팅 주세요!! 😀',
             tags: ['여행', '사진', '스포츠', '요리', 'ENTP'],
             language: ['English / English', '한국어 / Korean'],
-          };
+        };
 
     const [ modalVisible, setModalVisible ] = useState(false);
 
