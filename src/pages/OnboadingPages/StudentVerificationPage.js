@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { View, Text, Image, SafeAreaView, TouchableOpacity, Modal, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 
 import StudentVerificationStyles from '@pages/OnboadingPages/StudentVerificationStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
+import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import Progress6 from '@components/OnboadingCompo/Progress6';
 import BackgroundOnkookminUpload from '@components/OnboadingCompo/BackgroundOnkookminUpload';
 import IconOnkookminUpload from '@components/OnboadingCompo/IconOnkookminUpload';
-import ApplyButton from '@components/common/ApplyButton';
+import ApplyButton from '@components/CommonCompo/ApplyButton';
 
 const StudentVerificationPage = () => {
     const [isModalVisible, setModalVisible] = useState(true);
@@ -46,6 +48,34 @@ const StudentVerificationPage = () => {
         setImage(result.assets[0].uri);
     }
 };
+
+    const { onboardingData } = useOnboarding();
+
+    const handleOnboarding = () => {
+        axios.put(`http://192.168.45.64/api/members/${onboardingData.id}?username=${onboardingData.username}&is_korean=${onboardingData.is_korean}&languages=${onboardingData.languages}`, {
+            username: onboardingData.username,
+            is_korean: onboardingData.is_korean,
+            bio: onboardingData.bio,
+            mbti: onboardingData.mbti,
+            hobbies: onboardingData.hobbies,
+            languages: onboardingData.languages,
+            id: onboardingData.id,
+            profile_img: onboardingData.profile_img,
+            verification_file: image,
+        }, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            'Accept': 'application/json'
+        }
+        })
+        .then(response => {
+            console.log('온보딩 저장 성공:', response.data);
+            navigation.navigate('LoadingVerification')
+        })
+        .catch(error => {
+            console.error('온보딩 저장 실패:', error.response ? error.response.data : error.message);
+        });
+        };
 
     return (
         <SafeAreaView style={[StudentVerificationStyles.container]}>
@@ -91,7 +121,7 @@ const StudentVerificationPage = () => {
                 </TouchableOpacity>
             )}
             <View style={StudentVerificationStyles.buttonCheck}>
-                <ApplyButton text="완료" onPress={() => navigation.navigate('LoadingVerification')} disabled=''/>
+                <ApplyButton text="완료" onPress={handleOnboarding} disabled={!image}/>
             </View>
         </SafeAreaView>
     )
