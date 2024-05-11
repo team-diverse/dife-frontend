@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -35,12 +35,16 @@ const ProfileHobbyPage = () => {
     }
 
     const handleSelectHobby = (hobby) => {
-        setSelectedHobby(prevHobbies => [...prevHobbies, hobby]);
+        if (selectedHobby.includes(hobby)) {
+            setSelectedHobby(selectedHobby.filter(item => item !== hobby));
+        } else {
+            setSelectedHobby([...selectedHobby, hobby]);
+        }
     };
 
     const handleDataSave = () => {
         updateOnboardingData({ hobbies: selectedHobby });
-        console.log('hobby: ', selectedHobby)  // 값이 배열에 저장이 안 됨 으아악
+        // console.log('hobby: ', selectedHobby);
         navigation.navigate('ProfileLanguage');
     };
 
@@ -61,8 +65,8 @@ const ProfileHobbyPage = () => {
                             <FilterCategory
                                 key={typeIndex}
                                 text={type} 
-                                mbtiCnt={hobbyCnt}
-                                setMbtiCnt={setHobbyCnt}
+                                hobbyCnt={hobbyCnt}
+                                setHobbyCnt={setHobbyCnt}
                                 onPress={() => handleSelectHobby(type)}
                             />
                         ))}

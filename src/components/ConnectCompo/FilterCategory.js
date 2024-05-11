@@ -30,6 +30,7 @@ const FilterCategory = ({ text='category', onPress, mbtiCnt=null, setMbtiCnt=nul
       }
       setIsActive(prev => !prev);
       setHobbyCnt(prevCnt => prevCnt + (isActive ? -1 : 1));
+      onPress(text);
     }
   };
   
