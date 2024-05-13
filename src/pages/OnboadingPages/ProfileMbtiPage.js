@@ -11,7 +11,7 @@ import Progress3 from '@components/OnboadingCompo/Progress3';
 import FilterCategory from '@components/ConnectCompo/FilterCategory';
 import ApplyButton from '@components/CommonCompo/ApplyButton';
 
-const ProfileHobbyPage = () => {
+const ProfileMBTIPage = () => {
     const navigation = useNavigation();
     const [mbtiCnt, setMbtiCnt] = useState(0);
     const [selectedMBTI, setSelectedMBTI] = useState('');
@@ -40,7 +40,7 @@ const ProfileHobbyPage = () => {
 
     const handleDataSave = () => {
         updateOnboardingData({ mbti: selectedMBTI });
-        console.log('mbti: ', selectedMBTI)
+        // console.log('mbti: ', selectedMBTI)
         navigation.navigate('ProfileHobby');
     };
 
@@ -77,4 +77,4 @@ const ProfileHobbyPage = () => {
     )
 }
 
-export default ProfileHobbyPage;
+export default ProfileMBTIPage;
