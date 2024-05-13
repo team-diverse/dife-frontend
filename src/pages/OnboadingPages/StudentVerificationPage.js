@@ -52,30 +52,36 @@ const StudentVerificationPage = () => {
     const { onboardingData } = useOnboarding();
 
     const handleOnboarding = () => {
-        axios.put(`http://192.168.45.64/api/members/${onboardingData.id}?username=${onboardingData.username}&is_korean=${onboardingData.is_korean}&languages=${onboardingData.languages}`, {
-            username: onboardingData.username,
-            is_korean: onboardingData.is_korean,
-            bio: onboardingData.bio,
-            mbti: onboardingData.mbti,
-            hobbies: onboardingData.hobbies,
-            languages: onboardingData.languages,
-            id: onboardingData.id,
-            profile_img: onboardingData.profile_img,
-            verification_file: image,
-        }, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-            'Accept': 'application/json'
+        const formData = new FormData();
+        formData.append('bio', onboardingData.bio);
+        formData.append('mbti', onboardingData.mbti);
+        formData.append('hobbies', JSON.stringify(onboardingData.hobbies));
+        formData.append('profile_img', onboardingData.profile_img);
+        if (image) {
+            const file = {
+                uri: image,
+                type: 'image/jpeg',
+                name: `${onboardingData.id}_verification.jpg`
+            };
+            formData.append('verification_file', file);
         }
+        formData.append('verification_file', image);
+    
+        axios.put(`http://192.168.240.185:8080/api/members/${onboardingData.id}?username=${onboardingData.username}&is_korean=${onboardingData.is_korean}&languages=${onboardingData.languages}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${onboardingData.token}`
+            }
         })
         .then(response => {
             console.log('온보딩 저장 성공:', response.data);
-            navigation.navigate('LoadingVerification')
+            navigation.navigate('LoadingVerification');
         })
         .catch(error => {
             console.error('온보딩 저장 실패:', error.response ? error.response.data : error.message);
         });
-        };
+    };
 
     return (
         <SafeAreaView style={[StudentVerificationStyles.container]}>
