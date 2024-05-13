@@ -41,7 +41,7 @@ const NicknamePage = () => {
     const handleNickname = () => {
         axios.head(`http://192.168.45.64:8080/api/members/${onboardingData.id}?username=${nickname}`, {
             headers: {
-                'Authorization': `Bearer ${onboardingData.token}`
+                'Authorization': `Bearer ${onboardingData.token}`,
             }
         })
         .then(() => {
@@ -53,7 +53,6 @@ const NicknamePage = () => {
         .catch(error => {
             console.error('닉네임 사용 불가:', error.response ? error.response.data : error.message);
             setNicknameValid(false);
-            navigation.navigate('Profile'); // 지금 서버 연결 과정에서 오류가 나는데, 고치면 해당 줄 지우기
         });
     };
     
