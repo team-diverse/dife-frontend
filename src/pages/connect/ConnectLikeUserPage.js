@@ -4,7 +4,7 @@ import TobBar from '@components/TobBar.js';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import LikeUserOneToOne from '@pages/connect/LikeUserOneToOne';
 import LikeUserGroup from '@pages/connect/LikeUserGroup';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { CustomTheme } from '@styles/CustomTheme';
 
 const ConnectLikeUserPage = () => {
     const Tab = createMaterialTopTabNavigator();

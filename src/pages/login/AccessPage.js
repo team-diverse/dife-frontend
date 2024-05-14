@@ -2,15 +2,15 @@ import React from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 
-import AccessStyles from '@pages/LoginPages/AccessStyles';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import AccessStyles from '@pages/login/AccessStyles';
+import { CustomTheme } from '@styles/CustomTheme';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
-import ApplyButton from '@components/CommonCompo/ApplyButton';
-import IconAccessCamera from '@components/LoginCompo/IconAccessCamera';
-import IconAccessNotification from '@components/LoginCompo/IconAccessNotification';
-import IconAccessImage from '@components/LoginCompo/IconAccessImage';
-import IconAccessPhone from '@components/LoginCompo/IconAccessPhone';
+import ApplyButton from '@components/common/ApplyButton';
+import IconAccessCamera from '@components/login/IconAccessCamera';
+import IconAccessNotification from '@components/login/IconAccessNotification';
+import IconAccessImage from '@components/login/IconAccessImage';
+import IconAccessPhone from '@components/login/IconAccessPhone';
 
 const AccessPage = () => {
     const navigation = useNavigation();

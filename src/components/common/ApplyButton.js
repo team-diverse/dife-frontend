@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { CustomTheme } from '@styles/CustomTheme';
 import * as Notifications from 'expo-notifications';
 import * as Linking from 'expo-linking';
 import { useNavigation } from '@react-navigation/native';

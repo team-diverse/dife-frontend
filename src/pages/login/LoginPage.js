@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import LoginStyles from '@pages/LoginPages/LoginStyles';
-import Checkbox from '@components/CommonCompo/Checkbox';
-import BottomTwoButtons from '@components/CommonCompo/BottomTwoButtons';
-import IconNotSeePw from '@components/LoginCompo/IconNotSeePw';
-import IconSeePw from '@components/LoginCompo/IconSeePw';
-import LoginBackground from 'src/components/LoginCompo/LoginBackground';
+import LoginStyles from '@pages/login/LoginStyles';
+import Checkbox from '@components/common/Checkbox';
+import BottomTwoButtons from '@components/common/BottomTwoButtons';
+import IconNotSeePw from '@components/login/IconNotSeePw';
+import IconSeePw from '@components/login/IconSeePw';
+import LoginBackground from 'src/components/login/LoginBackground';
 
 const LoginPage = () => {
     const navigation = useNavigation();

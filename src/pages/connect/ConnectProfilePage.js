@@ -8,7 +8,7 @@ import ConnectProfileStyles from '@pages/connect/ConnectProfileStyles';
 import ConnectProfile from '@components/connect/ConnectProfile';
 import ConnectProfileIntroduction from '@components/connect/ConnectProfileIntroduction';
 import ConnectProfileTag from '@components/connect/ConnectProfileTag';
-import ConnectProfileChatRequest from '@components/connect/ConnectProfileChatRequest';
+import BottomTwoButtons from '@components/common/BottomTwoButtons';
 import ConnectProfileLanguage from '@components/connect/ConnectProfileLanguage';
 import Report from '@components/Report';
 
@@ -25,7 +25,7 @@ const ConnectProfilePage = () => {
             introduction: '안녕하세요, 저는 프랑스에서 온 에이미 입니다, 산업디자인을 전공하고 있습니다. 언제든지 채팅 주세요!! 😀',
             tags: ['여행', '사진', '스포츠', '요리', 'ENTP'],
             language: ['English / English', '한국어 / Korean'],
-        };
+          };
 
     const [ modalVisible, setModalVisible ] = useState(false);
 
@@ -81,7 +81,7 @@ const ConnectProfilePage = () => {
                     />
                 </View>
             </ScrollView>
-            <ConnectProfileChatRequest />
+            <BottomTwoButtons button1='채팅하기' button2='커넥트 요청하기' />
         </SafeAreaView>
     )
 }

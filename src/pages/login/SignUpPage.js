@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import SignUpStyles from '@pages/LoginPages/SignUpStyles';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import SignUpStyles from '@pages/login/SignUpStyles';
+import { CustomTheme } from '@styles/CustomTheme';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
-import ApplyButton from '@components/CommonCompo/ApplyButton';
-import InfoCircle from '@components/CommonCompo/InfoCircle';
+import ApplyButton from '@components/common/ApplyButton';
+import InfoCircle from '@components/common/InfoCircle';
 
 const SignUpPage = () => {
     const navigation = useNavigation();

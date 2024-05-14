@@ -1,6 +1,6 @@
 import React from 'react';
 import Svg, { Path, Circle, Text } from 'react-native-svg';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { CustomTheme } from '@styles/CustomTheme';
 
 const { fontNavi } = CustomTheme;
 

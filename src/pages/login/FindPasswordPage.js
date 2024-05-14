@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import FindPasswordStyles from '@pages/LoginPages/FindPasswordStyles';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import FindPasswordStyles from '@pages/login/FindPasswordStyles';
+import { CustomTheme } from '@styles/CustomTheme';
 
-import InfoCircle from '@components/CommonCompo/InfoCircle';
+import InfoCircle from '@components/common/InfoCircle';
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
-import ApplyButton from '@components/CommonCompo/ApplyButton';
+import ApplyButton from '@components/common/ApplyButton';
 
 const FindPasswordPage = () => {
     const [valueID, onChangeID] = useState('');
