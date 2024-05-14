@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { CustomTheme } from '@styles/CustomTheme';
 
 const { fontSub14, fontCaption } = CustomTheme;
 

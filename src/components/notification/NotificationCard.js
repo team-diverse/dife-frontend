@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { CustomTheme } from '@styles/CustomTheme';
 
 import ChatInac24 from '@components/Icon24/ChatInac24.js';
 import AddFriendInac24 from '@components/Icon24/AddFriendInac24.js';

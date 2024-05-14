@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { CustomTheme } from "@styles/CustomTheme.js";
+import { CustomTheme } from "@styles/CustomTheme";
 import { useNavigation } from "@react-navigation/native";
 
 import HeartInac24 from "@components/Icon24/HeartInac24";

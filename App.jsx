@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -13,6 +13,11 @@ import NotificationPage from '@pages/home/NotificationPage.js';
 import ConnectPage from '@pages/connect/ConnectPage.js';
 import ConnectLikeUserPage from '@pages/connect/ConnectLikeUserPage';
 import ConnectProfilePage from '@pages/connect/ConnectProfilePage';
+import LoginPage from '@pages/login/LoginPage';
+import FindPasswordPage from '@pages/login/FindPasswordPage';
+import FindPasswordVerifyingPage from '@pages/login/FindPasswordVerifyingPage';
+import SignUpPage from '@pages/login/SignUpPage';
+import AccessPage from '@pages/login/AccessPage';
 
 import ChatDf24 from '@components/Icon24/ChatDf24.js';
 import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
@@ -25,7 +30,6 @@ import ConnectAc32 from '@components/Icon32/ConnectAc32.js';
 import HomeAc32 from '@components/Icon32/HomeAc32.js';
 import CommuAc32 from '@components/Icon32/CommuAc32.js';
 import MyAc32 from '@components/Icon32/MyAc32.js';
-
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -68,11 +72,36 @@ function ConnectStack() {
 }
 
 export default function App() {
+    const [initialRoute, setInitialRoute] = useState('Access');
+
+  const CheckAccess = async () => {
+    const { status } = await Notifications.getPermissionsAsync();
+    
+    switch (status) {
+      case 'granted':
+        console.log('알림 권한 부여');
+        setInitialRoute('Login');
+        break;
+      case 'denied':
+        console.log('알림 권한 거부');
+        break;
+      default:
+        console.log('자세히 확인하기..');
+        break;
+        }
+    };
+
+    useEffect(() => {
+        CheckAccess();
+    }, []);
+
     const [loaded] = useFonts({
         'NotoSansCJKkr-Bold': require('@assets/fonts/NotoSansCJKkr-Bold.otf'),
         'NotoSansCJKkr-Medium': require('@assets/fonts/NotoSansCJKkr-Medium.otf'),
         'NotoSansCJKkr-Regular': require('@assets/fonts/NotoSansCJKkr-Regular.otf'),
     });
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     if (!loaded) {
         return null;
@@ -80,23 +109,33 @@ export default function App() {
 
     return (
         <NavigationContainer>
-            <Tab.Navigator initialRouteName="Home"
-                           screenOptions={({route}) => ({
-                               headerShown: false,
-                               tabBarStyle: {
-                                   height: 90,
-                                   marginBottom: -10
-                               },
-                               tabBarIcon: ({focused, color, size}) => getTabBarIcon(route, focused, color, size),
-                               tabBarLabel: () => null,
-                           })}
-            >
-                <Tab.Screen name="Chat" component={ChattingPage}/>
-                <Tab.Screen name="Connect" component={ConnectStack}/>
-                <Tab.Screen name="Home" component={HomeStack}/>
-                <Tab.Screen name="Community" component={CommunityPage}/>
-                <Tab.Screen name="Member" component={MemberPage}/>
-            </Tab.Navigator>
+            {isLoggedIn ? (
+                <Tab.Navigator initialRouteName="Home"
+                            screenOptions={({route}) => ({
+                                headerShown: false,
+                                tabBarStyle: {
+                                    height: 90,
+                                    marginBottom: -10
+                                },
+                                tabBarIcon: ({focused, color, size}) => getTabBarIcon(route, focused, color, size),
+                                tabBarLabel: () => null,
+                            })}
+                >
+                    <Tab.Screen name="Chat" component={ChattingPage}/>
+                    <Tab.Screen name="Connect" component={ConnectStack}/>
+                    <Tab.Screen name="Home" component={HomeStack}/>
+                    <Tab.Screen name="Community" component={CommunityPage}/>
+                    <Tab.Screen name="Member" component={MemberPage}/>
+                </Tab.Navigator>
+            ) : (
+                <Stack.Navigator initialRouteName={initialRoute}>
+                  <Stack.Screen name="Access" component={AccessPage} options={{ headerShown: false }} />
+                  <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
+                  <Stack.Screen name="FindPassword" component={FindPasswordPage} options={{ headerShown: false }} />
+                  <Stack.Screen name="FindPasswordVerifying" component={FindPasswordVerifyingPage} options={{ headerShown: false }} />
+                  <Stack.Screen name="SignUp" component={SignUpPage} options={{ headerShown: false }} />
+                </Stack.Navigator>
+            )}
         </NavigationContainer>
     );
 }

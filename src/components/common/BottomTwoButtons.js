@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { CustomTheme } from '@styles/CustomTheme';
 import ConnectRequest from '@components/ConnectRequest';
 
 const { fontSub16 } = CustomTheme;

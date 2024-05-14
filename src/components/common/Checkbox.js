@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
-import FilterNotCheckIcon from '@components/ConnectCompo/FilterNotCheckIcon.js';
-import FilterCheckIcon from '@components/ConnectCompo/FilterCheckIcon.js';
+import FilterNotCheckIcon from '@components/connect/FilterNotCheckIcon.js';
+import FilterCheckIcon from '@components/connect/FilterCheckIcon.js';
 import { CustomTheme } from '@styles/CustomTheme';
 
 const { fontSub16, fontBody14 } = CustomTheme;

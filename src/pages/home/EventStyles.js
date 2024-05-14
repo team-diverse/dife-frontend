@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { CustomTheme } from '@styles/CustomTheme';
 
 const EventStyles = StyleSheet.create({
     container: {

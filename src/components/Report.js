@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {CustomTheme} from '@styles/CustomTheme.js';
+import {CustomTheme} from '@styles/CustomTheme';
 import RadioButtonGroup from '@components/RadioButton/RadioButtonGroup';
 import Modal from 'react-native-modal';
 import CompleteIcon from '@components/common/CompleteIcon';

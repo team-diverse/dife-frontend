@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Modal, Text, Animated, TouchableWithoutFeedback, Dimensions, PanResponder, TouchableOpacity, ScrollView } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { CustomTheme } from '@styles/CustomTheme';
 import Collapsible from 'react-native-collapsible';
-import FilterInfoCircle from '@components/connect/FilterInfoCircle.js';
-import FilterArrowBottom from '@components/connect/FilterArrowBottom.js';
+import InfoCircle from '@components/common/InfoCircle';
+import FilterArrowBottom from '@components/connect/FilterArrowBottom';
 import FilterArrowTop from '@components/connect/FilterArrowTop';
-import FilterCategory from '@components/connect/FilterCategory.js';
-import FilterCheckboxList from '@components/connect/FilterCheckboxList.js';
-import FilterApplyButton from '@components/connect/FilterApplyButton.js';
+import FilterCategory from '@components/connect/FilterCategory';
+import Checkbox from '@components/common/Checkbox';
+import ApplyButton from '@components/common/ApplyButton';
 
 const { fontCaption } = CustomTheme;
 
@@ -89,25 +89,45 @@ const FilterBottomSlide = (props) => {
     
     const [mbtiCnt, setMbtiCnt] = useState(0);
     const [hobbyCnt, setHobbyCnt] = useState(0);
-    
-    useEffect(() => {
-      if (mbtiCnt >= 3) {
-        setIsDisabled(true);
-      } else {
-        setIsDisabled(false);
-      }
-    }, [mbtiCnt]);
+    const [selectedMBTI, setSelectedMBTI] = useState([]);
+    const [selectedHobby, setSelectedHobby] = useState([]);
 
-    useEffect(() => {
-      if (hobbyCnt >= 3) {
-        setIsDisabled(true);
+    const mbti = [
+      'ISTP', 'ISFP', 'ENTP', 'ISFJ', 'INFJ', 'ENTJ', 'INFP', 'INTP', 'ESFP',
+      'ESTP', 'ESFJ', 'INTJ', 'ESTJ', 'ENFP', 'ISTJ', 'ENFJ', '선택안함'
+    ];
+    const hobby = [
+      'SNS', 'OTT', '캠핑', '쇼핑', '드라이브', '산책', '반려동물', '스포츠', 'K-POP', '사진',
+      '음악', '드라마', '독서', '그림', '요리', '만화', '언어공부', '여행', '악기연주', '영화', '맛집'
+    ];
+
+    const size = 3;
+    const mbtiRows = [];
+    for (let i = 0; i < mbti.length; i += size) {
+        mbtiRows.push(mbti.slice(i, i + size));
+    }
+    const hobbyRows = [];
+    for (let i = 0; i < hobby.length; i += size) {
+        hobbyRows.push(hobby.slice(i, i + size));
+    }
+
+    const handleSelectMBTI = (mbti) => {
+      if (selectedMBTI.includes(mbti)) {
+        setSelectedMBTI(selectedMBTI.filter(item => item !== mbti));
       } else {
-        setIsDisabled(false);
+        setSelectedMBTI([...selectedMBTI, mbti]);
       }
-    }, [hobbyCnt]);
+    };
+
+    const handleSelectHobby = (hobby) => {
+      if (selectedHobby.includes(hobby)) {
+          setSelectedHobby(selectedHobby.filter(item => item !== hobby));
+      } else {
+          setSelectedHobby([...selectedHobby, hobby]);
+      }
+    };
   
     const [isDisabled, setIsDisabled] = useState(false); // 버튼 활성화 여부를 관리하는 상태
-  
 
     const handlePress = (index) => {
       setIsCheckedList(prevState => {
@@ -135,7 +155,6 @@ const FilterBottomSlide = (props) => {
                     {...panResponders.panHandlers}
                 >
 
-
                   <View style={styles.line} />
                   <ScrollView style={styles.listContainer}>
                     <TouchableOpacity style={styles.list} onPress={() => toggleCollapsed(0)}>
@@ -144,36 +163,23 @@ const FilterBottomSlide = (props) => {
                     </TouchableOpacity>
                     <Collapsible collapsed={collapsedStates[0]}>
                       <View style={styles.infoTextContainer}>
-                        <FilterInfoCircle />
+                        <InfoCircle />
                         <Text style={styles.infoText}>최대 3개까지 선택 가능</Text>
                       </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='ISTP' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                        <FilterCategory text='ISFP' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                        <FilterCategory text='ENTP' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                      </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='ISFJ' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                        <FilterCategory text='INFJ' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                        <FilterCategory text='ENTJ' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                      </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='INFP' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                        <FilterCategory text='INTP' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                        <FilterCategory text='ESFP' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                      </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='ESTP' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                        <FilterCategory text='ESFJ' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                        <FilterCategory text='INTJ' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                      </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='ESTJ' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                        <FilterCategory text='ENFP' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                        <FilterCategory text='ISTJ' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
-                      </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='ENFJ' mbtiCnt={mbtiCnt} setMbtiCnt={setMbtiCnt} isDisabled={mbtiCnt >= 3} />
+                      <View>
+                        {mbtiRows.map((row, rowIndex) => (
+                          <View key={rowIndex} style={styles.containerRow}>
+                            {row.map((type, typeIndex) => (
+                              <FilterCategory
+                                  key={typeIndex}
+                                  text={type} 
+                                  mbtiCnt={mbtiCnt}
+                                  setMbtiCnt={setMbtiCnt}
+                                  onPress={() => handleSelectMBTI(type)}
+                              />
+                            ))}
+                          </View>
+                        ))}
                       </View>
                     </Collapsible>
 
@@ -183,43 +189,23 @@ const FilterBottomSlide = (props) => {
                     </TouchableOpacity>
                     <Collapsible collapsed={collapsedStates[1]}>
                       <View style={styles.infoTextContainer}>
-                        <FilterInfoCircle />
+                        <InfoCircle />
                         <Text style={styles.infoText}>최대 3개까지 선택 가능</Text>
                       </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='SNS' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='OTT' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='캠핑' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                      </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='쇼핑' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='드라이브' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='산책' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                      </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='반려동물' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='스포츠' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='K-POP' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                      </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='사진' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='음악' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='드라마' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                      </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='독서' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='그림' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='요리' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                      </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='만화' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='언어공부' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='여행' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                      </View>
-                      <View style={styles.categoryContainer}>
-                        <FilterCategory text='악기연주' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='영화' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
-                        <FilterCategory text='맛집' hobbyCnt={hobbyCnt} setHobbyCnt={setHobbyCnt} isDisabled={hobbyCnt >= 3} />
+                      <View>
+                        {hobbyRows.map((row, rowIndex) => (
+                          <View key={rowIndex} style={styles.containerRow}>
+                            {row.map((type, typeIndex) => (
+                              <FilterCategory
+                                key={typeIndex}
+                                text={type} 
+                                hobbyCnt={hobbyCnt}
+                                setHobbyCnt={setHobbyCnt}
+                                onPress={() => handleSelectHobby(type)}
+                              />
+                            ))}
+                          </View>
+                        ))}
                       </View>
                     </Collapsible>
 
@@ -229,18 +215,18 @@ const FilterBottomSlide = (props) => {
                     </TouchableOpacity>
                     <Collapsible collapsed={collapsedStates[2]}>
                       <View style={styles.infoTextContainer}>
-                        <FilterInfoCircle />
+                        <InfoCircle />
                         <Text style={styles.infoText}>중복 선택 가능</Text>
                       </View>
-                      <FilterCheckboxList checked={isCheckedList[0]} onPress={() => handlePress(0)} text='English / English' />
-                      <FilterCheckboxList checked={isCheckedList[1]} onPress={() => handlePress(1)} text='中文 / Chinese' />
-                      <FilterCheckboxList checked={isCheckedList[2]} onPress={() => handlePress(2)} text='日本語 / Japanese' />
-                      <FilterCheckboxList checked={isCheckedList[3]} onPress={() => handlePress(3)} text='Español / Spanish' />
-                      <FilterCheckboxList checked={isCheckedList[4]} onPress={() => handlePress(4)} text='한국어 / Korean' />
+                      <Checkbox checked={isCheckedList[0]} onPress={() => handlePress(0)} text='English / English' />
+                      <Checkbox checked={isCheckedList[1]} onPress={() => handlePress(1)} text='中文 / Chinese' />
+                      <Checkbox checked={isCheckedList[2]} onPress={() => handlePress(2)} text='日本語 / Japanese' />
+                      <Checkbox checked={isCheckedList[3]} onPress={() => handlePress(3)} text='Español / Spanish' />
+                      <Checkbox checked={isCheckedList[4]} onPress={() => handlePress(4)} text='한국어 / Korean' />
                     </Collapsible>
                   </ScrollView>
 
-                  <FilterApplyButton />
+                  <ApplyButton text="적용하기" background="true" />
 
               </Animated.View>
             </View>
@@ -306,7 +292,7 @@ const styles = StyleSheet.create({
     color: '#8C8D91',
     marginLeft: 3,
   },
-  categoryContainer: {
+  containerRow: {
     flexDirection: 'row',
     justifyContent: 'center',
   },

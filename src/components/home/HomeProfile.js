@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { CustomTheme } from '@styles/CustomTheme';
 
 const HomeProfile = ({ profile=null, back=false }) => {
   const containerStyle = back ? { width: 100.647, height: 118 } : null;
