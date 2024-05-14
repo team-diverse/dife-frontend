@@ -51,7 +51,6 @@ const LoginPage = () => {
             </View>
             <Checkbox style={LoginStyles.checkboxRememberMe}
                 checked='false'
-                onPress={() => {}}
                 text='자동 로그인'
                 login='true' />
             <View style={LoginStyles.ButtonSignupPwContainer}>
