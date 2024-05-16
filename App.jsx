@@ -79,6 +79,14 @@ function ConnectStack() {
     );
 }
 
+function ChattingStack() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="ChattingPage" component={ChattingPage} options={{headerShown: false}}/>
+        </Stack.Navigator>
+    );
+}
+
 export default function App() {
     const [initialRoute, setInitialRoute] = useState('Access');
 
@@ -129,7 +137,7 @@ export default function App() {
                                 tabBarLabel: () => null,
                             })}
                 >
-                    <Tab.Screen name="Chat" component={ChattingPage}/>
+                    <Tab.Screen name="Chat" component={ChattingStack}/>
                     <Tab.Screen name="Connect" component={ConnectStack}/>
                     <Tab.Screen name="HomePage" component={HomeStack}/>
                     <Tab.Screen name="Community" component={CommunityPage}/>
