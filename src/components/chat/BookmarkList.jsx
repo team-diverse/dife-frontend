@@ -6,6 +6,7 @@ import IconChatProfile from '@components/chat/IconChatProfile';
 import IconBookmark from '@components/chat/IconBookmark';
 
 import ModalNoBookmark from '@components/chat/ModalNoBookmark';
+import DashedLine from '@components/chat/DashedLine'
 
 const { fontCaption } = CustomTheme;
 
@@ -20,12 +21,21 @@ const BookmarkList = ({icon, name='name', context='context', date='date', time='
 
   const pressButton = () => {
       setModalVisible(!modalVisible);
-  }
+  };
+
+  const rectangleStyle = () => {
+    if (expanded) {
+      return styles.rectangleExpanded;
+    } else {
+      return styles.rectangle;
+    }
+  };
+  
 
   return (
     <>
     <TouchableOpacity
-      style={styles.rectangle}
+      style={rectangleStyle()}
       onPress={handleExpanded}>
       <View style={styles.containerContext}>
         <View style={styles.iconTextContainer}>
@@ -57,10 +67,13 @@ const BookmarkList = ({icon, name='name', context='context', date='date', time='
         </View>
       </View>
     </TouchableOpacity>
-    
+
     {expanded && (
       <>
-      <View style={[styles.containerExpanded]}>
+      <View style={styles.containerExpanded}>
+        <View style={styles.dashedLine}>
+          <DashedLine />
+        </View>
         <View style={styles.containerTextExpanded}>
           <Text style={styles.textExpandedTitle} >원문:</Text>
           <Text style={styles.textExpandedContext} >{context}</Text>
@@ -86,6 +99,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderColor: CustomTheme.bgList,
+  },
+  rectangleExpanded: {
+    position: 'relative',
+    width: '100%',
+    height: 57,
+    backgroundColor: CustomTheme.bgBasic,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   containerContext: {
     flex: 1,
@@ -138,6 +159,9 @@ const styles = StyleSheet.create({
   iconBookmark: {
     justifyContent: 'center',
     marginRight: 16,
+  },
+  dashedLine: {
+    position: 'absolute',
   },
   containerExpanded: {
     width: '100%',
