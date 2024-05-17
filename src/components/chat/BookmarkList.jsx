@@ -5,13 +5,21 @@ import { CustomTheme } from '@styles/CustomTheme';
 import IconChatProfile from '@components/chat/IconChatProfile';
 import IconBookmark from '@components/chat/IconBookmark';
 
+import ModalNoBookmark from '@components/chat/ModalNoBookmark';
+
 const { fontCaption } = CustomTheme;
 
-const BookmarkList = ({icon, name='name', context='context', date='date', time='time', translation='translation'}) => {
+const BookmarkList = ({icon, name='name', context='context', date='date', time='time', translation='translation', onPress=null}) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpanded = () => {
     setExpanded(!expanded);
+  };
+
+  const [ modalVisible, setModalVisible ] = useState(false);
+
+  const pressButton = () => {
+      setModalVisible(!modalVisible);
   }
 
   return (
@@ -34,12 +42,22 @@ const BookmarkList = ({icon, name='name', context='context', date='date', time='
             <Text style={styles.textDate}>{date}</Text>
             <Text style={styles.textTime}>{time}</Text>
           </View>
-          <View style={styles.iconBookmark}>
+          <TouchableOpacity style={styles.iconBookmark} onPress={pressButton}>
             <IconBookmark color={CustomTheme.primaryMedium}/>
-          </View>
+          </TouchableOpacity>
+
+          <ModalNoBookmark
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            name={name}
+            context={context}
+            date={date}
+            time={time}
+          />
         </View>
       </View>
     </TouchableOpacity>
+    
     {expanded && (
       <>
       <View style={[styles.containerExpanded]}>
