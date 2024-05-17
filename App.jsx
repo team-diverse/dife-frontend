@@ -27,6 +27,7 @@ import StudentVerificationPage from '@pages/OnboadingPages/StudentVerificationPa
 import CompleteProfilePage from '@pages/OnboadingPages/CompleteProfilePage'
 import LoadingVerificationPage from '@pages/OnboadingPages/LoadingVerificationPage'
 import BookmarkPage from '@pages/chat/BookmarkPage';
+import FriendListPage from '@pages/chat/FriendListPage'
 
 import ChatDf24 from '@components/Icon24/ChatDf24.js';
 import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
@@ -85,6 +86,7 @@ function ChattingStack() {
         <Stack.Navigator>
             <Stack.Screen name="ChattingPage" component={ChattingPage} options={{headerShown: false}}/>
             <Stack.Screen name="BookmarkPage" component={BookmarkPage} options={{headerShown: false}}/>
+            <Stack.Screen name="FriendListPage" component={FriendListPage} options={{headerShown: false}}/>
         </Stack.Navigator>
     );
 }

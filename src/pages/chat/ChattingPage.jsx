@@ -103,7 +103,7 @@ const ChattingPage = () => {
   return (
     <View style={ChattingStyles.container}>
         <ConnectTop style={ChattingStyles.connectTop}/>
-        <TouchableOpacity style={ChattingStyles.iconChatPlus}>
+        <TouchableOpacity style={ChattingStyles.iconChatPlus} onPress={() => navigation.navigate('FriendListPage')}>
           <IconChatPlus />
         </TouchableOpacity>
         <SafeAreaView style={ChattingStyles.safeAreaView}>
