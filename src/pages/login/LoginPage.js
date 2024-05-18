@@ -7,7 +7,7 @@ import Checkbox from '@components/common/Checkbox';
 import BottomTwoButtons from '@components/common/BottomTwoButtons';
 import IconNotSeePw from '@components/login/IconNotSeePw';
 import IconSeePw from '@components/login/IconSeePw';
-import LoginBackground from 'src/components/login/LoginBackground';
+import LoginBackground from '@components/login/LoginBackground';
 
 const LoginPage = () => {
     const navigation = useNavigation();

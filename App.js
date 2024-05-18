@@ -6,11 +6,11 @@ import { useFonts } from 'expo-font';
 import * as Notifications from 'expo-notifications';
 import { OnboardingProvider } from 'src/states/OnboardingContext.js';
 
-import ChattingPage from '@pages/ChattingPages/ChattingPage.js';
-import ConnectPage from '@pages/ConnectPages/ConnectPage.js';
-import HomePage from '@pages/HomePages/HomePage.js';
-import CommunityPage from '@pages/CommuityPages/CommuityPage.js';
-import MemberPage from '@pages/MemberPages/MemberPage.js';
+import ChattingPage from '@pages/chat/ChattingPage.js';
+import ConnectPage from '@pages/connect/ConnectPage.js';
+import HomePage from '@pages/home/HomePage.js';
+import CommunityPage from '@pages/community/CommuityPage.js';
+import MemberPage from '@pages/member/MemberPage.js';
 
 import ChatDf24 from '@components/Icon24/ChatDf24.js';
 import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
@@ -24,15 +24,15 @@ import HomeAc32 from '@components/Icon32/HomeAc32.js';
 import CommuAc32 from '@components/Icon32/CommuAc32.js';
 import MyAc32 from '@components/Icon32/MyAc32.js';
 
-import EventPage from '@pages/HomePages/EventPage.js';
-import NotificationPage from '@pages/HomePages/NotificationPage.js';
-import ConnectLikeUserPage from '@pages/ConnectPages/ConnectLikeUserPage';
-import ConnectProfilePage from '@pages/ConnectPages/ConnectProfilePage';
-import LoginPage from '@pages/LoginPages/LoginPage';
-import FindPasswordPage from '@pages/LoginPages/FindPasswordPage';
-import FindPasswordVerifyingPage from '@pages/LoginPages/FindPasswordVerifyingPage';
-import SignUpPage from '@pages/LoginPages/SignUpPage';
-import AccessPage from '@pages/LoginPages/AccessPage';
+import EventPage from '@pages/home/EventPage.js';
+import NotificationPage from '@pages/home/NotificationPage.js';
+import ConnectLikeUserPage from '@pages/connect/ConnectLikeUserPage';
+import ConnectProfilePage from '@pages/connect/ConnectProfilePage';
+import LoginPage from '@pages/login/LoginPage';
+import FindPasswordPage from '@pages/login/FindPasswordPage';
+import FindPasswordVerifyingPage from '@pages/login/FindPasswordVerifyingPage';
+import SignUpPage from '@pages/login/SignUpPage';
+import AccessPage from '@pages/login/AccessPage';
 import NicknamePage from '@pages/OnboadingPages/NicknamePage';
 import ProfilePage from '@pages/OnboadingPages/ProfilePage';
 import ProfileMbtiPage from '@pages/OnboadingPages/ProfileMbtiPage';
@@ -69,26 +69,26 @@ function ConnectStack() {
 export default function App() {
   const [initialRoute, setInitialRoute] = useState('Access');
 
-  const CheckAccess = async () => {
-    const { status } = await Notifications.getPermissionsAsync();
+  // const CheckAccess = async () => {
+  //   const { status } = await Notifications.getPermissionsAsync();
     
-    switch (status) {
-      case 'granted':
-        console.log('알림 권한 부여');
-        setInitialRoute('Login');
-        break;
-      case 'denied':
-        console.log('알림 권한 거부');
-        break;
-      default:
-        console.log('자세히 확인하기..');
-        break;
-    }
-  };
+  //   switch (status) {
+  //     case 'granted':
+  //       console.log('알림 권한 부여');
+  //       setInitialRoute('Login');
+  //       break;
+  //     case 'denied':
+  //       console.log('알림 권한 거부');
+  //       break;
+  //     default:
+  //       console.log('자세히 확인하기..');
+  //       break;
+  //   }
+  // };
 
-  useEffect(() => {
-    CheckAccess();
-  }, []);
+  // useEffect(() => {
+  //   CheckAccess();
+  // }, []);
 
   const [loaded] = useFonts({
     'NotoSansCJKkr-Bold': require('./src/assets/fonts/NotoSansCJKkr-Bold.otf'),

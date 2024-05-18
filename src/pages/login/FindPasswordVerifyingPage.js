@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import FindPasswordVerifyingStyles from '@pages/login/FindPasswordVerifyingStyles';
-import { CustomTheme } from '@styles/CustomTheme';
+import { CustomTheme } from '@styles/CustomTheme.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import IconEmail from '@components/login/IconEmail';
 import ApplyButton from '@components/common/ApplyButton';
 
 const FindPasswordVerifyingPage = () => {
-    const [valueID, onChangeID] = useState('');
-
     const navigation = useNavigation();
 
     const handleGoBack = () => {
@@ -31,7 +29,7 @@ const FindPasswordVerifyingPage = () => {
                     <ApplyButton text="로그인 페이지로 이동하기" onPress={() => navigation.navigate('Login')}/>
                 </View>
                 <TouchableOpacity>
-                    <Text style={FindPasswordVerifyingStyles.textReport}>이메일 재전송 요청</Text>
+                    <Text style={FindPasswordVerifyingStyles.textReport} onPress={handleGoBack}>이메일 재전송 요청</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>

@@ -8,8 +8,8 @@ import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import Progress5 from '@components/OnboadingCompo/Progress5';
-import Checkbox from '@components/CommonCompo/Checkbox';
-import ApplyButton from '@components/CommonCompo/ApplyButton';
+import Checkbox from '@components/common/Checkbox';
+import ApplyButton from '@components/common/ApplyButton';
 
 const ProfileLanguagePage = () => {
     const navigation = useNavigation();
