@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import LoadingVerificationStyles from '@pages/OnboadingPages/LoadingVerificationStyles';
 import IconLoading from '@components/OnboadingCompo/IconLoading';
-import Checkbox from '@components/CommonCompo/Checkbox';
+import Checkbox from '@components/common/Checkbox';
 
 const LoadingVerificationPage = () => {
     const navigation = useNavigation();

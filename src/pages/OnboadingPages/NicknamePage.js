@@ -7,9 +7,9 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import Progress1 from '@components/OnboadingCompo/Progress1';
-import LoginBackground from '@components/LoginCompo/LoginBackground';
+import LoginBackground from '@components/login/LoginBackground';
 import IconDelete from '@components/OnboadingCompo/IconDelete';
-import ApplyButton from '@components/CommonCompo/ApplyButton';
+import ApplyButton from '@components/common/ApplyButton';
 
 const NicknamePage = () => {
     const navigation = useNavigation();
