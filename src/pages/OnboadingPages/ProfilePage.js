@@ -9,7 +9,7 @@ import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import Progress2 from '@components/OnboadingCompo/Progress2';
-import ApplyButton from '@components/CommonCompo/ApplyButton';
+import ApplyButton from '@components/common/ApplyButton';
 import IconProfileUpload from '@components/OnboadingCompo/IconProfileUpload';
 import { RadioButtonGroup } from '@components/RadioButton/RadioButtonGroup';
 import IconProfileChange from '@components/OnboadingCompo/IconProfileChange';

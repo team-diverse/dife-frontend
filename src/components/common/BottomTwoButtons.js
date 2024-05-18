@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
-import { CustomTheme } from '@styles/CustomTheme';
+import { CustomTheme } from '@styles/CustomTheme.js';
 import ConnectRequest from '@components/ConnectRequest';
+import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 const { fontSub16 } = CustomTheme;
 
-const BottomTwoButtons = ({ button1, button2 }) => {
+const BottomTwoButtons = ({ button1, button2, email=null, pw=null }) => {
   const [ modalVisible, setModalVisible ] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigation = useNavigation();
@@ -24,8 +26,34 @@ const BottomTwoButtons = ({ button1, button2 }) => {
       setModalVisible(true);
     } else if (button2 === '로그인') {
       setIsLoggedIn(true);
+      handleLogin();
     }
   }
+
+  const { updateOnboardingData } = useOnboarding();
+
+  const handleLogin = () => {
+    axios.post(`http://192.168.45.87:8080/api/members/login?email=${email}&password=${pw}`, {
+    email: {email},
+    password: {pw},
+    }, {
+      headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Accept': 'application/json'
+      }
+      })
+    .then(response => {
+        console.log('로그인 성공:', response.data);
+        updateOnboardingData({
+          token: response.data.accessToken,
+          id: response.data.member_id
+          });
+        navigation.navigate('Nickname');
+    })
+    .catch(error => {
+        console.error('로그인 오류:', error.response ? error.response.data : error.message);
+      });
+    };
 
   return (
       <View style={containerStyle}>

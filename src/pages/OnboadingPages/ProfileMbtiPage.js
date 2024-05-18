@@ -8,8 +8,8 @@ import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import Progress3 from '@components/OnboadingCompo/Progress3';
-import FilterCategory from '@components/ConnectCompo/FilterCategory';
-import ApplyButton from '@components/CommonCompo/ApplyButton';
+import FilterCategory from '@components/connect/FilterCategory';
+import ApplyButton from '@components/common/ApplyButton';
 
 const ProfileMBTIPage = () => {
     const navigation = useNavigation();

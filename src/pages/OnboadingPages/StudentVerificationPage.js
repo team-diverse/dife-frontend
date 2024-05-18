@@ -12,7 +12,7 @@ import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import Progress6 from '@components/OnboadingCompo/Progress6';
 import BackgroundOnkookminUpload from '@components/OnboadingCompo/BackgroundOnkookminUpload';
 import IconOnkookminUpload from '@components/OnboadingCompo/IconOnkookminUpload';
-import ApplyButton from '@components/CommonCompo/ApplyButton';
+import ApplyButton from '@components/common/ApplyButton';
 
 const StudentVerificationPage = () => {
     const [isModalVisible, setModalVisible] = useState(true);
