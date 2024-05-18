@@ -31,6 +31,7 @@ import CompleteProfilePage from '@pages/OnboadingPages/CompleteProfilePage'
 import LoadingVerificationPage from '@pages/OnboadingPages/LoadingVerificationPage'
 import BookmarkPage from '@pages/chat/BookmarkPage';
 import FriendListPage from '@pages/chat/FriendListPage'
+import ChatRoomPage from '@pages/chat/ChatRoomPage'
 
 import ChatDf24 from '@components/Icon24/ChatDf24.js';
 import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
@@ -48,20 +49,20 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const iconMapping = {
-    Chat: {active: ChatAc32, default: ChatDf24},
-    Connect: {active: ConnectAc32, default: ConnectDf24},
-    Home: {active: HomeAc32, default: HomeDf24},
-    Community: {active: CommuAc32, default: CommuDf24},
-    Member: {active: MyAc32, default: MyDf24}
+  Chat: {active: ChatAc32, default: ChatDf24},
+  Connect: {active: ConnectAc32, default: ConnectDf24},
+  Home: {active: HomeAc32, default: HomeDf24},
+  Community: {active: CommuAc32, default: CommuDf24},
+  Member: {active: MyAc32, default: MyDf24}
 }
 
-const getTabBarIcon = (route, focused, color, size) => {
-    const IconActive = iconMapping[route.name].active;
-    const IconDefault = iconMapping[route.name].default;
-    return focused
-        ? <IconActive width={32} height={32} fill={color}/>
-        : <IconDefault width={size} height={size} fill={color}/>;
-};
+// const getTabBarIcon = (route, focused, color, size) => {
+//   const IconActive = iconMapping[route.name].active;
+//   const IconDefault = iconMapping[route.name].default;
+//   return focused
+//       ? <IconActive width={32} height={32} fill={color}/>
+//       : <IconDefault width={size} height={size} fill={color}/>;
+// };
 
 function HomeStack() {
     return (
@@ -90,6 +91,7 @@ function ChattingStack() {
             <Stack.Screen name="ChattingPage" component={ChattingPage} options={{headerShown: false}}/>
             <Stack.Screen name="BookmarkPage" component={BookmarkPage} options={{headerShown: false}}/>
             <Stack.Screen name="FriendListPage" component={FriendListPage} options={{headerShown: false}}/>
+            <Stack.Screen name="ChatRoomPage" component={ChatRoomPage} options={{headerShown: false}}/>
         </Stack.Navigator>
     );
 }
@@ -141,7 +143,7 @@ export default function App() {
                                     height: 90,
                                     marginBottom: -10
                                 },
-                                tabBarIcon: ({focused, color, size}) => getTabBarIcon(route, focused, color, size),
+                                // tabBarIcon: ({focused, color, size}) => getTabBarIcon(route, focused, color, size),
                                 tabBarLabel: () => null,
                             })}
                 >
