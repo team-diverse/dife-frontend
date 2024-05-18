@@ -4,11 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 
 import ProfileLanguageStyles from '@pages/OnboadingPages/ProfileLanguageStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
+import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import Progress5 from '@components/OnboadingCompo/Progress5';
-import Checkbox from '@components/common/Checkbox';
-import ApplyButton from '@components/common/ApplyButton';
+import Checkbox from '@components/CommonCompo/Checkbox';
+import ApplyButton from '@components/CommonCompo/ApplyButton';
 
 const ProfileLanguagePage = () => {
     const navigation = useNavigation();
@@ -17,7 +18,9 @@ const ProfileLanguagePage = () => {
         navigation.goBack();
     };
 
-    const ProfileData = ['프로필 생성하기', '님의 사용언어를 알려주세요!'];
+    const { onboardingData, updateOnboardingData } = useOnboarding();
+
+    const ProfileData = ['프로필 생성하기', `${onboardingData.username}님의 사용언어를 알려주세요!`];
 
     const [isCheckedList, setIsCheckedList] = useState([
         false,
@@ -27,12 +30,26 @@ const ProfileLanguagePage = () => {
         false, 
     ]);
 
+    const languages = ['English / English', '中文 / Chinese', '日本語 / Japanese', 'Español / Spanish', '한국어 / Korean'];
+
     const handlePress = (index) => {
         setIsCheckedList(prevState => {
             const newState = [...prevState];
             newState[index] = !newState[index];
             return newState;
         });
+    };
+
+    const handleDataSave = () => {
+        const selectedLanguages = isCheckedList.reduce((selected, isChecked, index) => {
+            if (isChecked) {
+                selected.push(languages[index]);
+            }
+            return selected;
+        }, []);
+
+        updateOnboardingData({ languages: selectedLanguages });
+        navigation.navigate('StudentVerification');
     };
 
     return (
@@ -46,14 +63,17 @@ const ProfileLanguagePage = () => {
             <Text style={ProfileLanguageStyles.textTitle}>{ProfileData[0]}</Text>
             <Text style={ProfileLanguageStyles.textSubTitle}>{ProfileData[1]}</Text>
             <View style={ProfileLanguageStyles.containerCheckbox}>
-                <Checkbox checked={isCheckedList[0]} onPress={() => handlePress(0)} text='English / English' />
-                <Checkbox checked={isCheckedList[1]} onPress={() => handlePress(1)} text='中文 / Chinese' />
-                <Checkbox checked={isCheckedList[2]} onPress={() => handlePress(2)} text='日本語 / Japanese' />
-                <Checkbox checked={isCheckedList[3]} onPress={() => handlePress(3)} text='Español / Spanish' />
-                <Checkbox checked={isCheckedList[4]} onPress={() => handlePress(4)} text='한국어 / Korean' />
+                {languages.map((language, index) => (
+                    <Checkbox
+                        key={index}
+                        checked={isCheckedList[index]}
+                        onPress={() => handlePress(index)}
+                        text={language}
+                    />
+                ))}
             </View>
             <View style={ProfileLanguageStyles.buttonCheck}>
-                <ApplyButton text="다음" onPress={() => navigation.navigate('StudentVerification')} disabled=''/>
+                <ApplyButton text="다음" onPress={handleDataSave} disabled={!isCheckedList.some(isChecked => isChecked)}/>
             </View>
         </SafeAreaView>
     )
