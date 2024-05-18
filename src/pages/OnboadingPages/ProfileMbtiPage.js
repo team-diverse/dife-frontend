@@ -7,8 +7,8 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import Progress3 from '@components/OnboadingCompo/Progress3';
-import FilterCategory from '@components/ConnectCompo/FilterCategory';
-import ApplyButton from '@components/CommonCompo/ApplyButton';
+import FilterCategory from '@components/connect/FilterCategory';
+import ApplyButton from '@components/common/ApplyButton';
 
 const ProfileHobbyPage = () => {
     const navigation = useNavigation();
