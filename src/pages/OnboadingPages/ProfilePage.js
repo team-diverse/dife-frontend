@@ -5,10 +5,11 @@ import * as ImagePicker from 'expo-image-picker';
 
 import ProfileStyles from '@pages/OnboadingPages/ProfileStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
+import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import Progress2 from '@components/OnboadingCompo/Progress2';
-import ApplyButton from '@components/common/ApplyButton';
+import ApplyButton from '@components/CommonCompo/ApplyButton';
 import IconProfileUpload from '@components/OnboadingCompo/IconProfileUpload';
 import { RadioButtonGroup } from '@components/RadioButton/RadioButtonGroup';
 import IconProfileChange from '@components/OnboadingCompo/IconProfileChange';
@@ -54,8 +55,19 @@ const ProfilePage = () => {
 
     if (!result.canceled) {
         setImage(result.assets[0].uri);
-    }
-};
+        }
+    };
+
+    const { updateOnboardingData } = useOnboarding();
+
+    const handleDataSave = () => {
+        updateOnboardingData({
+            profile_img: image,
+            is_korean: selected,
+            bio: text
+        });
+        navigation.navigate('ProfileMbti');
+      };
 
     return (
         <TouchableWithoutFeedback onPress={handleKeyboard}>
@@ -87,11 +99,11 @@ const ProfilePage = () => {
                     onSelected={handleRadioButtonSelect}
                 >
                     <View style={ProfileStyles.containerRadioButton}>
-                        <RadioButtonGroup.RadioButtonItems key='korean' value='내국인 (Korean)' color='#2964E0' borderColor='#B0D0FF'>
-                        <Text style={[ProfileStyles.textRadioButton, {color: selected==='내국인 (Korean)' ? CustomTheme.primaryMedium : CustomTheme.textSecondary}]}>내국인 (Korean)</Text>
+                        <RadioButtonGroup.RadioButtonItems key='korean' value='true' color='#2964E0' borderColor='#B0D0FF'>
+                        <Text style={[ProfileStyles.textRadioButton, {color: selected==='true' ? CustomTheme.primaryMedium : CustomTheme.textSecondary}]}>내국인 (Korean)</Text>
                         </RadioButtonGroup.RadioButtonItems>
-                        <RadioButtonGroup.RadioButtonItems key='foreigner' value='외국인' color='#2964E0' borderColor='#B0D0FF'>
-                        <Text style={[ProfileStyles.textRadioButton, {color: selected==='외국인' ? CustomTheme.primaryMedium : CustomTheme.textSecondary}]}>외국인</Text>
+                        <RadioButtonGroup.RadioButtonItems key='foreigner' value='false' color='#2964E0' borderColor='#B0D0FF'>
+                        <Text style={[ProfileStyles.textRadioButton, {color: selected==='false' ? CustomTheme.primaryMedium : CustomTheme.textSecondary}]}>외국인</Text>
                         </RadioButtonGroup.RadioButtonItems>
                     </View>
                 </RadioButtonGroup>
@@ -107,7 +119,7 @@ const ProfilePage = () => {
                     <Text style={ProfileStyles.textIntroductionCount}>{text.length}/60</Text>
                 </View>
                 <View style={ProfileStyles.buttonCheck}>
-                    <ApplyButton text="다음" onPress={() => navigation.navigate('ProfileMbti')} disabled=''/>
+                    <ApplyButton text="다음" onPress={handleDataSave} disabled={!selected}/>
                 </View>
             </SafeAreaView>
         </TouchableWithoutFeedback>
