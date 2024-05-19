@@ -112,14 +112,15 @@ export default function App() {
         'NotoSansCJKkr-Regular': require('@assets/fonts/NotoSansCJKkr-Regular.otf'),
     });
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     if (!loaded) {
         return null;
     }
 
     return (
-        <NavigationContainer>
+        <OnboardingProvider>
+            <NavigationContainer>
             {isLoggedIn ? (
                 <Tab.Navigator initialRouteName="Home"
                             screenOptions={({route}) => ({
@@ -138,25 +139,25 @@ export default function App() {
                     <Tab.Screen name="Community" component={CommunityPage}/>
                     <Tab.Screen name="Member" component={MemberPage}/>
                 </Tab.Navigator>
+                
             ) : (
-                <OnboardingProvider>
-                    <Stack.Navigator initialRouteName={initialRoute}>
-                        <Stack.Screen name="Access" component={AccessPage} options={{ headerShown: false }} />
-                        <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
-                        <Stack.Screen name="FindPassword" component={FindPasswordPage} options={{ headerShown: false }} />
-                        <Stack.Screen name="FindPasswordVerifying" component={FindPasswordVerifyingPage} options={{ headerShown: false }} />
-                        <Stack.Screen name="SignUp" component={SignUpPage} options={{ headerShown: false }} />
-                        <Stack.Screen name="Nickname" component={NicknamePage} options={{ headerShown: false }} />
-                        <Stack.Screen name="Profile" component={ProfilePage} options={{ headerShown: false }} />
-                        <Stack.Screen name="ProfileMbti" component={ProfileMbtiPage} options={{ headerShown: false }} />
-                        <Stack.Screen name="ProfileHobby" component={ProfileHobbyPage} options={{ headerShown: false }} />
-                        <Stack.Screen name="ProfileLanguage" component={ProfileLanguagePage} options={{ headerShown: false }} />
-                        <Stack.Screen name="StudentVerification" component={StudentVerificationPage} options={{ headerShown: false }} />
-                        <Stack.Screen name="CompleteProfile" component={CompleteProfilePage} options={{ headerShown: false }} />
-                        <Stack.Screen name="LoadingVerification" component={LoadingVerificationPage} options={{ headerShown: false }} />
-                    </Stack.Navigator>
-                </OnboardingProvider>
+                <Stack.Navigator initialRouteName={initialRoute}>
+                    <Stack.Screen name="Access" component={AccessPage} options={{ headerShown: false }} />
+                    <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
+                    <Stack.Screen name="FindPassword" component={FindPasswordPage} options={{ headerShown: false }} />
+                    <Stack.Screen name="FindPasswordVerifying" component={FindPasswordVerifyingPage} options={{ headerShown: false }} />
+                    <Stack.Screen name="SignUp" component={SignUpPage} options={{ headerShown: false }} />
+                    <Stack.Screen name="Nickname" component={NicknamePage} options={{ headerShown: false }} />
+                    <Stack.Screen name="Profile" component={ProfilePage} options={{ headerShown: false }} />
+                    <Stack.Screen name="ProfileMbti" component={ProfileMbtiPage} options={{ headerShown: false }} />
+                    <Stack.Screen name="ProfileHobby" component={ProfileHobbyPage} options={{ headerShown: false }} />
+                    <Stack.Screen name="ProfileLanguage" component={ProfileLanguagePage} options={{ headerShown: false }} />
+                    <Stack.Screen name="StudentVerification" component={StudentVerificationPage} options={{ headerShown: false }} />
+                    <Stack.Screen name="CompleteProfile" component={CompleteProfilePage} options={{ headerShown: false }} />
+                    <Stack.Screen name="LoadingVerification" component={LoadingVerificationPage} options={{ headerShown: false }} />
+                </Stack.Navigator>
             )}
-        </NavigationContainer>
+            </NavigationContainer>
+        </OnboardingProvider>
     );
 }
