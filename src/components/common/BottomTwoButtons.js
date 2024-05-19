@@ -58,10 +58,10 @@ const BottomTwoButtons = ({ button1, button2, email=null, pw=null }) => {
   return (
       <View style={containerStyle}>
         <TouchableOpacity style={styles.chat} onPress={pressButton1}>
-          <Text style={styles.TXchat}>{button1}</Text>
+          <Text style={styles.textChat}>{button1}</Text>
         </TouchableOpacity>
           <TouchableOpacity style={styles.request} onPress={pressButton2}>
-            <Text style={styles.TXrequest}>{button2}</Text>
+            <Text style={styles.textRequest}>{button2}</Text>
           </TouchableOpacity>
           <ConnectRequest
             modalVisible={modalVisible}
@@ -112,13 +112,13 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     marginVertical: 14,
   },
-  TXchat: {
+  textChat: {
     ...fontSub16,
     color: CustomTheme.primaryMedium,
     paddingHorizontal: 50,
     paddingVertical: 10,
   },
-  TXrequest: {
+  textRequest: {
     ...fontSub16,
     color: CustomTheme.bgBasic,
     paddingHorizontal: 50,

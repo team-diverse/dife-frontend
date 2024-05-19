@@ -90,7 +90,7 @@ const ConnectStyles = StyleSheet.create({
         flexDirection: 'row',
         marginLeft: 30,
     },
-    TXtab: {
+    textTab: {
         ...fontHead18,
         color: '#8C8D91',
         textDecorationLine: 'underline',
@@ -101,7 +101,7 @@ const ConnectStyles = StyleSheet.create({
         marginRight: 30,
         alignItems: 'center',
     },
-    TXreset: {
+    textReset: {
         ...fontCaption,
         color: CustomTheme.primaryMedium,
     },

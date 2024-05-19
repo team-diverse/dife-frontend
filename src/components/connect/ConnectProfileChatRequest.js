@@ -15,10 +15,10 @@ const ConnectProfileChatRequest = () => {
   return (
       <View style={styles.rectangle}>
         <TouchableOpacity style={styles.chat}>
-          <Text style={styles.TXchat}>채팅하기</Text>
+          <Text style={styles.textChat}>채팅하기</Text>
         </TouchableOpacity>
           <TouchableOpacity style={styles.request} onPress={pressButton}>
-            <Text style={styles.TXrequest}>커넥트 요청</Text>
+            <Text style={styles.textRequest}>커넥트 요청</Text>
           </TouchableOpacity>
           <ConnectRequest
             modalVisible={modalVisible}
@@ -61,13 +61,13 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     marginVertical: 14,
   },
-  TXchat: {
+  textChat: {
     ...fontSub16,
     color: CustomTheme.primaryMedium,
     paddingHorizontal: 50,
     paddingVertical: 10,
   },
-  TXrequest: {
+  textRequest: {
     ...fontSub16,
     color: CustomTheme.bgBasic,
     paddingHorizontal: 50,

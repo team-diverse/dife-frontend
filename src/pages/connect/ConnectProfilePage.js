@@ -68,7 +68,7 @@ const ConnectProfilePage = () => {
                 </View>
                 <View style={ConnectProfileStyles.report} onPress={() => this.setState({open: true})}>
                     <TouchableOpacity onPress={pressButton}>
-                        <Text style={ConnectProfileStyles.TXreport}>신고하기</Text>
+                        <Text style={ConnectProfileStyles.textReport}>신고하기</Text>
                     </TouchableOpacity>
                     <Report
                         modalVisible={modalVisible}

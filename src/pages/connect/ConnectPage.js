@@ -104,11 +104,11 @@ const ConnectPage = () => {
 
           <View style={ConnectStyles.midContainer}>
             <View style={ConnectStyles.tabContainer}>
-              <Text style={ConnectStyles.TXtab}>1 : 1</Text>
-              <Text style={ConnectStyles.TXtab}>그룹</Text>
+              <Text style={ConnectStyles.textTab}>1 : 1</Text>
+              <Text style={ConnectStyles.textTab}>그룹</Text>
             </View>
             <View style={ConnectStyles.resetContainer}>
-              <Text style={ConnectStyles.TXreset}>Reset</Text>
+              <Text style={ConnectStyles.textReset}>Reset</Text>
               <ConnectReset />
             </View>
           </View>
