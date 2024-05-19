@@ -3,14 +3,17 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useFonts} from 'expo-font';
+import * as Notifications from 'expo-notifications';
+import { OnboardingProvider } from 'src/states/OnboardingContext.js';
 
 import ChattingPage from '@pages/chat/ChattingPage';
+import ConnectPage from '@pages/connect/ConnectPage.js';
 import HomePage from '@pages/home/HomePage.js';
-import EventPage from '@pages/home/EventPage.js';
 import CommunityPage from '@pages/community/CommuityPage.js';
 import MemberPage from '@pages/member/MemberPage.js';
-import NotificationPage from '@pages/home/NotificationPage.js';
-import ConnectPage from '@pages/connect/ConnectPage.js';
+
+import EventPage from '@pages/home/EventPage.js';
+import NotificationPage from '@pages/home/NotificationPage';
 import ConnectLikeUserPage from '@pages/connect/ConnectLikeUserPage';
 import ConnectProfilePage from '@pages/connect/ConnectProfilePage';
 import LoginPage from '@pages/login/LoginPage';
@@ -109,7 +112,7 @@ export default function App() {
         'NotoSansCJKkr-Regular': require('@assets/fonts/NotoSansCJKkr-Regular.otf'),
     });
 
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     if (!loaded) {
         return null;
@@ -118,7 +121,7 @@ export default function App() {
     return (
         <NavigationContainer>
             {isLoggedIn ? (
-                <Tab.Navigator initialRouteName="HomePage"
+                <Tab.Navigator initialRouteName="Home"
                             screenOptions={({route}) => ({
                                 headerShown: false,
                                 tabBarStyle: {
@@ -131,26 +134,28 @@ export default function App() {
                 >
                     <Tab.Screen name="Chat" component={ChattingPage}/>
                     <Tab.Screen name="Connect" component={ConnectStack}/>
-                    <Tab.Screen name="HomePage" component={HomeStack}/>
+                    <Tab.Screen name="Home" component={HomeStack}/>
                     <Tab.Screen name="Community" component={CommunityPage}/>
                     <Tab.Screen name="Member" component={MemberPage}/>
                 </Tab.Navigator>
             ) : (
-                <Stack.Navigator initialRouteName={initialRoute}>
-                    <Stack.Screen name="Access" component={AccessPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="FindPassword" component={FindPasswordPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="FindPasswordVerifying" component={FindPasswordVerifyingPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="SignUp" component={SignUpPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="Nickname" component={NicknamePage} options={{ headerShown: false }} />
-                    <Stack.Screen name="Profile" component={ProfilePage} options={{ headerShown: false }} />
-                    <Stack.Screen name="ProfileMbti" component={ProfileMbtiPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="ProfileHobby" component={ProfileHobbyPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="ProfileLanguage" component={ProfileLanguagePage} options={{ headerShown: false }} />
-                    <Stack.Screen name="StudentVerification" component={StudentVerificationPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="CompleteProfile" component={CompleteProfilePage} options={{ headerShown: false }} />
-                    <Stack.Screen name="LoadingVerification" component={LoadingVerificationPage} options={{ headerShown: false }} />
-                </Stack.Navigator>
+                <OnboardingProvider>
+                    <Stack.Navigator initialRouteName={initialRoute}>
+                        <Stack.Screen name="Access" component={AccessPage} options={{ headerShown: false }} />
+                        <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
+                        <Stack.Screen name="FindPassword" component={FindPasswordPage} options={{ headerShown: false }} />
+                        <Stack.Screen name="FindPasswordVerifying" component={FindPasswordVerifyingPage} options={{ headerShown: false }} />
+                        <Stack.Screen name="SignUp" component={SignUpPage} options={{ headerShown: false }} />
+                        <Stack.Screen name="Nickname" component={NicknamePage} options={{ headerShown: false }} />
+                        <Stack.Screen name="Profile" component={ProfilePage} options={{ headerShown: false }} />
+                        <Stack.Screen name="ProfileMbti" component={ProfileMbtiPage} options={{ headerShown: false }} />
+                        <Stack.Screen name="ProfileHobby" component={ProfileHobbyPage} options={{ headerShown: false }} />
+                        <Stack.Screen name="ProfileLanguage" component={ProfileLanguagePage} options={{ headerShown: false }} />
+                        <Stack.Screen name="StudentVerification" component={StudentVerificationPage} options={{ headerShown: false }} />
+                        <Stack.Screen name="CompleteProfile" component={CompleteProfilePage} options={{ headerShown: false }} />
+                        <Stack.Screen name="LoadingVerification" component={LoadingVerificationPage} options={{ headerShown: false }} />
+                    </Stack.Navigator>
+                </OnboardingProvider>
             )}
         </NavigationContainer>
     );
