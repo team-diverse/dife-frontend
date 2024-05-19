@@ -49,20 +49,20 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const iconMapping = {
-  Chat: {active: ChatAc32, default: ChatDf24},
-  Connect: {active: ConnectAc32, default: ConnectDf24},
-  Home: {active: HomeAc32, default: HomeDf24},
-  Community: {active: CommuAc32, default: CommuDf24},
-  Member: {active: MyAc32, default: MyDf24}
+    Chat: {active: ChatAc32, default: ChatDf24},
+    Connect: {active: ConnectAc32, default: ConnectDf24},
+    Home: {active: HomeAc32, default: HomeDf24},
+    Community: {active: CommuAc32, default: CommuDf24},
+    Member: {active: MyAc32, default: MyDf24}
 }
 
-// const getTabBarIcon = (route, focused, color, size) => {
-//   const IconActive = iconMapping[route.name].active;
-//   const IconDefault = iconMapping[route.name].default;
-//   return focused
-//       ? <IconActive width={32} height={32} fill={color}/>
-//       : <IconDefault width={size} height={size} fill={color}/>;
-// };
+const getTabBarIcon = (route, focused, color, size) => {
+    const IconActive = iconMapping[route.name].active;
+    const IconDefault = iconMapping[route.name].default;
+    return focused
+        ? <IconActive width={32} height={32} fill={color}/>
+        : <IconDefault width={size} height={size} fill={color}/>;
+};
 
 function HomeStack() {
     return (
