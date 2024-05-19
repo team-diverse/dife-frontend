@@ -68,8 +68,11 @@ const ConnectPage = () => {
   return (
     <View style={ConnectStyles.container}>
       <View style={ConnectStyles.topDifeContainer}>
-        <ConnectTop style={ConnectStyles.connectTop}/>
-        <ConnectDife style={ConnectStyles.connectDife}/>
+        
+        <View style={ConnectStyles.connectDife}>
+          <ConnectDife />
+        </View>
+        <ConnectTop />
       </View>
         <SafeAreaView style={ConnectStyles.safeAreaView}>
           <View style={ConnectStyles.textIconContainer}>

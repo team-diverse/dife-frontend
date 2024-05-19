@@ -11,15 +11,9 @@ const ConnectStyles = StyleSheet.create({
     topDifeContainer: {
         alignItems: 'center',
     },
-    connectTop: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-    },
     connectDife: {
-        alignItems: 'center',
-        marginTop: -1,
+        position: 'absolute',
+        top: 172,
     },
     safeAreaView: {
         flex: 1,
@@ -104,6 +98,7 @@ const ConnectStyles = StyleSheet.create({
     textReset: {
         ...fontCaption,
         color: CustomTheme.primaryMedium,
+        marginRight: 4,
     },
     flatlist: {
         flex: 1,
