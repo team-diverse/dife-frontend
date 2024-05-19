@@ -25,7 +25,7 @@ const SignUpPage = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        setIsFormValid(valueID !== '' && valuePW !== '' && valueCheckPW !== '' && passwordMatch && !passwordError);
+        setIsFormValid(valueID && valuePW && valueCheckPW && passwordMatch && !passwordError);
     }, [valueID, valuePW, valueCheckPW, passwordMatch, passwordError]);
 
     const handleGoBack = () => {
@@ -33,7 +33,7 @@ const SignUpPage = () => {
     };
 
     const handlePasswordError = () => {
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
         setPasswordError(!passwordRegex.test(valuePW));
     };
 
