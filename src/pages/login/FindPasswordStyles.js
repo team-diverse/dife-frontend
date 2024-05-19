@@ -47,7 +47,7 @@ const FindPasswordStyles = StyleSheet.create({
     },
     textNotMember: {
         ...fontCaption,
-        color: '#FF3E3E',
+        color: CustomTheme.warningRed,
         marginLeft: 3,
     },
 });
