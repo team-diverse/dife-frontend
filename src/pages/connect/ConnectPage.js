@@ -122,13 +122,8 @@ const ConnectPage = () => {
               data={connectData}
               renderItem={({ item }) => (
                   <ConnectCard
-                    profile={item.profile}
-                    name={item.name}
-                    country={item.country}
-                    major={item.major}
-                    introduction={item.introduction}
-                    tag={item.tags}
-                  />
+                    {...item}
+                    tag={item.tags} />
                 )}
                 keyExtractor={item => item.id}
             />
