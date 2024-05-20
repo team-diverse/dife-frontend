@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
+import { CustomTheme } from '@styles/CustomTheme';
 import LoginStyles from '@pages/login/LoginStyles';
+
 import Checkbox from '@components/common/Checkbox';
 import BottomTwoButtons from '@components/common/BottomTwoButtons';
 import IconNotSeePw from '@components/login/IconNotSeePw';
 import IconSeePw from '@components/login/IconSeePw';
 import LoginBackground from '@components/login/LoginBackground';
+import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 const LoginPage = () => {
     const navigation = useNavigation();
@@ -24,6 +28,38 @@ const LoginPage = () => {
     const handleKeyboard = () => {
         Keyboard.dismiss();
     };
+
+
+    const { updateOnboardingData } = useOnboarding();
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const handleSignUp = () => {
+        navigation.navigate('SignUp')
+    };
+
+    const handleLogin = () => {
+        axios.post(`http://192.168.45.87:8080/api/members/login?email=${valueID}&password=${valuePW}`, {
+        email: valueID,
+        password: valuePW,
+        }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Accept': 'application/json'
+        }
+        })
+        .then(response => {
+            console.log('로그인 성공:', response.data);
+            updateOnboardingData({
+            token: response.data.accessToken,
+            id: response.data.member_id
+            });
+            setIsLoggedIn(true);
+            navigation.navigate('Nickname');
+        })
+        .catch(error => {
+            console.error('로그인 오류:', error.response ? error.response.data : error.message);
+        });
+        };
 
     return (
         <TouchableWithoutFeedback onPress={handleKeyboard}>
@@ -54,7 +90,10 @@ const LoginPage = () => {
                 text='자동 로그인'
                 login='true' />
             <View style={LoginStyles.ButtonSignupPwContainer}>
-                <BottomTwoButtons button1='회원가입' button2='로그인' />
+                <BottomTwoButtons>
+                    <View text='회원가입' onPress={handleSignUp} />
+                    <View text='로그인' onPress={handleLogin} />
+                </BottomTwoButtons>
                 <TouchableOpacity onPress={() => navigation.navigate('FindPassword')}>
                     <Text style={LoginStyles.TextReport}>비밀번호를 까먹었어요</Text>
                 </TouchableOpacity>

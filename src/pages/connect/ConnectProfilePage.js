@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { SafeAreaView, ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
+import { CustomTheme } from '@styles/CustomTheme.js';
 
 import ConnectProfileTopBar from '@components/connect/ConnectProfileTopBar';
 import HeartInac24 from '@components/Icon24/HeartInac24';
@@ -11,6 +14,7 @@ import ConnectProfileTag from '@components/connect/ConnectProfileTag';
 import BottomTwoButtons from '@components/common/BottomTwoButtons';
 import ConnectProfileLanguage from '@components/connect/ConnectProfileLanguage';
 import Report from '@components/Report';
+import ConnectRequest from '@components/ConnectRequest';
 
 const ConnectProfilePage = () => {
     const profileData =
@@ -27,13 +31,19 @@ const ConnectProfilePage = () => {
             language: ['English / English', '한국어 / Korean'],
           };
 
-    const [ modalVisible, setModalVisible ] = useState(false);
+    const [ modalReportVisible, setModalReportVisible ] = useState(false);
+    const [ modalConnectVisible, setModalConnectVisible ] = useState(false);
 
-    const pressButton = () => {
-        setModalVisible(true);
+    const handleReport = () => {
+        setModalReportVisible(true);
     }
-    const closeModal = () => {
-        setModalVisible(false);
+
+    const handleConnect = () => {
+        setModalConnectVisible(true);
+    };
+
+    const handleChat = () => {
+        null;
     };
 
     return (
@@ -67,12 +77,12 @@ const ConnectProfilePage = () => {
                         <View style={ConnectProfileStyles.languageLine}/>
                 </View>
                 <View style={ConnectProfileStyles.report} onPress={() => this.setState({open: true})}>
-                    <TouchableOpacity onPress={pressButton}>
+                    <TouchableOpacity onPress={handleReport}>
                         <Text style={ConnectProfileStyles.textReport}>신고하기</Text>
                     </TouchableOpacity>
                     <Report
-                        modalVisible={modalVisible}
-                        setModalVisible={setModalVisible}
+                        modalVisible={modalReportVisible}
+                        setModalVisible={setModalReportVisible}
                         reportTitle='개인 프로필 신고'
                         report1='혐오적인 컨텐츠'
                         report2='욕설/도배'
@@ -81,7 +91,13 @@ const ConnectProfilePage = () => {
                     />
                 </View>
             </ScrollView>
-            <BottomTwoButtons button1='채팅하기' button2='커넥트 요청하기' />
+            <BottomTwoButtons shadow='true'>
+                <View text='채팅하기' onPress={handleChat} />
+                <View text='커넥트 요청' onPress={handleConnect} />
+            </BottomTwoButtons>
+            <ConnectRequest
+                modalVisible={modalConnectVisible}
+                setModalVisible={setModalConnectVisible} />
         </SafeAreaView>
     )
 }
