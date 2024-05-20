@@ -71,7 +71,7 @@ const ProfileHobbyPage = () => {
                 ))}
             </View>
             <View style={ProfileHobbyStyles.buttonCheck}>
-                <ApplyButton text="다음" onPress={handleDataSave} disabled={hobbyCnt===0}/>
+                <ApplyButton text="다음" onPress={handleDataSave} disabled={selectedHobby.length===0}/>
             </View>
         </SafeAreaView>
     )

@@ -34,12 +34,15 @@ const ProfileMBTIPage = () => {
     }
 
     const handleSelectMBTI = (mbti) => {
-        setSelectedMBTI(mbti);
+        if (selectedMBTI === mbti) {
+            setSelectedMBTI('');
+        } else {
+            setSelectedMBTI(mbti);
+        }
     };
 
     const handleDataSave = () => {
         updateOnboardingData({ mbti: selectedMBTI });
-        // console.log('mbti: ', selectedMBTI)
         navigation.navigate('ProfileHobby');
     };
 
@@ -69,7 +72,7 @@ const ProfileMBTIPage = () => {
                 ))}
             </View>
             <View style={ProfileMbtiStyles.buttonCheck}>
-                <ApplyButton text="다음" onPress={handleDataSave} disabled={mbtiCnt===0}/>
+                <ApplyButton text="다음" onPress={handleDataSave} disabled={selectedMBTI.length===0}/>
             </View>
         </SafeAreaView>
     )
