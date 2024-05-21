@@ -9,6 +9,7 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 import InfoCircle from '@components/common/InfoCircle';
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import ApplyButton from '@components/common/ApplyButton';
+import ConnectRequest from '@components/ConnectRequest';
 
 const FindPasswordPage = () => {
     const [valueID, onChangeID] = useState('');
@@ -25,10 +26,12 @@ const FindPasswordPage = () => {
     };
 
     const handleFindPassword = () => {
+        setModalConnectVisible(true);
+
         const formData = new FormData();
         formData.append('email', valueID);
     
-        axios.put('http://192.168.45.87:8080/api/members/change-password', formData, {
+        axios.put('http://192.168.45.92:8080/api/members/change-password', formData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Accept': 'application/json',
@@ -44,6 +47,8 @@ const FindPasswordPage = () => {
             setIdValid(false);
         });
     };
+
+    const [ modalConnectVisible, setModalConnectVisible ] = useState(false);
 
     return (
         <TouchableWithoutFeedback onPress={handleKeyboard}>
@@ -68,6 +73,11 @@ const FindPasswordPage = () => {
                 <View style={FindPasswordStyles.buttonPasswordReissue}>
                     <ApplyButton text="비밀번호 재발급받기" onPress={handleFindPassword}/>
                 </View>
+                <ConnectRequest
+                    modalVisible={modalConnectVisible}
+                    setModalVisible={setModalConnectVisible}
+                    textLoading='이메일 전송중'
+                    textComplete='이메일 전송 완료!' />
             </SafeAreaView>
         </TouchableWithoutFeedback>
     )
