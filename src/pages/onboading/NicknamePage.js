@@ -8,9 +8,9 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
-import Progress1 from '@components/OnboadingCompo/Progress1';
+import Progress1 from '@components/onboading/Progress1';
 import LoginBackground from '@components/login/LoginBackground';
-import IconDelete from '@components/OnboadingCompo/IconDelete';
+import IconDelete from '@components/onboading/IconDelete';
 import ApplyButton from '@components/common/ApplyButton';
 
 const NicknamePage = () => {

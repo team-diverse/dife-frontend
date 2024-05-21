@@ -9,9 +9,9 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
-import Progress6 from '@components/OnboadingCompo/Progress6';
-import BackgroundOnkookminUpload from '@components/OnboadingCompo/BackgroundOnkookminUpload';
-import IconOnkookminUpload from '@components/OnboadingCompo/IconOnkookminUpload';
+import Progress6 from '@components/onboading/Progress6';
+import BackgroundOnkookminUpload from '@components/onboading/BackgroundOnkookminUpload';
+import IconOnkookminUpload from '@components/onboading/IconOnkookminUpload';
 import ApplyButton from '@components/common/ApplyButton';
 
 const StudentVerificationPage = () => {

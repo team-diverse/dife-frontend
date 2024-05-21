@@ -7,7 +7,7 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
-import Progress4 from '@components/OnboadingCompo/Progress4';
+import Progress4 from '@components/onboading/Progress4';
 import FilterCategory from '@components/connect/FilterCategory';
 import ApplyButton from '@components/common/ApplyButton';
 
