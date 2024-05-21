@@ -59,20 +59,20 @@ const FindPasswordPage = () => {
                 <Text style={FindPasswordStyles.textTitle}>비밀번호 재발급</Text>
                 <Text style={FindPasswordStyles.textSubTitle}>회원가입 시 사용한 이메일을 입력해주세요</Text>
                 <Text style={FindPasswordStyles.textId}>ID (Email Address)</Text>
-                <TextInput style={FindPasswordStyles.textInputId}
-                    placeholder="이메일을 입력해주세요"
-                    onChangeText={text => onChangeID(text)}
-                    value={valueID}
-                />
+                <View style={FindPasswordStyles.textInputId}>
+                    <TextInput
+                        placeholder="이메일을 입력해주세요"
+                        onChangeText={text => onChangeID(text)}
+                        value={valueID}
+                    />
+                </View>
                 {idValid == false && (
                     <View style={FindPasswordStyles.containerNotMember}>
                         <InfoCircle color={CustomTheme.warningRed}/>
                         <Text style={FindPasswordStyles.textNotMember}>등록된 회원정보가 없습니다</Text>
                     </View>
                 )}
-                <View style={FindPasswordStyles.buttonPasswordReissue}>
-                    <ApplyButton text="비밀번호 재발급받기" onPress={handleFindPassword}/>
-                </View>
+                <ApplyButton text="비밀번호 재발급받기" onPress={handleFindPassword}/>
                 <ConnectRequest
                     modalVisible={modalConnectVisible}
                     setModalVisible={setModalConnectVisible}

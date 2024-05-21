@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
   },
   apply: {
     flexDirection: 'row',
-    width: '90%',
     height: 44,
     alignItems: 'center',
     justifyContent: 'center',

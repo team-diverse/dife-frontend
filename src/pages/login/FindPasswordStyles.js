@@ -30,7 +30,6 @@ const FindPasswordStyles = StyleSheet.create({
         marginLeft: 24,
     },
     textInputId: {
-        width: 327,
         height: 44,
         padding: 12,
         borderWidth: 1,
@@ -38,7 +37,7 @@ const FindPasswordStyles = StyleSheet.create({
         borderRadius: 6,
         marginTop: 8,
         marginHorizontal: 25,
-        alignItems: 'center',
+        justifyContent: 'center',
     },
     containerNotMember: {
         flexDirection: 'row',
