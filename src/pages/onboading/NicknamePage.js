@@ -39,7 +39,7 @@ const NicknamePage = () => {
     const { onboardingData, updateOnboardingData } = useOnboarding();
 
     const handleNickname = () => {
-        axios.head(`http://192.168.45.64:8080/api/members/${onboardingData.id}?username=${nickname}`, {
+        axios.head(`http://192.168.45.92:8080/api/members/${onboardingData.id}?username=${nickname}`, {
             headers: {
                 'Authorization': `Bearer ${onboardingData.token}`,
             }

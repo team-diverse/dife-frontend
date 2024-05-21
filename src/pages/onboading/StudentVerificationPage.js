@@ -67,7 +67,7 @@ const StudentVerificationPage = () => {
         }
         formData.append('verification_file', image);
     
-        axios.put(`http://192.168.240.185:8080/api/members/${onboardingData.id}?username=${onboardingData.username}&is_korean=${onboardingData.is_korean}&languages=${onboardingData.languages}`, formData, {
+        axios.put(`http://192.168.45.92:8080/api/members/${onboardingData.id}?username=${onboardingData.username}&is_korean=${onboardingData.is_korean}&languages=${onboardingData.languages}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Accept': 'application/json',
