@@ -68,17 +68,17 @@ const LoginPage = () => {
         <TouchableWithoutFeedback onPress={handleKeyboard}>
         <SafeAreaView style={[LoginStyles.container]}>
             <LoginBackground style={LoginStyles.backgroundLogin}/>
-            <Text style={LoginStyles.TextTitle}>{loginData[0]}</Text>
-            <Text style={LoginStyles.TextSubTitle}>{loginData[1]}</Text>
-            <Text style={LoginStyles.TextId}>ID (Email Address)</Text>
-            <TextInput style={loginFailed ? [LoginStyles.TextInputPw, {borderColor: CustomTheme.warningRed}] : LoginStyles.TextInputId}
+            <Text style={LoginStyles.textTitle}>{loginData[0]}</Text>
+            <Text style={LoginStyles.textSubTitle}>{loginData[1]}</Text>
+            <Text style={LoginStyles.textId}>ID (Email Address)</Text>
+            <TextInput style={loginFailed ? [LoginStyles.textInputPw, {borderColor: CustomTheme.warningRed}] : LoginStyles.textInputId}
                 placeholder="이메일을 입력해주세요"
                 onChangeText={text => onChangeID(text)}
                 value={valueID}
             />
-            <Text style={LoginStyles.TextPw}>Password</Text>
-            <View style={LoginStyles.TextInputPwContainer}>
-                <TextInput style={loginFailed ? [LoginStyles.TextInputPw, {borderColor: CustomTheme.warningRed}] : LoginStyles.TextInputPw}
+            <Text style={LoginStyles.textPw}>Password</Text>
+            <View style={LoginStyles.textInputPwContainer}>
+                <TextInput style={loginFailed ? [LoginStyles.textInputPw, {borderColor: CustomTheme.warningRed}] : LoginStyles.textInputPw}
                     placeholder="비밀번호를 입력해주세요"
                     onChangeText={text => onChangePW(text)}
                     value={valuePW}
@@ -100,7 +100,7 @@ const LoginPage = () => {
                     <View text='로그인' onPress={handleLogin} />
                 </BottomTwoButtons>
                 <TouchableOpacity onPress={() => navigation.navigate('FindPassword')}>
-                    <Text style={LoginStyles.TextReport}>비밀번호를 까먹었어요</Text>
+                    <Text style={LoginStyles.textReport}>비밀번호를 까먹었어요</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
