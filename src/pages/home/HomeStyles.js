@@ -46,6 +46,7 @@ const HomeStyles = StyleSheet.create({
     homecardContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        zIndex: 10,
     },
     homecard: {
         position: 'relative',
@@ -154,6 +155,19 @@ const HomeStyles = StyleSheet.create({
         position: 'absolute',
         flexDirection: 'row',
         bottom: 20,
+    },
+    backgroundHomecard: {
+        position: 'absolute',
+        top: 10,
+        bottom: 10,
+        right: 30,
+        transform: [{ scale: 0.9 }],
+        opacity: 0.5,
+        shadowColor: '#3C454E4A',
+        shadowOffset: { width: 0, height: 3 },
+        shadowOpacity: 0.71,
+        shadowRadius: 6,
+        zIndex: 0,
     },
     containerImage: {
         width: 116,

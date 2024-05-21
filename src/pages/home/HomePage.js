@@ -119,99 +119,93 @@ const HomePage = ({cnt=3}) => {
           <Text style={HomeStyles.textWithnewfriend} >새로운 친구와 함께해요!</Text>
         </View>
 
-
-        {showNewCard ? (
-          <View style={HomeStyles.homecardContainer}>
-            <TouchableOpacity onPress={handlePrevProfile}>
-              <HomeArrow style={{transform: [{ scaleX: -1 }] }}/>
-            </TouchableOpacity>
-            <View style={[HomeStyles.homecard, { alignItems: 'center' }]}>
-              <Homecard />
-              <View style={HomeStyles.homecardDifeF}>
-                <HomecardDifeB />
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity onPress={handlePrevProfile}>
+            <HomeArrow style={{transform: [{ scaleX: -1 }] }}/>
+          </TouchableOpacity>
+          {showNewCard ? (
+            <View style={HomeStyles.homecardContainer}>
+              <View style={[HomeStyles.homecard, { alignItems: 'center' }]}>
+                <Homecard />
+                <View style={HomeStyles.homecardDifeF}>
+                  <HomecardDifeB />
+                </View>
+                <View style={HomeStyles.homecardBack}>
+                    <HomeProfile profile={profileImg} back={true}/>
+                  <Text style={HomeStyles.viewProfile}>프로필 상세보기</Text>
+                  <View style={HomeStyles.addFriendOk}>
+                    <Text style={HomeStyles.textName}>{name}</Text>
+                    <Text style={HomeStyles.myinfo}>에게 친구신청하시겠습니까?</Text>
+                  </View>
+                </View>
+                <View style={HomeStyles.homecardBackBtn}>
+                  <HomecardBackBtn btnText="아니오" onPress={() => setShowNewCard(false)}/>
+                  <HomecardBackBtn btnText="신청하기" onPress={pressButton}/>
+                </View>
+                <ConnectRequest
+                  modalVisible={modalVisible}
+                  setModalVisible={setModalVisible}
+                />
               </View>
-              <View style={HomeStyles.homecardBack}>
-                  <HomeProfile profile={profileImg} back={true}/>
-                <Text style={HomeStyles.viewProfile}>프로필 상세보기</Text>
-                <View style={HomeStyles.addFriendOk}>
-                  <Text style={HomeStyles.textName}>{name}</Text>
-                  <Text style={HomeStyles.myinfo}>에게 친구신청하시겠습니까?</Text>
+            </View>
+          ) : showMoreProfiles ? (
+            <View style={HomeStyles.homecardContainer}>
+              <View style={HomeStyles.homecard}>
+                <Homecard />
+                <View style={HomeStyles.homecardDifeF}>
+                  <HomecardDifeF />
+                </View>
+                <View style={HomeStyles.homeProfile}>
+                  <View style={HomeStyles.containerImage}>
+                    <IconTwoUsers />
+                  </View>
+                  <Text style={HomeStyles.textMoreProfile}>커넥트 페이지에서{"\n"}더 많은 프로필을 탐색할 수 있어요!</Text>
+                  <Text style={HomeStyles.textLoadProfile}>프로필 추가 로딩까지 20:00분</Text>
+                  <TouchableOpacity style={HomeStyles.buttonAddProfile}>
+                    <Text style={HomeStyles.textAddProfile}>더 많은 프로필 탐색하기</Text>
+                  </TouchableOpacity>
                 </View>
                 
               </View>
-              <View style={HomeStyles.homecardBackBtn}>
-                <HomecardBackBtn btnText="아니오" onPress={() => setShowNewCard(false)}/>
-                <HomecardBackBtn btnText="신청하기" onPress={pressButton}/>
-              </View>
-              <ConnectRequest
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
-              />
             </View>
-            <TouchableOpacity onPress={handleNextProfile}>
-              <HomeArrow />
-            </TouchableOpacity>
-          </View>
-        ) : showMoreProfiles ? (
-          <View style={HomeStyles.homecardContainer}>
-            <TouchableOpacity onPress={handlePrevProfile}>
-              <HomeArrow style={{transform: [{ scaleX: -1 }] }}/>
-            </TouchableOpacity>
-            <View style={HomeStyles.homecard}>
-              <Homecard />
-              <View style={HomeStyles.homecardDifeF}>
-                <HomecardDifeF />
-              </View>
-              <View style={HomeStyles.homeProfile}>
-                <View style={HomeStyles.containerImage}>
-                  <IconTwoUsers />
+          ) : (
+            <View style={HomeStyles.homecardContainer}>
+              <View style={HomeStyles.homecard}>
+                <Homecard />
+                <View style={HomeStyles.homecardDifeF}>
+                  <HomecardDifeF />
                 </View>
-                <Text style={HomeStyles.textMoreProfile}>커넥트 페이지에서{"\n"}더 많은 프로필을 탐색할 수 있어요!</Text>
-                <Text style={HomeStyles.textLoadProfile}>프로필 추가 로딩까지 20:00분</Text>
-                <TouchableOpacity style={HomeStyles.buttonAddProfile}>
-                  <Text style={HomeStyles.textAddProfile}>더 많은 프로필 탐색하기</Text>
-                </TouchableOpacity>
-              </View>
-              
-            </View>
-            <TouchableOpacity onPress={handleNextProfile}>
-              <HomeArrow />
-            </TouchableOpacity>
-          </View>
-        ) : (
-          <View style={HomeStyles.homecardContainer}>
-            <TouchableOpacity onPress={handlePrevProfile}>
-              <HomeArrow style={{transform: [{ scaleX: -1 }] }}/>
-            </TouchableOpacity>
-            <View style={HomeStyles.homecard}>
-              <Homecard />
-              <View style={HomeStyles.homecardDifeF}>
-                <HomecardDifeF />
-              </View>
-            <View style={HomeStyles.homeProfile}>
-              <HomeProfile profile={profileImg}/>
-              <View style={HomeStyles.tagContainer}>
-                <Tag tag={tags}/>
-              </View>
-              <Text style={HomeStyles.introduction}>{introduction}</Text>
-              <View style={HomeStyles.myinfoContainer}>
-                <Text style={HomeStyles.textName}>{name}</Text>
-                <Text style={HomeStyles.myinfo}> | {country} | {age}</Text>
-              </View>
-              </View>
-              <View style={HomeStyles.connectIconContainer}>
-                  <IconHeart24 style={HomeStyles.connectIcon} active={heart} onPress={handlehandleHeartPress}/>
-                  <HomeLine style={HomeStyles.connectIcon}/>
-                  <IconAddFriend24 style={HomeStyles.connectIcon} active='true' onPress={handleAddFriendPress}/>
-                  <HomeLine style={HomeStyles.connectIcon}/>
-                  <IconChat24 style={HomeStyles.connectIcon} active='true'/>
+              <View style={HomeStyles.homeProfile}>
+                <HomeProfile profile={profileImg}/>
+                <View style={HomeStyles.tagContainer}>
+                  <Tag tag={tags}/>
+                </View>
+                <Text style={HomeStyles.introduction}>{introduction}</Text>
+                <View style={HomeStyles.myinfoContainer}>
+                  <Text style={HomeStyles.textName}>{name}</Text>
+                  <Text style={HomeStyles.myinfo}> | {country} | {age}</Text>
+                </View>
+                </View>
+                <View style={HomeStyles.connectIconContainer}>
+                    <IconHeart24 style={HomeStyles.connectIcon} active={heart} onPress={handlehandleHeartPress}/>
+                    <HomeLine style={HomeStyles.connectIcon}/>
+                    <IconAddFriend24 style={HomeStyles.connectIcon} active='true' onPress={handleAddFriendPress}/>
+                    <HomeLine style={HomeStyles.connectIcon}/>
+                    <IconChat24 style={HomeStyles.connectIcon} active='true'/>
+                </View>
               </View>
             </View>
-            <TouchableOpacity onPress={handleNextProfile}>
-              <HomeArrow />
-            </TouchableOpacity>
+          )}
+          <View style={HomeStyles.backgroundHomecard}>
+            <Homecard />
           </View>
-        )}
+          <View style={[HomeStyles.backgroundHomecard, {transform: [{ scale: 0.8 }], right: -5, zIndex: -1}]}>
+            <Homecard />
+          </View>
+          <TouchableOpacity onPress={handleNextProfile}>
+            <HomeArrow />
+          </TouchableOpacity>
+        </View>
 
         <View style={HomeStyles.homeSchEv}>
           <HomeSchEv />
