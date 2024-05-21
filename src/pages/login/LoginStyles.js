@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme';
 
-const { fontHead18, fontSub14, fontBody14 } = CustomTheme;
+const { fontHead18, fontSub14, fontBody14, fontCaption } = CustomTheme;
 
 const LoginStyles = StyleSheet.create({
     container: {
@@ -72,12 +72,18 @@ const LoginStyles = StyleSheet.create({
         top: 17,
         right: 50,
     },
-    checkboxRememberMe: {
-        color: CustomTheme.textSecondary,
-        marginLeft: 24,
+    containerError: {
+        flexDirection: 'row',
+        marginTop: 8,
+        marginLeft: 25,
+    },
+    textError: {
+        ...fontCaption,
+        color: CustomTheme.warningRed,
+        marginLeft: 3,
     },
     ButtonSignupPwContainer: {
-        marginTop: 144,
+        marginTop: 170,
         alignItems: 'center',
     },
     TextReport: {
