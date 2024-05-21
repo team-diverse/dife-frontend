@@ -90,6 +90,12 @@ const ConnectStyles = StyleSheet.create({
         textDecorationLine: 'underline',
         marginRight: 18,
     },
+    textActiveTab: {
+        ...fontHead18,
+        color: CustomTheme.primaryMedium,
+        textDecorationLine: 'underline',
+        marginRight: 18,
+    },
     resetContainer: {
         flexDirection: 'row',
         marginRight: 30,
