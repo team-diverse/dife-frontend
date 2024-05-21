@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme';
 
-const { fontHead18, fontSub16, fontCaption } = CustomTheme;
+const { fontHead18, fontSub16, fontCaption, fontButton } = CustomTheme;
 
 const HomeStyles = StyleSheet.create({
     container: {
@@ -154,6 +154,38 @@ const HomeStyles = StyleSheet.create({
         position: 'absolute',
         flexDirection: 'row',
         bottom: 20,
+    },
+    containerImage: {
+        width: 116,
+        height: 136,
+        backgroundColor: CustomTheme.primaryBg,
+        borderRadius: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    textMoreProfile: {
+        ...fontButton,
+        color: CustomTheme.primaryMedium,
+        marginTop: 16,
+    },
+    textLoadProfile: {
+        ...fontCaption,
+        color: '#8C8D91',
+        textDecorationLine: 'underline',
+        marginTop: 8,
+    },
+    buttonAddProfile: {
+        width: 220,
+        height: 37,
+        backgroundColor: CustomTheme.primaryMedium,
+        borderRadius: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 60,
+    },
+    textAddProfile: {
+        ...fontButton,
+        color: CustomTheme.bgBasic,
     },
 });
 

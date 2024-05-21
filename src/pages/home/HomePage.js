@@ -23,6 +23,7 @@ import HomeLine from '@components/home/HomeLine.js';
 import HomecardBackBtn from '@components/home/HomecardBackBtn.js';
 import HomecardDifeB from '@components/home/HomecardDifeB.js';
 import ConnectRequest from '@components/connect/ConnectRequest';
+import IconTwoUsers from '@components/home/IconTwoUsers'
 
 const HomePage = ({cnt=3}) => {
   const navigation = useNavigation();
@@ -67,20 +68,25 @@ const HomePage = ({cnt=3}) => {
   ];
 
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
+  const [showMoreProfiles, setShowMoreProfiles] = useState(false);
 
   const handleNextProfile = () => {
     if (currentProfileIndex < profileDataList.length - 1) {
       setCurrentProfileIndex(currentProfileIndex + 1);
+    } else {
+      setShowMoreProfiles(true);
     }
   };
 
   const handlePrevProfile = () => {
+    setShowMoreProfiles(false);
     if (currentProfileIndex > 0) {
       setCurrentProfileIndex(currentProfileIndex - 1);
     }
   };
 
-  const { profileImg=null, tags=["tag"], introduction="introduction", name="name", country="country", age="age" } = profileDataList[currentProfileIndex];
+  const profileData = profileDataList[currentProfileIndex];
+  const { profileImg, tags, introduction, name, country, age } = profileData ? profileData : { profileImg: null, tags: ["tag"], introduction: "introduction", name: "name", country: "country", age: "age" };
 
   const [showNewCard, setShowNewCard] = useState(false);
   const [heart, setHeart] = useState(false);
@@ -146,6 +152,32 @@ const HomePage = ({cnt=3}) => {
               <HomeArrow />
             </TouchableOpacity>
           </View>
+        ) : showMoreProfiles ? (
+          <View style={HomeStyles.homecardContainer}>
+            <TouchableOpacity onPress={handlePrevProfile}>
+              <HomeArrow style={{transform: [{ scaleX: -1 }] }}/>
+            </TouchableOpacity>
+            <View style={HomeStyles.homecard}>
+              <Homecard />
+              <View style={HomeStyles.homecardDifeF}>
+                <HomecardDifeF />
+              </View>
+              <View style={HomeStyles.homeProfile}>
+                <View style={HomeStyles.containerImage}>
+                  <IconTwoUsers />
+                </View>
+                <Text style={HomeStyles.textMoreProfile}>커넥트 페이지에서{"\n"}더 많은 프로필을 탐색할 수 있어요!</Text>
+                <Text style={HomeStyles.textLoadProfile}>프로필 추가 로딩까지 20:00분</Text>
+                <TouchableOpacity style={HomeStyles.buttonAddProfile}>
+                  <Text style={HomeStyles.textAddProfile}>더 많은 프로필 탐색하기</Text>
+                </TouchableOpacity>
+              </View>
+              
+            </View>
+            <TouchableOpacity onPress={handleNextProfile}>
+              <HomeArrow />
+            </TouchableOpacity>
+          </View>
         ) : (
           <View style={HomeStyles.homecardContainer}>
             <TouchableOpacity onPress={handlePrevProfile}>
@@ -180,7 +212,6 @@ const HomePage = ({cnt=3}) => {
             </TouchableOpacity>
           </View>
         )}
-
 
         <View style={HomeStyles.homeSchEv}>
           <HomeSchEv />
