@@ -4,7 +4,7 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 
 const { fontSub16 } = CustomTheme;
 
-const FilterCategory = ({ text='category', onPress, mbtiCnt=null, setMbtiCnt=null, hobbyCnt=null, setHobbyCnt=null, isDisabled=false, onBoardingMBTI=false }) => {
+const FilterCategory = ({ text='category', onPress, mbtiCnt=null, hobbyCnt=null, isDisabled=false, onBoardingMBTI=false }) => {
   const [isActive, setIsActive] = useState(false);
   const [isPressed, setIsPressed] = useState(false); 
 
@@ -15,21 +15,19 @@ const FilterCategory = ({ text='category', onPress, mbtiCnt=null, setMbtiCnt=nul
           return;
         }
         setIsActive(prev => !prev);
-        setMbtiCnt(prevCnt => prevCnt + (isActive ? -1 : 1));
         onPress(text);
       } else {
         if (!isActive && mbtiCnt >= 3) {
           return;
         }
         setIsActive(prev => !prev);
-        setMbtiCnt(prevCnt => prevCnt + (isActive ? -1 : 1));
+        onPress(text);
       }
     } else if (hobbyCnt !== null) {
       if (!isActive && hobbyCnt >= 3) {
         return;
       }
       setIsActive(prev => !prev);
-      setHobbyCnt(prevCnt => prevCnt + (isActive ? -1 : 1));
       onPress(text);
     }
   };

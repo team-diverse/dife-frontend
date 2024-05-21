@@ -14,6 +14,8 @@ export const CustomTheme = {
   borderColor: '#CDCFD5',
   bgList: '#EDEEF2',
   bgBasic: '#FFFFFF', 
+
+  warningRed: '#FF3E3E',
   
   fontHead24: {
     fontSize: 24,

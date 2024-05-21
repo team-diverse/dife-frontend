@@ -40,12 +40,7 @@ const NotificationPage = () => {
             <FlatList style={NotificationStyles.flatlist}
                 data={notificationData}
                 renderItem={({ item }) => (
-                    <NotificationCard
-                        icon={item.icon}
-                        name={item.name}
-                        context={item.context}
-                        time={item.time}
-                    />
+                    <NotificationCard {...item} />
                 )}
                 keyExtractor={item => item.id}
             />

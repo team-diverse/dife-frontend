@@ -65,7 +65,7 @@ const NicknameStyles = StyleSheet.create({
     },
     textUnavailableNickname: {
         ...fontBody14,
-        color: '#FF3E3E',
+        color: CustomTheme.warningRed,
         marginTop: 8,
         marginLeft: 27,
     },

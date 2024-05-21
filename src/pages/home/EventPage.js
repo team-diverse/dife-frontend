@@ -48,11 +48,7 @@ const EventPage = () => {
                 data={eventData}
                 renderItem={({ item }) => (
                     <View style={EventStyles.eventCard}>
-                    <EventCard
-                        title={item.title}
-                        date={item.date}
-                        eventImg={item.eventImg}
-                    />
+                        <EventCard {...item} />
                     </View>
                 )}
                 keyExtractor={item => item.id}

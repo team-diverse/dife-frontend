@@ -104,8 +104,8 @@ const HomePage = ({cnt=3}) => {
 
 
         <View style={HomeStyles.textConnectWithContainer}>
-          <Text style={HomeStyles.TXconnect} >커넥트</Text>
-          <Text style={HomeStyles.TXwithnewfriend} >새로운 친구와 함께해요!</Text>
+          <Text style={HomeStyles.textConnect} >커넥트</Text>
+          <Text style={HomeStyles.textWithnewfriend} >새로운 친구와 함께해요!</Text>
         </View>
 
 
@@ -123,7 +123,7 @@ const HomePage = ({cnt=3}) => {
                   <HomeProfile profile={profileImg} back={true}/>
                 <Text style={HomeStyles.viewProfile}>프로필 상세보기</Text>
                 <View style={HomeStyles.addFriendOk}>
-                  <Text style={HomeStyles.TXname}>{name}</Text>
+                  <Text style={HomeStyles.textName}>{name}</Text>
                   <Text style={HomeStyles.myinfo}>에게 친구신청하시겠습니까?</Text>
                 </View>
                 
@@ -158,7 +158,7 @@ const HomePage = ({cnt=3}) => {
               </View>
               <Text style={HomeStyles.introduction}>{introduction}</Text>
               <View style={HomeStyles.myinfoContainer}>
-                <Text style={HomeStyles.TXname}>{name}</Text>
+                <Text style={HomeStyles.textName}>{name}</Text>
                 <Text style={HomeStyles.myinfo}> | {country} | {age}</Text>
               </View>
               </View>
@@ -179,12 +179,12 @@ const HomePage = ({cnt=3}) => {
 
         <View style={HomeStyles.homeSchEv}>
           <HomeSchEv />
-          <Text style={HomeStyles.TXhomeSch}>학교정보</Text>
+          <Text style={HomeStyles.textHomeSchool}>학교정보</Text>
           <HomeSchoolInfo style={HomeStyles.homeSchIcon}/>
-          <TouchableOpacity style={HomeStyles.homeEv} onPress={() => navigation.navigate('EventPage')}>
+          <TouchableOpacity style={HomeStyles.homeEvent} onPress={() => navigation.navigate('EventPage')}>
             <HomeSchEv />
-            <Text style={HomeStyles.TXhomeEv}>이벤트</Text>
-            <HomeEvent style={HomeStyles.homeEvIcon}/>
+            <Text style={HomeStyles.textHomeEvent}>이벤트</Text>
+            <HomeEvent style={HomeStyles.iconHomeEvent}/>
           </TouchableOpacity>
         </View>
       </LinearGradient>

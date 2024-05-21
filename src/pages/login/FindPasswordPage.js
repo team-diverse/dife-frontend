@@ -61,7 +61,7 @@ const FindPasswordPage = () => {
                 />
                 {idValid == false && (
                     <View style={FindPasswordStyles.containerNotMember}>
-                        <InfoCircle color='#FF3E3E'/>
+                        <InfoCircle color={CustomTheme.warningRed}/>
                         <Text style={FindPasswordStyles.textNotMember}>등록된 회원정보가 없습니다</Text>
                     </View>
                 )}

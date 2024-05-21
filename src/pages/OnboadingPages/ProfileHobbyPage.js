@@ -13,7 +13,6 @@ import ApplyButton from '@components/common/ApplyButton';
 
 const ProfileHobbyPage = () => {
     const navigation = useNavigation();
-    const [hobbyCnt, setHobbyCnt] = useState(0);
     const [selectedHobby, setSelectedHobby] = useState([]);
     
     const handleGoBack = () => {
@@ -44,7 +43,6 @@ const ProfileHobbyPage = () => {
 
     const handleDataSave = () => {
         updateOnboardingData({ hobbies: selectedHobby });
-        // console.log('hobby: ', selectedHobby);
         navigation.navigate('ProfileLanguage');
     };
 
@@ -65,8 +63,7 @@ const ProfileHobbyPage = () => {
                             <FilterCategory
                                 key={typeIndex}
                                 text={type} 
-                                hobbyCnt={hobbyCnt}
-                                setHobbyCnt={setHobbyCnt}
+                                hobbyCnt={selectedHobby.length}
                                 onPress={() => handleSelectHobby(type)}
                             />
                         ))}

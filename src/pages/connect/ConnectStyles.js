@@ -11,15 +11,9 @@ const ConnectStyles = StyleSheet.create({
     topDifeContainer: {
         alignItems: 'center',
     },
-    connectTop: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-    },
     connectDife: {
-        alignItems: 'center',
-        marginTop: -1,
+        position: 'absolute',
+        top: 172,
     },
     safeAreaView: {
         flex: 1,
@@ -90,7 +84,7 @@ const ConnectStyles = StyleSheet.create({
         flexDirection: 'row',
         marginLeft: 30,
     },
-    TXtab: {
+    textTab: {
         ...fontHead18,
         color: '#8C8D91',
         textDecorationLine: 'underline',
@@ -101,9 +95,10 @@ const ConnectStyles = StyleSheet.create({
         marginRight: 30,
         alignItems: 'center',
     },
-    TXreset: {
+    textReset: {
         ...fontCaption,
         color: CustomTheme.primaryMedium,
+        marginRight: 4,
     },
     flatlist: {
         flex: 1,

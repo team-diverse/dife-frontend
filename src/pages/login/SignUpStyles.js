@@ -65,7 +65,7 @@ const SignUpStyles = StyleSheet.create({
     },
     textError: {
         ...fontCaption,
-        color: '#FF3E3E',
+        color: CustomTheme.warningRed,
         marginLeft: 3,
     },
     buttonMove: {

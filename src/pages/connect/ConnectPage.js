@@ -68,8 +68,11 @@ const ConnectPage = () => {
   return (
     <View style={ConnectStyles.container}>
       <View style={ConnectStyles.topDifeContainer}>
-        <ConnectTop style={ConnectStyles.connectTop}/>
-        <ConnectDife style={ConnectStyles.connectDife}/>
+        
+        <View style={ConnectStyles.connectDife}>
+          <ConnectDife />
+        </View>
+        <ConnectTop />
       </View>
         <SafeAreaView style={ConnectStyles.safeAreaView}>
           <View style={ConnectStyles.textIconContainer}>
@@ -104,11 +107,11 @@ const ConnectPage = () => {
 
           <View style={ConnectStyles.midContainer}>
             <View style={ConnectStyles.tabContainer}>
-              <Text style={ConnectStyles.TXtab}>1 : 1</Text>
-              <Text style={ConnectStyles.TXtab}>그룹</Text>
+              <Text style={ConnectStyles.textTab}>1 : 1</Text>
+              <Text style={ConnectStyles.textTab}>그룹</Text>
             </View>
             <View style={ConnectStyles.resetContainer}>
-              <Text style={ConnectStyles.TXreset}>Reset</Text>
+              <Text style={ConnectStyles.textReset}>Reset</Text>
               <ConnectReset />
             </View>
           </View>
@@ -119,13 +122,8 @@ const ConnectPage = () => {
               data={connectData}
               renderItem={({ item }) => (
                   <ConnectCard
-                    profile={item.profile}
-                    name={item.name}
-                    country={item.country}
-                    major={item.major}
-                    introduction={item.introduction}
-                    tag={item.tags}
-                  />
+                    {...item}
+                    tag={item.tags} />
                 )}
                 keyExtractor={item => item.id}
             />
