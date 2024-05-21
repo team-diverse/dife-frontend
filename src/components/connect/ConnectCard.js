@@ -28,7 +28,7 @@ const ConnectCard = ({
             </View>
             <View style={styles.cardContainer}>
                 <View style={styles.textIconContainer}>
-                    <Text style={styles.TXname}>{name}</Text>
+                    <Text style={styles.textName}>{name}</Text>
                     <View style={styles.iconContainer}>
                         <HeartInac24 />
                         <TouchableOpacity
@@ -40,10 +40,10 @@ const ConnectCard = ({
                         </TouchableOpacity>
                     </View>
                 </View>
-                <Text style={styles.TXbasicInfo}>
+                <Text style={styles.TextBasicInfo}>
                     {country} | {age} | {major}
                 </Text>
-                <Text style={styles.TXintroduction}>{introduction}</Text>
+                <Text style={styles.textIntroduction}>{introduction}</Text>
                 <View style={styles.tagContainer}>
                     <Tag tag={tag} />
                 </View>
@@ -87,16 +87,16 @@ const styles = StyleSheet.create({
         alignSelf: "flex-end",
         marginRight: 11,
     },
-    TXname: {
+    textName: {
         fontSize: 14,
         lineHeight: 17,
         fontFamily: "NotoSansCJKkr-Bold",
     },
-    TXbasicInfo: {
+    textBasicInfo: {
         ...fontCaption,
         marginBottom: 6,
     },
-    TXintroduction: {
+    textIntroduction: {
         ...fontSub14,
         width: 187,
         marginBottom: 6,

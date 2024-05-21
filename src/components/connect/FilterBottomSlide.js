@@ -87,10 +87,9 @@ const FilterBottomSlide = (props) => {
       false, 
     ]);
     
-    const [mbtiCnt, setMbtiCnt] = useState(0);
-    const [hobbyCnt, setHobbyCnt] = useState(0);
     const [selectedMBTI, setSelectedMBTI] = useState([]);
     const [selectedHobby, setSelectedHobby] = useState([]);
+    const [selectedLanguage, setSelectedLanguage] = useState([]);
 
     const mbti = [
       'ISTP', 'ISFP', 'ENTP', 'ISFJ', 'INFJ', 'ENTJ', 'INFP', 'INTP', 'ESFP',
@@ -100,6 +99,7 @@ const FilterBottomSlide = (props) => {
       'SNS', 'OTT', '캠핑', '쇼핑', '드라이브', '산책', '반려동물', '스포츠', 'K-POP', '사진',
       '음악', '드라마', '독서', '그림', '요리', '만화', '언어공부', '여행', '악기연주', '영화', '맛집'
     ];
+    const languages = ['English / English', '中文 / Chinese', '日本語 / Japanese', 'Español / Spanish', '한국어 / Korean'];
 
     const size = 3;
     const mbtiRows = [];
@@ -126,15 +126,20 @@ const FilterBottomSlide = (props) => {
           setSelectedHobby([...selectedHobby, hobby]);
       }
     };
-  
-    const [isDisabled, setIsDisabled] = useState(false); // 버튼 활성화 여부를 관리하는 상태
 
-    const handlePress = (index) => {
+    const handleSelectLanguage = (index) => {
       setIsCheckedList(prevState => {
         const newState = [...prevState];
         newState[index] = !newState[index];
         return newState;
       });
+
+      const language = languages[index];
+      if (isCheckedList[index]) {
+        setSelectedLanguage(selectedLanguage.filter(item => item !== language));
+      } else {
+        setSelectedLanguage([...selectedLanguage, language]);
+      }
     };
     
     return (
@@ -173,8 +178,7 @@ const FilterBottomSlide = (props) => {
                               <FilterCategory
                                   key={typeIndex}
                                   text={type} 
-                                  mbtiCnt={mbtiCnt}
-                                  setMbtiCnt={setMbtiCnt}
+                                  mbtiCnt={selectedMBTI.length}
                                   onPress={() => handleSelectMBTI(type)}
                               />
                             ))}
@@ -199,8 +203,7 @@ const FilterBottomSlide = (props) => {
                               <FilterCategory
                                 key={typeIndex}
                                 text={type} 
-                                hobbyCnt={hobbyCnt}
-                                setHobbyCnt={setHobbyCnt}
+                                hobbyCnt={selectedHobby.length}
                                 onPress={() => handleSelectHobby(type)}
                               />
                             ))}
@@ -218,11 +221,14 @@ const FilterBottomSlide = (props) => {
                         <InfoCircle />
                         <Text style={styles.infoText}>중복 선택 가능</Text>
                       </View>
-                      <Checkbox checked={isCheckedList[0]} onPress={() => handlePress(0)} text='English / English' />
-                      <Checkbox checked={isCheckedList[1]} onPress={() => handlePress(1)} text='中文 / Chinese' />
-                      <Checkbox checked={isCheckedList[2]} onPress={() => handlePress(2)} text='日本語 / Japanese' />
-                      <Checkbox checked={isCheckedList[3]} onPress={() => handlePress(3)} text='Español / Spanish' />
-                      <Checkbox checked={isCheckedList[4]} onPress={() => handlePress(4)} text='한국어 / Korean' />
+                      {languages.map((language, index) => (
+                        <Checkbox
+                          key={index}
+                          checked={isCheckedList[index]}
+                          onPress={() => handleSelectLanguage(index)}
+                          text={language}
+                        />
+                      ))}
                     </Collapsible>
                   </ScrollView>
 

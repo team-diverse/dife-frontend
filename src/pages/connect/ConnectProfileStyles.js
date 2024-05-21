@@ -54,7 +54,7 @@ const ConnectProfileStyles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 16,
     },
-    TXreport: {
+    textReport: {
         ...fontBody14,
         color: CustomTheme.textDisable,
         textDecorationLine: 'underline',

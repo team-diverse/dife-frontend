@@ -4,7 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme';
 
 const CompleteIcon = ({ props, isConnect=false }) => {
-    const circleFill = isConnect ? CustomTheme.primaryMedium : "#FF3E3E";
+    const circleFill = isConnect ? CustomTheme.primaryMedium : CustomTheme.warningRed;
 
     return (
         <View style={styles.container}>

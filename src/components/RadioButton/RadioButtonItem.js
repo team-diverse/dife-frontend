@@ -10,8 +10,8 @@ const RadioButtonItem = ({value, isSelected, onValueChange}) => {
                 style={[
                     styles.radioButtonCircle,
                     {
-                        borderColor: isSelected ? '#FF3E3E' : CustomTheme.textDisable,
-                        backgroundColor: isSelected ? '#FF3E3E' : '#fff'
+                        borderColor: isSelected ? CustomTheme.warningRed : CustomTheme.textDisable,
+                        backgroundColor: isSelected ? CustomTheme.warningRed : CustomTheme.bgBasic,
                     }
                 ]}>
                 {isSelected && (
@@ -24,7 +24,7 @@ const RadioButtonItem = ({value, isSelected, onValueChange}) => {
             <Text
                 style={[
                     styles.label,
-                    {color: isSelected ? '#FF3E3E' : CustomTheme.textSecondary}
+                    {color: isSelected ? CustomTheme.warningRed : CustomTheme.textSecondary}
                 ]}>
                 {value}
             </Text>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     },
     radioButtonCircle: {
         borderWidth: 2,
-        borderColor: '#FF3E3E',
+        borderColor: CustomTheme.warningRed,
         width: 14,
         height: 14,
         borderRadius: 50,

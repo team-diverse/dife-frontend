@@ -3,7 +3,7 @@ import { View, StyleSheet, Pressable } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme';
 import { RadioGroupContext } from '@components/RadioButton/RadioButtonGroup';
 
-const RadioButtonItems = ({ value, children, disabled, containerStyle, color='#FFC0C0', borderColor='#FF3E3E' }) => {
+const RadioButtonItems = ({ value, children, disabled, containerStyle, color='#FFC0C0', borderColor=CustomTheme.warningRed }) => {
   const { onSelected, selected } = useContext(RadioGroupContext);
 
   const isSelected = selected === value;

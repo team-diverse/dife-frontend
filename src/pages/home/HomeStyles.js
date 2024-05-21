@@ -34,12 +34,12 @@ const HomeStyles = StyleSheet.create({
         marginTop: 25,
         marginRight: 83,
     },
-    TXconnect: {
+    textConnect: {
         ...fontHead18,
         color: CustomTheme.bgList,
         marginRight: 4,
     },
-    TXwithnewfriend: {
+    textWithnewfriend: {
         ...fontCaption,
         color: CustomTheme.bgList,
     },
@@ -79,7 +79,7 @@ const HomeStyles = StyleSheet.create({
     myinfoContainer: {
         flexDirection: 'row',
     },
-    TXname: {
+    textName: {
         fontSize: 12,
         lineHeight: 16,
         fontFamily: 'NotoSansCJKkr-Bold',
@@ -106,7 +106,7 @@ const HomeStyles = StyleSheet.create({
         shadowOpacity: 0.29,
         shadowRadius: 6,
     },
-    TXhomeSch: {
+    textHomeSchool: {
         ...fontSub16,
         position: 'absolute',
         top: 12,
@@ -117,17 +117,17 @@ const HomeStyles = StyleSheet.create({
         top: 35,
         left: 40,
     },
-    homeEv: {
+    homeEvent: {
         position: 'relative',
         marginLeft: 21,
     },
-    TXhomeEv: {
+    textHomeEvent: {
         ...fontSub16,
         position: 'absolute',
         top: 12,
         left: 12,
     },
-    homeEvIcon: {
+    iconHomeEvent: {
         position: 'absolute',
         top: 48,
         left: 47,

@@ -1,30 +1,26 @@
-import React, { useState } from 'react';
+import React, { Children } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
-import ConnectRequest from '@components/connect/ConnectRequest';
+
+import { CustomTheme } from '@styles/CustomTheme.js';
 
 const { fontSub16 } = CustomTheme;
 
-const ConnectProfileChatRequest = () => {
-  const [ modalVisible, setModalVisible ] = useState(false);
+const BottomTwoButtons = ({ shadow=false, children }) => {
+  const containerStyle = shadow ? styles.rectangleShadow : styles.rectangle;
 
-  const pressButton = () => {
-      setModalVisible(true);
-  }
+  const buttons = Children.map(children, (child, index) => (
+    <TouchableOpacity
+      style={index === 0 ? styles.button1 : styles.button2} 
+      onPress={child.props.onPress}
+      >
+      <Text  style={index === 0 ? styles.text1 : styles.text2} >{child.props.text}</Text>
+    </TouchableOpacity>
+  ));
 
   return (
-      <View style={styles.rectangle}>
-        <TouchableOpacity style={styles.chat}>
-          <Text style={styles.textChat}>채팅하기</Text>
-        </TouchableOpacity>
-          <TouchableOpacity style={styles.request} onPress={pressButton}>
-            <Text style={styles.textRequest}>커넥트 요청</Text>
-          </TouchableOpacity>
-          <ConnectRequest
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
-          />
-      </View>
+    <View style={containerStyle}>
+      {buttons}
+    </View>
   );
 };
 
@@ -36,13 +32,24 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: CustomTheme.bgBasic,
+  },
+  rectangleShadow: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 72,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: CustomTheme.bgBasic,
     shadowColor: '#3C454E',
     shadowOffset: { width: 0, height: -1 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
   },
-  chat: {
+  button1: {
+    width: 156,
     height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: CustomTheme.bgBasic,
     borderWidth: 2,
     borderColor: CustomTheme.primaryMedium,
@@ -51,8 +58,11 @@ const styles = StyleSheet.create({
     marginRight: 8,
     marginVertical: 14,
   },
-  request: {
+  button2: {
+    width: 156,
     height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: CustomTheme.primaryMedium,
     borderWidth: 2,
     borderColor: CustomTheme.primaryMedium,
@@ -61,18 +71,16 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     marginVertical: 14,
   },
-  textChat: {
+  text1: {
     ...fontSub16,
     color: CustomTheme.primaryMedium,
-    paddingHorizontal: 50,
     paddingVertical: 10,
   },
-  textRequest: {
+  text2: {
     ...fontSub16,
     color: CustomTheme.bgBasic,
-    paddingHorizontal: 50,
     paddingVertical: 10,
   },
 });
 
-export default ConnectProfileChatRequest;
+export default BottomTwoButtons;

@@ -13,7 +13,6 @@ import ApplyButton from '@components/common/ApplyButton';
 
 const ProfileMBTIPage = () => {
     const navigation = useNavigation();
-    const [mbtiCnt, setMbtiCnt] = useState(0);
     const [selectedMBTI, setSelectedMBTI] = useState('');
     
     const handleGoBack = () => {
@@ -61,8 +60,7 @@ const ProfileMBTIPage = () => {
                             <FilterCategory
                                 key={typeIndex}
                                 text={type} 
-                                mbtiCnt={mbtiCnt}
-                                setMbtiCnt={setMbtiCnt}
+                                mbtiCnt={selectedMBTI.length}
                                 onPress={() => handleSelectMBTI(type)}
                                 onBoardingMBTI='true'
                             />

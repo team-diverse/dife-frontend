@@ -25,7 +25,7 @@ const SignUpPage = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        setIsFormValid(valueID !== '' && valuePW !== '' && valueCheckPW !== '' && passwordMatch && !passwordError);
+        setIsFormValid(valueID && valuePW && valueCheckPW && passwordMatch && !passwordError);
     }, [valueID, valuePW, valueCheckPW, passwordMatch, passwordError]);
 
     const handleGoBack = () => {
@@ -33,7 +33,7 @@ const SignUpPage = () => {
     };
 
     const handlePasswordError = () => {
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
         setPasswordError(!passwordRegex.test(valuePW));
     };
 
@@ -82,7 +82,7 @@ const SignUpPage = () => {
             />
             {!vaildID && (
                 <View style={SignUpStyles.containerError}>
-                <InfoCircle color='#FF3E3E'/>
+                <InfoCircle color={CustomTheme.warningRed} />
                 <Text style={SignUpStyles.textError}>{errorMessage}</Text>
             </View>
             )}
@@ -97,7 +97,7 @@ const SignUpPage = () => {
             </View>
             {passwordError && (
                 <View style={SignUpStyles.containerError}>
-                    <InfoCircle color='#FF3E3E'/>
+                    <InfoCircle color={CustomTheme.warningRed}/>
                     <Text style={SignUpStyles.textError}>영문, 숫자 포함 8자 이상의 비밀번호를 입력해주세요</Text>
                 </View>
             )}
@@ -113,7 +113,7 @@ const SignUpPage = () => {
             </View>
             {!passwordMatch && (
                 <View style={SignUpStyles.containerError}>
-                    <InfoCircle color='#FF3E3E'/>
+                    <InfoCircle color={CustomTheme.warningRed} />
                     <Text style={SignUpStyles.textError}>비밀번호가 일치하지 않습니다.</Text>
                 </View>
             )}
