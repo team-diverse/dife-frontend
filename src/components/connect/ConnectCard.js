@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useNavigation } from "@react-navigation/native";
 
-import HeartInac24 from "@components/Icon24/HeartInac24";
-import HeartAc24 from "@components/Icon24/HeartAc24";
+import IconHeart24 from "@components/Icon24/IconHeart24";
 import ConnectPlusIcon from "@components/connect/ConnectPlusIcon";
 import Tag from "@components/Tag.js";
 
@@ -20,6 +19,11 @@ const ConnectCard = ({
     tag = ["tag"],
 }) => {
     const navigation = useNavigation();
+    const [heart, setHeart] = useState(false);
+
+    const handlehandleHeartPress = () => {
+        setHeart(!heart);
+    };
 
     return (
         <View style={styles.rectangle}>
@@ -30,7 +34,7 @@ const ConnectCard = ({
                 <View style={styles.textIconContainer}>
                     <Text style={styles.textName}>{name}</Text>
                     <View style={styles.iconContainer}>
-                        <HeartInac24 />
+                        <IconHeart24 active={heart} onPress={handlehandleHeartPress}/>
                         <TouchableOpacity
                             onPress={() =>
                                 navigation.navigate("ConnectProfilePage")
@@ -40,7 +44,7 @@ const ConnectCard = ({
                         </TouchableOpacity>
                     </View>
                 </View>
-                <Text style={styles.TextBasicInfo}>
+                <Text style={styles.textBasicInfo}>
                     {country} | {age} | {major}
                 </Text>
                 <Text style={styles.textIntroduction}>{introduction}</Text>

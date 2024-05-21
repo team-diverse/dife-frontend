@@ -16,9 +16,9 @@ import HomeSchoolInfo from '@components/home/HomeScoolInfo.js';
 import HomeEvent from '@components/home/HomeEvent.js';
 import Tag from '@components/Tag.js';
 import HomeArrow from '@components/home/HomeArrow.js';
-import HeartInac24 from '@components/Icon24/HeartInac24.js';
-import AddFriendInac24 from '@components/Icon24/AddFriendInac24.js';
-import ChatInac24 from '@components/Icon24/ChatInac24.js';
+import IconHeart24 from '@components/Icon24/IconHeart24';
+import IconAddFriend24 from '@components/Icon24/IconAddFriend24';
+import IconChat24 from '@components/Icon24/IconChat24';
 import HomeLine from '@components/home/HomeLine.js';
 import HomecardBackBtn from '@components/home/HomecardBackBtn.js';
 import HomecardDifeB from '@components/home/HomecardDifeB.js';
@@ -83,6 +83,11 @@ const HomePage = ({cnt=3}) => {
   const { profileImg=null, tags=["tag"], introduction="introduction", name="name", country="country", age="age" } = profileDataList[currentProfileIndex];
 
   const [showNewCard, setShowNewCard] = useState(false);
+  const [heart, setHeart] = useState(false);
+
+  const handlehandleHeartPress = () => {
+    setHeart(!heart);
+  };
 
   const handleAddFriendPress = () => {
     setShowNewCard(true);
@@ -163,11 +168,11 @@ const HomePage = ({cnt=3}) => {
               </View>
               </View>
               <View style={HomeStyles.connectIconContainer}>
-                  <HeartInac24 style={HomeStyles.connectIcon}/>
+                  <IconHeart24 style={HomeStyles.connectIcon} active={heart} onPress={handlehandleHeartPress}/>
                   <HomeLine style={HomeStyles.connectIcon}/>
-                  <AddFriendInac24 style={HomeStyles.connectIcon} onPress={handleAddFriendPress}/>
+                  <IconAddFriend24 style={HomeStyles.connectIcon} active='true' onPress={handleAddFriendPress}/>
                   <HomeLine style={HomeStyles.connectIcon}/>
-                  <ChatInac24 style={HomeStyles.connectIcon}/>
+                  <IconChat24 style={HomeStyles.connectIcon} active='true'/>
               </View>
             </View>
             <TouchableOpacity onPress={handleNextProfile}>
