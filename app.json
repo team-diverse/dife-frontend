@@ -15,8 +15,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.teamdiverse.dife"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
@@ -26,11 +25,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "7ec133fc-2004-4a77-9b59-25d22dede97b"
-      }
     }
   }
 }
