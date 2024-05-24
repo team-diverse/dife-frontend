@@ -4,7 +4,7 @@ import { SafeAreaView, FlatList } from 'react-native';
 import BookmarkStyles from '@pages/chat/BookmarkStyles';
 
 import TopBar from '@components/TobBar';
-import BookmarkList from '@components/chat/BookmarkList'
+import Bookmark from '@components/chat/Bookmark'
 
 const BookmarkPage = () => {
     const notificationData = [
@@ -48,7 +48,7 @@ const BookmarkPage = () => {
             <FlatList style={BookmarkStyles.flatlist}
                 data={notificationData}
                 renderItem={({ item }) => (
-                    <BookmarkList
+                    <Bookmark
                         name={item.name}
                         context={item.context}
                         date={item.date}

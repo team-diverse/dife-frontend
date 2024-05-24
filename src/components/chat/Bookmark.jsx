@@ -10,7 +10,7 @@ import DashedLine from '@components/chat/DashedLine'
 
 const { fontCaption } = CustomTheme;
 
-const BookmarkList = ({icon, name='name', context='context', date='date', time='time', translation='translation', onPress=null}) => {
+const Bookmark = ({icon, name='name', context='context', date='date', time='time', translation='translation', onPress=null}) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpanded = () => {
@@ -185,4 +185,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BookmarkList;
+export default Bookmark;
