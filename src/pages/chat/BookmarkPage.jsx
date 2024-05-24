@@ -3,7 +3,7 @@ import { SafeAreaView, FlatList } from 'react-native';
 
 import BookmarkStyles from '@pages/chat/BookmarkStyles';
 
-import TopBar from '@components/TobBar';
+import TopBar from '@components/common/TopBar';
 import Bookmark from '@components/chat/Bookmark'
 
 const BookmarkPage = () => {
@@ -44,7 +44,7 @@ const BookmarkPage = () => {
 
     return (
         <SafeAreaView style={[BookmarkStyles.container, { alignItems: 'center' }]}>
-            <TopBar tobBar="스크랩 보관함"/>
+            <TopBar topBar="스크랩 보관함"/>
             <FlatList style={BookmarkStyles.flatlist}
                 data={notificationData}
                 renderItem={({ item }) => (

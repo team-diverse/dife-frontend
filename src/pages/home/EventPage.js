@@ -3,7 +3,7 @@ import { View, FlatList, SafeAreaView } from 'react-native';
 
 import EventStyles from '@pages/home/EventStyles.js';
 
-import TopBar from '@components/TobBar.js';
+import TopBar from '@components/common/TopBar';
 import EventCard from '@components/event/EventCard.js';
 
 
@@ -41,7 +41,7 @@ const EventPage = () => {
 
     return (
         <SafeAreaView style={[EventStyles.container, { alignItems: 'center' }]}>
-            <TopBar tobBar="이벤트"/>
+            <TopBar topBar="이벤트"/>
             <View style={EventStyles.flatlist}>
             <FlatList
             contentContainerStyle={EventStyles.flatlistContent}

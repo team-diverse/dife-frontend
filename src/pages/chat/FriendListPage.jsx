@@ -3,7 +3,7 @@ import { Text, View, SafeAreaView, FlatList } from 'react-native';
 
 import FriendListStyles from '@pages/chat/FriendListStyles';
 
-import TopBar from '@components/TobBar';
+import TopBar from '@components/common/TopBar';
 import IconFriendNumber from '@components/chat/IconFriendNumber'
 import FriendList from '@components/chat/FriendList'
 
@@ -29,7 +29,7 @@ const FriendListPage = () => {
 
     return (
         <SafeAreaView style={FriendListStyles.container}>
-            <TopBar tobBar="친구 목록"/>
+            <TopBar topBar="친구 목록"/>
             <View style={FriendListStyles.containerFriendNumber}>
                 <Text style={FriendListStyles.textFriend}>내 친구</Text>
                 <IconFriendNumber />
