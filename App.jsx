@@ -21,14 +21,14 @@ import FindPasswordPage from '@pages/login/FindPasswordPage';
 import FindPasswordVerifyingPage from '@pages/login/FindPasswordVerifyingPage';
 import SignUpPage from '@pages/login/SignUpPage';
 import AccessPage from '@pages/login/AccessPage';
-import NicknamePage from '@pages/OnboadingPages/NicknamePage'
-import ProfilePage from '@pages/OnboadingPages/ProfilePage'
-import ProfileMbtiPage from '@pages/OnboadingPages/ProfileMbtiPage'
-import ProfileHobbyPage from '@pages/OnboadingPages/ProfileHobbyPage'
-import ProfileLanguagePage from '@pages/OnboadingPages/ProfileLanguagePage'
-import StudentVerificationPage from '@pages/OnboadingPages/StudentVerificationPage'
-import CompleteProfilePage from '@pages/OnboadingPages/CompleteProfilePage'
-import LoadingVerificationPage from '@pages/OnboadingPages/LoadingVerificationPage'
+import NicknamePage from '@pages/onboarding/NicknamePage'
+import ProfilePage from '@pages/onboarding/ProfilePage'
+import ProfileMbtiPage from '@pages/onboarding/ProfileMbtiPage'
+import ProfileHobbyPage from '@pages/onboarding/ProfileHobbyPage'
+import ProfileLanguagePage from '@pages/onboarding/ProfileLanguagePage'
+import StudentVerificationPage from '@pages/onboarding/StudentVerificationPage'
+import CompleteProfilePage from '@pages/onboarding/CompleteProfilePage'
+import LoadingVerificationPage from '@pages/onboarding/LoadingVerificationPage'
 import BookmarkPage from '@pages/chat/BookmarkPage';
 import FriendListPage from '@pages/chat/FriendListPage'
 import ChatRoomPage from '@pages/chat/ChatRoomPage'
@@ -143,7 +143,7 @@ export default function App() {
                                     height: 90,
                                     marginBottom: -10
                                 },
-                                // tabBarIcon: ({focused, color, size}) => getTabBarIcon(route, focused, color, size),
+                                tabBarIcon: ({focused, color, size}) => getTabBarIcon(route, focused, color, size),
                                 tabBarLabel: () => null,
                             })}
                 >

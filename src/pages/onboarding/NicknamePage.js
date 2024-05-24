@@ -3,7 +3,7 @@ import { View, Text, SafeAreaView, TextInput, TouchableOpacity, TouchableWithout
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
-import NicknameStyles from '@pages/OnboadingPages/NicknameStyles';
+import NicknameStyles from '@pages/onboarding/NicknameStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 

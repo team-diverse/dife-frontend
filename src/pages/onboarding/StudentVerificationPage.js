@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import axios from 'axios';
 
-import StudentVerificationStyles from '@pages/OnboadingPages/StudentVerificationStyles';
+import StudentVerificationStyles from '@pages/onboarding/StudentVerificationStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
