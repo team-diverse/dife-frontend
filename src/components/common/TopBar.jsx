@@ -19,7 +19,7 @@ const TopBar = ({ topBar = "TopBar" }) => {
             <View style={styles.container}>
                 <TouchableOpacity onPress={handleGoBack}>
                     <View style={styles.arrow}>
-                        <ArrowRight />
+                        <ArrowRight32 />
                     </View>
                 </TouchableOpacity>
                 <View style={styles.text}>
