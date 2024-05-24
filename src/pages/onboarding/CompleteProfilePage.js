@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import CompleteProfileStyles from '@pages/OnboadingPages/CompleteProfileStyles';
+import CompleteProfileStyles from '@pages/onboarding/CompleteProfileStyles';
 
 import IconLoading from '@components/OnboadingCompo/IconLoading';
 import ApplyButton from '@components/common/ApplyButton';

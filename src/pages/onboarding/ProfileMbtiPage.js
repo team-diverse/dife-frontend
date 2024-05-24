@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import ProfileMbtiStyles from '@pages/OnboadingPages/ProfileMbtiStyles';
+import ProfileMbtiStyles from '@pages/onboarding/ProfileMbtiStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 

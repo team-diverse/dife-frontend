@@ -3,7 +3,7 @@ import { View, Image, Text, TextInput, SafeAreaView, TouchableOpacity, Touchable
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 
-import ProfileStyles from '@pages/OnboadingPages/ProfileStyles';
+import ProfileStyles from '@pages/onboarding/ProfileStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 

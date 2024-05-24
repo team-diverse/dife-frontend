@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import ProfileHobbyStyles from '@pages/OnboadingPages/ProfileHobbyStyles';
+import ProfileHobbyStyles from '@pages/onboarding/ProfileHobbyStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
