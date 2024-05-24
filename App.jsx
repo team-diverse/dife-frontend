@@ -31,6 +31,7 @@ import CompleteProfilePage from '@pages/OnboadingPages/CompleteProfilePage'
 import LoadingVerificationPage from '@pages/OnboadingPages/LoadingVerificationPage'
 import BookmarkPage from '@pages/chat/BookmarkPage';
 import FriendListPage from '@pages/chat/FriendListPage'
+import ChatRoomPage from '@pages/chat/ChatRoomPage'
 
 import ChatDf24 from '@components/Icon24/ChatDf24.js';
 import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
@@ -90,6 +91,7 @@ function ChattingStack() {
             <Stack.Screen name="ChattingPage" component={ChattingPage} options={{headerShown: false}}/>
             <Stack.Screen name="BookmarkPage" component={BookmarkPage} options={{headerShown: false}}/>
             <Stack.Screen name="FriendListPage" component={FriendListPage} options={{headerShown: false}}/>
+            <Stack.Screen name="ChatRoomPage" component={ChatRoomPage} options={{headerShown: false}}/>
         </Stack.Navigator>
     );
 }
@@ -141,7 +143,7 @@ export default function App() {
                                     height: 90,
                                     marginBottom: -10
                                 },
-                                tabBarIcon: ({focused, color, size}) => getTabBarIcon(route, focused, color, size),
+                                // tabBarIcon: ({focused, color, size}) => getTabBarIcon(route, focused, color, size),
                                 tabBarLabel: () => null,
                             })}
                 >
