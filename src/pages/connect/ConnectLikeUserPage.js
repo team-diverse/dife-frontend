@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text, SafeAreaView } from 'react-native';
-import TobBar from '@components/TobBar.js';
+import TopBar from '@components/common/TopBar';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import LikeUserOneToOne from '@pages/connect/LikeUserOneToOne';
 import LikeUserGroup from '@pages/connect/LikeUserGroup';
@@ -11,7 +11,7 @@ const ConnectLikeUserPage = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <TobBar tobBar="좋아요 목록"/>
+            <TopBar topBar="좋아요 목록"/>
             <View style={styles.tabContainer}>
                 <Tab.Navigator
                     initialRouteName="LikeUserOneToOne"

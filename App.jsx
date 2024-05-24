@@ -29,6 +29,8 @@ import ProfileLanguagePage from '@pages/OnboadingPages/ProfileLanguagePage'
 import StudentVerificationPage from '@pages/OnboadingPages/StudentVerificationPage'
 import CompleteProfilePage from '@pages/OnboadingPages/CompleteProfilePage'
 import LoadingVerificationPage from '@pages/OnboadingPages/LoadingVerificationPage'
+import BookmarkPage from '@pages/chat/BookmarkPage';
+import FriendListPage from '@pages/chat/FriendListPage'
 
 import ChatDf24 from '@components/Icon24/ChatDf24.js';
 import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
@@ -78,6 +80,16 @@ function ConnectStack() {
             <Stack.Screen name="ConnectLikeUserPage" component={ConnectLikeUserPage} options={{headerShown: false}}/>
             <Stack.Screen name="ConnectProfilePage" component={ConnectProfilePage} options={{headerShown: false}}/>
             {/* ConnectProfile 페이지 연결은 임시로.. 각 프로필 연결 시, 삭제하거나 수정 */}
+        </Stack.Navigator>
+    );
+}
+
+function ChattingStack() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="ChattingPage" component={ChattingPage} options={{headerShown: false}}/>
+            <Stack.Screen name="BookmarkPage" component={BookmarkPage} options={{headerShown: false}}/>
+            <Stack.Screen name="FriendListPage" component={FriendListPage} options={{headerShown: false}}/>
         </Stack.Navigator>
     );
 }
@@ -133,7 +145,7 @@ export default function App() {
                                 tabBarLabel: () => null,
                             })}
                 >
-                    <Tab.Screen name="Chat" component={ChattingPage}/>
+                    <Tab.Screen name="Chat" component={ChattingStack}/>
                     <Tab.Screen name="Connect" component={ConnectStack}/>
                     <Tab.Screen name="Home" component={HomeStack}/>
                     <Tab.Screen name="Community" component={CommunityPage}/>
