@@ -10,7 +10,7 @@ import DashedLine from '@components/chat/DashedLine'
 
 const { fontCaption } = CustomTheme;
 
-const Bookmark = ({icon, name='name', context='context', date='date', time='time', translation='translation', onPress=null}) => {
+const Bookmark = ({icon, name='name', context='context', date='date', time='time', translation='translation'}) => {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpanded = () => {
@@ -23,14 +23,7 @@ const Bookmark = ({icon, name='name', context='context', date='date', time='time
       setModalVisible(!modalVisible);
   };
 
-  const rectangleStyle = () => {
-    if (expanded) {
-      return styles.rectangleExpanded;
-    } else {
-      return styles.rectangle;
-    }
-  };
-  
+  const rectangleStyle = () => expanded ? styles.rectangleExpanded : styles.rectangle;
 
   return (
     <>

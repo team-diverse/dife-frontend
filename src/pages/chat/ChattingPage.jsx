@@ -142,7 +142,7 @@ const ChattingPage = () => {
             </View>
           </View>
 
-          {chatListCount != 0 ? (
+          {chatListCount ? (
             <View style={ChattingStyles.containerChatItems}>
               <View style={ChattingStyles.flatlist}>
                 <FlatList
