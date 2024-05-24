@@ -3,12 +3,15 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme';
 
 import IconChatProfile from '@components/chat/IconChatProfile';
+import { useNavigation } from '@react-navigation/native';
 
 const { fontCaption, fontNavi } = CustomTheme;
 
 const ChatRoomList = ({icon, name='name', context='context', time='time'}) => {
+  const navigation = useNavigation('')
+
   return (
-    <TouchableOpacity style={styles.rectangle}>
+    <TouchableOpacity style={styles.rectangle} onPress={() => navigation.navigate('ChatRoomPage')}>
         <View style={styles.notify}>
             <View style={styles.iconTextContainer}>
               <View style={styles.icon}>
