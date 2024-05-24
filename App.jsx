@@ -9,7 +9,7 @@ import { OnboardingProvider } from 'src/states/OnboardingContext.js';
 import ChattingPage from '@pages/chat/ChattingPage';
 import ConnectPage from '@pages/connect/ConnectPage.js';
 import HomePage from '@pages/home/HomePage.js';
-import CommunityPage from '@pages/community/CommuityPage.js';
+import CommunityPage from '@pages/community/CommunityPage';
 import MemberPage from '@pages/member/MemberPage.js';
 
 import EventPage from '@pages/home/EventPage.js';
