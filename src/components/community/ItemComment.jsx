@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { CustomTheme } from '@styles/CustomTheme';
@@ -7,20 +7,21 @@ import { CustomTheme } from '@styles/CustomTheme';
 import IconHeart from '@components/community/IconHeart';
 import IconBookmark from '@components/community/IconBookmark';
 import IconComment from '@components/community/IconComment';
+import IconKebabMenu from './IconKebabMenu';
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemCommunity = ({ props }) => {
+const ItemComment = ({ props }) => {
   const navigation = useNavigation();
 
   return (
     <>
     {props.map((post, index) => (
-      <TouchableOpacity key={index} style={styles.ItemCommunity} onPress={() => navigation.navigate('PostPage')}>
+      <View key={index} style={styles.ItemCommunity}>
         <View style={styles.containerRow}>
           <View>
-            <Text style={[styles.textPostTitle, post.image ? { width: 196 } : {}]}>{post.title}</Text>
-            <Text style={[styles.textPostContext, post.image ? { width: 196 } : {}]}>{post.context}</Text>
+            <Text style={styles.textPostTitle}>{post.title}</Text>
+            <Text style={styles.textPostContext}>{post.context}</Text>
           
             <View style={styles.containerTextRow}>
               <View style={styles.containerText}>
@@ -32,20 +33,17 @@ const ItemCommunity = ({ props }) => {
                 <Text style={styles.text}>{post.bookmark}</Text>
               </View>
               <View style={styles.containerText}>
-                <IconComment />
-                <Text style={styles.text}>{post.comment}</Text>
-              </View>
-              <View style={styles.containerText}>
                 <Text style={styles.text}>{post.date}</Text>
               </View>
             </View>
-          </View>
+            </View>
 
-        {post.image && (
-        <Image source={post.image} style={styles.imagePost} />
-        )}
+        <IconKebabMenu style={styles.iconKebabMenu}/>
+        <TouchableOpacity style={styles.textTranslation}>
+            <Text style={styles.textTranslation}>번역하기</Text>
+        </TouchableOpacity>
         </View>
-      </TouchableOpacity>
+      </View>
     ))}
     </>
   );
@@ -54,12 +52,13 @@ const ItemCommunity = ({ props }) => {
 const styles = StyleSheet.create({
     ItemCommunity: {
       width: '100%',
-      height: 78,
+      minHeight: 78,
       backgroundColor: CustomTheme.bgBasic,
       borderRadius: 20,
       borderWidth: 2,
-      borderColor: CustomTheme.primaryBg,
+      borderColor: '#D9EAFF',
       paddingHorizontal: 20,
+      paddingVertical: 11,
       justifyContent: 'center',
       marginTop: 4,
       marginBottom: 4,
@@ -78,18 +77,25 @@ const styles = StyleSheet.create({
     },
     textPostContext: {
       ...fontCaption,
-      width: 272,
-      height: 17,
+      width: 288,
       marginTop: 3,
     },
-    imagePost: {
-      width: 48,
-      height: 48,
-      borderRadius: 10,
+    iconKebabMenu: {
+        position: 'absolute',
+        top: 0,
+        right: -11,
+    },
+    textTranslation: {
+        ...fontNavi,
+        color: CustomTheme.primaryMedium,
+        textDecorationLine: 'underline',
+        position: 'absolute',
+        bottom: 0,
+        right: -2,
     },
     containerTextRow: {
       flexDirection: 'row',
-      marginTop: 3,
+      marginTop: 8,
     },
     containerText: {
       flexDirection: 'row',
@@ -104,4 +110,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default ItemCommunity;
+export default ItemComment;
