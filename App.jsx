@@ -35,6 +35,7 @@ import ChatRoomPage from '@pages/chat/ChatRoomPage'
 import GoodTipCommunityPage from '@pages/community/GoodTipCommunityPage';
 import FreeCommunityPage from '@pages/community/FreeCommunityPage';
 import WhitePage from '@pages/community/WhitePage';
+import PostPage from '@pages/community/PostPage';
 
 import ChatDf24 from '@components/Icon24/ChatDf24.js';
 import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
@@ -103,6 +104,7 @@ function CommunityStack() {
             <Stack.Screen name="GoodTipCommunityPage" component={GoodTipCommunityPage} options={{headerShown: false}}/>
             <Stack.Screen name="FreeCommunityPage" component={FreeCommunityPage} options={{headerShown: false}}/>
             <Stack.Screen name="WhitePage" component={WhitePage} options={{headerShown: false}}/>
+            <Stack.Screen name="PostPage" component={PostPage} options={{headerShown: false}}/>
         </Stack.Navigator>
     );
 }
