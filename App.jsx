@@ -66,33 +66,54 @@ const getTabBarIcon = (route, focused, color, size) => {
 
 function HomeStack() {
     return (
-        <Stack.Navigator>
-            <Stack.Screen name="HomePage" component={HomePage} options={{headerShown: false}}/>
-            <Stack.Screen name="EventPage" component={EventPage} options={{headerShown: false}}/>
-            <Stack.Screen name="NotificationPage" component={NotificationPage} options={{headerShown: false}}/>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="HomePage" component={HomePage} />
         </Stack.Navigator>
     );
 }
 
 function ConnectStack() {
     return (
-        <Stack.Navigator>
-            <Stack.Screen name="ConnectPage" component={ConnectPage} options={{headerShown: false}}/>
-            <Stack.Screen name="ConnectLikeUserPage" component={ConnectLikeUserPage} options={{headerShown: false}}/>
-            <Stack.Screen name="ConnectProfilePage" component={ConnectProfilePage} options={{headerShown: false}}/>
-            {/* ConnectProfile 페이지 연결은 임시로.. 각 프로필 연결 시, 삭제하거나 수정 */}
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="ConnectPage" component={ConnectPage} />
+            
         </Stack.Navigator>
     );
 }
 
 function ChattingStack() {
     return (
-        <Stack.Navigator>
-            <Stack.Screen name="ChattingPage" component={ChattingPage} options={{headerShown: false}}/>
-            <Stack.Screen name="BookmarkPage" component={BookmarkPage} options={{headerShown: false}}/>
-            <Stack.Screen name="FriendListPage" component={FriendListPage} options={{headerShown: false}}/>
-            <Stack.Screen name="ChatRoomPage" component={ChatRoomPage} options={{headerShown: false}}/>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen
+                name="ChattingPage"
+                component={ChattingPage}
+            />
+           
         </Stack.Navigator>
+    );
+}
+
+function MainTabs() {
+    return (
+        <Tab.Navigator
+            initialRouteName="Home"
+            screenOptions={({ route }) => ({
+                headerShown: false,
+                tabBarStyle: {
+                    height: 90,
+                    marginBottom: -10,
+                },
+                tabBarIcon: ({ focused, color, size }) =>
+                    getTabBarIcon(route, focused, color, size),
+                tabBarLabel: () => null,
+            })}
+        >
+            <Tab.Screen name="Chat" component={ChattingStack} />
+            <Tab.Screen name="Connect" component={ConnectStack} />
+            <Tab.Screen name="Home" component={HomeStack} />
+            <Tab.Screen name="Community" component={CommunityPage} />
+            <Tab.Screen name="Member" component={MemberPage} />
+        </Tab.Navigator>
     );
 }
 
@@ -136,39 +157,51 @@ export default function App() {
         <OnboardingProvider>
             <NavigationContainer>
             {isLoggedIn ? (
-                <Tab.Navigator initialRouteName="Home"
-                            screenOptions={({route}) => ({
-                                headerShown: false,
-                                tabBarStyle: {
-                                    height: 90,
-                                    marginBottom: -10
-                                },
-                                tabBarIcon: ({focused, color, size}) => getTabBarIcon(route, focused, color, size),
-                                tabBarLabel: () => null,
-                            })}
+                <Stack.Navigator
+                    initialRouteName="Main"
+                    screenOptions={{ headerShown: false }}
                 >
-                    <Tab.Screen name="Chat" component={ChattingStack}/>
-                    <Tab.Screen name="Connect" component={ConnectStack}/>
-                    <Tab.Screen name="Home" component={HomeStack}/>
-                    <Tab.Screen name="Community" component={CommunityPage}/>
-                    <Tab.Screen name="Member" component={MemberPage}/>
-                </Tab.Navigator>
-                
+                    <Stack.Screen
+                        name="Main"
+                        component={MainTabs}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="ConnectProfilePage"
+                        component={ConnectProfilePage}
+                        options={{ headerShown: false }}
+                    />
+                    <Stack.Screen
+                        name="NotificationPage"
+                        component={NotificationPage}
+                    />
+                    <Stack.Screen name="EventPage" component={EventPage} />
+                    <Stack.Screen
+                        name="ConnectLikeUserPage"
+                        component={ConnectLikeUserPage}
+                    />
+                    <Stack.Screen
+                        name="BookmarkPage"
+                        component={BookmarkPage}
+                    />
+                    <Stack.Screen
+                        name="FriendListPage"
+                        component={FriendListPage}
+                    />
+                </Stack.Navigator>
             ) : (
                 <Stack.Navigator initialRouteName={initialRoute}>
-                    <Stack.Screen name="Access" component={AccessPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="Login" component={LoginPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="FindPassword" component={FindPasswordPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="FindPasswordVerifying" component={FindPasswordVerifyingPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="SignUp" component={SignUpPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="Nickname" component={NicknamePage} options={{ headerShown: false }} />
-                    <Stack.Screen name="Profile" component={ProfilePage} options={{ headerShown: false }} />
-                    <Stack.Screen name="ProfileMbti" component={ProfileMbtiPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="ProfileHobby" component={ProfileHobbyPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="ProfileLanguage" component={ProfileLanguagePage} options={{ headerShown: false }} />
-                    <Stack.Screen name="StudentVerification" component={StudentVerificationPage} options={{ headerShown: false }} />
-                    <Stack.Screen name="CompleteProfile" component={CompleteProfilePage} options={{ headerShown: false }} />
-                    <Stack.Screen name="LoadingVerification" component={LoadingVerificationPage} options={{ headerShown: false }} />
+                    <Stack.Screen name="Access" component={AccessPage} />
+                    <Stack.Screen name="Login" component={LoginPage} />
+                    <Stack.Screen
+                        name="FindPassword"
+                        component={FindPasswordPage}
+                    />
+                    <Stack.Screen
+                        name="FindPasswordVerifying"
+                        component={FindPasswordVerifyingPage}
+                    />
+                    <Stack.Screen name="SignUp" component={SignUpPage} />
                 </Stack.Navigator>
             )}
             </NavigationContainer>
