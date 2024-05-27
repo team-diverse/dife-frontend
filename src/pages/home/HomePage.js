@@ -64,8 +64,9 @@ const HomePage = ({cnt=3}) => {
   };
 
   const handlePrevProfile = () => {
-    setShowMoreProfiles(false);
-    if (currentProfileIndex > 0) {
+    if (showMoreProfiles) {
+      setShowMoreProfiles(false);
+    } else if (currentProfileIndex > 0) {
       setCurrentProfileIndex(currentProfileIndex - 1);
     }
   };
