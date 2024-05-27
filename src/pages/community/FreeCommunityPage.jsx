@@ -48,7 +48,7 @@ const FreeCommunityPage = () => {
   return (
     <View style={FreeCommunityStyles.container}>
         <ConnectTop style={FreeCommunityStyles.connectTop}/>
-        <TouchableOpacity style={FreeCommunityStyles.iconPostPlus} onPress={() => navigation.navigate('WhitePage')}>
+        <TouchableOpacity style={FreeCommunityStyles.iconPostPlus} onPress={() => navigation.navigate('WhitePage', { noticeboard: '자유게시판' })}>
           <IconPostPlus />
         </TouchableOpacity>
         <SafeAreaView style={FreeCommunityStyles.safeAreaView}>

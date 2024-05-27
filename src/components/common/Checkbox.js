@@ -6,9 +6,9 @@ import { CustomTheme } from '@styles/CustomTheme';
 
 const { fontSub16, fontBody14 } = CustomTheme;
 
-const Checkbox = ({ checked, onPress, text, login=false }) => {
-  const checkboxStyle = login ? styles.checkboxLogin : styles.checkbox;
-  const checkboxTextStyle = login ? styles.textLogin : styles.text;
+const Checkbox = ({ checked, onPress, text, basic=false }) => {
+  const checkboxStyle = basic ? styles.checkboxBasic : styles.checkbox;
+  const checkboxTextStyle = basic ? styles.textBasic : styles.text;
 
   return (
     <TouchableOpacity onPress={onPress} style={[checkboxStyle, checked && styles.checked]}>
@@ -28,20 +28,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: CustomTheme.bgList,
   },
-  checkboxLogin: {
+  checkboxBasic: {
     flexDirection: 'row',
-    marginHorizontal: 24,
-    paddingVertical: 15,
     alignItems: 'center',
   },
   text: {
     ...fontSub16,
     marginLeft: 6,
   },
-  textLogin: {
+  textBasic: {
     ...fontBody14,
     color: CustomTheme.textSecondary,
-    marginLeft: 6,
+    marginLeft: 5,
   },
 });
 
