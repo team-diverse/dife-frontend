@@ -34,6 +34,8 @@ import FriendListPage from '@pages/chat/FriendListPage'
 import ChatRoomPage from '@pages/chat/ChatRoomPage'
 import GoodTipCommunityPage from '@pages/community/GoodTipCommunityPage';
 import FreeCommunityPage from '@pages/community/FreeCommunityPage';
+import WhitePage from '@pages/community/WhitePage';
+import PostPage from '@pages/community/PostPage';
 
 import ChatDf24 from '@components/Icon24/ChatDf24.js';
 import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
@@ -95,27 +97,15 @@ function ChattingStack() {
     );
 }
 
-function MainTabs() {
+function CommunityStack() {
     return (
-        <Tab.Navigator
-            initialRouteName="Home"
-            screenOptions={({ route }) => ({
-                headerShown: false,
-                tabBarStyle: {
-                    height: 90,
-                    marginBottom: -10,
-                },
-                tabBarIcon: ({ focused, color, size }) =>
-                    getTabBarIcon(route, focused, color, size),
-                tabBarLabel: () => null,
-            })}
-        >
-            <Tab.Screen name="Chat" component={ChattingStack} />
-            <Tab.Screen name="Connect" component={ConnectStack} />
-            <Tab.Screen name="Home" component={HomeStack} />
-            <Tab.Screen name="Community" component={CommunityPage} />
-            <Tab.Screen name="Member" component={MemberPage} />
-        </Tab.Navigator>
+        <Stack.Navigator>
+            <Stack.Screen name="CommunityPage" component={CommunityPage} options={{headerShown: false}}/>
+            <Stack.Screen name="GoodTipCommunityPage" component={GoodTipCommunityPage} options={{headerShown: false}}/>
+            <Stack.Screen name="FreeCommunityPage" component={FreeCommunityPage} options={{headerShown: false}}/>
+            <Stack.Screen name="WhitePage" component={WhitePage} options={{headerShown: false}}/>
+            <Stack.Screen name="PostPage" component={PostPage} options={{headerShown: false}}/>
+        </Stack.Navigator>
     );
 }
 

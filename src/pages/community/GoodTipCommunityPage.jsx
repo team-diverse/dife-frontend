@@ -48,7 +48,7 @@ const GoodTipCommunityPage = () => {
   return (
     <View style={GoodTipCommunityStyles.container}>
         <ConnectTop style={GoodTipCommunityStyles.connectTop}/>
-        <TouchableOpacity style={GoodTipCommunityStyles.iconPostPlus} onPress={() => navigation.navigate('WhitePage')}>
+        <TouchableOpacity style={GoodTipCommunityStyles.iconPostPlus} onPress={() => navigation.navigate('WhitePage', { noticeboard: '꿀팁게시판' })}>
           <IconPostPlus />
         </TouchableOpacity>
         <SafeAreaView style={GoodTipCommunityStyles.safeAreaView}>
