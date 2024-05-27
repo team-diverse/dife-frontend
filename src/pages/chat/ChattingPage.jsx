@@ -74,6 +74,8 @@ const ChattingPage = () => {
 
   const [chatListCount, setChatListCount] = useState(1);
 
+  const [isIndividualTab, setIsIndividualTab] = useState(false);
+
   const handleSearch = () => {
     if (searchTerm.trim() !== '') {
       axios.get(`${searchTerm}`)
@@ -98,6 +100,14 @@ const ChattingPage = () => {
     setSearchTerm('');
     setIsSearching(false);
     Keyboard.dismiss();
+  };
+
+  const handleMoveOnetoone = () => {
+    setIsIndividualTab(false);
+  };
+
+  const handleMoveGroup = () => {
+    setIsIndividualTab(true);
   };
 
   return (
@@ -131,39 +141,37 @@ const ChattingPage = () => {
             </View>
           </View>
 
-          <View style={ChattingStyles.containerMiddle}>
-            <View style={ChattingStyles.containerTab}>
-              <Text style={ChattingStyles.textTab}>1 : 1</Text>
-              <Text style={ChattingStyles.textTab}>그룹</Text>
-            </View>
-            <View style={ChattingStyles.containerReset}>
-              <Text style={ChattingStyles.textReset}>Reset</Text>
-              <ConnectReset />
-            </View>
+          <View style={ChattingStyles.tabContainer} >
+              <Text style={isIndividualTab ? ChattingStyles.textTab : ChattingStyles.textActiveTab} onPress={handleMoveOnetoone}>1 : 1</Text>
+              <Text style={isIndividualTab ? ChattingStyles.textActiveTab : ChattingStyles.textTab} onPress={handleMoveGroup}>그룹</Text>
           </View>
 
-          {chatListCount ? (
-            <View style={ChattingStyles.containerChatItems}>
-              <View style={ChattingStyles.flatlist}>
-                <FlatList
-                  contentContainerStyle={ChattingStyles.flatlistContent}
-                  data={chatData}
-                  renderItem={({ item }) => (
-                      <ChatRoomList
-                        name={item.name}
-                        context={item.context}
-                        time={item.time}
-                      />
-                    )}
-                    keyExtractor={item => item.id}
-                />
-              </View>
-            </View>
+          {isIndividualTab ? (
+            <></>
           ) : (
-            <View style={ChattingStyles.containerTextNoChat} >
-              <Text style={ChattingStyles.textNoChat}>아직 채팅방이 없습니다.{'\n'}친구와 새로운 채팅을 시작해보세요!</Text>
-            </View>
-          )}
+            chatListCount ? (
+              <View style={ChattingStyles.containerChatItems}>
+                <View style={ChattingStyles.flatlist}>
+                  <FlatList
+                    contentContainerStyle={ChattingStyles.flatlistContent}
+                    data={chatData}
+                    renderItem={({ item }) => (
+                        <ChatRoomList
+                          name={item.name}
+                          context={item.context}
+                          time={item.time}
+                        />
+                      )}
+                      keyExtractor={item => item.id}
+                  />
+                </View>
+              </View>
+            ) : (
+              <View style={ChattingStyles.containerTextNoChat} >
+                <Text style={ChattingStyles.textNoChat}>아직 채팅방이 없습니다.{'\n'}친구와 새로운 채팅을 시작해보세요!</Text>
+              </View>
+            )
+        )}
         </SafeAreaView>
       </View>
   );
