@@ -3,7 +3,7 @@ import { View, Text, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import LoadingVerificationStyles from '@pages/onboarding/LoadingVerificationStyles';
-import IconLoading from '@components/OnboadingCompo/IconLoading';
+import IconLoading from '@components/onboarding/IconLoading';
 import Checkbox from '@components/common/Checkbox';
 
 const LoadingVerificationPage = () => {

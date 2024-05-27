@@ -147,7 +147,7 @@ export default function App() {
         'NotoSansCJKkr-Regular': require('@assets/fonts/NotoSansCJKkr-Regular.otf'),
     });
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(true);
 
     if (!loaded) {
         return null;
@@ -188,20 +188,27 @@ export default function App() {
                         name="FriendListPage"
                         component={FriendListPage}
                     />
+                    <Stack.Screen
+                        name="ChatRoomPage"
+                        component={ChatRoomPage}
+                    />
                 </Stack.Navigator>
             ) : (
-                <Stack.Navigator initialRouteName={initialRoute}>
+                <Stack.Navigator
+                    initialRouteName={initialRoute}
+                    screenOptions={{ headerShown: false }}>
                     <Stack.Screen name="Access" component={AccessPage} />
                     <Stack.Screen name="Login" component={LoginPage} />
-                    <Stack.Screen
-                        name="FindPassword"
-                        component={FindPasswordPage}
-                    />
-                    <Stack.Screen
-                        name="FindPasswordVerifying"
-                        component={FindPasswordVerifyingPage}
-                    />
-                    <Stack.Screen name="SignUp" component={SignUpPage} />
+                    <Stack.Screen name="FindPassword" component={FindPasswordPage} />
+                    <Stack.Screen name="FindPasswordVerifying" component={FindPasswordVerifyingPage} />
+                    <Stack.Screen name="Nickname" component={NicknamePage} />
+                    <Stack.Screen name="Profile" component={ProfilePage} />
+                    <Stack.Screen name="ProfileMbti" component={ProfileMbtiPage} />
+                    <Stack.Screen name="ProfileHobby" component={ProfileHobbyPage} />
+                    <Stack.Screen name="ProfileLanguage" component={ProfileLanguagePage} />
+                    <Stack.Screen name="StudentVerification" component={StudentVerificationPage} />
+                    <Stack.Screen name="CompleteProfile" component={CompleteProfilePage} />
+                    <Stack.Screen name="LoadingVerification" component={LoadingVerificationPage} />
                 </Stack.Navigator>
             )}
             </NavigationContainer>

@@ -8,9 +8,9 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
-import Progress1 from '@components/OnboadingCompo/Progress1';
+import Progress1 from '@components/onboarding/Progress1';
 import LoginBackground from '@components/login/LoginBackground';
-import IconDelete from '@components/OnboadingCompo/IconDelete';
+import IconDelete from '@components/onboarding/IconDelete';
 import ApplyButton from '@components/common/ApplyButton';
 
 const NicknamePage = () => {
@@ -39,7 +39,7 @@ const NicknamePage = () => {
     const { onboardingData, updateOnboardingData } = useOnboarding();
 
     const handleNickname = () => {
-        axios.head(`http://192.168.45.64:8080/api/members/${onboardingData.id}?username=${nickname}`, {
+        axios.head(`http://192.168.45.89:8080/api/members/${onboardingData.id}?username=${nickname}`, {
             headers: {
                 'Authorization': `Bearer ${onboardingData.token}`,
             }

@@ -9,9 +9,9 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
-import Progress6 from '@components/OnboadingCompo/Progress6';
-import BackgroundOnkookminUpload from '@components/OnboadingCompo/BackgroundOnkookminUpload';
-import IconOnkookminUpload from '@components/OnboadingCompo/IconOnkookminUpload';
+import Progress6 from '@components/onboarding/Progress6';
+import BackgroundOnkookminUpload from '@components/onboarding/BackgroundOnkookminUpload';
+import IconOnkookminUpload from '@components/onboarding/IconOnkookminUpload';
 import ApplyButton from '@components/common/ApplyButton';
 
 const StudentVerificationPage = () => {
@@ -67,7 +67,7 @@ const StudentVerificationPage = () => {
         }
         formData.append('verification_file', image);
     
-        axios.put(`http://192.168.240.185:8080/api/members/${onboardingData.id}?username=${onboardingData.username}&is_korean=${onboardingData.is_korean}&languages=${onboardingData.languages}`, formData, {
+        axios.put(`http://192.168.45.89:8080/api/members/${onboardingData.id}?username=${onboardingData.username}&is_korean=${onboardingData.is_korean}&languages=${onboardingData.languages}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Accept': 'application/json',

@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import ChatRoomStyles from '@pages/chat/ChatRoomStyles';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32.js';
+import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import ChatInputSend from '@components/chat/ChatInputSend';
 import IconHamburgerMenu from '@components/chat/IconHamburgerMenu';
 import IconChatProfile from '@components/chat/IconChatProfile'
