@@ -35,7 +35,7 @@ const ConnectPage = () => {
 
   const [ modalVisible, setModalVisible ] = useState(false);
 
-  const [move, setMove] = useState(false);
+  const [isIndividualTab, setIsIndividualTab] = useState(false);
 
   const pressButton = () => {
       setModalVisible(true);
@@ -68,11 +68,11 @@ const ConnectPage = () => {
   };
 
   const handleMoveOnetoone = () => {
-    setMove(false);
+    setIsIndividualTab(false);
   };
 
   const handleMoveGroup = () => {
-    setMove(true);
+    setIsIndividualTab(true);
   };
 
   return (
@@ -117,8 +117,8 @@ const ConnectPage = () => {
 
           <View style={ConnectStyles.midContainer}>
             <View style={ConnectStyles.tabContainer} >
-                <Text style={move ? ConnectStyles.textTab : ConnectStyles.textActiveTab} onPress={handleMoveOnetoone}>1 : 1</Text>
-                <Text style={move ? ConnectStyles.textActiveTab : ConnectStyles.textTab} onPress={handleMoveGroup}>그룹</Text>
+                <Text style={isIndividualTab ? ConnectStyles.textTab : ConnectStyles.textActiveTab} onPress={handleMoveOnetoone}>1 : 1</Text>
+                <Text style={isIndividualTab ? ConnectStyles.textActiveTab : ConnectStyles.textTab} onPress={handleMoveGroup}>그룹</Text>
             </View>
             <View style={ConnectStyles.resetContainer}>
               <Text style={ConnectStyles.textReset}>Reset</Text>
@@ -126,7 +126,7 @@ const ConnectPage = () => {
             </View>
           </View>
 
-          {move ? (
+          {isIndividualTab ? (
             <></>
           ) : (
             <View style={ConnectStyles.cardContainer}>
