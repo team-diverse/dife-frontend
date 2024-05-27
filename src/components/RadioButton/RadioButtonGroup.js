@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {View} from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import RadioButtonItem from "@components/RadioButton/RadioButtonItem";
+import {CustomTheme} from '@styles/CustomTheme';
 
-const RadioButtonGroup = ({values, onValueChange}) => {
-    const [selected, setSelected] = useState('');
+const RadioButtonGroup = ({ values, value, onValueChange, mainColor='#FFC0C0', borderColor=CustomTheme.warningRed, onboarding=null }) => {
+    const [selected, setSelected] = useState(value);
 
     const handleChange = (value) => {
         setSelected(value);
@@ -12,31 +13,24 @@ const RadioButtonGroup = ({values, onValueChange}) => {
     }
 
     return (
-        <RadioButton.Group style={styles.radioButtonItemContainer} value={values[0]}
-                           onValueChange={handleChange}>
-            <View>
-                {
-                    values.map((value, index) => {
-                        return (
-                            <RadioButtonItem
-                                key={index}
-                                value={value}
-                                isSelected={value === selected}
-                                onValueChange={handleChange} label={value}/>
-                        )
-                    })
-                }
+        <RadioButton.Group value={selected} onValueChange={handleChange}>
+            <View style={{flexDirection: onboarding ? 'row' : 'column'}}>
+                {values.map((value, index) => (
+                    <View style={{marginRight: 28}}>
+                    <RadioButtonItem
+                        key={index}
+                        value={value}
+                        isSelected={value === selected}
+                        onValueChange={handleChange}
+                        label={value}
+                        mainColor={mainColor}
+                        borderColor={borderColor}
+                        onboarding={onboarding}
+                    /></View>
+                ))}
             </View>
         </RadioButton.Group>
-    )
+    );
 };
-
-
-const styles = StyleSheet.create({
-    radioButtonItemContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-});
 
 export default RadioButtonGroup;

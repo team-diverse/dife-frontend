@@ -2,29 +2,28 @@ import React from 'react';
 import {View, StyleSheet, Pressable, Text} from 'react-native';
 import {CustomTheme} from '@styles/CustomTheme';
 
-const RadioButtonItem = ({value, isSelected, onValueChange}) => {
-
+const RadioButtonItem = ({value, isSelected, onValueChange, mainColor, borderColor, onboarding}) => {
     return (
         <Pressable onPress={() => onValueChange(value)} style={styles.radioButtonItemContainer}>
             <View
                 style={[
                     styles.radioButtonCircle,
                     {
-                        borderColor: isSelected ? CustomTheme.warningRed : CustomTheme.textDisable,
-                        backgroundColor: isSelected ? CustomTheme.warningRed : CustomTheme.bgBasic,
+                        borderColor: isSelected ? borderColor : CustomTheme.textDisable,
+                        backgroundColor: isSelected ? borderColor : CustomTheme.bgBasic,
                     }
                 ]}>
                 {isSelected && (
                     <View style={[
                         styles.radioButtonInnerCircle,
-                        {backgroundColor: !isSelected ? CustomTheme.bgBasic : '#FFC0C0'}
+                        {backgroundColor: !isSelected ? CustomTheme.bgBasic : mainColor}
                     ]}/>
                 )}
             </View>
             <Text
                 style={[
                     styles.label,
-                    {color: isSelected ? CustomTheme.warningRed : CustomTheme.textSecondary}
+                    {color: onboarding && isSelected ? mainColor : (isSelected ? borderColor : CustomTheme.textSecondary)}
                 ]}>
                 {value}
             </Text>
