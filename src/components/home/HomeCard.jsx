@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+
 import { CustomTheme } from '@styles/CustomTheme';
 
-const Homecard = () => {
+const HomeCard = () => {
   return (
     <View style={styles.rectangle} />
   );
@@ -17,4 +18,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Homecard;
+export default HomeCard;

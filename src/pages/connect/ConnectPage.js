@@ -35,6 +35,8 @@ const ConnectPage = () => {
 
   const [ modalVisible, setModalVisible ] = useState(false);
 
+  const [isIndividualTab, setIsIndividualTab] = useState(false);
+
   const pressButton = () => {
       setModalVisible(true);
   }
@@ -63,6 +65,14 @@ const ConnectPage = () => {
     setSearchTerm('');
     setIsSearching(false);
     Keyboard.dismiss();
+  };
+
+  const handleMoveOnetoone = () => {
+    setIsIndividualTab(false);
+  };
+
+  const handleMoveGroup = () => {
+    setIsIndividualTab(true);
   };
 
   return (
@@ -106,16 +116,20 @@ const ConnectPage = () => {
           </View>
 
           <View style={ConnectStyles.midContainer}>
-            <View style={ConnectStyles.tabContainer}>
-              <Text style={ConnectStyles.textTab}>1 : 1</Text>
-              <Text style={ConnectStyles.textTab}>그룹</Text>
+            <View style={ConnectStyles.tabContainer} >
+                <Text style={isIndividualTab ? ConnectStyles.textTab : ConnectStyles.textActiveTab} onPress={handleMoveOnetoone}>1 : 1</Text>
+                <Text style={isIndividualTab ? ConnectStyles.textActiveTab : ConnectStyles.textTab} onPress={handleMoveGroup}>그룹</Text>
             </View>
             <View style={ConnectStyles.resetContainer}>
               <Text style={ConnectStyles.textReset}>Reset</Text>
               <ConnectReset />
             </View>
           </View>
-          <View style={ConnectStyles.cardContainer}>
+
+          {isIndividualTab ? (
+            <></>
+          ) : (
+            <View style={ConnectStyles.cardContainer}>
             <View style={ConnectStyles.flatlist}>
             <FlatList
               contentContainerStyle={ConnectStyles.flatlistContent}
@@ -129,6 +143,7 @@ const ConnectPage = () => {
             />
             </View>
           </View>
+          )}
         </SafeAreaView>
       </View>
   );

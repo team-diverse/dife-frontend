@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
 import ConnectProfileTopBar from '@components/connect/ConnectProfileTopBar';
-import HeartInac24 from '@components/Icon24/HeartInac24';
+import IconHeart24 from '@components/Icon24/IconHeart24';
 import ConnectProfileBackground from '@components/connect/ConnectProfileBackground';
 import ConnectProfileStyles from '@pages/connect/ConnectProfileStyles';
 import ConnectProfile from '@components/connect/ConnectProfile';
@@ -46,11 +46,17 @@ const ConnectProfilePage = () => {
         null;
     };
 
+    const [heart, setHeart] = useState(false);
+
+    const handlehandleHeartPress = () => {
+        setHeart(!heart);
+    };
+
     return (
         <SafeAreaView style={[ConnectProfileStyles.container, { alignItems: 'center' }]}>
             <View style={ConnectProfileStyles.topBar}>
                 <ConnectProfileTopBar topBar="프로필"/>
-                <HeartInac24 />
+                <IconHeart24 active={heart} onPress={handlehandleHeartPress}/>
             </View>
             <ScrollView contentContainerStyle={{ alignItems: 'center' }} style={ConnectProfileStyles.scrollView}>
                 <View style={ConnectProfileStyles.background}>

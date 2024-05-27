@@ -2,20 +2,20 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme';
 
-import ChatInac24 from '@components/Icon24/ChatInac24.js';
-import AddFriendInac24 from '@components/Icon24/AddFriendInac24.js';
-import HeartInac24 from '@components/Icon24/HeartInac24.js';
+import IconChat24 from '@components/Icon24/IconChat24';
+import IconAddFriend24 from '@components/Icon24/IconAddFriend24';
+import IconHeart24 from '@components/Icon24/IconHeart24';
 
 const { fontCaption, fontNavi } = CustomTheme;
 
 const NotificationCard = ({icon, name='name', context='context', time='time'}) => {
   let iconSvg;
   if (icon === 'chat') {
-    iconSvg = <ChatInac24 />;
+    iconSvg = <IconChat24 />;
   } else if (icon === 'connect') {
-    iconSvg = <AddFriendInac24 />;
+    iconSvg = <IconAddFriend24 />;
   } else if (icon === 'heart') {
-    iconSvg = <HeartInac24 />;
+    iconSvg = <IconHeart24 />;
   } else {
     iconSvg = <Text>icon</Text>;
   }
