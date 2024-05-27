@@ -8,12 +8,12 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
-import Progress2 from '@components/OnboadingCompo/Progress2';
+import Progress2 from '@components/onboarding/Progress2';
 import ApplyButton from '@components/common/ApplyButton';
-import IconProfileUpload from '@components/OnboadingCompo/IconProfileUpload';
+import IconProfileUpload from '@components/onboarding/IconProfileUpload';
 import RadioButtonGroup from '@components/RadioButton/RadioButtonGroup';
-import IconProfileChange from '@components/OnboadingCompo/IconProfileChange';
-import IconProfileBorder from '@components/OnboadingCompo/IconProfileBorder';
+import IconProfileChange from '@components/onboarding/IconProfileChange';
+import IconProfileBorder from '@components/onboarding/IconProfileBorder';
 
 const ProfilePage = () => {
     const navigation = useNavigation();
@@ -37,6 +37,7 @@ const ProfilePage = () => {
     const handleRadioButtonSelect = (value) => {
         setSelected(value);
         setIsReportButtonDisabled(false);
+        setSelectedValue(value === '내국인 (Korean)');
     };
 
     // 권한 부분으로 옮기기
@@ -64,7 +65,7 @@ const ProfilePage = () => {
     const handleDataSave = () => {
         updateOnboardingData({
             profile_img: image,
-            is_korean: selected,
+            is_korean: selectedValue,
             bio: text
         });
         navigation.navigate('ProfileMbti');
