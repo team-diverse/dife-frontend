@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import CompleteProfileStyles from '@pages/onboarding/CompleteProfileStyles';
 
-import IconLoading from '@components/OnboadingCompo/IconLoading';
+import IconLoading from '@components/onboading/IconLoading';
 import ApplyButton from '@components/common/ApplyButton';
 
 const CompleteProfilePage = () => {
