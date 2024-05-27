@@ -9,6 +9,8 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import ApplyButton from '@components/common/ApplyButton';
 import InfoCircle from '@components/common/InfoCircle';
+import IconNotSeePw from '@components/login/IconNotSeePw';
+import IconSeePw from '@components/login/IconSeePw';
 
 const SignUpPage = () => {
     const navigation = useNavigation();
@@ -32,8 +34,12 @@ const SignUpPage = () => {
         navigation.goBack();
     };
 
+    const handleShowPW = () => {
+        setShowPW(!showPW);
+    };
+
     const handlePasswordError = () => {
-        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
         setPasswordError(!passwordRegex.test(valuePW));
     };
 
@@ -92,8 +98,12 @@ const SignUpPage = () => {
                     placeholder="영문, 숫자 포함 8자 이상"
                     onChangeText={text => onChangePW(text)}
                     value={valuePW}
+                    secureTextEntry={!showPW}
                     onBlur={handlePasswordError}
                 />
+                <TouchableOpacity style={SignUpStyles.iconSee} onPress={handleShowPW}>
+                    { valuePW == '' ? null : (showPW ? <IconSeePw /> : <IconNotSeePw />)}
+                </TouchableOpacity>
             </View>
             {passwordError && (
                 <View style={SignUpStyles.containerError}>

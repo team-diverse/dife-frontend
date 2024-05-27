@@ -58,6 +58,12 @@ const SignUpStyles = StyleSheet.create({
         marginHorizontal: 25,
         alignItems: 'center',
     },
+    iconSee: {
+        position: 'absolute',
+        alignItems: 'center',
+        top: 17,
+        right: 50,
+    },
     containerError: {
         flexDirection: 'row',
         marginTop: 8,
