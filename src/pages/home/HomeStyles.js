@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme';
 
 const { fontHead18, fontSub16, fontCaption, fontButton } = CustomTheme;
@@ -56,49 +56,6 @@ const HomeStyles = StyleSheet.create({
         shadowOpacity: 0.71,
         shadowRadius: 6,
     },
-    homecardDifeF: {
-        position: 'absolute',
-        top: 69,
-    },
-    homeProfile: {
-        position: 'absolute',
-        left: 20,
-        top: 20,
-    },
-    tagContainer: {
-        flexDirection: 'row',
-        marginTop: 12,
-        marginBottom: 6,
-    },
-    introduction: {
-        ...fontCaption,
-        width: 200,
-        height: 51,
-        marginTop: 6,
-        marginBottom: 6,
-    },
-    myinfoContainer: {
-        flexDirection: 'row',
-    },
-    textName: {
-        fontSize: 12,
-        lineHeight: 16,
-        fontFamily: 'NotoSansCJKkr-Bold',
-    },
-    myinfo: {
-        ...fontCaption,
-    },
-    connectIconContainer: {
-        position: 'absolute',
-        left: 10,
-        bottom: 28,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    connectIcon: {
-        marginHorizontal: 28,
-    },
     homeSchEv: {
         flexDirection: 'row',
         marginTop: 28,
@@ -135,27 +92,7 @@ const HomeStyles = StyleSheet.create({
     },
     
     
-    homecardBack: {
-        position: 'absolute',
-        justifyContent: 'center',
-        alignItems: 'center',
-        top: 30,
-    },
-    viewProfile: {
-        ...fontCaption,
-        color: CustomTheme.textSecondary,
-        marginTop: 20,
-        textDecorationLine: 'underline'
-    },
-    addFriendOk: {
-        flexDirection: 'row',
-        marginTop: 33,
-    },
-    homecardBackBtn: {
-        position: 'absolute',
-        flexDirection: 'row',
-        bottom: 20,
-    },
+
     backgroundHomecard: {
         position: 'absolute',
         top: 10,
@@ -168,38 +105,6 @@ const HomeStyles = StyleSheet.create({
         shadowOpacity: 0.71,
         shadowRadius: 6,
         zIndex: 0,
-    },
-    containerImage: {
-        width: 116,
-        height: 136,
-        backgroundColor: CustomTheme.primaryBg,
-        borderRadius: 16,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    textMoreProfile: {
-        ...fontButton,
-        color: CustomTheme.primaryMedium,
-        marginTop: 16,
-    },
-    textLoadProfile: {
-        ...fontCaption,
-        color: '#8C8D91',
-        textDecorationLine: 'underline',
-        marginTop: 8,
-    },
-    buttonAddProfile: {
-        width: 220,
-        height: 37,
-        backgroundColor: CustomTheme.primaryMedium,
-        borderRadius: 12,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 60,
-    },
-    textAddProfile: {
-        ...fontButton,
-        color: CustomTheme.bgBasic,
     },
 });
 

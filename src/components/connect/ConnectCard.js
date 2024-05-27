@@ -21,7 +21,7 @@ const ConnectCard = ({
     const navigation = useNavigation();
     const [heart, setHeart] = useState(false);
 
-    const handlehandleHeartPress = () => {
+    const handleHeartPress = () => {
         setHeart(!heart);
     };
 
@@ -34,7 +34,7 @@ const ConnectCard = ({
                 <View style={styles.textIconContainer}>
                     <Text style={styles.textName}>{name}</Text>
                     <View style={styles.iconContainer}>
-                        <IconHeart24 active={heart} onPress={handlehandleHeartPress}/>
+                        <IconHeart24 active={heart} onPress={handleHeartPress}/>
                         <TouchableOpacity
                             onPress={() =>
                                 navigation.navigate("ConnectProfilePage")
