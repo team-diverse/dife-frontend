@@ -6,12 +6,12 @@ import axios from 'axios';
 import { CustomTheme } from '@styles/CustomTheme';
 import LoginStyles from '@pages/login/LoginStyles';
 
-import Checkbox from '@components/common/Checkbox';
 import BottomTwoButtons from '@components/common/BottomTwoButtons';
 import IconNotSeePw from '@components/login/IconNotSeePw';
 import IconSeePw from '@components/login/IconSeePw';
 import LoginBackground from '@components/login/LoginBackground';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
+import InfoCircle from '@components/common/InfoCircle';
 
 const LoginPage = () => {
     const navigation = useNavigation();
@@ -37,8 +37,10 @@ const LoginPage = () => {
         navigation.navigate('SignUp')
     };
 
+    const [loginFailed, setLoginFailed] = useState(false);
+
     const handleLogin = () => {
-        axios.post(`http://192.168.45.87:8080/api/members/login?email=${valueID}&password=${valuePW}`, {
+        axios.post(`http://192.168.45.92:8080/api/members/login?email=${valueID}&password=${valuePW}`, {
         email: valueID,
         password: valuePW,
         }, {
@@ -58,6 +60,7 @@ const LoginPage = () => {
         })
         .catch(error => {
             console.error('로그인 오류:', error.response ? error.response.data : error.message);
+            setLoginFailed(true);
         });
         };
 
@@ -65,17 +68,17 @@ const LoginPage = () => {
         <TouchableWithoutFeedback onPress={handleKeyboard}>
         <SafeAreaView style={[LoginStyles.container]}>
             <LoginBackground style={LoginStyles.backgroundLogin}/>
-            <Text style={LoginStyles.TextTitle}>{loginData[0]}</Text>
-            <Text style={LoginStyles.TextSubTitle}>{loginData[1]}</Text>
-            <Text style={LoginStyles.TextId}>ID (Email Address)</Text>
-            <TextInput style={LoginStyles.TextInputId}
+            <Text style={LoginStyles.textTitle}>{loginData[0]}</Text>
+            <Text style={LoginStyles.textSubTitle}>{loginData[1]}</Text>
+            <Text style={LoginStyles.textId}>ID (Email Address)</Text>
+            <TextInput style={loginFailed ? [LoginStyles.textInputPw, {borderColor: CustomTheme.warningRed}] : LoginStyles.textInputId}
                 placeholder="이메일을 입력해주세요"
                 onChangeText={text => onChangeID(text)}
                 value={valueID}
             />
-            <Text style={LoginStyles.TextPw}>Password</Text>
-            <View style={LoginStyles.TextInputPwContainer}>
-                <TextInput style={LoginStyles.TextInputPw}
+            <Text style={LoginStyles.textPw}>Password</Text>
+            <View style={LoginStyles.textInputPwContainer}>
+                <TextInput style={loginFailed ? [LoginStyles.textInputPw, {borderColor: CustomTheme.warningRed}] : LoginStyles.textInputPw}
                     placeholder="비밀번호를 입력해주세요"
                     onChangeText={text => onChangePW(text)}
                     value={valuePW}
@@ -85,17 +88,19 @@ const LoginPage = () => {
                     { valuePW == '' ? null : (showPW ? <IconSeePw /> : <IconNotSeePw />)}
                 </TouchableOpacity>
             </View>
-            <Checkbox style={LoginStyles.checkboxRememberMe}
-                checked='false'
-                text='자동 로그인'
-                login='true' />
+            {loginFailed && (
+                <View style={LoginStyles.containerError}>
+                    <InfoCircle color={CustomTheme.warningRed} />
+                    <Text style={LoginStyles.textError}>입력하신 아이디 또는 비밀번호를 확인해주세요</Text>
+                </View>
+            )}
             <View style={LoginStyles.ButtonSignupPwContainer}>
                 <BottomTwoButtons>
                     <View text='회원가입' onPress={handleSignUp} />
                     <View text='로그인' onPress={handleLogin} />
                 </BottomTwoButtons>
                 <TouchableOpacity onPress={() => navigation.navigate('FindPassword')}>
-                    <Text style={LoginStyles.TextReport}>비밀번호를 까먹었어요</Text>
+                    <Text style={LoginStyles.textReport}>비밀번호를 까먹었어요</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
