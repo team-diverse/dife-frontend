@@ -3,7 +3,7 @@ import { CustomTheme } from '@styles/CustomTheme';
 
 const { fontHead20, fontSub16, fontBody14 } = CustomTheme;
 
-const GoodTipCommunityStyles = StyleSheet.create({
+const TipCommunityStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: CustomTheme.bgBasic,
@@ -81,4 +81,4 @@ const GoodTipCommunityStyles = StyleSheet.create({
     },
 });
 
-export default GoodTipCommunityStyles;
+export default TipCommunityStyles;
