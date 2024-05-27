@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, SafeAreaView, FlatList, Keyboard, TouchableOpacity } from 'react-native';
-import ConnectStyles from '@pages/connect/ConnectStyles.js';
-import ConnectTop from '@components/connect/ConnectTop.js';
-import ConnectSearchIcon from '@components/connect/ConnectSearchIcon.js';
-import ConnectSearchCancel from '@components/connect/ConnectSearchCancel.js';
-import ConnectLikeUser from '@components/connect/ConnectLikeUser.js';
-import FilterIcon from '@components/connect/FilterIcon.js';
-import FilterBottomSlide from '@components/connect/FilterBottomSlide.js';
-import ConnectCard from '@components/connect/ConnectCard.js';
-import ConnectDife from '@components/connect/ConnectDife.js';
-import ConnectReset from '@components/connect/ConnectReset.js';
-import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+
+import ConnectStyles from '@pages/connect/ConnectStyles';
+
+import ConnectTop from '@components/connect/ConnectTop';
+import ConnectSearchIcon from '@components/connect/ConnectSearchIcon';
+import ConnectSearchCancel from '@components/connect/ConnectSearchCancel';
+import ConnectLikeUser from '@components/connect/ConnectLikeUser';
+import FilterIcon from '@components/connect/FilterIcon';
+import FilterBottomSlide from '@components/connect/FilterBottomSlide';
+import ConnectCard from '@components/connect/ConnectCard';
+import ConnectDife from '@components/connect/ConnectDife';
+import ConnectReset from '@components/connect/ConnectReset';
 
 const ConnectPage = () => {
   const navigation = useNavigation();
@@ -26,6 +28,16 @@ const ConnectPage = () => {
       major: 'Industrial Design',
       introduction: 'adipiscing varius eu sit nulla, luctus tincidunt ex at ullamcorper cursus odio laoreet placerat.',
       tags: ['enfp', 'Sports', 'Drawing'],
+    },
+    {
+      id: '2',
+      profile: require('@assets/images/test_img/test_haedam.jpg'),
+      name: 'haedam',
+      country: 'Korean',
+      age: '1',
+      major: 'Software',
+      introduction: 'Hello!',
+      tags: ['istp', 'Walking', 'Eating'],
     },
   ]
 
@@ -130,19 +142,19 @@ const ConnectPage = () => {
             <></>
           ) : (
             <View style={ConnectStyles.cardContainer}>
-            <View style={ConnectStyles.flatlist}>
-            <FlatList
-              contentContainerStyle={ConnectStyles.flatlistContent}
-              data={connectData}
-              renderItem={({ item }) => (
-                  <ConnectCard
-                    {...item}
-                    tag={item.tags} />
-                )}
-                keyExtractor={item => item.id}
-            />
+              <View style={ConnectStyles.flatlist}>
+                <FlatList
+                  contentContainerStyle={ConnectStyles.flatlistContent}
+                  data={connectData}
+                  renderItem={({ item }) => (
+                    <ConnectCard
+                      {...item}
+                      tag={item.tags} />
+                  )}
+                  keyExtractor={item => item.id}
+                />
+              </View>
             </View>
-          </View>
           )}
         </SafeAreaView>
       </View>
