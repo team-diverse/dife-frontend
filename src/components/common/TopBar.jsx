@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme';
 import { useNavigation } from '@react-navigation/native';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32.js';
+import ArrowRight32 from '@components/Icon32/ArrowRight32';
 
 const { fontHead20 } = CustomTheme;
 
