@@ -1,0 +1,84 @@
+import { StyleSheet } from 'react-native';
+import { CustomTheme } from '@styles/CustomTheme';
+
+const { fontHead20, fontSub16 } = CustomTheme;
+
+const FreeCommunityStyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: CustomTheme.bgBasic,
+    },
+    connectTop: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+    },
+    iconPostPlus: {
+        position: 'absolute',
+        right: 12,
+        bottom: 12,
+        shadowColor: '#3C454E',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        zIndex: 2,
+    },
+    safeAreaView: {
+        flex: 1,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+    },
+    containerTextIcon: {
+        flexDirection: 'row',
+        position: 'absolute',
+        alignItems: 'center',
+        marginTop: 55,
+    },
+    textChattingTitle: {
+        flex: 1,
+        ...fontHead20,
+        color: CustomTheme.primaryBg,
+        marginLeft: 24,
+    },
+    iconBookmark: {
+        flex: 1,
+        marginRight: 24,
+    },
+    containerSearch: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        position: 'absolute',
+        marginTop: 100,
+    },
+    containerSearchIcon: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1,
+        justifyContent: 'flex-end',
+        marginLeft: 25,
+        marginRight: 25,
+    },
+    search: {
+        ...fontSub16,
+        position: 'relative',
+        width: '100%',
+        height: 48,
+        backgroundColor: CustomTheme.bgBasic,
+        borderRadius: 24,
+        paddingLeft: 20,
+    },
+    searchIcon: {
+        position: 'absolute',
+        right: 12,
+    },
+    itemCommunity: {
+        alignItems: 'center',
+        marginTop: 145,
+        marginHorizontal: 24,
+    },
+});
+
+export default FreeCommunityStyles;
