@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme';
 
-const { fontHead18, fontSub14, fontBody14 } = CustomTheme;
+const { fontHead18, fontSub14, fontBody14, fontCaption } = CustomTheme;
 
 const LoginStyles = StyleSheet.create({
     container: {
@@ -13,7 +13,7 @@ const LoginStyles = StyleSheet.create({
         top: 124,
         left: -70,
     },
-    TextTitle: {
+    textTitle: {
         fontSize: 32,
         lineHeight: 37,
         fontFamily: 'NotoSansCJKkr-Bold',
@@ -21,19 +21,19 @@ const LoginStyles = StyleSheet.create({
         marginTop: 67,
         marginLeft: 24,
     },
-    TextSubTitle: {
+    textSubTitle: {
         ...fontHead18,
         color: CustomTheme.textSecondary,
         marginTop: 12,
         marginLeft: 24,
     },
-    TextId: {
+    textId: {
         ...fontSub14,
         color: CustomTheme.textPrimary,
         marginTop: 127,
         marginLeft: 24,
     },
-    TextInputId: {
+    textInputId: {
         width: 327,
         height: 44,
         padding: 12,
@@ -44,18 +44,18 @@ const LoginStyles = StyleSheet.create({
         marginHorizontal: 25,
         alignItems: 'center',
     },
-    TextPw: {
+    textPw: {
         ...fontSub14,
         color: CustomTheme.textPrimary,
         marginTop: 12,
         marginLeft: 24,
     },
-    TextInputPwContainer: {
+    textInputPwContainer: {
         position: 'relative',
         flexDirection: 'row',
         alignItems: 'center',
       },
-    TextInputPw: {
+    textInputPw: {
         width: 327,
         height: 44,
         padding: 12,
@@ -72,15 +72,21 @@ const LoginStyles = StyleSheet.create({
         top: 17,
         right: 50,
     },
-    checkboxRememberMe: {
-        color: CustomTheme.textSecondary,
-        marginLeft: 24,
+    containerError: {
+        flexDirection: 'row',
+        marginTop: 8,
+        marginLeft: 25,
+    },
+    textError: {
+        ...fontCaption,
+        color: CustomTheme.warningRed,
+        marginLeft: 3,
     },
     ButtonSignupPwContainer: {
-        marginTop: 144,
+        marginTop: 170,
         alignItems: 'center',
     },
-    TextReport: {
+    textReport: {
         ...fontBody14,
         color: CustomTheme.textSecondary,
         textDecorationLine: 'underline',

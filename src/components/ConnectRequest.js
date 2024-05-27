@@ -5,7 +5,7 @@ import Modal from 'react-native-modal';
 import CompleteIcon from '@components/common/CompleteIcon';
 import ConnectRequestIcon from '@components/common/ConnectRequestIcon';
 
-const ConnectRequest = ({ modalVisible, setModalVisible }) => {
+const ConnectRequest = ({ modalVisible, setModalVisible, textLoading='커넥트 요청중', textComplete='커넥트 요청 완료!' }) => {
   const [showConnectRequest, setShowConnectRequest] = useState(true);
   const [showConnectComplete, setShowConnectComplete] = useState(false);
 
@@ -39,7 +39,7 @@ const ConnectRequest = ({ modalVisible, setModalVisible }) => {
               <ConnectRequestIcon />
             </View>
             <View style={styles.connectTextView}>
-              <Text style={styles.connectText}>커넥트 요청중</Text>
+              <Text style={styles.connectText}>{textLoading}</Text>
             </View>
           </View>
         )}
@@ -48,7 +48,7 @@ const ConnectRequest = ({ modalVisible, setModalVisible }) => {
           <View style={styles.connectContainer}>
             <CompleteIcon isConnect={true}/>
             <View style={styles.connectTextView}>
-              <Text style={styles.connectText}>커넥트 요청 완료!</Text>
+              <Text style={styles.connectText}>{textComplete}</Text>
             </View>
           </View>
         )}
