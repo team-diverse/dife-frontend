@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Image, Text, TextInput, SafeAreaView, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Image, Text, TextInput, SafeAreaView, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -11,7 +11,7 @@ import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import Progress2 from '@components/OnboadingCompo/Progress2';
 import ApplyButton from '@components/common/ApplyButton';
 import IconProfileUpload from '@components/OnboadingCompo/IconProfileUpload';
-import { RadioButtonGroup } from '@components/RadioButton/RadioButtonGroup';
+import RadioButtonGroup from '@components/RadioButton/RadioButtonGroup';
 import IconProfileChange from '@components/OnboadingCompo/IconProfileChange';
 import IconProfileBorder from '@components/OnboadingCompo/IconProfileBorder';
 
@@ -26,6 +26,7 @@ const ProfilePage = () => {
 
     const ProfileData = ['프로필 생성하기', '프로필 사진'];
     const [selected, setSelected] = useState('');
+    const [selectedValue, setSelectedValue] = useState(true);
     const [isReportButtonDisabled, setIsReportButtonDisabled] = useState(true);
     const [text, setText] = useState('');
 
@@ -94,19 +95,15 @@ const ProfilePage = () => {
                     </TouchableOpacity>
                 )}
                 <Text style={ProfileStyles.textNationIntroduction}>국적</Text>
-                <RadioButtonGroup
-                    selected={selected}
-                    onSelected={handleRadioButtonSelect}
-                >
-                    <View style={ProfileStyles.containerRadioButton}>
-                        <RadioButtonGroup.RadioButtonItems key='korean' value='true' color='#2964E0' borderColor='#B0D0FF'>
-                        <Text style={[ProfileStyles.textRadioButton, {color: selected==='true' ? CustomTheme.primaryMedium : CustomTheme.textSecondary}]}>내국인 (Korean)</Text>
-                        </RadioButtonGroup.RadioButtonItems>
-                        <RadioButtonGroup.RadioButtonItems key='foreigner' value='false' color='#2964E0' borderColor='#B0D0FF'>
-                        <Text style={[ProfileStyles.textRadioButton, {color: selected==='false' ? CustomTheme.primaryMedium : CustomTheme.textSecondary}]}>외국인</Text>
-                        </RadioButtonGroup.RadioButtonItems>
-                    </View>
-                </RadioButtonGroup>
+                <View style={ProfileStyles.containerRadioButton}>
+                    <RadioButtonGroup
+                        values={['내국인 (Korean)', '외국인']}
+                        value={selected}
+                        onValueChange={handleRadioButtonSelect}
+                        mainColor={CustomTheme.primaryMedium}
+                        borderColor='#B0D0FF'
+                        onboarding='true' />
+                </View>
                 <Text style={ProfileStyles.textNationIntroduction}>한줄소개</Text>
                 <View style={ProfileStyles.containerTextInput}>
                     <TextInput style={ProfileStyles.textInputIntroduction}
