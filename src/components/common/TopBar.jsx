@@ -7,7 +7,7 @@ import ArrowRight32 from '@components/Icon32/ArrowRight32';
 
 const { fontHead20 } = CustomTheme;
 
-const TopBar = ({ topBar = "TopBar" }) => {
+const TopBar = ({ topBar = "TopBar", color }) => {
     const navigation = useNavigation();
 
     const handleGoBack = () => {
@@ -19,7 +19,7 @@ const TopBar = ({ topBar = "TopBar" }) => {
             <View style={styles.container}>
                 <TouchableOpacity onPress={handleGoBack}>
                     <View style={styles.arrow}>
-                        <ArrowRight32 />
+                        <ArrowRight32 color={color} />
                     </View>
                 </TouchableOpacity>
                 <View style={styles.text}>

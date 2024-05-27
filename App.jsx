@@ -9,7 +9,7 @@ import { OnboardingProvider } from 'src/states/OnboardingContext.js';
 import ChattingPage from '@pages/chat/ChattingPage';
 import ConnectPage from '@pages/connect/ConnectPage.js';
 import HomePage from '@pages/home/HomePage.js';
-import CommunityPage from '@pages/community/CommuityPage.js';
+import CommunityPage from '@pages/community/CommunityPage';
 import MemberPage from '@pages/member/MemberPage.js';
 
 import EventPage from '@pages/home/EventPage.js';
@@ -32,6 +32,8 @@ import LoadingVerificationPage from '@pages/onboarding/LoadingVerificationPage'
 import BookmarkPage from '@pages/chat/BookmarkPage';
 import FriendListPage from '@pages/chat/FriendListPage'
 import ChatRoomPage from '@pages/chat/ChatRoomPage'
+import GoodTipCommunityPage from '@pages/community/GoodTipCommunityPage';
+import FreeCommunityPage from '@pages/community/FreeCommunityPage';
 
 import ChatDf24 from '@components/Icon24/ChatDf24.js';
 import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
