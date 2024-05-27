@@ -7,12 +7,12 @@ import * as Notifications from 'expo-notifications';
 import { OnboardingProvider } from 'src/states/OnboardingContext.js';
 
 import ChattingPage from '@pages/chat/ChattingPage';
-import ConnectPage from '@pages/connect/ConnectPage.js';
-import HomePage from '@pages/home/HomePage.js';
+import ConnectPage from '@pages/connect/ConnectPage';
+import HomePage from '@pages/home/HomePage';
 import CommunityPage from '@pages/community/CommunityPage';
-import MemberPage from '@pages/member/MemberPage.js';
+import MemberPage from '@pages/member/MemberPage';
 
-import EventPage from '@pages/home/EventPage.js';
+import EventPage from '@pages/home/EventPage';
 import NotificationPage from '@pages/home/NotificationPage';
 import ConnectLikeUserPage from '@pages/connect/ConnectLikeUserPage';
 import ConnectProfilePage from '@pages/connect/ConnectProfilePage';
@@ -37,17 +37,17 @@ import FreeCommunityPage from '@pages/community/FreeCommunityPage';
 import WhitePage from '@pages/community/WhitePage';
 import PostPage from '@pages/community/PostPage';
 
-import ChatDf24 from '@components/Icon24/ChatDf24.js';
-import ConnectDf24 from '@components/Icon24/ConnectDf24.js';
-import HomeDf24 from '@components/Icon24/HomeDf24.js';
-import CommuDf24 from '@components/Icon24/CommuDf24.js';
-import MyDf24 from '@components/Icon24/MyDf24.js';
+import ChatDf24 from '@components/Icon24/ChatDf24';
+import ConnectDf24 from '@components/Icon24/ConnectDf24';
+import HomeDf24 from '@components/Icon24/HomeDf24';
+import CommuDf24 from '@components/Icon24/CommuDf24';
+import MyDf24 from '@components/Icon24/MyDf24';
 
-import ChatAc32 from '@components/Icon32/ChatAc32.js';
-import ConnectAc32 from '@components/Icon32/ConnectAc32.js';
-import HomeAc32 from '@components/Icon32/HomeAc32.js';
-import CommuAc32 from '@components/Icon32/CommuAc32.js';
-import MyAc32 from '@components/Icon32/MyAc32.js';
+import ChatAc32 from '@components/Icon32/ChatAc32';
+import ConnectAc32 from '@components/Icon32/ConnectAc32';
+import HomeAc32 from '@components/Icon32/HomeAc32';
+import CommuAc32 from '@components/Icon32/CommuAc32';
+import MyAc32 from '@components/Icon32/MyAc32';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -97,15 +97,27 @@ function ChattingStack() {
     );
 }
 
-function CommunityStack() {
+function MainTabs() {
     return (
-        <Stack.Navigator>
-            <Stack.Screen name="CommunityPage" component={CommunityPage} options={{headerShown: false}}/>
-            <Stack.Screen name="GoodTipCommunityPage" component={GoodTipCommunityPage} options={{headerShown: false}}/>
-            <Stack.Screen name="FreeCommunityPage" component={FreeCommunityPage} options={{headerShown: false}}/>
-            <Stack.Screen name="WhitePage" component={WhitePage} options={{headerShown: false}}/>
-            <Stack.Screen name="PostPage" component={PostPage} options={{headerShown: false}}/>
-        </Stack.Navigator>
+        <Tab.Navigator
+            initialRouteName="Home"
+            screenOptions={({ route }) => ({
+                headerShown: false,
+                tabBarStyle: {
+                    height: 90,
+                    marginBottom: -10,
+                },
+                tabBarIcon: ({ focused, color, size }) =>
+                    getTabBarIcon(route, focused, color, size),
+                tabBarLabel: () => null,
+            })}
+        >
+            <Tab.Screen name="Chat" component={ChattingStack} />
+            <Tab.Screen name="Connect" component={ConnectStack} />
+            <Tab.Screen name="Home" component={HomeStack} />
+            <Tab.Screen name="Community" component={CommunityPage} />
+            <Tab.Screen name="Member" component={MemberPage} />
+        </Tab.Navigator>
     );
 }
 
@@ -184,6 +196,22 @@ export default function App() {
                         name="ChatRoomPage"
                         component={ChatRoomPage}
                     />
+                    <Stack.Screen
+                        name="GoodTipCommunityPage"
+                        component={GoodTipCommunityPage}
+                    />
+                    <Stack.Screen
+                        name="FreeCommunityPage"
+                        component={FreeCommunityPage}
+                    />
+                    <Stack.Screen
+                        name="WhitePage"
+                        component={WhitePage}
+                    />
+                    <Stack.Screen
+                        name="PostPage"
+                        component={PostPage}
+                    />
                 </Stack.Navigator>
             ) : (
                 <Stack.Navigator
@@ -191,6 +219,7 @@ export default function App() {
                     screenOptions={{ headerShown: false }}>
                     <Stack.Screen name="Access" component={AccessPage} />
                     <Stack.Screen name="Login" component={LoginPage} />
+                    <Stack.Screen name="SignUp" component={SignUpPage} />
                     <Stack.Screen name="FindPassword" component={FindPasswordPage} />
                     <Stack.Screen name="FindPasswordVerifying" component={FindPasswordVerifyingPage} />
                     <Stack.Screen name="Nickname" component={NicknamePage} />
