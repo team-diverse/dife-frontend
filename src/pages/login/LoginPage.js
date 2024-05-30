@@ -76,7 +76,7 @@ const LoginPage = () => {
             switch (status) {
                 case 401:
                     console.error('401:', error.response ? error.response.data : error.message);
-                    navigation.navigate('LoadingVerificationPage');
+                    navigation.navigate('LoadingVerification');
                     break;
                 case 500:
                     console.error('500:', error.response ? error.response.data : error.message);
