@@ -52,6 +52,8 @@ import MyAc32 from '@components/Icon32/MyAc32';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+import {connectWebSocket} from "./src/config/websocket";
+
 const iconMapping = {
     Chat: {active: ChatAc32, default: ChatDf24},
     Connect: {active: ConnectAc32, default: ConnectDf24},
@@ -141,8 +143,13 @@ export default function App() {
         }
     };
 
+    const handleMessage = (message) => {
+       console.log(message);
+    }
+
     useEffect(() => {
         CheckAccess();
+        connectWebSocket(handleMessage);
     }, []);
 
     const [loaded] = useFonts({
