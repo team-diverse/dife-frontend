@@ -27,13 +27,11 @@ const FindPasswordPage = () => {
 
     const handleFindPassword = () => {
         setModalConnectVisible(true);
-
-        const formData = new FormData();
-        formData.append('email', valueID);
+        console.log('이메일 주소:', valueID);
     
-        axios.put('http://192.168.45.89:8080/api/members/change-password', formData, {
+        axios.get('http://192.168.0.4:8080/api/members/change-password', {
+            params: { email: valueID },
             headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
                 'Accept': 'application/json',
             }
         })
@@ -43,6 +41,7 @@ const FindPasswordPage = () => {
             navigation.navigate('FindPasswordVerifying');
         })
         .catch(error => {
+            setModalConnectVisible(false);
             console.error('비밀번호 재발급 실패:', error.response ? error.response.data : error.message);
             setIdValid(false);
         }).finally(() => {
