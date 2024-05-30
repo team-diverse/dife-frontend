@@ -1,4 +1,3 @@
-ConnectProfileBackground
 import * as React from 'react';
 import Svg, { Circle, Rect } from 'react-native-svg';
 
