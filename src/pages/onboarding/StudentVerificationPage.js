@@ -53,25 +53,34 @@ const StudentVerificationPage = () => {
 
     const handleOnboarding = () => {
         const formData = new FormData();
+        formData.append('username', onboardingData.username);
+        formData.append('isKorean', onboardingData.isKorean);
         formData.append('bio', onboardingData.bio);
         formData.append('mbti', onboardingData.mbti);
         formData.append('hobbies', JSON.stringify(onboardingData.hobbies));
-        formData.append('profile_img', onboardingData.profile_img);
+        formData.append('languages', onboardingData.languages);
+        if (onboardingData.profileImg) {
+            const file = {
+                uri: image,
+                type: 'image/jpeg',
+                name: `${onboardingData.id}_profile.jpg`
+            };
+            formData.append('profileImg', file);
+        }
         if (image) {
             const file = {
                 uri: image,
                 type: 'image/jpeg',
                 name: `${onboardingData.id}_verification.jpg`
             };
-            formData.append('verification_file', file);
+            formData.append('verificationFile', file);
         }
-        formData.append('verification_file', image);
     
-        axios.put(`http://192.168.45.89:8080/api/members/${onboardingData.id}?username=${onboardingData.username}&is_korean=${onboardingData.is_korean}&languages=${onboardingData.languages}`, formData, {
+        axios.put(`http://192.168.0.4:8080/api/members/${onboardingData.id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data',
                 'Accept': 'application/json',
-                'Authorization': `Bearer ${onboardingData.token}`
+                'Authorization': `Bearer ${onboardingData.accessToken}`
             }
         })
         .then(response => {
