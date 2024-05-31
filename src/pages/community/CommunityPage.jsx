@@ -74,7 +74,7 @@ const CommunityPage = () => {
           </View>
 
           <View style={{marginTop: 130}}>
-            <TouchableOpacity onPress={() => navigation.navigate('GoodTipCommunityPage')}>
+            <TouchableOpacity onPress={() => navigation.navigate('TipCommunityPage')}>
               <View style={CommunityStyles.containerCommunityTop}>
                 <View style={CommunityStyles.containerTitle}>
                   <IconCommunityTitle style={CommunityStyles.iconCommunity} />

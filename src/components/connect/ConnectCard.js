@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
         backgroundColor: CustomTheme.bgBasic,
         borderRadius: 20,
         overflow: "hidden",
+        marginVertical: 10,
     },
     profile: {
         width: 92,

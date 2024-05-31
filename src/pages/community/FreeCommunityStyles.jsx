@@ -17,7 +17,7 @@ const FreeCommunityStyles = StyleSheet.create({
     iconPostPlus: {
         position: 'absolute',
         right: 12,
-        bottom: 12,
+        bottom: 46,
         shadowColor: '#3C454E',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.4,

@@ -59,6 +59,11 @@ const ConnectProfileStyles = StyleSheet.create({
         color: CustomTheme.textDisable,
         textDecorationLine: 'underline',
     },
+    bottomTwoButtons: {
+        position: 'absolute',
+        width: '100%',
+        bottom: 0,
+    },
 });
 
 export default ConnectProfileStyles;
