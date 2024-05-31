@@ -31,7 +31,7 @@ const FindPasswordPage = () => {
         const formData = new FormData();
         formData.append('email', valueID);
     
-        axios.put('http://192.168.45.92:8080/api/members/change-password', formData, {
+        axios.put('http://192.168.45.89:8080/api/members/change-password', formData, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Accept': 'application/json',
@@ -45,6 +45,8 @@ const FindPasswordPage = () => {
         .catch(error => {
             console.error('비밀번호 재발급 실패:', error.response ? error.response.data : error.message);
             setIdValid(false);
+        }).finally(() => {
+            setModalConnectVisible(false);
         });
     };
 
@@ -72,7 +74,7 @@ const FindPasswordPage = () => {
                         <Text style={FindPasswordStyles.textNotMember}>등록된 회원정보가 없습니다</Text>
                     </View>
                 )}
-                <ApplyButton text="비밀번호 재발급받기" onPress={handleFindPassword}/>
+                <ApplyButton text="비밀번호 재발급받기" disabled={valueID === ''} onPress={handleFindPassword}/>
                 <ConnectRequest
                     modalVisible={modalConnectVisible}
                     setModalVisible={setModalConnectVisible}

@@ -5,7 +5,6 @@ const { fontBody18, fontBody14 } = CustomTheme;
 
 const WhiteStyles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: CustomTheme.bgBasic,
     },
     containerWhite: {
@@ -45,11 +44,13 @@ const WhiteStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        marginTop: 10,
+        marginBottom: 6,
     },
     containerRule: {
         marginTop: -30,
         paddingTop: 47,
-        paddingBottom: 20,
+        paddingBottom: 50,
         paddingHorizontal: 22,
         minHeight: 400,
         backgroundColor: CustomTheme.primaryBg,

@@ -74,14 +74,11 @@ const ChattingStyles = StyleSheet.create({
         position: 'absolute',
         right: 12,
     },
-    containerMiddle: {
+    tabContainer: {
+        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 145,
-    },
-    containerTab: {
-        flex: 1,
-        flexDirection: 'row',
         marginLeft: 30,
     },
     textTab: {
@@ -90,14 +87,11 @@ const ChattingStyles = StyleSheet.create({
         textDecorationLine: 'underline',
         marginRight: 18,
     },
-    containerReset: {
-        flexDirection: 'row',
-        marginRight: 30,
-        alignItems: 'center',
-    },
-    textReset: {
-        ...fontCaption,
+    textActiveTab: {
+        ...fontHead18,
         color: CustomTheme.primaryMedium,
+        textDecorationLine: 'underline',
+        marginRight: 18,
     },
     flatlist: {
         flex: 1,

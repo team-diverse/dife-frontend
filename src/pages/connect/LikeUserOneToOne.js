@@ -19,21 +19,21 @@ const LikeUserOneToOne = () => {
     ]
 
     return (
-        <SafeAreaView style={[ConnectLikeUserStyles.container, { alignItems: 'center' }]}>
-            <View style={ConnectStyles.cardContainer}>
+        <SafeAreaView style={ConnectLikeUserStyles.container}>
+          <View style={[ConnectStyles.cardContainer, {marginTop: 14,}]}>
             <View style={ConnectStyles.flatlist}>
-            <FlatList
-            contentContainerStyle={ConnectStyles.flatlistContent}
+              <FlatList
+                contentContainerStyle={ConnectStyles.flatlistContent}
                 data={connectData}
                 renderItem={({ item }) => (
-                    <View style={ConnectStyles.cardContainer}>
-                    <ConnectCard
-                      {...item}
-                      tag={item.tags} />
-                    </View>
+                  <View style={ConnectStyles.cardContainer}>
+                  <ConnectCard
+                    {...item}
+                    tag={item.tags} />
+                  </View>
                 )}
                 keyExtractor={item => item.id}
-            />
+              />
             </View>
           </View>
         </SafeAreaView>

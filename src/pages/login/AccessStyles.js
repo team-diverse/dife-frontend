@@ -46,6 +46,11 @@ const AccessStyles = StyleSheet.create({
         textDecorationLine: 'underline',
         marginTop: 20,
     },
+    applyButton: {
+        position: 'absolute',
+        width: '100%',
+        bottom: 80,
+    },
 });
 
 export default AccessStyles;

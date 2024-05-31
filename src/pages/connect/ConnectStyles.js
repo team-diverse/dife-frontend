@@ -78,6 +78,7 @@ const ConnectStyles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 145,
+        marginBottom: 12,
     },
     tabContainer: {
         flex: 1,
@@ -108,7 +109,6 @@ const ConnectStyles = StyleSheet.create({
     },
     flatlist: {
         flex: 1,
-        marginTop: 22,
         width: '100%',
     },
     flatlistContent: {

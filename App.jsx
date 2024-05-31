@@ -32,7 +32,7 @@ import LoadingVerificationPage from '@pages/onboarding/LoadingVerificationPage'
 import BookmarkPage from '@pages/chat/BookmarkPage';
 import FriendListPage from '@pages/chat/FriendListPage'
 import ChatRoomPage from '@pages/chat/ChatRoomPage'
-import GoodTipCommunityPage from '@pages/community/GoodTipCommunityPage';
+import TipCommunityPage from '@pages/community/TipCommunityPage';
 import FreeCommunityPage from '@pages/community/FreeCommunityPage';
 import WhitePage from '@pages/community/WhitePage';
 import PostPage from '@pages/community/PostPage';
@@ -197,8 +197,8 @@ export default function App() {
                         component={ChatRoomPage}
                     />
                     <Stack.Screen
-                        name="GoodTipCommunityPage"
-                        component={GoodTipCommunityPage}
+                        name="TipCommunityPage"
+                        component={TipCommunityPage}
                     />
                     <Stack.Screen
                         name="FreeCommunityPage"

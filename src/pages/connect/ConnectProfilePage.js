@@ -97,10 +97,12 @@ const ConnectProfilePage = () => {
                     />
                 </View>
             </ScrollView>
-            <BottomTwoButtons shadow='true'>
-                <View text='채팅하기' onPress={handleChat} />
-                <View text='커넥트 요청' onPress={handleConnect} />
-            </BottomTwoButtons>
+            <View style={ConnectProfileStyles.bottomTwoButtons}>
+                <BottomTwoButtons shadow='true'>
+                    <View text='채팅하기' onPress={handleChat} />
+                    <View text='커넥트 요청' onPress={handleConnect} />
+                </BottomTwoButtons>
+            </View>
             <ConnectRequest
                 modalVisible={modalConnectVisible}
                 setModalVisible={setModalConnectVisible} />
