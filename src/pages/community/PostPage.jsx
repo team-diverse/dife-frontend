@@ -99,6 +99,7 @@ const PostPage = ({ route }) => {
                         <ModalKebabMenu
                             modalVisible={modalVisible}
                             setModalVisible={setModalVisible}
+                            id={id}
                             isPublic={isPublic}
                             isMe={isMe}
                         />
