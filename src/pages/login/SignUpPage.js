@@ -6,11 +6,11 @@ import axios from 'axios';
 import SignUpStyles from '@pages/login/SignUpStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import ApplyButton from '@components/common/ApplyButton';
 import InfoCircle from '@components/common/InfoCircle';
 import IconNotSeePw from '@components/login/IconNotSeePw';
 import IconSeePw from '@components/login/IconSeePw';
+import GoBack from '@components/common/GoBack';
 
 const SignUpPage = () => {
     const navigation = useNavigation();
@@ -29,10 +29,6 @@ const SignUpPage = () => {
     useEffect(() => {
         setIsFormValid(valueID && valuePW && valueCheckPW && passwordMatch && !passwordError);
     }, [valueID, valuePW, valueCheckPW, passwordMatch, passwordError]);
-
-    const handleGoBack = () => {
-        navigation.goBack();
-    };
 
     const handleShowPW = () => {
         setShowPW(!showPW);
@@ -76,9 +72,7 @@ const SignUpPage = () => {
     return (
         <TouchableWithoutFeedback onPress={handleKeyboard}>
         <SafeAreaView style={[SignUpStyles.container]}>
-            <TouchableOpacity onPress={handleGoBack}>
-                <ArrowRight32 style={SignUpStyles.iconArrow} color={CustomTheme.textPrimary} />
-            </TouchableOpacity>
+            <GoBack />
             <Text style={SignUpStyles.textTitle}>{SignUpData[0]}</Text>
             <Text style={SignUpStyles.textId}>이메일</Text>
             <TextInput style={SignUpStyles.textInputId}

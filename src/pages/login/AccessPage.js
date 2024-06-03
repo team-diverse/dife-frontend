@@ -1,29 +1,19 @@
 import React from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native'
+import { View, Text, SafeAreaView } from 'react-native';
 
 import AccessStyles from '@pages/login/AccessStyles';
-import { CustomTheme } from '@styles/CustomTheme';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import ApplyButton from '@components/common/ApplyButton';
 import IconAccessCamera from '@components/login/IconAccessCamera';
 import IconAccessNotification from '@components/login/IconAccessNotification';
 import IconAccessImage from '@components/login/IconAccessImage';
 import IconAccessPhone from '@components/login/IconAccessPhone';
+import GoBack from '@components/common/GoBack';
 
 const AccessPage = () => {
-    const navigation = useNavigation();
-
-    const handleGoBack = () => {
-        navigation.goBack();
-    };
-
     return (
         <SafeAreaView style={[AccessStyles.container]}>
-            <TouchableOpacity onPress={handleGoBack}>
-                <ArrowRight32 style={AccessStyles.iconArrow} color={CustomTheme.textPrimary} />
-            </TouchableOpacity>
+            <GoBack />
             <Text style={AccessStyles.textTitle}>앱 서비스 접근 권한 허용</Text>
             <View style={AccessStyles.containerContent}>
                 <IconAccessPhone />
