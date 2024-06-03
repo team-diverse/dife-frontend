@@ -16,7 +16,7 @@ const ConnectProfileStyles = StyleSheet.create({
         marginHorizontal: 20,
     },
     scrollView: {
-        width: '100%',
+        flex: 1,
     },
     background: {
         position: 'absolute',
@@ -53,6 +53,7 @@ const ConnectProfileStyles = StyleSheet.create({
     report: {
         alignItems: 'center',
         marginVertical: 16,
+        paddingBottom: 50,
     },
     textReport: {
         ...fontBody14,
