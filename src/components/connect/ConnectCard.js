@@ -10,13 +10,13 @@ import Tag from "@components/Tag.js";
 const { fontSub14, fontCaption } = CustomTheme;
 
 const ConnectCard = ({
-    profile = null,
-    name = "name",
+    profileFileName = null,
+    username = "username",
     country = "country",
     age = "age",
     major = "major",
-    introduction = "introduction",
-    tag = ["tag"],
+    bio = "bio",
+    tags = ["tag"],
 }) => {
     const navigation = useNavigation();
     const [heart, setHeart] = useState(false);
@@ -28,11 +28,11 @@ const ConnectCard = ({
     return (
         <View style={styles.rectangle}>
             <View style={styles.profile}>
-                <Image source={profile} style={styles.imgProfile} />
+                <Image source={profileFileName} style={styles.imgProfile} />
             </View>
             <View style={styles.cardContainer}>
                 <View style={styles.textIconContainer}>
-                    <Text style={styles.textName}>{name}</Text>
+                    <Text style={styles.textName}>{username}</Text>
                     <View style={styles.iconContainer}>
                         <IconHeart24 active={heart} onPress={handleHeartPress}/>
                         <TouchableOpacity
@@ -47,9 +47,9 @@ const ConnectCard = ({
                 <Text style={styles.textBasicInfo}>
                     {country} | {age} | {major}
                 </Text>
-                <Text style={styles.textIntroduction}>{introduction}</Text>
+                <Text style={styles.textIntroduction}>{bio}</Text>
                 <View style={styles.tagContainer}>
-                    <Tag tag={tag} />
+                    <Tag tag={tags} />
                 </View>
             </View>
         </View>
