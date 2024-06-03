@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, SafeAreaView, Keyboard, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
 import CommunityStyles from '@pages/community/CommunityStyles';
+import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ConnectTop from '@components/connect/ConnectTop';
 import ConnectSearchIcon from '@components/connect/ConnectSearchIcon';
@@ -46,6 +47,42 @@ const CommunityPage = () => {
     Keyboard.dismiss();
   };
 
+  const [tipPostList, setTipPostList] = useState([]);
+  const [freePostList, setFreePostList] = useState([]);
+  const { onboardingData } = useOnboarding();
+
+  useEffect(() => {
+    axios.get('http://192.168.45.176:8080/api/posts', {
+      params: { boardCategory: 'TIP' },
+      headers: {
+        'Authorization': `Bearer ${onboardingData.accessToken}`,
+        'Accept': 'application/json'
+      },
+      })
+      .then(response => {
+        setTipPostList(response.data.slice(0, 3));
+      })
+      .catch(error => {
+        console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios.get('http://192.168.45.176:8080/api/posts', {
+      params: { boardCategory: 'FREE' },
+      headers: {
+        'Authorization': `Bearer ${onboardingData.accessToken}`,
+        'Accept': 'application/json'
+      },
+      })
+      .then(response => {
+        setFreePostList(response.data.slice(0, 3));
+      })
+      .catch(error => {
+        console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
+      });
+  }, []);
+
   return (
     <View style={CommunityStyles.container}>
         <ConnectTop style={CommunityStyles.connectTop}/>
@@ -86,11 +123,7 @@ const CommunityPage = () => {
                 </View>
               </View>
               <View style={CommunityStyles.itemCommunityPreview}>
-                <ItemCommunityPreview props={[
-                  { title: '성곡도서관 가는 길', context: '북악관 머시기저시기 와라라라라라랄 지나서...' },
-                  { title: '교환학생 잘 가는 방법', context: '토플 공부 기깔나게 하기, 외국인 친구 사귀기...' },
-                  { title: '교환학생 잘 가는 방법', context: '토플 공부 기깔나게 하기, 외국인 친구 사귀기...' },
-                ]} />
+                <ItemCommunityPreview props={tipPostList} />
               </View>
             </TouchableOpacity>
 
@@ -106,11 +139,7 @@ const CommunityPage = () => {
                 </View>
               </View>
               <View style={CommunityStyles.itemCommunityPreview}>
-                <ItemCommunityPreview props={[
-                  { title: '성곡도서관 가는 길', context: '북악관 머시기저시기 와라라라라라랄 지나서...' },
-                  { title: '교환학생 잘 가는 방법', context: '토플 공부 기깔나게 하기, 외국인 친구 사귀기...' },
-                  { title: '교환학생 잘 가는 방법', context: '토플 공부 기깔나게 하기, 외국인 친구 사귀기...' },
-                ]} />
+                <ItemCommunityPreview props={freePostList} />
               </View>
             </TouchableOpacity>
           </View>
