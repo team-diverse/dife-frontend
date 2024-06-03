@@ -15,6 +15,7 @@ import DifeLine from '@components/community/DifeLine';
 import Checkbox from '@components/common/Checkbox';
 import IconChatSend from '@components/chat/IconChatSend';
 import ItemComment from '@components/community/ItemComment';
+import ModalKebabMenu from '@components/community/ModalKebabMenu';
 
 const PostPage = ({ route }) => {
     const [comments, setComments] = useState([
@@ -30,12 +31,16 @@ const PostPage = ({ route }) => {
         setIsChecked(!isChecked);
     };
 
+    const [ modalVisible, setModalVisible ] = useState(false);
+
     const { id } = route.params;
     const { onboardingData } = useOnboarding();
-    const [isTitle, setIsTitle] = useState('');
-    const [isContext, setIsContext] = useState('');
-    const [isPublic, setIsPublic] = useState('');
-    const [isDate, setIsDate] = useState('');
+    const [title, setTitle] = useState('');
+    const [context, setContext] = useState('');
+    const [writerName, setWriterName] = useState('');
+    const [isPublic, setIsPublic] = useState();
+    const [created, setCreated] = useState('');
+    const [isMe, setIsMe] = useState(false);
 
     const date = (date) => {
         const datePart = date.split('T')[0];
@@ -51,19 +56,29 @@ const PostPage = ({ route }) => {
           },
           })
           .then(response => {
-            setIsTitle(response.data.title);
-            setIsContext(response.data.content);
-            setIsDate(date(response.data.created));
+            setTitle(response.data.title);
+            setContext(response.data.content);
+            setCreated(date(response.data.created));
+            setIsPublic(response.data.isPublic)
+
             if (response.data.isPublic === false) {
-                setIsPublic(response.data.member.username);
+                setWriterName(response.data.member.username);
             } else if (response.data.isPublic === true) {
-                setIsPublic('익명');
+                setWriterName('익명');
+            };
+
+            if (onboardingData.id === response.data.member.id) {
+                setIsMe(true)
             };
           })
           .catch(error => {
             console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
           });
       }, []);
+
+    const handleKebabMenu = () => {
+        setModalVisible(true);
+    };
 
     return (
         <SafeAreaView style={PostStyles.container}>
@@ -74,14 +89,22 @@ const PostPage = ({ route }) => {
                         <View style={{flexDirection: 'row'}}>
                             <IconProfileK />
                             <View style={PostStyles.containerWriterText}>
-                                <Text style={PostStyles.textWriter}>{isPublic}</Text>
-                                <Text style={PostStyles.textDate}>{isDate}</Text>
+                                <Text style={PostStyles.textWriter}>{writerName}</Text>
+                                <Text style={PostStyles.textDate}>{created}</Text>
                             </View>
                         </View>
-                        <IconKebabMenu />
+                        <TouchableOpacity onPress={handleKebabMenu}>
+                            <IconKebabMenu />
+                        </TouchableOpacity>
+                        <ModalKebabMenu
+                            modalVisible={modalVisible}
+                            setModalVisible={setModalVisible}
+                            isPublic={isPublic}
+                            isMe={isMe}
+                        />
                     </View>
-                    <Text style={PostStyles.textTitle}>{isTitle}</Text>
-                    <Text style={PostStyles.textContext}>{isContext}</Text>
+                    <Text style={PostStyles.textTitle}>{title}</Text>
+                    <Text style={PostStyles.textContext}>{context}</Text>
                     <View style={PostStyles.containerIconRow}>
                         <View style={PostStyles.iconRow}>
                             <IconHeart />
