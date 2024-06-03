@@ -8,10 +8,6 @@ const FindPasswordVerifyingStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: CustomTheme.bgBasic,
     },
-    iconArrow: {
-        marginTop: 5,
-        marginLeft: 14,
-    },
     containerContent: {
         alignItems: 'center',
     },

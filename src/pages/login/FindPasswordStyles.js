@@ -8,10 +8,6 @@ const FindPasswordStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: CustomTheme.bgBasic,
     },
-    iconArrow: {
-        marginTop: 5,
-        marginLeft: 14,
-    },
     textTitle: {
         ...fontHead24,
         marginTop: 28,
