@@ -1,15 +1,49 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 import { CustomTheme } from '@styles/CustomTheme';
+import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import Modal from 'react-native-modal';
 import InfoCircle from '@components/common/InfoCircle';
 
 const { fontBody14 } = CustomTheme;
 
-const ModalKebabMenu = ({ modalVisible, setModalVisible, isPublic, isMe }) => {
+const ModalKebabMenu = ({ modalVisible, setModalVisible, id, isPublic, isMe }) => {
     const rectangleStyle = () => isMe ? styles.rectangle : (isPublic ? styles.rectangle : styles.rectangleIsPublic);
+
+    const { onboardingData } = useOnboarding();
+    const navigation = useNavigation();
+
+    const handleDelete = () => {
+        Alert.alert(
+            "삭제",
+            "이 게시글을 삭제하시겠습니까?",
+            [
+                { text: "취소", style: "cancel" },
+                {
+                    text: "확인",
+                    onPress: () => {
+                        axios.delete(`http://192.168.45.176:8080/api/posts/${id}`, {
+                            headers: {
+                                'Authorization': `Bearer ${onboardingData.accessToken}`,
+                                'Accept': 'application/json'
+                            },
+                        })
+                        .then(response => {
+                            navigation.goBack();
+                        })
+                        .catch(error => {
+                            console.error('게시글 삭제 오류:', error.response ? error.response.data : error.message);
+                        });
+                    }
+                }
+                ],
+            { cancelable: false }
+        );
+    };
 
     return (
         <Modal
@@ -24,7 +58,7 @@ const ModalKebabMenu = ({ modalVisible, setModalVisible, isPublic, isMe }) => {
                         <Text style={styles.textIsMe}>글 수정</Text>
                     </TouchableOpacity>
                     <View style={styles.line} />
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handleDelete}>
                         <Text style={styles.textIsMe}>글 삭제</Text>
                     </TouchableOpacity>
                     </>
