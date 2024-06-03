@@ -25,7 +25,7 @@ const CompleteProfilePage = () => {
                 <IconLoading />
             </View>
             <View style={CompleteProfileStyles.buttonCheck}>
-                <ApplyButton text="확인" onPress={() => navigation.navigate('')}/>
+                <ApplyButton text="확인" onPress={() => navigation.navigate('LoadingVerification')}/>
             </View>
         </SafeAreaView>
     )
