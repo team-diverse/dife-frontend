@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Animated, Dimensions } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { SafeAreaView, View, Text, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Animated, Dimensions, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -12,14 +12,18 @@ import IconChatProfile from '@components/chat/IconChatProfile'
 import IconChatOut from '@components/chat/IconChatOut'
 import IconChatNotification from '@components/chat/IconChatNotification'
 import IconChatSetting from '@components/chat/IconChatSetting'
+import ChatBubble from './ChatBubble/ChatBubble';
+import { useWebSocket } from 'context/WebSocketContext';
 
-const ChatRoomPage = () => {
+const ChatRoomPage = ({route}) => {
     const navigation = useNavigation();
     const insets = useSafeAreaInsets();
     const [menuOpen, setMenuOpen] = useState(false);
     const menuWidth = 259;
     const screenWidth = Dimensions.get('window').width;
     const menuAnim = useRef(new Animated.Value(screenWidth)).current;
+    const { messages } = useWebSocket();
+    const { chatroomId } = route.params;
 
     const handleKeyboard = () => {
         Keyboard.dismiss();
@@ -62,13 +66,20 @@ const ChatRoomPage = () => {
                     </TouchableOpacity>
                 </View>
                 
+                <View style={ChatRoomStyles.containerChat}>
+                    <FlatList 
+                        data={messages[chatroomId] || []}
+                        keyExtractor={item => item.id}
+                        renderItem={({item}) => ChatBubble(item)}
+                    />
+                </View>
                 <ChatInputSend />
 
                 {menuOpen && 
-                <TouchableOpacity
-                    onPress={toggleMenu}
-                    style={[ChatRoomStyles.menuBackground, {top: insets.top}]}
-                />
+                    <TouchableOpacity
+                        onPress={toggleMenu}
+                        style={[ChatRoomStyles.menuBackground, {top: insets.top}]}
+                    />
                 }
                 <Animated.View
                     style={[ChatRoomStyles.menu, {top: insets.top, width: menuWidth, transform: [{ translateX: menuAnim }]}]}
