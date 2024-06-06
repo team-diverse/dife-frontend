@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     },
     textPostContext: {
       ...fontCaption,
+      height: 17,
       marginTop: 3,
     },
 });
