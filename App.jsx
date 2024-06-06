@@ -4,7 +4,8 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useFonts} from 'expo-font';
 import * as Notifications from 'expo-notifications';
-import { OnboardingProvider, useOnboarding } from 'src/states/OnboardingContext.js';
+import { OnboardingProvider } from 'src/states/OnboardingContext.js';
+import { PostModifyProvider } from 'src/states/PostModifyContext';
 import { AuthProvider, useAuth } from 'src/states/AuthContext';
 
 import ChattingPage from '@pages/chat/ChattingPage';
@@ -49,6 +50,7 @@ import ConnectAc32 from '@components/Icon32/ConnectAc32';
 import HomeAc32 from '@components/Icon32/HomeAc32';
 import CommuAc32 from '@components/Icon32/CommuAc32';
 import MyAc32 from '@components/Icon32/MyAc32';
+import PostModifyPage from '@pages/community/PostModifyPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -126,9 +128,11 @@ function App() {
     return (
         <AuthProvider>
             <OnboardingProvider>
+            <PostModifyProvider>
                 <NavigationContainer>
                     <AppContent />
                 </NavigationContainer>
+            </PostModifyProvider>
             </OnboardingProvider>
         </AuthProvider>
     );
@@ -222,6 +226,10 @@ function MainNavigator() {
             <Stack.Screen
                 name="PostPage"
                 component={PostPage}
+            />
+            <Stack.Screen
+                name="PostModifyPage"
+                component={PostModifyPage}
             />
         </Stack.Navigator>
     );
