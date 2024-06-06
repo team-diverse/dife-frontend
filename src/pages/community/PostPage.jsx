@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, Text, TextInput, View, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 import PostStyles from '@pages/community/PostStyles';
 import { CustomTheme } from '@styles/CustomTheme';
@@ -51,7 +52,7 @@ const PostPage = ({ route }) => {
         return `${month}/${day}`;
       };
 
-    useEffect(() => {
+    const handlePost = () => {
         axios.get(`http://10.224.101.45:8080/api/posts/${id}`, {
           headers: {
             'Authorization': `Bearer ${onboardingData.accessToken}`,
@@ -85,7 +86,17 @@ const PostPage = ({ route }) => {
           .catch(error => {
             console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
           });
+    };
+
+    useEffect(() => {
+        handlePost();
       }, []);
+    
+      useFocusEffect(
+        React.useCallback(() => {
+            handlePost();
+        }, [])
+      );
 
     const handleKebabMenu = () => {
         setModalVisible(true);

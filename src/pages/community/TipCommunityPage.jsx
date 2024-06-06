@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, SafeAreaView, Keyboard, TouchableOpacity, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
 import TipCommunityStyles from '@pages/community/TipCommunityStyles';
@@ -49,8 +49,8 @@ const TipCommunityPage = () => {
   const [postList, setPostList] = useState([]);
   const { onboardingData } = useOnboarding();
 
-  useEffect(() => {
-    axios.get('http://192.168.45.176:8080/api/posts', {
+  const handleTipCommunity = () => {
+    axios.get('http://10.224.101.45:8080/api/posts', {
       params: { boardCategory: 'TIP' },
       headers: {
         'Authorization': `Bearer ${onboardingData.accessToken}`,
@@ -63,7 +63,17 @@ const TipCommunityPage = () => {
       .catch(error => {
         console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
       });
+  };
+
+  useEffect(() => {
+    handleTipCommunity();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      handleTipCommunity();
+    }, [])
+  );
 
   return (
     <View style={TipCommunityStyles.container}>

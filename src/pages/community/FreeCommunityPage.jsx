@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, SafeAreaView, Keyboard, TouchableOpacity, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
 import FreeCommunityStyles from '@pages/community/FreeCommunityStyles';
@@ -49,7 +49,7 @@ const FreeCommunityPage = () => {
   const [postList, setPostList] = useState([]);
   const { onboardingData } = useOnboarding();
 
-  useEffect(() => {
+  const handleFreeCommunity = () => {
     axios.get('http://192.168.45.176:8080/api/posts', {
       params: { boardCategory: 'FREE' },
       headers: {
@@ -63,7 +63,17 @@ const FreeCommunityPage = () => {
       .catch(error => {
         console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
       });
+  };
+
+  useEffect(() => {
+    handleFreeCommunity();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      handleFreeCommunity();
+    }, [])
+  );
 
   return (
     <View style={FreeCommunityStyles.container}>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, SafeAreaView, Keyboard, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
 import CommunityStyles from '@pages/community/CommunityStyles';
@@ -51,8 +51,8 @@ const CommunityPage = () => {
   const [freePostList, setFreePostList] = useState([]);
   const { onboardingData } = useOnboarding();
 
-  useEffect(() => {
-    axios.get('http://192.168.45.176:8080/api/posts', {
+  const handleFreeCommunity = () => {
+    axios.get('http://10.224.101.45:8080/api/posts', {
       params: { boardCategory: 'TIP' },
       headers: {
         'Authorization': `Bearer ${onboardingData.accessToken}`,
@@ -65,10 +65,20 @@ const CommunityPage = () => {
       .catch(error => {
         console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
       });
-  }, []);
+  };
 
   useEffect(() => {
-    axios.get('http://192.168.45.176:8080/api/posts', {
+    handleFreeCommunity();
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      handleFreeCommunity();
+    }, [])
+  );
+
+  const handleTipCommunity = () => {
+    axios.get('http://10.224.101.45:8080/api/posts', {
       params: { boardCategory: 'FREE' },
       headers: {
         'Authorization': `Bearer ${onboardingData.accessToken}`,
@@ -81,7 +91,17 @@ const CommunityPage = () => {
       .catch(error => {
         console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
       });
+  };
+
+  useEffect(() => {
+    handleTipCommunity();
   }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      handleTipCommunity();
+    }, [])
+  );
 
   return (
     <View style={CommunityStyles.container}>
