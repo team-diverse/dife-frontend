@@ -5,6 +5,7 @@ import axios from 'axios';
 import PostStyles from '@pages/community/PostStyles';
 import { CustomTheme } from '@styles/CustomTheme';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
+import { usePostModify } from 'src/states/PostModifyContext';
 
 import TopBar from '@components/common/TopBar';
 import IconProfileK from '@components/community/IconProfileK';
@@ -35,6 +36,8 @@ const PostPage = ({ route }) => {
 
     const { id } = route.params;
     const { onboardingData } = useOnboarding();
+    const { updatePostModifyData } = usePostModify();
+    
     const [title, setTitle] = useState('');
     const [context, setContext] = useState('');
     const [writerName, setWriterName] = useState('');
@@ -49,7 +52,7 @@ const PostPage = ({ route }) => {
       };
 
     useEffect(() => {
-        axios.get(`http://192.168.45.176:8080/api/posts/${id}`, {
+        axios.get(`http://10.224.101.45:8080/api/posts/${id}`, {
           headers: {
             'Authorization': `Bearer ${onboardingData.accessToken}`,
             'Accept': 'application/json'
@@ -69,6 +72,14 @@ const PostPage = ({ route }) => {
 
             if (onboardingData.id === response.data.member.id) {
                 setIsMe(true)
+                updatePostModifyData({
+                    memberId: response.data.member.id,
+                    id: id,
+                    title: response.data.title,
+                    context: response.data.content,
+                    boardType: response.data.boardType,
+                    isPublic: response.data.isPublic,
+                });
             };
           })
           .catch(error => {
