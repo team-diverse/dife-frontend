@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
+<<<<<<< HEAD
 import { TouchableOpacity, Text, TextInput, View, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+=======
+import { TouchableOpacity, Text, TextInput, View, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
+>>>>>>> ec1d000 (style: 게시글 내용이 짧을 때 댓글창에 빈 부분이 생기지 않도록 수정)
 import axios from 'axios';
 
 import PostStyles from '@pages/community/PostStyles';
@@ -25,7 +29,7 @@ const PostPage = ({ route }) => {
         { title: '익명', context: '토플 공부 기깔나게 하기, 외국인 친구 사귀기...', heart: '20', bookmark: '1', date: '5/11' },
     ]);
 
-    const difeLinesCount = Math.floor(comments.length / 2);
+    const difeLinesCount = Math.floor(comments.length / 1.5);
     const [isChecked, setIsChecked] = useState(false);
 
     const handlePress = () => {
@@ -91,6 +95,8 @@ const PostPage = ({ route }) => {
         setModalVisible(true);
     };
 
+    const windowHeight = Dimensions.get('window').height;
+
     return (
         <SafeAreaView style={PostStyles.container}>
             <TopBar topBar="게시판" color='#000' />
@@ -132,14 +138,14 @@ const PostPage = ({ route }) => {
                     </View>
                 </View>
 
-                <View style={PostStyles.containerBackground}>
-                <View style={PostStyles.difeLine}>
-                    {Array.from({ length: difeLinesCount }).map((_, index) => (
-                        <DifeLine key={index} />
-                    ))}
-                </View>
-                <View style={{marginTop: 48}}>
-                    <ItemComment props={comments} />
+                <View style={[PostStyles.containerBackground, {minHeight: windowHeight-300}]}>
+                    <View style={PostStyles.difeLine}>
+                        {Array.from({ length: difeLinesCount }).map((_, index) => (
+                            <DifeLine key={index} />
+                        ))}
+                    </View>
+                    <View style={{marginTop: 48}}>
+                        <ItemComment props={comments} />
                     </View>
                 </View>
             </ScrollView>

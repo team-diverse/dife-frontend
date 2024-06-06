@@ -69,7 +69,6 @@ const PostStyles = StyleSheet.create({
         paddingTop: 30,
         paddingBottom: 40,
         paddingHorizontal: 22,
-        minHeight: 495,
         backgroundColor: CustomTheme.primaryBg,
         zIndex: -1,
         overflow: 'hidden',
