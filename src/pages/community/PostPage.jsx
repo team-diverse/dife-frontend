@@ -53,7 +53,7 @@ const PostPage = ({ route }) => {
       };
 
     const handlePost = () => {
-        axios.get(`http://10.224.101.45:8080/api/posts/${id}`, {
+        axios.get(`http://192.168.45.165:8080/api/posts/${id}`, {
           headers: {
             'Authorization': `Bearer ${onboardingData.accessToken}`,
             'Accept': 'application/json'
@@ -90,26 +90,52 @@ const PostPage = ({ route }) => {
 
     useEffect(() => {
         handlePost();
-      }, []);
-    
-      useFocusEffect(
+    }, []);
+
+    useFocusEffect(
         React.useCallback(() => {
             handlePost();
         }, [])
-      );
+    );
+    
+    const [scrollY, setScrollY] = useState(0);
+    const [iconPosition, setIconPosition] = useState({ x: 0, y: 0 });
+    const [topBarPosition, setTopBarPosition] = useState({ x: 0, y: 0 });
+
+    const handleScroll = (event) => {
+        const { y } = event.nativeEvent.contentOffset;
+        setScrollY(y);
+    };
+
+    const handleKebabMenuLayout = (event) => {
+        const { x, y, width, height } = event.nativeEvent.layout;
+        setIconPosition({ x, y, width, height });
+    };
+
+    const handleTopBarLayout = (event) => {
+        const { x, y, width, height } = event.nativeEvent.layout;
+        setTopBarPosition({ x, y, width, height });
+    };
 
     const handleKebabMenu = () => {
         setModalVisible(true);
+    };
+
+    const modalPosition = {
+        top: iconPosition.height + iconPosition.y + topBarPosition.height + topBarPosition.y - scrollY,
+        width: iconPosition.width
     };
 
     const windowHeight = Dimensions.get('window').height;
 
     return (
         <SafeAreaView style={PostStyles.container}>
-            <TopBar topBar="게시판" color='#000' />
-            <ScrollView>
+            <View onLayout={handleTopBarLayout}>
+                <TopBar topBar="게시판" color='#000' />
+            </View>
+            <ScrollView onScroll={handleScroll}>
                 <View style={PostStyles.containerWhite}>
-                    <View style={PostStyles.containerWriterRow}>
+                    <View style={PostStyles.containerWriterRow} >
                         <View style={{flexDirection: 'row'}}>
                             <IconProfileK />
                             <View style={PostStyles.containerWriterText}>
@@ -117,7 +143,7 @@ const PostPage = ({ route }) => {
                                 <Text style={PostStyles.textDate}>{created}</Text>
                             </View>
                         </View>
-                        <TouchableOpacity onPress={handleKebabMenu}>
+                        <TouchableOpacity onPress={handleKebabMenu} onLayout={handleKebabMenuLayout}>
                             <IconKebabMenu />
                         </TouchableOpacity>
                         <ModalKebabMenu
@@ -126,6 +152,7 @@ const PostPage = ({ route }) => {
                             id={id}
                             isPublic={isPublic}
                             isMe={isMe}
+                            position={modalPosition}
                         />
                     </View>
                     <Text style={PostStyles.textTitle}>{title}</Text>

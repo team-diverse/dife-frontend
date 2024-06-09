@@ -13,7 +13,7 @@ import PostModifyPage from '@pages/community/PostModifyPage';
 
 const { fontBody14 } = CustomTheme;
 
-const ModalKebabMenu = ({ modalVisible, setModalVisible, id, isPublic, isMe }) => {
+const ModalKebabMenu = ({ modalVisible, setModalVisible, id, isPublic, isMe, position }) => {
     const rectangleStyle = () => isMe ? styles.rectangle : (isPublic ? styles.rectangle : styles.rectangleIsPublic);
 
     const { onboardingData } = useOnboarding();
@@ -61,8 +61,9 @@ const ModalKebabMenu = ({ modalVisible, setModalVisible, id, isPublic, isMe }) =
     return (
         <Modal
         isVisible={modalVisible}
-        style={styles.modal}
+        style={[styles.modal, { top: position.top, right: position.width / 2 }]}
         onBackdropPress={() => setModalVisible(false)}
+        backdropColor="rgba(0, 0, 0, 0.3)"
         >
             <View style={rectangleStyle()}>
                 {isMe ? (
@@ -120,8 +121,8 @@ const ModalKebabMenu = ({ modalVisible, setModalVisible, id, isPublic, isMe }) =
 
 const styles = StyleSheet.create({
   modal: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
   },
   rectangle: {
     width: 95,
@@ -143,7 +144,6 @@ const styles = StyleSheet.create({
     backgroundColor: CustomTheme.bgList,
     marginHorizontal: 5,
   },
-  containerIsMe: {},
   textIsMe: {
     ...fontBody14,
     color: CustomTheme.textSecondary,
