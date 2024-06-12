@@ -156,8 +156,13 @@ export default function App() {
         }
     };
 
+    const handleMessage = (message) => {
+       console.log(message);
+    }
+
     useEffect(() => {
         CheckAccess();
+        connectWebSocket(handleMessage);
     }, []);
 
     const [loaded] = useFonts({
