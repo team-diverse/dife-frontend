@@ -52,7 +52,7 @@ import MyAc32 from '@components/Icon32/MyAc32';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-import {connectWebSocket} from "./src/config/websocket";
+import { useWebSocket, WebSocketProvider} from "./src/context/WebSocketContext";
 
 const iconMapping = {
     Chat: {active: ChatAc32, default: ChatDf24},
@@ -94,12 +94,25 @@ function ChattingStack() {
                 name="ChattingPage"
                 component={ChattingPage}
             />
-           
         </Stack.Navigator>
     );
 }
 
 function MainTabs() {
+    const { ws, publishMessage } = useWebSocket();
+
+    useEffect(() => {
+        if (ws.current) {
+            const message = {
+                chatroomType: "GROUP",
+                chatType: "CHAT",
+                message: "Hi, guys By 2",
+                chatroomId: 1,
+                memberId: 2
+            };
+            publishMessage(message);
+        }
+    }, []);
     return (
         <Tab.Navigator
             initialRouteName="Home"
@@ -168,58 +181,60 @@ export default function App() {
         <OnboardingProvider>
             <NavigationContainer>
             {isLoggedIn ? (
-                <Stack.Navigator
-                    initialRouteName="Main"
-                    screenOptions={{ headerShown: false }}
-                >
-                    <Stack.Screen
-                        name="Main"
-                        component={MainTabs}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="ConnectProfilePage"
-                        component={ConnectProfilePage}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="NotificationPage"
-                        component={NotificationPage}
-                    />
-                    <Stack.Screen name="EventPage" component={EventPage} />
-                    <Stack.Screen
-                        name="ConnectLikeUserPage"
-                        component={ConnectLikeUserPage}
-                    />
-                    <Stack.Screen
-                        name="BookmarkPage"
-                        component={BookmarkPage}
-                    />
-                    <Stack.Screen
-                        name="FriendListPage"
-                        component={FriendListPage}
-                    />
-                    <Stack.Screen
-                        name="ChatRoomPage"
-                        component={ChatRoomPage}
-                    />
-                    <Stack.Screen
-                        name="TipCommunityPage"
-                        component={TipCommunityPage}
-                    />
-                    <Stack.Screen
-                        name="FreeCommunityPage"
-                        component={FreeCommunityPage}
-                    />
-                    <Stack.Screen
-                        name="WhitePage"
-                        component={WhitePage}
-                    />
-                    <Stack.Screen
-                        name="PostPage"
-                        component={PostPage}
-                    />
-                </Stack.Navigator>
+                <WebSocketProvider>
+                    <Stack.Navigator
+                        initialRouteName="Main"
+                        screenOptions={{ headerShown: false }}
+                    >
+                        <Stack.Screen
+                            name="Main"
+                            component={MainTabs}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="ConnectProfilePage"
+                            component={ConnectProfilePage}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="NotificationPage"
+                            component={NotificationPage}
+                        />
+                        <Stack.Screen name="EventPage" component={EventPage} />
+                        <Stack.Screen
+                            name="ConnectLikeUserPage"
+                            component={ConnectLikeUserPage}
+                        />
+                        <Stack.Screen
+                            name="BookmarkPage"
+                            component={BookmarkPage}
+                        />
+                        <Stack.Screen
+                            name="FriendListPage"
+                            component={FriendListPage}
+                        />
+                        <Stack.Screen
+                            name="ChatRoomPage"
+                            component={ChatRoomPage}
+                        />
+                        <Stack.Screen
+                            name="TipCommunityPage"
+                            component={TipCommunityPage}
+                        />
+                        <Stack.Screen
+                            name="FreeCommunityPage"
+                            component={FreeCommunityPage}
+                        />
+                        <Stack.Screen
+                            name="WhitePage"
+                            component={WhitePage}
+                        />
+                        <Stack.Screen
+                            name="PostPage"
+                            component={PostPage}
+                        />
+                    </Stack.Navigator>
+                </WebSocketProvider>
             ) : (
                 <Stack.Navigator
                     initialRouteName={initialRoute}
