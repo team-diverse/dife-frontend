@@ -1,23 +1,30 @@
 import * as React from "react";
 import {Text, StyleSheet, View, Image} from "react-native";
-import ChatBubbleTrailSVG from "./ChatBubbleTrailSVG";
+import ChatBubbleRightTrailSVG from "./ChatBubbleRightTrailSVG";
+import ChatBubbleLeftTrailSVG from "./ChatBubbleLeftTrailSVG";
 
-const ChatBubble = ({ message, time }) => {
+const ChatBubble = ({ message, time, isMine}) => {
+    const rowStyles = [styles.row, isMine ? styles.myRow : styles.otherRow]
+    const bubbleStyles = [styles.bubble, isMine ? styles.myBubble: styles.otherBubble]
+    const messageStyles = [styles.message, isMine ? styles.myMessage: styles.otherMessage]
+    const frameParentStyles = [styles.frameParent, isMine ? styles.myFrameParent : styles.otherFrameParent]
+    const TrailSVG = isMine ? <ChatBubbleRightTrailSVG /> : <ChatBubbleLeftTrailSVG />
+    
     return (
-        <View style={styles.row}>
-            <Text style={styles.text}>{time}</Text>
-            <View style={styles.frameParent}>
-                <View style={styles.wrapper}>
-                    <Text style={styles.text1}>{message}</Text>
+        <View style={rowStyles}>
+            <Text style={styles.time}>{time}</Text>
+            <View style={frameParentStyles}>
+                <View style={bubbleStyles}>
+                    <Text style={messageStyles}>{message}</Text>
                 </View>
-				<ChatBubbleTrailSVG />
+                {TrailSVG}
             </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    text: {
+    time: {
         fontSize: 8,
         lineHeight: 11,
         color: "#8c8d91",
@@ -29,25 +36,39 @@ const styles = StyleSheet.create({
         alignItems: "center",
         fontFamily: "Noto Sans CJK KR",
     },
-    text1: {
+    message: {
         fontSize: 14,
         lineHeight: 20,
-        color: "#fff",
         textAlign: "left",
         fontFamily: "Noto Sans CJK KR",
     },
-    wrapper: {
-        borderTopLeftRadius: 12,
-        borderBottomLeftRadius: 12,
-        backgroundColor: "#2964e0",
+    myMessage: {
+        color: "#fff",
+    },
+    otherMessage: {
+        color: "#1B1C1E"
+    },
+    bubble: {
         overflow: "hidden",
-        justifyContent: "flex-end",
-        paddingLeft: 12,
         paddingTop: 7,
         paddingBottom: 8,
         maxWidth: 180,
         alignItems: "center",
         flexDirection: "row",
+    },
+    myBubble: {
+        paddingLeft: 12,
+        justifyContent: "flex-end",
+        borderTopLeftRadius: 12,
+        borderBottomLeftRadius: 12,
+        backgroundColor: "#2964e0",
+    },
+    otherBubble: {
+        paddingRight: 12,
+        justifyContent: "flex-start",
+        borderTopRightRadius: 12,
+        borderBottomRightRadius: 12,
+        backgroundColor: "#EDEEF2",
     },
     unionIcon: {
         width: 12,
@@ -57,13 +78,26 @@ const styles = StyleSheet.create({
         marginLeft: 2,
         flexDirection: "row",
     },
+    myFrameParent: {
+        justifyContent: "flex-end",
+    },
+    otherFrameParent: {
+        flexDirection: "row-reverse",
+    },
     row: {
         flex: 1,
-        alignItems: "flex-end",
         flexDirection: "row",
 		marginBottom: 5,
-		marginLeft: "auto"
     },
+    myRow: {
+		marginLeft: "auto",
+        justifyContent: "flex-end"
+
+    },
+    otherRow: {
+        marginRight: "auto",
+        justifyContent: "flex-start"
+    }
 });
 
 export default ChatBubble;
