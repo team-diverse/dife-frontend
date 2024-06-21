@@ -7,7 +7,7 @@ import NicknameStyles from '@pages/onboarding/NicknameStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
+import ArrowRight from '@components/common/ArrowRight';
 import Progress1 from '@components/onboarding/Progress1';
 import LoginBackground from '@components/login/LoginBackground';
 import IconDelete from '@components/onboarding/IconDelete';
@@ -60,7 +60,7 @@ const NicknamePage = () => {
         <TouchableWithoutFeedback onPress={handleKeyboard}>
             <SafeAreaView style={[NicknameStyles.container]}>
                 <TouchableOpacity onPress={handleGoBack}>
-                    <ArrowRight32 style={NicknameStyles.iconArrow} color={CustomTheme.textPrimary} />
+                    <ArrowRight style={NicknameStyles.iconArrow} color={CustomTheme.textPrimary} />
                 </TouchableOpacity>
                 <View style={[NicknameStyles.iconProgress]}>
                     <Progress1 />

@@ -11,7 +11,7 @@ import ConnectSearchIcon from '@components/connect/ConnectSearchIcon';
 import ConnectSearchCancel from '@components/connect/ConnectSearchCancel';
 import IconBookmark from '@components/chat/IconBookmark';
 import IconCommunityTitle from '@components/community/IconCommunityTitle'
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
+import ArrowRight from '@components/common/ArrowRight';
 import ItemCommunityPreview from '@components/community/ItemCommunityPreview';
 
 const CommunityPage = () => {
@@ -139,7 +139,7 @@ const CommunityPage = () => {
                 </View>
                 <View style={CommunityStyles.containerMore}>
                   <Text style={CommunityStyles.textCommunityMore}>더보기</Text>
-                  <ArrowRight32 style={CommunityStyles.iconArrow} />
+                  <ArrowRight style={CommunityStyles.iconArrow} />
                 </View>
               </View>
               <View style={CommunityStyles.itemCommunityPreview}>
@@ -155,7 +155,7 @@ const CommunityPage = () => {
                 </View>
                 <View style={CommunityStyles.containerMore}>
                   <Text style={CommunityStyles.textCommunityMore}>더보기</Text>
-                  <ArrowRight32 style={CommunityStyles.iconArrow} />
+                  <ArrowRight style={CommunityStyles.iconArrow} />
                 </View>
               </View>
               <View style={CommunityStyles.itemCommunityPreview}>
