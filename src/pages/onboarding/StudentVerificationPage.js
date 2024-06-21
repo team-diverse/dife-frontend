@@ -8,8 +8,7 @@ import StudentVerificationStyles from '@pages/onboarding/StudentVerificationStyl
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
-import Progress6 from '@components/onboarding/Progress6';
+import ArrowRight from '@components/common/ArrowRight';
 import BackgroundOnkookminUpload from '@components/onboarding/BackgroundOnkookminUpload';
 import IconOnkookminUpload from '@components/onboarding/IconOnkookminUpload';
 import ApplyButton from '@components/common/ApplyButton';
@@ -115,7 +114,7 @@ const StudentVerificationPage = () => {
             </Modal>
 
             <TouchableOpacity onPress={handleGoBack}>
-                <ArrowRight32 style={StudentVerificationStyles.iconArrow} color={CustomTheme.textPrimary} />
+                <ArrowRight style={StudentVerificationStyles.iconArrow} color={CustomTheme.textPrimary} />
             </TouchableOpacity>
             <View style={[StudentVerificationStyles.iconProgress]}>
                 <Progress6 />

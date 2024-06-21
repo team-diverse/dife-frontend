@@ -6,7 +6,7 @@ import ProfileHobbyStyles from '@pages/onboarding/ProfileHobbyStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
+import ArrowRight from '@components/common/ArrowRight';
 import Progress4 from '@components/onboarding/Progress4';
 import FilterCategory from '@components/connect/FilterCategory';
 import ApplyButton from '@components/common/ApplyButton';
@@ -49,7 +49,7 @@ const ProfileHobbyPage = () => {
     return (
         <SafeAreaView style={[ProfileHobbyStyles.container]}>
             <TouchableOpacity onPress={handleGoBack}>
-                <ArrowRight32 style={ProfileHobbyStyles.iconArrow} color={CustomTheme.textPrimary} />
+                <ArrowRight style={ProfileHobbyStyles.iconArrow} color={CustomTheme.textPrimary} />
             </TouchableOpacity>
             <View style={[ProfileHobbyStyles.iconProgress]}>
                 <Progress4 />
