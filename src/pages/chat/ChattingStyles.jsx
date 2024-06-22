@@ -6,13 +6,12 @@ const { fontHead20, fontHead18, fontSub16, fontCaption } = CustomTheme;
 const ChattingStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: CustomTheme.bgBasic,
     },
-    connectTop: {
+    backgroundBlue: {
         position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
+        width: '100%',
+        height: 100,
+        backgroundColor: CustomTheme.primaryMedium,
     },
     iconChatPlus: {
         position: 'absolute',
@@ -26,16 +25,18 @@ const ChattingStyles = StyleSheet.create({
     },
     safeAreaView: {
         flex: 1,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
+        backgroundColor: CustomTheme.bgBasic,
+    },
+    connectTop: {
+        marginTop: -47,
+        zIndex: 1,
     },
     containerTextIcon: {
         flexDirection: 'row',
         position: 'absolute',
         alignItems: 'center',
         marginTop: 55,
+        zIndex: 2,
     },
     textChattingTitle: {
         flex: 1,
@@ -52,6 +53,7 @@ const ChattingStyles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         marginTop: 100,
+        zIndex: 2,
     },
     containerSearchIcon: {
         flexDirection: 'row',
@@ -75,10 +77,9 @@ const ChattingStyles = StyleSheet.create({
         right: 12,
     },
     tabContainer: {
-        flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 145,
+        marginTop: 20,
         marginLeft: 30,
     },
     textTab: {
@@ -102,6 +103,7 @@ const ChattingStyles = StyleSheet.create({
         alignItems: 'center',
     },
     containerChatItems: {
+        flex: 1,
         height: '100%',
         alignItems: 'center',
         justifyContent: 'center',
