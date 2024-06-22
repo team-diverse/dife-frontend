@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import MemberStyles from '@pages/member/MemberStyles';
@@ -23,18 +22,16 @@ import IconLike from '@components/member/IconLike';
 import IconBookmark from '@components/member/IconBookmark';
 
 const MemberPage = () => {
-  const navigation = useNavigation();
   const Tab = createMaterialTopTabNavigator();
 
   return (
     <>
-      <SafeAreaView style={MemberStyles.container}>
-        <LinearGradient
-          style={MemberStyles.linearGradient}
-          colors={['#0029F4', '#6199C1']}
-          locations={[0, 0.8]}
-          start={{ x: 0.5, y: 0 }}
-          end={{ x: 1, y: 1 }}>
+      <LinearGradient
+        colors={['#0029F4', '#6199C1']}
+        locations={[0, 0.8]}
+        start={{ x: 0.7, y: 0 }}
+        end={{ x: 1, y: 1 }}>
+        <SafeAreaView style={MemberStyles.container}>
           <View style={MemberStyles.difeLine}>
             <DifeLine />
           </View>
@@ -79,38 +76,35 @@ const MemberPage = () => {
               <Text style={MemberStyles.textIcon}>나의 글</Text>
             </TouchableOpacity>
           </View>
+        </SafeAreaView>
+      </LinearGradient>
 
-        </LinearGradient>
-      </SafeAreaView>
-
-          <View style={MemberStyles.tabContainer}>
-            <Tab.Navigator
-              initialRouteName="LikePostPage"
-              screenOptions={{
-                tabBarStyle: {
-                  borderBottomWidth: 0.5,
-                  borderBottomColor: CustomTheme.borderColor,
-                  elevation: 0,
-                },
-              }}
-          >
-              <Tab.Screen
-                  name="좋아요"
-                  component={LikePostPage}
-                  options={{ tabBarIcon: ({ focused }) => (
-                      <IconLike color={focused ? CustomTheme.primaryMedium : CustomTheme.borderColor} />
-                    ),
-                    tabBarLabel: () => null, }} />
-              <Tab.Screen
-                  name="북마크"
-                  component={BookmarkPostPage}
-                  options={{ tabBarIcon: ({ focused }) => (
-                    <IconBookmark color={focused ? CustomTheme.primaryMedium : CustomTheme.borderColor} />
-                  ),
-                  tabBarLabel: () => null, }} />
-          </Tab.Navigator>
-        </View>
-      </>
+      <View style={MemberStyles.tabContainer}>
+        <Tab.Navigator
+          initialRouteName="LikePostPage"
+          screenOptions={{
+            tabBarIndicatorStyle: {
+              backgroundColor: '#B0D0FF',
+            }
+          }}
+      >
+          <Tab.Screen
+              name="좋아요"
+              component={LikePostPage}
+              options={{ tabBarIcon: ({ focused }) => (
+                  <IconLike color={focused ? CustomTheme.primaryMedium : CustomTheme.borderColor} />
+                ),
+                tabBarLabel: () => null, }} />
+          <Tab.Screen
+              name="북마크"
+              component={BookmarkPostPage}
+              options={{ tabBarIcon: ({ focused }) => (
+                <IconBookmark color={focused ? CustomTheme.primaryMedium : CustomTheme.borderColor} />
+              ),
+              tabBarLabel: () => null, }} />
+        </Tab.Navigator>
+      </View>
+    </>
   );
 };
 

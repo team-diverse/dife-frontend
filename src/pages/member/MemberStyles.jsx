@@ -1,25 +1,21 @@
 import { StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme';
 
-const { fontHead18, fontSub16, fontCaption, fontButton } = CustomTheme;
+const { fontCaption } = CustomTheme;
 
 const MemberStyles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
-        backgroundColor: '#0029F4',
-    },
-    linearGradient: {
-        flex: 1,
+        position: 'relative',
         alignItems: 'center',
     },
     difeLine: {
         position: 'absolute',
-        marginTop: 30,
+        marginTop: 75,
         left: -20,
     },
     circleBackground: {
         position: 'absolute',
-        marginTop: 100,
+        marginTop: 145,
     },
     topContainer: {
         flexDirection: 'row',
@@ -54,6 +50,7 @@ const MemberStyles = StyleSheet.create({
     containerIcon: {
         flexDirection: 'row',
         marginTop: 18,
+        marginBottom: 38,
     },
     icon: {
         alignItems: 'center'
@@ -64,14 +61,13 @@ const MemberStyles = StyleSheet.create({
         marginTop: 5,
     },
     line: {
-        width: 1,
+        width: 2,
         height: 34,
-        backgroundColor: '#C7CBD7',
+        backgroundColor: 'rgba(199, 203, 215, 0.4)',
         marginHorizontal: 33,
     },
     tabContainer: {
         flex: 1,
-        marginTop: 38,
     },
 });
 
