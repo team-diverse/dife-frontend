@@ -39,7 +39,7 @@ const SignUpPage = () => {
     };
 
     const handlePasswordError = () => {
-        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+        const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
         setPasswordError(!passwordRegex.test(valuePW));
     };
 
@@ -53,12 +53,12 @@ const SignUpPage = () => {
     
 
     const handleSignUp = () => {
-        axios.post('http://192.168.45.87:8080/api/members/register', {
+        axios.post('http://192.168.0.4:8080/api/members/register', {
             email: valueID,
             password: valuePW,
         }, {
             headers: {
-                'Content-Type': 'multipart/form-data',
+                'Content-Type': 'application/json',
                 'Accept': 'application/json',
             }
         })
@@ -88,7 +88,7 @@ const SignUpPage = () => {
             />
             {!vaildID && (
                 <View style={SignUpStyles.containerError}>
-                <InfoCircle color={CustomTheme.warningRed} />
+                <InfoCircle color={CustomTheme.warningRed}/>
                 <Text style={SignUpStyles.textError}>{errorMessage}</Text>
             </View>
             )}
@@ -123,7 +123,7 @@ const SignUpPage = () => {
             </View>
             {!passwordMatch && (
                 <View style={SignUpStyles.containerError}>
-                    <InfoCircle color={CustomTheme.warningRed} />
+                    <InfoCircle color={CustomTheme.warningRed}/>
                     <Text style={SignUpStyles.textError}>비밀번호가 일치하지 않습니다.</Text>
                 </View>
             )}

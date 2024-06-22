@@ -6,22 +6,23 @@ export const useOnboarding = () => useContext(OnboardingContext);
 
 export const OnboardingProvider = ({ children }) => {
     const [onboardingData, setOnboardingData] = useState({
-        nickname: '',
-        is_korean: '',
+        accessToken: '',
+        refreshToken: '',
+        username: '',
+        isKorean: '',
         bio: '',
         mbti: '',
         hobbies: '',
         languages: '',
         id: '',
-        profile_img: '',
-        verification_file: '',
-        token: '',
+        profileImg: null,
+        verificationFile: '',
     });
 
     const updateOnboardingData = (newData) => {
         setOnboardingData(prev => {
             const updatedData = { ...prev, ...newData };
-            console.log("온보딩 데이터:", updatedData);
+            // console.log("온보딩 데이터:", updatedData);
             return updatedData;
         });
     };

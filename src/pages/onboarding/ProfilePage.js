@@ -64,8 +64,8 @@ const ProfilePage = () => {
 
     const handleDataSave = () => {
         updateOnboardingData({
-            profile_img: image,
-            is_korean: selectedValue,
+            profileImg: image,
+            isKorean: selectedValue,
             bio: text
         });
         navigation.navigate('ProfileMbti');

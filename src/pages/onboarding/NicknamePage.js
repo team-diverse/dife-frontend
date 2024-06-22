@@ -39,22 +39,22 @@ const NicknamePage = () => {
     const { onboardingData, updateOnboardingData } = useOnboarding();
 
     const handleNickname = () => {
-        axios.head(`http://192.168.45.89:8080/api/members/${onboardingData.id}?username=${nickname}`, {
+        axios.get(`http://192.168.0.4:8080/api/members`, {
             headers: {
-                'Authorization': `Bearer ${onboardingData.token}`,
-            }
+                'Authorization': `Bearer ${onboardingData.accessToken}`
+            },
+            params: { username: nickname }
         })
-        .then(() => {
-            console.log('닉네임 사용 가능');
+        .then(response => {
             setNicknameValid(true);
             updateOnboardingData({ username: nickname });
             navigation.navigate('Profile');
         })
         .catch(error => {
-            console.error('닉네임 사용 불가:', error.response ? error.response.data : error.message);
+            console.error('닉네임 사용 불가: ', error.response.status);
             setNicknameValid(false);
         });
-    };
+    };    
     
     return (
         <TouchableWithoutFeedback onPress={handleKeyboard}>
@@ -81,11 +81,13 @@ const NicknamePage = () => {
                         </TouchableOpacity>
                         )}
                 </View>
-                {nicknameValid !== null && nickname.length > 0 && (nicknameValid ? (
-                    <Text style={NicknameStyles.textAvailableNickname}>사용 가능한 닉네임이에요.</Text>
+                {nickname.length > 0 && typeof nicknameValid === 'boolean' && (
+                    nicknameValid ? (
+                        <Text style={NicknameStyles.textAvailableNickname}>사용 가능한 닉네임이에요.</Text>
                     ) : (
-                    <Text style={NicknameStyles.textUnavailableNickname}>이미 사용 중인 닉네임이에요.</Text>
-                ))}
+                        <Text style={NicknameStyles.textUnavailableNickname}>이미 사용 중인 닉네임이에요.</Text>
+                    )
+                )}
                 <View style={NicknameStyles.buttonCheck}>
                     <ApplyButton text="확인" onPress={handleNickname} disabled={nickname.length === 0}/>
                 </View>
