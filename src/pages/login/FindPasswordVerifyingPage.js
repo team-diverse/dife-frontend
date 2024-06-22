@@ -3,11 +3,10 @@ import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import FindPasswordVerifyingStyles from '@pages/login/FindPasswordVerifyingStyles';
-import { CustomTheme } from '@styles/CustomTheme.js';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import IconEmail from '@components/login/IconEmail';
 import ApplyButton from '@components/common/ApplyButton';
+import GoBack from '@components/common/GoBack';
 
 const FindPasswordVerifyingPage = () => {
     const navigation = useNavigation();
@@ -18,9 +17,7 @@ const FindPasswordVerifyingPage = () => {
 
     return (
         <SafeAreaView style={[FindPasswordVerifyingStyles.container]}>
-            <TouchableOpacity onPress={handleGoBack}>
-                <ArrowRight32 style={FindPasswordVerifyingStyles.iconArrow} color={CustomTheme.textPrimary} />
-            </TouchableOpacity>
+            <GoBack />
             <View style={FindPasswordVerifyingStyles.containerContent}>
                 <IconEmail style={FindPasswordVerifyingStyles.iconEmail}/>
                 <Text style={FindPasswordVerifyingStyles.textTitle}>이메일 확인</Text>
