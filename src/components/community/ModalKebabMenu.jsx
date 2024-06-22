@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -8,6 +8,8 @@ import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import Modal from 'react-native-modal';
 import InfoCircle from '@components/common/InfoCircle';
+import Report from '@components/Report';
+import PostModifyPage from '@pages/community/PostModifyPage';
 
 const { fontBody14 } = CustomTheme;
 
@@ -16,6 +18,11 @@ const ModalKebabMenu = ({ modalVisible, setModalVisible, id, isPublic, isMe }) =
 
     const { onboardingData } = useOnboarding();
     const navigation = useNavigation();
+
+    const handleModify = () => {
+        setModalVisible(false);
+        navigation.navigate(PostModifyPage);
+    };
 
     const handleDelete = () => {
         Alert.alert(
@@ -45,6 +52,12 @@ const ModalKebabMenu = ({ modalVisible, setModalVisible, id, isPublic, isMe }) =
         );
     };
 
+    const [ modalReportVisible, setModalReportVisible ] = useState(false);
+
+    const handleReport = () => {
+        setModalReportVisible(true);
+    };
+
     return (
         <Modal
         isVisible={modalVisible}
@@ -54,7 +67,7 @@ const ModalKebabMenu = ({ modalVisible, setModalVisible, id, isPublic, isMe }) =
             <View style={rectangleStyle()}>
                 {isMe ? (
                     <>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handleModify}>
                         <Text style={styles.textIsMe}>글 수정</Text>
                     </TouchableOpacity>
                     <View style={styles.line} />
@@ -84,10 +97,19 @@ const ModalKebabMenu = ({ modalVisible, setModalVisible, id, isPublic, isMe }) =
                             <Text style={styles.textIsMe}>차단</Text>
                         </TouchableOpacity>
                         <View style={styles.line} />
-                        <TouchableOpacity style={styles.containerReport}>
+                        <TouchableOpacity style={styles.containerReport} onPress={handleReport}>
                             <Text style={[styles.textIsMe, {color: CustomTheme.warningRed}]}>신고</Text>
                             <InfoCircle color={CustomTheme.warningRed}/>
                         </TouchableOpacity>
+                        <Report
+                            modalVisible={modalReportVisible}
+                            setModalVisible={setModalReportVisible}
+                            reportTitle='개인 프로필 신고'
+                            report1='혐오적인 컨텐츠'
+                            report2='욕설/도배'
+                            report3='다른 사람을 사칭함'
+                            report4='기타'
+                        />
                         </>
                     )
                 )}
