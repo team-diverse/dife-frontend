@@ -1,6 +1,7 @@
 import React from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import MemberStyles from '@pages/member/MemberStyles';
@@ -22,6 +23,7 @@ import IconLike from '@components/member/IconLike';
 import IconBookmark from '@components/member/IconBookmark';
 
 const MemberPage = () => {
+  const navigation = useNavigation();
   const Tab = createMaterialTopTabNavigator();
 
   return (
@@ -71,7 +73,7 @@ const MemberPage = () => {
               <Text style={MemberStyles.textIcon}>그룹</Text>
             </TouchableOpacity>
             <View style={MemberStyles.line} />
-            <TouchableOpacity style={MemberStyles.icon}>
+            <TouchableOpacity style={MemberStyles.icon} onPress={() => navigation.navigate('MyPostPage')}>
               <IconMyPost />
               <Text style={MemberStyles.textIcon}>나의 글</Text>
             </TouchableOpacity>
