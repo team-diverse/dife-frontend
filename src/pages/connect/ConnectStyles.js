@@ -6,27 +6,19 @@ const { fontHead20, fontHead18, fontSub16, fontCaption } = CustomTheme;
 const ConnectStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: CustomTheme.bgBasic,
     },
-    topDifeContainer: {
-        alignItems: 'center',
-    },
-    connectDife: {
+    backgroundBlue: {
         position: 'absolute',
-        top: 172,
-    },
-    safeAreaView: {
-        flex: 1,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
+        width: '100%',
+        height: 100,
+        backgroundColor: CustomTheme.primaryMedium,
     },
     textIconContainer: {
         flexDirection: 'row',
         position: 'absolute',
         alignItems: 'center',
         marginTop: 55,
+        zIndex: 2,
     },
     connectTitle: {
         flex: 1,
@@ -43,6 +35,7 @@ const ConnectStyles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         marginTop: 100,
+        zIndex: 2,
     },
     searchFilter: {
         flex: 1,
@@ -74,10 +67,26 @@ const ConnectStyles = StyleSheet.create({
         position: 'absolute',
         right: 12,
     },
+
+    containerDife: {
+        alignItems: 'center',
+    },
+    connectDife: {
+        position: 'absolute',
+        top: -3,
+    },
+    connectTop: {
+        marginTop: -47,
+        zIndex: 1,
+    },
+    safeAreaView: {
+        flex: 1,
+        backgroundColor: CustomTheme.bgBasic,
+    },
     midContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 145,
+        marginTop: 20,
         marginBottom: 12,
     },
     tabContainer: {
@@ -115,10 +124,9 @@ const ConnectStyles = StyleSheet.create({
         alignItems: 'center',
     },
     cardContainer: {
-        height: '100%',
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginHorizontal: 25,
         shadowColor: '#3C454E4A',
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.71,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { CustomTheme } from '@styles/CustomTheme';
 
@@ -9,23 +10,25 @@ import IconTwoUsers from '@components/home/IconTwoUsers';
 const { fontCaption, fontButton } = CustomTheme;
 
 const HomeCardLast = () => {
-  return (
-    <View style={styles.rectangle}>
-        <View style={styles.homecardDifeF}>
-            <HomecardDifeF />
-        </View>
-        <View style={styles.homeProfile}>
-            <View style={styles.containerImage}>
-            <IconTwoUsers />
+    const navigation = useNavigation();
+
+    return (
+        <View style={styles.rectangle}>
+            <View style={styles.homecardDifeF}>
+                <HomecardDifeF />
             </View>
-            <Text style={styles.textMoreProfile}>커넥트 페이지에서{"\n"}더 많은 프로필을 탐색할 수 있어요!</Text>
-            <Text style={styles.textLoadProfile}>프로필 추가 로딩까지 20:00분</Text>
-            <TouchableOpacity style={styles.buttonAddProfile}>
-            <Text style={styles.textAddProfile}>더 많은 프로필 탐색하기</Text>
-            </TouchableOpacity>
+            <View style={styles.homeProfile}>
+                <View style={styles.containerImage}>
+                <IconTwoUsers />
+                </View>
+                <Text style={styles.textMoreProfile}>커넥트 페이지에서{"\n"}더 많은 프로필을 탐색할 수 있어요!</Text>
+                <Text style={styles.textLoadProfile}>프로필 추가 로딩까지 20:00분</Text>
+                <TouchableOpacity style={styles.buttonAddProfile} onPress={() => navigation.navigate('Connect')}>
+                    <Text style={styles.textAddProfile}>더 많은 프로필 탐색하기</Text>
+                </TouchableOpacity>
+            </View>
         </View>
-    </View>
-  );
+    );
 };
 
 const styles = StyleSheet.create({

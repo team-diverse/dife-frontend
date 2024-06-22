@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, SafeAreaView, FlatList, Keyboard, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, SafeAreaView, FlatList, Keyboard, TouchableOpacity, StatusBar, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -14,32 +14,39 @@ import FilterBottomSlide from '@components/connect/FilterBottomSlide';
 import ConnectCard from '@components/connect/ConnectCard';
 import ConnectDife from '@components/connect/ConnectDife';
 import ConnectReset from '@components/connect/ConnectReset';
+import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 const ConnectPage = () => {
   const navigation = useNavigation();
 
-  const connectData = [
-    {
-      id: '1',
-      profile: require('@assets/images/test_img/test_connectProfile.jpeg'),
-      name: 'Amy',
-      country: 'France',
-      age: '23',
-      major: 'Industrial Design',
-      introduction: 'adipiscing varius eu sit nulla, luctus tincidunt ex at ullamcorper cursus odio laoreet placerat.',
-      tags: ['enfp', 'Sports', 'Drawing'],
-    },
-    {
-      id: '2',
-      profile: require('@assets/images/test_img/test_haedam.jpg'),
-      name: 'haedam',
-      country: 'Korean',
-      age: '1',
-      major: 'Software',
-      introduction: 'Hello!',
-      tags: ['istp', 'Walking', 'Eating'],
-    },
-  ]
+  const [profileDataList, setProfileDataList] = useState([]);
+  const { onboardingData } = useOnboarding();
+
+  const cardProfiles = () => {
+    axios.get('http://192.168.45.176:8080/api/members/random?count=10', {
+      headers: {
+        'Authorization': `Bearer ${onboardingData.accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      })
+      .then(response => {
+        const updatedData = response.data.map(data => {
+          if (data.mbti !== null) {
+            const tags = [data.mbti, ...data.hobbies];
+            return { ...data, tags };
+          }
+          return data;
+        });
+        setProfileDataList(updatedData);
+      })
+      .catch(error => {
+        console.error('오류:', error.response ? error.response.data : error.message);
+      });
+  };
+
+  useEffect(() => {
+    cardProfiles();
+  }, []);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [searchData, setSearchData] = useState([]);
@@ -89,73 +96,75 @@ const ConnectPage = () => {
 
   return (
     <View style={ConnectStyles.container}>
-      <View style={ConnectStyles.topDifeContainer}>
-        
-        <View style={ConnectStyles.connectDife}>
-          <ConnectDife />
-        </View>
-        <ConnectTop />
-      </View>
+      <View style={ConnectStyles.backgroundBlue} />
         <SafeAreaView style={ConnectStyles.safeAreaView}>
-          <View style={ConnectStyles.textIconContainer}>
-            <Text style={ConnectStyles.connectTitle}>Connect</Text>
-            <ConnectLikeUser style={ConnectStyles.addUserIcon}
-              onPress={() => navigation.navigate('ConnectLikeUserPage')}/>
+          <View style={ConnectStyles.connectTop}>
+            <ConnectTop />
           </View>
-          <View style={ConnectStyles.searchContainer}>
-            <TouchableOpacity onPress={pressButton}>
-              <FilterIcon style={ConnectStyles.searchFilter}/>
-            </TouchableOpacity>
-            <FilterBottomSlide
-                modalVisible={modalVisible}
-                setModalVisible={setModalVisible}
-            />
-            <View style={ConnectStyles.searchIconContainer}>
-            <TextInput
-                style={ConnectStyles.search}
-                placeholder="검색"
-                value={searchTerm}
-                onChangeText={setSearchTerm}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
+            <View style={ConnectStyles.textIconContainer}>
+              <Text style={ConnectStyles.connectTitle}>Connect</Text>
+              <ConnectLikeUser style={ConnectStyles.addUserIcon}
+                onPress={() => navigation.navigate('ConnectLikeUserPage')}/>
+            </View>
+            <View style={ConnectStyles.searchContainer}>
+              <TouchableOpacity onPress={pressButton}>
+                <FilterIcon style={ConnectStyles.searchFilter}/>
+              </TouchableOpacity>
+              <FilterBottomSlide
+                  modalVisible={modalVisible}
+                  setModalVisible={setModalVisible}
               />
-              {isSearching ? (
-              <ConnectSearchCancel style={ConnectStyles.searchIcon} onPress={handleCancel} />
-            ) : (
-              <ConnectSearchIcon style={ConnectStyles.searchIcon} onPress={handleSearch} />
-            )}
-            </View>
-          </View>
-
-          <View style={ConnectStyles.midContainer}>
-            <View style={ConnectStyles.tabContainer} >
-                <Text style={isIndividualTab ? ConnectStyles.textTab : ConnectStyles.textActiveTab} onPress={handleMoveOnetoone}>1 : 1</Text>
-                <Text style={isIndividualTab ? ConnectStyles.textActiveTab : ConnectStyles.textTab} onPress={handleMoveGroup}>그룹</Text>
-            </View>
-            <View style={ConnectStyles.resetContainer}>
-              <Text style={ConnectStyles.textReset}>Reset</Text>
-              <ConnectReset />
-            </View>
-          </View>
-
-          {isIndividualTab ? (
-            <></>
-          ) : (
-            <View style={ConnectStyles.cardContainer}>
-              <View style={ConnectStyles.flatlist}>
-                <FlatList
-                  contentContainerStyle={ConnectStyles.flatlistContent}
-                  data={connectData}
-                  renderItem={({ item }) => (
-                    <ConnectCard
-                      {...item}
-                      tag={item.tags} />
-                  )}
-                  keyExtractor={item => item.id}
+              <View style={ConnectStyles.searchIconContainer}>
+              <TextInput
+                  style={ConnectStyles.search}
+                  placeholder="검색"
+                  value={searchTerm}
+                  onChangeText={setSearchTerm}
+                  onFocus={handleFocus}
+                  onBlur={handleBlur}
                 />
+                {isSearching ? (
+                <ConnectSearchCancel style={ConnectStyles.searchIcon} onPress={handleCancel} />
+              ) : (
+                <ConnectSearchIcon style={ConnectStyles.searchIcon} onPress={handleSearch} />
+              )}
               </View>
             </View>
-          )}
+
+            <View style={ConnectStyles.containerDife}>
+              <View style={ConnectStyles.connectDife}>
+                <ConnectDife />
+              </View>
+            </View>
+            <View style={ConnectStyles.midContainer}>
+              <View style={ConnectStyles.tabContainer} >
+                  <Text style={isIndividualTab ? ConnectStyles.textTab : ConnectStyles.textActiveTab} onPress={handleMoveOnetoone}>1 : 1</Text>
+                  <Text style={isIndividualTab ? ConnectStyles.textActiveTab : ConnectStyles.textTab} onPress={handleMoveGroup}>그룹</Text>
+              </View>
+              <TouchableOpacity style={ConnectStyles.resetContainer} onPress={cardProfiles}>
+                <Text style={ConnectStyles.textReset}>Reset</Text>
+                <ConnectReset />
+              </TouchableOpacity>
+            </View>
+
+            {isIndividualTab ? (
+              <></>
+            ) : (
+              <View style={ConnectStyles.cardContainer}>
+                <View style={ConnectStyles.flatlist}>
+                  <FlatList
+                    contentContainerStyle={ConnectStyles.flatlistContent}
+                    data={profileDataList}
+                    renderItem={({ item }) => (
+                      <ConnectCard
+                        {...item}
+                        tags={item.tags} />
+                    )}
+                    keyExtractor={item => item.id}
+                  />
+                </View>
+              </View>
+            )}
         </SafeAreaView>
       </View>
   );
