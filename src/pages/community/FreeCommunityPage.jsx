@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, SafeAreaView, Keyboard, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, SafeAreaView, Keyboard, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
 import FreeCommunityStyles from '@pages/community/FreeCommunityStyles';
+import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ConnectTop from '@components/connect/ConnectTop';
 import IconPostPlus from '@components/community/IconPostPlus';
@@ -45,13 +46,35 @@ const FreeCommunityPage = () => {
     Keyboard.dismiss();
   };
 
+  const [postList, setPostList] = useState([]);
+  const { onboardingData } = useOnboarding();
+
+  useEffect(() => {
+    axios.get('http://192.168.45.176:8080/api/posts', {
+      params: { boardCategory: 'FREE' },
+      headers: {
+        'Authorization': `Bearer ${onboardingData.accessToken}`,
+        'Accept': 'application/json'
+      },
+      })
+      .then(response => {
+        setPostList(response.data);
+      })
+      .catch(error => {
+        console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
+      });
+  }, []);
+
   return (
     <View style={FreeCommunityStyles.container}>
-        <ConnectTop style={FreeCommunityStyles.connectTop}/>
+      <View style={FreeCommunityStyles.backgroundBlue} />
         <TouchableOpacity style={FreeCommunityStyles.iconPostPlus} onPress={() => navigation.navigate('WhitePage', { noticeboard: '자유게시판' })}>
           <IconPostPlus />
         </TouchableOpacity>
         <SafeAreaView style={FreeCommunityStyles.safeAreaView}>
+          <View style={FreeCommunityStyles.connectTop}>
+            <ConnectTop/>
+          </View>
           <View style={FreeCommunityStyles.containerTextIcon}>
             <Text style={FreeCommunityStyles.textChattingTitle}>자유게시판</Text>
             <IconBookmark style={FreeCommunityStyles.iconBookmark} />
@@ -74,13 +97,11 @@ const FreeCommunityPage = () => {
             </View>
           </View>
 
-          <View style={FreeCommunityStyles.itemCommunity}>
-            <ItemCommunity props={[
-              { title: '성곡도서관 가는 길', context: '북악관 머시기저시기 와라라라라라랄...용두리를 지나서...어디지', heart: '24', bookmark: '2', comment: '2', date: '1일전' },
-              { title: '교환학생 잘 가는 방법', context: '토플 공부 기깔나게 하기, 외국인 친구 사귀기...', image: require('@assets/images/test_img/test_haedam.jpg'), heart: '14', bookmark: '4', comment: '2', date: '7일전' },
-              { title: '교환학생 잘 가는 방법', context: '토플 공부 기깔나게 하기, 외국인 친구 사귀기...', heart: '20', bookmark: '1', comment: '3', date: '5/11' },
-            ]} />
-          </View>
+          <ScrollView>
+            <View style={FreeCommunityStyles.itemCommunity}>
+              <ItemCommunity props={postList} />
+            </View>
+          </ScrollView>
           
         </SafeAreaView>
       </View>

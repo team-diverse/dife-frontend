@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, TextInput, View, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 import WhiteStyles from '@pages/community/WhiteStyles';
 import { CustomTheme } from '@styles/CustomTheme';
@@ -7,14 +9,51 @@ import { CustomTheme } from '@styles/CustomTheme';
 import TopBar from '@components/common/TopBar';
 import IconImage from '@components/community/IconImage';
 import Checkbox from '@components/common/Checkbox';
+import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 const WhitePage = ({ route }) => {
     const { noticeboard } = route.params;
+    const navigation = useNavigation();
     const [isChecked, setIsChecked] = useState(false);
+    const [valueTitle, onChangeTitle] = useState('');
+    const [valueContext, onChangeContext] = useState('');
+    const [isBoardType, setIsBoardType] = useState('');
 
     const handlePress = () => {
         setIsChecked(!isChecked);
-      };
+    };
+
+    const { onboardingData } = useOnboarding();
+
+    useEffect(() => {
+        if (noticeboard === '자유게시판') {
+            setIsBoardType('FREE');
+        } else {
+            setIsBoardType('TIP');
+        };
+    }, [noticeboard])
+
+    const handleWrite = () => {
+        axios.post('http://192.168.45.176:8080/api/posts', {
+            title: valueTitle,
+            content: valueContext,
+            isPublic: isChecked,
+            boardType: isBoardType,
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${onboardingData.accessToken}`,
+            }
+        })
+        .then(response => {
+            console.log('게시글 작성 성공:', response.data.message);
+            navigation.goBack();
+        })
+        .catch(error => {
+            console.error('게시글 작성 실패:', error.response ? error.response.data : error.message);
+        });
+    };
 
     return (
         <SafeAreaView style={WhiteStyles.container}>
@@ -23,18 +62,22 @@ const WhitePage = ({ route }) => {
                 <View style={WhiteStyles.containerWhite}>
                     <View style={WhiteStyles.containerNoticeboard}>
                         <Text style={[WhiteStyles.textNoticeboard, {color: CustomTheme.textSecondary}]}>{noticeboard}</Text>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={handleWrite}>
                             <Text style={WhiteStyles.textNoticeboard}>작성 완료</Text>
                         </TouchableOpacity>
                     </View>
                     <TextInput
-                            style={WhiteStyles.textInputTitle}
-                            placeholder="제목" />
+                        style={WhiteStyles.textInputTitle}
+                        placeholder="제목"
+                        onChangeText={text => onChangeTitle(text)}
+                        value={valueTitle} />
                     <View style={WhiteStyles.line} />
                     <TextInput
                         style={WhiteStyles.textInputContext}
                         placeholder="내용"
-                        multiline={true} />
+                        multiline={true}
+                        onChangeText={text => onChangeContext(text)}
+                        value={valueContext} />
                     <View style={WhiteStyles.containerIconCheckbox}>
                         <IconImage />
                         <Checkbox

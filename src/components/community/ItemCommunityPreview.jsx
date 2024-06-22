@@ -10,7 +10,7 @@ const ItemCommunityPreview = ({ props }) => {
         {props.map((post, index) => (
         <View key={index} style={styles.ItemCommunity}>
           <Text style={styles.textPostTitle}>{post.title}</Text>
-          <Text style={styles.textPostContext}>{post.context}</Text>
+          <Text style={styles.textPostContext}>{post.content}</Text>
         </View>
       ))}
     </View>
