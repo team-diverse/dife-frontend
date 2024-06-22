@@ -13,14 +13,20 @@ const { fontCaption, fontNavi } = CustomTheme;
 const ItemCommunity = ({ props }) => {
   const navigation = useNavigation();
 
+  const date = (date) => {
+    const datePart = date.split('T')[0];
+    const [year, month, day] = datePart.split('-');
+    return `${month}/${day}`;
+  };
+
   return (
     <>
     {props.map((post, index) => (
-      <TouchableOpacity key={index} style={styles.ItemCommunity} onPress={() => navigation.navigate('PostPage')}>
+      <TouchableOpacity key={index} style={styles.ItemCommunity} onPress={() => navigation.navigate('PostPage', { id: post.id })}>
         <View style={styles.containerRow}>
           <View>
             <Text style={[styles.textPostTitle, post.image ? { width: 196 } : {}]}>{post.title}</Text>
-            <Text style={[styles.textPostContext, post.image ? { width: 196 } : {}]}>{post.context}</Text>
+            <Text style={[styles.textPostContext, post.image ? { width: 196 } : {}]}>{post.content}</Text>
           
             <View style={styles.containerTextRow}>
               <View style={styles.containerText}>
@@ -36,7 +42,7 @@ const ItemCommunity = ({ props }) => {
                 <Text style={styles.text}>{post.comment}</Text>
               </View>
               <View style={styles.containerText}>
-                <Text style={styles.text}>{post.date}</Text>
+                <Text style={styles.text}>{date(post.created)}</Text>
               </View>
             </View>
           </View>

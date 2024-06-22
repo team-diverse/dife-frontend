@@ -8,11 +8,11 @@ const TipCommunityStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: CustomTheme.bgBasic,
     },
-    connectTop: {
+    backgroundBlue: {
         position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
+        width: '100%',
+        height: 100,
+        backgroundColor: CustomTheme.primaryMedium,
     },
     iconPostPlus: {
         position: 'absolute',
@@ -26,16 +26,18 @@ const TipCommunityStyles = StyleSheet.create({
     },
     safeAreaView: {
         flex: 1,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
+        backgroundColor: CustomTheme.bgBasic,
+    },
+    connectTop: {
+        marginTop: -47,
+        zIndex: 1,
     },
     containerTextIcon: {
         flexDirection: 'row',
         position: 'absolute',
         alignItems: 'center',
         marginTop: 55,
+        zIndex: 2,
     },
     textChattingTitle: {
         flex: 1,
@@ -52,6 +54,7 @@ const TipCommunityStyles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         marginTop: 100,
+        zIndex: 2,
     },
     containerSearchIcon: {
         flexDirection: 'row',
@@ -76,7 +79,7 @@ const TipCommunityStyles = StyleSheet.create({
     },
     itemCommunity: {
         alignItems: 'center',
-        marginTop: 145,
+        marginTop: 18,
         marginHorizontal: 24,
     },
 });

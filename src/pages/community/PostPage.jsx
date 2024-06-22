@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, Text, TextInput, View, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import axios from 'axios';
 
 import PostStyles from '@pages/community/PostStyles';
 import { CustomTheme } from '@styles/CustomTheme';
+import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import TopBar from '@components/common/TopBar';
 import IconProfileK from '@components/community/IconProfileK';
@@ -13,8 +15,9 @@ import DifeLine from '@components/community/DifeLine';
 import Checkbox from '@components/common/Checkbox';
 import IconChatSend from '@components/chat/IconChatSend';
 import ItemComment from '@components/community/ItemComment';
+import ModalKebabMenu from '@components/community/ModalKebabMenu';
 
-const PostPage = () => {
+const PostPage = ({ route }) => {
     const [comments, setComments] = useState([
         { title: '익명', context: '북악관 머시기저시기 와라라라라라랄...용두리를 지나서...어디지', heart: '24', bookmark: '2', date: '1일전' },
         { title: '익명', context: '토플 공부 기깔나게 하기, 외국인 친구 사귀기...', heart: '14', bookmark: '4', date: '7일전' },
@@ -28,6 +31,55 @@ const PostPage = () => {
         setIsChecked(!isChecked);
     };
 
+    const [ modalVisible, setModalVisible ] = useState(false);
+
+    const { id } = route.params;
+    const { onboardingData } = useOnboarding();
+    const [title, setTitle] = useState('');
+    const [context, setContext] = useState('');
+    const [writerName, setWriterName] = useState('');
+    const [isPublic, setIsPublic] = useState();
+    const [created, setCreated] = useState('');
+    const [isMe, setIsMe] = useState(false);
+
+    const date = (date) => {
+        const datePart = date.split('T')[0];
+        const [year, month, day] = datePart.split('-');
+        return `${month}/${day}`;
+      };
+
+    useEffect(() => {
+        axios.get(`http://192.168.45.176:8080/api/posts/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${onboardingData.accessToken}`,
+            'Accept': 'application/json'
+          },
+          })
+          .then(response => {
+            setTitle(response.data.title);
+            setContext(response.data.content);
+            setCreated(date(response.data.created));
+            setIsPublic(response.data.isPublic)
+
+            if (response.data.isPublic === false) {
+                setWriterName(response.data.member.username);
+            } else if (response.data.isPublic === true) {
+                setWriterName('익명');
+            };
+
+            if (onboardingData.id === response.data.member.id) {
+                setIsMe(true)
+            };
+          })
+          .catch(error => {
+            console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
+          });
+      }, []);
+
+    const handleKebabMenu = () => {
+        setModalVisible(true);
+    };
+
     return (
         <SafeAreaView style={PostStyles.container}>
             <TopBar topBar="게시판" color='#000' />
@@ -37,14 +89,23 @@ const PostPage = () => {
                         <View style={{flexDirection: 'row'}}>
                             <IconProfileK />
                             <View style={PostStyles.containerWriterText}>
-                                <Text style={PostStyles.textWriter}>익명</Text>
-                                <Text style={PostStyles.textDate}>5/11</Text>
+                                <Text style={PostStyles.textWriter}>{writerName}</Text>
+                                <Text style={PostStyles.textDate}>{created}</Text>
                             </View>
                         </View>
-                        <IconKebabMenu />
+                        <TouchableOpacity onPress={handleKebabMenu}>
+                            <IconKebabMenu />
+                        </TouchableOpacity>
+                        <ModalKebabMenu
+                            modalVisible={modalVisible}
+                            setModalVisible={setModalVisible}
+                            id={id}
+                            isPublic={isPublic}
+                            isMe={isMe}
+                        />
                     </View>
-                    <Text style={PostStyles.textTitle}>성곡도서관 가는 길</Text>
-                    <Text style={PostStyles.textContext}>북악관 머시기저시기 와라라라라라랄...용두리를 지나서 왼쪽으로 꺾어서 공학관 지나서 직진해서 들어가면 있다~~ 케이카드 찍고 들어가야 한다, 앱으로도 되고 학생카드 찍어도 된다~</Text>
+                    <Text style={PostStyles.textTitle}>{title}</Text>
+                    <Text style={PostStyles.textContext}>{context}</Text>
                     <View style={PostStyles.containerIconRow}>
                         <View style={PostStyles.iconRow}>
                             <IconHeart />
