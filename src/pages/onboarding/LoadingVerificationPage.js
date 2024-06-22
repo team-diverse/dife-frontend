@@ -32,7 +32,7 @@ const LoadingVerificationPage = () => {
                             checked={isChecked}
                             onPress={() => {handlePress()}}
                             text='인증 완료 알림 받기'
-                            login='true' />
+                            basic='true' />
                         <Text style={LoadingVerificationStyles.textMove} onPress={() => navigation.navigate('Login')}>로그인 화면으로 돌아가기</Text>
                     </View>
                 </View>

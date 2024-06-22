@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, SafeAreaView, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -7,19 +7,15 @@ import FindPasswordStyles from '@pages/login/FindPasswordStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 
 import InfoCircle from '@components/common/InfoCircle';
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import ApplyButton from '@components/common/ApplyButton';
 import ConnectRequest from '@components/ConnectRequest';
+import GoBack from '@components/common/GoBack';
 
 const FindPasswordPage = () => {
     const [valueID, onChangeID] = useState('');
     const [idValid, setIdValid] = useState(null);
 
     const navigation = useNavigation();
-
-    const handleGoBack = () => {
-        navigation.goBack();
-    };
 
     const handleKeyboard = () => {
         Keyboard.dismiss();
@@ -54,9 +50,7 @@ const FindPasswordPage = () => {
     return (
         <TouchableWithoutFeedback onPress={handleKeyboard}>
             <SafeAreaView style={[FindPasswordStyles.container]}>
-                <TouchableOpacity onPress={handleGoBack}>
-                    <ArrowRight32 style={FindPasswordStyles.iconArrow} color={CustomTheme.textPrimary} />
-                </TouchableOpacity>
+                <GoBack />
                 <Text style={FindPasswordStyles.textTitle}>비밀번호 재발급</Text>
                 <Text style={FindPasswordStyles.textSubTitle}>회원가입 시 사용한 이메일을 입력해주세요</Text>
                 <Text style={FindPasswordStyles.textId}>ID (Email Address)</Text>

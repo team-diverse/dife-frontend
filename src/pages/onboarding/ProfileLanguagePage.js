@@ -21,16 +21,8 @@ const ProfileLanguagePage = () => {
     const { onboardingData, updateOnboardingData } = useOnboarding();
 
     const ProfileData = ['프로필 생성하기', `${onboardingData.username}님의 사용언어를 알려주세요!`];
-
-    const [isCheckedList, setIsCheckedList] = useState([
-        false,
-        false,
-        false,
-        false,
-        false, 
-    ]);
-
     const languages = ['English / English', '中文 / Chinese', '日本語 / Japanese', 'Español / Spanish', '한국어 / Korean'];
+    const [isCheckedList, setIsCheckedList] = useState(new Array(languages.length).fill(false));
 
     const handlePress = (index) => {
         setIsCheckedList(prevState => {

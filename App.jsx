@@ -223,8 +223,8 @@ function MainNavigator() {
                 component={ChatRoomPage}
             />
             <Stack.Screen
-                name="GoodTipCommunityPage"
-                component={GoodTipCommunityPage}
+                name="TipCommunityPage"
+                component={TipCommunityPage}
             />
             <Stack.Screen
                 name="FreeCommunityPage"

@@ -8,10 +8,6 @@ const SignUpStyles = StyleSheet.create({
         flex: 1,
         backgroundColor: CustomTheme.bgBasic,
     },
-    iconArrow: {
-        marginTop: 5,
-        marginLeft: 14,
-    },
     textTitle: {
         fontSize: 32,
         lineHeight: 37,

@@ -85,7 +85,7 @@ const StudentVerificationPage = () => {
         })
         .then(response => {
             console.log('온보딩 저장 성공:', response.data);
-            navigation.navigate('LoadingVerification');
+            navigation.navigate('CompleteProfile');
         })
         .catch(error => {
             console.error('온보딩 저장 실패:', error.response ? error.response.data : error.message);
