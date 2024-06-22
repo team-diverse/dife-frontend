@@ -51,8 +51,7 @@ import HomeAc32 from '@components/Icon32/HomeAc32';
 import CommuAc32 from '@components/Icon32/CommuAc32';
 import MyAc32 from '@components/Icon32/MyAc32';
 import PostModifyPage from '@pages/community/PostModifyPage';
-
-import * as encoding from 'text-encoding';
+import MyPostPage from '@pages/member/MyPostPage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -236,6 +235,11 @@ function MainNavigator() {
                 name="PostModifyPage"
                 component={PostModifyPage}
             />
+            <Stack.Screen
+                name="MyPostPage"
+                component={MyPostPage}
+            />
+            
         </Stack.Navigator>
     );
 }

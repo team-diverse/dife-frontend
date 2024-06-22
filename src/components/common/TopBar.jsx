@@ -7,7 +7,7 @@ import ArrowRight from '@components/common/ArrowRight';
 
 const { fontHead20 } = CustomTheme;
 
-const TopBar = ({ topBar = "TopBar", color }) => {
+const TopBar = ({ topBar = "TopBar", color, backgroundColor }) => {
     const navigation = useNavigation();
 
     const handleGoBack = () => {
@@ -15,7 +15,7 @@ const TopBar = ({ topBar = "TopBar", color }) => {
     };
 
     return (
-        <View style={styles.rectangle}>
+        <View style={[styles.rectangle, { backgroundColor: backgroundColor || CustomTheme.bgBasic }]}>
             <View style={styles.container}>
                 <TouchableOpacity onPress={handleGoBack}>
                     <View style={styles.arrow}>
@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '100%',
         height: 48,
-        backgroundColor: CustomTheme.bgBasic,
     },
     container: {
         position: 'absolute',
