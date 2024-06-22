@@ -12,8 +12,10 @@ const ChatBubble = ({ message, time, isMine}) => {
     
     return (
         <View style={rowStyles}>
-            <Text style={styles.time}>{time}</Text>
             <View style={frameParentStyles}>
+                <View style={styles.timeWrapper}>
+                    <Text style={styles.time}>{time}</Text>
+                </View>
                 <View style={bubbleStyles}>
                     <Text style={messageStyles}>{message}</Text>
                 </View>
@@ -24,6 +26,9 @@ const ChatBubble = ({ message, time, isMine}) => {
 };
 
 const styles = StyleSheet.create({
+    timeWrapper: {
+        marginTop: "auto",
+    },
     time: {
         fontSize: 8,
         lineHeight: 11,
@@ -31,7 +36,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         display: "flex",
         justifyContent: "center",
-        width: 33,
+        width: 40,
         height: 15,
         alignItems: "center",
         fontFamily: "Noto Sans CJK KR",
