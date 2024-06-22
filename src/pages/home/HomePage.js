@@ -1,56 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 import HomeStyles from '@pages/home/HomeStyles.js';
 
 import HomeBg from '@assets/images/svg_js/HomeBg.js';
 import LogoBr from '@components/Logo/LogoBr.js';
 import Notification32 from '@components/Icon32/Notification32.js';
-import HomecardDifeF from '@components/home/HomecardDifeF.js';
 import HomeSchEv from '@components/home/HomeSchEv.js';
 import HomeSchoolInfo from '@components/home/HomeScoolInfo.js';
 import HomeEvent from '@components/home/HomeEvent.js';
 import HomeArrow from '@components/home/HomeArrow.js';
-import IconTwoUsers from '@components/home/IconTwoUsers'
 import HomeCardBack from '@components/home/HomeCardBack';
 import HomeCardFront from '@components/home/HomeCardFront';
 import HomeCard from '@components/home/HomeCard';
 import HomeCardLast from '@components/home/HomeCardLast';
+import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 const HomePage = ({cnt=3}) => {
   const navigation = useNavigation();
 
-  const profileDataList = [
-    {
-      id: 1,
-      profileImg: require('../../assets/images/test_img/test_profileImg.png'),
-      tags: ['enfp', 'Sports', 'Drawing'],
-      introduction: "adipiscing varius eu sit nulla, luctus tincidunt ex at ullamcorper cursus odio laoreet placerat.",
-      name: "Amyyheart",
-      country: "France",
-      age: "23"
-    },
-    {
-      id: 2,
-      profileImg: require('../../assets/images/test_img/test_haedam.jpg'),
-      tags: ['entp', 'music', 'running'],
-      introduction: "안녕하세요! 새로운 친구를 사귀고 싶은 해담입니다. 여행을 좋아하고 새로운 경험을 즐기며 삶을 즐겁게 살고 있어요.",
-      name: "개해담",
-      country: "한국",
-      age: "1"
-    },
-    {
-      id: 3,
-      profileImg: require('../../assets/images/test_img/test_event.png'),
-      tags: ['istj', 'study', 'reading'],
-      introduction: "안녕하세요! 저는 운영체제를 사랑하는 운영이라고 합니다. 만나서 반가워요.",
-      name: "운영",
-      country: "한국",
-      age: "23"
-    },
-  ];
+  const [profileDataList, setProfileDataList] = useState([]);
+  const { onboardingData } = useOnboarding();
+
+  useEffect(() => {
+    axios.get('http://192.168.45.176:8080/api/members/random?count=10', {
+      headers: {
+        'Authorization': `Bearer ${onboardingData.accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      })
+      .then(response => {
+        const updatedData = response.data.map(data => {
+          if (data.mbti !== null) {
+            const tags = [data.mbti, ...data.hobbies];
+            return { ...data, tags };
+          }
+          return data;
+        });
+        setProfileDataList(updatedData);
+      })
+      .catch(error => {
+        console.error('오류:', error.response ? error.response.data : error.message);
+      });
+  }, []);
 
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
   const [showMoreProfiles, setShowMoreProfiles] = useState(false);
@@ -72,7 +67,7 @@ const HomePage = ({cnt=3}) => {
   };
 
   const profileData = profileDataList[currentProfileIndex];
-  const { id, profileImg, tags, introduction, name, country, age } = profileData ? profileData : { profileImg: null, tags: ["tag"], introduction: "introduction", name: "name", country: "country", age: "age" };
+  const { id, profileFileName, tags, bio, username, country, age } = profileData ? profileData : { profileFileName: null, tags: ["tag"], bio: "bio", username: "username", country: "country", age: "age" };
 
   const [showNewCard, setShowNewCard] = useState(false);
   const [isLiked, setIsLiked] = useState({});
@@ -112,7 +107,7 @@ const HomePage = ({cnt=3}) => {
           {showNewCard ? (
             <View style={HomeStyles.homecardContainer}>
               <View style={HomeStyles.homecard}>
-                <HomeCardBack profileImg={profileImg} name={name} onPress={() => setShowNewCard(false)}/>
+                <HomeCardBack profileImg={profileFileName} name={username} onPress={() => setShowNewCard(false)}/>
               </View>
             </View>
           ) : showMoreProfiles ? (
@@ -125,10 +120,10 @@ const HomePage = ({cnt=3}) => {
             <View style={HomeStyles.homecardContainer}>
               <View style={HomeStyles.homecard}>
                 <HomeCardFront
-                  profileImg={profileImg}
+                  profileImg={profileFileName}
                   tags={tags}
-                  introduction={introduction}
-                  name={name}
+                  introduction={bio}
+                  name={username}
                   country={country}
                   age={age}
                   onPress={() => setShowNewCard(true)}
