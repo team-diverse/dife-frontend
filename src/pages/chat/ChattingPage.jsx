@@ -66,6 +66,13 @@ const ChattingPage = () => {
       context: 'nec non. lorem. luctus ac Donec non, efficitur. diam vitae ame ...',
       time: '09:25',
     },
+    {
+      id: '8',
+      profile: require('@assets/images/test_img/test_connectProfile.jpeg'),
+      name: 'Amy',
+      context: 'nec non. lorem. luctus ac Donec non, efficitur. diam vitae ame ...',
+      time: '09:25',
+    },
   ]
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -112,11 +119,14 @@ const ChattingPage = () => {
 
   return (
     <View style={ChattingStyles.container}>
-        <ConnectTop style={ChattingStyles.connectTop}/>
-        <TouchableOpacity style={ChattingStyles.iconChatPlus} onPress={() => navigation.navigate('FriendListPage')}>
-          <IconChatPlus />
-        </TouchableOpacity>
-        <SafeAreaView style={ChattingStyles.safeAreaView}>
+      <View style={ChattingStyles.backgroundBlue} />
+      <TouchableOpacity style={ChattingStyles.iconChatPlus} onPress={() => navigation.navigate('FriendListPage')}>
+        <IconChatPlus />
+      </TouchableOpacity>
+      <SafeAreaView style={ChattingStyles.safeAreaView}>
+        <View style={ChattingStyles.connectTop}>
+          <ConnectTop />
+        </View>
           <View style={ChattingStyles.containerTextIcon}>
             <Text style={ChattingStyles.textChattingTitle}>Chatting</Text>
             <IconBookmark
@@ -172,8 +182,8 @@ const ChattingPage = () => {
               </View>
             )
         )}
-        </SafeAreaView>
-      </View>
+      </SafeAreaView>
+    </View>
   );
 }
 
