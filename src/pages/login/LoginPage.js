@@ -11,6 +11,7 @@ import IconNotSeePw from '@components/login/IconNotSeePw';
 import IconSeePw from '@components/login/IconSeePw';
 import LoginBackground from '@components/login/LoginBackground';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
+import { useAuth } from 'src/states/AuthContext';
 import InfoCircle from '@components/common/InfoCircle';
 
 const LoginPage = () => {
@@ -29,40 +30,63 @@ const LoginPage = () => {
         Keyboard.dismiss();
     };
 
-
-    const { updateOnboardingData } = useOnboarding();
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
     const handleSignUp = () => {
         navigation.navigate('SignUp')
     };
 
+    const { updateOnboardingData } = useOnboarding();
+    const { setIsLoggedIn } = useAuth();
     const [loginFailed, setLoginFailed] = useState(false);
-
-    const handleLogin = () => {
-        axios.post(`http://192.168.45.92:8080/api/members/login?email=${valueID}&password=${valuePW}`, {
-        email: valueID,
-        password: valuePW,
-        }, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'application/json'
-        }
-        })
-        .then(response => {
-            console.log('로그인 성공:', response.data);
-            updateOnboardingData({
-            token: response.data.accessToken,
-            id: response.data.member_id
+	
+    const handleLogin = async () => {
+        try {
+            const loginResponse = await axios.post(`http://192.168.0.4:8080/api/members/login`, {
+                email: valueID,
+                password: valuePW
+            }, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
             });
-            setIsLoggedIn(true);
-            navigation.navigate('Nickname');
-        })
-        .catch(error => {
-            console.error('로그인 오류:', error.response ? error.response.data : error.message);
-            setLoginFailed(true);
-        });
-        };
+    
+            console.log('기본 로그인 성공:', loginResponse.data);
+            updateOnboardingData({
+                id: loginResponse.data.member_id,
+                accessToken: loginResponse.data.accessToken,
+                refreshToken: loginResponse.data.refreshToken
+            });
+    
+            const profileResponse = await axios.get(`http://192.168.0.4:8080/api/members/profile`, {
+                headers: {
+                    'Authorization': `Bearer ${loginResponse.data.accessToken}`,
+                    'Accept': 'application/json'
+                }
+            });
+    
+            console.log(profileResponse.data);
+            if (profileResponse.data.isVerified) {
+                setIsLoggedIn(true);
+            } else {
+                navigation.navigate('Nickname');
+            }
+        } catch (error) {
+            console.error('로그인 또는 프로필 확인 오류:', error.response ? error.response.data : error.message);
+            const status = error.response ? error.response.status : null;
+            switch (status) {
+                case 401:
+                    console.error('401:', error.response ? error.response.data : error.message);
+                    navigation.navigate('LoadingVerification');
+                    break;
+                case 500:
+                    console.error('500:', error.response ? error.response.data : error.message);
+                    setLoginFailed(true);
+                    break;
+                default:
+                    console.error('오류:', error.response ? error.response.data : error.message);
+            }
+        }
+    };
 
     return (
         <TouchableWithoutFeedback onPress={handleKeyboard}>
