@@ -63,12 +63,12 @@ const MemberPage = () => {
           <Text style={MemberStyles.textName}>Name</Text>
 
           <View style={MemberStyles.containerIcon}>
-            <TouchableOpacity style={MemberStyles.icon}>
+            <TouchableOpacity style={MemberStyles.icon} onPress={() => navigation.navigate('FriendListPage')}>
               <IconFriendList />
               <Text style={MemberStyles.textIcon}>친구목록</Text>
             </TouchableOpacity>
             <View style={MemberStyles.line} />
-            <TouchableOpacity style={MemberStyles.icon}>
+            <TouchableOpacity style={MemberStyles.icon} onPress={() => navigation.navigate('GroupListPage')}>
               <IconGroup />
               <Text style={MemberStyles.textIcon}>그룹</Text>
             </TouchableOpacity>
