@@ -25,7 +25,7 @@ const ChatRoomPage = ({route}) => {
     const screenWidth = Dimensions.get('window').width;
     const menuAnim = useRef(new Animated.Value(screenWidth)).current;
     const { messages } = useWebSocket();
-    const { chatroomId } = route.params;
+    const { chatroomInfo } = route.params;
     const [memberId, setMemberId] = useState(null);
 
     useEffect(() => {
@@ -70,7 +70,7 @@ const ChatRoomPage = ({route}) => {
                         <TouchableOpacity style={ChatRoomStyles.iconArrow} onPress={handleGoBack}>
                             <ArrowRight color='#000' />
                         </TouchableOpacity>
-                        <Text style={ChatRoomStyles.textTopBar}>Name</Text>
+                        <Text style={ChatRoomStyles.textTopBar}>{chatroomInfo.name}</Text>
                     </View>
                     <TouchableOpacity style={ChatRoomStyles.iconHamburgerMenu} onPress={toggleMenu}>
                         <IconHamburgerMenu />
@@ -79,10 +79,12 @@ const ChatRoomPage = ({route}) => {
                 
                 <View style={ChatRoomStyles.containerChat}>
                     <FlatList 
-                        data={messages[chatroomId] || []}
+                        data={messages[chatroomInfo.id] || []}
                         keyExtractor={item => item.id}
                         renderItem={({item}) => (
                             <ChatBubble 
+                                url={null}
+                                username={item.member.username}
                                 message={item.message}
                                 time={formatKoreanTime(item.created)}
                                 isMine={item.member.id === memberId}/>

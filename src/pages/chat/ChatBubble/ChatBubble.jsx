@@ -3,7 +3,7 @@ import {Text, StyleSheet, View, Image} from "react-native";
 import ChatBubbleRightTrailSVG from "./ChatBubbleRightTrailSVG";
 import ChatBubbleLeftTrailSVG from "./ChatBubbleLeftTrailSVG";
 
-const ChatBubble = ({ message, time, isMine}) => {
+const ChatBubble = ({ url, username, message, time, isMine}) => {
     const rowStyles = [styles.row, isMine ? styles.myRow : styles.otherRow]
     const bubbleStyles = [styles.bubble, isMine ? styles.myBubble: styles.otherBubble]
     const messageStyles = [styles.message, isMine ? styles.myMessage: styles.otherMessage]
@@ -12,20 +12,45 @@ const ChatBubble = ({ message, time, isMine}) => {
     
     return (
         <View style={rowStyles}>
-            <View style={frameParentStyles}>
-                <View style={styles.timeWrapper}>
-                    <Text style={styles.time}>{time}</Text>
+            <View style={styles.profileWrapper}>
+                {/* TODO: Profile Image 연동 및 D 디자인 보이게 하기} */}
+                {!isMine &&
+                    <Image source={{ uri: url }} styles={styles.profileImage}/>
+                }
+            </View>
+            <View>
+                {!isMine &&
+                    <Text style={styles.profileName}>{username}</Text>
+                }
+                <View style={frameParentStyles}>
+                    <View style={styles.timeWrapper}>
+                        <Text style={styles.time}>{time}</Text>
+                    </View>
+                    <View style={bubbleStyles}>
+                        <Text style={messageStyles}>{message}</Text>
+                    </View>
+                    {TrailSVG}
                 </View>
-                <View style={bubbleStyles}>
-                    <Text style={messageStyles}>{message}</Text>
-                </View>
-                {TrailSVG}
             </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    profileWrapper: {
+        alignItems: "center",
+        marginRight: 10,
+    },
+    profileImage: {
+        width:40,
+        height: 40,
+        borderRadius: 20,
+    },
+    profileName: {
+        fontSize: 12, 
+        lineHeight: 16,
+        marginBottom: 5,
+    },
     timeWrapper: {
         marginTop: "auto",
     },
@@ -91,7 +116,6 @@ const styles = StyleSheet.create({
     },
     row: {
         flex: 1,
-        flexDirection: "row",
 		marginBottom: 5,
     },
     myRow: {
