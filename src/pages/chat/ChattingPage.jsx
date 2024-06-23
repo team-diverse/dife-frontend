@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, SafeAreaView, FlatList, Keyboard, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -12,74 +12,21 @@ import IconBookmark from '@components/chat/IconBookmark';
 import ChatRoomList from '@components/chat/ChatRoomList';
 import ConnectReset from '@components/connect/ConnectReset';
 import IconChatPlus from '@components/chat/IconChatPlus';
+import { useWebSocket } from 'context/WebSocketContext';
 
 const ChattingPage = () => {
   const navigation = useNavigation();
 
-  const chatData = [
-    {
-      id: '1',
-      profile: require('@assets/images/test_img/test_connectProfile.jpeg'),
-      name: 'Amy',
-      context: 'nec non. lorem. luctus ac Donec non, efficitur. diam vitae ame ...',
-      time: '09:25',
-    },
-    {
-      id: '2',
-      profile: require('@assets/images/test_img/test_connectProfile.jpeg'),
-      name: 'Amy',
-      context: 'nec non. lorem. luctus ac Donec non, efficitur. diam vitae ame ...',
-      time: '09:25',
-    },
-    {
-      id: '3',
-      profile: require('@assets/images/test_img/test_connectProfile.jpeg'),
-      name: 'Amy',
-      context: 'nec non. lorem. luctus ac Donec non, efficitur. diam vitae ame ...',
-      time: '09:25',
-    },
-    {
-      id: '4',
-      profile: require('@assets/images/test_img/test_connectProfile.jpeg'),
-      name: 'Amy',
-      context: 'nec non. lorem. luctus ac Donec non, efficitur. diam vitae ame ...',
-      time: '09:25',
-    },
-    {
-      id: '5',
-      profile: require('@assets/images/test_img/test_connectProfile.jpeg'),
-      name: 'Amy',
-      context: 'nec non. lorem. luctus ac Donec non, efficitur. diam vitae ame ...',
-      time: '09:25',
-    },
-    {
-      id: '6',
-      profile: require('@assets/images/test_img/test_connectProfile.jpeg'),
-      name: 'Amy',
-      context: 'nec non. lorem. luctus ac Donec non, efficitur. diam vitae ame ...',
-      time: '09:25',
-    },
-    {
-      id: '7',
-      profile: require('@assets/images/test_img/test_connectProfile.jpeg'),
-      name: 'Amy',
-      context: 'nec non. lorem. luctus ac Donec non, efficitur. diam vitae ame ...',
-      time: '09:25',
-    },
-    {
-      id: '8',
-      profile: require('@assets/images/test_img/test_connectProfile.jpeg'),
-      name: 'Amy',
-      context: 'nec non. lorem. luctus ac Donec non, efficitur. diam vitae ame ...',
-      time: '09:25',
-    },
-  ]
-
+  const { chatrooms, messages } = useWebSocket();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchData, setSearchData] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
 
-  const [chatListCount, setChatListCount] = useState(1);
+
+  const getLatestChatByChatroomId = id => {
+    const chats = messages[id] || [];
+    return chats.length ? chats[chats.length - 1].message : '';
+  }
 
   const [isIndividualTab, setIsIndividualTab] = useState(false);
 
@@ -159,17 +106,17 @@ const ChattingPage = () => {
           {isIndividualTab ? (
             <></>
           ) : (
-            chatListCount ? (
+            chatrooms.length ? (
               <View style={ChattingStyles.containerChatItems}>
                 <View style={ChattingStyles.flatlist}>
                   <FlatList
                     contentContainerStyle={ChattingStyles.flatlistContent}
-                    data={chatData}
+                    data={chatrooms}
                     renderItem={({ item }) => (
                         <ChatRoomList
                           name={item.name}
-                          context={item.context}
-                          time={item.time}
+                          context={getLatestChatByChatroomId(item.id)}
+                          time={item.created}
                         />
                       )}
                       keyExtractor={item => item.id}

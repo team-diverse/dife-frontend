@@ -102,20 +102,6 @@ function ChattingStack() {
 }
 
 function MainTabs() {
-    const { ws, publishMessage } = useWebSocket();
-
-    useEffect(() => {
-        if (ws.current) {
-            const message = {
-                chatroomType: "GROUP",
-                chatType: "CHAT",
-                message: "Hi, guys By 2",
-                chatroomId: 1,
-                memberId: 2
-            };
-            publishMessage(message);
-        }
-    }, []);
     return (
         <Tab.Navigator
             initialRouteName="Home"

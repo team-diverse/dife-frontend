@@ -8,7 +8,8 @@ const WebSocketContext = createContext(null);
 
 export const WebSocketProvider = ({ children }) => {
     const ws = useRef(null);
-    const channels = useRef([]);
+    const [chatrooms, setChatrooms] = useState([]);
+    const [messages, setMessages] = useState({});
     const [isConnected, setIsConnected] = useState(false);
 
     useEffect(() => {
@@ -19,9 +20,10 @@ export const WebSocketProvider = ({ children }) => {
             },
             reconnectDelay: 0,
             onConnect: async () => {
-                const channelIds = await getAuthorizedChatroomIds()
-                subscribeByChannelIds(channelIds);
-                channels.current.push(...channelIds);
+                const { allChatrooms, initialMessages} = await getAuthorizedChatrooms();
+                setChatrooms(allChatrooms);
+                setMessages(initialMessages);
+                subscribeToChatrooms(allChatrooms);
                 setIsConnected(true);
             },
             onStompError: (frame) => {
@@ -45,38 +47,41 @@ export const WebSocketProvider = ({ children }) => {
         }
     }, []);
 
-    const subscribeByChannelIds = channelIds => {
-        channelIds.forEach(id => {
-            ws.current.subscribe(`/sub/chatroom/${id}`, (message) => {
-                console.log(message.body);
+    const subscribeToChatrooms = chatrooms => {
+        chatrooms.forEach(({ id })  => {
+            ws.current.subscribe(`/sub/chatroom/${id}`, message => {
+                handleIncomingMessage(id, message.body);
             });
         });
     };
 
-    const subscribeByChannelId = channelId => {
-        ws.current.subscribe(`/sub/chatroom/${channelId}`);
-    }
-
-    const unsubscribeByChannelId = channelId => {
-        ws.current.unsubscribe(`/sub/chatroom/${channelId}`);
-    }
-
-    const connectWebSocket = () => {
-        if (ws.current) {
-            if (ws.current.active) {
-                const channelIds = getAuthorizedChatroomIds();
-                subscribeByChannelIds(ws.current, channelIds);
-            } else {
-                ws.current.activate();
+    const handleIncomingMessage = (chatroomId, message)=> {
+        setMessages(prevMessages => {
+            const updatedMessages = {...prevMessages};
+            if (!updatedMessages[chatroomId]) {
+                updatedMessages[chatroomId] = [];
             }
-        }
-    };
+            updatedMessages[chatroomId].push({message});
+            return updatedMessages;
+        });
+    }
 
-    const getAuthorizedChatroomIds = async () => {
+    const getAuthorizedChatrooms = async () => {
         const groupChatroomResult = await getChatroomsByType('GROUP');
         const singleChatroomResult = await getChatroomsByType('SINGLE');
-        return getChannelIdsFromData([...groupChatroomResult.data, ...singleChatroomResult.data]);
-    };
+        const allChatrooms = [...groupChatroomResult.data, ...singleChatroomResult.data];
+
+        const initialMessages = allChatrooms.reduce((acc, chatroom) => {
+            acc[chatroom.id] = sortByIds(chatroom.chats) || [];
+            return acc;
+        }, {});
+
+        return {allChatrooms, initialMessages};
+    }
+
+    const sortByIds = (array) => {
+        return array.sort((a, b) => a.id - b.id);
+    }
 
     const publishMessage = message => {
         if (ws.current && ws.current.connected) {
@@ -94,14 +99,8 @@ export const WebSocketProvider = ({ children }) => {
             setIsConnected(false);
     };
 
-    const getChannelIdsFromData = (data) => {
-        return data.map((chatroom) => {
-            return chatroom.id;
-        });
-    };
-
     return (
-        <WebSocketContext.Provider value={{ws,  connectWebSocket, publishMessage, disconnectWebSocket }}>
+        <WebSocketContext.Provider value={{ws, chatrooms, messages, publishMessage, disconnectWebSocket }}>
             {isConnected ? children: <div>LOADING...</div>}
         </WebSocketContext.Provider>
     );
