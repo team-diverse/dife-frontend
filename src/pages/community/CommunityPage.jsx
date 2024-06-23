@@ -67,10 +67,6 @@ const CommunityPage = () => {
       });
   };
 
-  useEffect(() => {
-    handleFreeCommunity();
-  }, []);
-
   useFocusEffect(
     React.useCallback(() => {
       handleFreeCommunity();
