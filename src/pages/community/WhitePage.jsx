@@ -10,6 +10,7 @@ import TopBar from '@components/common/TopBar';
 import IconImage from '@components/community/IconImage';
 import Checkbox from '@components/common/Checkbox';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
+import { createPost } from 'config/api';
 
 const WhitePage = ({ route }) => {
     const { noticeboard } = route.params;
@@ -34,18 +35,7 @@ const WhitePage = ({ route }) => {
     }, [noticeboard])
 
     const handleWrite = () => {
-        axios.post('http://192.168.45.176:8080/api/posts', {
-            title: valueTitle,
-            content: valueContext,
-            isPublic: isChecked,
-            boardType: isBoardType,
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${onboardingData.accessToken}`,
-            }
-        })
+        createPost(valueTitle, valueContext, isChecked, isBoardType)
         .then(response => {
             console.log('게시글 작성 성공:', response.data.message);
             navigation.goBack();

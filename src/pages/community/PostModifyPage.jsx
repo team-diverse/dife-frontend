@@ -11,6 +11,7 @@ import IconImage from '@components/community/IconImage';
 import Checkbox from '@components/common/Checkbox';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 import { usePostModify } from 'states/PostModifyContext';
+import { updatePost } from 'config/api';
 
 const PostModifyPage = () => {
     const navigation = useNavigation();
@@ -34,24 +35,17 @@ const PostModifyPage = () => {
     }, [postModifyData.boardType])
 
     const handleModify = () => {
-        axios.put(`http://192.168.45.165:8080/api/posts/${postModifyData.id}`, {
-            title: valueTitle,
-            content: valueContext,
-            isPublic: isChecked,
-            boardType: postModifyData.boardType,
-            memberId: postModifyData.memberId
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${onboardingData.accessToken}`,
-            }
-        })
-        .then(response => {
+        updatePost(
+            postModifyData.id, 
+            valueTitle, 
+            valueContext, 
+            isChecked, 
+            postModifyData.boardType, 
+            postModifyData.memberId
+        ).then(response => {
             console.log('게시글 수정 성공:', response.data.message);
             navigation.goBack();
-        })
-        .catch(error => {
+        }).catch(error => {
             console.error('게시글 수정 실패:', error.response ? error.response.data : error.message);
         });
     };

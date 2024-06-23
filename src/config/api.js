@@ -39,6 +39,14 @@ export const login = (email, password) => {
         });
 }
 
+export const changePassword = (email) => {
+    return api.get("/members/change-password", {
+        params: {
+            email,
+        }
+    });
+}
+
 export const getProfile = () => {
     return api.get("/members/profile");
 }
@@ -56,5 +64,48 @@ export const updateProfile = (member_id, formData) => {
         headers: {
             "Content-Type": "multipart/form-data",
         }
+    });
+}
+
+export const getRandomMembersByCount = (count) => {
+    return api.get("/members/random", {
+        params: {
+            count,
+        }
+    });
+}
+
+export const getPostsByType = (type) => {
+    return api.get("/posts", {
+        params: {
+            boardCategory: type,
+        }
+    });
+}
+
+export const getPostById = (id) => {
+    return api.get(`/posts/${id}`);
+}
+
+export const deletePost = (id) => {
+    return api.delete(`/posts/${id}`);
+}
+
+export const createPost = (title, content, isPublic, boardType) => {
+    return api.post("/posts", {
+        title,
+        content,
+        isPublic,
+        boardType,
+    });
+}
+
+export const updatePost = (id, title, content, isPublic, boardType, memberId) => {
+    return api.put(`/posts/${id}`, {
+        title,
+        content,
+        isPublic,
+        boardType,
+        memberId,
     });
 }

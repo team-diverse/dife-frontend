@@ -18,6 +18,7 @@ import Checkbox from '@components/common/Checkbox';
 import IconChatSend from '@components/chat/IconChatSend';
 import ItemComment from '@components/community/ItemComment';
 import ModalKebabMenu from '@components/community/ModalKebabMenu';
+import { getPostById } from 'config/api';
 
 const PostPage = ({ route }) => {
     const [comments, setComments] = useState([
@@ -52,13 +53,8 @@ const PostPage = ({ route }) => {
         return `${month}/${day}`;
       };
 
-    const handlePost = () => {
-        axios.get(`http://192.168.45.165:8080/api/posts/${id}`, {
-          headers: {
-            'Authorization': `Bearer ${onboardingData.accessToken}`,
-            'Accept': 'application/json'
-          },
-          })
+    useEffect(() => {
+        getPostById(id)
           .then(response => {
             setTitle(response.data.title);
             setContext(response.data.content);
