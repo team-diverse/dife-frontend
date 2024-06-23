@@ -33,6 +33,7 @@ const HomePage = ({cnt=3}) => {
       },
       })
       .then(response => {
+        // console.log(response.data);
         function cleanHobbies(hobbies) {
           return hobbies.map(hobby => hobby.replace(/[\[\]"]/g, ''));
         }
@@ -44,6 +45,7 @@ const HomePage = ({cnt=3}) => {
           }
           return data;
         });
+        // console.log(updatedData);
         setProfileDataList(updatedData);
       })
       .catch(error => {
@@ -72,6 +74,10 @@ const HomePage = ({cnt=3}) => {
 
   const profileData = profileDataList[currentProfileIndex];
   const { id, profilePresignUrl, tags, bio, username, country, age } = profileData ? profileData : { profileFileName: null, tags: ["tag"], bio: "bio", username: "username", country: "country", age: "age" };
+
+  // useEffect(() => {
+  //   console.log(profilePresignUrl);
+  // }, [profileDataList[currentProfileIndex]])
 
   const [showNewCard, setShowNewCard] = useState(false);
   const [isLiked, setIsLiked] = useState({});
@@ -111,7 +117,7 @@ const HomePage = ({cnt=3}) => {
           {showNewCard ? (
             <View style={HomeStyles.homecardContainer}>
               <View style={HomeStyles.homecard}>
-                <HomeCardBack profileImg={profileFileName} name={username} onPress={() => setShowNewCard(false)}/>
+                <HomeCardBack profileImg={profilePresignUrl} name={username} onPress={() => setShowNewCard(false)}/>
               </View>
             </View>
           ) : showMoreProfiles ? (
