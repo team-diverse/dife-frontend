@@ -1,8 +1,10 @@
 import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
 import { Client } from '@stomp/stompjs';
 import { getChatroomsByType } from "../config/api"; // Adjust the import path as necessary
+import { Text } from 'react-native';
 
-const WS_URL = 'ws://localhost:8080/ws';
+const WS_URL = 'ws://192.168.0.30:8080/ws';
+
 
 const WebSocketContext = createContext(null);
 
@@ -101,7 +103,7 @@ export const WebSocketProvider = ({ children }) => {
 
     return (
         <WebSocketContext.Provider value={{ws, chatrooms, messages, publishMessage, disconnectWebSocket }}>
-            {isConnected ? children: <div>LOADING...</div>}
+            {isConnected ? children: <Text>LOADING...</Text>}
         </WebSocketContext.Provider>
     );
 };

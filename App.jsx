@@ -52,6 +52,8 @@ import CommuAc32 from '@components/Icon32/CommuAc32';
 import MyAc32 from '@components/Icon32/MyAc32';
 import PostModifyPage from '@pages/community/PostModifyPage';
 
+import * as encoding from 'text-encoding';
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 

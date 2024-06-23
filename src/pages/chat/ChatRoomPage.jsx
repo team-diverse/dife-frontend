@@ -70,7 +70,7 @@ const ChatRoomPage = ({route}) => {
                     <FlatList 
                         data={messages[chatroomId] || []}
                         keyExtractor={item => item.id}
-                        renderItem={({item}) => ChatBubble(item)}
+                        renderItem={({item}) => <ChatBubble {...item} />}
                     />
                 </View>
                 <ChatInputSend />
