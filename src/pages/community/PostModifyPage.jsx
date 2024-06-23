@@ -19,13 +19,22 @@ const PostModifyPage = () => {
     const [isChecked, setIsChecked] = useState(false);
     const [valueTitle, onChangeTitle] = useState(postModifyData.title);
     const [valueContext, onChangeContext] = useState(postModifyData.context);
+    const [boardType, setBoardType] = useState('');
 
     const handlePress = () => {
         setIsChecked(!isChecked);
     };
 
+    useEffect(() => {
+        if (postModifyData.boardType === 'TIP') {
+            setBoardType('꿀팁게시판');
+        } else {
+            setBoardType('자유게시판');
+        };
+    }, [postModifyData.boardType])
+
     const handleModify = () => {
-        axios.put(`http://10.224.101.45:8080/api/posts/${postModifyData.id}`, {
+        axios.put(`http://192.168.45.165:8080/api/posts/${postModifyData.id}`, {
             title: valueTitle,
             content: valueContext,
             isPublic: isChecked,
@@ -53,7 +62,7 @@ const PostModifyPage = () => {
             <ScrollView>
                 <View style={WhiteStyles.containerWhite}>
                     <View style={WhiteStyles.containerNoticeboard}>
-                        <Text style={[WhiteStyles.textNoticeboard, {color: CustomTheme.textSecondary}]}>TIP</Text>
+                        <Text style={[WhiteStyles.textNoticeboard, {color: CustomTheme.textSecondary}]}>{boardType}</Text>
                         <TouchableOpacity onPress={handleModify}>
                             <Text style={WhiteStyles.textNoticeboard}>작성 완료</Text>
                         </TouchableOpacity>

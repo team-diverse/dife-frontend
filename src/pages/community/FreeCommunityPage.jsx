@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, SafeAreaView, Keyboard, TouchableOpacity, ScrollView } from 'react-native';
+<<<<<<< HEAD
 import { useNavigation } from '@react-navigation/native';
+=======
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+>>>>>>> 598c649 (fix: 게시글 생성/수정 후, 게시판에 바로 반영되지 않는 문제 수정)
 import axios from 'axios';
 
 import FreeCommunityStyles from '@pages/community/FreeCommunityStyles';
@@ -49,7 +53,11 @@ const FreeCommunityPage = () => {
   const [postList, setPostList] = useState([]);
   const { onboardingData } = useOnboarding();
 
+<<<<<<< HEAD
   useEffect(() => {
+=======
+  const handleFreeCommunity = () => {
+>>>>>>> 598c649 (fix: 게시글 생성/수정 후, 게시판에 바로 반영되지 않는 문제 수정)
     axios.get('http://192.168.45.176:8080/api/posts', {
       params: { boardCategory: 'FREE' },
       headers: {
@@ -63,8 +71,23 @@ const FreeCommunityPage = () => {
       .catch(error => {
         console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
       });
+<<<<<<< HEAD
   }, []);
 
+=======
+  };
+
+  useEffect(() => {
+    handleFreeCommunity();
+  }, []);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      handleFreeCommunity();
+    }, [])
+  );
+
+>>>>>>> 598c649 (fix: 게시글 생성/수정 후, 게시판에 바로 반영되지 않는 문제 수정)
   return (
     <View style={FreeCommunityStyles.container}>
       <View style={FreeCommunityStyles.backgroundBlue} />

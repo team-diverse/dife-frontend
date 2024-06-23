@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, Text, TextInput, View, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
+import { TouchableOpacity, Text, TextInput, View, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
 import axios from 'axios';
+import { useFocusEffect } from '@react-navigation/native';
 
 import PostStyles from '@pages/community/PostStyles';
 import { CustomTheme } from '@styles/CustomTheme';
@@ -25,7 +26,7 @@ const PostPage = ({ route }) => {
         { title: '익명', context: '토플 공부 기깔나게 하기, 외국인 친구 사귀기...', heart: '20', bookmark: '1', date: '5/11' },
     ]);
 
-    const difeLinesCount = Math.floor(comments.length / 2);
+    const difeLinesCount = Math.floor(comments.length / 1.5);
     const [isChecked, setIsChecked] = useState(false);
 
     const handlePress = () => {
@@ -51,8 +52,8 @@ const PostPage = ({ route }) => {
         return `${month}/${day}`;
       };
 
-    useEffect(() => {
-        axios.get(`http://10.224.101.45:8080/api/posts/${id}`, {
+    const handlePost = () => {
+        axios.get(`http://192.168.45.165:8080/api/posts/${id}`, {
           headers: {
             'Authorization': `Bearer ${onboardingData.accessToken}`,
             'Accept': 'application/json'
@@ -85,18 +86,56 @@ const PostPage = ({ route }) => {
           .catch(error => {
             console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
           });
-      }, []);
+    };
+
+    useEffect(() => {
+        handlePost();
+    }, []);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            handlePost();
+        }, [])
+    );
+    
+    const [scrollY, setScrollY] = useState(0);
+    const [iconPosition, setIconPosition] = useState({ x: 0, y: 0 });
+    const [topBarPosition, setTopBarPosition] = useState({ x: 0, y: 0 });
+
+    const handleScroll = (event) => {
+        const { y } = event.nativeEvent.contentOffset;
+        setScrollY(y);
+    };
+
+    const handleKebabMenuLayout = (event) => {
+        const { x, y, width, height } = event.nativeEvent.layout;
+        setIconPosition({ x, y, width, height });
+    };
+
+    const handleTopBarLayout = (event) => {
+        const { x, y, width, height } = event.nativeEvent.layout;
+        setTopBarPosition({ x, y, width, height });
+    };
 
     const handleKebabMenu = () => {
         setModalVisible(true);
     };
 
+    const modalPosition = {
+        top: iconPosition.height + iconPosition.y + topBarPosition.height + topBarPosition.y - scrollY,
+        width: iconPosition.width
+    };
+
+    const windowHeight = Dimensions.get('window').height;
+
     return (
         <SafeAreaView style={PostStyles.container}>
-            <TopBar topBar="게시판" color='#000' />
-            <ScrollView>
+            <View onLayout={handleTopBarLayout}>
+                <TopBar topBar="게시판" color='#000' />
+            </View>
+            <ScrollView onScroll={handleScroll}>
                 <View style={PostStyles.containerWhite}>
-                    <View style={PostStyles.containerWriterRow}>
+                    <View style={PostStyles.containerWriterRow} >
                         <View style={{flexDirection: 'row'}}>
                             <IconProfileK />
                             <View style={PostStyles.containerWriterText}>
@@ -104,7 +143,7 @@ const PostPage = ({ route }) => {
                                 <Text style={PostStyles.textDate}>{created}</Text>
                             </View>
                         </View>
-                        <TouchableOpacity onPress={handleKebabMenu}>
+                        <TouchableOpacity onPress={handleKebabMenu} onLayout={handleKebabMenuLayout}>
                             <IconKebabMenu />
                         </TouchableOpacity>
                         <ModalKebabMenu
@@ -113,6 +152,7 @@ const PostPage = ({ route }) => {
                             id={id}
                             isPublic={isPublic}
                             isMe={isMe}
+                            position={modalPosition}
                         />
                     </View>
                     <Text style={PostStyles.textTitle}>{title}</Text>
@@ -132,14 +172,14 @@ const PostPage = ({ route }) => {
                     </View>
                 </View>
 
-                <View style={PostStyles.containerBackground}>
-                <View style={PostStyles.difeLine}>
-                    {Array.from({ length: difeLinesCount }).map((_, index) => (
-                        <DifeLine key={index} />
-                    ))}
-                </View>
-                <View style={{marginTop: 48}}>
-                    <ItemComment props={comments} />
+                <View style={[PostStyles.containerBackground, {minHeight: windowHeight-300}]}>
+                    <View style={PostStyles.difeLine}>
+                        {Array.from({ length: difeLinesCount }).map((_, index) => (
+                            <DifeLine key={index} />
+                        ))}
+                    </View>
+                    <View style={{marginTop: 48}}>
+                        <ItemComment props={comments} />
                     </View>
                 </View>
             </ScrollView>
