@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, SafeAreaView, Keyboard, TouchableOpacity, ScrollView } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
@@ -64,10 +64,6 @@ const TipCommunityPage = () => {
         console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
       });
   };
-
-  useEffect(() => {
-    handleTipCommunity();
-  }, []);
 
   useFocusEffect(
     React.useCallback(() => {
