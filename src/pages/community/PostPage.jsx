@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, Text, TextInput, View, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
+import { TouchableOpacity, Text, TextInput, View, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, Dimensions, Alert } from 'react-native';
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import PostStyles from '@pages/community/PostStyles';
 import { CustomTheme } from '@styles/CustomTheme';
@@ -127,7 +128,6 @@ const PostPage = ({ route }) => {
     const windowHeight = Dimensions.get('window').height;
 
     const handleCommentSend = () => {
-        console.log(valueComment);
         axios.post(`http://192.168.45.135:8080/api/comments/${id}`, {
             content: valueComment,
             isPublic: isChecked,
@@ -146,6 +146,74 @@ const PostPage = ({ route }) => {
         .catch(error => {
             console.error('댓글 작성 실패:', error.response ? error.response.data : error.message);
         });
+    };
+
+
+    const [pressHeart, setPressHeart] = useState();
+
+    useEffect(() => {
+        const loadPressHeart = async () => {
+          try {
+            const savedPressHeart = await AsyncStorage.getItem(`pressHeart_${id}`);
+            if (savedPressHeart !== null) {
+              setPressHeart(JSON.parse(savedPressHeart));
+            }
+          } catch (error) {
+            console.error('좋아요 상태 저장 오류:', error);
+          }
+        };
+        loadPressHeart();
+      }, [id]);
+    
+      useEffect(() => {
+        const savePressHeart = async () => {
+          if (pressHeart !== null && pressHeart !== undefined) {
+            try {
+              await AsyncStorage.setItem(`pressHeart_${id}`, JSON.stringify(pressHeart));
+            } catch (error) {
+              console.error('좋아요 상태 저장 오류:', error);
+            }
+          }
+        };
+        savePressHeart();
+      }, [pressHeart, id]);
+
+    const heartAlert = () => {
+        Alert.alert(
+            "",
+            "이 게시물에 좋아요를 누르시겠습니까?",
+            [
+                {
+                text: "취소",
+                style: "cancel"
+                },
+                { text: "확인", onPress: () => {
+                    axios.post('http://192.168.45.135:8080/api/likes', {
+                        type: 'POST',
+                        postId: id,
+                        commentId: '',
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json',
+                            'Authorization': `Bearer ${onboardingData.accessToken}`,
+                        }
+                    })
+                    .then(response => {
+                        console.log('게시글 좋아요 성공');
+                        setPressHeart(true);
+                    })
+                    .catch(error => {
+                        console.error('게시글 좋아요 실패:', error.response ? error.response.data : error.message);
+                        setPressHeart(true);
+                        Alert.alert(
+                            "",
+                            "이미 좋아요를 눌렀습니다.",);
+                    });
+                } }
+            ],
+            { cancelable: false }
+        );
     };
 
     return (
@@ -178,10 +246,10 @@ const PostPage = ({ route }) => {
                     <Text style={PostStyles.textTitle}>{title}</Text>
                     <Text style={PostStyles.textContext}>{context}</Text>
                     <View style={PostStyles.containerIconRow}>
-                        <View style={PostStyles.iconRow}>
-                            <IconHeart />
+                        <TouchableOpacity style={PostStyles.iconRow} onPress={heartAlert}>
+                            <IconHeart active={pressHeart}/>
                             <Text style={PostStyles.textIcon}>{heart}</Text>
-                        </View>
+                        </TouchableOpacity>
                         <View style={PostStyles.iconRow}>
                             <IconBookmark />
                             <Text style={PostStyles.textIcon}>{bookmark}</Text>
@@ -199,7 +267,7 @@ const PostPage = ({ route }) => {
                         ))}
                     </View>
                     <View style={{marginTop: 48}}>
-                        <ItemComment props={comments} />
+                        <ItemComment props={comments} id={id} />
                     </View>
                 </View>
             </ScrollView>
