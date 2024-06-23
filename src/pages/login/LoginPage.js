@@ -13,6 +13,7 @@ import { useOnboarding } from 'src/states/OnboardingContext.js';
 import { useAuth } from 'src/states/AuthContext';
 import InfoCircle from '@components/common/InfoCircle';
 import { getProfile, login } from 'config/api';
+import * as SecureStore from 'expo-secure-store';
 
 const LoginPage = () => {
     const navigation = useNavigation();
@@ -43,6 +44,10 @@ const LoginPage = () => {
             const id = loginResponse.data.member_id;
             const accessToken = loginResponse.data.accessToken;
             const refreshToken = loginResponse.data.refreshToken;
+
+            await SecureStore.setItemAsync('member_id', JSON.stringify(id));   
+            await SecureStore.setItemAsync('accessToken', accessToken);
+            await SecureStore.setItemAsync('refreshToken', refreshToken);
     
             updateOnboardingData({ id, accessToken, refreshToken});
 

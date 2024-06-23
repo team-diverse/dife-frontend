@@ -55,7 +55,9 @@
     "sha1-file": "^3.0.0",
     "text-encoding": "^0.7.0",
     "typescript": "~5.3.3",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "expo-updates": "~0.25.14",
+    "expo-secure-store": "~13.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
