@@ -7,7 +7,7 @@ const HomeProfile = ({ profile=null, back=false }) => {
 
   return (
     <View style={[styles.rectangle, containerStyle]}>
-      <Image source={profile} style={styles.image} />
+      <Image source={{url: profile}} style={styles.image} />
     </View>
   );
 };
