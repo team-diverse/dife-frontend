@@ -26,16 +26,20 @@ const HomePage = ({cnt=3}) => {
   const { onboardingData } = useOnboarding();
 
   useEffect(() => {
-    axios.get('http://192.168.45.176:8080/api/members/random?count=10', {
+    axios.get('http://192.168.45.135:8080/api/members/random?count=10', {
       headers: {
         'Authorization': `Bearer ${onboardingData.accessToken}`,
         'Content-Type': 'application/json'
       },
       })
       .then(response => {
+        function cleanHobbies(hobbies) {
+          return hobbies.map(hobby => hobby.replace(/[\[\]"]/g, ''));
+        }
         const updatedData = response.data.map(data => {
           if (data.mbti !== null) {
-            const tags = [data.mbti, ...data.hobbies];
+            const cleanedHobbies = cleanHobbies(data.hobbies);
+            const tags = [data.mbti, ...cleanedHobbies];
             return { ...data, tags };
           }
           return data;
@@ -67,7 +71,7 @@ const HomePage = ({cnt=3}) => {
   };
 
   const profileData = profileDataList[currentProfileIndex];
-  const { id, profileFileName, tags, bio, username, country, age } = profileData ? profileData : { profileFileName: null, tags: ["tag"], bio: "bio", username: "username", country: "country", age: "age" };
+  const { id, profilePresignUrl, tags, bio, username, country, age } = profileData ? profileData : { profileFileName: null, tags: ["tag"], bio: "bio", username: "username", country: "country", age: "age" };
 
   const [showNewCard, setShowNewCard] = useState(false);
   const [isLiked, setIsLiked] = useState({});
@@ -120,7 +124,7 @@ const HomePage = ({cnt=3}) => {
             <View style={HomeStyles.homecardContainer}>
               <View style={HomeStyles.homecard}>
                 <HomeCardFront
-                  profileImg={profileFileName}
+                  profileImg={profilePresignUrl}
                   tags={tags}
                   introduction={bio}
                   name={username}

@@ -23,16 +23,20 @@ const ConnectPage = () => {
   const { onboardingData } = useOnboarding();
 
   const cardProfiles = () => {
-    axios.get('http://192.168.45.176:8080/api/members/random?count=10', {
+    axios.get('http://192.168.45.135:8080/api/members/random?count=10', {
       headers: {
         'Authorization': `Bearer ${onboardingData.accessToken}`,
         'Content-Type': 'application/json'
       },
       })
       .then(response => {
+        function cleanHobbies(hobbies) {
+          return hobbies.map(hobby => hobby.replace(/[\[\]"]/g, ''));
+        }
         const updatedData = response.data.map(data => {
           if (data.mbti !== null) {
-            const tags = [data.mbti, ...data.hobbies];
+            const cleanedHobbies = cleanHobbies(data.hobbies);
+            const tags = [data.mbti, ...cleanedHobbies];
             return { ...data, tags };
           }
           return data;
