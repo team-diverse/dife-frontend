@@ -9,10 +9,9 @@ import ConnectTop from '@components/connect/ConnectTop';
 import ConnectSearchIcon from '@components/connect/ConnectSearchIcon';
 import ConnectSearchCancel from '@components/connect/ConnectSearchCancel';
 import IconBookmark from '@components/chat/IconBookmark';
-import ChatRoomList from '@components/chat/ChatRoomList';
-import ConnectReset from '@components/connect/ConnectReset';
 import IconChatPlus from '@components/chat/IconChatPlus';
 import { useWebSocket } from 'context/WebSocketContext';
+import ChatroomItem from '@components/chat/ChatroomItem';
 
 const ChattingPage = () => {
   const navigation = useNavigation();
@@ -113,7 +112,8 @@ const ChattingPage = () => {
                     contentContainerStyle={ChattingStyles.flatlistContent}
                     data={chatrooms}
                     renderItem={({ item }) => (
-                        <ChatRoomList
+                        <ChatroomItem
+                          id={item.id}
                           name={item.name}
                           context={getLatestChatByChatroomId(item.id)}
                           time={item.created}
