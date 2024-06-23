@@ -13,6 +13,7 @@ import Progress6 from '@components/onboarding/Progress6';
 import BackgroundOnkookminUpload from '@components/onboarding/BackgroundOnkookminUpload';
 import IconOnkookminUpload from '@components/onboarding/IconOnkookminUpload';
 import ApplyButton from '@components/common/ApplyButton';
+import { updateProfile } from 'config/api';
 
 const StudentVerificationPage = () => {
     const [isModalVisible, setModalVisible] = useState(true);
@@ -59,11 +60,13 @@ const StudentVerificationPage = () => {
         formData.append('mbti', onboardingData.mbti);
         formData.append('hobbies', JSON.stringify(onboardingData.hobbies));
         formData.append('languages', onboardingData.languages);
+        const memberId = onboardingData.id;
+
         if (onboardingData.profileImg) {
             const file = {
                 uri: image,
                 type: 'image/jpeg',
-                name: `${onboardingData.id}_profile.jpg`
+                name: `${memberId}_profile.jpg`
             };
             formData.append('profileImg', file);
         }
@@ -71,18 +74,12 @@ const StudentVerificationPage = () => {
             const file = {
                 uri: image,
                 type: 'image/jpeg',
-                name: `${onboardingData.id}_verification.jpg`
+                name: `${memberId}_verification.jpg`
             };
             formData.append('verificationFile', file);
         }
     
-        axios.put(`http://192.168.0.4:8080/api/members/${onboardingData.id}`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${onboardingData.accessToken}`
-            }
-        })
+        updateProfile(memberId, formData)
         .then(response => {
             console.log('온보딩 저장 성공:', response.data);
             navigation.navigate('CompleteProfile');

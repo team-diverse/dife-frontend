@@ -12,6 +12,7 @@ import Progress1 from '@components/onboarding/Progress1';
 import LoginBackground from '@components/login/LoginBackground';
 import IconDelete from '@components/onboarding/IconDelete';
 import ApplyButton from '@components/common/ApplyButton';
+import { headCheckUserName } from 'config/api';
 
 const NicknamePage = () => {
     const navigation = useNavigation();
@@ -39,16 +40,16 @@ const NicknamePage = () => {
     const { onboardingData, updateOnboardingData } = useOnboarding();
 
     const handleNickname = () => {
-        axios.get(`http://192.168.0.4:8080/api/members`, {
-            headers: {
-                'Authorization': `Bearer ${onboardingData.accessToken}`
-            },
-            params: { username: nickname }
-        })
+        headCheckUserName(nickname) 
         .then(response => {
-            setNicknameValid(true);
-            updateOnboardingData({ username: nickname });
-            navigation.navigate('Profile');
+            // TODO: Status Code 200 / 204 두가지로 처리 필요 백엔드 수정도 필요 
+            if (response.status === 200) {
+                setNicknameValid(true);
+                updateOnboardingData({ username: nickname });
+                navigation.navigate('Profile');
+            } else {
+                setNicknameValid(false);
+            }
         })
         .catch(error => {
             console.error('닉네임 사용 불가: ', error.response.status);

@@ -42,3 +42,19 @@ export const login = (email, password) => {
 export const getProfile = () => {
     return api.get("/members/profile");
 }
+
+export const headCheckUserName = (username) => {
+    return api.head("/members", {
+        params: {
+            username,
+        }
+    });
+}
+
+export const updateProfile = (member_id, formData) => {
+    return api.put(`/members/${member_id}`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        }
+    });
+}
