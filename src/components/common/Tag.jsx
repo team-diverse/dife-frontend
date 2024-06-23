@@ -8,7 +8,7 @@ const Tag = ({tag=['tag']}) => {
   return (
     <View style={styles.container}>
       {tag.map((item, index) => (
-        <View key={index} style={[styles.rectangle, { width: item.length * 10 + 1 }]}>
+        <View key={index} style={[styles.rectangle, { width: item.length + 50 }]}>
           <Text style={styles.text}>{item}</Text>
         </View>
       ))}
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 8,
+    marginBottom: 8,
   },
   text: {
     ...fontCaption,

@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import IconHeart24 from "@components/Icon24/IconHeart24";
 import ConnectPlusIcon from "@components/connect/ConnectPlusIcon";
-import Tag from "@components/Tag.js";
+import Tag from "@components/common/Tag";
 
 const { fontSub14, fontCaption } = CustomTheme;
 
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     },
     tagContainer: {
         flexDirection: "row",
+        width: 221,
     },
 });
 
