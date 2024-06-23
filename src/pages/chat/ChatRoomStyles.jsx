@@ -15,6 +15,11 @@ const ChatRoomStyles = StyleSheet.create({
         alignItems: 'center',
         height: 56,
     },
+    containerChat: {
+        flex: 1,
+        paddingRight: 24,
+        paddingLeft: 24,
+    },
     containerBackName: {
         flexDirection: 'row',
         alignItems: 'center',
