@@ -1,18 +1,20 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { CustomTheme } from '@styles/CustomTheme';
 
 import IconHeart from '@components/community/IconHeart';
 import IconBookmark from '@components/community/IconBookmark';
-import IconComment from '@components/community/IconComment';
-import IconKebabMenu from './IconKebabMenu';
+import IconKebabMenu from '@components/community/IconKebabMenu';
 
 const { fontCaption, fontNavi } = CustomTheme;
 
 const ItemComment = ({ props }) => {
-  const navigation = useNavigation();
+  const date = (date) => {
+    const datePart = date.split('T')[0];
+    const [year, month, day] = datePart.split('-');
+    return `${month}/${day}`;
+  };
 
   return (
     <>
@@ -33,7 +35,7 @@ const ItemComment = ({ props }) => {
                 <Text style={styles.text}>{post.bookmark}</Text>
               </View>
               <View style={styles.containerText}>
-                <Text style={styles.text}>{post.date}</Text>
+                <Text style={styles.text}>{date(post.date)}</Text>
               </View>
             </View>
             </View>
