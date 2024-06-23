@@ -3,23 +3,24 @@ import {Text, StyleSheet, View, Image} from "react-native";
 import ChatBubbleRightTrailSVG from "./ChatBubbleRightTrailSVG";
 import ChatBubbleLeftTrailSVG from "./ChatBubbleLeftTrailSVG";
 
-const ChatBubble = ({ url, username, message, time, isMine}) => {
+const ChatBubble = ({ url, username, message, time, isMine, isHeadMessage}) => {
     const rowStyles = [styles.row, isMine ? styles.myRow : styles.otherRow]
     const bubbleStyles = [styles.bubble, isMine ? styles.myBubble: styles.otherBubble]
     const messageStyles = [styles.message, isMine ? styles.myMessage: styles.otherMessage]
     const frameParentStyles = [styles.frameParent, isMine ? styles.myFrameParent : styles.otherFrameParent]
     const TrailSVG = isMine ? <ChatBubbleRightTrailSVG /> : <ChatBubbleLeftTrailSVG />
+    const showProfile = !isMine && isHeadMessage;
     
     return (
         <View style={rowStyles}>
             <View style={styles.profileWrapper}>
                 {/* TODO: Profile Image 연동 및 D 디자인 보이게 하기} */}
-                {!isMine &&
+                {showProfile &&
                     <Image source={{ uri: url }} styles={styles.profileImage}/>
                 }
             </View>
             <View>
-                {!isMine &&
+                {showProfile &&
                     <Text style={styles.profileName}>{username}</Text>
                 }
                 <View style={frameParentStyles}>
