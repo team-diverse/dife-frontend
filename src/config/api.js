@@ -17,10 +17,28 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-export const getChatroomsByType = async (type) => {
-        return await api.get('/chatrooms', {
+export const getChatroomsByType = (type) => {
+    return api.get("/chatrooms", {
             params: {
-                chatroomType: type
+            chatroomType: type,
+        },
+    });
             }
+
+export const signUp = (email, password) => {
+    return api.post("/members/register", {
+        email,
+        password,
+    });
+}
+
+export const login = (email, password) => {
+    return api.post("/members/login", {
+        email,
+        password,
         });
+}
+
+export const getProfile = () => {
+    return api.get("/members/profile");
 }
