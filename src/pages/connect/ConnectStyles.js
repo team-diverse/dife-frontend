@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead20, fontHead18, fontSub16, fontCaption } = CustomTheme;
 
@@ -8,15 +8,15 @@ const ConnectStyles = StyleSheet.create({
         flex: 1,
     },
     backgroundBlue: {
-        position: 'absolute',
-        width: '100%',
+        position: "absolute",
+        width: "100%",
         height: 100,
         backgroundColor: CustomTheme.primaryMedium,
     },
     textIconContainer: {
-        flexDirection: 'row',
-        position: 'absolute',
-        alignItems: 'center',
+        flexDirection: "row",
+        position: "absolute",
+        alignItems: "center",
         marginTop: 55,
         zIndex: 2,
     },
@@ -31,9 +31,9 @@ const ConnectStyles = StyleSheet.create({
         marginRight: 24,
     },
     searchContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        position: 'absolute',
+        flexDirection: "row",
+        alignItems: "center",
+        position: "absolute",
         marginTop: 100,
         zIndex: 2,
     },
@@ -42,37 +42,37 @@ const ConnectStyles = StyleSheet.create({
         marginLeft: 20,
     },
     searchFilterContent: {
-        backgroundColor: '#fff',
+        backgroundColor: "#fff",
         padding: 16,
         height: 450,
     },
     searchIconContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: "flex-end",
         marginLeft: 12,
         marginRight: 24,
     },
     search: {
         ...fontSub16,
-        position: 'relative',
-        width: '100%',
+        position: "relative",
+        width: "100%",
         height: 48,
         backgroundColor: CustomTheme.bgBasic,
         borderRadius: 24,
         paddingLeft: 20,
     },
     searchIcon: {
-        position: 'absolute',
+        position: "absolute",
         right: 12,
     },
 
     containerDife: {
-        alignItems: 'center',
+        alignItems: "center",
     },
     connectDife: {
-        position: 'absolute',
+        position: "absolute",
         top: -3,
     },
     connectTop: {
@@ -84,32 +84,32 @@ const ConnectStyles = StyleSheet.create({
         backgroundColor: CustomTheme.bgBasic,
     },
     midContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         marginTop: 20,
         marginBottom: 12,
     },
     tabContainer: {
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: "row",
         marginLeft: 30,
     },
     textTab: {
         ...fontHead18,
-        color: '#8C8D91',
-        textDecorationLine: 'underline',
+        color: "#8C8D91",
+        textDecorationLine: "underline",
         marginRight: 18,
     },
     textActiveTab: {
         ...fontHead18,
         color: CustomTheme.primaryMedium,
-        textDecorationLine: 'underline',
+        textDecorationLine: "underline",
         marginRight: 18,
     },
     resetContainer: {
-        flexDirection: 'row',
+        flexDirection: "row",
         marginRight: 30,
-        alignItems: 'center',
+        alignItems: "center",
     },
     textReset: {
         ...fontCaption,
@@ -118,16 +118,16 @@ const ConnectStyles = StyleSheet.create({
     },
     flatlist: {
         flex: 1,
-        width: '100%',
+        width: "100%",
     },
     flatlistContent: {
-        alignItems: 'center',
+        alignItems: "center",
     },
     cardContainer: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        shadowColor: '#3C454E4A',
+        alignItems: "center",
+        justifyContent: "center",
+        shadowColor: "#3C454E4A",
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.71,
         shadowRadius: 6,

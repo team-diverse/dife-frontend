@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const NotificationStyles = StyleSheet.create({
     container: {
@@ -7,7 +7,7 @@ const NotificationStyles = StyleSheet.create({
         backgroundColor: CustomTheme.bgBasic,
     },
     flatlist: {
-        width: '100%',
+        width: "100%",
     },
 });
 

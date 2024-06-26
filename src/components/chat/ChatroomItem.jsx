@@ -14,7 +14,7 @@ const ChatroomItem = ({ chatroomInfo, context, name, time }) => {
             style={styles.rectangle}
             onPress={() =>
                 navigation.navigate("ChatRoomPage", {
-                    chatroomInfo
+                    chatroomInfo,
                 })
             }
         >

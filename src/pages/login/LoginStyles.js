@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead18, fontSub14, fontBody14, fontCaption } = CustomTheme;
 
@@ -9,14 +9,14 @@ const LoginStyles = StyleSheet.create({
         backgroundColor: CustomTheme.bgBasic,
     },
     backgroundLogin: {
-        position: 'absolute',
+        position: "absolute",
         top: 124,
         left: -70,
     },
     textTitle: {
         fontSize: 32,
         lineHeight: 37,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        fontFamily: "NotoSansCJKkr-Bold",
         color: CustomTheme.primaryDefault,
         marginTop: 67,
         marginLeft: 24,
@@ -42,7 +42,7 @@ const LoginStyles = StyleSheet.create({
         borderRadius: 6,
         marginTop: 8,
         marginHorizontal: 25,
-        alignItems: 'center',
+        alignItems: "center",
     },
     textPw: {
         ...fontSub14,
@@ -51,10 +51,10 @@ const LoginStyles = StyleSheet.create({
         marginLeft: 24,
     },
     textInputPwContainer: {
-        position: 'relative',
-        flexDirection: 'row',
-        alignItems: 'center',
-      },
+        position: "relative",
+        flexDirection: "row",
+        alignItems: "center",
+    },
     textInputPw: {
         width: 327,
         height: 44,
@@ -64,16 +64,16 @@ const LoginStyles = StyleSheet.create({
         borderRadius: 6,
         marginTop: 8,
         marginHorizontal: 25,
-        alignItems: 'center',
+        alignItems: "center",
     },
     iconSee: {
-        position: 'absolute',
-        alignItems: 'center',
+        position: "absolute",
+        alignItems: "center",
         top: 17,
         right: 50,
     },
     containerError: {
-        flexDirection: 'row',
+        flexDirection: "row",
         marginTop: 8,
         marginLeft: 25,
     },
@@ -84,12 +84,12 @@ const LoginStyles = StyleSheet.create({
     },
     ButtonSignupPwContainer: {
         marginTop: 170,
-        alignItems: 'center',
+        alignItems: "center",
     },
     textReport: {
         ...fontBody14,
         color: CustomTheme.textSecondary,
-        textDecorationLine: 'underline',
+        textDecorationLine: "underline",
         marginTop: 20,
     },
 });

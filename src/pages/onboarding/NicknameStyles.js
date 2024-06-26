@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme.js";
 
 const { fontBody18, fontSub14, fontBody14 } = CustomTheme;
 
@@ -9,38 +9,38 @@ const NicknameStyles = StyleSheet.create({
         backgroundColor: CustomTheme.bgBasic,
     },
     iconArrow: {
-        position: 'absolute',
+        position: "absolute",
         marginTop: 5,
         marginLeft: 14,
     },
     iconProgress: {
-        alignItems: 'center',
+        alignItems: "center",
         marginTop: 5,
     },
     backgroundLogin: {
-        position: 'absolute',
+        position: "absolute",
         top: 124,
         left: -70,
     },
     textTitle: {
         fontSize: 32,
         lineHeight: 37,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        fontFamily: "NotoSansCJKkr-Bold",
         marginTop: 67,
         marginLeft: 24,
     },
     textSubTitle: {
         fontSize: 18,
         lineHeight: 24,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        fontFamily: "NotoSansCJKkr-Bold",
         marginTop: 67,
         marginTop: 12,
         marginLeft: 24,
     },
     containerInput: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        position: 'relative',
+        flexDirection: "row",
+        alignItems: "center",
+        position: "relative",
     },
     textInputNickname: {
         ...fontBody18,
@@ -50,10 +50,10 @@ const NicknameStyles = StyleSheet.create({
         borderBottomWidth: 2,
         marginTop: 116,
         marginHorizontal: 27,
-        alignItems: 'center',
+        alignItems: "center",
     },
     iconDelete: {
-        position: 'absolute',
+        position: "absolute",
         right: 45,
         bottom: 16,
     },

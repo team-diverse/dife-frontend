@@ -1,34 +1,34 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import {CustomTheme} from '@styles/CustomTheme';
-import RadioButtonGroup from '@components/RadioButton/RadioButtonGroup';
-import Modal from 'react-native-modal';
-import CompleteIcon from '@components/common/CompleteIcon';
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
+import RadioButtonGroup from "@components/RadioButton/RadioButtonGroup";
+import Modal from "react-native-modal";
+import CompleteIcon from "@components/common/CompleteIcon";
 
-const {fontSub14} = CustomTheme;
+const { fontSub14 } = CustomTheme;
 
-const Report = ({modalVisible, setModalVisible, reportTitle}) => {
-    const [selected, setSelected] = useState('');
+const Report = ({ modalVisible, setModalVisible, reportTitle }) => {
+    const [selected, setSelected] = useState("");
     const [isReportButtonDisabled, setIsReportButtonDisabled] = useState(true);
     const [showComplete, setShowComplete] = useState(false);
 
     const reportTypes = [
-        '혐오적인 컨텐츠',
-        '욕설/도배',
-        '다른 사람을 사칭함',
-        '기타'
-    ]
+        "혐오적인 컨텐츠",
+        "욕설/도배",
+        "다른 사람을 사칭함",
+        "기타",
+    ];
 
     const handleNoButtonPress = () => {
         setModalVisible(false);
-        setSelected('');
+        setSelected("");
     };
 
     const handleReportButtonPress = () => {
         setShowComplete(true);
         setTimeout(() => {
             setModalVisible(false);
-            setSelected('');
+            setSelected("");
             setIsReportButtonDisabled(true);
             setShowComplete(false);
         }, 2000);
@@ -48,7 +48,7 @@ const Report = ({modalVisible, setModalVisible, reportTitle}) => {
             <View style={styles.rectangle}>
                 {showComplete ? (
                     <View style={styles.reportCompleteContainer}>
-                        <CompleteIcon/>
+                        <CompleteIcon />
                         <Text style={styles.reportCompleteText}>신고 완료</Text>
                     </View>
                 ) : (
@@ -60,10 +60,14 @@ const Report = ({modalVisible, setModalVisible, reportTitle}) => {
                             <RadioButtonGroup
                                 values={reportTypes}
                                 selected={selected}
-                                onValueChange={handleRadioButtonSelect}/>
+                                onValueChange={handleRadioButtonSelect}
+                            />
                         </View>
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={styles.buttonNo} onPress={handleNoButtonPress}>
+                            <TouchableOpacity
+                                style={styles.buttonNo}
+                                onPress={handleNoButtonPress}
+                            >
                                 <Text style={styles.textNo}>아니오</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -83,47 +87,47 @@ const Report = ({modalVisible, setModalVisible, reportTitle}) => {
 
 const styles = StyleSheet.create({
     modal: {
-        justifyContent: 'center',
-        alignItems: 'center'
+        justifyContent: "center",
+        alignItems: "center",
     },
     rectangle: {
         width: 260,
         height: 360,
         backgroundColor: CustomTheme.bgBasic,
         borderRadius: 20,
-        position: 'relative',
+        position: "relative",
     },
     reportCompleteContainer: {
-        alignItems: 'center',
+        alignItems: "center",
         marginTop: 114,
     },
     reportCompleteText: {
         marginTop: 16,
         fontSize: 16,
         lineHeight: 24,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        fontFamily: "NotoSansCJKkr-Bold",
     },
     radioButtonTitle: {
-        alignItems: 'center',
+        alignItems: "center",
     },
     title: {
         fontSize: 14,
         lineHeight: 20,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        fontFamily: "NotoSansCJKkr-Bold",
         marginTop: 21,
         marginBottom: 12,
     },
     radioButtonGroup: {
         marginLeft: 24,
-        justifyContent: 'space-between',
+        justifyContent: "space-between",
     },
     radioButtonText: {
         ...fontSub14,
     },
     buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        position: 'absolute',
+        flexDirection: "row",
+        justifyContent: "space-between",
+        position: "absolute",
         bottom: 20,
         left: 20,
         right: 20,
@@ -136,8 +140,8 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         borderWidth: 1,
         borderColor: CustomTheme.textDisable,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: "center",
+        justifyContent: "center",
         marginRight: 8,
     },
     textNo: {
@@ -151,8 +155,8 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         borderWidth: 1,
         borderColor: CustomTheme.warningRed,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: "center",
+        justifyContent: "center",
         marginLeft: 8,
     },
     textReport: {

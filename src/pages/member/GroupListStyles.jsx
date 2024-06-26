@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontBody14, fontCaption } = CustomTheme;
 
@@ -9,11 +9,11 @@ const GroupListStyles = StyleSheet.create({
         backgroundColor: CustomTheme.bgBasic,
     },
     flatlist: {
-        width: '100%',
+        width: "100%",
     },
     containerFriendNumber: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         marginLeft: 24,
         marginTop: 8,
         marginBottom: 12,

@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme.js";
 
 const { fontSub14, fontBody14 } = CustomTheme;
 
@@ -9,29 +9,29 @@ const LoadingVerificationStyles = StyleSheet.create({
         backgroundColor: CustomTheme.bgBasic,
     },
     imageimageBackgroud: {
-        position: 'relative',
-        resizeMode: 'cover',
+        position: "relative",
+        resizeMode: "cover",
     },
     modalBackground: {
         flex: 1,
-        position: 'absolute',
+        position: "absolute",
         top: 0,
         left: 0,
         bottom: 0,
         right: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        justifyContent: 'center',
-        alignItems: 'center',
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        justifyContent: "center",
+        alignItems: "center",
     },
     modal: {
         width: 260,
         height: 360,
         backgroundColor: CustomTheme.bgBasic,
         borderRadius: 20,
-        justifyContent: 'center',
+        justifyContent: "center",
     },
     containerModalContent: {
-        alignItems: 'center',
+        alignItems: "center",
     },
     textModal: {
         ...fontSub14,
@@ -48,7 +48,7 @@ const LoadingVerificationStyles = StyleSheet.create({
     textMove: {
         ...fontBody14,
         color: CustomTheme.textSecondary,
-        textDecorationLine: 'underline',
+        textDecorationLine: "underline",
         marginTop: 32,
         marginBottom: 25,
     },
