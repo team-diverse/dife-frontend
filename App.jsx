@@ -171,7 +171,9 @@ function AppContent() {
 
 
     return isLoggedIn ? (
-        <MainNavigator />
+        <WebSocketProvider>
+            <MainNavigator />
+        </WebSocketProvider>
     ) : (
         <AuthNavigator initialRoute={initialRoute} />
     );
