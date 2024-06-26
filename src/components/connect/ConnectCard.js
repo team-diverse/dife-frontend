@@ -27,6 +27,14 @@ const ConnectCard = ({
         setHeart(!heart);
     };
 
+    const handleNavigation = () => {
+        if (headcount) {
+            navigation.navigate("GroupProfilePage");
+        } else {
+            navigation.navigate("ConnectProfilePage");
+        };
+    };
+
     return (
         <View style={styles.rectangle}>
             <View style={styles.profile}>
@@ -38,9 +46,7 @@ const ConnectCard = ({
                     <View style={styles.iconContainer}>
                         <IconHeart24 active={heart} onPress={handleHeartPress}/>
                         <TouchableOpacity
-                            onPress={() =>
-                                navigation.navigate("ConnectProfilePage")
-                            }
+                            onPress={handleNavigation}
                         >
                             <ConnectPlusIcon style={{ marginLeft: 9 }} />
                         </TouchableOpacity>

@@ -38,6 +38,10 @@ import TipCommunityPage from '@pages/community/TipCommunityPage';
 import FreeCommunityPage from '@pages/community/FreeCommunityPage';
 import WhitePage from '@pages/community/WhitePage';
 import PostPage from '@pages/community/PostPage';
+import PostModifyPage from '@pages/community/PostModifyPage';
+import MyPostPage from '@pages/member/MyPostPage';
+import GroupListPage from '@pages/member/GroupListPage';
+import GroupProfilePage from '@pages/connect/GroupProfilePage';
 
 import ChatDf24 from '@components/Icon24/ChatDf24';
 import ConnectDf24 from '@components/Icon24/ConnectDf24';
@@ -240,9 +244,13 @@ function MainNavigator() {
                 name="MyPostPage"
                 component={MyPostPage}
             />
-             <Stack.Screen
+            <Stack.Screen
                 name="GroupListPage"
                 component={GroupListPage}
+            />
+            <Stack.Screen
+                name="GroupProfilePage"
+                component={GroupProfilePage}
             />
         </Stack.Navigator>
     );
