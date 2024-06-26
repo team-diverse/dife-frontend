@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const LikePostStyles = StyleSheet.create({
     container: {
@@ -7,7 +7,7 @@ const LikePostStyles = StyleSheet.create({
         backgroundColor: CustomTheme.bgBasic,
     },
     itemLikeBookmark: {
-        alignItems: 'center',
+        alignItems: "center",
         marginTop: 12,
         marginHorizontal: 24,
     },

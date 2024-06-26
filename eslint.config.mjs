@@ -14,17 +14,17 @@ export default [
     pluginReactConfig,
     {
         plugins: {
-          "@stylistic/ts": sytlisticTs,
+            "@stylistic/ts": sytlisticTs,
         },
         rules: {
-          "@stylistic/ts/indent": ['error', 4],
-          "@stylistic/ts/semi": ['error', "always"],
+            "@stylistic/ts/indent": ["error", 4],
+            "@stylistic/ts/semi": ["error", "always"],
         },
         settings: {
-          react: {
-            version: "detect",
-          }
-        }
+            react: {
+                version: "detect",
+            },
+        },
     },
     eslintConfigPrettier,
 ];

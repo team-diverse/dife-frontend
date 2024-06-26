@@ -1,7 +1,8 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme.js";
 
-const { fontHead24, fontBody18, fontSub16, fontSub14, fontCaption } = CustomTheme;
+const { fontHead24, fontBody18, fontSub16, fontSub14, fontCaption } =
+	CustomTheme;
 
 const ProfileStyles = StyleSheet.create({
     container: {
@@ -9,12 +10,12 @@ const ProfileStyles = StyleSheet.create({
         backgroundColor: CustomTheme.bgBasic,
     },
     iconArrow: {
-        position: 'absolute',
+        position: "absolute",
         marginTop: 5,
         marginLeft: 14,
     },
     iconProgress: {
-        alignItems: 'center',
+        alignItems: "center",
         marginTop: 5,
     },
     textTitle: {
@@ -29,7 +30,7 @@ const ProfileStyles = StyleSheet.create({
         marginLeft: 24,
     },
     containerImage: {
-        flexDirection: 'row',
+        flexDirection: "row",
         marginTop: 12,
         marginLeft: 23,
     },
@@ -37,11 +38,11 @@ const ProfileStyles = StyleSheet.create({
         width: 94,
         height: 110,
         borderRadius: 20,
-        resizeMode: 'cover',
+        resizeMode: "cover",
         marginRight: 16,
     },
     imageBorder: {
-        position: 'absolute',
+        position: "absolute",
         top: -2,
         left: -2,
         right: 0,
@@ -49,7 +50,7 @@ const ProfileStyles = StyleSheet.create({
         zIndex: 10,
     },
     containerRadioButton: {
-        flexDirection: 'row',
+        flexDirection: "row",
         marginLeft: 23,
     },
     textRadioButton: {
@@ -63,31 +64,30 @@ const ProfileStyles = StyleSheet.create({
         marginLeft: 23,
     },
     containerTextInput: {
-        position: 'relative',
-        flexDirection: 'row',
-        justifyContent: 'center',
+        position: "relative",
+        flexDirection: "row",
+        justifyContent: "center",
         marginLeft: 23,
         marginRight: 23,
     },
     textInputIntroduction: {
         ...fontSub14,
-        width: '100%',
+        width: "100%",
         height: 82,
         borderWidth: 1,
-        borderColor: '#B0D0FF',
+        borderColor: "#B0D0FF",
         borderRadius: 14,
         paddingTop: 12,
         padding: 12,
         marginTop: 12,
-        
     },
     textIntroductionCount: {
         ...fontCaption,
-        position: 'absolute',
+        position: "absolute",
         right: 20,
         bottom: 10,
         fontSize: 12,
-        color: '#666'
+        color: "#666",
     },
 });
 

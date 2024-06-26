@@ -1,43 +1,41 @@
 {
-  "expo": {
-    "name": "Dife",
-    "slug": "dife",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "src/assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "src/assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "buildNumber": "3",
-      "bundleIdentifier": "com.teamdiverse.dife"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "src/assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "src/assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "7ec133fc-2004-4a77-9b59-25d22dede97b"
-      }
-    },
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/7ec133fc-2004-4a77-9b59-25d22dede97b"
-    }
-  }
+	"expo": {
+		"name": "Dife",
+		"slug": "dife",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "src/assets/icon.png",
+		"userInterfaceStyle": "light",
+		"splash": {
+			"image": "src/assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"assetBundlePatterns": ["**/*"],
+		"ios": {
+			"supportsTablet": true,
+			"buildNumber": "3",
+			"bundleIdentifier": "com.teamdiverse.dife"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "src/assets/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			}
+		},
+		"web": {
+			"favicon": "src/assets/favicon.png"
+		},
+		"extra": {
+			"eas": {
+				"projectId": "7ec133fc-2004-4a77-9b59-25d22dede97b"
+			}
+		},
+		"runtimeVersion": {
+			"policy": "appVersion"
+		},
+		"updates": {
+			"url": "https://u.expo.dev/7ec133fc-2004-4a77-9b59-25d22dede97b"
+		}
+	}
 }

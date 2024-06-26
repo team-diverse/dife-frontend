@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useNavigation } from "@react-navigation/native";
 
-import ArrowRight from '@components/common/ArrowRight';
+import ArrowRight from "@components/common/ArrowRight";
 
 const { fontHead20 } = CustomTheme;
 
@@ -15,7 +15,12 @@ const TopBar = ({ topBar = "TopBar", color, backgroundColor }) => {
     };
 
     return (
-        <View style={[styles.rectangle, { backgroundColor: backgroundColor || CustomTheme.bgBasic }]}>
+        <View
+            style={[
+                styles.rectangle,
+                { backgroundColor: backgroundColor || CustomTheme.bgBasic },
+            ]}
+        >
             <View style={styles.container}>
                 <TouchableOpacity onPress={handleGoBack}>
                     <View style={styles.arrow}>
@@ -32,15 +37,15 @@ const TopBar = ({ topBar = "TopBar", color, backgroundColor }) => {
 
 const styles = StyleSheet.create({
     rectangle: {
-        position: 'relative',
-        justifyContent: 'center',
-        width: '100%',
+        position: "relative",
+        justifyContent: "center",
+        width: "100%",
         height: 48,
     },
     container: {
-        position: 'absolute',
-        flexDirection: 'row',
-        alignItems: 'center',
+        position: "absolute",
+        flexDirection: "row",
+        alignItems: "center",
     },
     arrow: {
         marginLeft: 20,
