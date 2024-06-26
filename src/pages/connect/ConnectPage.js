@@ -15,6 +15,7 @@ import ConnectCard from '@components/connect/ConnectCard';
 import ConnectDife from '@components/connect/ConnectDife';
 import ConnectReset from '@components/connect/ConnectReset';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
+import GroupFilterBottomSlide from '@components/connect/GroupFilterBottomSlide';
 import { getRandomMembersByCount } from 'config/api';
 
 const ConnectPage = () => {
@@ -59,11 +60,16 @@ const ConnectPage = () => {
   const [isSearching, setIsSearching] = useState(false);
 
   const [ modalVisible, setModalVisible ] = useState(false);
+  const [ groupModalVisible, setGroupModalVisible ] = useState(false);
 
   const [isIndividualTab, setIsIndividualTab] = useState(false);
 
   const pressButton = () => {
+    if (isIndividualTab) {
+      setGroupModalVisible(true);
+    } else {
       setModalVisible(true);
+    };
   }
 
   const handleSearch = () => {
@@ -100,6 +106,19 @@ const ConnectPage = () => {
     setIsIndividualTab(true);
   };
 
+  const grouplist = [
+    {
+      profilePresignUrl: null,
+      username: "username",
+      country: "country",
+      age: "age",
+      major: "major",
+      bio: "bio",
+      tags: ["hi"],
+      headcount: 12,
+    },
+  ];
+
   return (
     <View style={ConnectStyles.container}>
       <View style={ConnectStyles.backgroundBlue} />
@@ -119,6 +138,10 @@ const ConnectPage = () => {
               <FilterBottomSlide
                   modalVisible={modalVisible}
                   setModalVisible={setModalVisible}
+              />
+              <GroupFilterBottomSlide
+                  modalVisible={groupModalVisible}
+                  setModalVisible={setGroupModalVisible}
               />
               <View style={ConnectStyles.searchIconContainer}>
               <TextInput
@@ -154,7 +177,20 @@ const ConnectPage = () => {
             </View>
 
             {isIndividualTab ? (
-              <></>
+              <View style={ConnectStyles.cardContainer}>
+                <View style={ConnectStyles.flatlist}>
+                  <FlatList
+                    contentContainerStyle={ConnectStyles.flatlistContent}
+                    data={grouplist}
+                    renderItem={({ item }) => (
+                      <ConnectCard
+                        {...item}
+                        tags={item.tags} />
+                    )}
+                    keyExtractor={item => item.id}
+                  />
+                </View>
+              </View>
             ) : (
               <View style={ConnectStyles.cardContainer}>
                 <View style={ConnectStyles.flatlist}>
