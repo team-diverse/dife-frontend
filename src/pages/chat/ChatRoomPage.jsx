@@ -14,6 +14,7 @@ import IconChatNotification from '@components/chat/IconChatNotification'
 import IconChatSetting from '@components/chat/IconChatSetting'
 import ChatBubble from './ChatBubble/ChatBubble';
 import { useWebSocket } from 'context/WebSocketContext';
+import formatKoreanTime from 'util/formatTime';
 
 const ChatRoomPage = ({route}) => {
     const navigation = useNavigation();
@@ -70,7 +71,12 @@ const ChatRoomPage = ({route}) => {
                     <FlatList 
                         data={messages[chatroomId] || []}
                         keyExtractor={item => item.id}
-                        renderItem={({item}) => <ChatBubble {...item} />}
+                        renderItem={({item}) => (
+                            <ChatBubble 
+                                message={item.message}
+                                time={formatKoreanTime(item.created)}
+                                isMine={true}/>
+                        )}
                     />
                 </View>
                 <ChatInputSend />
