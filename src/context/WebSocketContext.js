@@ -63,7 +63,7 @@ export const WebSocketProvider = ({ children }) => {
             if (!updatedMessages[chatroomId]) {
                 updatedMessages[chatroomId] = [];
             }
-            updatedMessages[chatroomId].push({message});
+            updatedMessages[chatroomId].push(JSON.parse(message));
             return updatedMessages;
         });
     }

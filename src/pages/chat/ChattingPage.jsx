@@ -12,6 +12,7 @@ import IconBookmark from '@components/chat/IconBookmark';
 import IconChatPlus from '@components/chat/IconChatPlus';
 import { useWebSocket } from 'context/WebSocketContext';
 import ChatroomItem from '@components/chat/ChatroomItem';
+import formatKoreanTime from 'util/formatTime';
 
 const ChattingPage = () => {
   const navigation = useNavigation();
@@ -116,7 +117,7 @@ const ChattingPage = () => {
                           id={item.id}
                           name={item.name}
                           context={getLatestChatByChatroomId(item.id)}
-                          time={item.created}
+                          time={formatKoreanTime(item.created)}
                         />
                       )}
                       keyExtractor={item => item.id}
