@@ -54,9 +54,10 @@ import ConnectAc32 from '@components/Icon32/ConnectAc32';
 import HomeAc32 from '@components/Icon32/HomeAc32';
 import CommuAc32 from '@components/Icon32/CommuAc32';
 import MyAc32 from '@components/Icon32/MyAc32';
-import PostModifyPage from '@pages/community/PostModifyPage';
-import MyPostPage from '@pages/member/MyPostPage';
-import GroupListPage from '@pages/member/GroupListPage';
+import GroupCreatedPage from '@pages/connect/GroupCreatedPage';
+import GroupCreatedDetailPage from '@pages/connect/GroupCreatedDetailPage';
+import GroupProfilePreviewPage from '@pages/connect/GroupProfilePreviewPage';
+import * as encoding from 'text-encoding';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -251,6 +252,18 @@ function MainNavigator() {
             <Stack.Screen
                 name="GroupProfilePage"
                 component={GroupProfilePage}
+            />
+            <Stack.Screen
+                name="GroupCreatedPage"
+                component={GroupCreatedPage}
+            />
+            <Stack.Screen
+                name="GroupCreatedDetailPage"
+                component={GroupCreatedDetailPage}
+            />
+            <Stack.Screen
+                name="GroupProfilePreviewPage"
+                component={GroupProfilePreviewPage}
             />
         </Stack.Navigator>
     );

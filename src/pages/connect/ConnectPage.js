@@ -16,9 +16,11 @@ import ConnectDife from '@components/connect/ConnectDife';
 import ConnectReset from '@components/connect/ConnectReset';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 import GroupFilterBottomSlide from '@components/connect/GroupFilterBottomSlide';
+import IconNewGroup from '@components/connect/IconNewGroup';
+import ModalGroupCreationComplete from '@components/connect/ModalGroupCreationComplete';
 import { getRandomMembersByCount } from 'config/api';
 
-const ConnectPage = () => {
+const ConnectPage = ({ route }) => {
   const navigation = useNavigation();
 
   const [profileDataList, setProfileDataList] = useState([]);
@@ -106,6 +108,14 @@ const ConnectPage = () => {
     setIsIndividualTab(true);
   };
 
+  const [modalGroupVisible, setModalGroupVisible] = useState(false);
+
+  useEffect(() => {
+    if (route.params?.modalGroupVisible) {
+      setModalGroupVisible(true);
+    }
+  }, [route.params?.modalGroupVisible]);
+
   const grouplist = [
     {
       profilePresignUrl: null,
@@ -178,6 +188,9 @@ const ConnectPage = () => {
 
             {isIndividualTab ? (
               <View style={ConnectStyles.cardContainer}>
+                <TouchableOpacity style={ConnectStyles.iconNewGroup} onPress={() => navigation.navigate('GroupCreatedPage')}>
+                  <IconNewGroup />
+                </TouchableOpacity>
                 <View style={ConnectStyles.flatlist}>
                   <FlatList
                     contentContainerStyle={ConnectStyles.flatlistContent}
@@ -190,6 +203,10 @@ const ConnectPage = () => {
                     keyExtractor={item => item.id}
                   />
                 </View>
+                {modalGroupVisible &&
+                  <ModalGroupCreationComplete 
+                    modalVisible={modalGroupVisible}
+                    setModalVisible={setModalGroupVisible} />}
               </View>
             ) : (
               <View style={ConnectStyles.cardContainer}>

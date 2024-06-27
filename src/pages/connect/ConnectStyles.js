@@ -132,6 +132,16 @@ const ConnectStyles = StyleSheet.create({
         shadowOpacity: 0.71,
         shadowRadius: 6,
     },
+    iconNewGroup: {
+        position: 'absolute',
+        right: 12,
+        bottom: 12,
+        shadowColor: '#3C454E',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.4,
+        shadowRadius: 2,
+        zIndex: 2,
+    },
 });
 
 export default ConnectStyles;
