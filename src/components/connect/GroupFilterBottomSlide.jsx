@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Modal, Text, Animated, TouchableWithoutFeedback, Dimensions, PanResponder, TouchableOpacity, ScrollView } from 'react-native';
 import Collapsible from 'react-native-collapsible';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
@@ -90,15 +90,10 @@ const GroupFilterBottomSlide = (props) => {
       false, 
     ]);
     
-    const [selectedMBTI, setSelectedMBTI] = useState([]);
     const [selectedHobby, setSelectedHobby] = useState([]);
     const [selectedLanguage, setSelectedLanguage] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState([]);
 
-    const mbti = [
-      'ISTP', 'ISFP', 'ENTP', 'ISFJ', 'INFJ', 'ENTJ', 'INFP', 'INTP', 'ESFP',
-      'ESTP', 'ESFJ', 'INTJ', 'ESTJ', 'ENFP', 'ISTJ', 'ENFJ', '선택안함'
-    ];
     const hobby = [
       'SNS', 'OTT', '캠핑', '쇼핑', '드라이브', '산책', '반려동물', '스포츠', 'K-POP', '사진',
       '음악', '드라마', '독서', '그림', '요리', '만화', '언어공부', '여행', '악기연주', '영화', '맛집'
@@ -107,22 +102,10 @@ const GroupFilterBottomSlide = (props) => {
     const categories = ['소통/친구 사귀기', '언어교환', '자유'];
 
     const size = 3;
-    const mbtiRows = [];
-    for (let i = 0; i < mbti.length; i += size) {
-        mbtiRows.push(mbti.slice(i, i + size));
-    }
     const hobbyRows = [];
     for (let i = 0; i < hobby.length; i += size) {
         hobbyRows.push(hobby.slice(i, i + size));
     }
-
-    const handleSelectMBTI = (mbti) => {
-      if (selectedMBTI.includes(mbti)) {
-        setSelectedMBTI(selectedMBTI.filter(item => item !== mbti));
-      } else {
-        setSelectedMBTI([...selectedMBTI, mbti]);
-      }
-    };
 
     const handleSelectHobby = (hobby) => {
       if (selectedHobby.includes(hobby)) {
@@ -183,7 +166,6 @@ const GroupFilterBottomSlide = (props) => {
                     {...panResponders.panHandlers}
                 >
 
-                  <View style={styles.line} />
                   <ScrollView style={styles.listContainer}>
                     <TouchableOpacity style={styles.list} onPress={() => toggleCollapsed(1)}>
                       <Text style={styles.listText}>주제</Text>
@@ -273,14 +255,6 @@ const GroupFilterBottomSlide = (props) => {
 };
 
 const styles = StyleSheet.create({
-  marker: {
-    height: 30,
-    width: 30,
-    borderRadius: 15,
-    backgroundColor: 'blue',
-    justifyContent: 'center',
-    alignItems: 'center',
-},
   overlay: {
     flex: 1,
     justifyContent: "flex-end",
@@ -295,12 +269,6 @@ const styles = StyleSheet.create({
       backgroundColor: "white",
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,
-  },
-  line: {
-    width: 47,
-    height: 3,
-    backgroundColor: '#CFCFCF',
-    marginTop: 8,
   },
   listContainer: {
     width: '100%',
@@ -363,22 +331,6 @@ const styles = StyleSheet.create({
   },
   categoryLanguageContainer: {
     flexDirection: 'row',
-  },
-  checkbox: {
-    height: 24,
-    width: 24,
-    borderRadius: 4,
-    borderWidth: 2,
-    borderColor: CustomTheme.bgList,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  checked: {
-    backgroundColor: CustomTheme.primaryBg,
-    borderColor: CustomTheme.primaryMedium,
-  },
-  label: {
-    marginLeft: 8,
   },
 });
 
