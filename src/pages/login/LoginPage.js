@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
 
 import { CustomTheme } from '@styles/CustomTheme';
 import LoginStyles from '@pages/login/LoginStyles';
@@ -13,6 +12,8 @@ import LoginBackground from '@components/login/LoginBackground';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 import { useAuth } from 'src/states/AuthContext';
 import InfoCircle from '@components/common/InfoCircle';
+import { getProfile, login } from 'config/api';
+import * as SecureStore from 'expo-secure-store';
 
 const LoginPage = () => {
     const navigation = useNavigation();
@@ -21,6 +22,9 @@ const LoginPage = () => {
     const [valueID, onChangeID] = useState('');
     const [valuePW, onChangePW] = useState('');
     const [showPW, setShowPW] = useState(false);
+    const { updateOnboardingData } = useOnboarding();
+    const { setIsLoggedIn } = useAuth();
+    const [loginFailed, setLoginFailed] = useState(false);
 
     const handleShowPW = () => {
         setShowPW(!showPW);
@@ -33,38 +37,21 @@ const LoginPage = () => {
     const handleSignUp = () => {
         navigation.navigate('SignUp')
     };
-
-    const { updateOnboardingData } = useOnboarding();
-    const { setIsLoggedIn } = useAuth();
-    const [loginFailed, setLoginFailed] = useState(false);
 	
     const handleLogin = async () => {
         try {
-            const loginResponse = await axios.post(`http://192.168.0.4:8080/api/members/login`, {
-                email: valueID,
-                password: valuePW
-            }, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            });
+            const loginResponse = await login(valueID, valuePW);
+            const id = loginResponse.data.member_id;
+            const accessToken = loginResponse.data.accessToken;
+            const refreshToken = loginResponse.data.refreshToken;
+
+            await SecureStore.setItemAsync('member_id', JSON.stringify(id));   
+            await SecureStore.setItemAsync('accessToken', accessToken);
+            await SecureStore.setItemAsync('refreshToken', refreshToken);
     
-            console.log('기본 로그인 성공:', loginResponse.data);
-            updateOnboardingData({
-                id: loginResponse.data.member_id,
-                accessToken: loginResponse.data.accessToken,
-                refreshToken: loginResponse.data.refreshToken
-            });
-    
-            const profileResponse = await axios.get(`http://192.168.0.4:8080/api/members/profile`, {
-                headers: {
-                    'Authorization': `Bearer ${loginResponse.data.accessToken}`,
-                    'Accept': 'application/json'
-                }
-            });
-    
-            console.log(profileResponse.data);
+            updateOnboardingData({ id, accessToken, refreshToken});
+
+            const profileResponse = await getProfile();
             if (profileResponse.data.isVerified) {
                 setIsLoggedIn(true);
             } else {

@@ -12,6 +12,7 @@ import ConnectSearchIcon from '@components/connect/ConnectSearchIcon';
 import ConnectSearchCancel from '@components/connect/ConnectSearchCancel';
 import IconBookmark from '@components/chat/IconBookmark';
 import ItemCommunity from '@components/community/ItemCommunity';
+import { getPostsByType } from 'config/api';
 
 const FreeCommunityPage = () => {
   const navigation = useNavigation();
@@ -49,14 +50,8 @@ const FreeCommunityPage = () => {
   const [postList, setPostList] = useState([]);
   const { onboardingData } = useOnboarding();
 
-  const handleFreeCommunity = () => {
-    axios.get('http://192.168.45.176:8080/api/posts', {
-      params: { boardCategory: 'FREE' },
-      headers: {
-        'Authorization': `Bearer ${onboardingData.accessToken}`,
-        'Accept': 'application/json'
-      },
-      })
+  useEffect(() => {
+    getPostsByType('FREE')
       .then(response => {
         setPostList(response.data);
       })

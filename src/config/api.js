@@ -17,10 +17,95 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-export const getChatroomsByType = async (type) => {
-        return await api.get('/chatrooms', {
+export const getChatroomsByType = (type) => {
+    return api.get("/chatrooms", {
             params: {
-                chatroomType: type
+            chatroomType: type,
+        },
+    });
             }
+
+export const signUp = (email, password) => {
+    return api.post("/members/register", {
+        email,
+        password,
+    });
+}
+
+export const login = (email, password) => {
+    return api.post("/members/login", {
+        email,
+        password,
         });
+}
+
+export const changePassword = (email) => {
+    return api.get("/members/change-password", {
+        params: {
+            email,
+        }
+    });
+}
+
+export const getProfile = () => {
+    return api.get("/members/profile");
+}
+
+export const headCheckUserName = (username) => {
+    return api.head("/members", {
+        params: {
+            username,
+        }
+    });
+}
+
+export const updateProfile = (member_id, formData) => {
+    return api.put(`/members/${member_id}`, formData, {
+        headers: {
+            "Content-Type": "multipart/form-data",
+        }
+    });
+}
+
+export const getRandomMembersByCount = (count) => {
+    return api.get("/members/random", {
+        params: {
+            count,
+        }
+    });
+}
+
+export const getPostsByType = (type) => {
+    return api.get("/posts", {
+        params: {
+            boardCategory: type,
+        }
+    });
+}
+
+export const getPostById = (id) => {
+    return api.get(`/posts/${id}`);
+}
+
+export const deletePost = (id) => {
+    return api.delete(`/posts/${id}`);
+}
+
+export const createPost = (title, content, isPublic, boardType) => {
+    return api.post("/posts", {
+        title,
+        content,
+        isPublic,
+        boardType,
+    });
+}
+
+export const updatePost = (id, title, content, isPublic, boardType, memberId) => {
+    return api.put(`/posts/${id}`, {
+        title,
+        content,
+        isPublic,
+        boardType,
+        memberId,
+    });
 }

@@ -17,7 +17,10 @@
     "ios": {
       "supportsTablet": true,
       "buildNumber": "3",
-      "bundleIdentifier": "com.teamdiverse.dife"
+      "bundleIdentifier": "com.teamdiverse.dife",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -38,6 +41,9 @@
     },
     "updates": {
       "url": "https://u.expo.dev/7ec133fc-2004-4a77-9b59-25d22dede97b"
-    }
+    },
+    "plugins": [
+      "expo-secure-store"
+    ]
   }
 }

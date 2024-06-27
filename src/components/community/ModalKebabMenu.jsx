@@ -33,12 +33,7 @@ const ModalKebabMenu = ({ modalVisible, setModalVisible, id, isPublic, isMe, pos
                 {
                     text: "확인",
                     onPress: () => {
-                        axios.delete(`http://192.168.45.176:8080/api/posts/${id}`, {
-                            headers: {
-                                'Authorization': `Bearer ${onboardingData.accessToken}`,
-                                'Accept': 'application/json'
-                            },
-                        })
+                        deletePost(id)
                         .then(response => {
                             navigation.goBack();
                         })
