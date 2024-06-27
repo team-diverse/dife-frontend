@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 const { fontSub16 } = CustomTheme;
 
 const ApplyButton = ({ text="applyBtn", background=false, onPress=null, disabled=false, access=false }) => {
-  const rectangleStyle = background ? styles.rectangle : {};
+  const rectangleStyle = background ?  styles.rectangleShadow : styles.rectangle;
   const navigation = useNavigation();
 
   // const requestPermissions = async () => {
@@ -61,6 +61,16 @@ const styles = StyleSheet.create({
     height: 72,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 24,
+    backgroundColor: CustomTheme.bgBasic,
+  },
+  rectangleShadow: {
+    flexDirection: 'row',
+    width: '100%',
+    height: 72,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 24,
     backgroundColor: CustomTheme.bgBasic,
     shadowColor: '#3C454E',
     shadowOffset: { width: 0, height: -1 },
@@ -69,12 +79,13 @@ const styles = StyleSheet.create({
   },
   apply: {
     flexDirection: 'row',
+    width: '100%',
     height: 44,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: CustomTheme.primaryMedium,
     borderRadius: 27,
-    marginHorizontal: 24,
+    // marginHorizontal: 24,
     marginVertical: 14,
   },
   text: {
