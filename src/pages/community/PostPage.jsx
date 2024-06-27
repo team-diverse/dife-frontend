@@ -82,7 +82,7 @@ const PostPage = ({ route }) => {
           .catch(error => {
             console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
           });
-    };
+    });
 
     useEffect(() => {
         handlePost();
