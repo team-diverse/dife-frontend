@@ -58,7 +58,7 @@ const TipCommunityPage = () => {
       .catch(error => {
         console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
       });
-  };
+  });
 
   useFocusEffect(
     React.useCallback(() => {
