@@ -12,6 +12,7 @@ import ConnectSearchIcon from '@components/connect/ConnectSearchIcon';
 import ConnectSearchCancel from '@components/connect/ConnectSearchCancel';
 import IconBookmark from '@components/chat/IconBookmark';
 import ItemCommunity from '@components/community/ItemCommunity';
+import { getPostsByType } from 'config/api';
 
 const TipCommunityPage = () => {
   const navigation = useNavigation();
@@ -49,14 +50,8 @@ const TipCommunityPage = () => {
   const [postList, setPostList] = useState([]);
   const { onboardingData } = useOnboarding();
 
-  const handleTipCommunity = () => {
-    axios.get('http://10.224.101.45:8080/api/posts', {
-      params: { boardCategory: 'TIP' },
-      headers: {
-        'Authorization': `Bearer ${onboardingData.accessToken}`,
-        'Accept': 'application/json'
-      },
-      })
+  useEffect(() => {
+    getPostsByType('TIP')
       .then(response => {
         setPostList(response.data);
       })

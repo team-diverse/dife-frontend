@@ -10,6 +10,7 @@ import InfoCircle from '@components/common/InfoCircle';
 import ApplyButton from '@components/common/ApplyButton';
 import ConnectRequest from '@components/ConnectRequest';
 import GoBack from '@components/common/GoBack';
+import { changePassword } from 'config/api';
 
 const FindPasswordPage = () => {
     const [valueID, onChangeID] = useState('');
@@ -25,12 +26,7 @@ const FindPasswordPage = () => {
         setModalConnectVisible(true);
         console.log('이메일 주소:', valueID);
     
-        axios.get('http://192.168.0.4:8080/api/members/change-password', {
-            params: { email: valueID },
-            headers: {
-                'Accept': 'application/json',
-            }
-        })
+        changePassword(valueID)
         .then(response => {
             console.log('비밀번호 재발급 성공:', response.data);
             setIdValid(true);

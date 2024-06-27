@@ -11,6 +11,7 @@ import InfoCircle from '@components/common/InfoCircle';
 import IconNotSeePw from '@components/login/IconNotSeePw';
 import IconSeePw from '@components/login/IconSeePw';
 import GoBack from '@components/common/GoBack';
+import { signUp } from 'config/api';
 
 const SignUpPage = () => {
     const navigation = useNavigation();
@@ -49,16 +50,7 @@ const SignUpPage = () => {
     
 
     const handleSignUp = () => {
-        axios.post('http://192.168.0.4:8080/api/members/register', {
-            email: valueID,
-            password: valuePW,
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-            }
-        })
-        .then(response => {
+        signUp(valueID, valuePW).then(response => {
             console.log('회원가입 성공:', response.data.message);
             navigation.navigate('Login');
         })

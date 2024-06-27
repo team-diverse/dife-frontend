@@ -15,20 +15,17 @@ import ConnectCard from '@components/connect/ConnectCard';
 import ConnectDife from '@components/connect/ConnectDife';
 import ConnectReset from '@components/connect/ConnectReset';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
+import { getRandomMembersByCount } from 'config/api';
 
 const ConnectPage = () => {
   const navigation = useNavigation();
 
   const [profileDataList, setProfileDataList] = useState([]);
   const { onboardingData } = useOnboarding();
+  const RANDOM_MEMBER_COUNT = 10;
 
   const cardProfiles = () => {
-    axios.get('http://192.168.45.176:8080/api/members/random?count=10', {
-      headers: {
-        'Authorization': `Bearer ${onboardingData.accessToken}`,
-        'Content-Type': 'application/json'
-      },
-      })
+      getRandomMembersByCount(RANDOM_MEMBER_COUNT) 
       .then(response => {
         const updatedData = response.data.map(data => {
           if (data.mbti !== null) {

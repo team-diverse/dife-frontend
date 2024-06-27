@@ -13,6 +13,7 @@ import IconBookmark from '@components/chat/IconBookmark';
 import IconCommunityTitle from '@components/community/IconCommunityTitle'
 import ArrowRight32 from '@components/Icon32/ArrowRight32';
 import ItemCommunityPreview from '@components/community/ItemCommunityPreview';
+import { getPostsByType } from 'config/api';
 
 const CommunityPage = () => {
   const navigation = useNavigation();
@@ -51,36 +52,15 @@ const CommunityPage = () => {
   const [freePostList, setFreePostList] = useState([]);
   const { onboardingData } = useOnboarding();
 
-  const handleFreeCommunity = () => {
-    axios.get('http://10.224.101.45:8080/api/posts', {
-      params: { boardCategory: 'TIP' },
-      headers: {
-        'Authorization': `Bearer ${onboardingData.accessToken}`,
-        'Accept': 'application/json'
-      },
-      })
+  useEffect(() => {
+    getPostsByType('TIP')
       .then(response => {
         setTipPostList(response.data.slice(0, 3));
       })
       .catch(error => {
         console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
       });
-  };
-
-  useFocusEffect(
-    React.useCallback(() => {
-      handleFreeCommunity();
-    }, [])
-  );
-
-  const handleTipCommunity = () => {
-    axios.get('http://10.224.101.45:8080/api/posts', {
-      params: { boardCategory: 'FREE' },
-      headers: {
-        'Authorization': `Bearer ${onboardingData.accessToken}`,
-        'Accept': 'application/json'
-      },
-      })
+    getPostsByType('FREE')
       .then(response => {
         setFreePostList(response.data.slice(0, 3));
       })
