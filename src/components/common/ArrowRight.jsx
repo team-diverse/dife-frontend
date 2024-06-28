@@ -1,11 +1,12 @@
 import * as React from 'react';
 import Svg, { Path } from 'react-native-svg';
 
-const ArrowRight32 = ({ color='#2964E0', ...props }) => (
+const ArrowRight = ({ color='#2964E0', size=32, ...props }) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
-    width={32}
-    height={32}
+    width={size}
+    height={size}
+    viewBox="0 0 32 32"
     fill="none"
     {...props}
   >
@@ -18,4 +19,4 @@ const ArrowRight32 = ({ color='#2964E0', ...props }) => (
     />
   </Svg>
 )
-export default ArrowRight32;
+export default ArrowRight;
