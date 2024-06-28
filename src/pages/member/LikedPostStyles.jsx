@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 import { CustomTheme } from '@styles/CustomTheme';
 
-const LikePostStyles = StyleSheet.create({
+const LikedPostStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: CustomTheme.bgBasic,
@@ -13,4 +13,4 @@ const LikePostStyles = StyleSheet.create({
     },
 });
 
-export default LikePostStyles;
+export default LikedPostStyles;

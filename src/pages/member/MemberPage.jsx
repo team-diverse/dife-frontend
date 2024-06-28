@@ -16,7 +16,7 @@ import ProfileK from '@components/member/ProfileK';
 import IconFriendList from '@components/member/IconFriendList';
 import IconGroup from '@components/member/IconGroup';
 import IconMyPost from '@components/member/IconMyPost';
-import LikePostPage from '@pages/member/LikePostPage';
+import LikedPostPage from '@pages/member/LikedPostPage';
 import BookmarkPostPage from '@pages/member/BookmarkPostPage';
 import IconProfileEdit from '@components/member/IconProfileEdit';
 import IconLike from '@components/member/IconLike';
@@ -83,7 +83,7 @@ const MemberPage = () => {
 
       <View style={MemberStyles.tabContainer}>
         <Tab.Navigator
-          initialRouteName="LikePostPage"
+          initialRouteName="LikedPostPage"
           screenOptions={{
             tabBarIndicatorStyle: {
               backgroundColor: '#B0D0FF',
@@ -92,7 +92,7 @@ const MemberPage = () => {
       >
           <Tab.Screen
               name="좋아요"
-              component={LikePostPage}
+              component={LikedPostPage}
               options={{ tabBarIcon: ({ focused }) => (
                   <IconLike color={focused ? CustomTheme.primaryMedium : CustomTheme.borderColor} />
                 ),
