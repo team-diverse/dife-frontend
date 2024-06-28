@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 import { CustomTheme } from '@styles/CustomTheme';
 
-import Tag from '@components/Tag';
+import Tag from "@components/common/Tag";
 import HomeProfile from '@components/home/HomeProfile';
 import IconHeart24 from '@components/Icon24/IconHeart24';
 import IconAddFriend24 from '@components/Icon24/IconAddFriend24';
@@ -65,15 +65,15 @@ const styles = StyleSheet.create({
   },
   tagContainer: {
       flexDirection: 'row',
+      width: 200,
       marginTop: 12,
       marginBottom: 6,
   },
   introduction: {
       ...fontCaption,
       width: 200,
-      height: 51,
       marginTop: 6,
-      marginBottom: 6,
+      marginBottom: 12,
   },
   myinfoContainer: {
       flexDirection: 'row',

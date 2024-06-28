@@ -88,8 +88,6 @@ const ChattingStyles = StyleSheet.create({
         marginLeft: 24,
     },
     iconArrow: {
-        // width: 24,
-        // height: 24,
         transform: [{ scaleX: -1 }],
         marginRight: 24,
     },

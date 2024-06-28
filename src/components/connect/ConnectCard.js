@@ -5,12 +5,12 @@ import { useNavigation } from "@react-navigation/native";
 
 import IconHeart24 from "@components/Icon24/IconHeart24";
 import ConnectPlusIcon from "@components/connect/ConnectPlusIcon";
-import Tag from "@components/Tag.js";
+import Tag from "@components/common/Tag";
 
 const { fontSub14, fontCaption } = CustomTheme;
 
 const ConnectCard = ({
-    profileFileName = null,
+    profilePresignUrl = null,
     username = "username",
     country = "country",
     age = "age",
@@ -28,7 +28,7 @@ const ConnectCard = ({
     return (
         <View style={styles.rectangle}>
             <View style={styles.profile}>
-                <Image source={profileFileName} style={styles.imgProfile} />
+                <Image source={{url: profilePresignUrl}} style={styles.imgProfile} />
             </View>
             <View style={styles.cardContainer}>
                 <View style={styles.textIconContainer}>
@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     },
     tagContainer: {
         flexDirection: "row",
+        width: 221,
     },
 });
 
