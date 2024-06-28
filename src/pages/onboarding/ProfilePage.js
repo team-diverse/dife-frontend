@@ -7,7 +7,7 @@ import ProfileStyles from '@pages/onboarding/ProfileStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
+import ArrowRight from '@components/common/ArrowRight';
 import Progress2 from '@components/onboarding/Progress2';
 import ApplyButton from '@components/common/ApplyButton';
 import IconProfileUpload from '@components/onboarding/IconProfileUpload';
@@ -75,7 +75,7 @@ const ProfilePage = () => {
         <TouchableWithoutFeedback onPress={handleKeyboard}>
             <SafeAreaView style={[ProfileStyles.container]}>
                 <TouchableOpacity onPress={handleGoBack}>
-                    <ArrowRight32 style={ProfileStyles.iconArrow} color={CustomTheme.textPrimary} />
+                    <ArrowRight style={ProfileStyles.iconArrow} color={CustomTheme.textPrimary} />
                 </TouchableOpacity>
                 <View style={[ProfileStyles.iconProgress]}>
                     <Progress2 />

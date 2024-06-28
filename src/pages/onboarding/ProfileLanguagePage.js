@@ -6,7 +6,7 @@ import ProfileLanguageStyles from '@pages/onboarding/ProfileLanguageStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
+import ArrowRight from '@components/common/ArrowRight';
 import Progress5 from '@components/onboarding/Progress5';
 import Checkbox from '@components/common/Checkbox';
 import ApplyButton from '@components/common/ApplyButton';
@@ -47,7 +47,7 @@ const ProfileLanguagePage = () => {
     return (
         <SafeAreaView style={[ProfileLanguageStyles.container]}>
             <TouchableOpacity onPress={handleGoBack}>
-                <ArrowRight32 style={ProfileLanguageStyles.iconArrow} color={CustomTheme.textPrimary} />
+                <ArrowRight style={ProfileLanguageStyles.iconArrow} color={CustomTheme.textPrimary} />
             </TouchableOpacity>
             <View style={[ProfileLanguageStyles.iconProgress]}>
                 <Progress5 />

@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import { CustomTheme } from '@styles/CustomTheme';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
+import ArrowRight from '@components/common/ArrowRight';
 
 const GoBack = () => {
     const navigation = useNavigation();
@@ -15,7 +15,7 @@ const GoBack = () => {
 
     return (
         <TouchableOpacity onPress={handleGoBack}>
-            <ArrowRight32 style={styles.iconArrow} color={CustomTheme.textPrimary} />
+            <ArrowRight style={styles.iconArrow} color={CustomTheme.textPrimary} />
         </TouchableOpacity>
     );
 };

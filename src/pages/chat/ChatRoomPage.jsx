@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import ChatRoomStyles from '@pages/chat/ChatRoomStyles';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
+import ArrowRight from '@components/common/ArrowRight';
 import ChatInputSend from '@components/chat/ChatInputSend';
 import IconHamburgerMenu from '@components/chat/IconHamburgerMenu';
 import IconChatProfile from '@components/chat/IconChatProfile'
@@ -58,7 +58,7 @@ const ChatRoomPage = ({route}) => {
                 <View style={ChatRoomStyles.containerTopBar}>
                     <View style={ChatRoomStyles.containerBackName}>
                         <TouchableOpacity style={ChatRoomStyles.iconArrow} onPress={handleGoBack}>
-                            <ArrowRight32 color='#000' />
+                            <ArrowRight color='#000' />
                         </TouchableOpacity>
                         <Text style={ChatRoomStyles.textTopBar}>Name</Text>
                     </View>
@@ -119,7 +119,7 @@ const ChatRoomPage = ({route}) => {
                             </View>
                         </View>
                         <View style={ChatRoomStyles.iconReverseArrow}>
-                            <ArrowRight32 color='#000' />
+                            <ArrowRight color='#000' />
                         </View>
                     </TouchableOpacity>
                     <View style={ChatRoomStyles.line} />
@@ -131,7 +131,7 @@ const ChatRoomPage = ({route}) => {
                             </View>
                         </View>
                         <View style={ChatRoomStyles.iconReverseArrow}>
-                            <ArrowRight32 color='#000' />
+                            <ArrowRight color='#000' />
                         </View>
                     </TouchableOpacity>
                     <View style={ChatRoomStyles.line} />

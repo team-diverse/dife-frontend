@@ -6,7 +6,7 @@ import ProfileMbtiStyles from '@pages/onboarding/ProfileMbtiStyles';
 import { CustomTheme } from '@styles/CustomTheme.js';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
-import ArrowRight32 from '@components/Icon32/ArrowRight32';
+import ArrowRight from '@components/common/ArrowRight';
 import Progress3 from '@components/onboarding/Progress3';
 import FilterCategory from '@components/connect/FilterCategory';
 import ApplyButton from '@components/common/ApplyButton';
@@ -49,7 +49,7 @@ const ProfileMBTIPage = () => {
     return (
         <SafeAreaView style={[ProfileMbtiStyles.container]}>
             <TouchableOpacity onPress={handleGoBack}>
-                <ArrowRight32 style={ProfileMbtiStyles.iconArrow} color={CustomTheme.textPrimary} />
+                <ArrowRight style={ProfileMbtiStyles.iconArrow} color={CustomTheme.textPrimary} />
             </TouchableOpacity>
             <View style={[ProfileMbtiStyles.iconProgress]}>
                 <Progress3 />
