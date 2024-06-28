@@ -4,7 +4,6 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
 import FreeCommunityStyles from '@pages/community/FreeCommunityStyles';
-import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ConnectTop from '@components/connect/ConnectTop';
 import IconPostPlus from '@components/community/IconPostPlus';
@@ -48,21 +47,16 @@ const FreeCommunityPage = () => {
   };
 
   const [postList, setPostList] = useState([]);
-  const { onboardingData } = useOnboarding();
 
-  useEffect(() => {
-    getPostsByType('FREE')
+  useFocusEffect(
+    React.useCallback(() => {
+      getPostsByType('FREE')
       .then(response => {
         setPostList(response.data);
       })
       .catch(error => {
         console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
       });
-  });
-
-  useFocusEffect(
-    React.useCallback(() => {
-      handleFreeCommunity();
     }, [])
   );
 

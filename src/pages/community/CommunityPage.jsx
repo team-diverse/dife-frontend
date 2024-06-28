@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, SafeAreaView, Keyboard, TouchableOpacity } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
 import CommunityStyles from '@pages/community/CommunityStyles';
-import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ConnectTop from '@components/connect/ConnectTop';
 import ConnectSearchIcon from '@components/connect/ConnectSearchIcon';
@@ -50,10 +49,10 @@ const CommunityPage = () => {
 
   const [tipPostList, setTipPostList] = useState([]);
   const [freePostList, setFreePostList] = useState([]);
-  const { onboardingData } = useOnboarding();
 
-  useEffect(() => {
-    getPostsByType('TIP')
+  useFocusEffect(
+    React.useCallback(() => {
+      getPostsByType('TIP')
       .then(response => {
         setTipPostList(response.data.slice(0, 3));
       })
@@ -67,15 +66,6 @@ const CommunityPage = () => {
       .catch(error => {
         console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
       });
-  });
-
-  useEffect(() => {
-    handleTipCommunity();
-  }, []);
-
-  useFocusEffect(
-    React.useCallback(() => {
-      handleTipCommunity();
     }, [])
   );
 

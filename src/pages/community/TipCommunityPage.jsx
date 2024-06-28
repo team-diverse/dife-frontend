@@ -4,7 +4,6 @@ import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 
 import TipCommunityStyles from '@pages/community/TipCommunityStyles';
-import { useOnboarding } from 'src/states/OnboardingContext.js';
 
 import ConnectTop from '@components/connect/ConnectTop';
 import IconPostPlus from '@components/community/IconPostPlus';
@@ -48,21 +47,16 @@ const TipCommunityPage = () => {
   };
 
   const [postList, setPostList] = useState([]);
-  const { onboardingData } = useOnboarding();
 
-  useEffect(() => {
-    getPostsByType('TIP')
+  useFocusEffect(
+    React.useCallback(() => {
+      getPostsByType('TIP')
       .then(response => {
         setPostList(response.data);
       })
       .catch(error => {
         console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
       });
-  });
-
-  useFocusEffect(
-    React.useCallback(() => {
-      handleTipCommunity();
     }, [])
   );
 
