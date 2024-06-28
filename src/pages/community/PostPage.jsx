@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, Text, TextInput, View, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, Dimensions, Alert } from 'react-native';
 import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import PostStyles from '@pages/community/PostStyles';
 import { CustomTheme } from '@styles/CustomTheme';
@@ -30,8 +29,8 @@ const PostPage = ({ route }) => {
     
     const [title, setTitle] = useState('');
     const [context, setContext] = useState('');
-    const [heart, setHeart] = useState('');
-    const [bookmark, setBookmark] = useState('');
+    const [heart, setHeart] = useState();
+    const [bookmark, setBookmark] = useState();
     const [writerName, setWriterName] = useState('');
     const [isPublic, setIsPublic] = useState();
     const [created, setCreated] = useState('');
@@ -52,8 +51,9 @@ const PostPage = ({ route }) => {
         return `${month}/${day}`;
       };
 
-    useEffect(() => {
-        getPostById(id)
+    useFocusEffect(
+        React.useCallback(() => {
+            getPostById(id)
           .then(response => {
             setTitle(response.data.title);
             setContext(response.data.content);
@@ -83,17 +83,6 @@ const PostPage = ({ route }) => {
           .catch(error => {
             console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
           });
-    });
-
-    useEffect(() => {
-        handlePost();
-        handleComment();
-    }, []);
-
-    useFocusEffect(
-        React.useCallback(() => {
-            handlePost();
-            handleComment();
         }, [])
     );
     
@@ -151,34 +140,31 @@ const PostPage = ({ route }) => {
 
     const [pressHeart, setPressHeart] = useState();
 
-    useEffect(() => {
-        const loadPressHeart = async () => {
-          try {
-            const savedPressHeart = await AsyncStorage.getItem(`pressHeart_${id}`);
-            if (savedPressHeart !== null) {
-              setPressHeart(JSON.parse(savedPressHeart));
-            }
-          } catch (error) {
-            console.error('좋아요 상태 저장 오류:', error);
-          }
-        };
-        loadPressHeart();
-      }, [id]);
-    
-      useEffect(() => {
-        const savePressHeart = async () => {
-          if (pressHeart !== null && pressHeart !== undefined) {
-            try {
-              await AsyncStorage.setItem(`pressHeart_${id}`, JSON.stringify(pressHeart));
-            } catch (error) {
-              console.error('좋아요 상태 저장 오류:', error);
-            }
-          }
-        };
-        savePressHeart();
-      }, [pressHeart, id]);
-
     const heartAlert = () => {
+        axios.post('http://192.168.45.122:8080/api/likes', {
+            type: 'POST',
+            postId: id,
+            commentId: '',
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${onboardingData.accessToken}`,
+            }
+        })
+        .then(response => {
+            console.log('게시글 좋아요 성공');
+            setHeart(prevHeart => prevHeart + 1);
+            setPressHeart(true);
+        })
+        .catch(error => {
+            console.error('게시글 좋아요 실패:', error.response ? error.response.data : error.message);
+            setHeart(prevHeart => prevHeart - 1);
+            setPressHeart(false);
+        });
+    };
+
+    const handleHeart = () => {
         Alert.alert(
             "",
             "이 게시물에 좋아요를 누르시겠습니까?",
@@ -188,29 +174,10 @@ const PostPage = ({ route }) => {
                 style: "cancel"
                 },
                 { text: "확인", onPress: () => {
-                    axios.post('http://192.168.45.135:8080/api/likes', {
-                        type: 'POST',
-                        postId: id,
-                        commentId: '',
-                    }, {
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json',
-                            'Authorization': `Bearer ${onboardingData.accessToken}`,
-                        }
-                    })
-                    .then(response => {
-                        console.log('게시글 좋아요 성공');
-                        setPressHeart(true);
-                    })
-                    .catch(error => {
-                        console.error('게시글 좋아요 실패:', error.response ? error.response.data : error.message);
-                        setPressHeart(true);
-                        Alert.alert(
-                            "",
-                            "이미 좋아요를 눌렀습니다.",);
-                    });
-                } }
+                    setHeart(prevHeart => prevHeart + 1);
+                    setPressHeart(true);
+                    heartAlert();
+                }}
             ],
             { cancelable: false }
         );
@@ -246,7 +213,7 @@ const PostPage = ({ route }) => {
                     <Text style={PostStyles.textTitle}>{title}</Text>
                     <Text style={PostStyles.textContext}>{context}</Text>
                     <View style={PostStyles.containerIconRow}>
-                        <TouchableOpacity style={PostStyles.iconRow} onPress={heartAlert}>
+                        <TouchableOpacity style={PostStyles.iconRow} onPress={handleHeart}>
                             <IconHeart active={pressHeart}/>
                             <Text style={PostStyles.textIcon}>{heart}</Text>
                         </TouchableOpacity>

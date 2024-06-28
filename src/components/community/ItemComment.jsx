@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { CustomTheme } from '@styles/CustomTheme';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
@@ -21,35 +20,43 @@ const ItemComment = ({ props, id }) => {
 
   const { onboardingData } = useOnboarding();
   const [pressHeart, setPressHeart] = useState({});
+  const [heartCounts, setHeartCounts] = useState(props.reduce((acc, post) => {
+    acc[post.commentId] = post.heart;
+    return acc;
+  }, {}));
 
-  useEffect(() => {
-    const loadPressHeart = async () => {
-      try {
-        const savedPressHeart = await AsyncStorage.getItem(`pressHeart_${id}`);
-        if (savedPressHeart !== null) {
-          setPressHeart(JSON.parse(savedPressHeart));
+
+  const heartCommentAlert = async (commentId) => {
+    try {
+      const response = await axios.post('http://192.168.45.135:8080/api/likes', {
+        type: 'COMMENT',
+        postId: id,
+        commentId: commentId,
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${onboardingData.accessToken}`,
         }
-      } catch (error) {
-        console.error('좋아요 상태 저장 오류:', error);
-      }
-    };
-    loadPressHeart();
-  }, [id]);
+      });
 
-  useEffect(() => {
-    const savePressHeart = async () => {
-      try {
-        await AsyncStorage.setItem(`pressHeart_${id}`, JSON.stringify(pressHeart));
-      } catch (error) {
-        console.error('좋아요 상태 저장 오류:', error);
-      }
-    };
-    if (Object.keys(pressHeart).length > 0) {
-      savePressHeart();
+      console.log('댓글 좋아요 성공');
+      setPressHeart(prevState => ({ ...prevState, [commentId]: true }));
+      setHeartCounts(prevState => ({
+        ...prevState,
+        [commentId]: prevState[commentId] + 1,
+      }));
+    } catch (error) {
+      console.error('댓글 좋아요 실패:', error.response ? error.response.data : error.message);
+      setPressHeart(prevState => ({ ...prevState, [commentId]: false }));
+      setHeartCounts(prevState => ({
+        ...prevState,
+        [commentId]: prevState[commentId] - 1,
+      }));
     }
-  }, [pressHeart, id]);
+  };
 
-  const heartCommentAlert = (commentId) => {
+  const handleHeart = (commentId) => {
     Alert.alert(
       "",
       "이 댓글에 좋아요를 누르시겠습니까?",
@@ -61,34 +68,19 @@ const ItemComment = ({ props, id }) => {
         {
           text: "확인",
           onPress: () => {
-            axios.post('http://192.168.45.135:8080/api/likes', {
-              type: 'COMMENT',
-              postId: id,
-              commentId: commentId,
-            }, {
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${onboardingData.accessToken}`,
-              }
-            })
-            .then(response => {
-              console.log('댓글 좋아요 성공');
-              setPressHeart(prevState => ({ ...prevState, [commentId]: true }));
-            })
-            .catch(error => {
-              console.error('댓글 좋아요 실패:', error.response ? error.response.data : error.message);
-              Alert.alert(
-                "",
-                "이미 좋아요를 눌렀습니다.",
-              );
-            });
+            setPressHeart(prevState => ({ ...prevState, [commentId]: true }));
+            setHeartCounts(prevState => ({
+              ...prevState,
+              [commentId]: prevState[commentId] + 1,
+            }));
+            heartCommentAlert(commentId);
           }
         }
       ],
       { cancelable: false }
     );
   };
+
 
   return (
     <>
@@ -100,9 +92,9 @@ const ItemComment = ({ props, id }) => {
               <Text style={styles.textPostContext}>{post.context}</Text>
               
               <View style={styles.containerTextRow}>
-                <TouchableOpacity style={styles.containerText} onPress={() => heartCommentAlert(post.commentId)}>
+                <TouchableOpacity style={styles.containerText} onPress={() => handleHeart(post.commentId)}>
                   <IconHeart active={pressHeart[post.commentId]} />
-                  <Text style={styles.text}>{post.heart}</Text>
+                  <Text style={styles.text}>{heartCounts[post.commentId]}</Text>
                 </TouchableOpacity>
                 <View style={styles.containerText}>
                   <IconBookmark />
