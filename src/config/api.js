@@ -1,4 +1,5 @@
 import axios from "axios";
+import * as SecureStore from "expo-secure-store";
 
 const BACKEND_URL = "http://192.168.0.30:8080/api";
 
@@ -9,8 +10,8 @@ export const api = axios.create({
     }
 });
 
-api.interceptors.request.use((config) => {
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidHlwZSI6ImFjY2Vzc1Rva2VuIiwiaXNzIjoiZGlmZSIsImlhdCI6MTcxNzUxNjg2MywiZXhwIjoxNzE3NTIwNDYzfQ.Lp6ul_eKDsis-RPO8gofD2NwDncQiU6deHzh0gXVQLY"
+api.interceptors.request.use(async (config) => {
+    const token = await SecureStore.getItemAsync("accessToken");
     if (token) {
         config.headers["Authorization"] = "Bearer " + token;
     }
@@ -19,11 +20,11 @@ api.interceptors.request.use((config) => {
 
 export const getChatroomsByType = (type) => {
     return api.get("/chatrooms", {
-            params: {
+        params: {
             chatroomType: type,
         },
     });
-            }
+}
 
 export const signUp = (email, password) => {
     return api.post("/members/register", {
@@ -36,7 +37,7 @@ export const login = (email, password) => {
     return api.post("/members/login", {
         email,
         password,
-        });
+    });
 }
 
 export const changePassword = (email) => {
