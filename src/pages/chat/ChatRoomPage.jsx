@@ -15,6 +15,7 @@ import IconChatSetting from '@components/chat/IconChatSetting'
 import ChatBubble from './ChatBubble/ChatBubble';
 import { useWebSocket } from 'context/WebSocketContext';
 import formatKoreanTime from 'util/formatTime';
+import * as SecureStore from 'expo-secure-store';
 
 const ChatRoomPage = ({route}) => {
     const navigation = useNavigation();
@@ -25,6 +26,15 @@ const ChatRoomPage = ({route}) => {
     const menuAnim = useRef(new Animated.Value(screenWidth)).current;
     const { messages } = useWebSocket();
     const { chatroomId } = route.params;
+    const [memberId, setMemberId] = useState(null);
+
+    useEffect(() => {
+        const getMemberId = async () => {
+            const id = await SecureStore.getItemAsync('memberId');
+            setMemberId(parseInt(id));
+        }
+        getMemberId();
+    }, []);
 
     const handleKeyboard = () => {
         Keyboard.dismiss();
@@ -75,7 +85,7 @@ const ChatRoomPage = ({route}) => {
                             <ChatBubble 
                                 message={item.message}
                                 time={formatKoreanTime(item.created)}
-                                isMine={true}/>
+                                isMine={item.member.id === memberId}/>
                         )}
                     />
                 </View>

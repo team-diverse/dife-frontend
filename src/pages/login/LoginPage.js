@@ -45,7 +45,7 @@ const LoginPage = () => {
             const accessToken = loginResponse.data.accessToken;
             const refreshToken = loginResponse.data.refreshToken;
 
-            await SecureStore.setItemAsync('member_id', JSON.stringify(id));   
+            await SecureStore.setItemAsync('memberId', JSON.stringify(id));   
             await SecureStore.setItemAsync('accessToken', accessToken);
             await SecureStore.setItemAsync('refreshToken', refreshToken);
     
