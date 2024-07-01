@@ -1,10 +1,10 @@
-import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import { CustomTheme } from '@styles/CustomTheme';
+import { CustomTheme } from "@styles/CustomTheme";
 
-import ArrowRight from '@components/common/ArrowRight';
+import ArrowRight from "@components/common/ArrowRight";
 
 const GoBack = () => {
     const navigation = useNavigation();
@@ -15,7 +15,10 @@ const GoBack = () => {
 
     return (
         <TouchableOpacity onPress={handleGoBack}>
-            <ArrowRight style={styles.iconArrow} color={CustomTheme.textPrimary} />
+            <ArrowRight
+                style={styles.iconArrow}
+                color={CustomTheme.textPrimary}
+            />
         </TouchableOpacity>
     );
 };

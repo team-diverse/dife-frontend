@@ -1,27 +1,41 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import Modal from 'react-native-modal';
+import React, { useState } from "react";
+import {
+    View,
+    Text,
+    TouchableOpacity,
+    StyleSheet,
+    TouchableWithoutFeedback,
+} from "react-native";
+import Modal from "react-native-modal";
 
-import { CustomTheme } from '@styles/CustomTheme';
+import { CustomTheme } from "@styles/CustomTheme";
 
-import IconCancel from '@components/common/IconCancel'
+import IconCancel from "@components/common/IconCancel";
 
 const { fontSub14, fontCaption } = CustomTheme;
 
-const ModalNoBookmark = ({ modalVisible, setModalVisible, name='name', context='context', date='date', time='time' }) => {
-    const [selected, setSelected] = useState('');
+const ModalNoBookmark = ({
+    modalVisible,
+    setModalVisible,
+    name = "name",
+    context = "context",
+    date = "date",
+    time = "time",
+}) => {
+    const [selected, setSelected] = useState("");
 
     const handleNoButtonPress = () => {
         setModalVisible(false);
-        setSelected('');
+        setSelected("");
     };
 
     return (
-        <Modal
-            isVisible={modalVisible}
-            style={styles.modal} >
+        <Modal isVisible={modalVisible} style={styles.modal}>
             <View style={styles.modalRectangle}>
-                <TouchableOpacity style={styles.iconCancel} onPress={handleNoButtonPress}>
+                <TouchableOpacity
+                    style={styles.iconCancel}
+                    onPress={handleNoButtonPress}
+                >
                     <IconCancel />
                 </TouchableOpacity>
                 <View style={styles.containerContext}>
@@ -36,11 +50,16 @@ const ModalNoBookmark = ({ modalVisible, setModalVisible, name='name', context='
                         </View>
                     </View>
                     <View style={styles.containerNoBookmark}>
-                        <Text style={styles.textNoBookmark}>스크랩을 해제하시겠어요?</Text>
+                        <Text style={styles.textNoBookmark}>
+                            스크랩을 해제하시겠어요?
+                        </Text>
                     </View>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={styles.buttonNo} onPress={handleNoButtonPress}>
+                    <TouchableOpacity
+                        style={styles.buttonNo}
+                        onPress={handleNoButtonPress}
+                    >
                         <Text style={styles.textNo}>아니오</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.buttonReport}>
@@ -48,15 +67,14 @@ const ModalNoBookmark = ({ modalVisible, setModalVisible, name='name', context='
                     </TouchableOpacity>
                 </View>
             </View>
-            
         </Modal>
-        );
-    };
+    );
+};
 
 const styles = StyleSheet.create({
     modal: {
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
     },
     modalRectangle: {
         width: 260,
@@ -65,31 +83,31 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     iconCancel: {
-        alignItems: 'flex-end',
+        alignItems: "flex-end",
         marginTop: 13,
         marginRight: 13,
     },
     containerContext: {
-        alignItems: 'center',
+        alignItems: "center",
         marginTop: 78,
     },
     textBackgroundRectangle: {
-        flexDirection: 'row',
+        flexDirection: "row",
         width: 217,
         height: 43,
         backgroundColor: CustomTheme.bgBasic,
         borderWidth: 1,
-        borderColor: '#B0D0FF',
+        borderColor: "#B0D0FF",
         borderRadius: 10,
     },
     containerNameContext: {
         marginLeft: 12,
-        justifyContent: 'center',
+        justifyContent: "center",
     },
     textName: {
         fontSize: 12,
         lineHeight: 17,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        fontFamily: "NotoSansCJKkr-Bold",
     },
     textContext: {
         ...fontCaption,
@@ -99,19 +117,19 @@ const styles = StyleSheet.create({
     },
     containerDateTime: {
         marginRight: 12,
-        justifyContent: 'center',
-        alignItems: 'flex-end',
+        justifyContent: "center",
+        alignItems: "flex-end",
     },
     textDate: {
         fontSize: 11,
         lineHeight: 17,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        fontFamily: "NotoSansCJKkr-Bold",
         color: CustomTheme.textDisable,
     },
     textTime: {
         fontSize: 11,
         lineHeight: 17,
-        fontFamily: 'NotoSansCJKkr-Regular',
+        fontFamily: "NotoSansCJKkr-Regular",
         color: CustomTheme.textDisable,
         marginTop: 1,
     },
@@ -121,12 +139,12 @@ const styles = StyleSheet.create({
     textNoBookmark: {
         fontSize: 16,
         lineHeight: 20,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        fontFamily: "NotoSansCJKkr-Bold",
     },
     buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        position: 'absolute',
+        flexDirection: "row",
+        justifyContent: "space-between",
+        position: "absolute",
         bottom: 20,
         left: 20,
         right: 20,
@@ -139,8 +157,8 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         borderWidth: 1,
         borderColor: CustomTheme.textDisable,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: "center",
+        justifyContent: "center",
         marginRight: 8,
     },
     textNo: {
@@ -154,8 +172,8 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         borderWidth: 1,
         borderColor: CustomTheme.primaryMedium,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: "center",
+        justifyContent: "center",
         marginLeft: 8,
     },
     textReport: {

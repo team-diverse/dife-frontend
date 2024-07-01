@@ -1,28 +1,48 @@
 import * as React from "react";
-import {Text, StyleSheet, View, Image} from "react-native";
+import { Text, StyleSheet, View, Image } from "react-native";
 import ChatBubbleRightTrailSVG from "./ChatBubbleRightTrailSVG";
 import ChatBubbleLeftTrailSVG from "./ChatBubbleLeftTrailSVG";
 
-const ChatBubble = ({ url, username, message, time, isMine, isHeadMessage}) => {
-    const rowStyles = [styles.row, isMine ? styles.myRow : styles.otherRow]
-    const bubbleStyles = [styles.bubble, isMine ? styles.myBubble: styles.otherBubble]
-    const messageStyles = [styles.message, isMine ? styles.myMessage: styles.otherMessage]
-    const frameParentStyles = [styles.frameParent, isMine ? styles.myFrameParent : styles.otherFrameParent]
-    const TrailSVG = isMine ? <ChatBubbleRightTrailSVG /> : <ChatBubbleLeftTrailSVG />
+const ChatBubble = ({
+    url,
+    username,
+    message,
+    time,
+    isMine,
+    isHeadMessage,
+}) => {
+    const rowStyles = [styles.row, isMine ? styles.myRow : styles.otherRow];
+    const bubbleStyles = [
+        styles.bubble,
+        isMine ? styles.myBubble : styles.otherBubble,
+    ];
+    const messageStyles = [
+        styles.message,
+        isMine ? styles.myMessage : styles.otherMessage,
+    ];
+    const frameParentStyles = [
+        styles.frameParent,
+        isMine ? styles.myFrameParent : styles.otherFrameParent,
+    ];
+    const TrailSVG = isMine ? (
+        <ChatBubbleRightTrailSVG />
+    ) : (
+        <ChatBubbleLeftTrailSVG />
+    );
     const showProfile = !isMine && isHeadMessage;
-    
+
     return (
         <View style={rowStyles}>
             <View style={styles.profileWrapper}>
                 {/* TODO: Profile Image 연동 및 D 디자인 보이게 하기} */}
-                {showProfile &&
-                    <Image source={{ uri: url }} styles={styles.profileImage}/>
-                }
+                {showProfile && (
+                    <Image source={{ uri: url }} styles={styles.profileImage} />
+                )}
             </View>
             <View>
-                {showProfile &&
+                {showProfile && (
                     <Text style={styles.profileName}>{username}</Text>
-                }
+                )}
                 <View style={frameParentStyles}>
                     <View style={styles.timeWrapper}>
                         <Text style={styles.time}>{time}</Text>
@@ -43,12 +63,12 @@ const styles = StyleSheet.create({
         marginRight: 10,
     },
     profileImage: {
-        width:40,
+        width: 40,
         height: 40,
         borderRadius: 20,
     },
     profileName: {
-        fontSize: 12, 
+        fontSize: 12,
         lineHeight: 16,
         marginBottom: 5,
     },
@@ -77,7 +97,7 @@ const styles = StyleSheet.create({
         color: "#fff",
     },
     otherMessage: {
-        color: "#1B1C1E"
+        color: "#1B1C1E",
     },
     bubble: {
         overflow: "hidden",
@@ -117,17 +137,16 @@ const styles = StyleSheet.create({
     },
     row: {
         flex: 1,
-		marginBottom: 5,
+        marginBottom: 5,
     },
     myRow: {
-		marginLeft: "auto",
-        justifyContent: "flex-end"
-
+        marginLeft: "auto",
+        justifyContent: "flex-end",
     },
     otherRow: {
         marginRight: "auto",
-        justifyContent: "flex-start"
-    }
+        justifyContent: "flex-start",
+    },
 });
 
 export default ChatBubble;

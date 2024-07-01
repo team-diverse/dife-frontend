@@ -1,6 +1,6 @@
-import { Client } from '@stomp/stompjs';
+import { Client } from "@stomp/stompjs";
 
-const WS_URL = 'ws://localhost:8080/ws';
+const WS_URL = "ws://localhost:8080/ws";
 
 export const connectWebSocket = (onMessage) => {
     let client = new Client({
@@ -9,19 +9,19 @@ export const connectWebSocket = (onMessage) => {
             console.log(str);
         },
         reconnectDelay: 0,
-         onConnect  : () => {
-            onMessage('Connected to WebSocket');
+        onConnect: () => {
+            onMessage("Connected to WebSocket");
         },
         onStompError: (frame) => {
-            console.log('Broker reported error: ' + frame.headers['message']);
-            console.log('Additional details: ' + frame.body);
+            console.log("Broker reported error: " + frame.headers["message"]);
+            console.log("Additional details: " + frame.body);
         },
         onWebSocketError: (error) => {
-            console.log('Websocket error: ' + error);
+            console.log("Websocket error: " + error);
         },
         onWebSocketClose: (closeEvent) => {
-            console.log('Websocket connection closed');
+            console.log("Websocket connection closed");
         },
     });
     client.activate();
-}
+};
