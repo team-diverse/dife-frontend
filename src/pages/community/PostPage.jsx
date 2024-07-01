@@ -140,8 +140,8 @@ const PostPage = ({ route }) => {
 
     const heartAlert = async() => {
         try {
-            const response = await postHeart(id);
-            console.log('게시글 좋아요 성공: ', response);
+            const response = await postHeart('POST', id);
+            console.log('게시글 좋아요 성공');
         } catch (error) {
             console.error('게시글 좋아요 실패:', error.response ? error.response.data : error.message);
             setHeart(prevHeart => prevHeart - 1);

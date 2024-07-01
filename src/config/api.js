@@ -9,11 +9,10 @@ export const api = axios.create({
   },
 });
 
-api.interceptors.request.use((config) => {
-  const token =
-    "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidHlwZSI6ImFjY2Vzc1Rva2VuIiwiaXNzIjoiZGlmZSIsImlhdCI6MTcxNzUxNjg2MywiZXhwIjoxNzE3NTIwNDYzfQ.Lp6ul_eKDsis-RPO8gofD2NwDncQiU6deHzh0gXVQLY";
+api.interceptors.request.use(async (config) => {
+  const token = await SecureStore.getItemAsync("accessToken");
   if (token) {
-    config.headers["Authorization"] = "Bearer " + token;
+    config.headers["Authorization"] = `Bearer ${token}`;
   }
   return config;
 });
@@ -126,14 +125,6 @@ export const getBookmarkPost = () => {
   return api.get("/bookmarks");
 };
 
-export const postHeart = (id) => {
-  return api.post("/likes", {
-    type: "POST",
-    postId: id,
-    commentId: "",
-  });
-};
-
 export const postCommentSend = (id, valueComment, isChecked) => {
   return api.post(`comments/${id}`, {
     content: valueComment,
@@ -147,9 +138,9 @@ export const getCommentById = (id) => {
   return api.get(`comments/${id}`);
 };
 
-export const postCommentHeart = (id, commentId) => {
+export const postHeart = (type, id, commentId) => {
   return api.post("/likes", {
-    type: "COMMENT",
+    type: type,
     postId: id,
     commentId: commentId,
   });
