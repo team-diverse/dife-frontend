@@ -1,6 +1,7 @@
 import axios from "axios";
+import * as SecureStore from 'expo-secure-store';
 
-const BACKEND_URL = "http://192.168.0.30:8080/api";
+const BACKEND_URL = "http://192.168.40.14:8080/api";
 
 export const api = axios.create({
     baseURL: BACKEND_URL,
@@ -9,10 +10,11 @@ export const api = axios.create({
     }
 });
 
-api.interceptors.request.use((config) => {
-    const token = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidHlwZSI6ImFjY2Vzc1Rva2VuIiwiaXNzIjoiZGlmZSIsImlhdCI6MTcxNzUxNjg2MywiZXhwIjoxNzE3NTIwNDYzfQ.Lp6ul_eKDsis-RPO8gofD2NwDncQiU6deHzh0gXVQLY"
+api.interceptors.request.use(async(config) => {
+    const token = await SecureStore.getItemAsync('accessToken');
+    console.log('token: ', token);
     if (token) {
-        config.headers["Authorization"] = "Bearer " + token;
+        config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
 });
