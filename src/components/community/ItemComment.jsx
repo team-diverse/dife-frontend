@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import axios from 'axios';
 
 import { CustomTheme } from '@styles/CustomTheme';
-import { useOnboarding } from 'src/states/OnboardingContext.js';
+import { postCommentHeart } from 'config/api';
 
 import IconHeart from '@components/community/IconHeart';
 import IconBookmark from '@components/community/IconBookmark';
@@ -18,41 +17,24 @@ const ItemComment = ({ props, id }) => {
     return `${month}/${day}`;
   };
 
-  const { onboardingData } = useOnboarding();
   const [pressHeart, setPressHeart] = useState({});
-  const [heartCounts, setHeartCounts] = useState(props.reduce((acc, post) => {
-    acc[post.commentId] = post.heart;
-    return acc;
-  }, {}));
+  const initialHeartCounts = props.map(post => ({ id: post.id, likesCount: post.likesCount }));
+  const [heartCounts, setHeartCounts] = useState(initialHeartCounts);
 
+  useEffect(() => {
+    setHeartCounts(props.map(post => ({ id: post.id, likesCount: post.likesCount })));
+  }, [props]);
 
   const heartCommentAlert = async (commentId) => {
     try {
-      const response = await axios.post('http://192.168.45.135:8080/api/likes', {
-        type: 'COMMENT',
-        postId: id,
-        commentId: commentId,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${onboardingData.accessToken}`,
-        }
-      });
-
+      await postCommentHeart(id, commentId);
       console.log('댓글 좋아요 성공');
-      setPressHeart(prevState => ({ ...prevState, [commentId]: true }));
-      setHeartCounts(prevState => ({
-        ...prevState,
-        [commentId]: prevState[commentId] + 1,
-      }));
     } catch (error) {
       console.error('댓글 좋아요 실패:', error.response ? error.response.data : error.message);
       setPressHeart(prevState => ({ ...prevState, [commentId]: false }));
-      setHeartCounts(prevState => ({
-        ...prevState,
-        [commentId]: prevState[commentId] - 1,
-      }));
+      setHeartCounts(prevHeartCounts => (
+        prevHeartCounts.map(item => item.id === commentId ? { ...item, likesCount: item.likesCount - 1 } : item)
+      ));
     }
   };
 
@@ -69,10 +51,9 @@ const ItemComment = ({ props, id }) => {
           text: "확인",
           onPress: () => {
             setPressHeart(prevState => ({ ...prevState, [commentId]: true }));
-            setHeartCounts(prevState => ({
-              ...prevState,
-              [commentId]: prevState[commentId] + 1,
-            }));
+            setHeartCounts(prevHeartCounts => (
+              prevHeartCounts.map(item => item.id === commentId ? { ...item, likesCount: item.likesCount + 1 } : item)
+            ));
             heartCommentAlert(commentId);
           }
         }
@@ -81,27 +62,28 @@ const ItemComment = ({ props, id }) => {
     );
   };
 
-
   return (
     <>
       {props.map((post, index) => (
         <View key={index} style={styles.ItemCommunity}>
           <View style={styles.containerRow}>
             <View>
-              <Text style={styles.textPostTitle}>{post.title}</Text>
-              <Text style={styles.textPostContext}>{post.context}</Text>
+              <Text style={styles.textPostTitle}>{post.isPublic ? '익명' : post.writer.username}</Text>
+              <Text style={styles.textPostContext}>{post.content}</Text>
               
               <View style={styles.containerTextRow}>
-                <TouchableOpacity style={styles.containerText} onPress={() => handleHeart(post.commentId)}>
-                  <IconHeart active={pressHeart[post.commentId]} />
-                  <Text style={styles.text}>{heartCounts[post.commentId]}</Text>
+                <TouchableOpacity style={styles.containerText} onPress={() => handleHeart(post.id)}>
+                  <IconHeart active={pressHeart[post.id]} />
+                  <Text style={styles.text}>
+                    {heartCounts.find(item => item.id === post.id)?.likesCount !== undefined ? heartCounts.find(item => item.id === post.id).likesCount : post.likesCount}
+                  </Text>
                 </TouchableOpacity>
                 <View style={styles.containerText}>
                   <IconBookmark />
                   <Text style={styles.text}>{post.bookmark}</Text>
                 </View>
                 <View style={styles.containerText}>
-                  <Text style={styles.text}>{date(post.date)}</Text>
+                  <Text style={styles.text}>{date(post.created)}</Text>
                 </View>
               </View>
             </View>

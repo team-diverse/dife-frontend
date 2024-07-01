@@ -50,13 +50,16 @@ const TipCommunityPage = () => {
 
   useFocusEffect(
     React.useCallback(() => {
-      getPostsByType('TIP')
-      .then(response => {
-        setPostList(response.data);
-      })
-      .catch(error => {
-        console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
-      });
+      const tipCommunity = async () => {
+        try {
+          const response = await getPostsByType('TIP')
+          setPostList(response.data);
+        } catch {
+          console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
+        }
+      }
+
+      tipCommunity();
     }, [])
   );
 

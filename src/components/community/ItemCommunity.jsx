@@ -31,7 +31,7 @@ const ItemCommunity = ({ props }) => {
             <View style={styles.containerTextRow}>
               <View style={styles.containerText}>
                 <IconHeart />
-                <Text style={styles.text}>{post.heart}</Text>
+                <Text style={styles.text}>{post.likesCount}</Text>
               </View>
               <View style={styles.containerText}>
                 <IconBookmark /> 

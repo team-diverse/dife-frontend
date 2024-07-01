@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, Text, TextInput, View, SafeAreaView, ScrollView, KeyboardAvoidingView, Platform, Dimensions, Alert } from 'react-native';
-import axios from 'axios';
 import { useFocusEffect } from '@react-navigation/native';
 
 import PostStyles from '@pages/community/PostStyles';
 import { CustomTheme } from '@styles/CustomTheme';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 import { usePostModify } from 'src/states/PostModifyContext';
+import { getPostById, getCommentById, postCommentSend, postHeart } from 'config/api';
 
 import TopBar from '@components/common/TopBar';
 import IconProfileK from '@components/community/IconProfileK';
@@ -18,7 +18,6 @@ import Checkbox from '@components/common/Checkbox';
 import IconChatSend from '@components/chat/IconChatSend';
 import ItemComment from '@components/community/ItemComment';
 import ModalKebabMenu from '@components/community/ModalKebabMenu';
-import { getPostById } from 'config/api';
 
 const PostPage = ({ route }) => {
     const [ modalVisible, setModalVisible ] = useState(false);
@@ -51,38 +50,47 @@ const PostPage = ({ route }) => {
         return `${month}/${day}`;
       };
 
-    useFocusEffect(
+      useFocusEffect(
         React.useCallback(() => {
-            getPostById(id)
-          .then(response => {
-            setTitle(response.data.title);
-            setContext(response.data.content);
-            setHeart(response.data.likesCount);
-            setBookmark(response.data.bookmarkCount);
-            setCreated(date(response.data.created));
-            setIsPublic(response.data.isPublic);
+            const postComment = async () => {
+                try {
+                    const postByIdResponse = await getPostById(id);
+                    setTitle(postByIdResponse.data.title);
+                    setContext(postByIdResponse.data.content);
+                    setHeart(postByIdResponse.data.likesCount);
+                    setBookmark(postByIdResponse.data.bookmarkCount);
+                    setCreated(date(postByIdResponse.data.created));
+                    setIsPublic(postByIdResponse.data.isPublic);
+    
+                    if (postByIdResponse.data.isPublic === false) {
+                        setWriterName(postByIdResponse.data.writer.username);
+                    } else if (postByIdResponse.data.isPublic === true) {
+                        setWriterName('익명');
+                    }
+    
+                    if (onboardingData.id === postByIdResponse.data.writer.id) {
+                        setIsMe(true);
+                        updatePostModifyData({
+                            memberId: postByIdResponse.data.writer.id,
+                            id: id,
+                            title: postByIdResponse.data.title,
+                            context: postByIdResponse.data.content,
+                            boardType: postByIdResponse.data.boardType,
+                            isPublic: postByIdResponse.data.isPublic,
+                        });
+                    }
+    
+                    const commentByIdResponse = await getCommentById(id);
+                    setComments(commentByIdResponse.data);
 
-            if (response.data.isPublic === false) {
-                setWriterName(response.data.writer.username);
-            } else if (response.data.isPublic === true) {
-                setWriterName('익명');
+                    console.log('게시글 및 댓글 조회 성공');
+                } catch (error) {
+                    console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
+                    console.error('댓글 조회 오류:', error.response ? error.response.data : error.message);
+                }
             };
-
-            if (onboardingData.id === response.data.writer.id) {
-                setIsMe(true)
-                updatePostModifyData({
-                    memberId: response.data.writer.id,
-                    id: id,
-                    title: response.data.title,
-                    context: response.data.content,
-                    boardType: response.data.boardType,
-                    isPublic: response.data.isPublic,
-                });
-            };
-          })
-          .catch(error => {
-            console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
-          });
+    
+            postComment();
         }, [])
     );
     
@@ -116,52 +124,29 @@ const PostPage = ({ route }) => {
 
     const windowHeight = Dimensions.get('window').height;
 
-    const handleCommentSend = () => {
-        axios.post(`http://192.168.45.135:8080/api/comments/${id}`, {
-            content: valueComment,
-            isPublic: isChecked,
-            postId: id,
-            parentCommentId: 0,
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${onboardingData.accessToken}`,
-            }
-        })
-        .then(response => {
-            console.log('댓글 작성 성공:', response.data);
-        })
-        .catch(error => {
+    const handleCommentSend = async () => {
+        try {
+            const commentSendResponse = await postCommentSend(id, valueComment, isChecked);
+            console.log('댓글 작성 성공');
+           
+            onChangeComment('');
+            setComments(prevComments => [...prevComments, commentSendResponse.data]);
+        } catch (error) {
             console.error('댓글 작성 실패:', error.response ? error.response.data : error.message);
-        });
-    };
-
+        };
+    }
 
     const [pressHeart, setPressHeart] = useState();
 
-    const heartAlert = () => {
-        axios.post('http://192.168.45.122:8080/api/likes', {
-            type: 'POST',
-            postId: id,
-            commentId: '',
-        }, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${onboardingData.accessToken}`,
-            }
-        })
-        .then(response => {
-            console.log('게시글 좋아요 성공');
-            setHeart(prevHeart => prevHeart + 1);
-            setPressHeart(true);
-        })
-        .catch(error => {
+    const heartAlert = async() => {
+        try {
+            const response = await postHeart(id);
+            console.log('게시글 좋아요 성공: ', response);
+        } catch (error) {
             console.error('게시글 좋아요 실패:', error.response ? error.response.data : error.message);
             setHeart(prevHeart => prevHeart - 1);
             setPressHeart(false);
-        });
+        };
     };
 
     const handleHeart = () => {
