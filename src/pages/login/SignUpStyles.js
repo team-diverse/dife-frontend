@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontSub14, fontCaption } = CustomTheme;
 
@@ -11,7 +11,7 @@ const SignUpStyles = StyleSheet.create({
     textTitle: {
         fontSize: 32,
         lineHeight: 37,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        fontFamily: "NotoSansCJKkr-Bold",
         marginTop: 33,
         marginLeft: 24,
     },
@@ -30,7 +30,7 @@ const SignUpStyles = StyleSheet.create({
         borderRadius: 6,
         marginTop: 8,
         marginHorizontal: 25,
-        alignItems: 'center',
+        alignItems: "center",
     },
     textPw: {
         ...fontSub14,
@@ -39,10 +39,10 @@ const SignUpStyles = StyleSheet.create({
         marginLeft: 24,
     },
     textInputPwContainer: {
-        position: 'relative',
-        flexDirection: 'row',
-        alignItems: 'center',
-      },
+        position: "relative",
+        flexDirection: "row",
+        alignItems: "center",
+    },
     textInputPw: {
         width: 327,
         height: 44,
@@ -52,16 +52,16 @@ const SignUpStyles = StyleSheet.create({
         borderRadius: 6,
         marginTop: 8,
         marginHorizontal: 25,
-        alignItems: 'center',
+        alignItems: "center",
     },
     iconSee: {
-        position: 'absolute',
-        alignItems: 'center',
+        position: "absolute",
+        alignItems: "center",
         top: 17,
         right: 50,
     },
     containerError: {
-        flexDirection: 'row',
+        flexDirection: "row",
         marginTop: 8,
         marginLeft: 25,
     },

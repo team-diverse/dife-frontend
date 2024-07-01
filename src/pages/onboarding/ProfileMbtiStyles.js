@@ -1,7 +1,8 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme.js";
 
-const { fontHead24, fontBody18, fontSub16, fontSub14, fontCaption } = CustomTheme;
+const { fontHead24, fontBody18, fontSub16, fontSub14, fontCaption } =
+	CustomTheme;
 
 const ProfileMbtiStyles = StyleSheet.create({
     container: {
@@ -9,12 +10,12 @@ const ProfileMbtiStyles = StyleSheet.create({
         backgroundColor: CustomTheme.bgBasic,
     },
     iconArrow: {
-        position: 'absolute',
+        position: "absolute",
         marginTop: 5,
         marginLeft: 14,
     },
     iconProgress: {
-        alignItems: 'center',
+        alignItems: "center",
         marginTop: 5,
     },
     textTitle: {
@@ -32,8 +33,8 @@ const ProfileMbtiStyles = StyleSheet.create({
         marginTop: 47,
     },
     rowMbti: {
-        flexDirection: 'row',
-        justifyContent: 'center',
+        flexDirection: "row",
+        justifyContent: "center",
     },
     buttonCheck: {
         marginTop: 134,

@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead20, fontSub16, fontBody14 } = CustomTheme;
 
@@ -9,16 +9,16 @@ const TipCommunityStyles = StyleSheet.create({
         backgroundColor: CustomTheme.bgBasic,
     },
     backgroundBlue: {
-        position: 'absolute',
-        width: '100%',
+        position: "absolute",
+        width: "100%",
         height: 100,
         backgroundColor: CustomTheme.primaryMedium,
     },
     iconPostPlus: {
-        position: 'absolute',
+        position: "absolute",
         right: 12,
         bottom: 46,
-        shadowColor: '#3C454E',
+        shadowColor: "#3C454E",
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.4,
         shadowRadius: 2,
@@ -33,9 +33,9 @@ const TipCommunityStyles = StyleSheet.create({
         zIndex: 1,
     },
     containerTextIcon: {
-        flexDirection: 'row',
-        position: 'absolute',
-        alignItems: 'center',
+        flexDirection: "row",
+        position: "absolute",
+        alignItems: "center",
         marginTop: 55,
         zIndex: 2,
     },
@@ -50,35 +50,35 @@ const TipCommunityStyles = StyleSheet.create({
         marginRight: 24,
     },
     containerSearch: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        position: 'absolute',
+        flexDirection: "row",
+        alignItems: "center",
+        position: "absolute",
         marginTop: 100,
         zIndex: 2,
     },
     containerSearchIcon: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        flexDirection: "row",
+        alignItems: "center",
         flex: 1,
-        justifyContent: 'flex-end',
+        justifyContent: "flex-end",
         marginLeft: 25,
         marginRight: 25,
     },
     search: {
         ...fontSub16,
-        position: 'relative',
-        width: '100%',
+        position: "relative",
+        width: "100%",
         height: 48,
         backgroundColor: CustomTheme.bgBasic,
         borderRadius: 24,
         paddingLeft: 20,
     },
     searchIcon: {
-        position: 'absolute',
+        position: "absolute",
         right: 12,
     },
     itemCommunity: {
-        alignItems: 'center',
+        alignItems: "center",
         marginTop: 18,
         marginHorizontal: 24,
     },

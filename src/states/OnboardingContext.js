@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState } from "react";
 
 const OnboardingContext = createContext();
 
@@ -6,21 +6,21 @@ export const useOnboarding = () => useContext(OnboardingContext);
 
 export const OnboardingProvider = ({ children }) => {
     const [onboardingData, setOnboardingData] = useState({
-        accessToken: '',
-        refreshToken: '',
-        username: '',
-        isKorean: '',
-        bio: '',
-        mbti: '',
-        hobbies: '',
-        languages: '',
-        id: '',
+        accessToken: "",
+        refreshToken: "",
+        username: "",
+        isKorean: "",
+        bio: "",
+        mbti: "",
+        hobbies: "",
+        languages: "",
+        id: "",
         profileImg: null,
-        verificationFile: '',
+        verificationFile: "",
     });
 
     const updateOnboardingData = (newData) => {
-        setOnboardingData(prev => {
+        setOnboardingData((prev) => {
             const updatedData = { ...prev, ...newData };
             // console.log("온보딩 데이터:", updatedData);
             return updatedData;
@@ -28,7 +28,9 @@ export const OnboardingProvider = ({ children }) => {
     };
 
     return (
-        <OnboardingContext.Provider value={{ onboardingData, updateOnboardingData }}>
+        <OnboardingContext.Provider
+            value={{ onboardingData, updateOnboardingData }}
+        >
             {children}
         </OnboardingContext.Provider>
     );

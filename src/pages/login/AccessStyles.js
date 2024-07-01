@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead24, fontHead18, fontCaption, fontBody14 } = CustomTheme;
 
@@ -20,31 +20,31 @@ const AccessStyles = StyleSheet.create({
     },
     textId: {
         ...fontCaption,
-        color: '#8C8D91',
+        color: "#8C8D91",
     },
     containerContent: {
-        flexDirection: 'row',
+        flexDirection: "row",
         marginLeft: 26,
         marginTop: 37,
     },
     containerText: {
-        flexDirection: 'column',
+        flexDirection: "column",
         marginLeft: 12,
     },
     guide: {
-        alignItems: 'center',
+        alignItems: "center",
         marginTop: 64,
         marginBottom: 84,
     },
     textGuide: {
         ...fontBody14,
         color: CustomTheme.textSecondary,
-        textDecorationLine: 'underline',
+        textDecorationLine: "underline",
         marginTop: 20,
     },
     applyButton: {
-        position: 'absolute',
-        width: '100%',
+        position: "absolute",
+        width: "100%",
         bottom: 80,
     },
 });

@@ -1,31 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from "react";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import ProfileMbtiStyles from '@pages/onboarding/ProfileMbtiStyles';
-import { CustomTheme } from '@styles/CustomTheme.js';
-import { useOnboarding } from 'src/states/OnboardingContext.js';
+import ProfileMbtiStyles from "@pages/onboarding/ProfileMbtiStyles";
+import { CustomTheme } from "@styles/CustomTheme.js";
+import { useOnboarding } from "src/states/OnboardingContext.js";
 
-import ArrowRight from '@components/common/ArrowRight';
-import Progress3 from '@components/onboarding/Progress3';
-import FilterCategory from '@components/connect/FilterCategory';
-import ApplyButton from '@components/common/ApplyButton';
+import ArrowRight from "@components/common/ArrowRight";
+import Progress3 from "@components/onboarding/Progress3";
+import FilterCategory from "@components/connect/FilterCategory";
+import ApplyButton from "@components/common/ApplyButton";
 
 const ProfileMBTIPage = () => {
     const navigation = useNavigation();
-    const [selectedMBTI, setSelectedMBTI] = useState('');
-    
+    const [selectedMBTI, setSelectedMBTI] = useState("");
+
     const handleGoBack = () => {
         navigation.goBack();
     };
 
     const { onboardingData, updateOnboardingData } = useOnboarding();
 
-    const ProfileData = ['프로필 생성하기', `${onboardingData.username}님의 MBTI를 알려주세요!`];
+    const ProfileData = [
+        "프로필 생성하기",
+        `${onboardingData.username}님의 MBTI를 알려주세요!`,
+    ];
 
     const mbti = [
-        'ISTP', 'ISFP', 'ENTP', 'ISFJ', 'INFJ', 'ENTJ', 'INFP', 'INTP', 'ESFP',
-        'ESTP', 'ESFJ', 'INTJ', 'ESTJ', 'ENFP', 'ISTJ', 'ENFJ', '선택안함'
+        "ISTP",
+        "ISFP",
+        "ENTP",
+        "ISFJ",
+        "INFJ",
+        "ENTJ",
+        "INFP",
+        "INTP",
+        "ESFP",
+        "ESTP",
+        "ESFJ",
+        "INTJ",
+        "ESTJ",
+        "ENFP",
+        "ISTJ",
+        "ENFJ",
+        "선택안함",
     ];
     const size = 3;
     const mbtiRows = [];
@@ -35,7 +53,7 @@ const ProfileMBTIPage = () => {
 
     const handleSelectMBTI = (mbti) => {
         if (selectedMBTI === mbti) {
-            setSelectedMBTI('');
+            setSelectedMBTI("");
         } else {
             setSelectedMBTI(mbti);
         }
@@ -43,13 +61,16 @@ const ProfileMBTIPage = () => {
 
     const handleDataSave = () => {
         updateOnboardingData({ mbti: selectedMBTI });
-        navigation.navigate('ProfileHobby');
+        navigation.navigate("ProfileHobby");
     };
 
     return (
         <SafeAreaView style={[ProfileMbtiStyles.container]}>
             <TouchableOpacity onPress={handleGoBack}>
-                <ArrowRight style={ProfileMbtiStyles.iconArrow} color={CustomTheme.textPrimary} />
+                <ArrowRight
+                    style={ProfileMbtiStyles.iconArrow}
+                    color={CustomTheme.textPrimary}
+                />
             </TouchableOpacity>
             <View style={[ProfileMbtiStyles.iconProgress]}>
                 <Progress3 />
@@ -62,20 +83,24 @@ const ProfileMBTIPage = () => {
                         {row.map((type, typeIndex) => (
                             <FilterCategory
                                 key={typeIndex}
-                                text={type} 
+                                text={type}
                                 mbtiCnt={selectedMBTI.length}
                                 onPress={() => handleSelectMBTI(type)}
-                                onBoardingMBTI='true'
+                                onBoardingMBTI="true"
                             />
                         ))}
                     </View>
                 ))}
             </View>
             <View style={ProfileMbtiStyles.buttonCheck}>
-                <ApplyButton text="다음" onPress={handleDataSave} disabled={selectedMBTI.length===0}/>
+                <ApplyButton
+                    text="다음"
+                    onPress={handleDataSave}
+                    disabled={selectedMBTI.length === 0}
+                />
             </View>
         </SafeAreaView>
-    )
-}
+    );
+};
 
 export default ProfileMBTIPage;

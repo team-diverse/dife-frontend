@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const EventStyles = StyleSheet.create({
     container: {
@@ -8,13 +8,13 @@ const EventStyles = StyleSheet.create({
     },
     flatlist: {
         flex: 1,
-        width: '100%',
+        width: "100%",
     },
     flatlistContent: {
-        alignItems: 'center',
+        alignItems: "center",
     },
     eventCard: {
-        shadowColor: '#3C454E4A',
+        shadowColor: "#3C454E4A",
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.71,
         shadowRadius: 6,

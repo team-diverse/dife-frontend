@@ -1,11 +1,11 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import { CustomTheme } from '@styles/CustomTheme';
+import { CustomTheme } from "@styles/CustomTheme";
 
-import HomecardDifeF from '@components/home/HomecardDifeF';
-import IconTwoUsers from '@components/home/IconTwoUsers';
+import HomecardDifeF from "@components/home/HomecardDifeF";
+import IconTwoUsers from "@components/home/IconTwoUsers";
 
 const { fontCaption, fontButton } = CustomTheme;
 
@@ -19,12 +19,21 @@ const HomeCardLast = () => {
             </View>
             <View style={styles.homeProfile}>
                 <View style={styles.containerImage}>
-                <IconTwoUsers />
+                    <IconTwoUsers />
                 </View>
-                <Text style={styles.textMoreProfile}>커넥트 페이지에서{"\n"}더 많은 프로필을 탐색할 수 있어요!</Text>
-                <Text style={styles.textLoadProfile}>프로필 추가 로딩까지 20:00분</Text>
-                <TouchableOpacity style={styles.buttonAddProfile} onPress={() => navigation.navigate('Connect')}>
-                    <Text style={styles.textAddProfile}>더 많은 프로필 탐색하기</Text>
+                <Text style={styles.textMoreProfile}>
+                    커넥트 페이지에서{"\n"}더 많은 프로필을 탐색할 수 있어요!
+                </Text>
+                <Text style={styles.textLoadProfile}>
+                    프로필 추가 로딩까지 20:00분
+                </Text>
+                <TouchableOpacity
+                    style={styles.buttonAddProfile}
+                    onPress={() => navigation.navigate("Connect")}
+                >
+                    <Text style={styles.textAddProfile}>
+                        더 많은 프로필 탐색하기
+                    </Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -37,13 +46,13 @@ const styles = StyleSheet.create({
         height: 360,
         backgroundColor: CustomTheme.bgBasic,
         borderRadius: 20,
-      },
+    },
     homecardDifeF: {
-        position: 'absolute',
+        position: "absolute",
         top: 69,
     },
     homeProfile: {
-        position: 'absolute',
+        position: "absolute",
         left: 20,
         top: 20,
     },
@@ -52,8 +61,8 @@ const styles = StyleSheet.create({
         height: 136,
         backgroundColor: CustomTheme.primaryBg,
         borderRadius: 16,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
     },
     textMoreProfile: {
         ...fontButton,
@@ -62,8 +71,8 @@ const styles = StyleSheet.create({
     },
     textLoadProfile: {
         ...fontCaption,
-        color: '#8C8D91',
-        textDecorationLine: 'underline',
+        color: "#8C8D91",
+        textDecorationLine: "underline",
         marginTop: 8,
     },
     buttonAddProfile: {
@@ -71,8 +80,8 @@ const styles = StyleSheet.create({
         height: 37,
         backgroundColor: CustomTheme.primaryMedium,
         borderRadius: 12,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: "center",
+        alignItems: "center",
         marginTop: 60,
     },
     textAddProfile: {

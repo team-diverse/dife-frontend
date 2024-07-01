@@ -1,14 +1,14 @@
-import React from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import React from "react";
+import { View, Text, SafeAreaView } from "react-native";
 
-import AccessStyles from '@pages/login/AccessStyles';
+import AccessStyles from "@pages/login/AccessStyles";
 
-import ApplyButton from '@components/common/ApplyButton';
-import IconAccessCamera from '@components/login/IconAccessCamera';
-import IconAccessNotification from '@components/login/IconAccessNotification';
-import IconAccessImage from '@components/login/IconAccessImage';
-import IconAccessPhone from '@components/login/IconAccessPhone';
-import GoBack from '@components/common/GoBack';
+import ApplyButton from "@components/common/ApplyButton";
+import IconAccessCamera from "@components/login/IconAccessCamera";
+import IconAccessNotification from "@components/login/IconAccessNotification";
+import IconAccessImage from "@components/login/IconAccessImage";
+import IconAccessPhone from "@components/login/IconAccessPhone";
+import GoBack from "@components/common/GoBack";
 
 const AccessPage = () => {
     return (
@@ -18,15 +18,21 @@ const AccessPage = () => {
             <View style={AccessStyles.containerContent}>
                 <IconAccessPhone />
                 <View style={AccessStyles.containerText}>
-                    <Text style={AccessStyles.textSubTitle}>기기정보 및 ID</Text>
-                    <Text style={AccessStyles.textId}>재학생 인증 및 오류 확인</Text>
+                    <Text style={AccessStyles.textSubTitle}>
+                        기기정보 및 ID
+                    </Text>
+                    <Text style={AccessStyles.textId}>
+                        재학생 인증 및 오류 확인
+                    </Text>
                 </View>
             </View>
             <View style={AccessStyles.containerContent}>
                 <IconAccessNotification />
                 <View style={AccessStyles.containerText}>
                     <Text style={AccessStyles.textSubTitle}>알림(선택)</Text>
-                    <Text style={AccessStyles.textId}>푸시 알림 및 수신 안내</Text>
+                    <Text style={AccessStyles.textId}>
+                        푸시 알림 및 수신 안내
+                    </Text>
                 </View>
             </View>
             <View style={AccessStyles.containerContent}>
@@ -44,13 +50,15 @@ const AccessPage = () => {
                 </View>
             </View>
             <View style={AccessStyles.guide}>
-                <Text style={AccessStyles.textGuide}>권한을 허용하지 않을 시 Dife 서비스 이용이 어렵습니다.</Text>
+                <Text style={AccessStyles.textGuide}>
+                    권한을 허용하지 않을 시 Dife 서비스 이용이 어렵습니다.
+                </Text>
             </View>
             <View style={AccessStyles.applyButton}>
                 <ApplyButton text="확인" access="true" />
             </View>
         </SafeAreaView>
-    )
-}
+    );
+};
 
 export default AccessPage;

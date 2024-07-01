@@ -28,13 +28,19 @@ const ConnectCard = ({
     return (
         <View style={styles.rectangle}>
             <View style={styles.profile}>
-                <Image source={{url: profilePresignUrl}} style={styles.imgProfile} />
+                <Image
+                    source={{ url: profilePresignUrl }}
+                    style={styles.imgProfile}
+                />
             </View>
             <View style={styles.cardContainer}>
                 <View style={styles.textIconContainer}>
                     <Text style={styles.textName}>{username}</Text>
                     <View style={styles.iconContainer}>
-                        <IconHeart24 active={heart} onPress={handleHeartPress}/>
+                        <IconHeart24
+                            active={heart}
+                            onPress={handleHeartPress}
+                        />
                         <TouchableOpacity
                             onPress={() =>
                                 navigation.navigate("ConnectProfilePage")

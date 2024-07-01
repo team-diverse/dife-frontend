@@ -1,24 +1,24 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontCaption } = CustomTheme;
 
 const MemberStyles = StyleSheet.create({
     container: {
-        position: 'relative',
-        alignItems: 'center',
+        position: "relative",
+        alignItems: "center",
     },
     difeLine: {
-        position: 'absolute',
+        position: "absolute",
         marginTop: 75,
         left: -20,
     },
     circleBackground: {
-        position: 'absolute',
+        position: "absolute",
         marginTop: 145,
     },
     topContainer: {
-        flexDirection: 'row',
+        flexDirection: "row",
     },
     difeLogo: {
         flex: 1,
@@ -29,31 +29,31 @@ const MemberStyles = StyleSheet.create({
         marginRight: 24,
     },
     containerProfile: {
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: "center",
+        justifyContent: "center",
     },
     profileK: {
-        position: 'absolute',
+        position: "absolute",
     },
     iconProfileEdit: {
-        position: 'absolute',
+        position: "absolute",
         right: 0,
         bottom: 0,
     },
     textName: {
         fontSize: 16,
         lineHeight: 17,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        fontFamily: "NotoSansCJKkr-Bold",
         color: CustomTheme.primaryPressed,
         marginTop: 10,
     },
     containerIcon: {
-        flexDirection: 'row',
+        flexDirection: "row",
         marginTop: 18,
         marginBottom: 38,
     },
     icon: {
-        alignItems: 'center'
+        alignItems: "center",
     },
     textIcon: {
         ...fontCaption,
@@ -63,7 +63,7 @@ const MemberStyles = StyleSheet.create({
     line: {
         width: 2,
         height: 34,
-        backgroundColor: 'rgba(199, 203, 215, 0.4)',
+        backgroundColor: "rgba(199, 203, 215, 0.4)",
         marginHorizontal: 33,
     },
     tabContainer: {

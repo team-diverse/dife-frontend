@@ -1,29 +1,29 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontSub16, fontBody14 } = CustomTheme;
 
 const ConnectProfileStyles = StyleSheet.create({
     container: {
         flex: 1,
-        position: 'relative',
+        position: "relative",
         backgroundColor: CustomTheme.primaryMedium,
     },
     topBar: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
         marginHorizontal: 20,
     },
     scrollView: {
         flex: 1,
     },
     background: {
-        position: 'absolute',
+        position: "absolute",
         marginTop: 72,
     },
     simpleProfileContainer: {
-        alignItems: 'center',
+        alignItems: "center",
         marginTop: 9,
     },
     detailProfileContainer: {
@@ -34,7 +34,7 @@ const ConnectProfileStyles = StyleSheet.create({
     name: {
         fontSize: 16,
         lineHeight: 24,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        fontFamily: "NotoSansCJKkr-Bold",
         marginTop: 10,
     },
     countryAgeMajor: {
@@ -51,18 +51,18 @@ const ConnectProfileStyles = StyleSheet.create({
         marginBottom: 16,
     },
     report: {
-        alignItems: 'center',
+        alignItems: "center",
         marginVertical: 16,
         paddingBottom: 50,
     },
     textReport: {
         ...fontBody14,
         color: CustomTheme.textDisable,
-        textDecorationLine: 'underline',
+        textDecorationLine: "underline",
     },
     bottomTwoButtons: {
-        position: 'absolute',
-        width: '100%',
+        position: "absolute",
+        width: "100%",
         bottom: 0,
     },
 });

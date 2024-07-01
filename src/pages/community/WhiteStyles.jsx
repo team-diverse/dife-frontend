@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontBody18, fontBody14 } = CustomTheme;
 
@@ -16,34 +16,34 @@ const WhiteStyles = StyleSheet.create({
         borderBottomRightRadius: 24,
     },
     containerNoticeboard: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
+        flexDirection: "row",
+        justifyContent: "space-between",
         marginVertical: 12,
     },
     textNoticeboard: {
         ...fontBody14,
     },
     line: {
-        width: '100%',
+        width: "100%",
         height: 1,
         backgroundColor: CustomTheme.bgList,
         marginVertical: 12,
     },
     textInputTitle: {
         ...fontBody18,
-        width: '100%',
+        width: "100%",
         height: 30,
         marginTop: 12,
     },
     textInputContext: {
         ...fontBody14,
-        width: '100%',
+        width: "100%",
         minHeight: 177,
     },
     containerIconCheckbox: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
         marginTop: 10,
         marginBottom: 6,
     },
@@ -59,7 +59,7 @@ const WhiteStyles = StyleSheet.create({
     textRule: {
         fontSize: 11,
         lineHeight: 20,
-        fontFamily: 'NotoSansCJKkr-Bold',
+        fontFamily: "NotoSansCJKkr-Bold",
         color: CustomTheme.primaryMedium,
         opacity: 0.4,
     },

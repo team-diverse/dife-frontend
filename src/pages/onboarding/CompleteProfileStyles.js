@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme.js";
 
 const { fontHead24, fontHead18 } = CustomTheme;
 
@@ -21,7 +21,7 @@ const CompleteProfileStyles = StyleSheet.create({
         marginLeft: 24,
     },
     iconLoading: {
-        alignItems: 'center',
+        alignItems: "center",
         marginTop: 156,
     },
     buttonCheck: {

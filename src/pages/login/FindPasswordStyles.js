@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead24, fontSub16, fontSub14, fontCaption } = CustomTheme;
 
@@ -33,10 +33,10 @@ const FindPasswordStyles = StyleSheet.create({
         borderRadius: 6,
         marginTop: 8,
         marginHorizontal: 25,
-        justifyContent: 'center',
+        justifyContent: "center",
     },
     containerNotMember: {
-        flexDirection: 'row',
+        flexDirection: "row",
         marginTop: 8,
         marginLeft: 25,
     },

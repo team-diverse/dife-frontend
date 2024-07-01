@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead24, fontSub16, fontBody14 } = CustomTheme;
 
@@ -9,7 +9,7 @@ const FindPasswordVerifyingStyles = StyleSheet.create({
         backgroundColor: CustomTheme.bgBasic,
     },
     containerContent: {
-        alignItems: 'center',
+        alignItems: "center",
     },
     iconEmail: {
         marginTop: 80,
@@ -28,7 +28,7 @@ const FindPasswordVerifyingStyles = StyleSheet.create({
     textReport: {
         ...fontBody14,
         color: CustomTheme.textSecondary,
-        textDecorationLine: 'underline',
+        textDecorationLine: "underline",
         marginTop: 2,
     },
 });
