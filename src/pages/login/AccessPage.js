@@ -1,5 +1,8 @@
 import React from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView, Alert } from 'react-native';
+import * as Notifications from 'expo-notifications';
+import * as Linking from 'expo-linking';
+import { useNavigation } from '@react-navigation/native';
 
 import AccessStyles from '@pages/login/AccessStyles';
 
@@ -11,6 +14,36 @@ import IconAccessPhone from '@components/login/IconAccessPhone';
 import GoBack from '@components/common/GoBack';
 
 const AccessPage = () => {
+    const navigation = useNavigation();
+
+    const requestPermissions = async () => {
+        const { status: existingStatus } = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+      
+        if (existingStatus !== 'granted') {
+          const { status } = await Notifications.requestPermissionsAsync();
+          finalStatus = status;
+        }
+      
+        if (finalStatus !== 'granted') {
+          Alert.alert(
+            '알림',
+            '설정에서 알림 권한을 허용해주세요.',
+            [
+                { text: '취소', style: 'cancel' },
+                { text: '설정으로 이동', onPress: () => Linking.openSettings() }
+            ]
+          );
+        }
+        else {
+            navigation.navigate('Login');
+        }
+      };
+    
+    const handlePress = () => {
+        requestPermissions();
+    };
+    
     return (
         <SafeAreaView style={[AccessStyles.container]}>
             <GoBack />
@@ -47,7 +80,7 @@ const AccessPage = () => {
                 <Text style={AccessStyles.textGuide}>권한을 허용하지 않을 시 Dife 서비스 이용이 어렵습니다.</Text>
             </View>
             <View style={AccessStyles.applyButton}>
-                <ApplyButton text="확인" access="true" />
+                <ApplyButton text="확인" access="true" onPress={handlePress} />
             </View>
         </SafeAreaView>
     )
