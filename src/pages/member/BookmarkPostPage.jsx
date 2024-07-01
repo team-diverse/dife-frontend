@@ -1,25 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
 
 import BookmarkPostStyles from '@pages/member/BookmarkPostStyles';
-import { useOnboarding } from 'src/states/OnboardingContext.js';
 
+import { getBookmarkPost } from 'config/api';
 import ItemLikeBookmark from '@components/member/ItemLikeBookmark';
 
 const BookmarkPostPage = () => {
     const [bookmarkPostList, setBookmarkPostList] = useState([]);
-    const { onboardingData } = useOnboarding();
 
     useEffect(() => {
         const handleBookmarkPost = async () => {
           try {
-            const response = await axios.get(`http://192.168.45.135:8080/api/bookmarks`, {
-              headers: {
-                'Authorization': `Bearer ${onboardingData.accessToken}`,
-                'Accept': 'application/json'
-              },
-            });
-            setBookmarkPostList(response.data);
+            const bookmarkPostResponse = await getBookmarkPost();
+            setBookmarkPostList(bookmarkPostResponse.data);
           } catch (error) {
               console.error('북마크한 게시글 조회 오류:', error.response ? error.response.data : error.message);
           }

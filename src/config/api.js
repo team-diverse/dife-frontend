@@ -111,3 +111,11 @@ export const updatePost = (id, title, content, isPublic, boardType, memberId) =>
         memberId,
     });
 }
+
+export const getLikedPost = () => {
+    return api.get('/likes');
+}
+
+export const getBookmarkPost = () => {
+    return api.get('/bookmarks');
+}
