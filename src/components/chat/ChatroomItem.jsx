@@ -7,15 +7,14 @@ import { useNavigation } from "@react-navigation/native";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ChatroomItem = ({ id, context, name, time }) => {
+const ChatroomItem = ({ chatroomInfo, context, name, time }) => {
     const navigation = useNavigation("");
-
     return (
         <TouchableOpacity
             style={styles.rectangle}
             onPress={() =>
                 navigation.navigate("ChatRoomPage", {
-                    chatroomId: id,
+                    chatroomInfo
                 })
             }
         >
