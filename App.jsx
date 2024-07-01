@@ -36,7 +36,7 @@ import FriendListPage from '@pages/chat/FriendListPage'
 import ChatRoomPage from '@pages/chat/ChatRoomPage'
 import TipCommunityPage from '@pages/community/TipCommunityPage';
 import FreeCommunityPage from '@pages/community/FreeCommunityPage';
-import WhitePage from '@pages/community/WhitePage';
+import WritePage from '@pages/community/WritePage';
 import PostPage from '@pages/community/PostPage';
 
 import ChatDf24 from '@components/Icon24/ChatDf24';
@@ -225,8 +225,8 @@ function MainNavigator() {
                 component={FreeCommunityPage}
             />
             <Stack.Screen
-                name="WhitePage"
-                component={WhitePage}
+                name="WritePage"
+                component={WritePage}
             />
             <Stack.Screen
                 name="PostPage"

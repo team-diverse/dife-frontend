@@ -66,7 +66,7 @@ const TipCommunityPage = () => {
   return (
     <View style={TipCommunityStyles.container}>
       <View style={TipCommunityStyles.backgroundBlue} />
-        <TouchableOpacity style={TipCommunityStyles.iconPostPlus} onPress={() => navigation.navigate('WhitePage', { noticeboard: '꿀팁게시판' })}>
+        <TouchableOpacity style={TipCommunityStyles.iconPostPlus} onPress={() => navigation.navigate('WritePage', { noticeboard: '꿀팁게시판' })}>
           <IconPostPlus />
         </TouchableOpacity>
         <SafeAreaView style={TipCommunityStyles.safeAreaView}>

@@ -30,15 +30,14 @@ const WritePage = ({ route }) => {
         };
     }, [noticeboard])
 
-    const handleWrite = () => {
-        createPost(valueTitle, valueContext, isChecked, isBoardType)
-        .then(response => {
+    const handleWrite = async() => {
+        try {
+            const response = await createPost(valueTitle, valueContext, isChecked, isBoardType)
             console.log('게시글 작성 성공:', response.data.message);
             navigation.goBack();
-        })
-        .catch(error => {
+        } catch {
             console.error('게시글 작성 실패:', error.response ? error.response.data : error.message);
-        });
+        }
     };
 
     return (
