@@ -114,7 +114,7 @@ const ChattingPage = () => {
                     data={chatrooms}
                     renderItem={({ item }) => (
                         <ChatroomItem
-                          id={item.id}
+                          chatroomInfo={chatrooms[item.id - 1]}
                           name={item.name}
                           context={getLatestChatByChatroomId(item.id)}
                           time={formatKoreanTime(item.created)}

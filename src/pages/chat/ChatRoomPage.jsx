@@ -25,7 +25,7 @@ const ChatRoomPage = ({route}) => {
     const screenWidth = Dimensions.get('window').width;
     const menuAnim = useRef(new Animated.Value(screenWidth)).current;
     const { messages } = useWebSocket();
-    const { chatroomId } = route.params;
+    const { chatroomInfo } = route.params;
     const [memberId, setMemberId] = useState(null);
 
     useEffect(() => {
@@ -35,6 +35,32 @@ const ChatRoomPage = ({route}) => {
         }
         getMemberId();
     }, []);
+
+    const groupMessages = (messages) => {
+        const groupedMessages = [];
+        let currentGroup = [];
+    
+        messages.forEach((message, index) => {
+            const isFirstMessage = index === 0;
+            const isDifferentUser = !isFirstMessage && message.member.id !== messages[index - 1].member.id;
+
+            if (isFirstMessage || isDifferentUser) {
+                if (currentGroup.length > 0) {
+                    groupedMessages.push(currentGroup);
+                }
+                currentGroup = [message];
+            } else {
+                currentGroup.push(message);
+            }
+        });
+    
+        if (currentGroup.length > 0) {
+            groupedMessages.push(currentGroup);
+        }
+    
+        return groupedMessages;
+    };
+
 
     const handleKeyboard = () => {
         Keyboard.dismiss();
@@ -70,7 +96,7 @@ const ChatRoomPage = ({route}) => {
                         <TouchableOpacity style={ChatRoomStyles.iconArrow} onPress={handleGoBack}>
                             <ArrowRight color='#000' />
                         </TouchableOpacity>
-                        <Text style={ChatRoomStyles.textTopBar}>Name</Text>
+                        <Text style={ChatRoomStyles.textTopBar}>{chatroomInfo.name}</Text>
                     </View>
                     <TouchableOpacity style={ChatRoomStyles.iconHamburgerMenu} onPress={toggleMenu}>
                         <IconHamburgerMenu />
@@ -79,13 +105,22 @@ const ChatRoomPage = ({route}) => {
                 
                 <View style={ChatRoomStyles.containerChat}>
                     <FlatList 
-                        data={messages[chatroomId] || []}
-                        keyExtractor={item => item.id}
+                        data={groupMessages(messages[chatroomInfo.id] || [])}
+                        keyExtractor={(item, index) => index.toString()}
                         renderItem={({item}) => (
-                            <ChatBubble 
-                                message={item.message}
-                                time={formatKoreanTime(item.created)}
-                                isMine={item.member.id === memberId}/>
+                            <>
+                                {item.map((msg, idx) => {
+                                    return (<ChatBubble 
+                                        key={msg.id}
+                                        url={null}
+                                        username={msg.member.username}
+                                        message={msg.message}
+                                        time={formatKoreanTime(msg.created)}
+                                        isMine={msg.member.id === memberId}
+                                        isHeadMessage={idx === 0}
+                                    />);
+                                })}
+                            </>
                         )}
                     />
                 </View>
