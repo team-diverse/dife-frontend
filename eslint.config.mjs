@@ -6,9 +6,14 @@ import sytlisticTs from "@stylistic/eslint-plugin-ts";
 import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
+    { ignores: ["**/.expo/"] },
     { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
     { languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
-    { languageOptions: { globals: globals.browser } },
+    { languageOptions: { 
+        globals: {
+            ...globals.node,
+        }
+    }},
     pluginJs.configs.recommended,
     ...tseslint.configs.recommended,
     pluginReactConfig,
@@ -19,6 +24,7 @@ export default [
         rules: {
             "@stylistic/ts/indent": ["error", 4],
             "@stylistic/ts/semi": ["error", "always"],
+            "react/prop-types": "off",
         },
         settings: {
             react: {
