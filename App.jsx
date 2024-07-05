@@ -57,6 +57,7 @@ import ConnectAc32 from "@components/Icon32/ConnectAc32";
 import HomeAc32 from "@components/Icon32/HomeAc32";
 import CommuAc32 from "@components/Icon32/CommuAc32";
 import MyAc32 from "@components/Icon32/MyAc32";
+import "text-encoding";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
