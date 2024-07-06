@@ -1,6 +1,5 @@
 import { Client } from "@stomp/stompjs";
-
-const WS_URL = "ws://localhost:8080/ws";
+import { WS_URL } from "@env";
 
 export const connectWebSocket = (onMessage) => {
 	let client = new Client({
