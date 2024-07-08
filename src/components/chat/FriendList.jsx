@@ -6,7 +6,7 @@ import IconChatProfile from "@components/chat/IconChatProfile";
 import IconSend from "@components/common/IconSend";
 import IconMenu from "@components/chat/IconMenu";
 
-const FriendList = ({ name = "name" }) => {
+const FriendList = ({ name }) => {
 	return (
 		<>
 			<TouchableOpacity style={styles.rectangle}>

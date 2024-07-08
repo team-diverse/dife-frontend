@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, SafeAreaView, FlatList } from "react-native";
 
 import FriendListStyles from "@pages/chat/FriendListStyles";
@@ -6,26 +6,33 @@ import FriendListStyles from "@pages/chat/FriendListStyles";
 import TopBar from "@components/common/TopBar";
 import IconFriendNumber from "@components/chat/IconFriendNumber";
 import FriendList from "@components/chat/FriendList";
+import { getMyConnects } from "config/api";
+import { getMyMemberId } from "util/secureStoreUtils";
 
 const FriendListPage = () => {
-	const FriendData = [
-		{
-			id: "1",
-			name: "Dann",
-		},
-		{
-			id: "2",
-			name: "Amy",
-		},
-		{
-			id: "3",
-			name: "Haedam",
-		},
-		{
-			id: "4",
-			name: "Jenny",
-		},
-	];
+	const [connects, setConnects] = useState([]);
+	const [myMemberId, setMyMemberId] = useState(null);
+
+	const filterAcceptedConnects = (connects) => {
+		return connects.filter((connect) => connect.status === "ACCEPTED");
+	};
+
+	const getOtherMemberFromConnect = (connect) => {
+		return connect.from_member.id === myMemberId
+			? connect.to_member
+			: connect.from_member;
+	};
+
+	useEffect(() => {
+		const fetchMyMemberIDAndConnects = async () => {
+			const myMemberId = await getMyMemberId();
+			const response = await getMyConnects();
+			const acceptedConnects = filterAcceptedConnects(response.data);
+			setMyMemberId(myMemberId);
+			setConnects(acceptedConnects);
+		};
+		fetchMyMemberIDAndConnects();
+	}, []);
 
 	return (
 		<SafeAreaView style={FriendListStyles.container}>
@@ -33,12 +40,17 @@ const FriendListPage = () => {
 			<View style={FriendListStyles.containerFriendNumber}>
 				<Text style={FriendListStyles.textFriend}>내 친구</Text>
 				<IconFriendNumber />
-				<Text style={FriendListStyles.textNumber}>{"23"}</Text>
+				<Text style={FriendListStyles.textNumber}>
+					{connects.length}
+				</Text>
 			</View>
 			<FlatList
 				style={FriendListStyles.flatlist}
-				data={FriendData}
-				renderItem={({ item }) => <FriendList name={item.name} />}
+				data={connects}
+				renderItem={({ item }) => {
+					const otherMember = getOtherMemberFromConnect(item);
+					return <FriendList name={otherMember.username} />;
+				}}
 				keyExtractor={(item) => item.id}
 			/>
 		</SafeAreaView>
