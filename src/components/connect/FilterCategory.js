@@ -4,8 +4,8 @@ import { CustomTheme } from '@styles/CustomTheme.js';
 
 const { fontSub16 } = CustomTheme;
 
-const FilterCategory = ({ text='category', onPress, mbtiCnt=null, hobbyCnt=null, isDisabled=false, onBoardingMBTI=false }) => {
-  const [isActive, setIsActive] = useState(false);
+const FilterCategory = ({ text='category', onPress, mbtiCnt=null, hobbyCnt=null, isDisabled=false, onBoardingMBTI=false, selected=false }) => {
+  const [isActive, setIsActive] = useState(selected);
   const [isPressed, setIsPressed] = useState(false); 
 
   const handlePress = () => {

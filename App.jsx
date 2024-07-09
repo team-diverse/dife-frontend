@@ -68,6 +68,7 @@ import GroupCreatedDetailPage from "@pages/connect/GroupCreatedDetailPage";
 import GroupCreatedPage from "@pages/connect/GroupCreatedPage";
 import GroupProfilePage from "@pages/connect/GroupProfilePage";
 import ModifyProfilePage from "@pages/member/ModifyProfilePage";
+import ModifyProfileInputPage from "@pages/member/ModifyProfileInputPage";
 
 const iconMapping = {
   Chat: { active: ChatAc32, default: ChatDf24 },
@@ -231,6 +232,10 @@ function MainNavigator() {
       <Stack.Screen name="MyWrotePage" component={MyWrotePage} />
       <Stack.Screen name="MyCommentPage" component={MyCommentPage} />
       <Stack.Screen name="ModifyProfilePage" component={ModifyProfilePage} />
+      <Stack.Screen
+        name="ModifyProfileInputPage"
+        component={ModifyProfileInputPage}
+      />
     </Stack.Navigator>
   );
 }

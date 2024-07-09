@@ -6,6 +6,7 @@ import ModifyProfileStyles from '@pages/member/ModifyProfileStyles';
 import { CustomTheme } from '@styles/CustomTheme';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 import { updateProfile } from 'config/api';
+import { useNavigation } from '@react-navigation/native';
 
 import TopBar from '@components/common/TopBar';
 import ModifyKBackground from '@components/member/ModifyKBackground';
@@ -13,6 +14,7 @@ import IconLock from '@components/member/IconLock';
 import IconProfileEdit from '@components/member/IconProfileEdit';
 
 const ModifyProfilePage = () => {
+    const navigation = useNavigation();
     const [profileImage, setProfileImage] = useState(null);
     const { onboardingData } = useOnboarding();
 
@@ -34,9 +36,9 @@ const ModifyProfilePage = () => {
             setProfileImage(result.assets[0].uri);
             await handleProfileImage(result.assets[0].uri);
         }
-      };
+    };
     
-      const handleProfileImage = async(imageUri) => {
+    const handleProfileImage = async(imageUri) => {
         const formData = new FormData();
         if (profileImage) {
             const file = {
@@ -54,7 +56,17 @@ const ModifyProfilePage = () => {
             setProfileImage(null);
             console.error('프로필 이미지 변경 실패:', error.response ? error.response.data : error.message);
         };
-      };
+    };
+
+    const profile = {
+        nickname: 'Amy',
+        bio: '안녕하세요, 저는 프랑스에서 온 에이미 입니다, 산업디자인을 전공하고 있습니다. 언제든지 채팅주세요!! 😀',
+        tag: ['여행', '사진', '스포츠', '요리', 'ENTP'],
+        language: ['English / English', '한국어 / Korean'],
+        nation: '프랑스',
+        realname: 'Amy revnski',
+        major: '산업디자인',
+    };
 
     return (
         <SafeAreaView style={ModifyProfileStyles.container}>
@@ -75,37 +87,53 @@ const ModifyProfilePage = () => {
 
                 <Text style={ModifyProfileStyles.textTitle}>프로필 정보</Text>
                 <View style={ModifyProfileStyles.containerBackgroundWhite}>
-                    <View style={[ModifyProfileStyles.backgroundWhite, {flexDirection: 'row', justifyContent: 'space-between'}]}>
+                    <TouchableOpacity
+                        style={[ModifyProfileStyles.backgroundWhite, {flexDirection: 'row', justifyContent: 'space-between'}]}
+                        onPress={() => navigation.navigate('ModifyProfileInputPage', { title: '닉네임', nicknameContent: profile.nickname })}>
                         <View style={{flexDirection: 'row'}}>
                             <Text style={[ModifyProfileStyles.textSubTitle, {marginBottom: 0}]}>닉네임</Text>
-                            <Text style={[ModifyProfileStyles.textContent, {color: CustomTheme.primaryMedium}]}>Amy</Text>
+                            <Text style={[ModifyProfileStyles.textContent, {color: CustomTheme.primaryMedium}]}>{profile.nickname}</Text>
                         </View>
                         <Text style={ModifyProfileStyles.textModify}>수정</Text>
-                    </View>
+                    </TouchableOpacity>
 
-                    <View style={ModifyProfileStyles.backgroundWhite}>
+                    <TouchableOpacity
+                        style={ModifyProfileStyles.backgroundWhite}
+                        onPress={() => navigation.navigate('ModifyProfileInputPage', { title: '한줄소개', bioContent: profile.bio })}>
                         <View style={ModifyProfileStyles.containerRowText}>
                             <Text style={ModifyProfileStyles.textSubTitle}>한줄소개</Text>
                             <Text style={ModifyProfileStyles.textModify}>수정</Text>
                         </View>
-                        <Text style={ModifyProfileStyles.textContent}>안녕하세요, 저는 프랑스에서 온 에이미 입니다, 산업디자인을 전공하고 있습니다. 언제든지 채팅 주세요!! 😀</Text>
-                    </View>
+                        <Text style={ModifyProfileStyles.textContent}>{profile.bio}</Text>
+                    </TouchableOpacity>
 
-                    <View style={ModifyProfileStyles.backgroundWhite}>
+                    <TouchableOpacity
+                        style={ModifyProfileStyles.backgroundWhite}
+                        onPress={() => navigation.navigate('ModifyProfileInputPage', { title: '태그', tagContent: profile.tag })}>
                         <View style={ModifyProfileStyles.containerRowText}>
                             <Text style={ModifyProfileStyles.textSubTitle}>태그</Text>
                             <Text style={ModifyProfileStyles.textModify}>수정</Text>
                         </View>
-                        <Text style={ModifyProfileStyles.textContent}>#여행 #사진 #스포츠 #요리 #ENTP</Text>
-                    </View>
+                        <View style={ModifyProfileStyles.containerTagLanguage}>
+                            {profile.tag.map((item) => (
+                                <Text style={ModifyProfileStyles.textContent}>#{item} </Text>
+                            ))}
+                        </View>
+                    </TouchableOpacity>
 
-                    <View style={ModifyProfileStyles.backgroundWhite}>
+                    <TouchableOpacity
+                        style={ModifyProfileStyles.backgroundWhite}
+                        onPress={() => navigation.navigate('ModifyProfileInputPage', { title: '언어', languageContent: profile.language })}>
                         <View style={ModifyProfileStyles.containerRowText}>
                             <Text style={ModifyProfileStyles.textSubTitle}>언어</Text>
                             <Text style={ModifyProfileStyles.textModify}>수정</Text>
                         </View>
-                        <Text style={ModifyProfileStyles.textContent}>English / English, 한국어 / Korean</Text>
-                    </View>
+                        <View style={ModifyProfileStyles.containerTagLanguage}>
+                            {profile.language.map((item) => (
+                                <Text style={ModifyProfileStyles.textContent}>{item}, </Text>
+                            ))}
+                        </View>
+                    </TouchableOpacity>
 
                     <View style={ModifyProfileStyles.backgroundWhite}>
                         <View style={ModifyProfileStyles.containerRowText}>
@@ -114,15 +142,15 @@ const ModifyProfilePage = () => {
                                 <View>
                                     <View style={ModifyProfileStyles.containerBasicInfoContent}>
                                         <Text style={ModifyProfileStyles.textBasicInfo}>국적</Text>
-                                        <Text style={ModifyProfileStyles.textContent}>프랑스</Text>
+                                        <Text style={ModifyProfileStyles.textContent}>{profile.nation}</Text>
                                     </View>
                                     <View style={ModifyProfileStyles.containerBasicInfoContent}>
                                         <Text style={ModifyProfileStyles.textBasicInfo}>본명</Text>
-                                        <Text style={ModifyProfileStyles.textContent}>Amy</Text>
+                                        <Text style={ModifyProfileStyles.textContent}>{profile.realname}</Text>
                                     </View>
                                     <View style={[ModifyProfileStyles.containerBasicInfoContent, {marginBottom: 0}]}>
                                         <Text style={ModifyProfileStyles.textBasicInfo}>전공</Text>
-                                        <Text style={ModifyProfileStyles.textContent}>산업디자인</Text>
+                                        <Text style={ModifyProfileStyles.textContent}>{profile.major}</Text>
                                     </View>
                                 </View>
                             </View>

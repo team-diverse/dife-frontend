@@ -79,7 +79,9 @@ const ModifyProfileStyles = StyleSheet.create({
         color: '#8C8D91',
         marginRight: 8,
     },
-    
+    containerTagLanguage: {
+        flexDirection: 'row',
+    },
 });
 
 export default ModifyProfileStyles;
