@@ -67,6 +67,7 @@ import GroupProfilePreviewPage from "@pages/connect/GroupProfilePreviewPage";
 import GroupCreatedDetailPage from "@pages/connect/GroupCreatedDetailPage";
 import GroupCreatedPage from "@pages/connect/GroupCreatedPage";
 import GroupProfilePage from "@pages/connect/GroupProfilePage";
+import ModifyProfilePage from "@pages/member/ModifyProfilePage";
 
 const iconMapping = {
   Chat: { active: ChatAc32, default: ChatDf24 },
@@ -212,7 +213,7 @@ function MainNavigator() {
       <Stack.Screen name="ChatRoomPage" component={ChatRoomPage} />
       <Stack.Screen name="TipCommunityPage" component={TipCommunityPage} />
       <Stack.Screen name="FreeCommunityPage" component={FreeCommunityPage} />
-      <Stack.Screen name="WhitePage" component={WhitePage} />
+      <Stack.Screen name="WritePage" component={WritePage} />
       <Stack.Screen name="PostPage" component={PostPage} />
       <Stack.Screen name="PostModifyPage" component={PostModifyPage} />
       <Stack.Screen name="MyPostPage" component={MyPostPage} />
@@ -229,6 +230,7 @@ function MainNavigator() {
       />
       <Stack.Screen name="MyWrotePage" component={MyWrotePage} />
       <Stack.Screen name="MyCommentPage" component={MyCommentPage} />
+      <Stack.Screen name="ModifyProfilePage" component={ModifyProfilePage} />
     </Stack.Navigator>
   );
 }

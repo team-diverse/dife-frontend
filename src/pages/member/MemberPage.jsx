@@ -6,6 +6,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import MemberStyles from '@pages/member/MemberStyles';
 import { CustomTheme } from '@styles/CustomTheme';
+import { getProfile } from 'config/api';
 
 import DifeLogo from '@components/member/DifeLogo';
 import CircleBackground from '@components/member/CircleBackground';
@@ -25,6 +26,22 @@ import IconBookmark from '@components/member/IconBookmark';
 const MemberPage = () => {
   const navigation = useNavigation();
   const Tab = createMaterialTopTabNavigator();
+
+  const [name, setName] = useState('');
+  const [profileImage, setProfileImage] = useState(null);
+
+  useEffect(() => {
+    const handleProfile = async () => {
+      try {
+        const response = await getProfile();
+        setName(response.data.username);
+        setProfileImage(response.data.profilePresignUrl);
+      } catch (error) {
+          console.error('마이페이지 조회 오류:', error.response ? error.response.data : error.message);
+      }
+    };
+    handleProfile();
+  }, [profileImage]);
 
   return (
     <>
@@ -51,11 +68,11 @@ const MemberPage = () => {
           </View>
 
           <View style={MemberStyles.containerProfile}>
-            <ProfileKBackground />
-            <View style={MemberStyles.profileK}>
-              <ProfileK />
-            </View>
-            <View style={MemberStyles.iconProfileEdit}>
+            <ProfileKBackground profileImage={profileImage}/>
+              <View style={MemberStyles.profileK}>
+                <ProfileK />
+              </View>
+            <TouchableOpacity style={MemberStyles.iconProfileEdit} onPress={() => navigation.navigate('ModifyProfilePage')}>
               <IconProfileEdit />
             </View>
           </View>
