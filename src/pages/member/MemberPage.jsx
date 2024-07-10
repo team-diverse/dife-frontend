@@ -23,121 +23,121 @@ import IconLike from "@components/member/IconLike";
 import IconBookmark from "@components/member/IconBookmark";
 
 const MemberPage = () => {
-    const navigation = useNavigation();
-    const Tab = createMaterialTopTabNavigator();
+	const navigation = useNavigation();
+	const Tab = createMaterialTopTabNavigator();
 
-    return (
-        <>
-            <LinearGradient
-                colors={["#0029F4", "#6199C1"]}
-                locations={[0, 0.8]}
-                start={{ x: 0.7, y: 0 }}
-                end={{ x: 1, y: 1 }}
-            >
-                <SafeAreaView style={MemberStyles.container}>
-                    <View style={MemberStyles.difeLine}>
-                        <DifeLine />
-                    </View>
-                    <View style={MemberStyles.circleBackground}>
-                        <CircleBackground />
-                    </View>
+	return (
+		<>
+			<LinearGradient
+				colors={["#0029F4", "#6199C1"]}
+				locations={[0, 0.8]}
+				start={{ x: 0.7, y: 0 }}
+				end={{ x: 1, y: 1 }}
+			>
+				<SafeAreaView style={MemberStyles.container}>
+					<View style={MemberStyles.difeLine}>
+						<DifeLine />
+					</View>
+					<View style={MemberStyles.circleBackground}>
+						<CircleBackground />
+					</View>
 
-                    <View style={MemberStyles.topContainer}>
-                        <View style={MemberStyles.difeLogo}>
-                            <DifeLogo />
-                        </View>
-                        <TouchableOpacity style={MemberStyles.iconSetting}>
-                            <IconSetting />
-                        </TouchableOpacity>
-                    </View>
+					<View style={MemberStyles.topContainer}>
+						<View style={MemberStyles.difeLogo}>
+							<DifeLogo />
+						</View>
+						<TouchableOpacity style={MemberStyles.iconSetting}>
+							<IconSetting />
+						</TouchableOpacity>
+					</View>
 
-                    <View style={MemberStyles.containerProfile}>
-                        <ProfileKBackground />
-                        <View style={MemberStyles.profileK}>
-                            <ProfileK />
-                        </View>
-                        <View style={MemberStyles.iconProfileEdit}>
-                            <IconProfileEdit />
-                        </View>
-                    </View>
+					<View style={MemberStyles.containerProfile}>
+						<ProfileKBackground />
+						<View style={MemberStyles.profileK}>
+							<ProfileK />
+						</View>
+						<View style={MemberStyles.iconProfileEdit}>
+							<IconProfileEdit />
+						</View>
+					</View>
 
-                    <Text style={MemberStyles.textName}>Name</Text>
+					<Text style={MemberStyles.textName}>Name</Text>
 
-                    <View style={MemberStyles.containerIcon}>
-                        <TouchableOpacity
-                            style={MemberStyles.icon}
-                            onPress={() =>
-                                navigation.navigate("FriendListPage")
-                            }
-                        >
-                            <IconFriendList />
-                            <Text style={MemberStyles.textIcon}>친구목록</Text>
-                        </TouchableOpacity>
-                        <View style={MemberStyles.line} />
-                        <TouchableOpacity
-                            style={MemberStyles.icon}
-                            onPress={() => navigation.navigate("GroupListPage")}
-                        >
-                            <IconGroup />
-                            <Text style={MemberStyles.textIcon}>그룹</Text>
-                        </TouchableOpacity>
-                        <View style={MemberStyles.line} />
-                        <TouchableOpacity
-                            style={MemberStyles.icon}
-                            onPress={() => navigation.navigate("MyPostPage")}
-                        >
-                            <IconMyPost />
-                            <Text style={MemberStyles.textIcon}>나의 글</Text>
-                        </TouchableOpacity>
-                    </View>
-                </SafeAreaView>
-            </LinearGradient>
+					<View style={MemberStyles.containerIcon}>
+						<TouchableOpacity
+							style={MemberStyles.icon}
+							onPress={() =>
+								navigation.navigate("FriendListPage")
+							}
+						>
+							<IconFriendList />
+							<Text style={MemberStyles.textIcon}>친구목록</Text>
+						</TouchableOpacity>
+						<View style={MemberStyles.line} />
+						<TouchableOpacity
+							style={MemberStyles.icon}
+							onPress={() => navigation.navigate("GroupListPage")}
+						>
+							<IconGroup />
+							<Text style={MemberStyles.textIcon}>그룹</Text>
+						</TouchableOpacity>
+						<View style={MemberStyles.line} />
+						<TouchableOpacity
+							style={MemberStyles.icon}
+							onPress={() => navigation.navigate("MyPostPage")}
+						>
+							<IconMyPost />
+							<Text style={MemberStyles.textIcon}>나의 글</Text>
+						</TouchableOpacity>
+					</View>
+				</SafeAreaView>
+			</LinearGradient>
 
-            <View style={MemberStyles.tabContainer}>
-                <Tab.Navigator
-                    initialRouteName="LikedPostPage"
-                    screenOptions={{
-                        tabBarIndicatorStyle: {
-                            backgroundColor: "#B0D0FF",
-                        },
-                    }}
-                >
-                    <Tab.Screen
-                        name="좋아요"
-                        component={LikedPostPage}
-                        options={{
-                            tabBarIcon: ({ focused }) => (
-                                <IconLike
-                                    color={
-                                        focused
-                                            ? CustomTheme.primaryMedium
-                                            : CustomTheme.borderColor
-                                    }
-                                />
-                            ),
-                            tabBarLabel: () => null,
-                        }}
-                    />
-                    <Tab.Screen
-                        name="북마크"
-                        component={BookmarkPostPage}
-                        options={{
-                            tabBarIcon: ({ focused }) => (
-                                <IconBookmark
-                                    color={
-                                        focused
-                                            ? CustomTheme.primaryMedium
-                                            : CustomTheme.borderColor
-                                    }
-                                />
-                            ),
-                            tabBarLabel: () => null,
-                        }}
-                    />
-                </Tab.Navigator>
-            </View>
-        </>
-    );
+			<View style={MemberStyles.tabContainer}>
+				<Tab.Navigator
+					initialRouteName="LikedPostPage"
+					screenOptions={{
+						tabBarIndicatorStyle: {
+							backgroundColor: "#B0D0FF",
+						},
+					}}
+				>
+					<Tab.Screen
+						name="좋아요"
+						component={LikedPostPage}
+						options={{
+							tabBarIcon: ({ focused }) => (
+								<IconLike
+									color={
+										focused
+											? CustomTheme.primaryMedium
+											: CustomTheme.borderColor
+									}
+								/>
+							),
+							tabBarLabel: () => null,
+						}}
+					/>
+					<Tab.Screen
+						name="북마크"
+						component={BookmarkPostPage}
+						options={{
+							tabBarIcon: ({ focused }) => (
+								<IconBookmark
+									color={
+										focused
+											? CustomTheme.primaryMedium
+											: CustomTheme.borderColor
+									}
+								/>
+							),
+							tabBarLabel: () => null,
+						}}
+					/>
+				</Tab.Navigator>
+			</View>
+		</>
+	);
 };
 
 export default MemberPage;
