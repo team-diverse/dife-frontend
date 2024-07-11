@@ -150,7 +150,7 @@ const ChattingPage = () => {
 								data={chatrooms}
 								renderItem={({ item }) => (
 									<ChatroomItem
-										chatroomInfo={chatrooms[item.id - 1]}
+										chatroomInfo={item}
 										name={item.name}
 										context={getLatestChatByChatroomId(
 											item.id,
