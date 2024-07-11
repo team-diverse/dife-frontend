@@ -64,6 +64,12 @@ export const WebSocketProvider = ({ children }) => {
 		});
 	};
 
+	const subscribeToNewChatroom = (chatroomId) => {
+		ws.current.subscribe(`/sub/chatroom/${chatroomId}`, (message) => {
+			handleIncomingMessage(chatroomId, message.body);
+		});
+	};
+
 	const handleIncomingMessage = (chatroomId, message) => {
 		setMessages((prevMessages) => {
 			const updatedMessages = { ...prevMessages };
@@ -118,6 +124,7 @@ export const WebSocketProvider = ({ children }) => {
 				chatrooms,
 				messages,
 				publishMessage,
+				subscribeToNewChatroom,
 				disconnectWebSocket,
 			}}
 		>
