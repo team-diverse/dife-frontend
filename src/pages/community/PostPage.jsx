@@ -12,10 +12,10 @@ import {
   Alert,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import * as SecureStore from "expo-secure-store";
 
 import PostStyles from "@pages/community/PostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { useOnboarding } from "src/states/OnboardingContext.js";
 import { usePostModify } from "src/states/PostModifyContext";
 import {
   getPostById,
@@ -39,7 +39,6 @@ const PostPage = ({ route }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const { id } = route.params;
-  const { onboardingData } = useOnboarding();
   const { updatePostModifyData } = usePostModify();
 
   const [title, setTitle] = useState("");
@@ -85,7 +84,8 @@ const PostPage = ({ route }) => {
             setWriterName("익명");
           }
 
-          if (onboardingData.id === postData.writer.id) {
+          const memberId = await SecureStore.getItemAsync("member_id");
+          if (memberId === postData.writer.id) {
             setIsMe(true);
             updatePostModifyData({
               memberId: postData.writer.id,
