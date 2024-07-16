@@ -23,8 +23,11 @@ import ConnectCard from "@components/connect/ConnectCard";
 import ConnectDife from "@components/connect/ConnectDife";
 import ConnectReset from "@components/connect/ConnectReset";
 import { useOnboarding } from "src/states/OnboardingContext.js";
+import GroupFilterBottomSlide from "@components/connect/GroupFilterBottomSlide";
+import IconNewGroup from "@components/connect/IconNewGroup";
+import ModalGroupCreationComplete from "@components/connect/ModalGroupCreationComplete";
 
-const ConnectPage = () => {
+const ConnectPage = ({ route }) => {
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
@@ -40,7 +43,7 @@ const ConnectPage = () => {
 			})
 			.then((response) => {
 				function cleanHobbies(hobbies) {
-					return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
+					return hobbies.map((hobby) => hobby.replace(/[[]""]/g, ""));
 				}
 				const updatedData = response.data.map((data) => {
 					if (data.mbti !== null) {
@@ -65,15 +68,20 @@ const ConnectPage = () => {
 	}, []);
 
 	const [searchTerm, setSearchTerm] = useState("");
-	const [, setSearchData] = useState([]);
+	const [setSearchData] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
 
 	const [modalVisible, setModalVisible] = useState(false);
+	const [groupModalVisible, setGroupModalVisible] = useState(false);
 
 	const [isIndividualTab, setIsIndividualTab] = useState(false);
 
 	const pressButton = () => {
-		setModalVisible(true);
+		if (isIndividualTab) {
+			setGroupModalVisible(true);
+		} else {
+			setModalVisible(true);
+		}
 	};
 
 	const handleSearch = () => {
@@ -111,6 +119,27 @@ const ConnectPage = () => {
 		setIsIndividualTab(true);
 	};
 
+	const [modalGroupVisible, setModalGroupVisible] = useState(false);
+
+	useEffect(() => {
+		if (route.params?.modalGroupVisible) {
+			setModalGroupVisible(true);
+		}
+	}, [route.params?.modalGroupVisible]);
+
+	const grouplist = [
+		{
+			profilePresignUrl: null,
+			username: "username",
+			country: "country",
+			age: "age",
+			major: "major",
+			bio: "bio",
+			tags: ["hi"],
+			headcount: 12,
+		},
+	];
+
 	return (
 		<View style={ConnectStyles.container}>
 			<View style={ConnectStyles.backgroundBlue} />
@@ -134,6 +163,10 @@ const ConnectPage = () => {
 					<FilterBottomSlide
 						modalVisible={modalVisible}
 						setModalVisible={setModalVisible}
+					/>
+					<GroupFilterBottomSlide
+						modalVisible={groupModalVisible}
+						setModalVisible={setGroupModalVisible}
 					/>
 					<View style={ConnectStyles.searchIconContainer}>
 						<TextInput
@@ -196,7 +229,34 @@ const ConnectPage = () => {
 				</View>
 
 				{isIndividualTab ? (
-					<></>
+					<View style={ConnectStyles.cardContainer}>
+						<TouchableOpacity
+							style={ConnectStyles.iconNewGroup}
+							onPress={() =>
+								navigation.navigate("GroupCreatedPage")
+							}
+						>
+							<IconNewGroup />
+						</TouchableOpacity>
+						<View style={ConnectStyles.flatlist}>
+							<FlatList
+								contentContainerStyle={
+									ConnectStyles.flatlistContent
+								}
+								data={grouplist}
+								renderItem={({ item }) => (
+									<ConnectCard {...item} tags={item.tags} />
+								)}
+								keyExtractor={(item) => item.id}
+							/>
+						</View>
+						{modalGroupVisible && (
+							<ModalGroupCreationComplete
+								modalVisible={modalGroupVisible}
+								setModalVisible={setModalGroupVisible}
+							/>
+						)}
+					</View>
 				) : (
 					<View style={ConnectStyles.cardContainer}>
 						<View style={ConnectStyles.flatlist}>

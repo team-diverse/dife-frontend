@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import IconHeart24 from "@components/Icon24/IconHeart24";
 import ConnectPlusIcon from "@components/connect/ConnectPlusIcon";
 import Tag from "@components/common/Tag";
+import IconGroupHeadcount from "./IconGroupHeadcount";
 
 const { fontSub14, fontCaption } = CustomTheme;
 
@@ -17,12 +18,21 @@ const ConnectCard = ({
 	major = "major",
 	bio = "bio",
 	tags = ["tag"],
+	headcount,
 }) => {
 	const navigation = useNavigation();
 	const [heart, setHeart] = useState(false);
 
 	const handleHeartPress = () => {
 		setHeart(!heart);
+	};
+
+	const handleNavigation = () => {
+		if (headcount) {
+			navigation.navigate("GroupProfilePage");
+		} else {
+			navigation.navigate("ConnectProfilePage");
+		}
 	};
 
 	return (
@@ -41,15 +51,22 @@ const ConnectCard = ({
 							active={heart}
 							onPress={handleHeartPress}
 						/>
-						<TouchableOpacity
-							onPress={() =>
-								navigation.navigate("ConnectProfilePage")
-							}
-						>
+						<TouchableOpacity onPress={handleNavigation}>
 							<ConnectPlusIcon style={{ marginLeft: 9 }} />
 						</TouchableOpacity>
 					</View>
 				</View>
+				{headcount && (
+					<View style={styles.containerHeadcount}>
+						<IconGroupHeadcount />
+						<View style={styles.containerTextHeadcount}>
+							<Text style={styles.textHeadcount}>
+								{headcount}
+							</Text>
+							<Text style={styles.textMaxHeadcount}> / 30</Text>
+						</View>
+					</View>
+				)}
 				<Text style={styles.textBasicInfo}>
 					{country} | {age} | {major}
 				</Text>
@@ -102,6 +119,20 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		lineHeight: 17,
 		fontFamily: "NotoSansCJKkr-Bold",
+	},
+	containerHeadcount: {
+		flexDirection: "row",
+		marginBottom: 8,
+	},
+	containerTextHeadcount: {
+		flexDirection: "row",
+	},
+	textHeadcount: {
+		...fontCaption,
+	},
+	textMaxHeadcount: {
+		...fontCaption,
+		color: CustomTheme.borderColor,
 	},
 	textBasicInfo: {
 		...fontCaption,
