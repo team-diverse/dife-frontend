@@ -22,7 +22,6 @@ const ModalGroupJoin = ({ modalVisible, setModalVisible, length = 5 }) => {
 	const [showComplete, setShowComplete] = useState(false);
 	const [password, setPassword] = useState(Array(length).fill(""));
 	const [incorrectPassword, setIncorrectPassword] = useState(false);
-	const [completeJoin, setCompleteJoin] = useState(false);
 
 	const inputs = useRef([]);
 

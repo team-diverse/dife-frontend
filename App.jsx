@@ -57,15 +57,11 @@ import MyAc32 from "@components/Icon32/MyAc32";
 import GroupCreatedPage from "@pages/connect/GroupCreatedPage";
 import GroupCreatedDetailPage from "@pages/connect/GroupCreatedDetailPage";
 import GroupProfilePreviewPage from "@pages/connect/GroupProfilePreviewPage";
-import * as encoding from "text-encoding";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-import {
-	useWebSocket,
-	WebSocketProvider,
-} from "./src/context/WebSocketContext";
+import { WebSocketProvider } from "./src/context/WebSocketContext";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -148,7 +144,7 @@ function App() {
 }
 
 function AppContent() {
-	const { isLoggedIn, setIsLoggedIn } = useAuth();
+	const { isLoggedIn } = useAuth();
 	const [initialRoute, setInitialRoute] = useState("Access");
 
 	useEffect(() => {

@@ -7,8 +7,6 @@ import {
 	FlatList,
 	Keyboard,
 	TouchableOpacity,
-	StatusBar,
-	Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
@@ -28,14 +26,12 @@ import { useOnboarding } from "src/states/OnboardingContext.js";
 import GroupFilterBottomSlide from "@components/connect/GroupFilterBottomSlide";
 import IconNewGroup from "@components/connect/IconNewGroup";
 import ModalGroupCreationComplete from "@components/connect/ModalGroupCreationComplete";
-import { getRandomMembersByCount } from "config/api";
 
 const ConnectPage = ({ route }) => {
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
 	const { onboardingData } = useOnboarding();
-	const RANDOM_MEMBER_COUNT = 10;
 
 	const cardProfiles = () => {
 		axios
@@ -74,7 +70,7 @@ const ConnectPage = ({ route }) => {
 	}, []);
 
 	const [searchTerm, setSearchTerm] = useState("");
-	const [searchData, setSearchData] = useState([]);
+	const [setSearchData] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
 
 	const [modalVisible, setModalVisible] = useState(false);

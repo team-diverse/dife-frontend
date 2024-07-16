@@ -104,6 +104,23 @@ const GroupCreatedDetailPage = () => {
 		}
 	};
 
+	const handleSelectCategory = (index) => {
+		setIsCheckedList((prevState) => {
+			const newState = [...prevState];
+			newState[index] = !newState[index];
+			return newState;
+		});
+
+		const category = categories[index];
+		if (isCheckedList[index]) {
+			setSelectedCategory(
+				selectedCategory.filter((item) => item !== category),
+			);
+		} else {
+			setSelectedCategory([...selectedCategory, category]);
+		}
+	};
+
 	const [multiSliderValue, setMultiSliderValue] = React.useState([3, 7]);
 	const multiSliderValuesChange = (values) => setMultiSliderValue(values);
 

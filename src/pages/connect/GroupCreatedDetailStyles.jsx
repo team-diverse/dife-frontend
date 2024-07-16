@@ -48,12 +48,6 @@ const GroupCreatedDetailStyles = StyleSheet.create({
 		color: CustomTheme.primaryMedium,
 		marginRight: 24,
 	},
-	containerSlider: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		marginLeft: 24,
-	},
 	containerRadioButtonGroup: {
 		marginHorizontal: 24,
 		marginBottom: 107,
