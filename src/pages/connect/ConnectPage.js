@@ -43,9 +43,7 @@ const ConnectPage = ({ route }) => {
 			})
 			.then((response) => {
 				function cleanHobbies(hobbies) {
-					return hobbies.map((hobby) =>
-						hobby.replace(/[\[\]"]/g, ""),
-					);
+					return hobbies.map((hobby) => hobby.replace(/[[]""]/g, ""));
 				}
 				const updatedData = response.data.map((data) => {
 					if (data.mbti !== null) {

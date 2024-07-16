@@ -39,6 +39,7 @@ const GroupCreatedDetailPage = () => {
 
 	const [selectedHobby, setSelectedHobby] = useState([]);
 	const [selectedLanguage, setSelectedLanguage] = useState([]);
+	const [selectedCategory, setSelectedCategory] = useState([]);
 
 	const hobby = [
 		"SNS",
