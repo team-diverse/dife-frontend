@@ -1,58 +1,53 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
-import { CustomTheme } from '@styles/CustomTheme';
-import { useOnboarding } from 'src/states/OnboardingContext.js';
+import { CustomTheme } from "@styles/CustomTheme";
+import { createLike } from "config/api";
 
-import IconHeart from '@components/community/IconHeart';
-import IconBookmark from '@components/community/IconBookmark';
-import IconKebabMenu from '@components/community/IconKebabMenu';
+import IconHeart from "@components/community/IconHeart";
+import IconBookmark from "@components/community/IconBookmark";
+import IconKebabMenu from "@components/community/IconKebabMenu";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
 const ItemComment = ({ props, id }) => {
   const date = (date) => {
-    const datePart = date.split('T')[0];
-    const [year, month, day] = datePart.split('-');
+    const datePart = date.split("T")[0];
+    const [year, month, day] = datePart.split("-");
     return `${month}/${day}`;
   };
 
   const { onboardingData } = useOnboarding();
   const [pressHeart, setPressHeart] = useState({});
-  const [heartCounts, setHeartCounts] = useState(props.reduce((acc, post) => {
-    acc[post.commentId] = post.heart;
-    return acc;
-  }, {}));
+  const initialHeartCounts = props.map((post) => ({
+    id: post.id,
+    likesCount: post.likesCount,
+  }));
+  const [heartCounts, setHeartCounts] = useState(initialHeartCounts);
 
+  useEffect(() => {
+    setHeartCounts(
+      props.map((post) => ({ id: post.id, likesCount: post.likesCount }))
+    );
+  }, [props]);
 
   const heartCommentAlert = async (commentId) => {
     try {
-      const response = await axios.post('http://192.168.45.135:8080/api/likes', {
-        type: 'COMMENT',
-        postId: id,
-        commentId: commentId,
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${onboardingData.accessToken}`,
-        }
-      });
-
-      console.log('댓글 좋아요 성공');
-      setPressHeart(prevState => ({ ...prevState, [commentId]: true }));
-      setHeartCounts(prevState => ({
-        ...prevState,
-        [commentId]: prevState[commentId] + 1,
-      }));
+      await createLike("COMMENT", id, commentId);
+      console.log("댓글 좋아요 성공");
     } catch (error) {
-      console.error('댓글 좋아요 실패:', error.response ? error.response.data : error.message);
-      setPressHeart(prevState => ({ ...prevState, [commentId]: false }));
-      setHeartCounts(prevState => ({
-        ...prevState,
-        [commentId]: prevState[commentId] - 1,
-      }));
+      console.error(
+        "댓글 좋아요 실패:",
+        error.response ? error.response.data : error.message
+      );
+      setPressHeart((prevState) => ({ ...prevState, [commentId]: false }));
+      setHeartCounts((prevHeartCounts) =>
+        prevHeartCounts.map((item) =>
+          item.id === commentId
+            ? { ...item, likesCount: item.likesCount - 1 }
+            : item
+        )
+      );
     }
   };
 
@@ -63,24 +58,26 @@ const ItemComment = ({ props, id }) => {
       [
         {
           text: "취소",
-          style: "cancel"
+          style: "cancel",
         },
         {
           text: "확인",
           onPress: () => {
-            setPressHeart(prevState => ({ ...prevState, [commentId]: true }));
-            setHeartCounts(prevState => ({
-              ...prevState,
-              [commentId]: prevState[commentId] + 1,
-            }));
+            setPressHeart((prevState) => ({ ...prevState, [commentId]: true }));
+            setHeartCounts((prevHeartCounts) =>
+              prevHeartCounts.map((item) =>
+                item.id === commentId
+                  ? { ...item, likesCount: item.likesCount + 1 }
+                  : item
+              )
+            );
             heartCommentAlert(commentId);
-          }
-        }
+          },
+        },
       ],
       { cancelable: false }
     );
   };
-
 
   return (
     <>
@@ -88,13 +85,24 @@ const ItemComment = ({ props, id }) => {
         <View key={index} style={styles.ItemCommunity}>
           <View style={styles.containerRow}>
             <View>
-              <Text style={styles.textPostTitle}>{post.title}</Text>
-              <Text style={styles.textPostContext}>{post.context}</Text>
-              
+              <Text style={styles.textPostTitle}>
+                {post.isPublic ? "익명" : post.writer.username}
+              </Text>
+              <Text style={styles.textPostContext}>{post.content}</Text>
+
               <View style={styles.containerTextRow}>
-                <TouchableOpacity style={styles.containerText} onPress={() => handleHeart(post.commentId)}>
-                  <IconHeart active={pressHeart[post.commentId]} />
-                  <Text style={styles.text}>{heartCounts[post.commentId]}</Text>
+                <TouchableOpacity
+                  style={styles.containerText}
+                  onPress={() => handleHeart(post.id)}
+                >
+                  <IconHeart active={pressHeart[post.id]} />
+                  <Text style={styles.text}>
+                    {heartCounts.find((item) => item.id === post.id)
+                      ?.likesCount !== undefined
+                      ? heartCounts.find((item) => item.id === post.id)
+                          .likesCount
+                      : post.likesCount}
+                  </Text>
                 </TouchableOpacity>
                 <View style={styles.containerText}>
                   <IconBookmark />
@@ -119,27 +127,27 @@ const ItemComment = ({ props, id }) => {
 
 const styles = StyleSheet.create({
   ItemCommunity: {
-    width: '100%',
+    width: "100%",
     minHeight: 78,
     backgroundColor: CustomTheme.bgBasic,
     borderRadius: 20,
     borderWidth: 2,
-    borderColor: '#D9EAFF',
+    borderColor: "#D9EAFF",
     paddingHorizontal: 20,
     paddingVertical: 11,
-    justifyContent: 'center',
+    justifyContent: "center",
     marginTop: 4,
     marginBottom: 4,
   },
   containerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   textPostTitle: {
     fontSize: 12,
     lineHeight: 16,
-    fontFamily: 'NotoSansCJKkr-Bold',
+    fontFamily: "NotoSansCJKkr-Bold",
     width: 272,
     height: 17,
   },
@@ -149,30 +157,30 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   iconKebabMenu: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     right: -11,
   },
   textTranslation: {
     ...fontNavi,
     color: CustomTheme.primaryMedium,
-    textDecorationLine: 'underline',
-    position: 'absolute',
+    textDecorationLine: "underline",
+    position: "absolute",
     bottom: 0,
     right: -2,
   },
   containerTextRow: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginTop: 8,
   },
   containerText: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginRight: 8,
   },
   text: {
     ...fontNavi,
-    color: '#8C8D91',
+    color: "#8C8D91",
     marginLeft: 1,
   },
 });
