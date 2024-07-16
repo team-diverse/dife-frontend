@@ -1,37 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, ScrollView } from "react-native";
 
 import LikedPostStyles from "@pages/member/LikedPostStyles";
 
+import { getLikedPost } from "config/api";
 import ItemLikeBookmark from "@components/member/ItemLikeBookmark";
 
 const LikedPostPage = () => {
-	const likedPostList = [
-		{
-			title: "좋아요 화면입니다",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-		},
-	];
+	const [likedPostList, setLikedPostList] = useState([]);
+
+	useEffect(() => {
+		const handleLikedPost = async () => {
+			try {
+				const likedPostResponse = await getLikedPost();
+				setLikedPostList(likedPostResponse.data);
+			} catch (error) {
+				console.error(
+					"좋아요한 게시글 조회 오류:",
+					error.response ? error.response.data : error.message,
+				);
+			}
+		};
+		handleLikedPost();
+	}, []);
 
 	return (
 		<View style={LikedPostStyles.container}>
