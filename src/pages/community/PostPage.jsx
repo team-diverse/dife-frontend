@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TouchableOpacity,
   Text,
@@ -23,6 +23,8 @@ import {
   postCommentSend,
   createLike,
   createBookmark,
+  getLikedPost,
+  getBookmarkPost,
 } from "config/api";
 
 import TopBar from "@components/common/TopBar";
@@ -212,11 +214,24 @@ const PostPage = ({ route }) => {
     );
   };
 
+  const likedPosts = async () => {
+    try {
+      const response = await getLikedPost();
+      const likedPostIdList = response.data.map((item) => item.id);
+      setPressHeart(likedPostIdList.includes(id));
+    } catch (error) {
+      console.error(
+        "좋아요 상태 조회 실패:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
+
   const [pressBookmark, setPressBookmark] = useState();
 
   const handleBookmark = async () => {
     try {
-      await createBookmark("", "", id);
+      await createBookmark(null, null, id);
       console.log("게시글 북마크 성공");
     } catch (error) {
       console.error(
@@ -249,6 +264,24 @@ const PostPage = ({ route }) => {
       { cancelable: false }
     );
   };
+
+  const bookmarkedPosts = async () => {
+    try {
+      const response = await getBookmarkPost();
+      const bookmarkedPostIdList = response.data.map((item) => item.id);
+      setPressBookmark(bookmarkedPostIdList.includes(id));
+    } catch (error) {
+      console.error(
+        "북마크 상태 조회 실패:",
+        error.response ? error.response.data : error.message
+      );
+    }
+  };
+
+  useEffect(() => {
+    likedPosts();
+    bookmarkedPosts();
+  }, [id]);
 
   return (
     <SafeAreaView style={PostStyles.container}>
