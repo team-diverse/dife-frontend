@@ -1,14 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import axios from 'axios';
-import * as ImagePicker from 'expo-image-picker';
+import React, { useState, useEffect } from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import {
+	View,
+	Text,
+	SafeAreaView,
+	TouchableOpacity,
+	Alert,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import axios from "axios";
+import * as ImagePicker from "expo-image-picker";
 
-import MemberStyles from '@pages/member/MemberStyles';
-import { CustomTheme } from '@styles/CustomTheme';
-import { useOnboarding } from 'src/states/OnboardingContext.js';
+import MemberStyles from "@pages/member/MemberStyles";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useOnboarding } from "src/states/OnboardingContext.js";
 
 import DifeLogo from "@components/member/DifeLogo";
 import CircleBackground from "@components/member/CircleBackground";
@@ -29,113 +35,132 @@ const MemberPage = () => {
 	const navigation = useNavigation();
 	const Tab = createMaterialTopTabNavigator();
 
-  const { onboardingData } = useOnboarding();
+	const { onboardingData } = useOnboarding();
 
-  const [name, setName] = useState('');
-  const [profileImage, setProfileImage] = useState(null);
+	const [name, setName] = useState("");
+	const [profileImage, setProfileImage] = useState(null);
 
-  useEffect(() => {
-    const handleProfile = async () => {
-      try {
-        const response = await axios.get(`http://192.168.45.135:8080/api/members/profile`, {
-          headers: {
-            'Authorization': `Bearer ${onboardingData.accessToken}`,
-            'Accept': 'application/json'
-          },
-        });
-        setName(response.data.username);
-        setProfileImage(response.data.profilePresignUrl);
-      } catch (error) {
-          console.error('마이페이지 조회 오류:', error.response ? error.response.data : error.message);
-      }
-    };
-    handleProfile();
-  }, [profileImage]);
+	useEffect(() => {
+		const handleProfile = async () => {
+			try {
+				const response = await axios.get(
+					`http://192.168.45.135:8080/api/members/profile`,
+					{
+						headers: {
+							Authorization: `Bearer ${onboardingData.accessToken}`,
+							Accept: "application/json",
+						},
+					},
+				);
+				setName(response.data.username);
+				setProfileImage(response.data.profilePresignUrl);
+			} catch (error) {
+				console.error(
+					"마이페이지 조회 오류:",
+					error.response ? error.response.data : error.message,
+				);
+			}
+		};
+		handleProfile();
+	}, [profileImage]);
 
-  const pickImage = async () => {
-    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('알림', '설정에서 이미지 권한을 허용해주세요.');
-      return;
-    };
+	const pickImage = async () => {
+		const { status } =
+			await ImagePicker.requestMediaLibraryPermissionsAsync();
+		if (status !== "granted") {
+			Alert.alert("알림", "설정에서 이미지 권한을 허용해주세요.");
+			return;
+		}
 
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			allowsEditing: true,
+			aspect: [4, 3],
+			quality: 1,
+		});
 
-    if (!result.canceled) {
-      setProfileImage(result.assets[0].uri);
-      }
+		if (!result.canceled) {
+			setProfileImage(result.assets[0].uri);
+		}
 
-    handleProfileImage();
-  };
+		handleProfileImage();
+	};
 
-  const handleProfileImage = () => {
-    const formData = new FormData();
-    if (profileImage) {
-      const file = {
-        uri: profileImage,
-        type: 'image/jpeg',
-        name: `${onboardingData.id}_profile.jpg`
-      };
-      formData.append('profileImg', file);
-    }
+	const handleProfileImage = () => {
+		const formData = new FormData();
+		if (profileImage) {
+			const file = {
+				uri: profileImage,
+				type: "image/jpeg",
+				name: `${onboardingData.id}_profile.jpg`,
+			};
+			formData.append("profileImg", file);
+		}
 
-    axios.put(`http://192.168.45.135:8080/api/members/${onboardingData.id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${onboardingData.accessToken}`,
-      }
-    })
-    .then(response => {
-      console.log('프로필 이미지 변경 성공:', response.data.message);
-    })
-    .catch(error => {
-      console.error('프로필 이미지 변경 실패:', error.response ? error.response.data : error.message);
-    });
-  };
+		axios
+			.put(
+				`http://192.168.45.135:8080/api/members/${onboardingData.id}`,
+				formData,
+				{
+					headers: {
+						"Content-Type": "multipart/form-data",
+						Accept: "application/json",
+						Authorization: `Bearer ${onboardingData.accessToken}`,
+					},
+				},
+			)
+			.then((response) => {
+				console.log("프로필 이미지 변경 성공:", response.data.message);
+			})
+			.catch((error) => {
+				console.error(
+					"프로필 이미지 변경 실패:",
+					error.response ? error.response.data : error.message,
+				);
+			});
+	};
 
-  return (
-    <>
-      <LinearGradient
-        colors={['#0029F4', '#6199C1']}
-        locations={[0, 0.8]}
-        start={{ x: 0.7, y: 0 }}
-        end={{ x: 1, y: 1 }}>
-        <SafeAreaView style={MemberStyles.container}>
-          <View style={MemberStyles.difeLine}>
-            <DifeLine />
-          </View>
-          <View style={MemberStyles.circleBackground}>
-            <CircleBackground />
-          </View>
-          
-          <View style={MemberStyles.topContainer}>
-            <View style={MemberStyles.difeLogo}>
-              <DifeLogo />
-            </View>
-            <TouchableOpacity style={MemberStyles.iconSetting}>
-              <IconSetting />
-            </TouchableOpacity>
-          </View>
+	return (
+		<>
+			<LinearGradient
+				colors={["#0029F4", "#6199C1"]}
+				locations={[0, 0.8]}
+				start={{ x: 0.7, y: 0 }}
+				end={{ x: 1, y: 1 }}
+			>
+				<SafeAreaView style={MemberStyles.container}>
+					<View style={MemberStyles.difeLine}>
+						<DifeLine />
+					</View>
+					<View style={MemberStyles.circleBackground}>
+						<CircleBackground />
+					</View>
 
-          <View style={MemberStyles.containerProfile}>
-            <ProfileKBackground profileImage={profileImage}/>
-            {profileImage === null && (
-              <View style={MemberStyles.profileK}>
-                <ProfileK />
-              </View>
-            )}
-            <TouchableOpacity style={MemberStyles.iconProfileEdit} onPress={pickImage}>
-              <IconProfileEdit />
-            </TouchableOpacity>
-          </View>
-            
-          <Text style={MemberStyles.textName}>{name}</Text>
+					<View style={MemberStyles.topContainer}>
+						<View style={MemberStyles.difeLogo}>
+							<DifeLogo />
+						</View>
+						<TouchableOpacity style={MemberStyles.iconSetting}>
+							<IconSetting />
+						</TouchableOpacity>
+					</View>
+
+					<View style={MemberStyles.containerProfile}>
+						<ProfileKBackground profileImage={profileImage} />
+						{profileImage === null && (
+							<View style={MemberStyles.profileK}>
+								<ProfileK />
+							</View>
+						)}
+						<TouchableOpacity
+							style={MemberStyles.iconProfileEdit}
+							onPress={pickImage}
+						>
+							<IconProfileEdit />
+						</TouchableOpacity>
+					</View>
+
+					<Text style={MemberStyles.textName}>{name}</Text>
 
 					<View style={MemberStyles.containerProfile}>
 						<ProfileKBackground />

@@ -93,28 +93,35 @@ export const deletePost = (id) => {
 };
 
 export const createPost = (title, content, isPublic, boardType) => {
-    return api.post("/posts", {
-        title,
-        content,
-        isPublic,
-        boardType,
-    });
-}
+	return api.post("/posts", {
+		title,
+		content,
+		isPublic,
+		boardType,
+	});
+};
 
-export const updatePost = (id, title, content, isPublic, boardType, memberId) => {
-    return api.put(`/posts/${id}`, {
-        title,
-        content,
-        isPublic,
-        boardType,
-        memberId,
-    });
-}
+export const updatePost = (
+	id,
+	title,
+	content,
+	isPublic,
+	boardType,
+	memberId,
+) => {
+	return api.put(`/posts/${id}`, {
+		title,
+		content,
+		isPublic,
+		boardType,
+		memberId,
+	});
+};
 
 export const getLikedPost = () => {
-    return api.get('/likes');
-}
+	return api.get("/likes");
+};
 
 export const getBookmarkPost = () => {
-    return api.get('/bookmarks');
-}
+	return api.get("/bookmarks");
+};
