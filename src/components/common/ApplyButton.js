@@ -1,25 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme';
-import * as Notifications from 'expo-notifications';
-import * as Linking from 'expo-linking';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, Alert, StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
+import * as Notifications from "expo-notifications";
+import * as Linking from "expo-linking";
+import { useNavigation } from "@react-navigation/native";
 
 const { fontSub16 } = CustomTheme;
 
-const ApplyButton = ({ text="applyBtn", background=false, onPress=null, disabled=false, access=false }) => {
-  const rectangleStyle = background ?  styles.rectangleShadow : styles.rectangle;
+const ApplyButton = ({
+  text = "applyBtn",
+  background = false,
+  onPress = null,
+  disabled = false,
+  access = false,
+}) => {
+  const rectangleStyle = background ? styles.rectangleShadow : styles.rectangle;
   const navigation = useNavigation();
 
   // const requestPermissions = async () => {
   //   const { status: existingStatus } = await Notifications.getPermissionsAsync();
   //   let finalStatus = existingStatus;
-  
+
   //   if (existingStatus !== 'granted') {
   //     const { status } = await Notifications.requestPermissionsAsync();
   //     finalStatus = status;
   //   }
-  
+
   //   if (finalStatus !== 'granted') {
   //     Alert.alert(
   //       '알림',
@@ -46,7 +52,11 @@ const ApplyButton = ({ text="applyBtn", background=false, onPress=null, disabled
   return (
     <View>
       <View style={rectangleStyle}>
-        <TouchableOpacity style={[styles.apply, disabled && styles.disabled]} onPress={onPress} disabled={disabled}>
+        <TouchableOpacity
+          style={[styles.apply, disabled && styles.disabled]}
+          onPress={onPress}
+          disabled={disabled}
+        >
           <Text style={styles.text}>{text}</Text>
         </TouchableOpacity>
       </View>
@@ -56,33 +66,33 @@ const ApplyButton = ({ text="applyBtn", background=false, onPress=null, disabled
 
 const styles = StyleSheet.create({
   rectangle: {
-    flexDirection: 'row',
-    width: '100%',
+    flexDirection: "row",
+    width: "100%",
     height: 72,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 24,
     backgroundColor: CustomTheme.bgBasic,
   },
   rectangleShadow: {
-    flexDirection: 'row',
-    width: '100%',
+    flexDirection: "row",
+    width: "100%",
     height: 72,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingHorizontal: 24,
     backgroundColor: CustomTheme.bgBasic,
-    shadowColor: '#3C454E',
+    shadowColor: "#3C454E",
     shadowOffset: { width: 0, height: -1 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
   },
   apply: {
-    flexDirection: 'row',
-    width: '100%',
+    flexDirection: "row",
+    width: "100%",
     height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: CustomTheme.primaryMedium,
     borderRadius: 27,
     // marginHorizontal: 24,
