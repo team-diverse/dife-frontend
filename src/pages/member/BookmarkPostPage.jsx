@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
 
-import BookmarkPostStyles from '@pages/member/BookmarkPostStyles';
+import BookmarkPostStyles from "@pages/member/BookmarkPostStyles";
 
 import { getBookmarkPost } from 'config/api';
 import ItemLikeBookmark from '@components/member/ItemLikeBookmark';

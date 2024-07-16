@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, ScrollView } from 'react-native';
 
-import LikedPostStyles from '@pages/member/LikedPostStyles';
+import LikedPostStyles from "@pages/member/LikedPostStyles";
 
 import { getLikedPost } from 'config/api';
 import ItemLikeBookmark from '@components/member/ItemLikeBookmark';
@@ -21,15 +21,15 @@ const LikedPostPage = () => {
         handleLikedPost();
       }, []);
 
-  return (
-    <View style={LikedPostStyles.container}>
-        <ScrollView>
-            <View style={LikedPostStyles.itemLikeBookmark}>
-                <ItemLikeBookmark props={likedPostList} />
-            </View>
-        </ScrollView>
-      </View>
-  );
-}
+	return (
+		<View style={LikedPostStyles.container}>
+			<ScrollView>
+				<View style={LikedPostStyles.itemLikeBookmark}>
+					<ItemLikeBookmark props={likedPostList} />
+				</View>
+			</ScrollView>
+		</View>
+	);
+};
 
 export default LikedPostPage;

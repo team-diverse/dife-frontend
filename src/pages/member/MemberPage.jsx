@@ -10,24 +10,24 @@ import MemberStyles from '@pages/member/MemberStyles';
 import { CustomTheme } from '@styles/CustomTheme';
 import { useOnboarding } from 'src/states/OnboardingContext.js';
 
-import DifeLogo from '@components/member/DifeLogo';
-import CircleBackground from '@components/member/CircleBackground';
-import DifeLine from '@components/member/DifeLine';
-import IconSetting from '@components/member/IconSetting';
-import ProfileKBackground from '@components/member/ProfileKBackground';
-import ProfileK from '@components/member/ProfileK';
-import IconFriendList from '@components/member/IconFriendList';
-import IconGroup from '@components/member/IconGroup';
-import IconMyPost from '@components/member/IconMyPost';
-import LikedPostPage from '@pages/member/LikedPostPage';
-import BookmarkPostPage from '@pages/member/BookmarkPostPage';
-import IconProfileEdit from '@components/member/IconProfileEdit';
-import IconLike from '@components/member/IconLike';
-import IconBookmark from '@components/member/IconBookmark';
+import DifeLogo from "@components/member/DifeLogo";
+import CircleBackground from "@components/member/CircleBackground";
+import DifeLine from "@components/member/DifeLine";
+import IconSetting from "@components/member/IconSetting";
+import ProfileKBackground from "@components/member/ProfileKBackground";
+import ProfileK from "@components/member/ProfileK";
+import IconFriendList from "@components/member/IconFriendList";
+import IconGroup from "@components/member/IconGroup";
+import IconMyPost from "@components/member/IconMyPost";
+import LikedPostPage from "@pages/member/LikedPostPage";
+import BookmarkPostPage from "@pages/member/BookmarkPostPage";
+import IconProfileEdit from "@components/member/IconProfileEdit";
+import IconLike from "@components/member/IconLike";
+import IconBookmark from "@components/member/IconBookmark";
 
 const MemberPage = () => {
-  const navigation = useNavigation();
-  const Tab = createMaterialTopTabNavigator();
+	const navigation = useNavigation();
+	const Tab = createMaterialTopTabNavigator();
 
   const { onboardingData } = useOnboarding();
 
@@ -137,52 +137,93 @@ const MemberPage = () => {
             
           <Text style={MemberStyles.textName}>{name}</Text>
 
-          <View style={MemberStyles.containerIcon}>
-            <TouchableOpacity style={MemberStyles.icon} onPress={() => navigation.navigate('FriendListPage')}>
-              <IconFriendList />
-              <Text style={MemberStyles.textIcon}>친구목록</Text>
-            </TouchableOpacity>
-            <View style={MemberStyles.line} />
-            <TouchableOpacity style={MemberStyles.icon} onPress={() => navigation.navigate('GroupListPage')}>
-              <IconGroup />
-              <Text style={MemberStyles.textIcon}>그룹</Text>
-            </TouchableOpacity>
-            <View style={MemberStyles.line} />
-            <TouchableOpacity style={MemberStyles.icon} onPress={() => navigation.navigate('MyPostPage')}>
-              <IconMyPost />
-              <Text style={MemberStyles.textIcon}>나의 글</Text>
-            </TouchableOpacity>
-          </View>
-        </SafeAreaView>
-      </LinearGradient>
+					<View style={MemberStyles.containerProfile}>
+						<ProfileKBackground />
+						<View style={MemberStyles.profileK}>
+							<ProfileK />
+						</View>
+						<View style={MemberStyles.iconProfileEdit}>
+							<IconProfileEdit />
+						</View>
+					</View>
 
-      <View style={MemberStyles.tabContainer}>
-        <Tab.Navigator
-          initialRouteName="LikedPostPage"
-          screenOptions={{
-            tabBarIndicatorStyle: {
-              backgroundColor: '#B0D0FF',
-            }
-          }}
-      >
-          <Tab.Screen
-              name="좋아요"
-              component={LikedPostPage}
-              options={{ tabBarIcon: ({ focused }) => (
-                  <IconLike color={focused ? CustomTheme.primaryMedium : CustomTheme.borderColor} />
-                ),
-                tabBarLabel: () => null, }} />
-          <Tab.Screen
-              name="북마크"
-              component={BookmarkPostPage}
-              options={{ tabBarIcon: ({ focused }) => (
-                <IconBookmark color={focused ? CustomTheme.primaryMedium : CustomTheme.borderColor} />
-              ),
-              tabBarLabel: () => null, }} />
-        </Tab.Navigator>
-      </View>
-    </>
-  );
+					<Text style={MemberStyles.textName}>Name</Text>
+
+					<View style={MemberStyles.containerIcon}>
+						<TouchableOpacity
+							style={MemberStyles.icon}
+							onPress={() =>
+								navigation.navigate("FriendListPage")
+							}
+						>
+							<IconFriendList />
+							<Text style={MemberStyles.textIcon}>친구목록</Text>
+						</TouchableOpacity>
+						<View style={MemberStyles.line} />
+						<TouchableOpacity
+							style={MemberStyles.icon}
+							onPress={() => navigation.navigate("GroupListPage")}
+						>
+							<IconGroup />
+							<Text style={MemberStyles.textIcon}>그룹</Text>
+						</TouchableOpacity>
+						<View style={MemberStyles.line} />
+						<TouchableOpacity
+							style={MemberStyles.icon}
+							onPress={() => navigation.navigate("MyPostPage")}
+						>
+							<IconMyPost />
+							<Text style={MemberStyles.textIcon}>나의 글</Text>
+						</TouchableOpacity>
+					</View>
+				</SafeAreaView>
+			</LinearGradient>
+
+			<View style={MemberStyles.tabContainer}>
+				<Tab.Navigator
+					initialRouteName="LikedPostPage"
+					screenOptions={{
+						tabBarIndicatorStyle: {
+							backgroundColor: "#B0D0FF",
+						},
+					}}
+				>
+					<Tab.Screen
+						name="좋아요"
+						component={LikedPostPage}
+						options={{
+							tabBarIcon: ({ focused }) => (
+								<IconLike
+									color={
+										focused
+											? CustomTheme.primaryMedium
+											: CustomTheme.borderColor
+									}
+								/>
+							),
+							tabBarLabel: () => null,
+						}}
+					/>
+					<Tab.Screen
+						name="북마크"
+						component={BookmarkPostPage}
+						options={{
+							tabBarIcon: ({ focused }) => (
+								<IconBookmark
+									color={
+										focused
+											? CustomTheme.primaryMedium
+											: CustomTheme.borderColor
+									}
+								/>
+							),
+							tabBarLabel: () => null,
+						}}
+					/>
+				</Tab.Navigator>
+			</View>
+		</>
+	);
 };
 
 export default MemberPage;
