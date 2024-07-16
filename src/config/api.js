@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
-const BACKEND_URL = "http://192.168.0.30:8080/api";
+const BACKEND_URL = "http://192.168.40.14:8080/api";
 
 export const api = axios.create({
 	baseURL: BACKEND_URL,
@@ -116,4 +116,12 @@ export const updatePost = (
 		boardType,
 		memberId,
 	});
+};
+
+export const getLikedPost = () => {
+	return api.get("/likes");
+};
+
+export const getBookmarkPost = () => {
+	return api.get("/bookmarks");
 };
