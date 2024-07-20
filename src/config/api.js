@@ -169,3 +169,11 @@ export const createBookmark = (chatroomId, chatId, postId) => {
 		postId: postId,
 	});
 };
+
+export const getConnectSearch = (keyword) => {
+	return api.get("/members/search", {
+		params: {
+			keyword: keyword,
+		},
+	});
+};

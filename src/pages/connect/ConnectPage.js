@@ -9,11 +9,9 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
-
-import { getRandomMembersByCount } from "config/api";
+import { getRandomMembersByCount, getConnectSearch } from "config/api";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -24,6 +22,9 @@ import FilterBottomSlide from "@components/connect/FilterBottomSlide";
 import ConnectCard from "@components/connect/ConnectCard";
 import ConnectDife from "@components/connect/ConnectDife";
 import ConnectReset from "@components/connect/ConnectReset";
+import GroupFilterBottomSlide from "@components/connect/GroupFilterBottomSlide";
+import IconNewGroup from "@components/connect/IconNewGroup";
+import ModalGroupCreationComplete from "@components/connect/ModalGroupCreationComplete";
 
 const ConnectPage = () => {
 	const navigation = useNavigation();
@@ -36,7 +37,7 @@ const ConnectPage = () => {
 			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
 
 			function cleanHobbies(hobbies) {
-				return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
+				return hobbies.map((hobby) => hobby.replace(/[\[\]"]/g, ""));
 			}
 			const updatedData = response.data.map((data) => {
 				if (data.mbti !== null) {
@@ -60,10 +61,11 @@ const ConnectPage = () => {
 	}, []);
 
 	const [searchTerm, setSearchTerm] = useState("");
-	const [setSearchData] = useState([]);
+	const [searchData, setSearchData] = useState(null);
 	const [isSearching, setIsSearching] = useState(false);
 
 	const [modalVisible, setModalVisible] = useState(false);
+	const [groupModalVisible, setGroupModalVisible] = useState(false);
 
 	const [isIndividualTab, setIsIndividualTab] = useState(false);
 
@@ -71,16 +73,16 @@ const ConnectPage = () => {
 		setModalVisible(true);
 	};
 
-	const handleSearch = () => {
-		if (searchTerm.trim() !== "") {
-			axios
-				.get(`${searchTerm}`)
-				.then((response) => {
-					setSearchData(response.data);
-				})
-				.catch((error) => {
-					console.error("Error:", error);
-				});
+	const handleSearch = async () => {
+		try {
+			const response = await getConnectSearch(searchTerm);
+			setSearchData(response.data);
+			console.log(response.data);
+		} catch (error) {
+			console.error(
+				"커넥트 검색 오류:",
+				error.response ? error.response.data : error.message,
+			);
 		}
 	};
 
@@ -106,6 +108,31 @@ const ConnectPage = () => {
 		setIsIndividualTab(true);
 	};
 
+	const [modalGroupVisible, setModalGroupVisible] = useState(false);
+
+	useEffect(() => {
+		if (route.params?.modalGroupVisible) {
+			setModalGroupVisible(true);
+		}
+	}, [route.params?.modalGroupVisible]);
+
+	const grouplist = [
+		{
+			profilePresignUrl: null,
+			username: "username",
+			country: "country",
+			age: "age",
+			major: "major",
+			bio: "bio",
+			tags: ["hi"],
+			headcount: 12,
+		},
+	];
+
+	useEffect(() => {
+		console.log(searchData);
+	}, [searchData]);
+
 	return (
 		<View style={ConnectStyles.container}>
 			<View style={ConnectStyles.backgroundBlue} />
@@ -130,6 +157,10 @@ const ConnectPage = () => {
 						modalVisible={modalVisible}
 						setModalVisible={setModalVisible}
 					/>
+					<GroupFilterBottomSlide
+						modalVisible={groupModalVisible}
+						setModalVisible={setGroupModalVisible}
+					/>
 					<View style={ConnectStyles.searchIconContainer}>
 						<TextInput
 							style={ConnectStyles.search}
@@ -138,6 +169,7 @@ const ConnectPage = () => {
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}
 							onBlur={handleBlur}
+							onSubmitEditing={handleSearch}
 						/>
 						{isSearching ? (
 							<ConnectSearchCancel
@@ -191,7 +223,34 @@ const ConnectPage = () => {
 				</View>
 
 				{isIndividualTab ? (
-					<></>
+					<View style={ConnectStyles.cardContainer}>
+						<TouchableOpacity
+							style={ConnectStyles.iconNewGroup}
+							onPress={() =>
+								navigation.navigate("GroupCreatedPage")
+							}
+						>
+							<IconNewGroup />
+						</TouchableOpacity>
+						<View style={ConnectStyles.flatlist}>
+							<FlatList
+								contentContainerStyle={
+									ConnectStyles.flatlistContent
+								}
+								data={grouplist}
+								renderItem={({ item }) => (
+									<ConnectCard {...item} tags={item.tags} />
+								)}
+								keyExtractor={(item) => item.id}
+							/>
+						</View>
+						{modalGroupVisible && (
+							<ModalGroupCreationComplete
+								modalVisible={modalGroupVisible}
+								setModalVisible={setModalGroupVisible}
+							/>
+						)}
+					</View>
 				) : (
 					<View style={ConnectStyles.cardContainer}>
 						<View style={ConnectStyles.flatlist}>
@@ -199,7 +258,11 @@ const ConnectPage = () => {
 								contentContainerStyle={
 									ConnectStyles.flatlistContent
 								}
-								data={profileDataList}
+								data={
+									searchData === null
+										? profileDataList
+										: searchData
+								}
 								renderItem={({ item }) => (
 									<ConnectCard {...item} tags={item.tags} />
 								)}
