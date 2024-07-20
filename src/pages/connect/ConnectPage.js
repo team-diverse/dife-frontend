@@ -30,23 +30,29 @@ const ConnectPage = () => {
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
+	const { onboardingData } = useOnboarding();
 	const RANDOM_MEMBER_COUNT = 10;
+
+	const formatProfileData = (data) => {
+		function cleanHobbies(hobbies) {
+			return hobbies.map((hobby) => hobby.replace(/[\[\]"]/g, ""));
+		}
+		return data.map((item) => {
+			if (item.mbti !== null) {
+				const cleanedHobbies = cleanHobbies(item.hobbies);
+				const tags = [item.mbti, ...cleanedHobbies];
+				return { ...item, tags };
+			}
+			return item;
+		});
+	};
 
 	const cardProfiles = async () => {
 		try {
 			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
-
-			function cleanHobbies(hobbies) {
-				return hobbies.map((hobby) => hobby.replace(/[\[\]"]/g, ""));
-			}
-			const updatedData = response.data.map((data) => {
-				if (data.mbti !== null) {
-					const cleanedHobbies = cleanHobbies(data.hobbies);
-					const tags = [data.mbti, ...cleanedHobbies];
-					return { ...data, tags };
-				}
-				return data;
-			});
+			const updatedData = formatProfileData(response.data);
+			setSearchData(null);
+			setSearchTerm("");
 			setProfileDataList(updatedData);
 		} catch (error) {
 			console.error(
@@ -76,8 +82,8 @@ const ConnectPage = () => {
 	const handleSearch = async () => {
 		try {
 			const response = await getConnectSearch(searchTerm);
-			setSearchData(response.data);
-			console.log(response.data);
+			const updatedData = formatProfileData(response.data);
+			setSearchData(updatedData);
 		} catch (error) {
 			console.error(
 				"커넥트 검색 오류:",
@@ -108,6 +114,11 @@ const ConnectPage = () => {
 		setIsIndividualTab(true);
 	};
 
+	const handleFilterResponse = (response) => {
+		const updatedData = formatProfileData(response);
+		setSearchData(updatedData);
+	};
+
 	const [modalGroupVisible, setModalGroupVisible] = useState(false);
 
 	useEffect(() => {
@@ -128,10 +139,6 @@ const ConnectPage = () => {
 			headcount: 12,
 		},
 	];
-
-	useEffect(() => {
-		console.log(searchData);
-	}, [searchData]);
 
 	return (
 		<View style={ConnectStyles.container}>
@@ -156,6 +163,7 @@ const ConnectPage = () => {
 					<FilterBottomSlide
 						modalVisible={modalVisible}
 						setModalVisible={setModalVisible}
+						onFilterResponse={handleFilterResponse}
 					/>
 					<GroupFilterBottomSlide
 						modalVisible={groupModalVisible}

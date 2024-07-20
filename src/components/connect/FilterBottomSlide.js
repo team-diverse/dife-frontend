@@ -11,7 +11,10 @@ import {
 	TouchableOpacity,
 	ScrollView,
 } from "react-native";
+
 import { CustomTheme } from "@styles/CustomTheme";
+import { getConnectFilter } from "config/api";
+
 import Collapsible from "react-native-collapsible";
 import InfoCircle from "@components/common/InfoCircle";
 import FilterArrowBottom from "@components/connect/FilterArrowBottom";
@@ -22,8 +25,11 @@ import ApplyButton from "@components/common/ApplyButton";
 
 const { fontCaption } = CustomTheme;
 
-const FilterBottomSlide = (props) => {
-	const { modalVisible, setModalVisible } = props;
+const FilterBottomSlide = ({
+	modalVisible,
+	setModalVisible,
+	onFilterResponse,
+}) => {
 	const screenHeight = Dimensions.get("screen").height;
 	const panY = useRef(new Animated.Value(screenHeight)).current;
 
@@ -62,10 +68,10 @@ const FilterBottomSlide = (props) => {
 	).current;
 
 	useEffect(() => {
-		if (props.modalVisible) {
+		if (modalVisible) {
 			resetBottomSheet.start();
 		}
-	}, [props.modalVisible]);
+	}, [modalVisible]);
 
 	const closeModal = () => {
 		closeBottomSheet.start(() => {
@@ -186,6 +192,31 @@ const FilterBottomSlide = (props) => {
 		}
 	};
 
+	const encoded = (selected) => {
+		const encoded = selected.map((item) => item);
+		return `${encoded.join(",")}`;
+	};
+
+	const handleFilter = async () => {
+		try {
+			const response = await getConnectFilter(
+				encoded(selectedMBTI),
+				encoded(selectedHobby),
+				encoded(selectedLanguage),
+			);
+			onFilterResponse(response.data);
+			setModalVisible(false);
+			setSelectedMBTI([]);
+			setSelectedHobby([]);
+			setSelectedLanguage([]);
+		} catch (error) {
+			console.error(
+				"필터 검색 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	return (
 		<Modal
 			visible={modalVisible}
@@ -234,7 +265,7 @@ const FilterBottomSlide = (props) => {
 											<FilterCategory
 												key={typeIndex}
 												text={type}
-												mbtiCount={selectedMBTI.length}
+												mbtiCnt={selectedMBTI.length}
 												onPress={() =>
 													handleSelectMBTI(type)
 												}
@@ -273,9 +304,7 @@ const FilterBottomSlide = (props) => {
 											<FilterCategory
 												key={typeIndex}
 												text={type}
-												hobbyCount={
-													selectedHobby.length
-												}
+												hobbyCnt={selectedHobby.length}
 												onPress={() =>
 													handleSelectHobby(type)
 												}
@@ -315,7 +344,11 @@ const FilterBottomSlide = (props) => {
 						</Collapsible>
 					</ScrollView>
 
-					<ApplyButton text="적용하기" background="true" />
+					<ApplyButton
+						text="적용하기"
+						background="true"
+						onPress={handleFilter}
+					/>
 				</Animated.View>
 			</View>
 		</Modal>
