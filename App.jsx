@@ -14,35 +14,37 @@ import HomePage from "@pages/home/HomePage";
 import CommunityPage from "@pages/community/CommunityPage";
 import MemberPage from "@pages/member/MemberPage";
 
-import EventPage from '@pages/home/EventPage';
-import NotificationPage from '@pages/home/NotificationPage';
-import ConnectLikeUserPage from '@pages/connect/ConnectLikeUserPage';
-import ConnectProfilePage from '@pages/connect/ConnectProfilePage';
-import LoginPage from '@pages/login/LoginPage';
-import FindPasswordPage from '@pages/login/FindPasswordPage';
-import FindPasswordVerifyingPage from '@pages/login/FindPasswordVerifyingPage';
-import SignUpPage from '@pages/login/SignUpPage';
-import AccessPage from '@pages/login/AccessPage';
-import NicknamePage from '@pages/onboarding/NicknamePage'
-import ProfilePage from '@pages/onboarding/ProfilePage'
-import ProfileMbtiPage from '@pages/onboarding/ProfileMbtiPage'
-import ProfileHobbyPage from '@pages/onboarding/ProfileHobbyPage'
-import ProfileLanguagePage from '@pages/onboarding/ProfileLanguagePage'
-import StudentVerificationPage from '@pages/onboarding/StudentVerificationPage'
-import CompleteProfilePage from '@pages/onboarding/CompleteProfilePage'
-import LoadingVerificationPage from '@pages/onboarding/LoadingVerificationPage'
-import BookmarkPage from '@pages/chat/BookmarkPage';
-import FriendListPage from '@pages/chat/FriendListPage'
-import ChatRoomPage from '@pages/chat/ChatRoomPage'
-import TipCommunityPage from '@pages/community/TipCommunityPage';
-import FreeCommunityPage from '@pages/community/FreeCommunityPage';
-import WritePage from '@pages/community/WritePage';
-import PostPage from '@pages/community/PostPage';
+import EventPage from "@pages/home/EventPage";
+import NotificationPage from "@pages/home/NotificationPage";
+import ConnectLikeUserPage from "@pages/connect/ConnectLikeUserPage";
+import ConnectProfilePage from "@pages/connect/ConnectProfilePage";
+import LoginPage from "@pages/login/LoginPage";
+import FindPasswordPage from "@pages/login/FindPasswordPage";
+import FindPasswordVerifyingPage from "@pages/login/FindPasswordVerifyingPage";
+import SignUpPage from "@pages/login/SignUpPage";
+import AccessPage from "@pages/login/AccessPage";
+import NicknamePage from "@pages/onboarding/NicknamePage";
+import ProfilePage from "@pages/onboarding/ProfilePage";
+import ProfileMbtiPage from "@pages/onboarding/ProfileMbtiPage";
+import ProfileHobbyPage from "@pages/onboarding/ProfileHobbyPage";
+import ProfileLanguagePage from "@pages/onboarding/ProfileLanguagePage";
+import StudentVerificationPage from "@pages/onboarding/StudentVerificationPage";
+import CompleteProfilePage from "@pages/onboarding/CompleteProfilePage";
+import LoadingVerificationPage from "@pages/onboarding/LoadingVerificationPage";
+import BookmarkPage from "@pages/chat/BookmarkPage";
+import FriendListPage from "@pages/chat/FriendListPage";
+import ChatRoomPage from "@pages/chat/ChatRoomPage";
+import TipCommunityPage from "@pages/community/TipCommunityPage";
+import FreeCommunityPage from "@pages/community/FreeCommunityPage";
+import WritePage from "@pages/community/WritePage";
+import PostPage from "@pages/community/PostPage";
 import GroupListPage from "@pages/member/GroupListPage";
 import GroupProfilePage from "@pages/connect/GroupProfilePage";
 import GroupCreatedPage from "@pages/connect/GroupCreatedPage";
 import GroupCreatedDetailPage from "@pages/connect/GroupCreatedDetailPage";
 import GroupProfilePreviewPage from "@pages/connect/GroupProfilePreviewPage";
+import MyPostPage from "@pages/member/MyPostPage";
+import PostModifyPage from "@pages/community/PostModifyPage";
 
 import ChatDf24 from "@components/Icon24/ChatDf24";
 import ConnectDf24 from "@components/Icon24/ConnectDf24";
@@ -55,9 +57,6 @@ import ConnectAc32 from "@components/Icon32/ConnectAc32";
 import HomeAc32 from "@components/Icon32/HomeAc32";
 import CommuAc32 from "@components/Icon32/CommuAc32";
 import MyAc32 from "@components/Icon32/MyAc32";
-import GroupCreatedPage from "@pages/connect/GroupCreatedPage";
-import GroupCreatedDetailPage from "@pages/connect/GroupCreatedDetailPage";
-import GroupProfilePreviewPage from "@pages/connect/GroupProfilePreviewPage";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -182,71 +181,47 @@ function AppContent() {
 }
 
 function MainNavigator() {
-    return (
-        <Stack.Navigator
-            initialRouteName="Main"
-            screenOptions={{ headerShown: false }}
-        >
-            <Stack.Screen
-                name="Main"
-                component={MainTabs}
-                options={{ headerShown: false }}
-            />
-            <Stack.Screen
-                name="ConnectProfilePage"
-                component={ConnectProfilePage}
-                options={{ headerShown: false }}
-            />
-            <Stack.Screen
-                name="NotificationPage"
-                component={NotificationPage}
-            />
-            <Stack.Screen name="EventPage" component={EventPage} />
-            <Stack.Screen
-                name="ConnectLikeUserPage"
-                component={ConnectLikeUserPage}
-            />
-            <Stack.Screen
-                name="BookmarkPage"
-                component={BookmarkPage}
-            />
-            <Stack.Screen
-                name="FriendListPage"
-                component={FriendListPage}
-            />
-            <Stack.Screen
-                name="ChatRoomPage"
-                component={ChatRoomPage}
-            />
-            <Stack.Screen
-                name="TipCommunityPage"
-                component={TipCommunityPage}
-            />
-            <Stack.Screen
-                name="FreeCommunityPage"
-                component={FreeCommunityPage}
-            />
-            <Stack.Screen
-                name="WritePage"
-                component={WritePage}
-            />
-            <Stack.Screen
-                name="PostPage"
-                component={PostPage}
-            />
-            <Stack.Screen
-                name="PostModifyPage"
-                component={PostModifyPage}
-            />
-            <Stack.Screen
-                name="MyPostPage"
-                component={MyPostPage}
-            />
-             <Stack.Screen
-                name="GroupListPage"
-                component={GroupListPage}
-            />
-                  <Stack.Screen
+	return (
+		<Stack.Navigator
+			initialRouteName="Main"
+			screenOptions={{ headerShown: false }}
+		>
+			<Stack.Screen
+				name="Main"
+				component={MainTabs}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="ConnectProfilePage"
+				component={ConnectProfilePage}
+				options={{ headerShown: false }}
+			/>
+			<Stack.Screen
+				name="NotificationPage"
+				component={NotificationPage}
+			/>
+			<Stack.Screen name="EventPage" component={EventPage} />
+			<Stack.Screen
+				name="ConnectLikeUserPage"
+				component={ConnectLikeUserPage}
+			/>
+			<Stack.Screen name="BookmarkPage" component={BookmarkPage} />
+			<Stack.Screen name="FriendListPage" component={FriendListPage} />
+			<Stack.Screen name="ChatRoomPage" component={ChatRoomPage} />
+			<Stack.Screen
+				name="TipCommunityPage"
+				component={TipCommunityPage}
+			/>
+			<Stack.Screen
+				name="FreeCommunityPage"
+				component={FreeCommunityPage}
+			/>
+			<Stack.Screen name="WritePage" component={WritePage} />
+			<Stack.Screen name="PostPage" component={PostPage} />
+			<Stack.Screen name="PostModifyPage" component={PostModifyPage} />
+			<Stack.Screen name="MyPostPage" component={MyPostPage} />
+			<Stack.Screen name="GroupListPage" component={GroupListPage} />
+			<Stack.Screen
 				name="GroupProfilePage"
 				component={GroupProfilePage}
 			/>
@@ -262,8 +237,8 @@ function MainNavigator() {
 				name="GroupProfilePreviewPage"
 				component={GroupProfilePreviewPage}
 			/>
-        </Stack.Navigator>
-    );
+		</Stack.Navigator>
+	);
 }
 
 function AuthNavigator({ initialRoute }) {

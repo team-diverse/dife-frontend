@@ -19,39 +19,40 @@ const ItemCommunity = ({ props }) => {
 		return `${month}/${day}`;
 	};
 
-  return (
-    <>
-    {props.map((post, index) => (
-      <TouchableOpacity key={index} style={styles.ItemCommunity} onPress={() => navigation.navigate('PostPage', { id: post.id })}>
-        <View style={styles.containerRow}>
-          <View>
-            <Text style={[styles.textPostTitle, post.image ? { width: 196 } : {}]}>{post.title}</Text>
-            <Text style={[styles.textPostContext, post.image ? { width: 196 } : {}]}>{post.content}</Text>
-          
-            <View style={styles.containerTextRow}>
-              <View style={styles.containerText}>
-                <IconHeart />
-                <Text style={styles.text}>{post.likesCount}</Text>
-              </View>
-              <View style={styles.containerText}>
-                <IconBookmark /> 
-                <Text style={styles.text}>{post.bookmark}</Text>
-              </View>
-              <View style={styles.containerText}>
-                <IconComment />
-                <Text style={styles.text}>{post.comment}</Text>
-              </View>
-              <View style={styles.containerText}>
-                <Text style={styles.text}>{date(post.created)}</Text>
-              </View>
-            </View>
-          </View>
+	return (
+		<>
+			{props.map((post, index) => (
+				<TouchableOpacity
+					key={index}
+					style={styles.ItemCommunity}
+					onPress={() =>
+						navigation.navigate("PostPage", { id: post.id })
+					}
+				>
+					<View style={styles.containerRow}>
+						<View>
+							<Text
+								style={[
+									styles.textPostTitle,
+									post.image ? { width: 196 } : {},
+								]}
+							>
+								{post.title}
+							</Text>
+							<Text
+								style={[
+									styles.textPostContext,
+									post.image ? { width: 196 } : {},
+								]}
+							>
+								{post.content}
+							</Text>
 
 							<View style={styles.containerTextRow}>
 								<View style={styles.containerText}>
 									<IconHeart />
 									<Text style={styles.text}>
-										{post.heart}
+										{post.likesCount}
 									</Text>
 								</View>
 								<View style={styles.containerText}>
@@ -74,13 +75,30 @@ const ItemCommunity = ({ props }) => {
 							</View>
 						</View>
 
-						{post.image && (
-							<Image
-								source={post.image}
-								style={styles.imagePost}
-							/>
-						)}
+						<View style={styles.containerTextRow}>
+							<View style={styles.containerText}>
+								<IconHeart />
+								<Text style={styles.text}>{post.heart}</Text>
+							</View>
+							<View style={styles.containerText}>
+								<IconBookmark />
+								<Text style={styles.text}>{post.bookmark}</Text>
+							</View>
+							<View style={styles.containerText}>
+								<IconComment />
+								<Text style={styles.text}>{post.comment}</Text>
+							</View>
+							<View style={styles.containerText}>
+								<Text style={styles.text}>
+									{date(post.created)}
+								</Text>
+							</View>
+						</View>
 					</View>
+
+					{post.image && (
+						<Image source={post.image} style={styles.imagePost} />
+					)}
 				</TouchableOpacity>
 			))}
 		</>

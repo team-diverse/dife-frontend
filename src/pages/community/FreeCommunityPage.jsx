@@ -54,52 +54,70 @@ const FreeCommunityPage = () => {
 
 	const [postList, setPostList] = useState([]);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      const freeCommunity = async () => {
-        try {
-          const response = await getPostsByType('FREE')
-          setPostList(response.data);
-        } catch {
-          console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
-        }
-      }
+	useFocusEffect(
+		React.useCallback(() => {
+			const freeCommunity = async () => {
+				try {
+					const response = await getPostsByType("FREE");
+					setPostList(response.data);
+				} catch (error) {
+					console.error(
+						"게시글 조회 오류:",
+						error.response ? error.response.data : error.message,
+					);
+				}
+			};
 
-      freeCommunity();
-    }, [])
-  );
+			freeCommunity();
+		}, []),
+	);
 
-  return (
-    <View style={FreeCommunityStyles.container}>
-      <View style={FreeCommunityStyles.backgroundBlue} />
-        <TouchableOpacity style={FreeCommunityStyles.iconPostPlus} onPress={() => navigation.navigate('WritePage', { noticeboard: '자유게시판' })}>
-          <IconPostPlus />
-        </TouchableOpacity>
-        <SafeAreaView style={FreeCommunityStyles.safeAreaView}>
-          <View style={FreeCommunityStyles.connectTop}>
-            <ConnectTop/>
-          </View>
-          <View style={FreeCommunityStyles.containerTextIcon}>
-            <Text style={FreeCommunityStyles.textChattingTitle}>자유게시판</Text>
-            <IconBookmark style={FreeCommunityStyles.iconBookmark} />
-          </View>
-          <View style={FreeCommunityStyles.containerSearch}>
-            <View style={FreeCommunityStyles.containerSearchIcon}>
-              <TextInput
-                  style={FreeCommunityStyles.search}
-                  placeholder="검색"
-                  value={searchTerm}
-                  onChangeText={setSearchTerm}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                />
-                {isSearching ? (
-                  <ConnectSearchCancel style={FreeCommunityStyles.searchIcon} onPress={handleCancel} />
-                ) : (
-                  <ConnectSearchIcon style={FreeCommunityStyles.searchIcon} onPress={handleSearch} />
-              )}
-            </View>
-          </View>
+	return (
+		<View style={FreeCommunityStyles.container}>
+			<View style={FreeCommunityStyles.backgroundBlue} />
+			<TouchableOpacity
+				style={FreeCommunityStyles.iconPostPlus}
+				onPress={() =>
+					navigation.navigate("WritePage", {
+						noticeboard: "자유게시판",
+					})
+				}
+			>
+				<IconPostPlus />
+			</TouchableOpacity>
+			<SafeAreaView style={FreeCommunityStyles.safeAreaView}>
+				<View style={FreeCommunityStyles.connectTop}>
+					<ConnectTop />
+				</View>
+				<View style={FreeCommunityStyles.containerTextIcon}>
+					<Text style={FreeCommunityStyles.textChattingTitle}>
+						자유게시판
+					</Text>
+					<IconBookmark style={FreeCommunityStyles.iconBookmark} />
+				</View>
+				<View style={FreeCommunityStyles.containerSearch}>
+					<View style={FreeCommunityStyles.containerSearchIcon}>
+						<TextInput
+							style={FreeCommunityStyles.search}
+							placeholder="검색"
+							value={searchTerm}
+							onChangeText={setSearchTerm}
+							onFocus={handleFocus}
+							onBlur={handleBlur}
+						/>
+						{isSearching ? (
+							<ConnectSearchCancel
+								style={FreeCommunityStyles.searchIcon}
+								onPress={handleCancel}
+							/>
+						) : (
+							<ConnectSearchIcon
+								style={FreeCommunityStyles.searchIcon}
+								onPress={handleSearch}
+							/>
+						)}
+					</View>
+				</View>
 
 				<ScrollView>
 					<View style={FreeCommunityStyles.itemCommunity}>

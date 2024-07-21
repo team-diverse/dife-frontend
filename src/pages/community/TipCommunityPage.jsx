@@ -54,52 +54,70 @@ const TipCommunityPage = () => {
 
 	const [postList, setPostList] = useState([]);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      const tipCommunity = async () => {
-        try {
-          const response = await getPostsByType('TIP')
-          setPostList(response.data);
-        } catch {
-          console.error('게시글 조회 오류:', error.response ? error.response.data : error.message);
-        }
-      }
+	useFocusEffect(
+		React.useCallback(() => {
+			const tipCommunity = async () => {
+				try {
+					const response = await getPostsByType("TIP");
+					setPostList(response.data);
+				} catch (error) {
+					console.error(
+						"게시글 조회 오류:",
+						error.response ? error.response.data : error.message,
+					);
+				}
+			};
 
-      tipCommunity();
-    }, [])
-  );
+			tipCommunity();
+		}, []),
+	);
 
-  return (
-    <View style={TipCommunityStyles.container}>
-      <View style={TipCommunityStyles.backgroundBlue} />
-        <TouchableOpacity style={TipCommunityStyles.iconPostPlus} onPress={() => navigation.navigate('WritePage', { noticeboard: '꿀팁게시판' })}>
-          <IconPostPlus />
-        </TouchableOpacity>
-        <SafeAreaView style={TipCommunityStyles.safeAreaView}>
-          <View style={TipCommunityStyles.connectTop}>
-            <ConnectTop />
-          </View>
-          <View style={TipCommunityStyles.containerTextIcon}>
-            <Text style={TipCommunityStyles.textChattingTitle}>꿀팁게시판</Text>
-            <IconBookmark style={TipCommunityStyles.iconBookmark} />
-          </View>
-          <View style={TipCommunityStyles.containerSearch}>
-            <View style={TipCommunityStyles.containerSearchIcon}>
-              <TextInput
-                  style={TipCommunityStyles.search}
-                  placeholder="검색"
-                  value={searchTerm}
-                  onChangeText={setSearchTerm}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                />
-                {isSearching ? (
-                  <ConnectSearchCancel style={TipCommunityStyles.searchIcon} onPress={handleCancel} />
-                ) : (
-                  <ConnectSearchIcon style={TipCommunityStyles.searchIcon} onPress={handleSearch} />
-              )}
-            </View>
-          </View>
+	return (
+		<View style={TipCommunityStyles.container}>
+			<View style={TipCommunityStyles.backgroundBlue} />
+			<TouchableOpacity
+				style={TipCommunityStyles.iconPostPlus}
+				onPress={() =>
+					navigation.navigate("WritePage", {
+						noticeboard: "꿀팁게시판",
+					})
+				}
+			>
+				<IconPostPlus />
+			</TouchableOpacity>
+			<SafeAreaView style={TipCommunityStyles.safeAreaView}>
+				<View style={TipCommunityStyles.connectTop}>
+					<ConnectTop />
+				</View>
+				<View style={TipCommunityStyles.containerTextIcon}>
+					<Text style={TipCommunityStyles.textChattingTitle}>
+						꿀팁게시판
+					</Text>
+					<IconBookmark style={TipCommunityStyles.iconBookmark} />
+				</View>
+				<View style={TipCommunityStyles.containerSearch}>
+					<View style={TipCommunityStyles.containerSearchIcon}>
+						<TextInput
+							style={TipCommunityStyles.search}
+							placeholder="검색"
+							value={searchTerm}
+							onChangeText={setSearchTerm}
+							onFocus={handleFocus}
+							onBlur={handleBlur}
+						/>
+						{isSearching ? (
+							<ConnectSearchCancel
+								style={TipCommunityStyles.searchIcon}
+								onPress={handleCancel}
+							/>
+						) : (
+							<ConnectSearchIcon
+								style={TipCommunityStyles.searchIcon}
+								onPress={handleSearch}
+							/>
+						)}
+					</View>
+				</View>
 
 				<ScrollView>
 					<View style={TipCommunityStyles.itemCommunity}>

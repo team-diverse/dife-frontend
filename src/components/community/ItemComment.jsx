@@ -1,92 +1,135 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
-import { CustomTheme } from '@styles/CustomTheme';
-import { postHeart } from 'config/api';
+import { CustomTheme } from "@styles/CustomTheme";
+import { postHeart } from "config/api";
 
-import IconHeart from '@components/community/IconHeart';
-import IconBookmark from '@components/community/IconBookmark';
-import IconKebabMenu from '@components/community/IconKebabMenu';
+import IconHeart from "@components/community/IconHeart";
+import IconBookmark from "@components/community/IconBookmark";
+import IconKebabMenu from "@components/community/IconKebabMenu";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
 const ItemComment = ({ props, id }) => {
-  const date = (date) => {
-    const datePart = date.split('T')[0];
-    const [year, month, day] = datePart.split('-');
-    return `${month}/${day}`;
-  };
+	const date = (date) => {
+		const datePart = date.split("T")[0];
+		const [year, month, day] = datePart.split("-");
+		return `${month}/${day}`;
+	};
 
-  const [pressHeart, setPressHeart] = useState({});
-  const initialHeartCounts = props.map(post => ({ id: post.id, likesCount: post.likesCount }));
-  const [heartCounts, setHeartCounts] = useState(initialHeartCounts);
+	const [pressHeart, setPressHeart] = useState({});
+	const initialHeartCounts = props.map((post) => ({
+		id: post.id,
+		likesCount: post.likesCount,
+	}));
+	const [heartCounts, setHeartCounts] = useState(initialHeartCounts);
 
-  useEffect(() => {
-    setHeartCounts(props.map(post => ({ id: post.id, likesCount: post.likesCount })));
-  }, [props]);
+	useEffect(() => {
+		setHeartCounts(
+			props.map((post) => ({ id: post.id, likesCount: post.likesCount })),
+		);
+	}, [props]);
 
-  const heartCommentAlert = async (commentId) => {
-    try {
-      await postHeart('COMMENT', id, commentId);
-      console.log('댓글 좋아요 성공');
-    } catch (error) {
-      console.error('댓글 좋아요 실패:', error.response ? error.response.data : error.message);
-      setPressHeart(prevState => ({ ...prevState, [commentId]: false }));
-      setHeartCounts(prevHeartCounts => (
-        prevHeartCounts.map(item => item.id === commentId ? { ...item, likesCount: item.likesCount - 1 } : item)
-      ));
-    }
-  };
+	const heartCommentAlert = async (commentId) => {
+		try {
+			await postHeart("COMMENT", id, commentId);
+			console.log("댓글 좋아요 성공");
+		} catch (error) {
+			console.error(
+				"댓글 좋아요 실패:",
+				error.response ? error.response.data : error.message,
+			);
+			setPressHeart((prevState) => ({
+				...prevState,
+				[commentId]: false,
+			}));
+			setHeartCounts((prevHeartCounts) =>
+				prevHeartCounts.map((item) =>
+					item.id === commentId
+						? { ...item, likesCount: item.likesCount - 1 }
+						: item,
+				),
+			);
+		}
+	};
 
-  const handleHeart = (commentId) => {
-    Alert.alert(
-      "",
-      "이 댓글에 좋아요를 누르시겠습니까?",
-      [
-        {
-          text: "취소",
-          style: "cancel"
-        },
-        {
-          text: "확인",
-          onPress: () => {
-            setPressHeart(prevState => ({ ...prevState, [commentId]: true }));
-            setHeartCounts(prevHeartCounts => (
-              prevHeartCounts.map(item => item.id === commentId ? { ...item, likesCount: item.likesCount + 1 } : item)
-            ));
-            heartCommentAlert(commentId);
-          }
-        }
-      ],
-      { cancelable: false }
-    );
-  };
+	const handleHeart = (commentId) => {
+		Alert.alert(
+			"",
+			"이 댓글에 좋아요를 누르시겠습니까?",
+			[
+				{
+					text: "취소",
+					style: "cancel",
+				},
+				{
+					text: "확인",
+					onPress: () => {
+						setPressHeart((prevState) => ({
+							...prevState,
+							[commentId]: true,
+						}));
+						setHeartCounts((prevHeartCounts) =>
+							prevHeartCounts.map((item) =>
+								item.id === commentId
+									? {
+											...item,
+											likesCount: item.likesCount + 1,
+										}
+									: item,
+							),
+						);
+						heartCommentAlert(commentId);
+					},
+				},
+			],
+			{ cancelable: false },
+		);
+	};
 
-  return (
-    <>
-      {props.map((post, index) => (
-        <View key={index} style={styles.ItemCommunity}>
-          <View style={styles.containerRow}>
-            <View>
-              <Text style={styles.textPostTitle}>{post.isPublic ? '익명' : post.writer.username}</Text>
-              <Text style={styles.textPostContext}>{post.content}</Text>
-              
-              <View style={styles.containerTextRow}>
-                <TouchableOpacity style={styles.containerText} onPress={() => handleHeart(post.id)}>
-                  <IconHeart active={pressHeart[post.id]} />
-                  <Text style={styles.text}>
-                    {heartCounts.find(item => item.id === post.id)?.likesCount !== undefined ? heartCounts.find(item => item.id === post.id).likesCount : post.likesCount}
-                  </Text>
-                </TouchableOpacity>
-                <View style={styles.containerText}>
-                  <IconBookmark />
-                  <Text style={styles.text}>{post.bookmark}</Text>
-                </View>
-                <View style={styles.containerText}>
-                  <Text style={styles.text}>{date(post.created)}</Text>
-                </View>
-              </View>
-            </View>
+	return (
+		<>
+			{props.map((post, index) => (
+				<View key={index} style={styles.ItemCommunity}>
+					<View style={styles.containerRow}>
+						<View>
+							<Text style={styles.textPostTitle}>
+								{post.isPublic ? "익명" : post.writer.username}
+							</Text>
+							<Text style={styles.textPostContext}>
+								{post.content}
+							</Text>
+
+							<View style={styles.containerTextRow}>
+								<TouchableOpacity
+									style={styles.containerText}
+									onPress={() => handleHeart(post.id)}
+								>
+									<IconHeart active={pressHeart[post.id]} />
+									<Text style={styles.text}>
+										{heartCounts.find(
+											(item) => item.id === post.id,
+										)?.likesCount !== undefined
+											? heartCounts.find(
+													(item) =>
+														item.id === post.id,
+												).likesCount
+											: post.likesCount}
+									</Text>
+								</TouchableOpacity>
+								<View style={styles.containerText}>
+									<IconBookmark />
+									<Text style={styles.text}>
+										{post.bookmark}
+									</Text>
+								</View>
+								<View style={styles.containerText}>
+									<Text style={styles.text}>
+										{date(post.created)}
+									</Text>
+								</View>
+							</View>
+						</View>
 
 						<IconKebabMenu style={styles.iconKebabMenu} />
 						<TouchableOpacity style={styles.textTranslation}>
