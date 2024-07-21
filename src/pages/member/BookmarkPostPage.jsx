@@ -14,6 +14,7 @@ const BookmarkPostPage = () => {
 			try {
 				const bookmarkPostResponse = await getBookmarkPost();
 				setBookmarkPostList(bookmarkPostResponse.data);
+				console.log(bookmarkPostResponse.data);
 			} catch (error) {
 				console.error(
 					"북마크한 게시글 조회 오류:",
@@ -28,7 +29,10 @@ const BookmarkPostPage = () => {
 		<View style={BookmarkPostStyles.container}>
 			<ScrollView>
 				<View style={BookmarkPostStyles.itemLikeBookmark}>
-					<ItemLikeBookmark props={bookmarkPostList} />
+					<ItemLikeBookmark
+						props={bookmarkPostList}
+						type="bookmark"
+					/>
 				</View>
 			</ScrollView>
 		</View>

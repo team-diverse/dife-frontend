@@ -6,7 +6,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemLikeBookmark = ({ props }) => {
+const ItemLikeBookmark = ({ props, type = "like" }) => {
 	const navigation = useNavigation();
 
 	return (
@@ -27,7 +27,7 @@ const ItemLikeBookmark = ({ props }) => {
 									post.image ? { width: 196 } : {},
 								]}
 							>
-								{post.title}
+								{type === "like" ? post.title : post.post.title}
 							</Text>
 							<Text
 								style={[
@@ -35,7 +35,9 @@ const ItemLikeBookmark = ({ props }) => {
 									post.image ? { width: 196 } : {},
 								]}
 							>
-								{post.content}
+								{type === "like"
+									? post.content
+									: post.post.content}
 							</Text>
 						</View>
 
@@ -55,10 +57,10 @@ const ItemLikeBookmark = ({ props }) => {
 const styles = StyleSheet.create({
 	ItemCommunity: {
 		width: "100%",
-		height: 78,
+		height: 62,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
-		borderWidth: 2,
+		borderWidth: 3,
 		borderColor: CustomTheme.primaryBg,
 		paddingHorizontal: 20,
 		justifyContent: "center",

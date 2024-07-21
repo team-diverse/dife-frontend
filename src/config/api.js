@@ -139,10 +139,18 @@ export const getCommentById = (id) => {
 	return api.get(`comments/${id}`);
 };
 
-export const postHeart = (type, id, commentId) => {
+export const createLike = (type, postId, commentId) => {
 	return api.post("/likes", {
 		type: type,
-		postId: id,
+		postId: postId,
 		commentId: commentId,
+	});
+};
+
+export const createBookmark = (chatroomId, chatId, postId) => {
+	return api.post("/bookmarks", {
+		chatroomId: chatroomId,
+		chatId: chatId,
+		postId: postId,
 	});
 };

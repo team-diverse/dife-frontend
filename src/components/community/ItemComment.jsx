@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { postHeart } from "config/api";
+import { createLike } from "config/api";
 
 import IconHeart from "@components/community/IconHeart";
 import IconBookmark from "@components/community/IconBookmark";
@@ -32,7 +32,7 @@ const ItemComment = ({ props, id }) => {
 
 	const heartCommentAlert = async (commentId) => {
 		try {
-			await postHeart("COMMENT", id, commentId);
+			await createLike("COMMENT", id, commentId);
 			console.log("댓글 좋아요 성공");
 		} catch (error) {
 			console.error(
@@ -125,7 +125,7 @@ const ItemComment = ({ props, id }) => {
 								</View>
 								<View style={styles.containerText}>
 									<Text style={styles.text}>
-										{date(post.created)}
+										{date(post.date)}
 									</Text>
 								</View>
 							</View>
