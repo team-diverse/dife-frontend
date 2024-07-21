@@ -12,10 +12,10 @@ const { fontCaption, fontNavi } = CustomTheme;
 
 const ItemComment = ({ props, id }) => {
   const date = (date) => {
-    const datePart = date.split("T")[0];
-    const [year, month, day] = datePart.split("-");
-    return `${month}/${day}`;
-  };
+		const datePart = date.split("T")[0];
+		const monthDay = datePart.slice(5);
+		return monthDay.replace("-", "/");
+	};
 
   const { onboardingData } = useOnboarding();
   const [pressHeart, setPressHeart] = useState({});

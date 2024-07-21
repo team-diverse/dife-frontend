@@ -12,6 +12,7 @@ import {
   Alert,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import * as SecureStore from "expo-secure-store";
 
 import PostStyles from "@pages/community/PostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -63,11 +64,11 @@ const PostPage = ({ route }) => {
 
   const difeLinesCount = Math.floor(comments.length / 1.5);
 
-  const date = (date) => {
-    const datePart = date.split("T")[0];
-    const [year, month, day] = datePart.split("-");
-    return `${month}/${day}`;
-  };
+	const date = (date) => {
+		const datePart = date.split("T")[0];
+		const monthDay = datePart.slice(5);
+		return monthDay.replace("-", "/");
+	};
 
   useFocusEffect(
     React.useCallback(() => {
