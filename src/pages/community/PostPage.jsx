@@ -11,13 +11,18 @@ import {
 	Dimensions,
 	Alert,
 } from "react-native";
-import axios from "axios";
 import { useFocusEffect } from "@react-navigation/native";
+import * as SecureStore from "expo-secure-store";
 
 import PostStyles from "@pages/community/PostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { useOnboarding } from "src/states/OnboardingContext.js";
 import { usePostModify } from "src/states/PostModifyContext";
+import {
+	getPostById,
+	getCommentById,
+	postCommentSend,
+	postHeart,
+} from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import IconProfileK from "@components/community/IconProfileK";
@@ -29,13 +34,11 @@ import Checkbox from "@components/common/Checkbox";
 import IconChatSend from "@components/chat/IconChatSend";
 import ItemComment from "@components/community/ItemComment";
 import ModalKebabMenu from "@components/community/ModalKebabMenu";
-import { getPostById } from "config/api";
 
 const PostPage = ({ route }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const { id } = route.params;
-	const { onboardingData } = useOnboarding();
 	const { updatePostModifyData } = usePostModify();
 
 	const [title, setTitle] = useState("");
@@ -46,7 +49,7 @@ const PostPage = ({ route }) => {
 	const [isPublic, setIsPublic] = useState();
 	const [created, setCreated] = useState("");
 	const [isMe, setIsMe] = useState(false);
-	const [comments] = useState([]);
+	const [comments, setComments] = useState([]);
 	const [valueComment, onChangeComment] = useState("");
 	const [isChecked, setIsChecked] = useState(false);
 
@@ -58,45 +61,56 @@ const PostPage = ({ route }) => {
 
 	const date = (date) => {
 		const datePart = date.split("T")[0];
-		const [, month, day] = datePart.split("-");
+		const [year, month, day] = datePart.split("-");
 		return `${month}/${day}`;
 	};
 
 	useFocusEffect(
 		React.useCallback(() => {
-			getPostById(id)
-				.then((response) => {
-					setTitle(response.data.title);
-					setContext(response.data.content);
-					setHeart(response.data.likesCount);
-					setBookmark(response.data.bookmarkCount);
-					setCreated(date(response.data.created));
-					setIsPublic(response.data.isPublic);
+			const postComment = async () => {
+				try {
+					const postByIdResponse = await getPostById(id);
+					const postData = postByIdResponse.data;
+					setTitle(postData.title);
+					setContext(postData.content);
+					setHeart(postData.likesCount);
+					setBookmark(postData.bookmarkCount);
+					setCreated(date(postData.created));
+					setIsPublic(postData.isPublic);
 
-					if (response.data.isPublic === false) {
-						setWriterName(response.data.writer.username);
-					} else if (response.data.isPublic === true) {
+					if (postData.isPublic === false) {
+						setWriterName(postData.writer.username);
+					} else if (postData.isPublic === true) {
 						setWriterName("익명");
 					}
 
-					if (onboardingData.id === response.data.writer.id) {
+					const memberId =
+						await SecureStore.getItemAsync("member_id");
+					if (memberId === postData.writer.id) {
 						setIsMe(true);
 						updatePostModifyData({
-							memberId: response.data.writer.id,
+							memberId: postData.writer.id,
 							id: id,
-							title: response.data.title,
-							context: response.data.content,
-							boardType: response.data.boardType,
-							isPublic: response.data.isPublic,
+							title: postData.title,
+							context: postData.content,
+							boardType: postData.boardType,
+							isPublic: postData.isPublic,
 						});
 					}
-				})
-				.catch((error) => {
+
+					const commentByIdResponse = await getCommentById(id);
+					setComments(commentByIdResponse.data);
+
+					console.log("게시글 및 댓글 조회 성공");
+				} catch (error) {
 					console.error(
-						"게시글 조회 오류:",
+						"게시글 및 댓글 조회 오류:",
 						error.response ? error.response.data : error.message,
 					);
-				});
+				}
+			};
+
+			postComment();
 		}, []),
 	);
 
@@ -135,67 +149,42 @@ const PostPage = ({ route }) => {
 
 	const windowHeight = Dimensions.get("window").height;
 
-	const handleCommentSend = () => {
-		axios
-			.post(
-				`http://192.168.45.135:8080/api/comments/${id}`,
-				{
-					content: valueComment,
-					isPublic: isChecked,
-					postId: id,
-					parentCommentId: 0,
-				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-						Accept: "application/json",
-						Authorization: `Bearer ${onboardingData.accessToken}`,
-					},
-				},
-			)
-			.then((response) => {
-				console.log("댓글 작성 성공:", response.data);
-			})
-			.catch((error) => {
-				console.error(
-					"댓글 작성 실패:",
-					error.response ? error.response.data : error.message,
-				);
-			});
+	const handleCommentSend = async () => {
+		try {
+			const commentSendResponse = await postCommentSend(
+				id,
+				valueComment,
+				isChecked,
+			);
+			console.log("댓글 작성 성공");
+
+			onChangeComment("");
+			setComments((prevComments) => [
+				...prevComments,
+				commentSendResponse.data,
+			]);
+		} catch (error) {
+			console.error(
+				"댓글 작성 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
 
 	const [pressHeart, setPressHeart] = useState();
 
-	const heartAlert = () => {
-		axios
-			.post(
-				"http://192.168.45.122:8080/api/likes",
-				{
-					type: "POST",
-					postId: id,
-					commentId: "",
-				},
-				{
-					headers: {
-						"Content-Type": "application/json",
-						Accept: "application/json",
-						Authorization: `Bearer ${onboardingData.accessToken}`,
-					},
-				},
-			)
-			.then(() => {
-				console.log("게시글 좋아요 성공");
-				setHeart((prevHeart) => prevHeart + 1);
-				setPressHeart(true);
-			})
-			.catch((error) => {
-				console.error(
-					"게시글 좋아요 실패:",
-					error.response ? error.response.data : error.message,
-				);
-				setHeart((prevHeart) => prevHeart - 1);
-				setPressHeart(false);
-			});
+	const heartAlert = async () => {
+		try {
+			const response = await postHeart("POST", id);
+			console.log("게시글 좋아요 성공");
+		} catch (error) {
+			console.error(
+				"게시글 좋아요 실패:",
+				error.response ? error.response.data : error.message,
+			);
+			setHeart((prevHeart) => prevHeart - 1);
+			setPressHeart(false);
+		}
 	};
 
 	const handleHeart = () => {

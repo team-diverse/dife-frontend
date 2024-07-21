@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
+import { getRandomMembersByCount } from "config/api";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -22,66 +23,47 @@ import FilterBottomSlide from "@components/connect/FilterBottomSlide";
 import ConnectCard from "@components/connect/ConnectCard";
 import ConnectDife from "@components/connect/ConnectDife";
 import ConnectReset from "@components/connect/ConnectReset";
-import { useOnboarding } from "src/states/OnboardingContext.js";
-import GroupFilterBottomSlide from "@components/connect/GroupFilterBottomSlide";
-import IconNewGroup from "@components/connect/IconNewGroup";
-import ModalGroupCreationComplete from "@components/connect/ModalGroupCreationComplete";
 
-const ConnectPage = ({ route }) => {
+const ConnectPage = () => {
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
-	const { onboardingData } = useOnboarding();
+	const RANDOM_MEMBER_COUNT = 10;
 
-	const cardProfiles = () => {
-		axios
-			.get("http://192.168.45.135:8080/api/members/random?count=10", {
-				headers: {
-					Authorization: `Bearer ${onboardingData.accessToken}`,
-					"Content-Type": "application/json",
-				},
-			})
-			.then((response) => {
-				function cleanHobbies(hobbies) {
-					return hobbies.map((hobby) => hobby.replace(/[[]""]/g, ""));
+	useEffect(async () => {
+		try {
+			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
+
+			function cleanHobbies(hobbies) {
+				return hobbies.map((hobby) => hobby.replace(/[\[\]"]/g, ""));
+			}
+			const updatedData = response.data.map((data) => {
+				if (data.mbti !== null) {
+					const cleanedHobbies = cleanHobbies(data.hobbies);
+					const tags = [data.mbti, ...cleanedHobbies];
+					return { ...data, tags };
 				}
-				const updatedData = response.data.map((data) => {
-					if (data.mbti !== null) {
-						const cleanedHobbies = cleanHobbies(data.hobbies);
-						const tags = [data.mbti, ...cleanedHobbies];
-						return { ...data, tags };
-					}
-					return data;
-				});
-				setProfileDataList(updatedData);
-			})
-			.catch((error) => {
-				console.error(
-					"오류:",
-					error.response ? error.response.data : error.message,
-				);
+				return data;
 			});
-	};
-
-	useEffect(() => {
-		cardProfiles();
+			setProfileDataList(updatedData);
+		} catch (error) {
+			console.error(
+				"커넥트 카드 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	}, []);
 
 	const [searchTerm, setSearchTerm] = useState("");
-	const [setSearchData] = useState([]);
+	const [searchData, setSearchData] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
 
 	const [modalVisible, setModalVisible] = useState(false);
-	const [groupModalVisible, setGroupModalVisible] = useState(false);
 
 	const [isIndividualTab, setIsIndividualTab] = useState(false);
 
 	const pressButton = () => {
-		if (isIndividualTab) {
-			setGroupModalVisible(true);
-		} else {
-			setModalVisible(true);
-		}
+		setModalVisible(true);
 	};
 
 	const handleSearch = () => {
@@ -119,27 +101,6 @@ const ConnectPage = ({ route }) => {
 		setIsIndividualTab(true);
 	};
 
-	const [modalGroupVisible, setModalGroupVisible] = useState(false);
-
-	useEffect(() => {
-		if (route.params?.modalGroupVisible) {
-			setModalGroupVisible(true);
-		}
-	}, [route.params?.modalGroupVisible]);
-
-	const grouplist = [
-		{
-			profilePresignUrl: null,
-			username: "username",
-			country: "country",
-			age: "age",
-			major: "major",
-			bio: "bio",
-			tags: ["hi"],
-			headcount: 12,
-		},
-	];
-
 	return (
 		<View style={ConnectStyles.container}>
 			<View style={ConnectStyles.backgroundBlue} />
@@ -163,10 +124,6 @@ const ConnectPage = ({ route }) => {
 					<FilterBottomSlide
 						modalVisible={modalVisible}
 						setModalVisible={setModalVisible}
-					/>
-					<GroupFilterBottomSlide
-						modalVisible={groupModalVisible}
-						setModalVisible={setGroupModalVisible}
 					/>
 					<View style={ConnectStyles.searchIconContainer}>
 						<TextInput
@@ -229,34 +186,7 @@ const ConnectPage = ({ route }) => {
 				</View>
 
 				{isIndividualTab ? (
-					<View style={ConnectStyles.cardContainer}>
-						<TouchableOpacity
-							style={ConnectStyles.iconNewGroup}
-							onPress={() =>
-								navigation.navigate("GroupCreatedPage")
-							}
-						>
-							<IconNewGroup />
-						</TouchableOpacity>
-						<View style={ConnectStyles.flatlist}>
-							<FlatList
-								contentContainerStyle={
-									ConnectStyles.flatlistContent
-								}
-								data={grouplist}
-								renderItem={({ item }) => (
-									<ConnectCard {...item} tags={item.tags} />
-								)}
-								keyExtractor={(item) => item.id}
-							/>
-						</View>
-						{modalGroupVisible && (
-							<ModalGroupCreationComplete
-								modalVisible={modalGroupVisible}
-								setModalVisible={setModalGroupVisible}
-							/>
-						)}
-					</View>
+					<></>
 				) : (
 					<View style={ConnectStyles.cardContainer}>
 						<View style={ConnectStyles.flatlist}>

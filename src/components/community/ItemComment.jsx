@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+
 import { CustomTheme } from "@styles/CustomTheme";
+import { postHeart } from "config/api";
 
 import IconHeart from "@components/community/IconHeart";
 import IconBookmark from "@components/community/IconBookmark";
@@ -8,29 +10,30 @@ import IconKebabMenu from "@components/community/IconKebabMenu";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemComment = ({ props }) => {
+const ItemComment = ({ props, id }) => {
 	const date = (date) => {
 		const datePart = date.split("T")[0];
-		const [, month, day] = datePart.split("-");
+		const [year, month, day] = datePart.split("-");
 		return `${month}/${day}`;
 	};
 
 	const [pressHeart, setPressHeart] = useState({});
-	const [heartCounts, setHeartCounts] = useState(
-		props.reduce((acc, post) => {
-			acc[post.commentId] = post.heart;
-			return acc;
-		}, {}),
-	);
+	const initialHeartCounts = props.map((post) => ({
+		id: post.id,
+		likesCount: post.likesCount,
+	}));
+	const [heartCounts, setHeartCounts] = useState(initialHeartCounts);
+
+	useEffect(() => {
+		setHeartCounts(
+			props.map((post) => ({ id: post.id, likesCount: post.likesCount })),
+		);
+	}, [props]);
 
 	const heartCommentAlert = async (commentId) => {
 		try {
+			await postHeart("COMMENT", id, commentId);
 			console.log("댓글 좋아요 성공");
-			setPressHeart((prevState) => ({ ...prevState, [commentId]: true }));
-			setHeartCounts((prevState) => ({
-				...prevState,
-				[commentId]: prevState[commentId] + 1,
-			}));
 		} catch (error) {
 			console.error(
 				"댓글 좋아요 실패:",
@@ -40,10 +43,13 @@ const ItemComment = ({ props }) => {
 				...prevState,
 				[commentId]: false,
 			}));
-			setHeartCounts((prevState) => ({
-				...prevState,
-				[commentId]: prevState[commentId] - 1,
-			}));
+			setHeartCounts((prevHeartCounts) =>
+				prevHeartCounts.map((item) =>
+					item.id === commentId
+						? { ...item, likesCount: item.likesCount - 1 }
+						: item,
+				),
+			);
 		}
 	};
 
@@ -63,10 +69,16 @@ const ItemComment = ({ props }) => {
 							...prevState,
 							[commentId]: true,
 						}));
-						setHeartCounts((prevState) => ({
-							...prevState,
-							[commentId]: prevState[commentId] + 1,
-						}));
+						setHeartCounts((prevHeartCounts) =>
+							prevHeartCounts.map((item) =>
+								item.id === commentId
+									? {
+											...item,
+											likesCount: item.likesCount + 1,
+										}
+									: item,
+							),
+						);
 						heartCommentAlert(commentId);
 					},
 				},
@@ -82,22 +94,27 @@ const ItemComment = ({ props }) => {
 					<View style={styles.containerRow}>
 						<View>
 							<Text style={styles.textPostTitle}>
-								{post.title}
+								{post.isPublic ? "익명" : post.writer.username}
 							</Text>
 							<Text style={styles.textPostContext}>
-								{post.context}
+								{post.content}
 							</Text>
 
 							<View style={styles.containerTextRow}>
 								<TouchableOpacity
 									style={styles.containerText}
-									onPress={() => handleHeart(post.commentId)}
+									onPress={() => handleHeart(post.id)}
 								>
-									<IconHeart
-										active={pressHeart[post.commentId]}
-									/>
+									<IconHeart active={pressHeart[post.id]} />
 									<Text style={styles.text}>
-										{heartCounts[post.commentId]}
+										{heartCounts.find(
+											(item) => item.id === post.id,
+										)?.likesCount !== undefined
+											? heartCounts.find(
+													(item) =>
+														item.id === post.id,
+												).likesCount
+											: post.likesCount}
 									</Text>
 								</TouchableOpacity>
 								<View style={styles.containerText}>
@@ -108,7 +125,7 @@ const ItemComment = ({ props }) => {
 								</View>
 								<View style={styles.containerText}>
 									<Text style={styles.text}>
-										{date(post.date)}
+										{date(post.created)}
 									</Text>
 								</View>
 							</View>

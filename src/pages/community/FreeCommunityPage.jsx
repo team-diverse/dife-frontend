@@ -56,16 +56,19 @@ const FreeCommunityPage = () => {
 
 	useFocusEffect(
 		React.useCallback(() => {
-			getPostsByType("FREE")
-				.then((response) => {
+			const freeCommunity = async () => {
+				try {
+					const response = await getPostsByType("FREE");
 					setPostList(response.data);
-				})
-				.catch((error) => {
+				} catch (error) {
 					console.error(
 						"게시글 조회 오류:",
 						error.response ? error.response.data : error.message,
 					);
-				});
+				}
+			};
+
+			freeCommunity();
 		}, []),
 	);
 
@@ -75,7 +78,7 @@ const FreeCommunityPage = () => {
 			<TouchableOpacity
 				style={FreeCommunityStyles.iconPostPlus}
 				onPress={() =>
-					navigation.navigate("WhitePage", {
+					navigation.navigate("WritePage", {
 						noticeboard: "자유게시판",
 					})
 				}

@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-import WhiteStyles from "@pages/community/WhiteStyles";
+import WriteStyles from "@pages/community/WriteStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 
 import TopBar from "@components/common/TopBar";
@@ -60,40 +60,40 @@ const PostModifyPage = () => {
 	};
 
 	return (
-		<SafeAreaView style={WhiteStyles.container}>
+		<SafeAreaView style={WriteStyles.container}>
 			<TopBar topBar="글쓰기" color="#000" />
 			<ScrollView>
-				<View style={WhiteStyles.containerWhite}>
-					<View style={WhiteStyles.containerNoticeboard}>
+				<View style={WriteStyles.containerWhite}>
+					<View style={WriteStyles.containerNoticeboard}>
 						<Text
 							style={[
-								WhiteStyles.textNoticeboard,
+								WriteStyles.textNoticeboard,
 								{ color: CustomTheme.textSecondary },
 							]}
 						>
 							{boardType}
 						</Text>
 						<TouchableOpacity onPress={handleModify}>
-							<Text style={WhiteStyles.textNoticeboard}>
+							<Text style={WriteStyles.textNoticeboard}>
 								작성 완료
 							</Text>
 						</TouchableOpacity>
 					</View>
 					<TextInput
-						style={WhiteStyles.textInputTitle}
+						style={WriteStyles.textInputTitle}
 						placeholder="제목"
 						onChangeText={(text) => onChangeTitle(text)}
 						value={valueTitle}
 					/>
-					<View style={WhiteStyles.line} />
+					<View style={WriteStyles.line} />
 					<TextInput
-						style={WhiteStyles.textInputContext}
+						style={WriteStyles.textInputContext}
 						placeholder="내용"
 						multiline={true}
 						onChangeText={(text) => onChangeContext(text)}
 						value={valueContext}
 					/>
-					<View style={WhiteStyles.containerIconCheckbox}>
+					<View style={WriteStyles.containerIconCheckbox}>
 						<IconImage />
 						<Checkbox
 							checked={isChecked}
@@ -105,8 +105,8 @@ const PostModifyPage = () => {
 						/>
 					</View>
 				</View>
-				<View style={WhiteStyles.containerRule}>
-					<Text style={WhiteStyles.textRule}>
+				<View style={WriteStyles.containerRule}>
+					<Text style={WriteStyles.textRule}>
 						Dife 커뮤니티 이용 규칙{"\n"}
 						Dife는 국민대 학생들이 함께 만들어 가는 글로벌
 						커뮤니티예요. 모든 회원이 즐겁게 참여할 수 있는 환경을

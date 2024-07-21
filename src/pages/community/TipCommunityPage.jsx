@@ -56,16 +56,19 @@ const TipCommunityPage = () => {
 
 	useFocusEffect(
 		React.useCallback(() => {
-			getPostsByType("TIP")
-				.then((response) => {
+			const tipCommunity = async () => {
+				try {
+					const response = await getPostsByType("TIP");
 					setPostList(response.data);
-				})
-				.catch((error) => {
+				} catch (error) {
 					console.error(
 						"게시글 조회 오류:",
 						error.response ? error.response.data : error.message,
 					);
-				});
+				}
+			};
+
+			tipCommunity();
 		}, []),
 	);
 
@@ -75,7 +78,7 @@ const TipCommunityPage = () => {
 			<TouchableOpacity
 				style={TipCommunityStyles.iconPostPlus}
 				onPress={() =>
-					navigation.navigate("WhitePage", {
+					navigation.navigate("WritePage", {
 						noticeboard: "꿀팁게시판",
 					})
 				}

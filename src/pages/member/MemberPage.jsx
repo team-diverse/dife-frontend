@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 
 import MemberStyles from "@pages/member/MemberStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useOnboarding } from "src/states/OnboardingContext.js";
+import { getProfile, updateProfile } from "config/api";
 
 import DifeLogo from "@components/member/DifeLogo";
 import CircleBackground from "@components/member/CircleBackground";
@@ -37,21 +37,13 @@ const MemberPage = () => {
 
 	const { onboardingData } = useOnboarding();
 
-	const [name, setName] = useState("");
+	const [setName] = useState("");
 	const [profileImage, setProfileImage] = useState(null);
 
 	useEffect(() => {
 		const handleProfile = async () => {
 			try {
-				const response = await axios.get(
-					`http://192.168.45.135:8080/api/members/profile`,
-					{
-						headers: {
-							Authorization: `Bearer ${onboardingData.accessToken}`,
-							Accept: "application/json",
-						},
-					},
-				);
+				const response = await getProfile();
 				setName(response.data.username);
 				setProfileImage(response.data.profilePresignUrl);
 			} catch (error) {
@@ -86,7 +78,7 @@ const MemberPage = () => {
 		handleProfileImage();
 	};
 
-	const handleProfileImage = () => {
+	const handleProfileImage = async () => {
 		const formData = new FormData();
 		if (profileImage) {
 			const file = {
@@ -97,27 +89,15 @@ const MemberPage = () => {
 			formData.append("profileImg", file);
 		}
 
-		axios
-			.put(
-				`http://192.168.45.135:8080/api/members/${onboardingData.id}`,
-				formData,
-				{
-					headers: {
-						"Content-Type": "multipart/form-data",
-						Accept: "application/json",
-						Authorization: `Bearer ${onboardingData.accessToken}`,
-					},
-				},
-			)
-			.then((response) => {
-				console.log("프로필 이미지 변경 성공:", response.data.message);
-			})
-			.catch((error) => {
-				console.error(
-					"프로필 이미지 변경 실패:",
-					error.response ? error.response.data : error.message,
-				);
-			});
+		try {
+			const response = await updateProfile(onboardingData.id, formData);
+			console.log("프로필 이미지 변경 성공:", response.data.message);
+		} catch (error) {
+			console.error(
+				"프로필 이미지 변경 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
 
 	return (
@@ -158,18 +138,6 @@ const MemberPage = () => {
 						>
 							<IconProfileEdit />
 						</TouchableOpacity>
-					</View>
-
-					<Text style={MemberStyles.textName}>{name}</Text>
-
-					<View style={MemberStyles.containerProfile}>
-						<ProfileKBackground />
-						<View style={MemberStyles.profileK}>
-							<ProfileK />
-						</View>
-						<View style={MemberStyles.iconProfileEdit}>
-							<IconProfileEdit />
-						</View>
 					</View>
 
 					<Text style={MemberStyles.textName}>Name</Text>

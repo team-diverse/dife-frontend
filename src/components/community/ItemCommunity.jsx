@@ -52,7 +52,7 @@ const ItemCommunity = ({ props }) => {
 								<View style={styles.containerText}>
 									<IconHeart />
 									<Text style={styles.text}>
-										{post.heart}
+										{post.likesCount}
 									</Text>
 								</View>
 								<View style={styles.containerText}>
@@ -75,13 +75,30 @@ const ItemCommunity = ({ props }) => {
 							</View>
 						</View>
 
-						{post.image && (
-							<Image
-								source={post.image}
-								style={styles.imagePost}
-							/>
-						)}
+						<View style={styles.containerTextRow}>
+							<View style={styles.containerText}>
+								<IconHeart />
+								<Text style={styles.text}>{post.heart}</Text>
+							</View>
+							<View style={styles.containerText}>
+								<IconBookmark />
+								<Text style={styles.text}>{post.bookmark}</Text>
+							</View>
+							<View style={styles.containerText}>
+								<IconComment />
+								<Text style={styles.text}>{post.comment}</Text>
+							</View>
+							<View style={styles.containerText}>
+								<Text style={styles.text}>
+									{date(post.created)}
+								</Text>
+							</View>
+						</View>
 					</View>
+
+					{post.image && (
+						<Image source={post.image} style={styles.imagePost} />
+					)}
 				</TouchableOpacity>
 			))}
 		</>

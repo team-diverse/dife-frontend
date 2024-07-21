@@ -13,7 +13,7 @@ export const api = axios.create({
 api.interceptors.request.use(async (config) => {
 	const token = await SecureStore.getItemAsync("accessToken");
 	if (token) {
-		config.headers["Authorization"] = "Bearer " + token;
+		config.headers["Authorization"] = `Bearer ${token}`;
 	}
 	return config;
 });
@@ -124,4 +124,25 @@ export const getLikedPost = () => {
 
 export const getBookmarkPost = () => {
 	return api.get("/bookmarks");
+};
+
+export const postCommentSend = (id, valueComment, isChecked) => {
+	return api.post(`comments/${id}`, {
+		content: valueComment,
+		isPublic: isChecked,
+		postId: id,
+		parentCommentId: 0,
+	});
+};
+
+export const getCommentById = (id) => {
+	return api.get(`comments/${id}`);
+};
+
+export const postHeart = (type, id, commentId) => {
+	return api.post("/likes", {
+		type: type,
+		postId: id,
+		commentId: commentId,
+	});
 };
