@@ -273,7 +273,9 @@ const FilterBottomSlide = (props) => {
 											<FilterCategory
 												key={typeIndex}
 												text={type}
-												hobbyCount={selectedHobby.length}
+												hobbyCount={
+													selectedHobby.length
+												}
 												onPress={() =>
 													handleSelectHobby(type)
 												}
