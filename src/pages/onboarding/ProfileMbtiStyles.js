@@ -1,44 +1,43 @@
-import { StyleSheet } from 'react-native';
-import { CustomTheme } from '@styles/CustomTheme.js';
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme.js";
 
-const { fontHead24, fontBody18, fontSub16, fontSub14, fontCaption } = CustomTheme;
+const { fontHead24, fontBody18 } = CustomTheme;
 
 const ProfileMbtiStyles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: CustomTheme.bgBasic,
-    },
-    iconArrow: {
-        position: 'absolute',
-        marginTop: 5,
-        marginLeft: 14,
-    },
-    iconProgress: {
-        alignItems: 'center',
-        marginTop: 5,
-    },
-    textTitle: {
-        ...fontHead24,
-        marginTop: 41,
-        marginLeft: 24,
-    },
-    textSubTitle: {
-        ...fontBody18,
-        marginTop: 67,
-        marginTop: 12,
-        marginLeft: 24,
-    },
-    containerMbti: {
-        marginTop: 47,
-    },
-    rowMbti: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-    },
-    buttonCheck: {
-        marginTop: 134,
-        marginHorizontal: 10,
-    },
+	container: {
+		flex: 1,
+		backgroundColor: CustomTheme.bgBasic,
+	},
+	iconArrow: {
+		position: "absolute",
+		marginTop: 5,
+		marginLeft: 14,
+	},
+	iconProgress: {
+		alignItems: "center",
+		marginTop: 5,
+	},
+	textTitle: {
+		...fontHead24,
+		marginTop: 41,
+		marginLeft: 24,
+	},
+	textSubTitle: {
+		...fontBody18,
+		marginTop: 12,
+		marginLeft: 24,
+	},
+	containerMbti: {
+		marginTop: 47,
+	},
+	rowMbti: {
+		flexDirection: "row",
+		justifyContent: "center",
+	},
+	buttonCheck: {
+		marginTop: 134,
+		marginHorizontal: 10,
+	},
 });
 
 export default ProfileMbtiStyles;
