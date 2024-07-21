@@ -15,8 +15,8 @@ const ItemCommunity = ({ props }) => {
 
 	const date = (date) => {
 		const datePart = date.split("T")[0];
-		const [, month, day] = datePart.split("-");
-		return `${month}/${day}`;
+		const monthDay = datePart.slice(5);
+		return monthDay.replace("-", "/");
 	};
 
 	return (
