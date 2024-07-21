@@ -62,6 +62,10 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 import { WebSocketProvider } from "./src/context/WebSocketContext";
+import MyWrotePage from "@pages/member/MyWrotePage";
+import MyCommentPage from "@pages/member/MyCommentPage";
+import ModifyProfilePage from "@pages/member/ModifyProfilePage";
+import ModifyProfileInputPage from "@pages/member/ModifyProfileInputPage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -236,6 +240,16 @@ function MainNavigator() {
 			<Stack.Screen
 				name="GroupProfilePreviewPage"
 				component={GroupProfilePreviewPage}
+			/>
+			<Stack.Screen name="MyWrotePage" component={MyWrotePage} />
+			<Stack.Screen name="MyCommentPage" component={MyCommentPage} />
+			<Stack.Screen
+				name="ModifyProfilePage"
+				component={ModifyProfilePage}
+			/>
+			<Stack.Screen
+				name="ModifyProfileInputPage"
+				component={ModifyProfileInputPage}
 			/>
 		</Stack.Navigator>
 	);

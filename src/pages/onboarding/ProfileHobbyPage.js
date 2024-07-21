@@ -90,7 +90,7 @@ const ProfileHobbyPage = () => {
 							<FilterCategory
 								key={typeIndex}
 								text={type}
-								hobbyCnt={selectedHobby.length}
+								hobbyCount={selectedHobby.length}
 								onPress={() => handleSelectHobby(type)}
 							/>
 						))}
