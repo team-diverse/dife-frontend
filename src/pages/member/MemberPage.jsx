@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import {
-	View,
-	Text,
-	SafeAreaView,
-	TouchableOpacity,
-	Alert,
-} from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import * as ImagePicker from "expo-image-picker";
 
 import MemberStyles from "@pages/member/MemberStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { useOnboarding } from "src/states/OnboardingContext.js";
-import { getProfile, updateProfile } from "config/api";
+import { getProfile } from "config/api";
 
 import DifeLogo from "@components/member/DifeLogo";
 import CircleBackground from "@components/member/CircleBackground";
@@ -35,8 +27,6 @@ const MemberPage = () => {
 	const navigation = useNavigation();
 	const Tab = createMaterialTopTabNavigator();
 
-	const { onboardingData } = useOnboarding();
-
 	const [setName] = useState("");
 	const [profileImage, setProfileImage] = useState(null);
 
@@ -55,50 +45,6 @@ const MemberPage = () => {
 		};
 		handleProfile();
 	}, [profileImage]);
-
-	const pickImage = async () => {
-		const { status } =
-			await ImagePicker.requestMediaLibraryPermissionsAsync();
-		if (status !== "granted") {
-			Alert.alert("알림", "설정에서 이미지 권한을 허용해주세요.");
-			return;
-		}
-
-		let result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1,
-		});
-
-		if (!result.canceled) {
-			setProfileImage(result.assets[0].uri);
-		}
-
-		handleProfileImage();
-	};
-
-	const handleProfileImage = async () => {
-		const formData = new FormData();
-		if (profileImage) {
-			const file = {
-				uri: profileImage,
-				type: "image/jpeg",
-				name: `${onboardingData.id}_profile.jpg`,
-			};
-			formData.append("profileImg", file);
-		}
-
-		try {
-			const response = await updateProfile(onboardingData.id, formData);
-			console.log("프로필 이미지 변경 성공:", response.data.message);
-		} catch (error) {
-			console.error(
-				"프로필 이미지 변경 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
 
 	return (
 		<>
@@ -127,14 +73,14 @@ const MemberPage = () => {
 
 					<View style={MemberStyles.containerProfile}>
 						<ProfileKBackground profileImage={profileImage} />
-						{profileImage === null && (
-							<View style={MemberStyles.profileK}>
-								<ProfileK />
-							</View>
-						)}
+						<View style={MemberStyles.profileK}>
+							<ProfileK />
+						</View>
 						<TouchableOpacity
 							style={MemberStyles.iconProfileEdit}
-							onPress={pickImage}
+							onPress={() =>
+								navigation.navigate("ModifyProfilePage")
+							}
 						>
 							<IconProfileEdit />
 						</TouchableOpacity>
@@ -218,5 +164,4 @@ const MemberPage = () => {
 		</>
 	);
 };
-
 export default MemberPage;

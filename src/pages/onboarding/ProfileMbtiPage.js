@@ -84,7 +84,7 @@ const ProfileMBTIPage = () => {
 							<FilterCategory
 								key={typeIndex}
 								text={type}
-								mbtiCnt={selectedMBTI.length}
+								mbtiCount={selectedMBTI.length}
 								onPress={() => handleSelectMBTI(type)}
 								onBoardingMBTI="true"
 							/>

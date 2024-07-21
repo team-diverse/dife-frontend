@@ -10,7 +10,7 @@ import IconComment from "@components/community/IconComment";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemCommunity = ({ props }) => {
+const ItemCommunity = ({ props, comment }) => {
 	const navigation = useNavigation();
 
 	const date = (date) => {
@@ -21,86 +21,75 @@ const ItemCommunity = ({ props }) => {
 
 	return (
 		<>
-			{props.map((post, index) => (
-				<TouchableOpacity
-					key={index}
-					style={styles.ItemCommunity}
-					onPress={() =>
-						navigation.navigate("PostPage", { id: post.id })
-					}
-				>
-					<View style={styles.containerRow}>
-						<View>
-							<Text
-								style={[
-									styles.textPostTitle,
-									post.image ? { width: 196 } : {},
-								]}
-							>
-								{post.title}
-							</Text>
-							<Text
-								style={[
-									styles.textPostContext,
-									post.image ? { width: 196 } : {},
-								]}
-							>
-								{post.content}
-							</Text>
+			{props.map((post, index) => {
+				const commentText = comment
+					? `'${post.title}' 글에 댓글`
+					: post.title;
 
-							<View style={styles.containerTextRow}>
-								<View style={styles.containerText}>
-									<IconHeart />
-									<Text style={styles.text}>
-										{post.likesCount}
-									</Text>
-								</View>
-								<View style={styles.containerText}>
-									<IconBookmark />
-									<Text style={styles.text}>
-										{post.bookmark}
-									</Text>
-								</View>
-								<View style={styles.containerText}>
-									<IconComment />
-									<Text style={styles.text}>
-										{post.comment}
-									</Text>
-								</View>
-								<View style={styles.containerText}>
-									<Text style={styles.text}>
-										{date(post.created)}
-									</Text>
-								</View>
-							</View>
-						</View>
-
-						<View style={styles.containerTextRow}>
-							<View style={styles.containerText}>
-								<IconHeart />
-								<Text style={styles.text}>{post.heart}</Text>
-							</View>
-							<View style={styles.containerText}>
-								<IconBookmark />
-								<Text style={styles.text}>{post.bookmark}</Text>
-							</View>
-							<View style={styles.containerText}>
-								<IconComment />
-								<Text style={styles.text}>{post.comment}</Text>
-							</View>
-							<View style={styles.containerText}>
-								<Text style={styles.text}>
-									{date(post.created)}
+				return (
+					<TouchableOpacity
+						key={index}
+						style={styles.ItemCommunity}
+						onPress={() =>
+							navigation.navigate("PostPage", { id: post.id })
+						}
+					>
+						<View style={styles.containerRow}>
+							<View>
+								<Text
+									style={[
+										styles.textPostTitle,
+										post.image ? { width: 196 } : {},
+									]}
+								>
+									{commentText}
 								</Text>
-							</View>
-						</View>
-					</View>
+								<Text
+									style={[
+										styles.textPostContext,
+										post.image ? { width: 196 } : {},
+									]}
+								>
+									{post.content}
+								</Text>
 
-					{post.image && (
-						<Image source={post.image} style={styles.imagePost} />
-					)}
-				</TouchableOpacity>
-			))}
+								<View style={styles.containerTextRow}>
+									<View style={styles.containerText}>
+										<IconHeart />
+										<Text style={styles.text}>
+											{post.likesCount}
+										</Text>
+									</View>
+									<View style={styles.containerText}>
+										<IconBookmark />
+										<Text style={styles.text}>
+											{post.bookmark}
+										</Text>
+									</View>
+									<View style={styles.containerText}>
+										<IconComment />
+										<Text style={styles.text}>
+											{post.comment}
+										</Text>
+									</View>
+									<View style={styles.containerText}>
+										<Text style={styles.text}>
+											{date(post.created)}
+										</Text>
+									</View>
+								</View>
+							</View>
+
+							{post.image && (
+								<Image
+									source={post.image}
+									style={styles.imagePost}
+								/>
+							)}
+						</View>
+					</TouchableOpacity>
+				);
+			})}
 		</>
 	);
 };
