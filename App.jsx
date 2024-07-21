@@ -36,8 +36,15 @@ import FriendListPage from "@pages/chat/FriendListPage";
 import ChatRoomPage from "@pages/chat/ChatRoomPage";
 import TipCommunityPage from "@pages/community/TipCommunityPage";
 import FreeCommunityPage from "@pages/community/FreeCommunityPage";
-import WhitePage from "@pages/community/WhitePage";
+import WritePage from "@pages/community/WritePage";
 import PostPage from "@pages/community/PostPage";
+import GroupListPage from "@pages/member/GroupListPage";
+import GroupProfilePage from "@pages/connect/GroupProfilePage";
+import GroupCreatedPage from "@pages/connect/GroupCreatedPage";
+import GroupCreatedDetailPage from "@pages/connect/GroupCreatedDetailPage";
+import GroupProfilePreviewPage from "@pages/connect/GroupProfilePreviewPage";
+import MyPostPage from "@pages/member/MyPostPage";
+import PostModifyPage from "@pages/community/PostModifyPage";
 
 import ChatDf24 from "@components/Icon24/ChatDf24";
 import ConnectDf24 from "@components/Icon24/ConnectDf24";

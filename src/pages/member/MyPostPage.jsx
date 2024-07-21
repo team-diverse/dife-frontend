@@ -5,9 +5,9 @@ import MyPostStyles from '@pages/member/MyPostStyles';
 import { CustomTheme } from '@styles/CustomTheme';
 import { useNavigation } from '@react-navigation/native';
 
-import TopBar from '@components/common/TopBar';
-import ArrowRight from '@components/common/ArrowRight';
-import ItemCommunity from '@components/community/ItemCommunity';
+import TopBar from "@components/common/TopBar";
+import ArrowRight from "@components/common/ArrowRight";
+import ItemCommunity from "@components/community/ItemCommunity";
 
 const MyPostPage = () => {
     const navigation = useNavigation();

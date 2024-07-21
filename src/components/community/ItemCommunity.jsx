@@ -14,10 +14,10 @@ const ItemCommunity = ({ props, comment }) => {
   const navigation = useNavigation();
 
   const date = (date) => {
-    const datePart = date.split("T")[0];
-    const [year, month, day] = datePart.split("-");
-    return `${month}/${day}`;
-  };
+		const datePart = date.split("T")[0];
+		const monthDay = datePart.slice(5);
+		return monthDay.replace("-", "/");
+	};
 
   return (
     <>
