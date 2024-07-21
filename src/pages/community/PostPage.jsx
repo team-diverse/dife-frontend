@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	TouchableOpacity,
 	Text,
@@ -12,16 +12,19 @@ import {
 	Alert,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import * as SecureStore from "expo-secure-store";
 
 import PostStyles from "@pages/community/PostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { useOnboarding } from "src/states/OnboardingContext.js";
 import { usePostModify } from "src/states/PostModifyContext";
 import {
 	getPostById,
 	getCommentById,
 	postCommentSend,
-	postHeart,
+	createLike,
+	createBookmark,
+	getLikedPost,
+	getBookmarkPost,
 } from "config/api";
 
 import TopBar from "@components/common/TopBar";
@@ -39,6 +42,7 @@ const PostPage = ({ route }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const { id } = route.params;
+	const { onboardingData } = useOnboarding();
 	const { updatePostModifyData } = usePostModify();
 
 	const [title, setTitle] = useState("");
@@ -70,31 +74,28 @@ const PostPage = ({ route }) => {
 			const postComment = async () => {
 				try {
 					const postByIdResponse = await getPostById(id);
-					const postData = postByIdResponse.data;
-					setTitle(postData.title);
-					setContext(postData.content);
-					setHeart(postData.likesCount);
-					setBookmark(postData.bookmarkCount);
-					setCreated(date(postData.created));
-					setIsPublic(postData.isPublic);
+					setTitle(postByIdResponse.data.title);
+					setContext(postByIdResponse.data.content);
+					setHeart(postByIdResponse.data.likesCount);
+					setBookmark(postByIdResponse.data.bookmarkCount);
+					setCreated(date(postByIdResponse.data.created));
+					setIsPublic(postByIdResponse.data.isPublic);
 
-					if (postData.isPublic === false) {
-						setWriterName(postData.writer.username);
-					} else if (postData.isPublic === true) {
+					if (postByIdResponse.data.isPublic === false) {
+						setWriterName(postByIdResponse.data.writer.username);
+					} else if (postByIdResponse.data.isPublic === true) {
 						setWriterName("익명");
 					}
 
-					const memberId =
-						await SecureStore.getItemAsync("member_id");
-					if (memberId === postData.writer.id) {
+					if (onboardingData.id === postByIdResponse.data.writer.id) {
 						setIsMe(true);
 						updatePostModifyData({
-							memberId: postData.writer.id,
+							memberId: postByIdResponse.data.writer.id,
 							id: id,
-							title: postData.title,
-							context: postData.content,
-							boardType: postData.boardType,
-							isPublic: postData.isPublic,
+							title: postByIdResponse.data.title,
+							context: postByIdResponse.data.content,
+							boardType: postByIdResponse.data.boardType,
+							isPublic: postByIdResponse.data.isPublic,
 						});
 					}
 
@@ -104,7 +105,11 @@ const PostPage = ({ route }) => {
 					console.log("게시글 및 댓글 조회 성공");
 				} catch (error) {
 					console.error(
-						"게시글 및 댓글 조회 오류:",
+						"게시글 조회 오류:",
+						error.response ? error.response.data : error.message,
+					);
+					console.error(
+						"댓글 조회 오류:",
 						error.response ? error.response.data : error.message,
 					);
 				}
@@ -173,9 +178,9 @@ const PostPage = ({ route }) => {
 
 	const [pressHeart, setPressHeart] = useState();
 
-	const heartAlert = async () => {
+	const handleHeart = async () => {
 		try {
-			await postHeart("POST", id);
+			await createLike("POST", id);
 			console.log("게시글 좋아요 성공");
 		} catch (error) {
 			console.error(
@@ -187,7 +192,7 @@ const PostPage = ({ route }) => {
 		}
 	};
 
-	const handleHeart = () => {
+	const heartAlert = () => {
 		Alert.alert(
 			"",
 			"이 게시물에 좋아요를 누르시겠습니까?",
@@ -201,13 +206,82 @@ const PostPage = ({ route }) => {
 					onPress: () => {
 						setHeart((prevHeart) => prevHeart + 1);
 						setPressHeart(true);
-						heartAlert();
+						handleHeart();
 					},
 				},
 			],
 			{ cancelable: false },
 		);
 	};
+
+	const likedPosts = async () => {
+		try {
+			const response = await getLikedPost();
+			const likedPostIdList = response.data.map((item) => item.id);
+			setPressHeart(likedPostIdList.includes(id));
+		} catch (error) {
+			console.error(
+				"좋아요 상태 조회 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const [pressBookmark, setPressBookmark] = useState();
+
+	const handleBookmark = async () => {
+		try {
+			await createBookmark(null, null, id);
+			console.log("게시글 북마크 성공");
+		} catch (error) {
+			console.error(
+				"게시글 북마크 실패:",
+				error.response ? error.response.data : error.message,
+			);
+			setBookmark((prevBookmark) => prevBookmark - 1);
+			setPressBookmark(false);
+		}
+	};
+
+	const bookmarkAlert = () => {
+		Alert.alert(
+			"",
+			"이 게시물을 북마크하시겠습니까?",
+			[
+				{
+					text: "취소",
+					style: "cancel",
+				},
+				{
+					text: "확인",
+					onPress: () => {
+						setBookmark((prevBookmark) => prevBookmark + 1);
+						setPressBookmark(true);
+						handleBookmark();
+					},
+				},
+			],
+			{ cancelable: false },
+		);
+	};
+
+	const bookmarkedPosts = async () => {
+		try {
+			const response = await getBookmarkPost();
+			const bookmarkedPostIdList = response.data.map((item) => item.id);
+			setPressBookmark(bookmarkedPostIdList.includes(id));
+		} catch (error) {
+			console.error(
+				"북마크 상태 조회 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useEffect(() => {
+		likedPosts();
+		bookmarkedPosts();
+	}, [id]);
 
 	return (
 		<SafeAreaView style={PostStyles.container}>
@@ -248,15 +322,18 @@ const PostPage = ({ route }) => {
 					<View style={PostStyles.containerIconRow}>
 						<TouchableOpacity
 							style={PostStyles.iconRow}
-							onPress={handleHeart}
+							onPress={heartAlert}
 						>
 							<IconHeart active={pressHeart} />
 							<Text style={PostStyles.textIcon}>{heart}</Text>
 						</TouchableOpacity>
-						<View style={PostStyles.iconRow}>
-							<IconBookmark />
+						<TouchableOpacity
+							style={PostStyles.iconRow}
+							onPress={bookmarkAlert}
+						>
+							<IconBookmark active={pressBookmark} />
 							<Text style={PostStyles.textIcon}>{bookmark}</Text>
-						</View>
+						</TouchableOpacity>
 						<TouchableOpacity style={PostStyles.textTranslation}>
 							<Text style={PostStyles.textTranslation}>
 								번역하기
