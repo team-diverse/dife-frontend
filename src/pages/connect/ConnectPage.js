@@ -31,12 +31,12 @@ const ConnectPage = () => {
 	const [profileDataList, setProfileDataList] = useState([]);
 	const RANDOM_MEMBER_COUNT = 10;
 
-	useEffect(async () => {
+	const cardProfiles = async () => {
 		try {
 			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
 
 			function cleanHobbies(hobbies) {
-				return hobbies.map((hobby) => hobby.replace(/[\[\]"]/g, ""));
+				return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
 			}
 			const updatedData = response.data.map((data) => {
 				if (data.mbti !== null) {
@@ -53,10 +53,14 @@ const ConnectPage = () => {
 				error.response ? error.response.data : error.message,
 			);
 		}
+	};
+
+	useEffect(() => {
+		cardProfiles();
 	}, []);
 
 	const [searchTerm, setSearchTerm] = useState("");
-	const [searchData, setSearchData] = useState([]);
+	const [setSearchData] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
 
 	const [modalVisible, setModalVisible] = useState(false);

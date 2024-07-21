@@ -61,8 +61,8 @@ const PostPage = ({ route }) => {
 
 	const date = (date) => {
 		const datePart = date.split("T")[0];
-		const [year, month, day] = datePart.split("-");
-		return `${month}/${day}`;
+		const monthDay = datePart.slice(5);
+		return monthDay.replace("-", "/");
 	};
 
 	useFocusEffect(
@@ -175,7 +175,7 @@ const PostPage = ({ route }) => {
 
 	const heartAlert = async () => {
 		try {
-			const response = await postHeart("POST", id);
+			await postHeart("POST", id);
 			console.log("게시글 좋아요 성공");
 		} catch (error) {
 			console.error(
