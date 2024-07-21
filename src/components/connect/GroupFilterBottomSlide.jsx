@@ -226,7 +226,7 @@ const GroupFilterBottomSlide = (props) => {
 											<FilterCategory
 												key={typeIndex}
 												text={type}
-												hobbyCnt={selectedHobby.length}
+												hobbyCount={selectedHobby.length}
 												onPress={() =>
 													handleSelectHobby(type)
 												}

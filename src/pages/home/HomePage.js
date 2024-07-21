@@ -18,7 +18,7 @@ import HomeCardFront from "@components/home/HomeCardFront";
 import HomeCard from "@components/home/HomeCard";
 import HomeCardLast from "@components/home/HomeCardLast";
 
-const HomePage = ({ cnt = 3 }) => {
+const HomePage = ({ count = 3 }) => {
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
@@ -105,7 +105,7 @@ const HomePage = ({ cnt = 3 }) => {
 						style={HomeStyles.notify}
 						onPress={() => navigation.navigate("NotificationPage")}
 					>
-						<Notification32 count={cnt} />
+						<Notification32 count={count} />
 					</TouchableOpacity>
 				</View>
 

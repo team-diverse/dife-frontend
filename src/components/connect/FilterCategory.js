@@ -7,8 +7,8 @@ const { fontSub16 } = CustomTheme;
 const FilterCategory = ({
 	text = "category",
 	onPress,
-	mbtiCnt = null,
-	hobbyCnt = null,
+	mbtiCount = null,
+	hobbyCount = null,
 	isDisabled = false,
 	onBoardingMBTI = false,
 	selected = false,
@@ -17,22 +17,22 @@ const FilterCategory = ({
 	const [isPressed, setIsPressed] = useState(false);
 
 	const handlePress = () => {
-		if (mbtiCnt !== null) {
+		if (mbtiCount !== null) {
 			if (onBoardingMBTI) {
-				if (!isActive && mbtiCnt >= 1) {
+				if (!isActive && mbtiCount >= 1) {
 					return;
 				}
 				setIsActive((prev) => !prev);
 				onPress(text);
 			} else {
-				if (!isActive && mbtiCnt >= 3) {
+				if (!isActive && mbtiCount >= 3) {
 					return;
 				}
 				setIsActive((prev) => !prev);
 				onPress(text);
 			}
-		} else if (hobbyCnt !== null) {
-			if (!isActive && hobbyCnt >= 3) {
+		} else if (hobbyCount !== null) {
+			if (!isActive && hobbyCount >= 3) {
 				return;
 			}
 			setIsActive((prev) => !prev);

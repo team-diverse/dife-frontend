@@ -234,7 +234,7 @@ const FilterBottomSlide = (props) => {
 											<FilterCategory
 												key={typeIndex}
 												text={type}
-												mbtiCnt={selectedMBTI.length}
+												mbtiCount={selectedMBTI.length}
 												onPress={() =>
 													handleSelectMBTI(type)
 												}
@@ -273,7 +273,7 @@ const FilterBottomSlide = (props) => {
 											<FilterCategory
 												key={typeIndex}
 												text={type}
-												hobbyCnt={selectedHobby.length}
+												hobbyCount={selectedHobby.length}
 												onPress={() =>
 													handleSelectHobby(type)
 												}

@@ -149,7 +149,7 @@ const ModifyProfileInputPage = ({ route }) => {
 									<FilterCategory
 										key={typeIndex}
 										text={type}
-										hobbyCnt={selectedHobby.length}
+										hobbyCount={selectedHobby.length}
 										onPress={() => handleSelectHobby(type)}
 										selected={selectedHobby.includes(type)}
 									/>
