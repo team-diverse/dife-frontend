@@ -51,9 +51,10 @@ const ConnectPage = () => {
 		try {
 			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
 			const updatedData = formatProfileData(response.data);
+			setProfileDataList(updatedData);
 			setSearchData(null);
 			setSearchTerm("");
-			setProfileDataList(updatedData);
+			setSearchFail(false);
 		} catch (error) {
 			console.error(
 				"커넥트 카드 조회 오류:",
@@ -68,6 +69,7 @@ const ConnectPage = () => {
 
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
+	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
 
 	const [modalVisible, setModalVisible] = useState(false);
@@ -89,6 +91,7 @@ const ConnectPage = () => {
 				"커넥트 검색 오류:",
 				error.response ? error.response.data : error.message,
 			);
+			setSearchFail(true);
 		}
 	};
 
@@ -117,6 +120,10 @@ const ConnectPage = () => {
 	const handleFilterResponse = (response) => {
 		const updatedData = formatProfileData(response);
 		setSearchData(updatedData);
+	};
+
+	const handleFilterSearchFail = (response) => {
+		setSearchFail(response);
 	};
 
 	const [modalGroupVisible, setModalGroupVisible] = useState(false);
@@ -164,6 +171,7 @@ const ConnectPage = () => {
 						modalVisible={modalVisible}
 						setModalVisible={setModalVisible}
 						onFilterResponse={handleFilterResponse}
+						onSearchResponse={handleFilterSearchFail}
 					/>
 					<GroupFilterBottomSlide
 						modalVisible={groupModalVisible}
@@ -230,7 +238,16 @@ const ConnectPage = () => {
 					</TouchableOpacity>
 				</View>
 
-				{isIndividualTab ? (
+				{searchFail ? (
+					<View
+						style={[
+							ConnectStyles.cardContainer,
+							{ marginHorizontal: 25 },
+						]}
+					>
+						<ConnectCard fail="true" />
+					</View>
+				) : isIndividualTab ? (
 					<View style={ConnectStyles.cardContainer}>
 						<TouchableOpacity
 							style={ConnectStyles.iconNewGroup}

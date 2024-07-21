@@ -29,6 +29,7 @@ const FilterBottomSlide = ({
 	modalVisible,
 	setModalVisible,
 	onFilterResponse,
+	onSearchResponse,
 }) => {
 	const screenHeight = Dimensions.get("screen").height;
 	const panY = useRef(new Animated.Value(screenHeight)).current;
@@ -116,7 +117,6 @@ const FilterBottomSlide = ({
 		"ENFP",
 		"ISTJ",
 		"ENFJ",
-		"선택안함",
 	];
 	const hobby = [
 		"SNS",
@@ -197,6 +197,15 @@ const FilterBottomSlide = ({
 		return `${encoded.join(",")}`;
 	};
 
+	const filterReset = () => {
+		setModalVisible(false);
+		setSelectedMBTI([]);
+		setSelectedHobby([]);
+		setSelectedLanguage([]);
+		setIsCheckedList([false, false, false, false, false]);
+		setCollapsedStates([true, true, true]);
+	};
+
 	const handleFilter = async () => {
 		try {
 			const response = await getConnectFilter(
@@ -205,15 +214,14 @@ const FilterBottomSlide = ({
 				encoded(selectedLanguage),
 			);
 			onFilterResponse(response.data);
-			setModalVisible(false);
-			setSelectedMBTI([]);
-			setSelectedHobby([]);
-			setSelectedLanguage([]);
+			filterReset();
 		} catch (error) {
 			console.error(
 				"필터 검색 오류:",
 				error.response ? error.response.data : error.message,
 			);
+			filterReset();
+			onSearchResponse(true);
 		}
 	};
 

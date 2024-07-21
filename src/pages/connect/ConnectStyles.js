@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import { StyleSheet } from "react-native";
+import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead20, fontHead18, fontSub16, fontCaption } = CustomTheme;
 
@@ -121,12 +123,11 @@ const ConnectStyles = StyleSheet.create({
 		width: "100%",
 	},
 	flatlistContent: {
-		alignItems: "center",
+		marginHorizontal: 25,
 	},
 	cardContainer: {
 		flex: 1,
 		alignItems: "center",
-		justifyContent: "center",
 		shadowColor: "#3C454E4A",
 		shadowOffset: { width: 0, height: 3 },
 		shadowOpacity: 0.71,
