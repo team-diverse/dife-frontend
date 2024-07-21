@@ -13,15 +13,19 @@ const ApplyButton = ({
 }) => {
   const rectangleStyle = background ? styles.rectangleShadow : styles.rectangle;
 
-  return (
-    <TouchableOpacity onPress={handlePress} disabled={disabled}>
-      <View style={rectangleStyle}>
-        <View style={[styles.apply, disabled && styles.disabled]}>
-          <Text style={styles.text}>{text}</Text>
-        </View>
-      </View>
-    </TouchableOpacity>
-  );
+	return (
+		<View>
+			<View style={rectangleStyle}>
+				<TouchableOpacity
+					style={[styles.apply, disabled && styles.disabled]}
+					onPress={onPress}
+					disabled={disabled}
+				>
+					<Text style={styles.text}>{text}</Text>
+				</TouchableOpacity>
+			</View>
+		</View>
+	);
 };
 
 const styles = StyleSheet.create({

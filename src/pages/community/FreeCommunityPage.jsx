@@ -1,52 +1,58 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, SafeAreaView, Keyboard, TouchableOpacity, ScrollView } from 'react-native';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import axios from 'axios';
+import React, { useState } from "react";
+import {
+	View,
+	Text,
+	TextInput,
+	SafeAreaView,
+	Keyboard,
+	TouchableOpacity,
+	ScrollView,
+} from "react-native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import axios from "axios";
 
-import FreeCommunityStyles from '@pages/community/FreeCommunityStyles';
+import FreeCommunityStyles from "@pages/community/FreeCommunityStyles";
 
-import ConnectTop from '@components/connect/ConnectTop';
-import IconPostPlus from '@components/community/IconPostPlus';
-import ConnectSearchIcon from '@components/connect/ConnectSearchIcon';
-import ConnectSearchCancel from '@components/connect/ConnectSearchCancel';
-import IconBookmark from '@components/chat/IconBookmark';
-import ItemCommunity from '@components/community/ItemCommunity';
-import { getPostsByType } from 'config/api';
+import ConnectTop from "@components/connect/ConnectTop";
+import IconPostPlus from "@components/community/IconPostPlus";
+import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
+import ConnectSearchCancel from "@components/connect/ConnectSearchCancel";
+import IconBookmark from "@components/chat/IconBookmark";
+import ItemCommunity from "@components/community/ItemCommunity";
+import { getPostsByType } from "config/api";
 
 const FreeCommunityPage = () => {
-  const navigation = useNavigation();
+	const navigation = useNavigation();
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchData, setSearchData] = useState([]);
-  const [isSearching, setIsSearching] = useState(false);
+	const [searchTerm, setSearchTerm] = useState("");
+	const [isSearching, setIsSearching] = useState(false);
 
-  const handleSearch = () => {
-    if (searchTerm.trim() !== '') {
-      axios.get(`${searchTerm}`)
-        .then(response => {
-          setSearchData(response.data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    }
-  };
+	const handleSearch = () => {
+		if (searchTerm.trim() !== "") {
+			axios
+				.get(`${searchTerm}`)
+				.then(() => {})
+				.catch((error) => {
+					console.error("Error:", error);
+				});
+		}
+	};
 
-  const handleFocus = () => {
-    setIsSearching(true);
-  };
+	const handleFocus = () => {
+		setIsSearching(true);
+	};
 
-  const handleBlur = () => {
-    setIsSearching(false);
-  };
+	const handleBlur = () => {
+		setIsSearching(false);
+	};
 
-  const handleCancel = () => {
-    setSearchTerm('');
-    setIsSearching(false);
-    Keyboard.dismiss();
-  };
+	const handleCancel = () => {
+		setSearchTerm("");
+		setIsSearching(false);
+		Keyboard.dismiss();
+	};
 
-  const [postList, setPostList] = useState([]);
+	const [postList, setPostList] = useState([]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -95,15 +101,14 @@ const FreeCommunityPage = () => {
             </View>
           </View>
 
-          <ScrollView>
-            <View style={FreeCommunityStyles.itemCommunity}>
-              <ItemCommunity props={postList} />
-            </View>
-          </ScrollView>
-          
-        </SafeAreaView>
-      </View>
-  );
-}
+				<ScrollView>
+					<View style={FreeCommunityStyles.itemCommunity}>
+						<ItemCommunity props={postList} />
+					</View>
+				</ScrollView>
+			</SafeAreaView>
+		</View>
+	);
+};
 
 export default FreeCommunityPage;

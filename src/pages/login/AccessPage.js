@@ -4,14 +4,14 @@ import * as Notifications from 'expo-notifications';
 import * as Linking from 'expo-linking';
 import { useNavigation } from '@react-navigation/native';
 
-import AccessStyles from '@pages/login/AccessStyles';
+import AccessStyles from "@pages/login/AccessStyles";
 
-import ApplyButton from '@components/common/ApplyButton';
-import IconAccessCamera from '@components/login/IconAccessCamera';
-import IconAccessNotification from '@components/login/IconAccessNotification';
-import IconAccessImage from '@components/login/IconAccessImage';
-import IconAccessPhone from '@components/login/IconAccessPhone';
-import GoBack from '@components/common/GoBack';
+import ApplyButton from "@components/common/ApplyButton";
+import IconAccessCamera from "@components/login/IconAccessCamera";
+import IconAccessNotification from "@components/login/IconAccessNotification";
+import IconAccessImage from "@components/login/IconAccessImage";
+import IconAccessPhone from "@components/login/IconAccessPhone";
+import GoBack from "@components/common/GoBack";
 
 const AccessPage = () => {
     const navigation = useNavigation();
