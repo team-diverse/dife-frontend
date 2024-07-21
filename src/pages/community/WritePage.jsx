@@ -47,7 +47,7 @@ const WritePage = ({ route }) => {
 			);
 			console.log("게시글 작성 성공:", response.data.message);
 			navigation.goBack();
-		} catch {
+		} catch (error) {
 			console.error(
 				"게시글 작성 실패:",
 				error.response ? error.response.data : error.message,
@@ -127,7 +127,7 @@ const WritePage = ({ route }) => {
 						법적 처벌이 진행돼요.
 						{"\n"}- 매칭/채팅: 3회 이상 신고를 받으신 분은 30일 동안
 						회원 자격이 중지돼요. 이 기간 동안
-						 difeemail@kookmin.ac.kr로 소명하시거나 적절한 조치를
+						difeemail@kookmin.ac.kr로 소명하시거나 적절한 조치를
 						취해 주세요. 이행하지 않을 경우 회원 자격이 박탈돼요.
 						{"\n"}
 						{"\n"}모든 구성원이 안전하고 쾌적한 커뮤니티 환경을

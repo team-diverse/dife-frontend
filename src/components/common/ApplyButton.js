@@ -9,7 +9,6 @@ const ApplyButton = ({
 	background = false,
 	onPress = null,
 	disabled = false,
-	access = false,
 }) => {
 	const rectangleStyle = background
 		? styles.rectangleShadow
