@@ -1,18 +1,26 @@
-import React, { useState } from 'react';
-import { View, Text, Image, SafeAreaView, TouchableOpacity, Modal, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
+import React, { useState } from "react";
+import {
+	View,
+	Text,
+	Image,
+	SafeAreaView,
+	TouchableOpacity,
+	Modal,
+	Alert,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
 
-import StudentVerificationStyles from '@pages/onboarding/StudentVerificationStyles';
-import { CustomTheme } from '@styles/CustomTheme.js';
-import { useOnboarding } from 'src/states/OnboardingContext.js';
-import { updateProfile } from 'config/api';
+import StudentVerificationStyles from "@pages/onboarding/StudentVerificationStyles";
+import { CustomTheme } from "@styles/CustomTheme.js";
+import { useOnboarding } from "src/states/OnboardingContext.js";
+import { updateProfile } from "config/api";
 
-import Progress6 from '@components/onboarding/Progress6';
-import ArrowRight from '@components/common/ArrowRight';
-import BackgroundOnkookminUpload from '@components/onboarding/BackgroundOnkookminUpload';
-import IconOnkookminUpload from '@components/onboarding/IconOnkookminUpload';
-import ApplyButton from '@components/common/ApplyButton';
+import Progress6 from "@components/onboarding/Progress6";
+import ArrowRight from "@components/common/ArrowRight";
+import BackgroundOnkookminUpload from "@components/onboarding/BackgroundOnkookminUpload";
+import IconOnkookminUpload from "@components/onboarding/IconOnkookminUpload";
+import ApplyButton from "@components/common/ApplyButton";
 
 const StudentVerificationPage = () => {
 	const [isModalVisible, setModalVisible] = useState(true);
