@@ -3,7 +3,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontBody18, fontBody14 } = CustomTheme;
 
-const WhiteStyles = StyleSheet.create({
+const WriteStyles = StyleSheet.create({
 	container: {
 		backgroundColor: CustomTheme.bgBasic,
 	},
@@ -65,4 +65,4 @@ const WhiteStyles = StyleSheet.create({
 	},
 });
 
-export default WhiteStyles;
+export default WriteStyles;

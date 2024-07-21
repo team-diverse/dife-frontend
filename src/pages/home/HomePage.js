@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 
 import HomeStyles from "@pages/home/HomeStyles.js";
+import { getRandomMembersByCount } from "config/api";
 
 import HomeBg from "@assets/images/svg_js/HomeBg.js";
 import LogoBr from "@components/Logo/LogoBr.js";
@@ -17,42 +17,34 @@ import HomeCardBack from "@components/home/HomeCardBack";
 import HomeCardFront from "@components/home/HomeCardFront";
 import HomeCard from "@components/home/HomeCard";
 import HomeCardLast from "@components/home/HomeCardLast";
-import { useOnboarding } from "src/states/OnboardingContext.js";
 
 const HomePage = ({ cnt = 3 }) => {
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
-	const { onboardingData } = useOnboarding();
+	const RANDOM_MEMBER_COUNT = 10;
 
-	useEffect(() => {
-		axios
-			.get("http://192.168.45.135:8080/api/members/random?count=10", {
-				headers: {
-					Authorization: `Bearer ${onboardingData.accessToken}`,
-					"Content-Type": "application/json",
-				},
-			})
-			.then((response) => {
-				function cleanHobbies(hobbies) {
-					return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
+	useEffect(async () => {
+		try {
+			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
+			function cleanHobbies(hobbies) {
+				return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
+			}
+			const updatedData = response.data.map((data) => {
+				if (data.mbti !== null) {
+					const cleanedHobbies = cleanHobbies(data.hobbies);
+					const tags = [data.mbti, ...cleanedHobbies];
+					return { ...data, tags };
 				}
-				const updatedData = response.data.map((data) => {
-					if (data.mbti !== null) {
-						const cleanedHobbies = cleanHobbies(data.hobbies);
-						const tags = [data.mbti, ...cleanedHobbies];
-						return { ...data, tags };
-					}
-					return data;
-				});
-				setProfileDataList(updatedData);
-			})
-			.catch((error) => {
-				console.error(
-					"오류:",
-					error.response ? error.response.data : error.message,
-				);
+				return data;
 			});
+			setProfileDataList(updatedData);
+		} catch (error) {
+			console.error(
+				"오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	}, []);
 
 	const [currentProfileIndex, setCurrentProfileIndex] = useState(0);

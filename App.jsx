@@ -36,12 +36,15 @@ import FriendListPage from "@pages/chat/FriendListPage";
 import ChatRoomPage from "@pages/chat/ChatRoomPage";
 import TipCommunityPage from "@pages/community/TipCommunityPage";
 import FreeCommunityPage from "@pages/community/FreeCommunityPage";
-import WhitePage from "@pages/community/WhitePage";
+import WritePage from "@pages/community/WritePage";
 import PostPage from "@pages/community/PostPage";
-import PostModifyPage from "@pages/community/PostModifyPage";
-import MyPostPage from "@pages/member/MyPostPage";
 import GroupListPage from "@pages/member/GroupListPage";
 import GroupProfilePage from "@pages/connect/GroupProfilePage";
+import GroupCreatedPage from "@pages/connect/GroupCreatedPage";
+import GroupCreatedDetailPage from "@pages/connect/GroupCreatedDetailPage";
+import GroupProfilePreviewPage from "@pages/connect/GroupProfilePreviewPage";
+import MyPostPage from "@pages/member/MyPostPage";
+import PostModifyPage from "@pages/community/PostModifyPage";
 
 import ChatDf24 from "@components/Icon24/ChatDf24";
 import ConnectDf24 from "@components/Icon24/ConnectDf24";
@@ -54,9 +57,6 @@ import ConnectAc32 from "@components/Icon32/ConnectAc32";
 import HomeAc32 from "@components/Icon32/HomeAc32";
 import CommuAc32 from "@components/Icon32/CommuAc32";
 import MyAc32 from "@components/Icon32/MyAc32";
-import GroupCreatedPage from "@pages/connect/GroupCreatedPage";
-import GroupCreatedDetailPage from "@pages/connect/GroupCreatedDetailPage";
-import GroupProfilePreviewPage from "@pages/connect/GroupProfilePreviewPage";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -216,7 +216,7 @@ function MainNavigator() {
 				name="FreeCommunityPage"
 				component={FreeCommunityPage}
 			/>
-			<Stack.Screen name="WhitePage" component={WhitePage} />
+			<Stack.Screen name="WritePage" component={WritePage} />
 			<Stack.Screen name="PostPage" component={PostPage} />
 			<Stack.Screen name="PostModifyPage" component={PostModifyPage} />
 			<Stack.Screen name="MyPostPage" component={MyPostPage} />
