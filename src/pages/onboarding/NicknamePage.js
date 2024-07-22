@@ -18,7 +18,7 @@ import Progress1 from "@components/onboarding/Progress1";
 import LoginBackground from "@components/login/LoginBackground";
 import IconDelete from "@components/onboarding/IconDelete";
 import ApplyButton from "@components/common/ApplyButton";
-import { headCheckUserName } from "config/api";
+import { checkUserName } from "config/api";
 
 const NicknamePage = () => {
 	const navigation = useNavigation();
@@ -49,7 +49,7 @@ const NicknamePage = () => {
 	const { updateOnboardingData } = useOnboarding();
 
 	const handleNickname = () => {
-		headCheckUserName(nickname)
+		checkUserName(nickname)
 			.then((response) => {
 				// TODO: Status Code 200 / 204 두가지로 처리 필요 백엔드 수정도 필요
 				if (response.status === 200) {

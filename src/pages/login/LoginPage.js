@@ -62,7 +62,7 @@ const LoginPage = () => {
 
 			updateOnboardingData({ id, accessToken, refreshToken });
 
-			const profileResponse = await getProfile();
+			const profileResponse = await getMyProfile();
 			if (profileResponse.data.isVerified) {
 				setIsLoggedIn(true);
 			} else {
@@ -128,7 +128,7 @@ const LoginPage = () => {
 							: LoginStyles.textInputId
 					}
 					placeholder="이메일을 입력해주세요"
-					onChangeText={(text) => setEmail(text)}
+					onChangeText={(text) => onChangeID(text)}
 					value={valueID}
 				/>
 				<Text style={LoginStyles.textPw}>Password</Text>
@@ -143,7 +143,7 @@ const LoginPage = () => {
 								: LoginStyles.textInputPw
 						}
 						placeholder="비밀번호를 입력해주세요"
-						onChangeText={(text) => setPassword(text)}
+						onChangeText={(text) => onChangePW(text)}
 						value={valuePW}
 						secureTextEntry={!showPW}
 					/>

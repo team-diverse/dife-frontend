@@ -63,11 +63,11 @@ export const getMyConnects = () => {
 	return api.get("/connects");
 };
 
-export const getProfile = () => {
+export const getMyProfile = () => {
 	return api.get("/members/profile");
 };
 
-export const headCheckUserName = (username) => {
+export const checkUserName = (username) => {
 	return api.head("/members", {
 		params: {
 			username,
@@ -75,7 +75,7 @@ export const headCheckUserName = (username) => {
 	});
 };
 
-export const updateProfile = (member_id, formData) => {
+export const updateMyProfile = (member_id, formData) => {
 	return api.put(`/members/${member_id}`, formData, {
 		headers: {
 			"Content-Type": "multipart/form-data",
@@ -137,26 +137,34 @@ export const getLikedPost = () => {
 	return api.get("/likes");
 };
 
-export const getBookmarkPost = () => {
+export const getBookmarkedPost = () => {
 	return api.get("/bookmarks");
 };
 
-export const postCommentSend = (id, valueComment, isChecked) => {
-	return api.post(`comments/${id}`, {
+export const createComment = (postId, valueComment, isChecked) => {
+	return api.post(`comments/${postId}`, {
 		content: valueComment,
 		isPublic: isChecked,
-		postId: id,
+		postId: postId,
 		parentCommentId: 0,
 	});
 };
 
-export const getCommentById = (id) => {
-	return api.get(`comments/${id}`);
+export const getCommentByPostId = (postId) => {
+	return api.get(`comments/${postId}`);
 };
 
-export const createLike = (type, postId, commentId) => {
+export const createLikePost = (postId) => {
 	return api.post("/likes", {
-		type: type,
+		type: "POST",
+		postId: postId,
+		commentId: "",
+	});
+};
+
+export const createLikeComment = (postId, commentId) => {
+	return api.post("/likes", {
+		type: "COMMENT",
 		postId: postId,
 		commentId: commentId,
 	});
