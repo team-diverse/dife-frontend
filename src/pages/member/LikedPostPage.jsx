@@ -28,7 +28,9 @@ const LikedPostPage = () => {
 		<View style={LikedPostStyles.container}>
 			<ScrollView>
 				<View style={LikedPostStyles.itemLikeBookmark}>
-					<ItemLikeBookmark props={likedPostList} />
+					<ItemLikeBookmark
+						likedAndBookmarkPostList={likedPostList}
+					/>
 				</View>
 			</ScrollView>
 		</View>

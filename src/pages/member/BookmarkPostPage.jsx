@@ -30,7 +30,7 @@ const BookmarkPostPage = () => {
 			<ScrollView>
 				<View style={BookmarkPostStyles.itemLikeBookmark}>
 					<ItemLikeBookmark
-						props={bookmarkPostList}
+						likedAndBookmarkPostList={bookmarkPostList}
 						type="bookmark"
 					/>
 				</View>
