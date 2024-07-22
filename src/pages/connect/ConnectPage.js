@@ -26,16 +26,15 @@ import GroupFilterBottomSlide from "@components/connect/GroupFilterBottomSlide";
 import IconNewGroup from "@components/connect/IconNewGroup";
 import ModalGroupCreationComplete from "@components/connect/ModalGroupCreationComplete";
 
-const ConnectPage = () => {
+const ConnectPage = ({ route }) => {
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
-	const { onboardingData } = useOnboarding();
 	const RANDOM_MEMBER_COUNT = 10;
 
 	const formatProfileData = (data) => {
 		function cleanHobbies(hobbies) {
-			return hobbies.map((hobby) => hobby.replace(/[\[\]"]/g, ""));
+			return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
 		}
 		return data.map((item) => {
 			if (item.mbti !== null) {

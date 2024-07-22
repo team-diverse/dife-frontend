@@ -179,11 +179,11 @@ export const getConnectSearch = (keyword) => {
 };
 
 export const getConnectFilter = (mbtis, hobbies, languages) => {
-  return api.get("/members/filter", {
-    params: {
-      mbtis: mbtis,
-      hobbies: hobbies,
-      languages: languages,
-    },
-  });
+	return api.get("/members/filter", {
+		params: {
+			mbtis: mbtis,
+			hobbies: hobbies,
+			languages: languages,
+		},
+	});
 };
