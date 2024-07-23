@@ -37,6 +37,7 @@ const ChatRoomPage = ({ route }) => {
 	const { messages } = useWebSocket();
 	const { chatroomInfo } = route.params;
 	const [memberId, setMemberId] = useState(null);
+	const flatListRef = useRef(null);
 
 	useEffect(() => {
 		const getMemberId = async () => {
@@ -45,6 +46,12 @@ const ChatRoomPage = ({ route }) => {
 		};
 		getMemberId();
 	}, []);
+
+	useEffect(() => {
+		if (flatListRef.current) {
+			flatListRef.current.scrollToEnd({ animated: true });
+		}
+	}, [messages]);
 
 	const groupMessages = (messages) => {
 		const groupedMessages = [];
@@ -123,6 +130,7 @@ const ChatRoomPage = ({ route }) => {
 
 				<View style={ChatRoomStyles.containerChat}>
 					<FlatList
+						ref={flatListRef}
 						data={groupMessages(messages[chatroomInfo.id] || [])}
 						keyExtractor={(item, index) => index.toString()}
 						renderItem={({ item }) => (
@@ -144,8 +152,10 @@ const ChatRoomPage = ({ route }) => {
 						)}
 					/>
 				</View>
-				<ChatInputSend />
-
+				<ChatInputSend
+					chatroomId={chatroomInfo.id}
+					memberId={memberId}
+				/>
 				{menuOpen && (
 					<TouchableOpacity
 						onPress={toggleMenu}
