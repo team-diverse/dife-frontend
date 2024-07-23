@@ -22,7 +22,6 @@ module.exports = function (api) {
 					envName: "LOCAL_ENV",
 					moduleName: "@env",
 					path: ".evn.local",
-					allowUndefined: false,
 				},
 			],
 		],
