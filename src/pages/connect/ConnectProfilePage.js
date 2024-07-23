@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	SafeAreaView,
 	ScrollView,
@@ -6,6 +6,8 @@ import {
 	Text,
 	TouchableOpacity,
 } from "react-native";
+
+import { getProfileById, getConnectById } from "config/api";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
 import IconHeart24 from "@components/Icon24/IconHeart24";
@@ -19,20 +21,54 @@ import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
 import Report from "@components/Report";
 import ConnectRequest from "@components/ConnectRequest";
 
-const ConnectProfilePage = () => {
-	const profileData = {
-		id: "1",
-		profile: require("@assets/images/test_img/test_connectProfile.jpeg"),
-		name: "Amy",
-		country: "France",
-		age: "23",
-		major: "Industrial Design",
-		realname: "Amy revnski",
-		introduction:
-			"안녕하세요, 저는 프랑스에서 온 에이미 입니다, 산업디자인을 전공하고 있습니다. 언제든지 채팅 주세요!! 😀",
-		tags: ["여행", "사진", "스포츠", "요리", "ENTP"],
-		language: ["English / English", "한국어 / Korean"],
+const ConnectProfilePage = ({ route }) => {
+	const { memberId } = route.params;
+	const [profileData, setProfileData] = useState([]);
+	const [connectStatus, setConnectStatus] = useState(null);
+
+	const formatProfileData = (data) => {
+		function cleanHobbies(hobbies) {
+			return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
+		}
+		return data.map((item) => {
+			if (item.mbti !== null) {
+				const cleanedHobbies = cleanHobbies(item.hobbies);
+				const tags = [item.mbti, ...cleanedHobbies];
+				return { ...item, tags };
+			}
+			return item;
+		});
 	};
+
+	const getConnectProfile = async () => {
+		try {
+			const response = await getProfileById(memberId);
+			const updatedData = formatProfileData([response.data]);
+			setProfileData(updatedData[0]);
+		} catch (error) {
+			console.error(
+				"디테일 프로필 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const getConnectStatus = async () => {
+		try {
+			const response = await getConnectById(memberId);
+			setConnectStatus(response.data.status);
+		} catch (error) {
+			console.error(
+				"커넥트 상태 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useEffect(() => {
+		getConnectProfile();
+		getConnectStatus();
+	}, []);
 
 	const [modalReportVisible, setModalReportVisible] = useState(false);
 	const [modalConnectVisible, setModalConnectVisible] = useState(false);
@@ -63,66 +99,79 @@ const ConnectProfilePage = () => {
 				<ConnectProfileTopBar topBar="프로필" />
 				<IconHeart24 active={heart} onPress={handlehandleHeartPress} />
 			</View>
-			<ScrollView
-				contentContainerStyle={{ alignItems: "center" }}
-				style={ConnectProfileStyles.scrollView}
-			>
-				<View style={ConnectProfileStyles.background}>
-					<ConnectProfileBackground />
-				</View>
-				<View style={ConnectProfileStyles.simpleProfileContainer}>
-					<ConnectProfile profile={profileData.profile} />
-					<Text style={ConnectProfileStyles.name}>
-						{profileData.name}
-					</Text>
-					<Text style={ConnectProfileStyles.countryAgeMajor}>
-						{profileData.country} | {profileData.age} |{" "}
-						{profileData.major}
-					</Text>
-				</View>
-				<View style={ConnectProfileStyles.detailProfileContainer}>
-					<Text style={ConnectProfileStyles.fontSub16}>본명</Text>
-					<Text style={ConnectProfileStyles.fontBody14}>
-						{profileData.realname}
-					</Text>
-					<Text style={ConnectProfileStyles.fontSub16}>한줄소개</Text>
-					<View>
-						<ConnectProfileIntroduction
-							introduction={profileData.introduction}
+			<View style={ConnectProfileStyles.scrollView}>
+				<ScrollView contentContainerStyle={{ alignItems: "center" }}>
+					<View style={ConnectProfileStyles.background}>
+						<ConnectProfileBackground />
+					</View>
+					<View style={ConnectProfileStyles.simpleProfileContainer}>
+						<ConnectProfile
+							profile={profileData.profilePresignUrl}
+						/>
+						<Text style={ConnectProfileStyles.username}>
+							{profileData.username}
+						</Text>
+						<Text style={ConnectProfileStyles.countryAgeMajor}>
+							{profileData.country} | {profileData.major}
+						</Text>
+					</View>
+					<View style={ConnectProfileStyles.detailProfileContainer}>
+						<Text style={ConnectProfileStyles.fontSub16}>본명</Text>
+						<Text style={ConnectProfileStyles.fontBody14}>
+							{profileData.name}
+						</Text>
+						<Text style={ConnectProfileStyles.fontSub16}>
+							한줄소개
+						</Text>
+						<View>
+							<ConnectProfileIntroduction
+								introduction={profileData.bio}
+							/>
+						</View>
+						<Text style={ConnectProfileStyles.fontSub16}>태그</Text>
+						<View style={{ marginBottom: 8 }}>
+							<ConnectProfileTag tag={profileData.tags} />
+						</View>
+						<Text style={ConnectProfileStyles.fontSub16}>언어</Text>
+						<ConnectProfileLanguage
+							language={profileData.languages}
+						/>
+						<View style={ConnectProfileStyles.languageLine} />
+					</View>
+					<View
+						style={ConnectProfileStyles.report}
+						onPress={() => this.setState({ open: true })}
+					>
+						<TouchableOpacity onPress={handleReport}>
+							<Text style={ConnectProfileStyles.textReport}>
+								신고하기
+							</Text>
+						</TouchableOpacity>
+						<Report
+							modalVisible={modalReportVisible}
+							setModalVisible={setModalReportVisible}
+							reportTitle="개인 프로필 신고"
+							report1="혐오적인 컨텐츠"
+							report2="욕설/도배"
+							report3="다른 사람을 사칭함"
+							report4="기타"
 						/>
 					</View>
-					<Text style={ConnectProfileStyles.fontSub16}>태그</Text>
-					<View style={{ marginBottom: 8 }}>
-						<ConnectProfileTag tag={profileData.tags} />
-					</View>
-					<Text style={ConnectProfileStyles.fontSub16}>언어</Text>
-					<ConnectProfileLanguage language={profileData.language} />
-					<View style={ConnectProfileStyles.languageLine} />
-				</View>
-				<View
-					style={ConnectProfileStyles.report}
-					onPress={() => this.setState({ open: true })}
-				>
-					<TouchableOpacity onPress={handleReport}>
-						<Text style={ConnectProfileStyles.textReport}>
-							신고하기
-						</Text>
-					</TouchableOpacity>
-					<Report
-						modalVisible={modalReportVisible}
-						setModalVisible={setModalReportVisible}
-						reportTitle="개인 프로필 신고"
-						report1="혐오적인 컨텐츠"
-						report2="욕설/도배"
-						report3="다른 사람을 사칭함"
-						report4="기타"
-					/>
-				</View>
-			</ScrollView>
+				</ScrollView>
+			</View>
 			<View style={ConnectProfileStyles.bottomTwoButtons}>
 				<BottomTwoButtons shadow="true">
 					<View text="채팅하기" onPress={handleChat} />
-					<View text="커넥트 요청" onPress={handleConnect} />
+					<View
+						text={
+							connectStatus === undefined
+								? "커넥트 요청"
+								: connectStatus === "PENDING"
+									? "요청 취소"
+									: "커넥트 취소"
+						}
+						onPress={handleConnect}
+					/>
 				</BottomTwoButtons>
 			</View>
 			<ConnectRequest

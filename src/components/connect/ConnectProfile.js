@@ -5,7 +5,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 const ConnectProfile = ({ profile = null }) => {
 	return (
 		<View style={[styles.rectangle]}>
-			<Image source={profile} style={styles.image} />
+			<Image source={{ uri: profile }} style={styles.image} />
 		</View>
 	);
 };
