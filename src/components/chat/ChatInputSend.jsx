@@ -18,12 +18,14 @@ import IconImageExit from "@components/chat/IconImageExit";
 import IconChatSend from "@components/chat/IconChatSend";
 import IconCircleCamera from "@components/chat/IconCircleCamera";
 import IconCircleGallery from "@components/chat/IconCircleGallery";
+import { useWebSocket } from "context/WebSocketContext";
 
 const { fontBody14 } = CustomTheme;
 
-const ChatInputSend = () => {
+const ChatInputSend = ({ chatroomId, memberId }) => {
 	const [chatInput, setChatInput] = useState("");
 	const [plusClick, setPlusClick] = useState(false);
+	const { publishMessage } = useWebSocket();
 
 	const handleClick = () => {
 		setPlusClick(!plusClick);
@@ -37,6 +39,19 @@ const ChatInputSend = () => {
 	const handleInputFocus = () => {
 		if (plusClick) {
 			setPlusClick(false);
+		}
+	};
+
+	const handleSend = () => {
+		const trimmedChatInput = chatInput.trim();
+		if (trimmedChatInput) {
+			publishMessage({
+				chatType: "CHAT",
+				chatroomId,
+				memberId,
+				message: trimmedChatInput,
+			});
+			setChatInput("");
 		}
 	};
 
@@ -58,7 +73,9 @@ const ChatInputSend = () => {
 					onFocus={handleInputFocus}
 				/>
 				<View style={styles.rectangleBlue}>
-					<IconChatSend />
+					<TouchableOpacity onPress={handleSend}>
+						<IconChatSend />
+					</TouchableOpacity>
 				</View>
 			</View>
 			{plusClick && (
