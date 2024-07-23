@@ -25,7 +25,7 @@ import IconChatSetting from "@components/chat/IconChatSetting";
 import ChatBubble from "./ChatBubble/ChatBubble";
 import { useWebSocket } from "context/WebSocketContext";
 import formatKoreanTime from "util/formatTime";
-import * as SecureStore from "expo-secure-store";
+import { getMyMemberId } from "util/secureStoreUtils";
 
 const ChatRoomPage = ({ route }) => {
 	const navigation = useNavigation();
@@ -40,11 +40,11 @@ const ChatRoomPage = ({ route }) => {
 	const flatListRef = useRef(null);
 
 	useEffect(() => {
-		const getMemberId = async () => {
-			const id = await SecureStore.getItemAsync("memberId");
-			setMemberId(parseInt(id));
+		const fetchMyMemberId = async () => {
+			const myMemberId = await getMyMemberId();
+			setMemberId(myMemberId);
 		};
-		getMemberId();
+		fetchMyMemberId();
 	}, []);
 
 	useEffect(() => {
