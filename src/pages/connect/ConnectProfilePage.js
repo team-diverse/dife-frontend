@@ -7,7 +7,7 @@ import {
 	TouchableOpacity,
 } from "react-native";
 
-import { getProfileById, getConnectById } from "config/api";
+import { getProfileById, getConnectById, requestConnectById } from "config/api";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
 import IconHeart24 from "@components/Icon24/IconHeart24";
@@ -24,7 +24,7 @@ import ConnectRequest from "@components/ConnectRequest";
 const ConnectProfilePage = ({ route }) => {
 	const { memberId } = route.params;
 	const [profileData, setProfileData] = useState([]);
-	const [connectStatus, setConnectStatus] = useState(null);
+	const [connectStatus, setConnectStatus] = useState(undefined);
 
 	const formatProfileData = (data) => {
 		function cleanHobbies(hobbies) {
@@ -67,8 +67,11 @@ const ConnectProfilePage = ({ route }) => {
 
 	useEffect(() => {
 		getConnectProfile();
-		getConnectStatus();
 	}, []);
+
+	useEffect(() => {
+		getConnectStatus();
+	}, [connectStatus]);
 
 	const [modalReportVisible, setModalReportVisible] = useState(false);
 	const [modalConnectVisible, setModalConnectVisible] = useState(false);
@@ -77,8 +80,23 @@ const ConnectProfilePage = ({ route }) => {
 		setModalReportVisible(true);
 	};
 
+	const requestConnect = async () => {
+		try {
+			const response = await requestConnectById(memberId);
+			setConnectStatus(response.data.status);
+		} catch (error) {
+			console.error(
+				"커넥트 요청 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	const handleConnect = () => {
-		setModalConnectVisible(true);
+		if (connectStatus === undefined) {
+			setModalConnectVisible(true);
+			requestConnect();
+		}
 	};
 
 	const handleChat = () => {

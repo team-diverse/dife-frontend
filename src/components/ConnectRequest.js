@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Animated } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import Modal from "react-native-modal";
 import CompleteIcon from "@components/common/CompleteIcon";
@@ -7,6 +7,7 @@ import ConnectRequestIcon from "@components/common/ConnectRequestIcon";
 
 const ConnectRequest = ({
 	modalVisible,
+	setModalVisible,
 	textLoading = "커넥트 요청중",
 	textComplete = "커넥트 요청 완료!",
 }) => {
@@ -18,10 +19,24 @@ const ConnectRequest = ({
 			setShowConnectRequest(true);
 			setShowConnectComplete(false);
 		}
+		setTimeout(() => {
+			setShowConnectRequest(false);
+			setShowConnectComplete(true);
+		}, 2500);
 	}, [modalVisible]);
 
+	const handleBackdropPress = () => {
+		if (!showConnectRequest) {
+			setModalVisible(false);
+		}
+	};
+
 	return (
-		<Modal isVisible={modalVisible} style={styles.modal}>
+		<Modal
+			isVisible={modalVisible}
+			style={styles.modal}
+			onBackdropPress={handleBackdropPress}
+		>
 			<View style={styles.rectangle}>
 				{showConnectRequest && (
 					<View style={styles.connectContainer}>

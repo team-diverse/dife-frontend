@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontCaption } = CustomTheme;
 
 const HomecardBackBtn = ({ btnText, onPress }) => {
-	const btnStyle =
-		btnText === "신청하기" ? styles.btnApply : styles.btnCancel;
+	const btnStyle = btnText === "아니오" ? styles.btnCancel : styles.btnApply;
 	const btnTextStyle =
-		btnText === "신청하기" ? styles.btnTextA : styles.btnTextC;
+		btnText === "아니오" ? styles.btnTextC : styles.btnTextA;
 
+	const [modalVisible, setModalVisible] = useState(false);
+
+	const pressButton = () => {
+		setModalVisible(true);
+	};
 	return (
 		<TouchableOpacity onPress={onPress}>
 			<View style={[styles.btn, btnStyle]}>
