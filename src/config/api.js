@@ -47,6 +47,10 @@ export const changePassword = (email) => {
 	});
 };
 
+export const getMyConnects = () => {
+	return api.get("/connects");
+};
+
 export const getProfile = () => {
 	return api.get("/members/profile");
 };
