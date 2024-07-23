@@ -49,7 +49,12 @@ const FriendListPage = () => {
 				data={connects}
 				renderItem={({ item }) => {
 					const otherMember = getOtherMemberFromConnect(item);
-					return <FriendList name={otherMember.username} />;
+					return (
+						<FriendList
+							memberId={otherMember.id}
+							name={otherMember.username}
+						/>
+					);
 				}}
 				keyExtractor={(item) => item.id}
 			/>

@@ -5,11 +5,49 @@ import { CustomTheme } from "@styles/CustomTheme";
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconSend from "@components/common/IconSend";
 import IconMenu from "@components/chat/IconMenu";
+import { createSingleChatroom } from "config/api";
+import { useNavigation } from "@react-navigation/native";
+import { useWebSocket } from "context/WebSocketContext";
+import { getMyMemberId } from "util/secureStoreUtils";
 
-const FriendList = ({ name }) => {
+const FriendList = ({ memberId, name }) => {
+	const navigation = useNavigation("");
+	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
+
+	const isRelevantSingleChatroom = (chatroom, myMemberId, otherMemberId) => {
+		if (chatroom.chatroomType !== "SINGLE") {
+			return false;
+		}
+		const members = chatroom.members;
+		const memberIds = members.map((member) => member.id);
+		return (
+			memberIds.includes(myMemberId) && memberIds.includes(otherMemberId)
+		);
+	};
+
+	const handleCreateSingleChatroom = async () => {
+		try {
+			const myMemberId = await getMyMemberId();
+			let chatroomInfo = chatrooms.find((chatroom) =>
+				isRelevantSingleChatroom(chatroom, myMemberId, memberId),
+			);
+
+			if (!chatroomInfo) {
+				const response = await createSingleChatroom(memberId, name);
+				chatroomInfo = response.data;
+				subscribeToNewChatroom(chatroomInfo.id);
+			}
+			navigation.replace("ChatRoomPage", {
+				chatroomInfo,
+			});
+		} catch (error) {
+			console.log("채팅방 생성 에러:", error);
+		}
+	};
+
 	return (
 		<>
-			<TouchableOpacity style={styles.rectangle}>
+			<View style={styles.rectangle}>
 				<View style={styles.containerContext}>
 					<View style={styles.iconTextContainer}>
 						<View style={styles.icon}>
@@ -18,15 +56,17 @@ const FriendList = ({ name }) => {
 						<Text style={styles.textName}>{name}</Text>
 					</View>
 					<View style={styles.containerIcon}>
-						<View style={styles.rectangleChat}>
-							<IconSend />
-						</View>
+						<TouchableOpacity onPress={handleCreateSingleChatroom}>
+							<View style={styles.rectangleChat}>
+								<IconSend />
+							</View>
+						</TouchableOpacity>
 						<View style={styles.iconMenu}>
 							<IconMenu />
 						</View>
 					</View>
 				</View>
-			</TouchableOpacity>
+			</View>
 		</>
 	);
 };
