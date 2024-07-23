@@ -7,8 +7,8 @@ import React, {
 } from "react";
 import { Client } from "@stomp/stompjs";
 import { getChatroomsByType } from "../config/api"; // Adjust the import path as necessary
-import { Text } from "react-native";
 import { WS_URL } from "@env";
+import Loading from "@components/common/loading/Loading";
 
 const WebSocketContext = createContext(null);
 
@@ -121,7 +121,7 @@ export const WebSocketProvider = ({ children }) => {
 				disconnectWebSocket,
 			}}
 		>
-			{isConnected ? children : <Text>LOADING...</Text>}
+			{isConnected ? children : <Loading />}
 		</WebSocketContext.Provider>
 	);
 };
