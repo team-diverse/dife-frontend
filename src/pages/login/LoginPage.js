@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -22,13 +22,16 @@ import { useAuth } from "src/states/AuthContext";
 import InfoCircle from "@components/common/InfoCircle";
 import { getProfile, login } from "config/api";
 import * as SecureStore from "expo-secure-store";
+import { MOCK_LOGIN, MOCK_EMAIL, MOCK_PASSWORD } from "@env";
+
+const isMockLoginEnabled = MOCK_LOGIN === "true";
 
 const LoginPage = () => {
 	const navigation = useNavigation();
 
 	const loginData = ["Dife와 함께하는\n캠퍼스 라이프!", "지금 바로 시작하기"];
-	const [valueID, onChangeID] = useState("");
-	const [valuePW, onChangePW] = useState("");
+	const [valueID, setEmail] = useState("");
+	const [valuePW, setPassword] = useState("");
 	const [showPW, setShowPW] = useState(false);
 	const { updateOnboardingData } = useOnboarding();
 	const { setIsLoggedIn } = useAuth();
@@ -95,6 +98,19 @@ const LoginPage = () => {
 		}
 	};
 
+	useEffect(() => {
+		if (isMockLoginEnabled) {
+			setEmail(MOCK_EMAIL);
+			setPassword(MOCK_PASSWORD);
+		}
+	}, []);
+
+	useEffect(() => {
+		if (isMockLoginEnabled && valueID && valuePW) {
+			handleLogin();
+		}
+	}, [valueID, valuePW]);
+
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
 			<SafeAreaView style={[LoginStyles.container]}>
@@ -112,7 +128,7 @@ const LoginPage = () => {
 							: LoginStyles.textInputId
 					}
 					placeholder="이메일을 입력해주세요"
-					onChangeText={(text) => onChangeID(text)}
+					onChangeText={(text) => setEmail(text)}
 					value={valueID}
 				/>
 				<Text style={LoginStyles.textPw}>Password</Text>
@@ -127,7 +143,7 @@ const LoginPage = () => {
 								: LoginStyles.textInputPw
 						}
 						placeholder="비밀번호를 입력해주세요"
-						onChangeText={(text) => onChangePW(text)}
+						onChangeText={(text) => setPassword(text)}
 						value={valuePW}
 						secureTextEntry={!showPW}
 					/>
