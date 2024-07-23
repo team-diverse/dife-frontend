@@ -1,10 +1,9 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
-
-const BACKEND_URL = "http://192.168.40.14:8080/api";
+import { API_URL } from "@env";
 
 export const api = axios.create({
-	baseURL: BACKEND_URL,
+	baseURL: API_URL,
 	headers: {
 		"Content-type": "application/json",
 	},
