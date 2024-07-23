@@ -8,7 +8,7 @@ import {
 	Keyboard,
 	TouchableOpacity,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "axios";
 
 import ChattingStyles from "@pages/chat/ChattingStyles";
@@ -25,7 +25,7 @@ import formatKoreanTime from "util/formatTime";
 const ChattingPage = () => {
 	const navigation = useNavigation();
 
-	const { chatrooms, messages } = useWebSocket();
+	const { chatrooms, messages, updateChatroomsAndMessages } = useWebSocket();
 	const [searchTerm, setSearchTerm] = useState("");
 	const [isSearching, setIsSearching] = useState(false);
 
@@ -68,6 +68,12 @@ const ChattingPage = () => {
 	const handleMoveGroup = () => {
 		setIsIndividualTab(true);
 	};
+
+	useFocusEffect(
+		React.useCallback(() => {
+			updateChatroomsAndMessages();
+		}, []),
+	);
 
 	return (
 		<View style={ChattingStyles.container}>
@@ -150,7 +156,7 @@ const ChattingPage = () => {
 								data={chatrooms}
 								renderItem={({ item }) => (
 									<ChatroomItem
-										chatroomInfo={chatrooms[item.id - 1]}
+										chatroomInfo={item}
 										name={item.name}
 										context={getLatestChatByChatroomId(
 											item.id,

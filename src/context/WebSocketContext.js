@@ -26,10 +26,7 @@ export const WebSocketProvider = ({ children }) => {
 			},
 			reconnectDelay: 0,
 			onConnect: async () => {
-				const { allChatrooms, initialMessages } =
-					await getAuthorizedChatrooms();
-				setChatrooms(allChatrooms);
-				setMessages(initialMessages);
+				const { allChatrooms } = await updateChatroomsAndMessages();
 				subscribeToChatrooms(allChatrooms);
 				setIsConnected(true);
 			},
@@ -56,11 +53,25 @@ export const WebSocketProvider = ({ children }) => {
 		};
 	}, []);
 
+	const updateChatroomsAndMessages = async () => {
+		const { allChatrooms, initialMessages } =
+			await getAuthorizedChatrooms();
+		setChatrooms(allChatrooms);
+		setMessages(initialMessages);
+		return { allChatrooms, initialMessages };
+	};
+
 	const subscribeToChatrooms = (chatrooms) => {
 		chatrooms.forEach(({ id }) => {
 			ws.current.subscribe(`/sub/chatroom/${id}`, (message) => {
 				handleIncomingMessage(id, message.body);
 			});
+		});
+	};
+
+	const subscribeToNewChatroom = (chatroomId) => {
+		ws.current.subscribe(`/sub/chatroom/${chatroomId}`, (message) => {
+			handleIncomingMessage(chatroomId, message.body);
 		});
 	};
 
@@ -118,6 +129,8 @@ export const WebSocketProvider = ({ children }) => {
 				chatrooms,
 				messages,
 				publishMessage,
+				updateChatroomsAndMessages,
+				subscribeToNewChatroom,
 				disconnectWebSocket,
 			}}
 		>

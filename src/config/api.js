@@ -25,6 +25,18 @@ export const getChatroomsByType = (type) => {
 	});
 };
 
+export const createSingleChatroom = (toMemberId, name) => {
+	const formData = new FormData();
+	formData.append("chatroomType", "SINGLE");
+	formData.append("toMemberId", toMemberId);
+	formData.append("name", name);
+
+	const headers = {
+		"Content-Type": "multipart/form-data",
+	};
+	return api.post("/chatrooms", formData, { headers });
+};
+
 export const signUp = (email, password) => {
 	return api.post("/members/register", {
 		email,
