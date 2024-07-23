@@ -8,8 +8,7 @@ import React, {
 import { Client } from "@stomp/stompjs";
 import { getChatroomsByType } from "../config/api"; // Adjust the import path as necessary
 import { Text } from "react-native";
-
-const WS_URL = "ws://192.168.0.30:8080/ws";
+import { WS_URL } from "@env";
 
 const WebSocketContext = createContext(null);
 
