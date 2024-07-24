@@ -73,9 +73,11 @@ const MemberPage = () => {
 
 					<View style={MemberStyles.containerProfile}>
 						<ProfileKBackground profileImage={profileImage} />
-						<View style={MemberStyles.profileK}>
-							<ProfileK />
-						</View>
+						{profileImage ? null : (
+							<View style={MemberStyles.profileK}>
+								<ProfileK />
+							</View>
+						)}
 						<TouchableOpacity
 							style={MemberStyles.iconProfileEdit}
 							onPress={() =>
@@ -86,7 +88,7 @@ const MemberPage = () => {
 						</TouchableOpacity>
 					</View>
 
-					<Text style={MemberStyles.textName}>Name</Text>
+					<Text style={MemberStyles.textName}>{name}</Text>
 
 					<View style={MemberStyles.containerIcon}>
 						<TouchableOpacity
