@@ -205,3 +205,15 @@ export const requestConnectById = (memberId) => {
 		to_member_id: memberId,
 	});
 };
+
+export const getConnectList = () => {
+	return api.get(`/connects`);
+};
+
+export const getProfileImageByFileName = (fileName) => {
+	return api.get(`/files`, {
+		params: {
+			fileName: fileName,
+		},
+	});
+};
