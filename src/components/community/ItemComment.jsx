@@ -5,7 +5,6 @@ import { CustomTheme } from "@styles/CustomTheme";
 import { createLike } from "config/api";
 
 import IconHeart from "@components/community/IconHeart";
-import IconBookmark from "@components/community/IconBookmark";
 import IconKebabMenu from "@components/community/IconKebabMenu";
 
 const { fontCaption, fontNavi } = CustomTheme;
@@ -30,61 +29,26 @@ const ItemComment = ({ props, id }) => {
 		);
 	}, [props]);
 
-	const heartCommentAlert = async (commentId) => {
+	const handleCommentHeart = async (commentId) => {
 		try {
-			await createLike("COMMENT", id, commentId);
-			console.log("댓글 좋아요 성공");
+			await createLikeComment(id, commentId);
+			setPressHeart((prevState) => ({
+				...prevState,
+				[commentId]: true,
+			}));
+			setHeartCounts((prevHeartCounts) =>
+				prevHeartCounts.map((item) =>
+					item.id === commentId
+						? { ...item, likesCount: item.likesCount + 1 }
+						: item,
+				),
+			);
 		} catch (error) {
 			console.error(
 				"댓글 좋아요 실패:",
 				error.response ? error.response.data : error.message,
 			);
-			setPressHeart((prevState) => ({
-				...prevState,
-				[commentId]: false,
-			}));
-			setHeartCounts((prevHeartCounts) =>
-				prevHeartCounts.map((item) =>
-					item.id === commentId
-						? { ...item, likesCount: item.likesCount - 1 }
-						: item,
-				),
-			);
 		}
-	};
-
-	const handleHeart = (commentId) => {
-		Alert.alert(
-			"",
-			"이 댓글에 좋아요를 누르시겠습니까?",
-			[
-				{
-					text: "취소",
-					style: "cancel",
-				},
-				{
-					text: "확인",
-					onPress: () => {
-						setPressHeart((prevState) => ({
-							...prevState,
-							[commentId]: true,
-						}));
-						setHeartCounts((prevHeartCounts) =>
-							prevHeartCounts.map((item) =>
-								item.id === commentId
-									? {
-											...item,
-											likesCount: item.likesCount + 1,
-										}
-									: item,
-							),
-						);
-						heartCommentAlert(commentId);
-					},
-				},
-			],
-			{ cancelable: false },
-		);
 	};
 
 	return (
@@ -103,29 +67,23 @@ const ItemComment = ({ props, id }) => {
 							<View style={styles.containerTextRow}>
 								<TouchableOpacity
 									style={styles.containerText}
-									onPress={() => handleHeart(post.id)}
+									onPress={() => handleCommentHeart(post.id)}
 								>
 									<IconHeart active={pressHeart[post.id]} />
 									<Text style={styles.text}>
 										{heartCounts.find(
 											(item) => item.id === post.id,
-										)?.likesCount !== undefined
+										)?.likesCount != null
 											? heartCounts.find(
 													(item) =>
 														item.id === post.id,
 												).likesCount
-											: post.likesCount}
+											: 0}
 									</Text>
 								</TouchableOpacity>
 								<View style={styles.containerText}>
-									<IconBookmark />
 									<Text style={styles.text}>
-										{post.bookmark}
-									</Text>
-								</View>
-								<View style={styles.containerText}>
-									<Text style={styles.text}>
-										{date(post.date)}
+										{date(post.created)}
 									</Text>
 								</View>
 							</View>

@@ -107,12 +107,13 @@ export const deletePost = (id) => {
 	return api.delete(`/posts/${id}`);
 };
 
-export const createPost = (title, content, isPublic, boardType) => {
+export const createPost = (title, content, isPublic, boardType, postFile) => {
 	return api.post("/posts", {
 		title,
 		content,
 		isPublic,
 		boardType,
+		postFile,
 	});
 };
 
@@ -141,17 +142,16 @@ export const getBookmarkPost = () => {
 	return api.get("/bookmarks");
 };
 
-export const postCommentSend = (id, valueComment, isChecked) => {
-	return api.post(`comments/${id}`, {
+export const createComment = (postId, valueComment, isChecked) => {
+	return api.post("/comments", {
 		content: valueComment,
 		isPublic: isChecked,
-		postId: id,
-		parentCommentId: 0,
+		postId: postId,
 	});
 };
 
-export const getCommentById = (id) => {
-	return api.get(`comments/${id}`);
+export const getCommentByPostId = (postId) => {
+	return api.get(`/comments/${postId}`);
 };
 
 export const createLike = (type, postId, commentId) => {
@@ -162,10 +162,79 @@ export const createLike = (type, postId, commentId) => {
 	});
 };
 
-export const createBookmark = (chatroomId, chatId, postId) => {
+export const createPostBookmark = (postId) => {
 	return api.post("/bookmarks", {
-		chatroomId: chatroomId,
-		chatId: chatId,
+		type: "POST",
 		postId: postId,
+	});
+};
+
+export const getConnectSearch = (keyword) => {
+	return api.get("/members/search", {
+		params: {
+			keyword: keyword,
+		},
+	});
+};
+
+export const getConnectFilter = (mbtis, hobbies, languages) => {
+	return api.get("/members/filter", {
+		params: {
+			mbtis: mbtis,
+			hobbies: hobbies,
+			languages: languages,
+		},
+	});
+};
+
+export const getConnectById = (memberId) => {
+	return api.get(`/connects/`, {
+		params: {
+			member_id: memberId,
+		},
+	});
+};
+
+export const getProfileById = (memberId) => {
+	return api.get(`/members/${memberId}`);
+};
+
+export const requestConnectById = (memberId) => {
+	return api.post("/connects/", {
+		to_member_id: memberId,
+	});
+};
+
+export const getConnectList = () => {
+	return api.get(`/connects`);
+};
+
+export const getProfileImageByFileName = (fileName) => {
+	return api.get(`/files`, {
+		params: {
+			fileName: fileName,
+		},
+	});
+};
+
+export const deleteConnectById = (connectId) => {
+	return api.delete(`/connects/${connectId}`);
+};
+
+export const deleteBookmarkByPostId = (postId) => {
+	return api.delete(`/bookmarks`, {
+		data: {
+			type: "POST",
+			postId: postId,
+		},
+	});
+};
+
+export const deleteLikeByPostId = (postId) => {
+	return api.delete(`/likes`, {
+		data: {
+			type: "POST",
+			postId: postId,
+		},
 	});
 };
