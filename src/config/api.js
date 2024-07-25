@@ -217,3 +217,7 @@ export const getProfileImageByFileName = (fileName) => {
 		},
 	});
 };
+
+export const deleteConnectById = (connectId) => {
+	return api.delete(`/connects/${connectId}`);
+};

@@ -7,7 +7,12 @@ import {
 	TouchableOpacity,
 } from "react-native";
 
-import { getProfileById, getConnectById, requestConnectById } from "config/api";
+import {
+	getProfileById,
+	getConnectById,
+	requestConnectById,
+	deleteConnectById,
+} from "config/api";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
 import IconHeart24 from "@components/Icon24/IconHeart24";
@@ -25,6 +30,7 @@ const ConnectProfilePage = ({ route }) => {
 	const { memberId } = route.params;
 	const [profileData, setProfileData] = useState([]);
 	const [connectStatus, setConnectStatus] = useState(undefined);
+	const [connectId, setConnectId] = useState();
 
 	const formatProfileData = (data) => {
 		function cleanHobbies(hobbies) {
@@ -57,6 +63,7 @@ const ConnectProfilePage = ({ route }) => {
 		try {
 			const response = await getConnectById(memberId);
 			setConnectStatus(response.data.status);
+			setConnectId(response.data.id);
 		} catch (error) {
 			console.error(
 				"커넥트 상태 조회 오류:",
@@ -92,10 +99,24 @@ const ConnectProfilePage = ({ route }) => {
 		}
 	};
 
+	const deleteConnect = async () => {
+		try {
+			await deleteConnectById(connectId);
+			setConnectStatus(undefined);
+		} catch (error) {
+			console.error(
+				"커넥트 삭제 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	const handleConnect = () => {
 		if (connectStatus === undefined) {
 			setModalConnectVisible(true);
 			requestConnect();
+		} else {
+			deleteConnect();
 		}
 	};
 
