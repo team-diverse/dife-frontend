@@ -65,10 +65,14 @@ const ConnectPage = () => {
 
 	const [modalVisible, setModalVisible] = useState(false);
 
-	const [isIndividualTab, setIsIndividualTab] = useState(false);
+	const [isGroupTab, setIsGroupTab] = useState(false);
 
 	const pressButton = () => {
-		setModalVisible(true);
+		if (isGroupTab) {
+			setGroupModalVisible(true);
+		} else {
+			setModalVisible(true);
+		}
 	};
 
 	const handleSearch = () => {
@@ -99,12 +103,36 @@ const ConnectPage = () => {
 	};
 
 	const handleMoveOnetoone = () => {
-		setIsIndividualTab(false);
+		setIsGroupTab(false);
 	};
 
 	const handleMoveGroup = () => {
-		setIsIndividualTab(true);
+		setIsGroupTab(true);
 	};
+
+	const handleFilterResponse = (response) => {
+		const updatedData = formatProfileData(response);
+		setSearchData(updatedData);
+	};
+
+	const handleFilterSearchFail = (response) => {
+		setSearchFail(response);
+	};
+
+	const [modalGroupVisible, setModalGroupVisible] = useState(false);
+
+	const grouplist = [
+		{
+			profilePresignUrl: null,
+			username: "username",
+			country: "country",
+			age: "age",
+			major: "major",
+			bio: "bio",
+			tags: ["hi"],
+			headcount: 12,
+		},
+	];
 
 	return (
 		<View style={ConnectStyles.container}>
@@ -162,7 +190,7 @@ const ConnectPage = () => {
 					<View style={ConnectStyles.tabContainer}>
 						<Text
 							style={
-								isIndividualTab
+								isGroupTab
 									? ConnectStyles.textTab
 									: ConnectStyles.textActiveTab
 							}
@@ -172,7 +200,7 @@ const ConnectPage = () => {
 						</Text>
 						<Text
 							style={
-								isIndividualTab
+								isGroupTab
 									? ConnectStyles.textActiveTab
 									: ConnectStyles.textTab
 							}
@@ -190,8 +218,44 @@ const ConnectPage = () => {
 					</TouchableOpacity>
 				</View>
 
-				{isIndividualTab ? (
-					<></>
+				{searchFail ? (
+					<View
+						style={[
+							ConnectStyles.cardContainer,
+							{ marginHorizontal: 25 },
+						]}
+					>
+						<ConnectCard fail="true" />
+					</View>
+				) : isGroupTab ? (
+					<View style={ConnectStyles.cardContainer}>
+						<TouchableOpacity
+							style={ConnectStyles.iconNewGroup}
+							onPress={() =>
+								navigation.navigate("GroupCreatedPage")
+							}
+						>
+							<IconNewGroup />
+						</TouchableOpacity>
+						<View style={ConnectStyles.flatlist}>
+							<FlatList
+								contentContainerStyle={
+									ConnectStyles.flatlistContent
+								}
+								data={grouplist}
+								renderItem={({ item }) => (
+									<ConnectCard {...item} tags={item.tags} />
+								)}
+								keyExtractor={(item) => item.id}
+							/>
+						</View>
+						{modalGroupVisible && (
+							<ModalGroupCreationComplete
+								modalVisible={modalGroupVisible}
+								setModalVisible={setModalGroupVisible}
+							/>
+						)}
+					</View>
 				) : (
 					<View style={ConnectStyles.cardContainer}>
 						<View style={ConnectStyles.flatlist}>

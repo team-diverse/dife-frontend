@@ -1,6 +1,9 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, Alert, StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import * as Notifications from "expo-notifications";
+import * as Linking from "expo-linking";
+import { useNavigation } from "@react-navigation/native";
 
 const { fontSub16 } = CustomTheme;
 
@@ -36,6 +39,18 @@ const styles = StyleSheet.create({
 		height: 72,
 		alignItems: "center",
 		justifyContent: "center",
+		paddingHorizontal: 24,
+		paddingVertical: 14,
+		backgroundColor: CustomTheme.bgBasic,
+	},
+	rectangleShadow: {
+		flexDirection: "row",
+		width: "100%",
+		height: 72,
+		alignItems: "center",
+		justifyContent: "center",
+		paddingHorizontal: 24,
+		paddingVertical: 14,
 		backgroundColor: CustomTheme.bgBasic,
 		shadowColor: "#3C454E",
 		shadowOffset: { width: 0, height: -1 },
@@ -44,13 +59,12 @@ const styles = StyleSheet.create({
 	},
 	apply: {
 		flexDirection: "row",
+		width: "100%",
 		height: 44,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.primaryMedium,
 		borderRadius: 27,
-		marginHorizontal: 24,
-		marginVertical: 14,
 	},
 	text: {
 		...fontSub16,
