@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -78,19 +78,21 @@ const ProfileMBTIPage = () => {
 			<Text style={ProfileMbtiStyles.textTitle}>{ProfileData[0]}</Text>
 			<Text style={ProfileMbtiStyles.textSubTitle}>{ProfileData[1]}</Text>
 			<View style={ProfileMbtiStyles.containerMbti}>
-				{mbtiRows.map((row, rowIndex) => (
-					<View key={rowIndex} style={ProfileMbtiStyles.rowMbti}>
-						{row.map((type, typeIndex) => (
-							<FilterCategory
-								key={typeIndex}
-								text={type}
-								mbtiCount={selectedMBTI.length}
-								onPress={() => handleSelectMBTI(type)}
-								onBoardingMBTI="true"
-							/>
-						))}
-					</View>
-				))}
+				<View style={ProfileMbtiStyles.flexStartMbti}>
+					{mbtiRows.map((row, rowIndex) => (
+						<View key={rowIndex} style={ProfileMbtiStyles.rowMbti}>
+							{row.map((type, typeIndex) => (
+								<FilterCategory
+									key={typeIndex}
+									text={type}
+									mbtiCount={selectedMBTI.length}
+									onPress={() => handleSelectMBTI(type)}
+									onBoardingMBTI="true"
+								/>
+							))}
+						</View>
+					))}
+				</View>
 			</View>
 			<View style={ProfileMbtiStyles.buttonCheck}>
 				<ApplyButton

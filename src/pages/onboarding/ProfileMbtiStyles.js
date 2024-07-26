@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme.js";
 
-const { fontHead24, fontBody18 } = CustomTheme;
+const { fontHead24, fontBody18, fontSub16, fontSub14, fontCaption } =
+	CustomTheme;
 
 const ProfileMbtiStyles = StyleSheet.create({
 	container: {
@@ -28,11 +29,14 @@ const ProfileMbtiStyles = StyleSheet.create({
 		marginLeft: 24,
 	},
 	containerMbti: {
+		alignItems: "center",
 		marginTop: 47,
+	},
+	flexStartMbti: {
+		alignItems: "flex-start",
 	},
 	rowMbti: {
 		flexDirection: "row",
-		justifyContent: "center",
 	},
 	buttonCheck: {
 		marginTop: 134,
