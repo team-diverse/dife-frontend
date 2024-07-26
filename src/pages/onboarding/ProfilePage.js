@@ -164,7 +164,9 @@ const ProfilePage = () => {
 					<ApplyButton
 						text="다음"
 						onPress={handleDataSave}
-						disabled={selected === "외국인" && !nation}
+						disabled={
+							!selected || (selected === "외국인" && !nation)
+						}
 					/>
 				</View>
 			</SafeAreaView>
