@@ -12,13 +12,13 @@ import { useNavigation } from "@react-navigation/native";
 
 import SignUpStyles from "@pages/login/SignUpStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
+import { signUp } from "config/api";
 
 import ApplyButton from "@components/common/ApplyButton";
 import InfoCircle from "@components/common/InfoCircle";
 import IconNotSeePw from "@components/login/IconNotSeePw";
 import IconSeePw from "@components/login/IconSeePw";
 import GoBack from "@components/common/GoBack";
-import { signUp } from "config/api";
 
 const SignUpPage = () => {
 	const navigation = useNavigation();
@@ -28,7 +28,7 @@ const SignUpPage = () => {
 	const [valuePW, onChangePW] = useState("");
 	const [valueCheckPW, onChangeCheckPW] = useState("");
 	const [showPW, setShowPW] = useState(false);
-	const [vaildID, setVaildID] = useState(true);
+	const [validID, setValidID] = useState(true);
 	const [passwordMatch, setPasswordMatch] = useState(true);
 	const [passwordError, setPasswordError] = useState(false);
 	const [isFormValid, setIsFormValid] = useState(false);
@@ -37,6 +37,7 @@ const SignUpPage = () => {
 	useEffect(() => {
 		setIsFormValid(
 			valueID &&
+				validID &&
 				valuePW &&
 				valueCheckPW &&
 				passwordMatch &&
@@ -48,33 +49,40 @@ const SignUpPage = () => {
 		setShowPW(!showPW);
 	};
 
-	const handlePasswordError = () => {
-		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
-		setPasswordError(!passwordRegex.test(valuePW));
+	const handleEmail = (text) => {
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		setValidID(emailRegex.test(text));
+		setErrorMessage("유효한 이메일 형식을 입력해주세요.");
+		onChangeID(text);
 	};
 
-	const handleCheckPassword = () => {
-		setPasswordMatch(valuePW === valueCheckPW);
+	const handlePasswordError = (text) => {
+		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+		setPasswordError(!passwordRegex.test(text));
+		onChangePW(text);
+	};
+
+	const handleCheckPassword = (text) => {
+		setPasswordMatch(valuePW === text);
+		onChangeCheckPW(text);
 	};
 
 	const handleKeyboard = () => {
 		Keyboard.dismiss();
 	};
 
-	const handleSignUp = () => {
-		signUp(valueID, valuePW)
-			.then((response) => {
-				console.log("회원가입 성공:", response.data.message);
-				navigation.navigate("Login");
-			})
-			.catch((error) => {
-				console.error(
-					"회원가입 실패:",
-					error.response ? error.response.data : error.message,
-				);
-				setVaildID(false);
-				setErrorMessage(error.response.data.message);
-			});
+	const handleSignUp = async () => {
+		try {
+			await signUp(valueID, valuePW);
+			navigation.navigate("Login");
+		} catch (error) {
+			console.error(
+				"회원가입 실패:",
+				error.response ? error.response.data : error.message,
+			);
+			setValidID(false);
+			setErrorMessage(error.response.data.message);
+		}
 	};
 
 	return (
@@ -86,10 +94,10 @@ const SignUpPage = () => {
 				<TextInput
 					style={SignUpStyles.textInputId}
 					placeholder="이메일을 입력해주세요"
-					onChangeText={(text) => onChangeID(text)}
+					onChangeText={handleEmail}
 					value={valueID}
 				/>
-				{!vaildID && (
+				{!validID && (
 					<View style={SignUpStyles.containerError}>
 						<InfoCircle color={CustomTheme.warningRed} />
 						<Text style={SignUpStyles.textError}>
@@ -102,10 +110,9 @@ const SignUpPage = () => {
 					<TextInput
 						style={SignUpStyles.textInputPw}
 						placeholder="영문, 숫자 포함 8자 이상"
-						onChangeText={(text) => onChangePW(text)}
+						onChangeText={handlePasswordError}
 						value={valuePW}
 						secureTextEntry={!showPW}
-						onBlur={handlePasswordError}
 					/>
 					<TouchableOpacity
 						style={SignUpStyles.iconSee}
@@ -131,10 +138,9 @@ const SignUpPage = () => {
 					<TextInput
 						style={SignUpStyles.textInputPw}
 						placeholder="비밀번호 확인"
-						onChangeText={(text) => onChangeCheckPW(text)}
+						onChangeText={handleCheckPassword}
 						value={valueCheckPW}
 						secureTextEntry={!showPW}
-						onBlur={handleCheckPassword}
 					/>
 				</View>
 				{!passwordMatch && (
