@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Image,
@@ -38,6 +38,7 @@ const ProfilePage = () => {
 	const [selectedValue, setSelectedValue] = useState(true);
 	const [, setIsReportButtonDisabled] = useState(true);
 	const [text, setText] = useState("");
+	const [nation, setNation] = useState("");
 
 	const handleKeyboard = () => {
 		Keyboard.dismiss();
@@ -124,6 +125,24 @@ const ProfilePage = () => {
 						borderColor="#B0D0FF"
 						onboarding="true"
 					/>
+					{selected === "외국인" && (
+						<>
+							<Text
+								style={[
+									ProfileStyles.textNationIntroduction,
+									{ marginLeft: 0 },
+								]}
+							>
+								국적
+							</Text>
+							<TextInput
+								style={ProfileStyles.textInputPassword}
+								placeholder="국적을 입력해주세요."
+								value={nation}
+								onChangeText={setNation}
+							/>
+						</>
+					)}
 				</View>
 				<Text style={ProfileStyles.textNationIntroduction}>
 					한줄소개
@@ -145,7 +164,7 @@ const ProfilePage = () => {
 					<ApplyButton
 						text="다음"
 						onPress={handleDataSave}
-						disabled={!selected}
+						disabled={selected === "외국인" && !nation}
 					/>
 				</View>
 			</SafeAreaView>

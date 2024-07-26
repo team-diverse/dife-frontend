@@ -67,17 +67,15 @@ const HomePage = ({ count = 3 }) => {
 	};
 
 	const profileData = profileDataList[currentProfileIndex];
-	const { id, profilePresignUrl, tags, bio, username, country, age } =
-		profileData
-			? profileData
-			: {
-					profileFileName: null,
-					tags: ["tag"],
-					bio: "bio",
-					username: "username",
-					country: "country",
-					age: "age",
-				};
+	const { id, profilePresignUrl, tags, bio, username, country } = profileData
+		? profileData
+		: {
+				profileFileName: null,
+				tags: ["tag"],
+				bio: "bio",
+				username: "username",
+				country: "country",
+			};
 
 	const [showNewCard, setShowNewCard] = useState(false);
 	const [isLiked, setIsLiked] = useState({});
@@ -146,7 +144,6 @@ const HomePage = ({ count = 3 }) => {
 									introduction={bio}
 									name={username}
 									country={country}
-									age={age}
 									onPress={() => setShowNewCard(true)}
 									isLikedOnPress={() =>
 										handleIsLikedPress(id)
