@@ -20,7 +20,7 @@ import LoginBackground from "@components/login/LoginBackground";
 import { useOnboarding } from "src/states/OnboardingContext.js";
 import { useAuth } from "src/states/AuthContext";
 import InfoCircle from "@components/common/InfoCircle";
-import { getProfile, login } from "config/api";
+import { getMyProfile, login } from "config/api";
 import * as SecureStore from "expo-secure-store";
 import { MOCK_LOGIN, MOCK_EMAIL, MOCK_PASSWORD } from "@env";
 
@@ -128,7 +128,7 @@ const LoginPage = () => {
 							: LoginStyles.textInputId
 					}
 					placeholder="이메일을 입력해주세요"
-					onChangeText={(text) => onChangeID(text)}
+					onChangeText={(text) => setEmail(text)}
 					value={valueID}
 				/>
 				<Text style={LoginStyles.textPw}>Password</Text>
@@ -143,7 +143,7 @@ const LoginPage = () => {
 								: LoginStyles.textInputPw
 						}
 						placeholder="비밀번호를 입력해주세요"
-						onChangeText={(text) => onChangePW(text)}
+						onChangeText={(text) => setPassword(text)}
 						value={valuePW}
 						secureTextEntry={!showPW}
 					/>

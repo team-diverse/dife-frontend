@@ -25,7 +25,7 @@ const TipCommunityPage = () => {
 	const navigation = useNavigation();
 
 	const [searchTerm, setSearchTerm] = useState("");
-	const [searchData, setSearchData] = useState([]);
+	const [, setSearchData] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
 
 	const handleSearch = () => {

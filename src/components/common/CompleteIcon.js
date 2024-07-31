@@ -2,10 +2,6 @@ import * as React from "react";
 import Svg, { Path, Circle } from "react-native-svg";
 import { View, StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
-import * as React from "react";
-import Svg, { Path, Circle } from "react-native-svg";
-import { View, StyleSheet } from "react-native";
-import { CustomTheme } from "@styles/CustomTheme";
 
 const CompleteIcon = ({ isConnect = false, ...props }) => {
 	const circleFill = isConnect
