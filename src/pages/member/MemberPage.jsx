@@ -27,7 +27,7 @@ const MemberPage = () => {
 	const navigation = useNavigation();
 	const Tab = createMaterialTopTabNavigator();
 
-	const [setName] = useState("");
+	const [name, setName] = useState("");
 	const [profileImage, setProfileImage] = useState(null);
 
 	useEffect(() => {

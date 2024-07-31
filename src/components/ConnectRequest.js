@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Animated } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import Modal from "react-native-modal";
 import CompleteIcon from "@components/common/CompleteIcon";
