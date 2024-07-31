@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import MyPostStyles from "@pages/member/MyPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { useNavigation } from "@react-navigation/native";
+import { getMyPosts, getMyComments } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ArrowRight from "@components/common/ArrowRight";
@@ -12,32 +13,29 @@ import ItemCommunity from "@components/community/ItemCommunity";
 const MyPostPage = () => {
 	const navigation = useNavigation();
 
-	const MyPostList = [
-		{
-			title: "좋아요 화면입니다",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-			heart: 2,
-			bookmark: 2,
-			comment: 0,
-			created: "2024-06-22T10:30:00",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-			heart: 2,
-			bookmark: 2,
-			comment: 0,
-			created: "2024-06-22T10:30:00",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-			heart: 2,
-			bookmark: 2,
-			comment: 0,
-			created: "2024-06-22T10:30:00",
-		},
-	];
+	const [myPostList, setMyPostList] = useState();
+	const [myCommentList, setMyCommentList] = useState();
+
+	const getMyPostList = async () => {
+		try {
+			const myPost = await getMyPosts();
+			setMyPostList(myPost.data.slice(0, 3));
+
+			const myComment = await getMyComments();
+			setMyCommentList(myComment.data.slice(0, 3));
+		} catch (error) {
+			console.error(
+				"내가 쓴 글 및 쓴 댓글 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			getMyPostList();
+		}, []),
+	);
 
 	return (
 		<SafeAreaView style={MyPostStyles.container}>
@@ -64,7 +62,7 @@ const MyPostPage = () => {
 				</View>
 
 				<View style={MyPostStyles.itemCommunity}>
-					<ItemCommunity props={MyPostList} />
+					<ItemCommunity postList={myPostList} />
 				</View>
 
 				<View style={MyPostStyles.line} />
@@ -85,7 +83,7 @@ const MyPostPage = () => {
 				</View>
 
 				<View style={MyPostStyles.itemCommunity}>
-					<ItemCommunity props={MyPostList} comment={true} />
+					<ItemCommunity postList={myCommentList} comment={true} />
 				</View>
 			</View>
 		</SafeAreaView>
