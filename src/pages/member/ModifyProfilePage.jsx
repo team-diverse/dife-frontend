@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import TopBar from "@components/common/TopBar";
 import ModifyKBackground from "@components/member/ModifyKBackground";
 import IconLock from "@components/member/IconLock";
-import IconProfileEdit from "@components/member/IconProfileEdit";
+import IconCamera from "@components/member/IconCamera";
 
 const ModifyProfilePage = () => {
 	const navigation = useNavigation();
@@ -96,7 +96,7 @@ const ModifyProfilePage = () => {
 						style={ModifyProfileStyles.iconProfileEdit}
 						onPress={pickImage}
 					>
-						<IconProfileEdit color={CustomTheme.primaryMedium} />
+						<IconCamera color={CustomTheme.primaryMedium} />
 					</TouchableOpacity>
 				</View>
 
