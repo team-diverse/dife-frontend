@@ -1,8 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme.js";
 
-const { fontHead24, fontBody18, fontSub16, fontSub14, fontCaption } =
-	CustomTheme;
+const { fontHead24, fontBody18 } = CustomTheme;
 
 const ProfileMbtiStyles = StyleSheet.create({
 	container: {

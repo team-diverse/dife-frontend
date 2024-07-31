@@ -35,6 +35,7 @@ const NicknamePage = () => {
 	];
 	const [nickname, setNickname] = useState("");
 	const [nicknameValid, setNicknameValid] = useState(null);
+	const { updateOnboardingData } = useOnboarding();
 
 	const handleNicknameChange = (text) => {
 		setNickname(text);
