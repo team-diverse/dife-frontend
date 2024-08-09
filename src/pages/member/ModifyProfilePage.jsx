@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
 	SafeAreaView,
 	View,
@@ -7,22 +7,59 @@ import {
 	Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import ModifyProfileStyles from "@pages/member/ModifyProfileStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useOnboarding } from "src/states/OnboardingContext.js";
-import { updateProfile } from "config/api";
-import { useNavigation } from "@react-navigation/native";
+import { getMyProfile, updateMyProfile } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ModifyKBackground from "@components/member/ModifyKBackground";
 import IconLock from "@components/member/IconLock";
 import IconCamera from "@components/member/IconCamera";
+import Loading from "@components/common/loading/Loading";
 
 const ModifyProfilePage = () => {
 	const navigation = useNavigation();
+
+	const [profile, setProfile] = useState();
 	const [profileImage, setProfileImage] = useState(null);
+
 	const { onboardingData } = useOnboarding();
+
+	const formatProfileData = (data) => {
+		function cleanHobbies(hobbies) {
+			return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
+		}
+		return data.map((item) => {
+			if (item.mbti !== null) {
+				const cleanedHobbies = cleanHobbies(item.hobbies);
+				const tags = [item.mbti, ...cleanedHobbies];
+				return { ...item, tags };
+			}
+			return item;
+		});
+	};
+
+	const getMyProfileInfo = async () => {
+		try {
+			const response = await getMyProfile();
+			const updatedData = formatProfileData([response.data]);
+			setProfile(updatedData[0]);
+		} catch (error) {
+			console.error(
+				"프로필 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			getMyProfileInfo();
+		}, []),
+	);
 
 	const pickImage = async () => {
 		const { status } =
@@ -68,15 +105,9 @@ const ModifyProfilePage = () => {
 		}
 	};
 
-	const profile = {
-		nickname: "Amy",
-		bio: "안녕하세요, 저는 프랑스에서 온 에이미 입니다, 산업디자인을 전공하고 있습니다. 언제든지 채팅주세요!! 😀",
-		tag: ["여행", "사진", "스포츠", "요리", "ENTP"],
-		language: ["English / English", "한국어 / Korean"],
-		nation: "프랑스",
-		realname: "Amy revnski",
-		major: "산업디자인",
-	};
+	if (!profile) {
+		return <Loading />;
+	}
 
 	return (
 		<SafeAreaView style={ModifyProfileStyles.container}>
@@ -113,7 +144,8 @@ const ModifyProfilePage = () => {
 						onPress={() =>
 							navigation.navigate("ModifyProfileInputPage", {
 								title: "닉네임",
-								nicknameContent: profile.nickname,
+								nicknameContent: profile.username,
+								profileData: profile,
 							})
 						}
 					>
@@ -132,7 +164,7 @@ const ModifyProfilePage = () => {
 									{ color: CustomTheme.primaryMedium },
 								]}
 							>
-								{profile.nickname}
+								{profile.username}
 							</Text>
 						</View>
 						<Text style={ModifyProfileStyles.textModify}>수정</Text>
@@ -144,6 +176,7 @@ const ModifyProfilePage = () => {
 							navigation.navigate("ModifyProfileInputPage", {
 								title: "한줄소개",
 								bioContent: profile.bio,
+								profileData: profile,
 							})
 						}
 					>
@@ -165,7 +198,8 @@ const ModifyProfilePage = () => {
 						onPress={() =>
 							navigation.navigate("ModifyProfileInputPage", {
 								title: "태그",
-								tagContent: profile.tag,
+								tagContent: profile.tags,
+								profileData: profile,
 							})
 						}
 					>
@@ -178,7 +212,7 @@ const ModifyProfilePage = () => {
 							</Text>
 						</View>
 						<View style={ModifyProfileStyles.containerTagLanguage}>
-							{profile.tag.map((item, index) => (
+							{profile.tags.map((item, index) => (
 								<Text
 									key={index}
 									style={ModifyProfileStyles.textContent}
@@ -194,7 +228,8 @@ const ModifyProfilePage = () => {
 						onPress={() =>
 							navigation.navigate("ModifyProfileInputPage", {
 								title: "언어",
-								languageContent: profile.language,
+								languageContent: profile.languages,
+								profileData: profile,
 							})
 						}
 					>
@@ -207,7 +242,7 @@ const ModifyProfilePage = () => {
 							</Text>
 						</View>
 						<View style={ModifyProfileStyles.containerTagLanguage}>
-							{profile.language.map((item, index) => (
+							{profile.languages.map((item, index) => (
 								<Text
 									key={index}
 									style={ModifyProfileStyles.textContent}
@@ -244,7 +279,7 @@ const ModifyProfilePage = () => {
 												ModifyProfileStyles.textContent
 											}
 										>
-											{profile.nation}
+											{"국적"}
 										</Text>
 									</View>
 									<View
@@ -264,7 +299,7 @@ const ModifyProfilePage = () => {
 												ModifyProfileStyles.textContent
 											}
 										>
-											{profile.realname}
+											{profile.name}
 										</Text>
 									</View>
 									<View

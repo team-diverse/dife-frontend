@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import MemberStyles from "@pages/member/MemberStyles";
@@ -30,21 +30,24 @@ const MemberPage = () => {
 	const [setName] = useState("");
 	const [profileImage, setProfileImage] = useState(null);
 
-	useEffect(() => {
-		const handleProfile = async () => {
-			try {
-				const response = await getProfile();
-				setName(response.data.username);
-				setProfileImage(response.data.profilePresignUrl);
-			} catch (error) {
-				console.error(
-					"마이페이지 조회 오류:",
-					error.response ? error.response.data : error.message,
-				);
-			}
-		};
-		handleProfile();
-	}, [profileImage]);
+	const handleProfile = async () => {
+		try {
+			const response = await getMyProfile();
+			setName(response.data.username);
+			setProfileImage(response.data.profilePresignUrl);
+		} catch (error) {
+			console.error(
+				"마이페이지 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			handleProfile();
+		}, [profileImage]),
+	);
 
 	return (
 		<>

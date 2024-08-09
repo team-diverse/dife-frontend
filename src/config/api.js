@@ -75,8 +75,8 @@ export const headCheckUserName = (username) => {
 	});
 };
 
-export const updateProfile = (member_id, formData) => {
-	return api.put(`/members/${member_id}`, formData, {
+export const updateMyProfile = (formData) => {
+	return api.put(`/members`, formData, {
 		headers: {
 			"Content-Type": "multipart/form-data",
 		},
