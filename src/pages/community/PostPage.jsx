@@ -23,8 +23,8 @@ import {
 	createComment,
 	createLikePost,
 	createBookmark,
-	getLikedPost,
-	getBookmarkedPost,
+	getLikedPosts,
+	getBookmarkedPosts,
 } from "config/api";
 
 import TopBar from "@components/common/TopBar";
@@ -216,7 +216,7 @@ const PostPage = ({ route }) => {
 
 	const likedPosts = async () => {
 		try {
-			const response = await getLikedPost();
+			const response = await getLikedPosts();
 			const likedPostIdList = response.data.map((item) => item.id);
 			setPressHeart(likedPostIdList.includes(id));
 		} catch (error) {
@@ -267,7 +267,7 @@ const PostPage = ({ route }) => {
 
 	const bookmarkedPosts = async () => {
 		try {
-			const response = await getBookmarkedPost();
+			const response = await getBookmarkedPosts();
 			const bookmarkedPostIdList = response.data.map((item) => item.id);
 			setPressBookmark(bookmarkedPostIdList.includes(id));
 		} catch (error) {

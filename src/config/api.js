@@ -67,7 +67,7 @@ export const getMyProfile = () => {
 	return api.get("/members/profile");
 };
 
-export const checkUserName = (username) => {
+export const checkUsername = (username) => {
 	return api.head("/members", {
 		params: {
 			username,
@@ -133,11 +133,11 @@ export const updatePost = (
 	});
 };
 
-export const getLikedPost = () => {
+export const getLikedPosts = () => {
 	return api.get("/likes");
 };
 
-export const getBookmarkedPost = () => {
+export const getBookmarkedPosts = () => {
 	return api.get("/bookmarks");
 };
 
