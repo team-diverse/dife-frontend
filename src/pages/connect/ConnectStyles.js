@@ -121,12 +121,11 @@ const ConnectStyles = StyleSheet.create({
 		width: "100%",
 	},
 	flatlistContent: {
-		alignItems: "center",
+		marginHorizontal: 25,
 	},
 	cardContainer: {
 		flex: 1,
 		alignItems: "center",
-		justifyContent: "center",
 		shadowColor: "#3C454E4A",
 		shadowOffset: { width: 0, height: 3 },
 		shadowOpacity: 0.71,

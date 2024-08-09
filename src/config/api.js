@@ -169,3 +169,21 @@ export const createBookmark = (chatroomId, chatId, postId) => {
 		postId: postId,
 	});
 };
+
+export const getConnectSearch = (keyword) => {
+	return api.get("/members/search", {
+		params: {
+			keyword: keyword,
+		},
+	});
+};
+
+export const getConnectFilter = (mbtis, hobbies, languages) => {
+	return api.get("/members/filter", {
+		params: {
+			mbtis: mbtis,
+			hobbies: hobbies,
+			languages: languages,
+		},
+	});
+};
