@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { createLikeComment } from "config/api";
+import { createLikeComment, deleteLikeByCommentId } from "config/api";
 import { useOnboarding } from "src/states/OnboardingContext.js";
 
 import IconHeart from "@components/community/IconHeart";
@@ -21,36 +21,61 @@ const ItemComment = ({ commentList = [], id, onReply }) => {
 		return monthDay.replace("-", "/");
 	};
 
-	const [pressHeart, setPressHeart] = useState({});
-	const initialHeartCounts = props.map((post) => ({
+	const initialHeartStates = commentList.map((post) => ({
 		id: post.id,
 		likesCount: post.likesCount,
+		isLiked: post.isLiked,
 	}));
-	const [heartCounts, setHeartCounts] = useState(initialHeartCounts);
+	const [heartStates, setHeartStates] = useState(initialHeartStates);
 
 	useEffect(() => {
-		setHeartCounts(
-			props.map((post) => ({ id: post.id, likesCount: post.likesCount })),
-		);
-	}, [props]);
+		const newHeartStates = commentList.map((post) => ({
+			id: post.id,
+			likesCount: post.likesCount,
+			isLiked: post.isLiked,
+		}));
 
-	const handleCommentHeart = async (commentId) => {
+		if (JSON.stringify(newHeartStates) !== JSON.stringify(heartStates)) {
+			setHeartStates(newHeartStates);
+		}
+	}, [commentList]);
+
+	const handleCommentHeart = async (commentId, isLiked) => {
 		try {
-			await createLikeComment(id, commentId);
-			setPressHeart((prevState) => ({
-				...prevState,
-				[commentId]: true,
-			}));
-			setHeartCounts((prevHeartCounts) =>
-				prevHeartCounts.map((item) =>
-					item.id === commentId
-						? { ...item, likesCount: item.likesCount + 1 }
-						: item,
-				),
-			);
+			if (isLiked) {
+				await deleteLikeByCommentId(commentId);
+				setHeartStates((prevHeartStates) =>
+					prevHeartStates.map((item) =>
+						item.id === commentId
+							? {
+									...item,
+									isLiked: !item.isLiked,
+									likesCount: item.isLiked
+										? item.likesCount - 1
+										: item.likesCount + 1,
+								}
+							: item,
+					),
+				);
+			} else {
+				await createLikeComment(commentId);
+				setHeartStates((prevHeartStates) =>
+					prevHeartStates.map((item) =>
+						item.id === commentId
+							? {
+									...item,
+									isLiked: !item.isLiked,
+									likesCount: !item.isLiked
+										? item.likesCount + 1
+										: item.likesCount - 1,
+								}
+							: item,
+					),
+				);
+			}
 		} catch (error) {
 			console.error(
-				"댓글 좋아요 실패:",
+				"좋아요 처리 실패:",
 				error.response ? error.response.data : error.message,
 			);
 		}
@@ -93,6 +118,10 @@ const ItemComment = ({ commentList = [], id, onReply }) => {
 		width: 200,
 	};
 
+	// useEffect(() => {
+	// 	console.log(commentList);
+	// }, []);
+
 	const renderComments = (comments) => {
 		return comments.map((post) => {
 			const replies = commentList.filter(
@@ -120,17 +149,25 @@ const ItemComment = ({ commentList = [], id, onReply }) => {
 									<TouchableOpacity
 										style={styles.containerText}
 										onPress={() =>
-											handleCommentHeart(post.id)
+											handleCommentHeart(
+												post.id,
+												post.isLiked,
+											)
 										}
 									>
 										<IconHeart
-											active={pressHeart[post.id]}
+											active={
+												heartStates.find(
+													(item) =>
+														item.id === post.id,
+												)?.isLiked
+											}
 										/>
 										<Text style={styles.text}>
-											{heartCounts.find(
+											{heartStates.find(
 												(item) => item.id === post.id,
 											)?.likesCount != null
-												? heartCounts.find(
+												? heartStates.find(
 														(item) =>
 															item.id === post.id,
 													).likesCount
@@ -210,21 +247,28 @@ const ItemComment = ({ commentList = [], id, onReply }) => {
 											<TouchableOpacity
 												style={styles.containerText}
 												onPress={() =>
-													handleCommentHeart(reply.id)
+													handleCommentHeart(
+														reply.id,
+														reply.isLiked,
+													)
 												}
 											>
 												<IconHeart
 													active={
-														pressHeart[reply.id]
+														heartStates.find(
+															(item) =>
+																item.id ===
+																reply.id,
+														)?.isLiked
 													}
 												/>
 												<Text style={styles.text}>
-													{heartCounts.find(
+													{heartStates.find(
 														(item) =>
 															item.id ===
 															reply.id,
 													)?.likesCount != null
-														? heartCounts.find(
+														? heartStates.find(
 																(item) =>
 																	item.id ===
 																	reply.id,

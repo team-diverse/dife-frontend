@@ -175,9 +175,22 @@ export const getCommentById = (id) => {
 
 export const createLike = (type, postId, commentId) => {
 	return api.post("/likes", {
-		type: type,
-		postId: postId,
-		commentId: commentId,
+		type: "POST",
+		id: postId,
+	});
+};
+
+export const createLikeComment = (commentId) => {
+	return api.post("/likes", {
+		type: "COMMENT",
+		id: commentId,
+	});
+};
+
+export const createLikeMember = (memberId) => {
+	return api.post("/likes", {
+		type: "MEMBER",
+		id: memberId,
 	});
 };
 
@@ -254,7 +267,25 @@ export const deleteLikeByPostId = (postId) => {
 	return api.delete(`/likes`, {
 		data: {
 			type: "POST",
-			postId: postId,
+			id: postId,
+		},
+	});
+};
+
+export const deleteLikeByCommentId = (commentId) => {
+	return api.delete(`/likes`, {
+		data: {
+			type: "COMMENT",
+			id: commentId,
+		},
+	});
+};
+
+export const deleteLikeByMemberId = (memberId) => {
+	return api.delete(`/likes`, {
+		data: {
+			type: "MEMBER",
+			id: memberId,
 		},
 	});
 };
