@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	TouchableOpacity,
 	Text,
@@ -10,6 +10,7 @@ import {
 	Platform,
 	Dimensions,
 	Alert,
+	Keyboard,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -19,10 +20,19 @@ import { useOnboarding } from "src/states/OnboardingContext.js";
 import { usePostModify } from "src/states/PostModifyContext";
 import {
 	getPostById,
+<<<<<<< HEAD
 	getCommentById,
 	postCommentSend,
 	createLike,
 	createBookmark,
+=======
+	getCommentByPostId,
+	createComment,
+	createReplyComment,
+	createLikePost,
+	deleteLikeByPostId,
+	createPostBookmark,
+>>>>>>> e15a079 (feat: 댓글/대댓글 ui 및 대댓글 기능 추가)
 	getLikedPost,
 	getBookmarkPost,
 } from "config/api";
@@ -57,6 +67,10 @@ const PostPage = ({ route }) => {
 	const [comments, setComments] = useState([]);
 	const [valueComment, onChangeComment] = useState("");
 	const [isChecked, setIsChecked] = useState(false);
+	const [isReplying, setIsReplying] = useState(false);
+	const [parentCommentId, setParentCommentId] = useState(null);
+
+	const commentRef = useRef(null);
 
 	const handlePress = () => {
 		setIsChecked(!isChecked);
@@ -165,6 +179,7 @@ const PostPage = ({ route }) => {
 	const handleCommentSend = async () => {
 		try {
 <<<<<<< HEAD
+<<<<<<< HEAD
 			const commentSendResponse = await postCommentSend(
 				id,
 =======
@@ -181,6 +196,35 @@ const PostPage = ({ route }) => {
 				...prevComments,
 				commentSendResponse.data,
 			]);
+=======
+			if (isReplying && parentCommentId) {
+				onChangeComment("");
+				const commentSendResponse = await createReplyComment(
+					postId,
+					valueComment,
+					isChecked,
+					parentCommentId,
+				);
+				setComments((prevComments) => [
+					...prevComments,
+					commentSendResponse.data,
+				]);
+				setIsReplying(false);
+				setParentCommentId(null);
+			} else {
+				onChangeComment("");
+				const commentSendResponse = await createComment(
+					postId,
+					valueComment,
+					isChecked,
+				);
+				onChangeComment("");
+				setComments((prevComments) => [
+					...prevComments,
+					commentSendResponse.data,
+				]);
+			}
+>>>>>>> e15a079 (feat: 댓글/대댓글 ui 및 대댓글 기능 추가)
 		} catch (error) {
 			console.error(
 				"댓글 작성 실패:",
@@ -188,6 +232,30 @@ const PostPage = ({ route }) => {
 			);
 		}
 	};
+
+	const handleReply = (commentId) => {
+		if (commentRef.current) {
+			commentRef.current.focus();
+		}
+		setIsReplying(true);
+		setParentCommentId(commentId);
+	};
+
+	const handleCancelReply = () => {
+		Keyboard.dismiss();
+		setIsReplying(false);
+		setParentCommentId(null);
+	};
+
+	useEffect(() => {
+		const keyboardDidHideListener = Keyboard.addListener(
+			"keyboardDidHide",
+			handleCancelReply,
+		);
+		return () => {
+			keyboardDidHideListener.remove();
+		};
+	}, []);
 
 	const [pressHeart, setPressHeart] = useState();
 
@@ -423,7 +491,11 @@ const PostPage = ({ route }) => {
 						)}
 					</View>
 					<View style={{ marginTop: 48 }}>
-						<ItemComment commentList={comments} id={postId} />
+						<ItemComment
+							commentList={comments}
+							id={postId}
+							onReply={handleReply}
+						/>
 					</View>
 				</View>
 			</ScrollView>
@@ -444,7 +516,12 @@ const PostPage = ({ route }) => {
 					</View>
 					<TextInput
 						style={PostStyles.textInputComment}
-						placeholder="댓글을 입력해주세요"
+						ref={commentRef}
+						placeholder={
+							isReplying
+								? "대댓글을 입력해주세요"
+								: "댓글을 입력해주세요"
+						}
 						onChangeText={(text) => onChangeComment(text)}
 						value={valueComment}
 					/>

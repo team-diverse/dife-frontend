@@ -71,7 +71,7 @@ const ItemCommunity = ({ props, comment }) => {
 									<View style={styles.containerText}>
 										<IconComment />
 										<Text style={styles.text}>
-											{post.comment}
+											{post.commentCount}
 										</Text>
 									</View>
 									<View style={styles.containerText}>

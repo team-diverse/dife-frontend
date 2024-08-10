@@ -147,12 +147,25 @@ export const getBookmarkPost = () => {
 	return api.get("/bookmarks");
 };
 
-export const postCommentSend = (id, valueComment, isChecked) => {
-	return api.post(`comments/${id}`, {
+export const createComment = (postId, valueComment, isChecked) => {
+	return api.post("/comments", {
 		content: valueComment,
 		isPublic: isChecked,
-		postId: id,
-		parentCommentId: 0,
+		postId: postId,
+	});
+};
+
+export const createReplyComment = (
+	postId,
+	valueComment,
+	isChecked,
+	parentCommentId,
+) => {
+	return api.post("/comments", {
+		content: valueComment,
+		isPublic: isChecked,
+		postId: postId,
+		parentCommentId: parentCommentId,
 	});
 };
 
