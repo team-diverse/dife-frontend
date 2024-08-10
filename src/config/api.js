@@ -107,13 +107,19 @@ export const deletePost = (id) => {
 	return api.delete(`/posts/${id}`);
 };
 
-export const createPost = (title, content, isPublic, boardType) => {
-	return api.post("/posts", {
-		title,
-		content,
-		isPublic,
-		boardType,
-	});
+export const createPost = (title, content, isPublic, boardType, postFile) => {
+	const formData = new FormData();
+	formData.append("title", title);
+	formData.append("content", content);
+	formData.append("isPublic", isPublic);
+	formData.append("boardType", boardType);
+	formData.append("postFile", postFile || null);
+
+	const headers = {
+		"Content-Type": "multipart/form-data",
+	};
+
+	return api.post("/posts", formData, { headers });
 };
 
 export const updatePost = (
@@ -167,5 +173,90 @@ export const createBookmark = (chatroomId, chatId, postId) => {
 		chatroomId: chatroomId,
 		chatId: chatId,
 		postId: postId,
+	});
+};
+
+export const getConnectSearch = (keyword) => {
+	return api.get("/members/search", {
+		params: {
+			keyword: keyword,
+		},
+	});
+};
+
+export const getConnectFilter = (mbtis, hobbies, languages) => {
+	return api.get("/members/filter", {
+		params: {
+			mbtis: mbtis,
+			hobbies: hobbies,
+			languages: languages,
+		},
+	});
+};
+
+export const getConnectById = (memberId) => {
+	return api.get(`/connects/`, {
+		params: {
+			member_id: memberId,
+		},
+	});
+};
+
+export const getProfileById = (memberId) => {
+	return api.get(`/members/${memberId}`);
+};
+
+export const requestConnectById = (memberId) => {
+	return api.post("/connects/", {
+		to_member_id: memberId,
+	});
+};
+
+export const getConnectList = () => {
+	return api.get(`/connects`);
+};
+
+export const getProfileImageByFileName = (fileName) => {
+	return api.get(`/files`, {
+		params: {
+			fileName: fileName,
+		},
+	});
+};
+
+export const deleteConnectById = (connectId) => {
+	return api.delete(`/connects/${connectId}`);
+};
+
+export const deleteBookmarkByPostId = (postId) => {
+	return api.delete(`/bookmarks`, {
+		data: {
+			type: "POST",
+			postId: postId,
+		},
+	});
+};
+
+export const deleteLikeByPostId = (postId) => {
+	return api.delete(`/likes`, {
+		data: {
+			type: "POST",
+			postId: postId,
+		},
+	});
+};
+
+export const getMyPosts = () => {
+	return api.get("/members/posts");
+};
+
+export const getMyComments = () => {
+	return api.get("/members/comments");
+};
+
+export const createNotificationToken = (pushToken, deviceId) => {
+	return api.post("/notifications/push", {
+		pushToken,
+		deviceId,
 	});
 };
