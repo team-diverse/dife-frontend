@@ -1,19 +1,22 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { CustomTheme } from "@styles/CustomTheme";
 import Modal from "react-native-modal";
+
+import { CustomTheme } from "@styles/CustomTheme";
+import { deletePost } from "config/api";
+
 import InfoCircle from "@components/common/InfoCircle";
 import Report from "@components/Report";
 import PostModifyPage from "@pages/community/PostModifyPage";
-import { deletePost } from "config/api";
 
 const { fontBody14 } = CustomTheme;
 
 const ModalKebabMenu = ({
 	modalVisible,
 	setModalVisible,
-	id,
+	memberId,
+	postId,
 	isPublic,
 	isMe,
 	position,
@@ -41,7 +44,7 @@ const ModalKebabMenu = ({
 				{
 					text: "확인",
 					onPress: () => {
-						deletePost(id)
+						deletePost(postId)
 							.then(() => {
 								navigation.goBack();
 							})
@@ -64,6 +67,11 @@ const ModalKebabMenu = ({
 
 	const handleReport = () => {
 		setModalReportVisible(true);
+	};
+
+	const handleDetailProfile = () => {
+		setModalVisible(false);
+		navigation.navigate("ConnectProfilePage", { memberId: memberId });
 	};
 
 	return (
@@ -107,7 +115,7 @@ const ModalKebabMenu = ({
 					</>
 				) : (
 					<>
-						<TouchableOpacity>
+						<TouchableOpacity onPress={handleDetailProfile}>
 							<Text style={styles.textIsMe}>프로필 상세</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />

@@ -41,10 +41,11 @@ import ModalKebabMenu from "@components/community/ModalKebabMenu";
 const PostPage = ({ route }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 
-	const { id } = route.params;
+	const { postId } = route.params;
 	const { onboardingData } = useOnboarding();
 	const { updatePostModifyData } = usePostModify();
 
+	const [memberId, setMemberId] = useState("");
 	const [title, setTitle] = useState("");
 	const [context, setContext] = useState("");
 	const [heart, setHeart] = useState();
@@ -73,13 +74,14 @@ const PostPage = ({ route }) => {
 		React.useCallback(() => {
 			const postComment = async () => {
 				try {
-					const postByIdResponse = await getPostById(id);
+					const postByIdResponse = await getPostById(postId);
 					setTitle(postByIdResponse.data.title);
 					setContext(postByIdResponse.data.content);
 					setHeart(postByIdResponse.data.likesCount);
 					setBookmark(postByIdResponse.data.bookmarkCount);
 					setCreated(date(postByIdResponse.data.created));
 					setIsPublic(postByIdResponse.data.isPublic);
+					setMemberId(postByIdResponse.data.writer.id);
 
 					if (postByIdResponse.data.isPublic === false) {
 						setWriterName(postByIdResponse.data.writer.username);
@@ -91,7 +93,7 @@ const PostPage = ({ route }) => {
 						setIsMe(true);
 						updatePostModifyData({
 							memberId: postByIdResponse.data.writer.id,
-							id: id,
+							id: postId,
 							title: postByIdResponse.data.title,
 							context: postByIdResponse.data.content,
 							boardType: postByIdResponse.data.boardType,
@@ -99,10 +101,16 @@ const PostPage = ({ route }) => {
 						});
 					}
 
+<<<<<<< HEAD
 					const commentByIdResponse = await getCommentById(id);
 					setComments(commentByIdResponse.data);
 
 					console.log("게시글 및 댓글 조회 성공");
+=======
+					const commentByIdResponse =
+						await getCommentByPostId(postId);
+					setComments(commentByIdResponse.data);
+>>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 				} catch (error) {
 					console.error(
 						"게시글 조회 오류:",
@@ -156,8 +164,13 @@ const PostPage = ({ route }) => {
 
 	const handleCommentSend = async () => {
 		try {
+<<<<<<< HEAD
 			const commentSendResponse = await postCommentSend(
 				id,
+=======
+			const commentSendResponse = await createComment(
+				postId,
+>>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 				valueComment,
 				isChecked,
 			);
@@ -180,8 +193,14 @@ const PostPage = ({ route }) => {
 
 	const handleHeart = async () => {
 		try {
+<<<<<<< HEAD
 			await createLike("POST", id);
 			console.log("게시글 좋아요 성공");
+=======
+			await createLikePost(postId);
+			setHeart((prevHeart) => prevHeart + 1);
+			setPressHeart(true);
+>>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 		} catch (error) {
 			console.error(
 				"게시글 좋아요 실패:",
@@ -192,6 +211,7 @@ const PostPage = ({ route }) => {
 		}
 	};
 
+<<<<<<< HEAD
 	const heartAlert = () => {
 		Alert.alert(
 			"",
@@ -212,13 +232,28 @@ const PostPage = ({ route }) => {
 			],
 			{ cancelable: false },
 		);
+=======
+	const handleHeartDelete = async () => {
+		try {
+			await deleteLikeByPostId(postId);
+			setPressHeart(false);
+			setHeart(heart !== 0 ? (prevHeart) => prevHeart - 1 : 0);
+		} catch (error) {
+			console.error(
+				"게시글 좋아요 취소 실패:",
+				error.response ? error.response.data : error.message,
+			);
+			setPressHeart(true);
+			setHeart((prevHeart) => prevHeart + 1);
+		}
+>>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 	};
 
 	const likedPosts = async () => {
 		try {
 			const response = await getLikedPost();
 			const likedPostIdList = response.data.map((item) => item.id);
-			setPressHeart(likedPostIdList.includes(id));
+			setPressHeart(likedPostIdList.includes(postId));
 		} catch (error) {
 			console.error(
 				"좋아요 상태 조회 실패:",
@@ -231,8 +266,14 @@ const PostPage = ({ route }) => {
 
 	const handleBookmark = async () => {
 		try {
+<<<<<<< HEAD
 			await createBookmark(null, null, id);
 			console.log("게시글 북마크 성공");
+=======
+			await createPostBookmark(postId);
+			setBookmark((prevBookmark) => prevBookmark + 1);
+			setPressBookmark(true);
+>>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 		} catch (error) {
 			console.error(
 				"게시글 북마크 실패:",
@@ -243,7 +284,24 @@ const PostPage = ({ route }) => {
 		}
 	};
 
+<<<<<<< HEAD
 	const bookmarkAlert = () => {
+=======
+	const handleDeleteBookmark = async () => {
+		try {
+			await deleteBookmarkByPostId(postId);
+		} catch (error) {
+			console.error(
+				"게시글 북마크 삭제 실패:",
+				error.response ? error.response.data : error.message,
+			);
+			setPressBookmark(true);
+			setBookmark((prevBookmark) => prevBookmark + 1);
+		}
+	};
+
+	const bookmarkDeleteAlert = () => {
+>>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 		Alert.alert(
 			"",
 			"이 게시물을 북마크하시겠습니까?",
@@ -267,9 +325,17 @@ const PostPage = ({ route }) => {
 
 	const bookmarkedPosts = async () => {
 		try {
+<<<<<<< HEAD
 			const response = await getBookmarkPost();
 			const bookmarkedPostIdList = response.data.map((item) => item.id);
 			setPressBookmark(bookmarkedPostIdList.includes(id));
+=======
+			const response = await getBookmarkedPost();
+			const bookmarkedPostIdList = response.data.map(
+				(item) => item.post.id,
+			);
+			setPressBookmark(bookmarkedPostIdList.includes(postId));
+>>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 		} catch (error) {
 			console.error(
 				"북마크 상태 조회 실패:",
@@ -311,7 +377,8 @@ const PostPage = ({ route }) => {
 						<ModalKebabMenu
 							modalVisible={modalVisible}
 							setModalVisible={setModalVisible}
-							id={id}
+							memberId={memberId}
+							postId={postId}
 							isPublic={isPublic}
 							isMe={isMe}
 							position={modalPosition}
@@ -356,7 +423,7 @@ const PostPage = ({ route }) => {
 						)}
 					</View>
 					<View style={{ marginTop: 48 }}>
-						<ItemComment props={comments} id={id} />
+						<ItemComment commentList={comments} id={postId} />
 					</View>
 				</View>
 			</ScrollView>
