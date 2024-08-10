@@ -17,6 +17,7 @@ const ModalKebabMenu = ({
 	setModalVisible,
 	memberId,
 	postId,
+	commentId = null,
 	isPublic,
 	isMe,
 	position,
@@ -44,7 +45,7 @@ const ModalKebabMenu = ({
 				{
 					text: "확인",
 					onPress: () => {
-						deletePost(postId)
+						deletePost(postId ? postId : commentId)
 							.then(() => {
 								navigation.goBack();
 							})

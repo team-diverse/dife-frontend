@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { createLike } from "config/api";
+import { createLikeComment } from "config/api";
+import { useOnboarding } from "src/states/OnboardingContext.js";
 
 import IconHeart from "@components/community/IconHeart";
 import IconBookmark from "@components/community/IconBookmark";
 import IconKebabMenu from "@components/community/IconKebabMenu";
 import IconComment from "@components/community/IconComment";
 import IconReply from "@components/community/IconReply";
+import ModalKebabMenu from "@components/community/ModalKebabMenu";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
@@ -52,6 +54,44 @@ const ItemComment = ({ commentList = [], id, onReply }) => {
 				error.response ? error.response.data : error.message,
 			);
 		}
+	};
+
+	const [modalData, setModalData] = useState({
+		modalVisible: false,
+		commentId: null,
+		commentWriterId: null,
+		commentIsPublic: false,
+		commentIsMe: false,
+	});
+
+	const { onboardingData } = useOnboarding();
+
+	const handleCommentKebabMenu = (
+		commentId,
+		commentWriterId,
+		isPublic,
+		isMe,
+	) => {
+		setModalData({
+			modalVisible: true,
+			commentId,
+			commentWriterId,
+			commentIsPublic: isPublic,
+			commentIsMe: isMe,
+		});
+	};
+
+	const closeModal = () => {
+		setModalData((prevData) => ({
+			...prevData,
+			modalVisible: false,
+		}));
+	};
+
+	const modalPosition = {
+		top: 300,
+		width: 200,
+	};
 
 	const renderComments = (comments) => {
 		return comments.map((post) => {
@@ -59,6 +99,8 @@ const ItemComment = ({ commentList = [], id, onReply }) => {
 				(reply) =>
 					reply.parentComment && reply.parentComment.id === post.id,
 			);
+
+			const isMe = onboardingData.id === post.writer.id;
 
 			return (
 				<View key={post.id}>
@@ -114,7 +156,31 @@ const ItemComment = ({ commentList = [], id, onReply }) => {
 								</View>
 							</View>
 
-							<IconKebabMenu style={styles.iconKebabMenu} />
+							<TouchableOpacity
+								style={styles.iconKebabMenu}
+								onPress={() =>
+									handleCommentKebabMenu(
+										post.id,
+										post.writer.id,
+										post.isPublic,
+										isMe,
+									)
+								}
+							>
+								<IconKebabMenu />
+							</TouchableOpacity>
+							<ModalKebabMenu
+								modalVisible={
+									modalData.modalVisible &&
+									modalData.commentId === post.id
+								}
+								setModalVisible={closeModal}
+								memberId={modalData.commentWriterId}
+								commentId={modalData.commentId}
+								isPublic={modalData.commentIsPublic}
+								isMe={modalData.commentIsMe}
+								position={modalPosition}
+							/>
 							<TouchableOpacity style={styles.textTranslation}>
 								<Text style={styles.textTranslation}>
 									번역하기
@@ -174,8 +240,30 @@ const ItemComment = ({ commentList = [], id, onReply }) => {
 										</View>
 									</View>
 
-									<IconKebabMenu
+									<TouchableOpacity
 										style={styles.iconKebabMenu}
+										onPress={() =>
+											handleCommentKebabMenu(
+												reply.id,
+												reply.writer.id,
+												reply.isPublic,
+												reply.writer.id === id,
+											)
+										}
+									>
+										<IconKebabMenu />
+									</TouchableOpacity>
+									<ModalKebabMenu
+										modalVisible={
+											modalData.modalVisible &&
+											modalData.commentId === reply.id
+										}
+										setModalVisible={closeModal}
+										memberId={modalData.commentWriterId}
+										commentId={modalData.commentId}
+										isPublic={modalData.commentIsPublic}
+										isMe={modalData.commentIsMe}
+										position={modalPosition}
 									/>
 									<TouchableOpacity
 										style={styles.textTranslation}
