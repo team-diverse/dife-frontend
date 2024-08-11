@@ -180,6 +180,7 @@ const PostPage = ({ route }) => {
 		try {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			const commentSendResponse = await postCommentSend(
 				id,
 =======
@@ -197,6 +198,11 @@ const PostPage = ({ route }) => {
 				commentSendResponse.data,
 			]);
 =======
+=======
+			if (valueComment.trim() === "") {
+				return;
+			}
+>>>>>>> 7bdde24 (fix: 대댓글이 두 번 렌더링되는 문제 해결)
 			if (isReplying && parentCommentId) {
 				onChangeComment("");
 				const commentSendResponse = await createReplyComment(
@@ -493,7 +499,6 @@ const PostPage = ({ route }) => {
 					<View style={{ marginTop: 48 }}>
 						<ItemComment
 							commentList={comments}
-							id={postId}
 							onReply={handleReply}
 						/>
 					</View>
