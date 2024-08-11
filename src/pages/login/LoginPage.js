@@ -23,9 +23,10 @@ import { useAuth } from "src/states/AuthContext";
 import InfoCircle from "@components/common/InfoCircle";
 import { getMyProfile, login, createNotificationToken } from "config/api";
 import * as SecureStore from "expo-secure-store";
-import { MOCK_LOGIN, MOCK_EMAIL, MOCK_PASSWORD } from "@env";
 
-const isMockLoginEnabled = MOCK_LOGIN === "true";
+const isMockLoginEnabled = process.env.EXPO_PUBLIC_MOCK_LOGIN === "true";
+const mockEmail = process.env.EXPO_PUBLIC_MOCK_EMAIL || "";
+const mockPassword = process.env.EXPO_PUBLIC_MOCK_PASSWORD || "";
 
 const LoginPage = () => {
 	const navigation = useNavigation();
@@ -129,8 +130,8 @@ const LoginPage = () => {
 
 	useEffect(() => {
 		if (isMockLoginEnabled) {
-			setEmail(MOCK_EMAIL);
-			setPassword(MOCK_PASSWORD);
+			setEmail(mockEmail);
+			setPassword(mockPassword);
 		}
 	}, []);
 
