@@ -190,10 +190,7 @@ const ConnectProfilePage = ({ route }) => {
 							modalVisible={modalReportVisible}
 							setModalVisible={setModalReportVisible}
 							reportTitle="개인 프로필 신고"
-							report1="혐오적인 컨텐츠"
-							report2="욕설/도배"
-							report3="다른 사람을 사칭함"
-							report4="기타"
+							memberId={memberId}
 						/>
 					</View>
 				</ScrollView>
