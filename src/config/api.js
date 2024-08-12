@@ -67,10 +67,20 @@ export const getMyProfile = () => {
 	return api.get("/members/profile");
 };
 
-export const checkUserName = (username) => {
-	return api.head("/members", {
+export const checkUsername = (username) => {
+	return api.head("/members/check", {
 		params: {
+			email: null,
 			username,
+		},
+	});
+};
+
+export const checkEmail = (email) => {
+	return api.head("/members/check", {
+		params: {
+			email,
+			username: null,
 		},
 	});
 };
