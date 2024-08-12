@@ -113,7 +113,14 @@ export const createPost = (title, content, isPublic, boardType, postFile) => {
 	formData.append("content", content);
 	formData.append("isPublic", isPublic);
 	formData.append("boardType", boardType);
-	formData.append("postFile", postFile || null);
+	if (postFile) {
+		const file = {
+			uri: postFile,
+			type: "image/jpeg",
+			name: `image_${postFile}.jpg`,
+		};
+		formData.append("profileImg", file);
+	}
 
 	const headers = {
 		"Content-Type": "multipart/form-data",

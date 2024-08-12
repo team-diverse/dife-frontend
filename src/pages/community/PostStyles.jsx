@@ -41,6 +41,19 @@ const PostStyles = StyleSheet.create({
 		...fontBody14,
 		marginTop: 12,
 	},
+	containerImage: {
+		marginTop: 12,
+		alignItems: "center",
+	},
+	singleImage: {
+		borderRadius: 10,
+	},
+	images: {
+		width: 100,
+		height: 100,
+		borderRadius: 10,
+		marginHorizontal: 6,
+	},
 	containerIconRow: {
 		flexDirection: "row",
 		marginTop: 20,
