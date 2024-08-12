@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	View,
 	Image,
@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
+import RNPickerSelect from "react-native-picker-select";
 
 import ProfileStyles from "@pages/onboarding/ProfileStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
@@ -50,7 +51,6 @@ const ProfilePage = () => {
 		setSelectedValue(value === "내국인 (Korean)");
 	};
 
-	// 권한 부분으로 옮기기
 	const pickImage = async () => {
 		const { status } =
 			await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -76,7 +76,7 @@ const ProfilePage = () => {
 	const handleDataSave = () => {
 		updateOnboardingData({
 			profileImg: image,
-			isKorean: selectedValue,
+			country: selectedValue ? "대한민국 / Korea" : nation,
 			bio: text,
 		});
 		navigation.navigate("ProfileMbti");
@@ -135,12 +135,33 @@ const ProfilePage = () => {
 							>
 								국적
 							</Text>
-							<TextInput
-								style={ProfileStyles.textInputPassword}
-								placeholder="국적을 입력해주세요."
-								value={nation}
-								onChangeText={setNation}
-							/>
+							<View style={ProfileStyles.containerNation}>
+								<RNPickerSelect
+									onValueChange={(value) => setNation(value)}
+									items={[
+										{
+											label: "United States / United States",
+											value: "United States / United States",
+										},
+										{
+											label: "中國 / China",
+											value: "中國 / China",
+										},
+										{
+											label: "日本 / Japan",
+											value: "日本 / Japan",
+										},
+										{
+											label: "España / Spain",
+											value: "España / Spain",
+										},
+									]}
+									placeholder={{
+										label: "국적을 선택해주세요",
+										value: null,
+									}}
+								/>
+							</View>
 						</>
 					)}
 				</View>
