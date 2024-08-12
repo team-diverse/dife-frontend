@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import SettingStyles from "@pages/member/SettingStyles";
 
@@ -14,7 +15,6 @@ import IconSettingSeviceNews from "@components/member/IconSettingSeviceNews";
 import IconSettingTrems from "@components/member/IconSettingTrems";
 import IconSwitchOn from "@components/member/IconSwitchOn";
 import IconSwitchOff from "@components/member/IconSwitchOff";
-import { useNavigation } from "@react-navigation/native";
 
 const SettingPage = () => {
 	const navigation = useNavigation();
@@ -35,7 +35,7 @@ const SettingPage = () => {
 				</View>
 				<TouchableOpacity
 					style={SettingStyles.containerContent}
-					onPress={() => navigation.navigate("ModifyProfilePage")}
+					onPress={() => navigation.navigate("FindPasswordPage")}
 				>
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingProfile />
@@ -50,7 +50,10 @@ const SettingPage = () => {
 					/>
 				</TouchableOpacity>
 				<View style={SettingStyles.line} />
-				<View style={SettingStyles.containerContent}>
+				<TouchableOpacity
+					style={SettingStyles.containerContent}
+					onPress={() => navigation.navigate("SecurityPage")}
+				>
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingSecurity />
 						<Text style={SettingStyles.textContent}>보안</Text>
@@ -60,7 +63,7 @@ const SettingPage = () => {
 						size={24}
 						style={{ transform: [{ scaleX: -1 }] }}
 					/>
-				</View>
+				</TouchableOpacity>
 				<View style={SettingStyles.line} />
 				<View style={SettingStyles.containerContent}>
 					<View style={SettingStyles.containerIconText}>

@@ -68,6 +68,7 @@ import MyCommentPage from "@pages/member/MyCommentPage";
 import ModifyProfilePage from "@pages/member/ModifyProfilePage";
 import ModifyProfileInputPage from "@pages/member/ModifyProfileInputPage";
 import SettingPage from "@pages/member/SettingPage";
+import SecurityPage from "@pages/member/SecurityPage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -254,6 +255,11 @@ function MainNavigator() {
 				component={ModifyProfileInputPage}
 			/>
 			<Stack.Screen name="SettingPage" component={SettingPage} />
+			<Stack.Screen name="SecurityPage" component={SecurityPage} />
+			<Stack.Screen
+				name="FindPasswordPage"
+				component={FindPasswordPage}
+			/>
 		</Stack.Navigator>
 	);
 }
