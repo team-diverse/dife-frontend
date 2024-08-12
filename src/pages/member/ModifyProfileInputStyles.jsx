@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontCaption } = CustomTheme;
+const { fontBody14, fontCaption } = CustomTheme;
 
 const ModifyProfileInputStyles = StyleSheet.create({
 	container: {
@@ -35,6 +35,18 @@ const ModifyProfileInputStyles = StyleSheet.create({
 		color: CustomTheme.textSecondary,
 		marginTop: 5,
 	},
+	textAvailableNickname: {
+		...fontBody14,
+		color: CustomTheme.primaryMedium,
+		marginTop: 8,
+		marginLeft: 30,
+	},
+	textUnavailableNickname: {
+		...fontBody14,
+		color: CustomTheme.warningRed,
+		marginTop: 8,
+		marginLeft: 30,
+	},
 	textCount: {
 		...fontCaption,
 		position: "absolute",
@@ -57,6 +69,16 @@ const ModifyProfileInputStyles = StyleSheet.create({
 	containerRow: {
 		flexDirection: "row",
 		justifyContent: "center",
+	},
+	containerMbti: {
+		alignItems: "center",
+		marginVertical: 10,
+	},
+	flexStartMbti: {
+		alignItems: "flex-start",
+	},
+	rowMbti: {
+		flexDirection: "row",
 	},
 	checkbox: {
 		marginTop: 30,

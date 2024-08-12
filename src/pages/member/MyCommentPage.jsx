@@ -1,87 +1,34 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import { SafeAreaView, View, ScrollView } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 
 import MyPostStyles from "@pages/member/MyPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { getMyComments } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ItemCommunity from "@components/community/ItemCommunity";
 
 const MyCommentPage = () => {
-	const MyPostList = [
-		{
-			title: "좋아요 화면입니다",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-			heart: 2,
-			bookmark: 2,
-			comment: 0,
-			created: "2024-06-22T10:30:00",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-			heart: 2,
-			bookmark: 2,
-			comment: 0,
-			created: "2024-06-22T10:30:00",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-			heart: 2,
-			bookmark: 2,
-			comment: 0,
-			created: "2024-06-22T10:30:00",
-		},
-		{
-			title: "좋아요 화면입니다",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-			heart: 2,
-			bookmark: 2,
-			comment: 0,
-			created: "2024-06-22T10:30:00",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-			heart: 2,
-			bookmark: 2,
-			comment: 0,
-			created: "2024-06-22T10:30:00",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-			heart: 2,
-			bookmark: 2,
-			comment: 0,
-			created: "2024-06-22T10:30:00",
-		},
-		{
-			title: "좋아요 화면입니다",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-			heart: 2,
-			bookmark: 2,
-			comment: 0,
-			created: "2024-06-22T10:30:00",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-			heart: 2,
-			bookmark: 2,
-			comment: 0,
-			created: "2024-06-22T10:30:00",
-		},
-		{
-			title: "성곡도서관 가는 길",
-			content: "북악관 머시기저시기 와라라라라라랄 지나서...",
-			heart: 2,
-			bookmark: 2,
-			comment: 0,
-			created: "2024-06-22T10:30:00",
-		},
-	];
+	const [myCommentList, setMyCommentList] = useState();
+
+	const getMyCommentList = async () => {
+		try {
+			const response = await getMyComments();
+			setMyCommentList(response.data);
+		} catch (error) {
+			console.error(
+				"내가 쓴 글 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			getMyCommentList();
+		}, []),
+	);
 
 	return (
 		<SafeAreaView style={MyPostStyles.container}>
@@ -93,7 +40,7 @@ const MyCommentPage = () => {
 
 			<ScrollView>
 				<View style={MyPostStyles.itemCommunity}>
-					<ItemCommunity postList={MyPostList} comment={true} />
+					<ItemCommunity postList={myCommentList} comment={true} />
 				</View>
 			</ScrollView>
 		</SafeAreaView>

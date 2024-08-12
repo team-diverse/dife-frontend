@@ -9,7 +9,7 @@ import IconKebabMenu from "@components/community/IconKebabMenu";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemComment = ({ props, id }) => {
+const ItemComment = ({ commentList = [], id }) => {
 	const date = (date) => {
 		const datePart = date.split("T")[0];
 		const monthDay = datePart.slice(5);
@@ -17,17 +17,22 @@ const ItemComment = ({ props, id }) => {
 	};
 
 	const [pressHeart, setPressHeart] = useState({});
-	const initialHeartCounts = props.map((post) => ({
+	const initialHeartCounts = commentList.map((post) => ({
 		id: post.id,
 		likesCount: post.likesCount,
 	}));
 	const [heartCounts, setHeartCounts] = useState(initialHeartCounts);
 
 	useEffect(() => {
-		setHeartCounts(
-			props.map((post) => ({ id: post.id, likesCount: post.likesCount })),
-		);
-	}, [props]);
+		const newHeartCounts = commentList.map((post) => ({
+			id: post.id,
+			likesCount: post.likesCount,
+		}));
+
+		if (JSON.stringify(newHeartCounts) !== JSON.stringify(heartCounts)) {
+			setHeartCounts(newHeartCounts);
+		}
+	}, [commentList]);
 
 	const handleCommentHeart = async (commentId) => {
 		try {
@@ -53,7 +58,7 @@ const ItemComment = ({ props, id }) => {
 
 	return (
 		<>
-			{props.map((post, index) => (
+			{commentList.map((post, index) => (
 				<View key={index} style={styles.ItemCommunity}>
 					<View style={styles.containerRow}>
 						<View>

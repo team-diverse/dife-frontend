@@ -63,7 +63,7 @@ export const getMyConnects = () => {
 	return api.get("/connects");
 };
 
-export const getProfile = () => {
+export const getMyProfile = () => {
 	return api.get("/members/profile");
 };
 
@@ -75,8 +75,8 @@ export const headCheckUserName = (username) => {
 	});
 };
 
-export const updateProfile = (member_id, formData) => {
-	return api.put(`/members/${member_id}`, formData, {
+export const updateMyProfile = (formData) => {
+	return api.put(`/members`, formData, {
 		headers: {
 			"Content-Type": "multipart/form-data",
 		},
@@ -107,13 +107,12 @@ export const deletePost = (id) => {
 	return api.delete(`/posts/${id}`);
 };
 
-export const createPost = (title, content, isPublic, boardType, postFile) => {
+export const createPost = (title, content, isPublic, boardType) => {
 	return api.post("/posts", {
 		title,
 		content,
 		isPublic,
 		boardType,
-		postFile,
 	});
 };
 
@@ -142,35 +141,31 @@ export const getBookmarkPost = () => {
 	return api.get("/bookmarks");
 };
 
-export const createComment = (postId, valueComment, isChecked) => {
-	return api.post("/comments", {
+export const postCommentSend = (id, valueComment, isChecked) => {
+	return api.post(`comments/${id}`, {
 		content: valueComment,
 		isPublic: isChecked,
+		postId: id,
+		parentCommentId: 0,
+	});
+};
+
+export const getCommentById = (id) => {
+	return api.get(`comments/${id}`);
+};
+
+export const createLike = (type, postId, commentId) => {
+	return api.post("/likes", {
+		type: type,
 		postId: postId,
+		commentId: commentId,
 	});
 };
 
-export const getCommentByPostId = (postId) => {
-	return api.get(`/comments/${postId}`);
-};
-
-export const createLikePost = (postId) => {
-	return api.post("/likes", {
-		type: "POST",
-		id: postId,
-	});
-};
-
-export const createLikeComment = (commentId) => {
-	return api.post("/likes", {
-		type: "COMMENT",
-		id: commentId,
-	});
-};
-
-export const createPostBookmark = (postId) => {
+export const createBookmark = (chatroomId, chatId, postId) => {
 	return api.post("/bookmarks", {
-		type: "POST",
+		chatroomId: chatroomId,
+		chatId: chatId,
 		postId: postId,
 	});
 };
@@ -243,4 +238,12 @@ export const deleteLikeByPostId = (postId) => {
 			postId: postId,
 		},
 	});
+};
+
+export const getMyPosts = () => {
+	return api.get("/members/posts");
+};
+
+export const getMyComments = () => {
+	return api.get("/members/comments");
 };
