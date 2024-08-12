@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { createLikeComment, deleteLikeByCommentId } from "config/api";
 import { useOnboarding } from "src/states/OnboardingContext.js";
 
 import IconHeart from "@components/community/IconHeart";
-import IconBookmark from "@components/community/IconBookmark";
 import IconKebabMenu from "@components/community/IconKebabMenu";
 import IconComment from "@components/community/IconComment";
 import IconReply from "@components/community/IconReply";

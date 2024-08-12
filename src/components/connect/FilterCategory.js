@@ -11,8 +11,9 @@ const FilterCategory = ({
 	hobbyCount = null,
 	isDisabled = false,
 	onBoardingMBTI = false,
+	selected = false,
 }) => {
-	const [isActive, setIsActive] = useState(false);
+	const [isActive, setIsActive] = useState(selected);
 	const [isPressed, setIsPressed] = useState(false);
 
 	useEffect(() => {

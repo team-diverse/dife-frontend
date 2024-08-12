@@ -10,7 +10,7 @@ import IconComment from "@components/community/IconComment";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemCommunity = ({ props, comment }) => {
+const ItemCommunity = ({ postList = [], comment = false }) => {
 	const navigation = useNavigation();
 
 	const date = (date) => {
@@ -21,7 +21,7 @@ const ItemCommunity = ({ props, comment }) => {
 
 	return (
 		<>
-			{props.map((post, index) => {
+			{postList.map((post, index) => {
 				const commentText = comment
 					? `'${post.title}' 글에 댓글`
 					: post.title;
@@ -59,15 +59,21 @@ const ItemCommunity = ({ props, comment }) => {
 									<View style={styles.containerText}>
 										<IconHeart />
 										<Text style={styles.text}>
-											{post.likesCount}
+											{post.likesCount == null
+												? 0
+												: post.likesCount}
 										</Text>
 									</View>
-									<View style={styles.containerText}>
-										<IconBookmark />
-										<Text style={styles.text}>
-											{post.bookmark}
-										</Text>
-									</View>
+									{comment == false && (
+										<View style={styles.containerText}>
+											<IconBookmark />
+											<Text style={styles.text}>
+												{post.bookmarkCount == null
+													? 0
+													: post.bookmarkCount}
+											</Text>
+										</View>
+									)}
 									<View style={styles.containerText}>
 										<IconComment />
 										<Text style={styles.text}>

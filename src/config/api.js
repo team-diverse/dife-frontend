@@ -63,11 +63,11 @@ export const getMyConnects = () => {
 	return api.get("/connects");
 };
 
-export const getProfile = () => {
+export const getMyProfile = () => {
 	return api.get("/members/profile");
 };
 
-export const headCheckUserName = (username) => {
+export const checkUserName = (username) => {
 	return api.head("/members", {
 		params: {
 			username,
@@ -75,8 +75,8 @@ export const headCheckUserName = (username) => {
 	});
 };
 
-export const updateProfile = (member_id, formData) => {
-	return api.put(`/members/${member_id}`, formData, {
+export const updateMyProfile = (formData) => {
+	return api.put(`/members`, formData, {
 		headers: {
 			"Content-Type": "multipart/form-data",
 		},
@@ -143,7 +143,7 @@ export const getLikedPost = () => {
 	return api.get("/likes");
 };
 
-export const getBookmarkPost = () => {
+export const getBookmarkedPost = () => {
 	return api.get("/bookmarks");
 };
 
@@ -169,11 +169,11 @@ export const createReplyComment = (
 	});
 };
 
-export const getCommentById = (id) => {
-	return api.get(`comments/${id}`);
+export const getCommentByPostId = (postId) => {
+	return api.get(`/comments/${postId}`);
 };
 
-export const createLike = (type, postId, commentId) => {
+export const createLikePost = (postId) => {
 	return api.post("/likes", {
 		type: "POST",
 		id: postId,
@@ -194,10 +194,9 @@ export const createLikeMember = (memberId) => {
 	});
 };
 
-export const createBookmark = (chatroomId, chatId, postId) => {
+export const createPostBookmark = (postId) => {
 	return api.post("/bookmarks", {
-		chatroomId: chatroomId,
-		chatId: chatId,
+		type: "POST",
 		postId: postId,
 	});
 };

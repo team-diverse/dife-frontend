@@ -11,7 +11,10 @@ import {
 	TouchableOpacity,
 	ScrollView,
 } from "react-native";
+
 import { CustomTheme } from "@styles/CustomTheme";
+import { getConnectFilter } from "config/api";
+
 import Collapsible from "react-native-collapsible";
 import InfoCircle from "@components/common/InfoCircle";
 import FilterArrowBottom from "@components/connect/FilterArrowBottom";
@@ -22,8 +25,12 @@ import ApplyButton from "@components/common/ApplyButton";
 
 const { fontCaption } = CustomTheme;
 
-const FilterBottomSlide = (props) => {
-	const { modalVisible, setModalVisible } = props;
+const FilterBottomSlide = ({
+	modalVisible,
+	setModalVisible,
+	onFilterResponse,
+	onSearchResponse,
+}) => {
 	const screenHeight = Dimensions.get("screen").height;
 	const panY = useRef(new Animated.Value(screenHeight)).current;
 
@@ -62,10 +69,10 @@ const FilterBottomSlide = (props) => {
 	).current;
 
 	useEffect(() => {
-		if (props.modalVisible) {
+		if (modalVisible) {
 			resetBottomSheet.start();
 		}
-	}, [props.modalVisible]);
+	}, [modalVisible]);
 
 	const closeModal = () => {
 		closeBottomSheet.start(() => {
@@ -110,7 +117,6 @@ const FilterBottomSlide = (props) => {
 		"ENFP",
 		"ISTJ",
 		"ENFJ",
-		"선택안함",
 	];
 	const hobby = [
 		"SNS",
@@ -186,6 +192,39 @@ const FilterBottomSlide = (props) => {
 		}
 	};
 
+	const encoded = (selected) => {
+		const encoded = selected.map((item) => item);
+		return `${encoded.join(",")}`;
+	};
+
+	const filterReset = () => {
+		setModalVisible(false);
+		setSelectedMBTI([]);
+		setSelectedHobby([]);
+		setSelectedLanguage([]);
+		setIsCheckedList([false, false, false, false, false]);
+		setCollapsedStates([true, true, true]);
+	};
+
+	const handleFilter = async () => {
+		try {
+			const response = await getConnectFilter(
+				encoded(selectedMBTI),
+				encoded(selectedHobby),
+				encoded(selectedLanguage),
+			);
+			onFilterResponse(response.data);
+			filterReset();
+		} catch (error) {
+			console.error(
+				"필터 검색 오류:",
+				error.response ? error.response.data : error.message,
+			);
+			filterReset();
+			onSearchResponse(true);
+		}
+	};
+
 	return (
 		<Modal
 			visible={modalVisible}
@@ -229,18 +268,19 @@ const FilterBottomSlide = (props) => {
 									{mbtiRows.map((row, rowIndex) => (
 										<View
 											key={rowIndex}
-											style={styles.containerRow}
+											style={styles.rowMbti}
 										>
 											{row.map((type, typeIndex) => (
 												<FilterCategory
 													key={typeIndex}
 													text={type}
-													mbtiCount={
-														selectedMBTI.length
-													}
+													mbtiCount={1}
 													onPress={() =>
 														handleSelectMBTI(type)
 													}
+													selected={selectedMBTI.includes(
+														type,
+													)}
 												/>
 											))}
 										</View>
@@ -319,7 +359,11 @@ const FilterBottomSlide = (props) => {
 						</Collapsible>
 					</ScrollView>
 
-					<ApplyButton text="적용하기" background="true" />
+					<ApplyButton
+						text="적용하기"
+						background="true"
+						onPress={handleFilter}
+					/>
 				</Animated.View>
 			</View>
 		</Modal>
@@ -383,6 +427,16 @@ const styles = StyleSheet.create({
 		...fontCaption,
 		color: "#8C8D91",
 		marginLeft: 3,
+	},
+	containerMbti: {
+		alignItems: "center",
+		marginVertical: 10,
+	},
+	flexStartMbti: {
+		alignItems: "flex-start",
+	},
+	rowMbti: {
+		flexDirection: "row",
 	},
 	containerRow: {
 		flexDirection: "row",
