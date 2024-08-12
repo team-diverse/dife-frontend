@@ -154,11 +154,17 @@ export const getCommentByPostId = (postId) => {
 	return api.get(`/comments/${postId}`);
 };
 
-export const createLike = (type, postId, commentId) => {
+export const createLikePost = (postId) => {
 	return api.post("/likes", {
-		type: type,
-		postId: postId,
-		commentId: commentId,
+		type: "POST",
+		id: postId,
+	});
+};
+
+export const createLikeComment = (commentId) => {
+	return api.post("/likes", {
+		type: "COMMENT",
+		id: commentId,
 	});
 };
 

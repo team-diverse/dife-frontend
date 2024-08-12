@@ -6,7 +6,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 
 import MemberStyles from "@pages/member/MemberStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { getProfile } from "config/api";
+import { getMyProfile } from "config/api";
 
 import DifeLogo from "@components/member/DifeLogo";
 import CircleBackground from "@components/member/CircleBackground";
@@ -27,13 +27,13 @@ const MemberPage = () => {
 	const navigation = useNavigation();
 	const Tab = createMaterialTopTabNavigator();
 
-	const [setName] = useState("");
+	const [name, setName] = useState("");
 	const [profileImage, setProfileImage] = useState(null);
 
 	useEffect(() => {
 		const handleProfile = async () => {
 			try {
-				const response = await getProfile();
+				const response = await getMyProfile();
 				setName(response.data.username);
 				setProfileImage(response.data.profilePresignUrl);
 			} catch (error) {
@@ -73,9 +73,11 @@ const MemberPage = () => {
 
 					<View style={MemberStyles.containerProfile}>
 						<ProfileKBackground profileImage={profileImage} />
-						<View style={MemberStyles.profileK}>
-							<ProfileK />
-						</View>
+						{profileImage ? null : (
+							<View style={MemberStyles.profileK}>
+								<ProfileK />
+							</View>
+						)}
 						<TouchableOpacity
 							style={MemberStyles.iconProfileEdit}
 							onPress={() =>
@@ -86,7 +88,7 @@ const MemberPage = () => {
 						</TouchableOpacity>
 					</View>
 
-					<Text style={MemberStyles.textName}>Name</Text>
+					<Text style={MemberStyles.textName}>{name}</Text>
 
 					<View style={MemberStyles.containerIcon}>
 						<TouchableOpacity

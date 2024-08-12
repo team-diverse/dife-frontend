@@ -101,7 +101,7 @@ const PostPage = ({ route }) => {
 						});
 					}
 
-					const commentByIdResponse = await getCommentById(id);
+					const commentByIdResponse = await getCommentByPostId(id);
 					setComments(commentByIdResponse.data);
 
 					// console.log("게시글 및 댓글 조회 성공");
@@ -158,7 +158,7 @@ const PostPage = ({ route }) => {
 
 	const handleCommentSend = async () => {
 		try {
-			const commentSendResponse = await postCommentSend(
+			const commentSendResponse = await createComment(
 				id,
 				valueComment,
 				isChecked,

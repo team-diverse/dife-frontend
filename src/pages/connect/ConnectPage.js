@@ -9,11 +9,9 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
-
-import { getRandomMembersByCount } from "config/api";
+import { getRandomMembersByCount, getConnectSearch } from "config/api";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -24,6 +22,9 @@ import FilterBottomSlide from "@components/connect/FilterBottomSlide";
 import ConnectCard from "@components/connect/ConnectCard";
 import ConnectDife from "@components/connect/ConnectDife";
 import ConnectReset from "@components/connect/ConnectReset";
+import GroupFilterBottomSlide from "@components/connect/GroupFilterBottomSlide";
+import IconNewGroup from "@components/connect/IconNewGroup";
+import ModalGroupCreationComplete from "@components/connect/ModalGroupCreationComplete";
 
 const ConnectPage = () => {
 	const navigation = useNavigation();
@@ -31,22 +32,28 @@ const ConnectPage = () => {
 	const [profileDataList, setProfileDataList] = useState([]);
 	const RANDOM_MEMBER_COUNT = 10;
 
+	const formatProfileData = (data) => {
+		function cleanHobbies(hobbies) {
+			return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
+		}
+		return data.map((item) => {
+			if (item.mbti !== null) {
+				const cleanedHobbies = cleanHobbies(item.hobbies);
+				const tags = [item.mbti, ...cleanedHobbies];
+				return { ...item, tags };
+			}
+			return item;
+		});
+	};
+
 	const cardProfiles = async () => {
 		try {
 			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
-
-			function cleanHobbies(hobbies) {
-				return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
-			}
-			const updatedData = response.data.map((data) => {
-				if (data.mbti !== null) {
-					const cleanedHobbies = cleanHobbies(data.hobbies);
-					const tags = [data.mbti, ...cleanedHobbies];
-					return { ...data, tags };
-				}
-				return data;
-			});
+			const updatedData = formatProfileData(response.data);
 			setProfileDataList(updatedData);
+			setSearchData(null);
+			setSearchTerm("");
+			setSearchFail(false);
 		} catch (error) {
 			console.error(
 				"커넥트 카드 조회 오류:",
@@ -60,10 +67,12 @@ const ConnectPage = () => {
 	}, []);
 
 	const [searchTerm, setSearchTerm] = useState("");
-	const [setSearchData] = useState([]);
+	const [searchData, setSearchData] = useState(null);
+	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
 
 	const [modalVisible, setModalVisible] = useState(false);
+	const [groupModalVisible, setGroupModalVisible] = useState(false);
 
 	const [isGroupTab, setIsGroupTab] = useState(false);
 
@@ -75,16 +84,17 @@ const ConnectPage = () => {
 		}
 	};
 
-	const handleSearch = () => {
-		if (searchTerm.trim() !== "") {
-			axios
-				.get(`${searchTerm}`)
-				.then((response) => {
-					setSearchData(response.data);
-				})
-				.catch((error) => {
-					console.error("Error:", error);
-				});
+	const handleSearch = async () => {
+		try {
+			const response = await getConnectSearch(searchTerm);
+			const updatedData = formatProfileData(response.data);
+			setSearchData(updatedData);
+		} catch (error) {
+			console.error(
+				"커넥트 검색 오류:",
+				error.response ? error.response.data : error.message,
+			);
+			setSearchFail(true);
 		}
 	};
 
@@ -157,6 +167,12 @@ const ConnectPage = () => {
 					<FilterBottomSlide
 						modalVisible={modalVisible}
 						setModalVisible={setModalVisible}
+						onFilterResponse={handleFilterResponse}
+						onSearchResponse={handleFilterSearchFail}
+					/>
+					<GroupFilterBottomSlide
+						modalVisible={groupModalVisible}
+						setModalVisible={setGroupModalVisible}
 					/>
 					<View style={ConnectStyles.searchIconContainer}>
 						<TextInput
@@ -166,6 +182,7 @@ const ConnectPage = () => {
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}
 							onBlur={handleBlur}
+							onSubmitEditing={handleSearch}
 						/>
 						{isSearching ? (
 							<ConnectSearchCancel
@@ -263,7 +280,11 @@ const ConnectPage = () => {
 								contentContainerStyle={
 									ConnectStyles.flatlistContent
 								}
-								data={profileDataList}
+								data={
+									searchData === null
+										? profileDataList
+										: searchData
+								}
 								renderItem={({ item }) => (
 									<ConnectCard {...item} tags={item.tags} />
 								)}

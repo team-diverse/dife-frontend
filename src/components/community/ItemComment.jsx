@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { createLike } from "config/api";
+import { createLikeComment } from "config/api";
 
 import IconHeart from "@components/community/IconHeart";
 import IconKebabMenu from "@components/community/IconKebabMenu";

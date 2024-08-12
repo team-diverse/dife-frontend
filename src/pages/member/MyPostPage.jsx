@@ -64,7 +64,7 @@ const MyPostPage = () => {
 				</View>
 
 				<View style={MyPostStyles.itemCommunity}>
-					<ItemCommunity props={MyPostList} />
+					<ItemCommunity postList={MyPostList} />
 				</View>
 
 				<View style={MyPostStyles.line} />
@@ -85,7 +85,7 @@ const MyPostPage = () => {
 				</View>
 
 				<View style={MyPostStyles.itemCommunity}>
-					<ItemCommunity props={MyPostList} comment={true} />
+					<ItemCommunity postList={MyPostList} comment={true} />
 				</View>
 			</View>
 		</SafeAreaView>
