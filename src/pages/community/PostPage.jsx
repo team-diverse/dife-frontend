@@ -20,21 +20,15 @@ import { useOnboarding } from "src/states/OnboardingContext.js";
 import { usePostModify } from "src/states/PostModifyContext";
 import {
 	getPostById,
-<<<<<<< HEAD
-	getCommentById,
-	postCommentSend,
-	createLike,
-	createBookmark,
-=======
 	getCommentByPostId,
 	createComment,
 	createReplyComment,
 	createLikePost,
 	deleteLikeByPostId,
 	createPostBookmark,
->>>>>>> e15a079 (feat: 댓글/대댓글 ui 및 대댓글 기능 추가)
 	getLikedPost,
-	getBookmarkPost,
+	getBookmarkedPost,
+	deleteBookmarkByPostId,
 } from "config/api";
 
 import TopBar from "@components/common/TopBar";
@@ -115,16 +109,9 @@ const PostPage = ({ route }) => {
 						});
 					}
 
-<<<<<<< HEAD
-					const commentByIdResponse = await getCommentById(id);
-					setComments(commentByIdResponse.data);
-
-					console.log("게시글 및 댓글 조회 성공");
-=======
 					const commentByIdResponse =
 						await getCommentByPostId(postId);
 					setComments(commentByIdResponse.data);
->>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 				} catch (error) {
 					console.error(
 						"게시글 조회 오류:",
@@ -138,7 +125,7 @@ const PostPage = ({ route }) => {
 			};
 
 			postComment();
-		}, []),
+		}, [pressHeart, pressBookmark]),
 	);
 
 	const [scrollY, setScrollY] = useState(0);
@@ -178,31 +165,9 @@ const PostPage = ({ route }) => {
 
 	const handleCommentSend = async () => {
 		try {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-			const commentSendResponse = await postCommentSend(
-				id,
-=======
-			const commentSendResponse = await createComment(
-				postId,
->>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
-				valueComment,
-				isChecked,
-			);
-			console.log("댓글 작성 성공");
-
-			onChangeComment("");
-			setComments((prevComments) => [
-				...prevComments,
-				commentSendResponse.data,
-			]);
-=======
-=======
 			if (valueComment.trim() === "") {
 				return;
 			}
->>>>>>> 7bdde24 (fix: 대댓글이 두 번 렌더링되는 문제 해결)
 			if (isReplying && parentCommentId) {
 				onChangeComment("");
 				const commentSendResponse = await createReplyComment(
@@ -230,7 +195,6 @@ const PostPage = ({ route }) => {
 					commentSendResponse.data,
 				]);
 			}
->>>>>>> e15a079 (feat: 댓글/대댓글 ui 및 대댓글 기능 추가)
 		} catch (error) {
 			console.error(
 				"댓글 작성 실패:",
@@ -267,46 +231,19 @@ const PostPage = ({ route }) => {
 
 	const handleHeart = async () => {
 		try {
-<<<<<<< HEAD
-			await createLike("POST", id);
-			console.log("게시글 좋아요 성공");
-=======
 			await createLikePost(postId);
 			setHeart((prevHeart) => prevHeart + 1);
 			setPressHeart(true);
->>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 		} catch (error) {
 			console.error(
 				"게시글 좋아요 실패:",
 				error.response ? error.response.data : error.message,
 			);
-			setHeart((prevHeart) => prevHeart - 1);
 			setPressHeart(false);
+			setHeart(heart !== 0 ? (prevHeart) => prevHeart - 1 : 0);
 		}
 	};
 
-<<<<<<< HEAD
-	const heartAlert = () => {
-		Alert.alert(
-			"",
-			"이 게시물에 좋아요를 누르시겠습니까?",
-			[
-				{
-					text: "취소",
-					style: "cancel",
-				},
-				{
-					text: "확인",
-					onPress: () => {
-						setHeart((prevHeart) => prevHeart + 1);
-						setPressHeart(true);
-						handleHeart();
-					},
-				},
-			],
-			{ cancelable: false },
-		);
-=======
 	const handleHeartDelete = async () => {
 		try {
 			await deleteLikeByPostId(postId);
@@ -320,7 +257,6 @@ const PostPage = ({ route }) => {
 			setPressHeart(true);
 			setHeart((prevHeart) => prevHeart + 1);
 		}
->>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 	};
 
 	const likedPosts = async () => {
@@ -340,14 +276,9 @@ const PostPage = ({ route }) => {
 
 	const handleBookmark = async () => {
 		try {
-<<<<<<< HEAD
-			await createBookmark(null, null, id);
-			console.log("게시글 북마크 성공");
-=======
 			await createPostBookmark(postId);
 			setBookmark((prevBookmark) => prevBookmark + 1);
 			setPressBookmark(true);
->>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 		} catch (error) {
 			console.error(
 				"게시글 북마크 실패:",
@@ -358,9 +289,6 @@ const PostPage = ({ route }) => {
 		}
 	};
 
-<<<<<<< HEAD
-	const bookmarkAlert = () => {
-=======
 	const handleDeleteBookmark = async () => {
 		try {
 			await deleteBookmarkByPostId(postId);
@@ -375,10 +303,9 @@ const PostPage = ({ route }) => {
 	};
 
 	const bookmarkDeleteAlert = () => {
->>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 		Alert.alert(
 			"",
-			"이 게시물을 북마크하시겠습니까?",
+			"북마크를 취소하시겠습니까?",
 			[
 				{
 					text: "취소",
@@ -387,9 +314,9 @@ const PostPage = ({ route }) => {
 				{
 					text: "확인",
 					onPress: () => {
-						setBookmark((prevBookmark) => prevBookmark + 1);
-						setPressBookmark(true);
-						handleBookmark();
+						setBookmark((prevBookmark) => prevBookmark - 1);
+						setPressBookmark(false);
+						handleDeleteBookmark();
 					},
 				},
 			],
@@ -399,17 +326,11 @@ const PostPage = ({ route }) => {
 
 	const bookmarkedPosts = async () => {
 		try {
-<<<<<<< HEAD
-			const response = await getBookmarkPost();
-			const bookmarkedPostIdList = response.data.map((item) => item.id);
-			setPressBookmark(bookmarkedPostIdList.includes(id));
-=======
 			const response = await getBookmarkedPost();
 			const bookmarkedPostIdList = response.data.map(
 				(item) => item.post.id,
 			);
 			setPressBookmark(bookmarkedPostIdList.includes(postId));
->>>>>>> c3ddea7 (feat: 실명 게시글일 때, 프로필 상세를 클릭하면 프로필 상세 페이지로 연결되도록 및 변수명 수정)
 		} catch (error) {
 			console.error(
 				"북마크 상태 조회 실패:",
@@ -421,7 +342,7 @@ const PostPage = ({ route }) => {
 	useEffect(() => {
 		likedPosts();
 		bookmarkedPosts();
-	}, [id]);
+	}, [pressHeart, pressBookmark]);
 
 	return (
 		<SafeAreaView style={PostStyles.container}>
@@ -463,14 +384,20 @@ const PostPage = ({ route }) => {
 					<View style={PostStyles.containerIconRow}>
 						<TouchableOpacity
 							style={PostStyles.iconRow}
-							onPress={heartAlert}
+							onPress={
+								pressHeart ? handleHeartDelete : handleHeart
+							}
 						>
 							<IconHeart active={pressHeart} />
 							<Text style={PostStyles.textIcon}>{heart}</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={PostStyles.iconRow}
-							onPress={bookmarkAlert}
+							onPress={
+								pressBookmark
+									? bookmarkDeleteAlert
+									: handleBookmark
+							}
 						>
 							<IconBookmark active={pressBookmark} />
 							<Text style={PostStyles.textIcon}>{bookmark}</Text>

@@ -25,13 +25,16 @@ const CommunityPage = () => {
 	const navigation = useNavigation();
 
 	const [searchTerm, setSearchTerm] = useState("");
+	const [, setSearchData] = useState([]);
 	const [isSearching, setIsSearching] = useState(false);
 
 	const handleSearch = () => {
 		if (searchTerm.trim() !== "") {
 			axios
 				.get(`${searchTerm}`)
-				.then(() => {})
+				.then((response) => {
+					setSearchData(response.data);
+				})
 				.catch((error) => {
 					console.error("Error:", error);
 				});

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme.js";
 
@@ -11,10 +11,13 @@ const FilterCategory = ({
 	hobbyCount = null,
 	isDisabled = false,
 	onBoardingMBTI = false,
-	selected = false,
 }) => {
-	const [isActive, setIsActive] = useState(selected);
+	const [isActive, setIsActive] = useState(false);
 	const [isPressed, setIsPressed] = useState(false);
+
+	useEffect(() => {
+		setIsActive(selected);
+	}, [selected]);
 
 	const handlePress = () => {
 		if (mbtiCount !== null) {

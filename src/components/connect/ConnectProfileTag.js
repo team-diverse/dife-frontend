@@ -5,22 +5,30 @@ import { CustomTheme } from "@styles/CustomTheme";
 const { fontBody14 } = CustomTheme;
 
 const ConnectProfileTag = ({ tag = ["tag"] }) => {
+	const groupedTags = [];
+	for (let i = 0; i < tag.length; i += 3) {
+		groupedTags.push(tag.slice(i, i + 3));
+	}
+
 	return (
-		<View style={styles.container}>
-			{tag.map((item, index) => (
-				<View key={index} style={[styles.rectangle]}>
-					<Text style={styles.text}>{item}</Text>
+		<>
+			{groupedTags.map((groupItem, groupIndex) => (
+				<View key={groupIndex} style={styles.container}>
+					{groupItem.map((item, index) => (
+						<View key={index} style={styles.rectangle}>
+							<Text style={styles.text}>{item}</Text>
+						</View>
+					))}
 				</View>
 			))}
-		</View>
+		</>
 	);
 };
 
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
-		alignItems: "center",
-		flexWrap: "wrap",
+		marginBottom: 8,
 	},
 	rectangle: {
 		width: 80,

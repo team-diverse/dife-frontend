@@ -49,8 +49,7 @@ const ProfileStyles = StyleSheet.create({
 		zIndex: 10,
 	},
 	containerRadioButton: {
-		flexDirection: "row",
-		marginLeft: 23,
+		marginHorizontal: 23,
 	},
 	textRadioButton: {
 		...fontSub14,
@@ -61,6 +60,16 @@ const ProfileStyles = StyleSheet.create({
 		color: CustomTheme.textPrimary,
 		marginTop: 28,
 		marginLeft: 23,
+	},
+	textInputPassword: {
+		...fontSub14,
+		height: 43,
+		marginTop: 12,
+		paddingHorizontal: 13,
+		backgroundColor: CustomTheme.bgBasic,
+		borderRadius: 14,
+		borderWidth: 1,
+		borderColor: "#B0D0FF",
 	},
 	containerTextInput: {
 		position: "relative",

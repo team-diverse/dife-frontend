@@ -53,6 +53,7 @@ const FriendListPage = () => {
 						<FriendList
 							memberId={otherMember.id}
 							name={otherMember.username}
+							imageName={otherMember.profileImg.originalName}
 						/>
 					);
 				}}

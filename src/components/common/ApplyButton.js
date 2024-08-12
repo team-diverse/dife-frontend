@@ -10,9 +10,7 @@ const ApplyButton = ({
 	onPress = null,
 	disabled = false,
 }) => {
-	const rectangleStyle = background
-		? styles.rectangleShadow
-		: styles.rectangle;
+	const rectangleStyle = background ? styles.rectangle : {};
 
 	return (
 		<View>
@@ -36,6 +34,18 @@ const styles = StyleSheet.create({
 		height: 72,
 		alignItems: "center",
 		justifyContent: "center",
+		paddingHorizontal: 24,
+		paddingVertical: 14,
+		backgroundColor: CustomTheme.bgBasic,
+	},
+	rectangleShadow: {
+		flexDirection: "row",
+		width: "100%",
+		height: 72,
+		alignItems: "center",
+		justifyContent: "center",
+		paddingHorizontal: 24,
+		paddingVertical: 14,
 		backgroundColor: CustomTheme.bgBasic,
 		shadowColor: "#3C454E",
 		shadowOffset: { width: 0, height: -1 },
@@ -44,13 +54,12 @@ const styles = StyleSheet.create({
 	},
 	apply: {
 		flexDirection: "row",
+		width: "100%",
 		height: 44,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.primaryMedium,
 		borderRadius: 27,
-		marginHorizontal: 24,
-		marginVertical: 14,
 	},
 	text: {
 		...fontSub16,
