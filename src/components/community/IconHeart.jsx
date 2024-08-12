@@ -2,7 +2,7 @@ import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const IconHeart = ({ props, active }) => {
+const IconHeart = ({ active, ...props }) => {
 	const color = active ? CustomTheme.warningRed : CustomTheme.borderColor;
 	return (
 		<Svg

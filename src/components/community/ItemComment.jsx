@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { createLike } from "config/api";
+import { createLikeComment } from "config/api";
 
 import IconHeart from "@components/community/IconHeart";
 import IconBookmark from "@components/community/IconBookmark";
@@ -10,7 +10,7 @@ import IconKebabMenu from "@components/community/IconKebabMenu";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemComment = ({ props, id }) => {
+const ItemComment = ({ commentList, id }) => {
 	const date = (date) => {
 		const datePart = date.split("T")[0];
 		const monthDay = datePart.slice(5);
@@ -18,7 +18,7 @@ const ItemComment = ({ props, id }) => {
 	};
 
 	const [pressHeart, setPressHeart] = useState({});
-	const initialHeartCounts = props.map((post) => ({
+	const initialHeartCounts = commentList.map((post) => ({
 		id: post.id,
 		likesCount: post.likesCount,
 	}));
@@ -26,13 +26,16 @@ const ItemComment = ({ props, id }) => {
 
 	useEffect(() => {
 		setHeartCounts(
-			props.map((post) => ({ id: post.id, likesCount: post.likesCount })),
+			commentList.map((post) => ({
+				id: post.id,
+				likesCount: post.likesCount,
+			})),
 		);
-	}, [props]);
+	}, [commentList]);
 
 	const heartCommentAlert = async (commentId) => {
 		try {
-			await createLike("COMMENT", id, commentId);
+			await createLikeComment(id, commentId);
 			console.log("댓글 좋아요 성공");
 		} catch (error) {
 			console.error(
@@ -89,7 +92,7 @@ const ItemComment = ({ props, id }) => {
 
 	return (
 		<>
-			{props.map((post, index) => (
+			{commentList.map((post, index) => (
 				<View key={index} style={styles.ItemCommunity}>
 					<View style={styles.containerRow}>
 						<View>

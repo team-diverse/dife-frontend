@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
-const IconBookmark = ({ props, color }) => (
+const IconBookmark = ({ color, ...props }) => (
 	<Svg
 		xmlns="http://www.w3.org/2000/svg"
 		width={24}
