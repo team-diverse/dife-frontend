@@ -67,6 +67,7 @@ import MyWrotePage from "@pages/member/MyWrotePage";
 import MyCommentPage from "@pages/member/MyCommentPage";
 import ModifyProfilePage from "@pages/member/ModifyProfilePage";
 import ModifyProfileInputPage from "@pages/member/ModifyProfileInputPage";
+import SettingPage from "@pages/member/SettingPage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -252,6 +253,7 @@ function MainNavigator() {
 				name="ModifyProfileInputPage"
 				component={ModifyProfileInputPage}
 			/>
+			<Stack.Screen name="SettingPage" component={SettingPage} />
 		</Stack.Navigator>
 	);
 }
