@@ -72,7 +72,7 @@ const StudentVerificationPage = () => {
 
 		if (onboardingData.profileImg) {
 			const file = {
-				uri: image,
+				uri: onboardingData.profileImg,
 				type: "image/jpeg",
 				name: `${memberId}_profile.jpg`,
 			};

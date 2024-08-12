@@ -125,6 +125,7 @@ const HomePage = ({ count = 3 }) => {
 						<View style={HomeStyles.homecardContainer}>
 							<View style={HomeStyles.homecard}>
 								<HomeCardBack
+									memberId={id}
 									profileImg={profilePresignUrl}
 									name={username}
 									onPress={() => setShowNewCard(false)}

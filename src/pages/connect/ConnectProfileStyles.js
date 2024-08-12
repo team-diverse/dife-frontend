@@ -6,7 +6,8 @@ const { fontSub16, fontBody14 } = CustomTheme;
 const ConnectProfileStyles = StyleSheet.create({
 	container: {
 		flex: 1,
-		position: "relative",
+		// position: "relative",
+		// width: "100%",
 		backgroundColor: CustomTheme.primaryMedium,
 	},
 	topBar: {
@@ -16,7 +17,7 @@ const ConnectProfileStyles = StyleSheet.create({
 		marginHorizontal: 20,
 	},
 	scrollView: {
-		flex: 1,
+		width: "100%",
 	},
 	background: {
 		position: "absolute",
@@ -31,7 +32,7 @@ const ConnectProfileStyles = StyleSheet.create({
 		marginRight: 17,
 		matginTop: 25,
 	},
-	name: {
+	username: {
 		fontSize: 16,
 		lineHeight: 24,
 		fontFamily: "NotoSansCJKkr-Bold",
@@ -59,6 +60,7 @@ const ConnectProfileStyles = StyleSheet.create({
 		...fontBody14,
 		color: CustomTheme.textDisable,
 		textDecorationLine: "underline",
+		marginBottom: 50,
 	},
 	bottomTwoButtons: {
 		position: "absolute",

@@ -7,12 +7,10 @@ const { fontSub14 } = CustomTheme;
 const ConnectProfileLanguage = ({ language = "language" }) => {
 	return (
 		<View>
-			{language.map((item, index) => (
-				<View key={index} style={styles.rectangle}>
-					<Text style={styles.language}>{item}</Text>
-					<View style={styles.line} />
-				</View>
-			))}
+			<View style={styles.rectangle}>
+				<Text style={styles.language}>{language}</Text>
+				<View style={styles.line} />
+			</View>
 		</View>
 	);
 };

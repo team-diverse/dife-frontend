@@ -1,7 +1,13 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { CustomTheme } from "@styles/CustomTheme";
+import {
+	getConnectById,
+	requestConnectById,
+	deleteConnectById,
+} from "config/api";
 
 import HomecardDifeB from "@components/home/HomecardDifeB";
 import HomeProfile from "@components/home/HomeProfile";
@@ -10,11 +16,61 @@ import ConnectRequest from "@components/ConnectRequest";
 
 const { fontCaption } = CustomTheme;
 
-const HomeCardBack = ({ profileImg, name, onPress }) => {
+const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
+	const navigation = useNavigation();
+
 	const [modalVisible, setModalVisible] = useState(false);
+	const [connectStatus, setConnectStatus] = useState(undefined);
+	const [connectId, setConnectId] = useState();
+
+	const getConnectStatus = async () => {
+		try {
+			const response = await getConnectById(memberId);
+			setConnectStatus(response.data.status);
+			setConnectId(response.data.id);
+		} catch (error) {
+			console.error(
+				"커넥트 상태 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const requestConnect = async () => {
+		try {
+			const response = await requestConnectById(memberId);
+			setConnectStatus(response.data.status);
+		} catch (error) {
+			console.error(
+				"커넥트 요청 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useEffect(() => {
+		getConnectStatus();
+	}, [connectStatus]);
+
+	const deleteConnect = async () => {
+		try {
+			await deleteConnectById(connectId);
+			setConnectStatus(undefined);
+		} catch (error) {
+			console.error(
+				"커넥트 삭제 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
 
 	const pressButton = () => {
-		setModalVisible(true);
+		if (connectStatus === undefined) {
+			setModalVisible(true);
+			requestConnect();
+		} else {
+			deleteConnect();
+		}
 	};
 
 	return (
@@ -24,7 +80,15 @@ const HomeCardBack = ({ profileImg, name, onPress }) => {
 			</View>
 			<View style={styles.homecardBack}>
 				<HomeProfile profile={profileImg} back={true} />
-				<Text style={styles.viewProfile}>프로필 상세보기</Text>
+				<TouchableOpacity
+					onPress={() =>
+						navigation.navigate("ConnectProfilePage", {
+							memberId: memberId,
+						})
+					}
+				>
+					<Text style={styles.viewProfile}>프로필 상세보기</Text>
+				</TouchableOpacity>
 				<View style={styles.addFriendOk}>
 					<Text style={styles.textConnect}>
 						<Text style={styles.textNameBold}>{name}</Text>에게
@@ -34,7 +98,16 @@ const HomeCardBack = ({ profileImg, name, onPress }) => {
 			</View>
 			<View style={styles.homecardBackBtn}>
 				<HomecardBackBtn btnText="아니오" onPress={onPress} />
-				<HomecardBackBtn btnText="신청하기" onPress={pressButton} />
+				<HomecardBackBtn
+					btnText={
+						connectStatus === undefined
+							? "신청하기"
+							: connectStatus === "PENDING"
+								? "요청 취소"
+								: "커넥트 삭제"
+					}
+					onPress={pressButton}
+				/>
 			</View>
 			<ConnectRequest
 				modalVisible={modalVisible}

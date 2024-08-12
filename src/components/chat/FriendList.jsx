@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useWebSocket } from "context/WebSocketContext";
 import { getMyMemberId } from "util/secureStoreUtils";
 
-const FriendList = ({ memberId, name }) => {
+const FriendList = ({ memberId, name, imageName }) => {
 	const navigation = useNavigation("");
 	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
 
@@ -47,11 +47,18 @@ const FriendList = ({ memberId, name }) => {
 
 	return (
 		<>
-			<View style={styles.rectangle}>
+			<TouchableOpacity
+				style={styles.rectangle}
+				onPress={() =>
+					navigation.navigate("ConnectProfilePage", {
+						memberId: memberId,
+					})
+				}
+			>
 				<View style={styles.containerContext}>
 					<View style={styles.iconTextContainer}>
 						<View style={styles.icon}>
-							<IconChatProfile />
+							<IconChatProfile imageName={imageName} />
 						</View>
 						<Text style={styles.textName}>{name}</Text>
 					</View>
@@ -66,7 +73,7 @@ const FriendList = ({ memberId, name }) => {
 						</View>
 					</View>
 				</View>
-			</View>
+			</TouchableOpacity>
 		</>
 	);
 };
