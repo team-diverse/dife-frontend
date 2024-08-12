@@ -63,11 +63,11 @@ export const getMyConnects = () => {
 	return api.get("/connects");
 };
 
-export const getMyProfile = () => {
+export const getProfile = () => {
 	return api.get("/members/profile");
 };
 
-export const checkUsername = (username) => {
+export const headCheckUserName = (username) => {
 	return api.head("/members", {
 		params: {
 			username,
@@ -75,7 +75,7 @@ export const checkUsername = (username) => {
 	});
 };
 
-export const updateMyProfile = (member_id, formData) => {
+export const updateProfile = (member_id, formData) => {
 	return api.put(`/members/${member_id}`, formData, {
 		headers: {
 			"Content-Type": "multipart/form-data",
@@ -133,38 +133,30 @@ export const updatePost = (
 	});
 };
 
-export const getLikedPosts = () => {
+export const getLikedPost = () => {
 	return api.get("/likes");
 };
 
-export const getBookmarkedPosts = () => {
+export const getBookmarkPost = () => {
 	return api.get("/bookmarks");
 };
 
-export const createComment = (postId, valueComment, isChecked) => {
-	return api.post(`comments/${postId}`, {
+export const postCommentSend = (id, valueComment, isChecked) => {
+	return api.post(`comments/${id}`, {
 		content: valueComment,
 		isPublic: isChecked,
-		postId: postId,
+		postId: id,
 		parentCommentId: 0,
 	});
 };
 
-export const getCommentByPostId = (postId) => {
-	return api.get(`comments/${postId}`);
+export const getCommentById = (id) => {
+	return api.get(`comments/${id}`);
 };
 
-export const createLikePost = (postId) => {
+export const createLike = (type, postId, commentId) => {
 	return api.post("/likes", {
-		type: "POST",
-		postId: postId,
-		commentId: "",
-	});
-};
-
-export const createLikeComment = (postId, commentId) => {
-	return api.post("/likes", {
-		type: "COMMENT",
+		type: type,
 		postId: postId,
 		commentId: commentId,
 	});
@@ -194,4 +186,38 @@ export const getConnectFilter = (mbtis, hobbies, languages) => {
 			languages: languages,
 		},
 	});
+};
+
+export const getConnectById = (memberId) => {
+	return api.get(`/connects/`, {
+		params: {
+			member_id: memberId,
+		},
+	});
+};
+
+export const getProfileById = (memberId) => {
+	return api.get(`/members/${memberId}`);
+};
+
+export const requestConnectById = (memberId) => {
+	return api.post("/connects/", {
+		to_member_id: memberId,
+	});
+};
+
+export const getConnectList = () => {
+	return api.get(`/connects`);
+};
+
+export const getProfileImageByFileName = (fileName) => {
+	return api.get(`/files`, {
+		params: {
+			fileName: fileName,
+		},
+	});
+};
+
+export const deleteConnectById = (connectId) => {
+	return api.delete(`/connects/${connectId}`);
 };

@@ -12,6 +12,7 @@ import IconSearchFail from "@components/common/IconSearchFail";
 const { fontSub14, fontCaption } = CustomTheme;
 
 const ConnectCard = ({
+	id,
 	profilePresignUrl = null,
 	username = "username",
 	country = "country",
@@ -33,7 +34,7 @@ const ConnectCard = ({
 		if (headcount) {
 			navigation.navigate("GroupProfilePage");
 		} else {
-			navigation.navigate("ConnectProfilePage");
+			navigation.navigate("ConnectProfilePage", { memberId: id });
 		}
 	};
 
