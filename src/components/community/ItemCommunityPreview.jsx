@@ -4,7 +4,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontCaption } = CustomTheme;
 
-const ItemCommunityPreview = ({ postList }) => {
+const ItemCommunityPreview = ({ postList = [] }) => {
 	return (
 		<View style={styles.containerCommunity}>
 			{postList.map((post, index) => (

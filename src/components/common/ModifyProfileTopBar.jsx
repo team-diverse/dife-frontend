@@ -8,7 +8,7 @@ import IconModifyProfileCheck from "@components/member/IconModifyProfileCheck";
 
 const { fontHead20 } = CustomTheme;
 
-const ModifyProfileTopBar = ({ topBar = "TopBar" }) => {
+const ModifyProfileTopBar = ({ topBar = "TopBar", onPress }) => {
 	const navigation = useNavigation();
 
 	const handleGoBack = () => {
@@ -28,9 +28,9 @@ const ModifyProfileTopBar = ({ topBar = "TopBar" }) => {
 						<Text style={styles.textStyle}>{topBar}</Text>
 					</View>
 				</View>
-				<View style={styles.check}>
+				<TouchableOpacity style={styles.check} onPress={onPress}>
 					<IconModifyProfileCheck />
-				</View>
+				</TouchableOpacity>
 			</View>
 		</View>
 	);

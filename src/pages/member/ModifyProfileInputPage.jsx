@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { SafeAreaView, View, Text, TextInput } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import ModifyProfileInputStyles from "@pages/member/ModifyProfileInputStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { checkUserName, updateMyProfile } from "config/api";
+import { debounce } from "util/debounce";
 
 import ModifyProfileTopBar from "@components/common/ModifyProfileTopBar";
 import FilterCategory from "@components/connect/FilterCategory";
@@ -10,7 +13,9 @@ import InfoCircle from "@components/common/InfoCircle";
 import Checkbox from "@components/common/Checkbox";
 
 const ModifyProfileInputPage = ({ route }) => {
+	const navigation = useNavigation();
 	const {
+		profileData,
 		title,
 		nicknameContent,
 		bioContent,
@@ -18,10 +23,54 @@ const ModifyProfileInputPage = ({ route }) => {
 		languageContent = [],
 	} = route.params;
 
-	const [nicknameInput, setNicknameInput] = useState(nicknameContent);
-	const [bioInput, setBioInput] = useState(bioContent);
-	const [selectedHobby, setSelectedHobby] = useState(tagContent);
+	useEffect(() => {
+		const separateTag = (arr) => {
+			const mbtiPattern = /^[A-Z]{4}$/;
+			const tagHobbies = [];
+			let tagMbti = null;
+
+			arr.forEach((item) => {
+				if (mbtiPattern.test(item)) {
+					tagMbti = item;
+				} else {
+					tagHobbies.push(item);
+				}
+			});
+
+			setSelectedMBTI(tagMbti ? [tagMbti] : []);
+			setSelectedHobby(tagHobbies);
+		};
+
+		separateTag(tagContent);
+	}, []);
+
+	const [originalProfile] = useState(profileData);
+	const [nicknameValid, setNicknameValid] = useState(null);
+	const [nicknameInput, setNicknameInput] = useState(nicknameContent || "");
+	const [bioInput, setBioInput] = useState(bioContent || "");
+	const [selectedMBTI, setSelectedMBTI] = useState([]);
+	const [selectedHobby, setSelectedHobby] = useState([]);
 	const [selectedLanguage, setSelectedLanguage] = useState(languageContent);
+
+	const mbti = [
+		"ISTP",
+		"ISFP",
+		"ENTP",
+		"ISFJ",
+		"INFJ",
+		"ENTJ",
+		"INFP",
+		"INTP",
+		"ESFP",
+		"ESTP",
+		"ESFJ",
+		"INTJ",
+		"ESTJ",
+		"ENFP",
+		"ISTJ",
+		"ENFJ",
+		"선택안함",
+	];
 
 	const hobby = [
 		"SNS",
@@ -54,11 +103,28 @@ const ModifyProfileInputPage = ({ route }) => {
 		"한국어 / Korean",
 	];
 
+	const defaultLanguages =
+		languageContent.length === 0 ? ["", "", "", "", ""] : languageContent;
+
 	const [isCheckedList, setIsCheckedList] = useState(
-		languages.map((lang) => languageContent.includes(lang)),
+		languages.map((lang) => defaultLanguages.includes(lang)),
 	);
 
 	const size = 3;
+
+	const mbtiRows = [];
+	for (let i = 0; i < mbti.length; i += size) {
+		mbtiRows.push(mbti.slice(i, i + size));
+	}
+
+	const handleSelectMBTI = (mbti) => {
+		if (selectedMBTI.includes(mbti)) {
+			setSelectedMBTI([]);
+		} else {
+			setSelectedMBTI([mbti]);
+		}
+	};
+
 	const hobbyRows = [];
 	for (let i = 0; i < hobby.length; i += size) {
 		hobbyRows.push(hobby.slice(i, i + size));
@@ -89,34 +155,97 @@ const ModifyProfileInputPage = ({ route }) => {
 		}
 	};
 
+	const handleNicknameChange = (text) => {
+		setNicknameInput(text);
+		if (text.length > 0) {
+			handleNickname(text);
+		} else {
+			setNicknameValid(null);
+		}
+	};
+
+	const handleNickname = useCallback(
+		debounce(async (text) => {
+			try {
+				const response = await checkUserName(text);
+				if (response.status === 200) {
+					setNicknameValid(true);
+				} else {
+					setNicknameValid(false);
+				}
+			} catch (error) {
+				console.error("닉네임 사용 불가: ", error.message);
+				setNicknameValid(false);
+			}
+		}, 100),
+		[],
+	);
+
+	const updateProfile = async () => {
+		try {
+			const formData = new FormData();
+			if (
+				nicknameInput !== undefined &&
+				nicknameInput !== originalProfile.username
+			) {
+				formData.append("username", nicknameInput);
+			}
+			if (bioInput !== originalProfile.bio) {
+				formData.append("bio", bioInput);
+			}
+			if (selectedMBTI !== originalProfile.mbti) {
+				formData.append("mbti", selectedMBTI);
+			}
+			if (selectedHobby !== originalProfile.hobbies) {
+				formData.append("hobbies", selectedHobby);
+			}
+			if (selectedLanguage !== originalProfile.languages) {
+				formData.append("languages", selectedLanguage);
+			}
+
+			await updateMyProfile(formData);
+			navigation.navigate("ModifyProfilePage");
+		} catch (error) {
+			console.error(
+				"프로필 변경 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	return (
 		<SafeAreaView style={ModifyProfileInputStyles.container}>
-			<ModifyProfileTopBar topBar={title} />
+			<ModifyProfileTopBar topBar={title} onPress={updateProfile} />
 
-			{(nicknameContent || bioContent) && (
+			{(nicknameContent ||
+				nicknameContent === "" ||
+				bioContent ||
+				bioContent === "") && (
 				<View style={ModifyProfileInputStyles.containerBackgroundWhite}>
 					<View style={ModifyProfileInputStyles.backgroundWhite}>
 						<Text style={ModifyProfileInputStyles.textTitle}>
 							{title}
 						</Text>
+
 						{nicknameContent && (
-							<TextInput
-								style={[
-									ModifyProfileInputStyles.textInput,
-									{ color: CustomTheme.primaryMedium },
-								]}
-								onChangeText={setNicknameInput}
-								value={nicknameInput}
-								defaultValue={nicknameContent}
-							/>
+							<>
+								<TextInput
+									style={[
+										ModifyProfileInputStyles.textInput,
+										{ color: CustomTheme.primaryMedium },
+									]}
+									onChangeText={handleNicknameChange}
+									value={nicknameInput}
+								/>
+							</>
 						)}
+
 						{bioContent && (
 							<>
 								<TextInput
 									style={ModifyProfileInputStyles.textInput}
 									onChangeText={setBioInput}
 									value={bioInput}
-									defaultValue={bioContent}
 									multiline={true}
 									maxLength={60}
 								/>
@@ -130,47 +259,111 @@ const ModifyProfileInputPage = ({ route }) => {
 					</View>
 				</View>
 			)}
+			{nicknameInput.length > 0 &&
+				typeof nicknameValid === "boolean" &&
+				(nicknameValid ? (
+					<Text
+						style={ModifyProfileInputStyles.textAvailableNickname}
+					>
+						사용 가능한 닉네임이에요.
+					</Text>
+				) : (
+					<Text
+						style={ModifyProfileInputStyles.textUnavailableNickname}
+					>
+						이미 사용 중인 닉네임이에요.
+					</Text>
+				))}
 
-			{tagContent.length > 0 && (
+			{nicknameContent == null && bioContent == null && (
 				<>
-					<View style={ModifyProfileInputStyles.infoTextContainer}>
-						<InfoCircle />
-						<Text style={ModifyProfileInputStyles.infoText}>
-							최대 3개까지 선택 가능
-						</Text>
-					</View>
-					<View>
-						{hobbyRows.map((row, rowIndex) => (
+					{languageContent.length == 0 && tagContent && (
+						<>
 							<View
-								key={rowIndex}
-								style={ModifyProfileInputStyles.containerRow}
+								style={ModifyProfileInputStyles.containerMbti}
 							>
-								{row.map((type, typeIndex) => (
-									<FilterCategory
-										key={typeIndex}
-										text={type}
-										hobbyCount={selectedHobby.length}
-										onPress={() => handleSelectHobby(type)}
-										selected={selectedHobby.includes(type)}
-									/>
+								<View
+									style={
+										ModifyProfileInputStyles.flexStartMbti
+									}
+								>
+									{mbtiRows.map((row, rowIndex) => (
+										<View
+											key={rowIndex}
+											style={
+												ModifyProfileInputStyles.rowMbti
+											}
+										>
+											{row.map((type, typeIndex) => (
+												<FilterCategory
+													key={typeIndex}
+													text={type}
+													mbtiCount={1}
+													onPress={() =>
+														handleSelectMBTI(type)
+													}
+													selected={selectedMBTI.includes(
+														type,
+													)}
+												/>
+											))}
+										</View>
+									))}
+								</View>
+							</View>
+
+							<View
+								style={
+									ModifyProfileInputStyles.infoTextContainer
+								}
+							>
+								<InfoCircle />
+								<Text style={ModifyProfileInputStyles.infoText}>
+									최대 3개까지 선택 가능
+								</Text>
+							</View>
+							<View>
+								{hobbyRows.map((row, rowIndex) => (
+									<View
+										key={rowIndex}
+										style={
+											ModifyProfileInputStyles.containerRow
+										}
+									>
+										{row.map((type, typeIndex) => (
+											<FilterCategory
+												key={typeIndex}
+												text={type}
+												hobbyCount={
+													selectedHobby.length
+												}
+												onPress={() =>
+													handleSelectHobby(type)
+												}
+												selected={selectedHobby.includes(
+													type,
+												)}
+											/>
+										))}
+									</View>
 								))}
 							</View>
-						))}
-					</View>
-				</>
-			)}
+						</>
+					)}
 
-			{languageContent.length > 0 && (
-				<View style={ModifyProfileInputStyles.checkbox}>
-					{languages.map((language, index) => (
-						<Checkbox
-							key={index}
-							checked={isCheckedList[index]}
-							onPress={() => handleSelectLanguage(index)}
-							text={language}
-						/>
-					))}
-				</View>
+					{tagContent.length == 0 && languageContent && (
+						<View style={ModifyProfileInputStyles.checkbox}>
+							{languages.map((language, index) => (
+								<Checkbox
+									key={index}
+									checked={isCheckedList[index]}
+									onPress={() => handleSelectLanguage(index)}
+									text={language}
+								/>
+							))}
+						</View>
+					)}
+				</>
 			)}
 		</SafeAreaView>
 	);
