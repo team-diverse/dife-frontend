@@ -3,7 +3,7 @@ import { View, ScrollView } from "react-native";
 
 import LikedPostStyles from "@pages/member/LikedPostStyles";
 
-import { getLikedPost } from "config/api";
+import { getLikedPosts } from "config/api";
 import ItemLikeBookmark from "@components/member/ItemLikeBookmark";
 
 const LikedPostPage = () => {
@@ -12,7 +12,7 @@ const LikedPostPage = () => {
 	useEffect(() => {
 		const handleLikedPost = async () => {
 			try {
-				const likedPostResponse = await getLikedPost();
+				const likedPostResponse = await getLikedPosts();
 				setLikedPostList(likedPostResponse.data);
 			} catch (error) {
 				console.error(
@@ -28,7 +28,9 @@ const LikedPostPage = () => {
 		<View style={LikedPostStyles.container}>
 			<ScrollView>
 				<View style={LikedPostStyles.itemLikeBookmark}>
-					<ItemLikeBookmark props={likedPostList} />
+					<ItemLikeBookmark
+						likedAndBookmarkPostList={likedPostList}
+					/>
 				</View>
 			</ScrollView>
 		</View>

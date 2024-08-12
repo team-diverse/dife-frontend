@@ -8,7 +8,7 @@ import Svg, {
 	ClipPath,
 } from "react-native-svg";
 
-const ProfileKBackground = ({ props, profileImage }) => (
+const ProfileKBackground = ({ profileImage, ...props }) => (
 	<Svg
 		xmlns="http://www.w3.org/2000/svg"
 		width={116}

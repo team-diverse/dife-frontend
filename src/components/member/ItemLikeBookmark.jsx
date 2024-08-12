@@ -6,12 +6,12 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemLikeBookmark = ({ props, type = "like" }) => {
+const ItemLikeBookmark = ({ likedAndBookmarkPostList, type = "like" }) => {
 	const navigation = useNavigation();
 
 	return (
 		<>
-			{props.map((post, index) => (
+			{likedAndBookmarkPostList.map((post, index) => (
 				<TouchableOpacity
 					key={index}
 					style={styles.ItemCommunity}
@@ -57,10 +57,10 @@ const ItemLikeBookmark = ({ props, type = "like" }) => {
 const styles = StyleSheet.create({
 	ItemCommunity: {
 		width: "100%",
-		height: 62,
+		height: 78,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
-		borderWidth: 3,
+		borderWidth: 2,
 		borderColor: CustomTheme.primaryBg,
 		paddingHorizontal: 20,
 		justifyContent: "center",

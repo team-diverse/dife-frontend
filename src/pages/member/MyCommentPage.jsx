@@ -93,7 +93,7 @@ const MyCommentPage = () => {
 
 			<ScrollView>
 				<View style={MyPostStyles.itemCommunity}>
-					<ItemCommunity props={MyPostList} comment={true} />
+					<ItemCommunity postList={MyPostList} comment={true} />
 				</View>
 			</ScrollView>
 		</SafeAreaView>

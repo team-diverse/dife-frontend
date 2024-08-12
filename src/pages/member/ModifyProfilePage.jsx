@@ -11,7 +11,7 @@ import * as ImagePicker from "expo-image-picker";
 import ModifyProfileStyles from "@pages/member/ModifyProfileStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useOnboarding } from "src/states/OnboardingContext.js";
-import { updateProfile } from "config/api";
+import { updateMyProfile } from "config/api";
 import { useNavigation } from "@react-navigation/native";
 
 import TopBar from "@components/common/TopBar";
@@ -57,7 +57,7 @@ const ModifyProfilePage = () => {
 		}
 
 		try {
-			const response = await updateProfile(onboardingData.id, formData);
+			const response = await updateMyProfile(onboardingData.id, formData);
 			console.log("프로필 이미지 변경 성공:", response.data.message);
 		} catch (error) {
 			setProfileImage(null);

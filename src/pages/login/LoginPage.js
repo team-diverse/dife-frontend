@@ -20,7 +20,7 @@ import LoginBackground from "@components/login/LoginBackground";
 import { useOnboarding } from "src/states/OnboardingContext.js";
 import { useAuth } from "src/states/AuthContext";
 import InfoCircle from "@components/common/InfoCircle";
-import { getProfile, login } from "config/api";
+import { getMyProfile, login } from "config/api";
 import * as SecureStore from "expo-secure-store";
 import { MOCK_LOGIN, MOCK_EMAIL, MOCK_PASSWORD } from "@env";
 
@@ -62,7 +62,7 @@ const LoginPage = () => {
 
 			updateOnboardingData({ id, accessToken, refreshToken });
 
-			const profileResponse = await getProfile();
+			const profileResponse = await getMyProfile();
 			if (profileResponse.data.isVerified) {
 				setIsLoggedIn(true);
 			} else {

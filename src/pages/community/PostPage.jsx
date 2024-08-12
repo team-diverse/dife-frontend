@@ -19,12 +19,12 @@ import { useOnboarding } from "src/states/OnboardingContext.js";
 import { usePostModify } from "src/states/PostModifyContext";
 import {
 	getPostById,
-	getCommentById,
-	postCommentSend,
-	createLike,
+	getCommentByPostId,
+	createComment,
+	createLikePost,
 	createBookmark,
-	getLikedPost,
-	getBookmarkPost,
+	getLikedPosts,
+	getBookmarkedPosts,
 } from "config/api";
 
 import TopBar from "@components/common/TopBar";
@@ -99,7 +99,7 @@ const PostPage = ({ route }) => {
 						});
 					}
 
-					const commentByIdResponse = await getCommentById(id);
+					const commentByIdResponse = await getCommentByPostId(id);
 					setComments(commentByIdResponse.data);
 
 					console.log("게시글 및 댓글 조회 성공");
@@ -156,7 +156,7 @@ const PostPage = ({ route }) => {
 
 	const handleCommentSend = async () => {
 		try {
-			const commentSendResponse = await postCommentSend(
+			const commentSendResponse = await createComment(
 				id,
 				valueComment,
 				isChecked,
@@ -180,7 +180,7 @@ const PostPage = ({ route }) => {
 
 	const handleHeart = async () => {
 		try {
-			await createLike("POST", id);
+			await createLikePost(id);
 			console.log("게시글 좋아요 성공");
 		} catch (error) {
 			console.error(
@@ -216,7 +216,7 @@ const PostPage = ({ route }) => {
 
 	const likedPosts = async () => {
 		try {
-			const response = await getLikedPost();
+			const response = await getLikedPosts();
 			const likedPostIdList = response.data.map((item) => item.id);
 			setPressHeart(likedPostIdList.includes(id));
 		} catch (error) {
@@ -267,7 +267,7 @@ const PostPage = ({ route }) => {
 
 	const bookmarkedPosts = async () => {
 		try {
-			const response = await getBookmarkPost();
+			const response = await getBookmarkedPosts();
 			const bookmarkedPostIdList = response.data.map((item) => item.id);
 			setPressBookmark(bookmarkedPostIdList.includes(id));
 		} catch (error) {

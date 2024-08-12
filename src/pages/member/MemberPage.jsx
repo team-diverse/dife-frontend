@@ -6,7 +6,7 @@ import { createMaterialTopTabNavigator } from "@react-navigation/material-top-ta
 
 import MemberStyles from "@pages/member/MemberStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { getProfile } from "config/api";
+import { getMyProfile } from "config/api";
 
 import DifeLogo from "@components/member/DifeLogo";
 import CircleBackground from "@components/member/CircleBackground";
@@ -33,7 +33,7 @@ const MemberPage = () => {
 	useEffect(() => {
 		const handleProfile = async () => {
 			try {
-				const response = await getProfile();
+				const response = await getMyProfile();
 				setName(response.data.username);
 				setProfileImage(response.data.profilePresignUrl);
 			} catch (error) {
