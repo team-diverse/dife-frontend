@@ -93,7 +93,7 @@ const MyWrotePage = () => {
 
 			<ScrollView>
 				<View style={MyPostStyles.itemCommunity}>
-					<ItemCommunity props={MyPostList} />
+					<ItemCommunity postList={MyPostList} />
 				</View>
 			</ScrollView>
 		</SafeAreaView>
