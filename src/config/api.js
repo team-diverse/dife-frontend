@@ -63,7 +63,7 @@ export const getMyConnects = () => {
 	return api.get("/connects");
 };
 
-export const getProfile = () => {
+export const getMyProfile = () => {
 	return api.get("/members/profile");
 };
 

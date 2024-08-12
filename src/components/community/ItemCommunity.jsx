@@ -21,7 +21,7 @@ const ItemCommunity = ({ postList = [], comment = false }) => {
 
 	return (
 		<>
-			{props.map((post, index) => {
+			{postList.map((post, index) => {
 				const commentText = comment
 					? `'${post.title}' 글에 댓글`
 					: post.title;

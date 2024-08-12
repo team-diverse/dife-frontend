@@ -224,24 +224,28 @@ const FilterBottomSlide = (props) => {
 									최대 3개까지 선택 가능
 								</Text>
 							</View>
-							<View>
-								{mbtiRows.map((row, rowIndex) => (
-									<View
-										key={rowIndex}
-										style={styles.containerRow}
-									>
-										{row.map((type, typeIndex) => (
-											<FilterCategory
-												key={typeIndex}
-												text={type}
-												mbtiCount={selectedMBTI.length}
-												onPress={() =>
-													handleSelectMBTI(type)
-												}
-											/>
-										))}
-									</View>
-								))}
+							<View style={styles.containerMbti}>
+								<View style={styles.flexStartMbti}>
+									{mbtiRows.map((row, rowIndex) => (
+										<View
+											key={rowIndex}
+											style={styles.containerRow}
+										>
+											{row.map((type, typeIndex) => (
+												<FilterCategory
+													key={typeIndex}
+													text={type}
+													mbtiCount={
+														selectedMBTI.length
+													}
+													onPress={() =>
+														handleSelectMBTI(type)
+													}
+												/>
+											))}
+										</View>
+									))}
+								</View>
 							</View>
 						</Collapsible>
 

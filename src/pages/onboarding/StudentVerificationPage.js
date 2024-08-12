@@ -14,7 +14,7 @@ import * as ImagePicker from "expo-image-picker";
 import StudentVerificationStyles from "@pages/onboarding/StudentVerificationStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
 import { useOnboarding } from "src/states/OnboardingContext.js";
-import { updateProfile } from "config/api";
+import { updateMyProfile } from "config/api";
 
 import Progress6 from "@components/onboarding/Progress6";
 import ArrowRight from "@components/common/ArrowRight";
@@ -72,7 +72,7 @@ const StudentVerificationPage = () => {
 
 		if (onboardingData.profileImg) {
 			const file = {
-				uri: image,
+				uri: onboardingData.profileImg,
 				type: "image/jpeg",
 				name: `${memberId}_profile.jpg`,
 			};
@@ -87,7 +87,7 @@ const StudentVerificationPage = () => {
 			formData.append("verificationFile", file);
 		}
 
-		updateProfile(memberId, formData)
+		updateMyProfile(memberId, formData)
 			.then((response) => {
 				console.log("온보딩 저장 성공:", response.data);
 				navigation.navigate("CompleteProfile");

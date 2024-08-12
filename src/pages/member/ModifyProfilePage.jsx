@@ -94,7 +94,7 @@ const ModifyProfilePage = () => {
 		}
 
 		try {
-			const response = await updateProfile(onboardingData.id, formData);
+			const response = await updateMyProfile(onboardingData.id, formData);
 			console.log("프로필 이미지 변경 성공:", response.data.message);
 		} catch (error) {
 			setProfileImage(null);

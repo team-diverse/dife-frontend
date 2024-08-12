@@ -19,12 +19,14 @@ import { useOnboarding } from "src/states/OnboardingContext.js";
 import { usePostModify } from "src/states/PostModifyContext";
 import {
 	getPostById,
-	getCommentById,
-	postCommentSend,
-	createLike,
-	createBookmark,
+	getCommentByPostId,
+	createComment,
+	createLikePost,
+	deleteLikeByPostId,
+	createPostBookmark,
 	getLikedPost,
-	getBookmarkPost,
+	getBookmarkedPost,
+	deleteBookmarkByPostId,
 } from "config/api";
 
 import TopBar from "@components/common/TopBar";
@@ -99,10 +101,10 @@ const PostPage = ({ route }) => {
 						});
 					}
 
-					const commentByIdResponse = await getCommentById(id);
+					const commentByIdResponse = await getCommentByPostId(id);
 					setComments(commentByIdResponse.data);
 
-					console.log("게시글 및 댓글 조회 성공");
+					// console.log("게시글 및 댓글 조회 성공");
 				} catch (error) {
 					console.error(
 						"게시글 조회 오류:",
@@ -116,7 +118,7 @@ const PostPage = ({ route }) => {
 			};
 
 			postComment();
-		}, []),
+		}, [pressHeart, pressBookmark]),
 	);
 
 	const [scrollY, setScrollY] = useState(0);
@@ -156,12 +158,11 @@ const PostPage = ({ route }) => {
 
 	const handleCommentSend = async () => {
 		try {
-			const commentSendResponse = await postCommentSend(
+			const commentSendResponse = await createComment(
 				id,
 				valueComment,
 				isChecked,
 			);
-			console.log("댓글 작성 성공");
 
 			onChangeComment("");
 			setComments((prevComments) => [
@@ -180,38 +181,32 @@ const PostPage = ({ route }) => {
 
 	const handleHeart = async () => {
 		try {
-			await createLike("POST", id);
-			console.log("게시글 좋아요 성공");
+			await createLikePost(id);
+			setHeart((prevHeart) => prevHeart + 1);
+			setPressHeart(true);
 		} catch (error) {
 			console.error(
 				"게시글 좋아요 실패:",
 				error.response ? error.response.data : error.message,
 			);
-			setHeart((prevHeart) => prevHeart - 1);
 			setPressHeart(false);
+			setHeart(heart !== 0 ? (prevHeart) => prevHeart - 1 : 0);
 		}
 	};
 
-	const heartAlert = () => {
-		Alert.alert(
-			"",
-			"이 게시물에 좋아요를 누르시겠습니까?",
-			[
-				{
-					text: "취소",
-					style: "cancel",
-				},
-				{
-					text: "확인",
-					onPress: () => {
-						setHeart((prevHeart) => prevHeart + 1);
-						setPressHeart(true);
-						handleHeart();
-					},
-				},
-			],
-			{ cancelable: false },
-		);
+	const handleHeartDelete = async () => {
+		try {
+			await deleteLikeByPostId(id);
+			setPressHeart(false);
+			setHeart(heart !== 0 ? (prevHeart) => prevHeart - 1 : 0);
+		} catch (error) {
+			console.error(
+				"게시글 좋아요 취소 실패:",
+				error.response ? error.response.data : error.message,
+			);
+			setPressHeart(true);
+			setHeart((prevHeart) => prevHeart + 1);
+		}
 	};
 
 	const likedPosts = async () => {
@@ -231,8 +226,9 @@ const PostPage = ({ route }) => {
 
 	const handleBookmark = async () => {
 		try {
-			await createBookmark(null, null, id);
-			console.log("게시글 북마크 성공");
+			await createPostBookmark(id);
+			setBookmark((prevBookmark) => prevBookmark + 1);
+			setPressBookmark(true);
 		} catch (error) {
 			console.error(
 				"게시글 북마크 실패:",
@@ -243,10 +239,23 @@ const PostPage = ({ route }) => {
 		}
 	};
 
-	const bookmarkAlert = () => {
+	const handleDeleteBookmark = async () => {
+		try {
+			await deleteBookmarkByPostId(id);
+		} catch (error) {
+			console.error(
+				"게시글 북마크 삭제 실패:",
+				error.response ? error.response.data : error.message,
+			);
+			setPressBookmark(true);
+			setBookmark((prevBookmark) => prevBookmark + 1);
+		}
+	};
+
+	const bookmarkDeleteAlert = () => {
 		Alert.alert(
 			"",
-			"이 게시물을 북마크하시겠습니까?",
+			"북마크를 취소하시겠습니까?",
 			[
 				{
 					text: "취소",
@@ -255,9 +264,9 @@ const PostPage = ({ route }) => {
 				{
 					text: "확인",
 					onPress: () => {
-						setBookmark((prevBookmark) => prevBookmark + 1);
-						setPressBookmark(true);
-						handleBookmark();
+						setBookmark((prevBookmark) => prevBookmark - 1);
+						setPressBookmark(false);
+						handleDeleteBookmark();
 					},
 				},
 			],
@@ -267,8 +276,10 @@ const PostPage = ({ route }) => {
 
 	const bookmarkedPosts = async () => {
 		try {
-			const response = await getBookmarkPost();
-			const bookmarkedPostIdList = response.data.map((item) => item.id);
+			const response = await getBookmarkedPost();
+			const bookmarkedPostIdList = response.data.map(
+				(item) => item.post.id,
+			);
 			setPressBookmark(bookmarkedPostIdList.includes(id));
 		} catch (error) {
 			console.error(
@@ -281,7 +292,7 @@ const PostPage = ({ route }) => {
 	useEffect(() => {
 		likedPosts();
 		bookmarkedPosts();
-	}, [id]);
+	}, [pressHeart, pressBookmark]);
 
 	return (
 		<SafeAreaView style={PostStyles.container}>
@@ -322,14 +333,20 @@ const PostPage = ({ route }) => {
 					<View style={PostStyles.containerIconRow}>
 						<TouchableOpacity
 							style={PostStyles.iconRow}
-							onPress={heartAlert}
+							onPress={
+								pressHeart ? handleHeartDelete : handleHeart
+							}
 						>
 							<IconHeart active={pressHeart} />
 							<Text style={PostStyles.textIcon}>{heart}</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={PostStyles.iconRow}
-							onPress={bookmarkAlert}
+							onPress={
+								pressBookmark
+									? bookmarkDeleteAlert
+									: handleBookmark
+							}
 						>
 							<IconBookmark active={pressBookmark} />
 							<Text style={PostStyles.textIcon}>{bookmark}</Text>
