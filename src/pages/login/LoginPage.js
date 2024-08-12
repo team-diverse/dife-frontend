@@ -9,6 +9,7 @@ import {
 	Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import * as Device from "expo-device";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import LoginStyles from "@pages/login/LoginStyles";
@@ -20,7 +21,7 @@ import LoginBackground from "@components/login/LoginBackground";
 import { useOnboarding } from "src/states/OnboardingContext.js";
 import { useAuth } from "src/states/AuthContext";
 import InfoCircle from "@components/common/InfoCircle";
-import { getMyProfile, login } from "config/api";
+import { getMyProfile, login, createNotificationToken } from "config/api";
 import * as SecureStore from "expo-secure-store";
 import { MOCK_LOGIN, MOCK_EMAIL, MOCK_PASSWORD } from "@env";
 
@@ -36,6 +37,16 @@ const LoginPage = () => {
 	const { updateOnboardingData } = useOnboarding();
 	const { setIsLoggedIn } = useAuth();
 	const [loginFailed, setLoginFailed] = useState(false);
+	const [deviceId, setDeviceId] = useState("");
+
+	useEffect(() => {
+		const getDeviceId = async () => {
+			const id = await Device.modelId;
+			setDeviceId(id);
+		};
+
+		getDeviceId();
+	}, []);
 
 	const handleShowPW = () => {
 		setShowPW(!showPW);
@@ -60,14 +71,17 @@ const LoginPage = () => {
 			await SecureStore.setItemAsync("accessToken", accessToken);
 			await SecureStore.setItemAsync("refreshToken", refreshToken);
 
+			console.log(accessToken);
 			updateOnboardingData({ id, accessToken, refreshToken });
 
-			const profileResponse = await getMyProfile();
+			const profileResponse = await getProfile();
 			if (profileResponse.data.isVerified) {
 				setIsLoggedIn(true);
 			} else {
 				navigation.navigate("Nickname");
 			}
+
+			await createNotificationToken(accessToken, deviceId);
 		} catch (error) {
 			console.error(
 				"로그인 또는 프로필 확인 오류:",

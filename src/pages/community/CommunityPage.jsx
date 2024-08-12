@@ -140,7 +140,7 @@ const CommunityPage = () => {
 							</View>
 						</View>
 						<View style={CommunityStyles.itemCommunityPreview}>
-							<ItemCommunityPreview props={tipPostList} />
+							<ItemCommunityPreview postList={tipPostList} />
 						</View>
 					</TouchableOpacity>
 
@@ -166,7 +166,7 @@ const CommunityPage = () => {
 							</View>
 						</View>
 						<View style={CommunityStyles.itemCommunityPreview}>
-							<ItemCommunityPreview props={freePostList} />
+							<ItemCommunityPreview postList={freePostList} />
 						</View>
 					</TouchableOpacity>
 				</View>

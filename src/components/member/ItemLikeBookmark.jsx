@@ -16,7 +16,7 @@ const ItemLikeBookmark = ({ likedAndBookmarkPostList, type = "like" }) => {
 					key={index}
 					style={styles.ItemCommunity}
 					onPress={() =>
-						navigation.navigate("PostPage", { id: post.id })
+						navigation.navigate("PostPage", { postId: post.id })
 					}
 				>
 					<View style={styles.containerRow}>
