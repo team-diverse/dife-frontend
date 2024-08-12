@@ -8,7 +8,7 @@ const ConnectProfileLanguage = ({ languages = [] }) => {
 	return (
 		<>
 			{languages.map((language, index) => (
-				<View style={styles.rectangle}>
+				<View key={index} style={styles.rectangle}>
 					<Text style={styles.language}>{language}</Text>
 					<View style={styles.line} />
 				</View>
