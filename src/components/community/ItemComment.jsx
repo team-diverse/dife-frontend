@@ -1,106 +1,312 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { createLikeComment } from "config/api";
+import { createLikeComment, deleteLikeByCommentId } from "config/api";
+import { useOnboarding } from "src/states/OnboardingContext.js";
 
 import IconHeart from "@components/community/IconHeart";
+import IconBookmark from "@components/community/IconBookmark";
 import IconKebabMenu from "@components/community/IconKebabMenu";
+import IconComment from "@components/community/IconComment";
+import IconReply from "@components/community/IconReply";
+import ModalKebabMenu from "@components/community/ModalKebabMenu";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemComment = ({ commentList = [], id }) => {
+const ItemComment = ({ commentList = [], onReply }) => {
 	const date = (date) => {
 		const datePart = date.split("T")[0];
 		const monthDay = datePart.slice(5);
 		return monthDay.replace("-", "/");
 	};
 
-	const [pressHeart, setPressHeart] = useState({});
-	const initialHeartCounts = commentList.map((post) => ({
+	const initialHeartStates = commentList.map((post) => ({
 		id: post.id,
 		likesCount: post.likesCount,
+		isLiked: post.isLiked,
 	}));
-	const [heartCounts, setHeartCounts] = useState(initialHeartCounts);
+	const [heartStates, setHeartStates] = useState(initialHeartStates);
 
 	useEffect(() => {
-		const newHeartCounts = commentList.map((post) => ({
+		const newHeartStates = commentList.map((post) => ({
 			id: post.id,
 			likesCount: post.likesCount,
+			isLiked: post.isLiked,
 		}));
 
-		if (JSON.stringify(newHeartCounts) !== JSON.stringify(heartCounts)) {
-			setHeartCounts(newHeartCounts);
+		if (JSON.stringify(newHeartStates) !== JSON.stringify(heartStates)) {
+			setHeartStates(newHeartStates);
 		}
 	}, [commentList]);
 
-	const handleCommentHeart = async (commentId) => {
+	const handleCommentHeart = async (commentId, isLiked) => {
 		try {
-			await createLikeComment(id, commentId);
-			setPressHeart((prevState) => ({
-				...prevState,
-				[commentId]: true,
-			}));
-			setHeartCounts((prevHeartCounts) =>
-				prevHeartCounts.map((item) =>
-					item.id === commentId
-						? { ...item, likesCount: item.likesCount + 1 }
-						: item,
-				),
-			);
+			if (isLiked) {
+				await deleteLikeByCommentId(commentId);
+				setHeartStates((prevHeartStates) =>
+					prevHeartStates.map((item) =>
+						item.id === commentId
+							? {
+									...item,
+									isLiked: !item.isLiked,
+									likesCount: item.isLiked
+										? item.likesCount - 1
+										: item.likesCount + 1,
+								}
+							: item,
+					),
+				);
+			} else {
+				await createLikeComment(commentId);
+				setHeartStates((prevHeartStates) =>
+					prevHeartStates.map((item) =>
+						item.id === commentId
+							? {
+									...item,
+									isLiked: !item.isLiked,
+									likesCount: !item.isLiked
+										? item.likesCount + 1
+										: item.likesCount - 1,
+								}
+							: item,
+					),
+				);
+			}
 		} catch (error) {
 			console.error(
-				"댓글 좋아요 실패:",
+				"좋아요 처리 실패:",
 				error.response ? error.response.data : error.message,
 			);
 		}
 	};
 
-	return (
-		<>
-			{commentList.map((post, index) => (
-				<View key={index} style={styles.ItemCommunity}>
+	const [modalData, setModalData] = useState({
+		modalVisible: false,
+		commentId: null,
+		commentWriterId: null,
+		commentIsPublic: false,
+		commentIsMe: false,
+	});
+
+	const { onboardingData } = useOnboarding();
+
+	const handleCommentKebabMenu = (
+		commentId,
+		commentWriterId,
+		isPublic,
+		isMe,
+	) => {
+		setModalData({
+			modalVisible: true,
+			commentId,
+			commentWriterId,
+			commentIsPublic: isPublic,
+			commentIsMe: isMe,
+		});
+	};
+
+	const closeModal = () => {
+		setModalData((prevData) => ({
+			...prevData,
+			modalVisible: false,
+		}));
+	};
+
+	const modalPosition = {
+		top: 300,
+		width: 200,
+	};
+
+	const renderComment = (comment) => {
+		const replies = commentList.filter(
+			(reply) =>
+				reply.parentComment && reply.parentComment.id === comment.id,
+		);
+
+		return (
+			<View key={comment.id}>
+				<View style={styles.ItemCommunity}>
 					<View style={styles.containerRow}>
 						<View>
 							<Text style={styles.textPostTitle}>
-								{post.isPublic ? "익명" : post.writer.username}
+								{comment.isPublic
+									? "익명"
+									: comment.writer.username}
 							</Text>
 							<Text style={styles.textPostContext}>
-								{post.content}
+								{comment.content}
 							</Text>
 
 							<View style={styles.containerTextRow}>
 								<TouchableOpacity
 									style={styles.containerText}
-									onPress={() => handleCommentHeart(post.id)}
+									onPress={() =>
+										handleCommentHeart(
+											comment.id,
+											comment.isLiked,
+										)
+									}
 								>
-									<IconHeart active={pressHeart[post.id]} />
+									<IconHeart
+										active={
+											heartStates.find(
+												(item) =>
+													item.id === comment.id,
+											)?.isLiked
+										}
+									/>
 									<Text style={styles.text}>
-										{heartCounts.find(
-											(item) => item.id === post.id,
-										)?.likesCount != null
-											? heartCounts.find(
-													(item) =>
-														item.id === post.id,
-												).likesCount
-											: 0}
+										{heartStates.find(
+											(item) => item.id === comment.id,
+										)?.likesCount ?? 0}
+									</Text>
+								</TouchableOpacity>
+								<TouchableOpacity
+									style={styles.containerText}
+									onPress={() => onReply(comment.id)}
+								>
+									<IconComment
+										color={CustomTheme.borderColor}
+									/>
+									<Text style={styles.text}>
+										{comment.commentsCount}
 									</Text>
 								</TouchableOpacity>
 								<View style={styles.containerText}>
 									<Text style={styles.text}>
-										{date(post.created)}
+										{date(comment.created)}
 									</Text>
 								</View>
 							</View>
 						</View>
 
-						<IconKebabMenu style={styles.iconKebabMenu} />
+						<TouchableOpacity
+							style={styles.iconKebabMenu}
+							onPress={() =>
+								handleCommentKebabMenu(
+									comment.id,
+									comment.writer.id,
+									comment.isPublic,
+									onboardingData.id === comment.writer.id,
+								)
+							}
+						>
+							<IconKebabMenu />
+						</TouchableOpacity>
+						<ModalKebabMenu
+							modalVisible={
+								modalData.modalVisible &&
+								modalData.commentId === comment.id
+							}
+							setModalVisible={closeModal}
+							memberId={modalData.commentWriterId}
+							commentId={modalData.commentId}
+							isPublic={modalData.commentIsPublic}
+							isMe={modalData.commentIsMe}
+							position={modalPosition}
+						/>
 						<TouchableOpacity style={styles.textTranslation}>
 							<Text style={styles.textTranslation}>번역하기</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
-			))}
+
+				{replies.map((reply) => (
+					<View key={reply.id} style={{ flexDirection: "row" }}>
+						<IconReply style={{ marginRight: 4 }} />
+						<View style={[styles.ItemCommunity, { width: 308 }]}>
+							<View style={styles.containerRow}>
+								<View>
+									<Text style={styles.textPostTitle}>
+										{reply.isPublic
+											? "익명"
+											: reply.writer.username}
+									</Text>
+									<Text style={styles.textPostContext}>
+										{reply.content}
+									</Text>
+
+									<View style={styles.containerTextRow}>
+										<TouchableOpacity
+											style={styles.containerText}
+											onPress={() =>
+												handleCommentHeart(
+													reply.id,
+													reply.isLiked,
+												)
+											}
+										>
+											<IconHeart
+												active={
+													heartStates.find(
+														(item) =>
+															item.id ===
+															reply.id,
+													)?.isLiked
+												}
+											/>
+											<Text style={styles.text}>
+												{heartStates.find(
+													(item) =>
+														item.id === reply.id,
+												)?.likesCount ?? 0}
+											</Text>
+										</TouchableOpacity>
+										<View style={styles.containerText}>
+											<Text style={styles.text}>
+												{date(reply.created)}
+											</Text>
+										</View>
+									</View>
+								</View>
+
+								<TouchableOpacity
+									style={styles.iconKebabMenu}
+									onPress={() =>
+										handleCommentKebabMenu(
+											reply.id,
+											reply.writer.id,
+											reply.isPublic,
+											reply.writer.id ===
+												onboardingData.id,
+										)
+									}
+								>
+									<IconKebabMenu />
+								</TouchableOpacity>
+								<ModalKebabMenu
+									modalVisible={
+										modalData.modalVisible &&
+										modalData.commentId === reply.id
+									}
+									setModalVisible={closeModal}
+									memberId={modalData.commentWriterId}
+									commentId={modalData.commentId}
+									isPublic={modalData.commentIsPublic}
+									isMe={modalData.commentIsMe}
+									position={modalPosition}
+								/>
+								<TouchableOpacity
+									style={styles.textTranslation}
+								>
+									<Text style={styles.textTranslation}>
+										번역하기
+									</Text>
+								</TouchableOpacity>
+							</View>
+						</View>
+					</View>
+				))}
+			</View>
+		);
+	};
+
+	return (
+		<>
+			{commentList
+				.filter((comment) => !comment.parentComment)
+				.map((comment) => renderComment(comment))}
 		</>
 	);
 };

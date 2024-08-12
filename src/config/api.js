@@ -63,7 +63,7 @@ export const getMyConnects = () => {
 	return api.get("/connects");
 };
 
-export const getMyProfile = () => {
+export const getProfile = () => {
 	return api.get("/members/profile");
 };
 
@@ -75,8 +75,8 @@ export const headCheckUserName = (username) => {
 	});
 };
 
-export const updateMyProfile = (formData) => {
-	return api.put(`/members`, formData, {
+export const updateProfile = (member_id, formData) => {
+	return api.put(`/members/${member_id}`, formData, {
 		headers: {
 			"Content-Type": "multipart/form-data",
 		},
@@ -107,13 +107,19 @@ export const deletePost = (id) => {
 	return api.delete(`/posts/${id}`);
 };
 
-export const createPost = (title, content, isPublic, boardType) => {
-	return api.post("/posts", {
-		title,
-		content,
-		isPublic,
-		boardType,
-	});
+export const createPost = (title, content, isPublic, boardType, postFile) => {
+	const formData = new FormData();
+	formData.append("title", title);
+	formData.append("content", content);
+	formData.append("isPublic", isPublic);
+	formData.append("boardType", boardType);
+	formData.append("postFile", postFile || null);
+
+	const headers = {
+		"Content-Type": "multipart/form-data",
+	};
+
+	return api.post("/posts", formData, { headers });
 };
 
 export const updatePost = (
@@ -141,12 +147,25 @@ export const getBookmarkPost = () => {
 	return api.get("/bookmarks");
 };
 
-export const postCommentSend = (id, valueComment, isChecked) => {
-	return api.post(`comments/${id}`, {
+export const createComment = (postId, valueComment, isChecked) => {
+	return api.post("/comments", {
 		content: valueComment,
 		isPublic: isChecked,
-		postId: id,
-		parentCommentId: 0,
+		postId: postId,
+	});
+};
+
+export const createReplyComment = (
+	postId,
+	valueComment,
+	isChecked,
+	parentCommentId,
+) => {
+	return api.post("/comments", {
+		content: valueComment,
+		isPublic: isChecked,
+		postId: postId,
+		parentCommentId: parentCommentId,
 	});
 };
 
@@ -156,9 +175,22 @@ export const getCommentById = (id) => {
 
 export const createLike = (type, postId, commentId) => {
 	return api.post("/likes", {
-		type: type,
-		postId: postId,
-		commentId: commentId,
+		type: "POST",
+		id: postId,
+	});
+};
+
+export const createLikeComment = (commentId) => {
+	return api.post("/likes", {
+		type: "COMMENT",
+		id: commentId,
+	});
+};
+
+export const createLikeMember = (memberId) => {
+	return api.post("/likes", {
+		type: "MEMBER",
+		id: memberId,
 	});
 };
 
@@ -235,7 +267,25 @@ export const deleteLikeByPostId = (postId) => {
 	return api.delete(`/likes`, {
 		data: {
 			type: "POST",
-			postId: postId,
+			id: postId,
+		},
+	});
+};
+
+export const deleteLikeByCommentId = (commentId) => {
+	return api.delete(`/likes`, {
+		data: {
+			type: "COMMENT",
+			id: commentId,
+		},
+	});
+};
+
+export const deleteLikeByMemberId = (memberId) => {
+	return api.delete(`/likes`, {
+		data: {
+			type: "MEMBER",
+			id: memberId,
 		},
 	});
 };
@@ -246,4 +296,11 @@ export const getMyPosts = () => {
 
 export const getMyComments = () => {
 	return api.get("/members/comments");
+};
+
+export const createNotificationToken = (pushToken, deviceId) => {
+	return api.post("/notifications/push", {
+		pushToken,
+		deviceId,
+	});
 };

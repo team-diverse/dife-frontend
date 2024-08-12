@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	TouchableOpacity,
 	Text,
@@ -10,6 +10,7 @@ import {
 	Platform,
 	Dimensions,
 	Alert,
+	Keyboard,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -21,6 +22,7 @@ import {
 	getPostById,
 	getCommentByPostId,
 	createComment,
+	createReplyComment,
 	createLikePost,
 	deleteLikeByPostId,
 	createPostBookmark,
@@ -43,10 +45,11 @@ import ModalKebabMenu from "@components/community/ModalKebabMenu";
 const PostPage = ({ route }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 
-	const { id } = route.params;
+	const { postId } = route.params;
 	const { onboardingData } = useOnboarding();
 	const { updatePostModifyData } = usePostModify();
 
+	const [memberId, setMemberId] = useState("");
 	const [title, setTitle] = useState("");
 	const [context, setContext] = useState("");
 	const [heart, setHeart] = useState();
@@ -58,6 +61,10 @@ const PostPage = ({ route }) => {
 	const [comments, setComments] = useState([]);
 	const [valueComment, onChangeComment] = useState("");
 	const [isChecked, setIsChecked] = useState(false);
+	const [isReplying, setIsReplying] = useState(false);
+	const [parentCommentId, setParentCommentId] = useState(null);
+
+	const commentRef = useRef(null);
 
 	const handlePress = () => {
 		setIsChecked(!isChecked);
@@ -75,13 +82,14 @@ const PostPage = ({ route }) => {
 		React.useCallback(() => {
 			const postComment = async () => {
 				try {
-					const postByIdResponse = await getPostById(id);
+					const postByIdResponse = await getPostById(postId);
 					setTitle(postByIdResponse.data.title);
 					setContext(postByIdResponse.data.content);
 					setHeart(postByIdResponse.data.likesCount);
 					setBookmark(postByIdResponse.data.bookmarkCount);
 					setCreated(date(postByIdResponse.data.created));
 					setIsPublic(postByIdResponse.data.isPublic);
+					setMemberId(postByIdResponse.data.writer.id);
 
 					if (postByIdResponse.data.isPublic === false) {
 						setWriterName(postByIdResponse.data.writer.username);
@@ -93,7 +101,7 @@ const PostPage = ({ route }) => {
 						setIsMe(true);
 						updatePostModifyData({
 							memberId: postByIdResponse.data.writer.id,
-							id: id,
+							id: postId,
 							title: postByIdResponse.data.title,
 							context: postByIdResponse.data.content,
 							boardType: postByIdResponse.data.boardType,
@@ -101,10 +109,9 @@ const PostPage = ({ route }) => {
 						});
 					}
 
-					const commentByIdResponse = await getCommentByPostId(id);
+					const commentByIdResponse =
+						await getCommentByPostId(postId);
 					setComments(commentByIdResponse.data);
-
-					// console.log("게시글 및 댓글 조회 성공");
 				} catch (error) {
 					console.error(
 						"게시글 조회 오류:",
@@ -158,17 +165,36 @@ const PostPage = ({ route }) => {
 
 	const handleCommentSend = async () => {
 		try {
-			const commentSendResponse = await createComment(
-				id,
-				valueComment,
-				isChecked,
-			);
-
-			onChangeComment("");
-			setComments((prevComments) => [
-				...prevComments,
-				commentSendResponse.data,
-			]);
+			if (valueComment.trim() === "") {
+				return;
+			}
+			if (isReplying && parentCommentId) {
+				onChangeComment("");
+				const commentSendResponse = await createReplyComment(
+					postId,
+					valueComment,
+					isChecked,
+					parentCommentId,
+				);
+				setComments((prevComments) => [
+					...prevComments,
+					commentSendResponse.data,
+				]);
+				setIsReplying(false);
+				setParentCommentId(null);
+			} else {
+				onChangeComment("");
+				const commentSendResponse = await createComment(
+					postId,
+					valueComment,
+					isChecked,
+				);
+				onChangeComment("");
+				setComments((prevComments) => [
+					...prevComments,
+					commentSendResponse.data,
+				]);
+			}
 		} catch (error) {
 			console.error(
 				"댓글 작성 실패:",
@@ -177,11 +203,35 @@ const PostPage = ({ route }) => {
 		}
 	};
 
+	const handleReply = (commentId) => {
+		if (commentRef.current) {
+			commentRef.current.focus();
+		}
+		setIsReplying(true);
+		setParentCommentId(commentId);
+	};
+
+	const handleCancelReply = () => {
+		Keyboard.dismiss();
+		setIsReplying(false);
+		setParentCommentId(null);
+	};
+
+	useEffect(() => {
+		const keyboardDidHideListener = Keyboard.addListener(
+			"keyboardDidHide",
+			handleCancelReply,
+		);
+		return () => {
+			keyboardDidHideListener.remove();
+		};
+	}, []);
+
 	const [pressHeart, setPressHeart] = useState();
 
 	const handleHeart = async () => {
 		try {
-			await createLikePost(id);
+			await createLikePost(postId);
 			setHeart((prevHeart) => prevHeart + 1);
 			setPressHeart(true);
 		} catch (error) {
@@ -196,7 +246,7 @@ const PostPage = ({ route }) => {
 
 	const handleHeartDelete = async () => {
 		try {
-			await deleteLikeByPostId(id);
+			await deleteLikeByPostId(postId);
 			setPressHeart(false);
 			setHeart(heart !== 0 ? (prevHeart) => prevHeart - 1 : 0);
 		} catch (error) {
@@ -213,7 +263,7 @@ const PostPage = ({ route }) => {
 		try {
 			const response = await getLikedPost();
 			const likedPostIdList = response.data.map((item) => item.id);
-			setPressHeart(likedPostIdList.includes(id));
+			setPressHeart(likedPostIdList.includes(postId));
 		} catch (error) {
 			console.error(
 				"좋아요 상태 조회 실패:",
@@ -226,7 +276,7 @@ const PostPage = ({ route }) => {
 
 	const handleBookmark = async () => {
 		try {
-			await createPostBookmark(id);
+			await createPostBookmark(postId);
 			setBookmark((prevBookmark) => prevBookmark + 1);
 			setPressBookmark(true);
 		} catch (error) {
@@ -241,7 +291,7 @@ const PostPage = ({ route }) => {
 
 	const handleDeleteBookmark = async () => {
 		try {
-			await deleteBookmarkByPostId(id);
+			await deleteBookmarkByPostId(postId);
 		} catch (error) {
 			console.error(
 				"게시글 북마크 삭제 실패:",
@@ -280,7 +330,7 @@ const PostPage = ({ route }) => {
 			const bookmarkedPostIdList = response.data.map(
 				(item) => item.post.id,
 			);
-			setPressBookmark(bookmarkedPostIdList.includes(id));
+			setPressBookmark(bookmarkedPostIdList.includes(postId));
 		} catch (error) {
 			console.error(
 				"북마크 상태 조회 실패:",
@@ -322,7 +372,8 @@ const PostPage = ({ route }) => {
 						<ModalKebabMenu
 							modalVisible={modalVisible}
 							setModalVisible={setModalVisible}
-							id={id}
+							memberId={memberId}
+							postId={postId}
 							isPublic={isPublic}
 							isMe={isMe}
 							position={modalPosition}
@@ -373,7 +424,10 @@ const PostPage = ({ route }) => {
 						)}
 					</View>
 					<View style={{ marginTop: 48 }}>
-						<ItemComment props={comments} id={id} />
+						<ItemComment
+							commentList={comments}
+							onReply={handleReply}
+						/>
 					</View>
 				</View>
 			</ScrollView>
@@ -394,7 +448,12 @@ const PostPage = ({ route }) => {
 					</View>
 					<TextInput
 						style={PostStyles.textInputComment}
-						placeholder="댓글을 입력해주세요"
+						ref={commentRef}
+						placeholder={
+							isReplying
+								? "대댓글을 입력해주세요"
+								: "댓글을 입력해주세요"
+						}
 						onChangeText={(text) => onChangeComment(text)}
 						value={valueComment}
 					/>
