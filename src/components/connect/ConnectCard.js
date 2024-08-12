@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useNavigation } from "@react-navigation/native";
+
+import { createLikeMember, deleteLikeMember } from "config/api";
 
 import IconHeart24 from "@components/Icon24/IconHeart24";
 import ConnectPlusIcon from "@components/connect/ConnectPlusIcon";
@@ -13,10 +15,10 @@ const { fontSub14, fontCaption } = CustomTheme;
 
 const ConnectCard = ({
 	id,
+	isLiked = false,
 	profilePresignUrl = null,
 	username = "username",
 	country = "country",
-	age = "age",
 	major = "major",
 	bio = "bio",
 	tags = ["tag"],
@@ -24,10 +26,30 @@ const ConnectCard = ({
 	fail = false,
 }) => {
 	const navigation = useNavigation();
-	const [heart, setHeart] = useState(false);
+	const [heart, setHeart] = useState(isLiked);
 
-	const handleHeartPress = () => {
-		setHeart(!heart);
+	const handleCreateHeart = async () => {
+		try {
+			await createLikeMember(id);
+			setHeart(true);
+		} catch (error) {
+			console.error(
+				"멤버 좋아요 생성 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleDeleteHeart = async () => {
+		try {
+			await deleteLikeMember(id);
+			setHeart(false);
+		} catch (error) {
+			console.error(
+				"멤버 좋아요 취소 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
 
 	const handleNavigation = () => {
@@ -62,7 +84,11 @@ const ConnectCard = ({
 							<View style={styles.iconContainer}>
 								<IconHeart24
 									active={heart}
-									onPress={handleHeartPress}
+									onPress={
+										heart
+											? handleDeleteHeart
+											: handleCreateHeart
+									}
 								/>
 								<TouchableOpacity onPress={handleNavigation}>
 									<ConnectPlusIcon
@@ -86,7 +112,7 @@ const ConnectCard = ({
 							</View>
 						)}
 						<Text style={styles.textBasicInfo}>
-							{country} | {age} | {major}
+							{country} | {major}
 						</Text>
 						<Text style={styles.textIntroduction}>{bio}</Text>
 						<View style={styles.tagContainer}>

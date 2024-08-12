@@ -194,10 +194,23 @@ export const createLikeComment = (commentId) => {
 	});
 };
 
+export const getLikeMember = () => {
+	return api.get("/members/likes");
+};
+
 export const createLikeMember = (memberId) => {
 	return api.post("/likes", {
 		type: "MEMBER",
 		id: memberId,
+	});
+};
+
+export const deleteLikeMember = (memberId) => {
+	return api.delete("/likes", {
+		data: {
+			type: "MEMBER",
+			id: memberId,
+		},
 	});
 };
 

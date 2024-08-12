@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -8,7 +8,7 @@ import {
 	Keyboard,
 	TouchableOpacity,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
 import { getRandomMembersByCount, getConnectSearch } from "config/api";
@@ -62,9 +62,11 @@ const ConnectPage = () => {
 		}
 	};
 
-	useEffect(() => {
-		cardProfiles();
-	}, []);
+	useFocusEffect(
+		useCallback(() => {
+			cardProfiles();
+		}, []),
+	);
 
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
