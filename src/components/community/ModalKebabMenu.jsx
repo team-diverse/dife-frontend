@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Modal from "react-native-modal";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { deletePost } from "config/api";
+import { deletePost, blockMember } from "config/api";
 
 import InfoCircle from "@components/common/InfoCircle";
 import Report from "@components/Report";
@@ -75,6 +75,17 @@ const ModalKebabMenu = ({
 		navigation.navigate("ConnectProfilePage", { memberId: memberId });
 	};
 
+	const handleBlock = async () => {
+		try {
+			await blockMember(memberId);
+		} catch (error) {
+			console.error(
+				"차단 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	return (
 		<Modal
 			isVisible={modalVisible}
@@ -133,7 +144,7 @@ const ModalKebabMenu = ({
 							<Text style={styles.textIsMe}>프로필 상세</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />
-						<TouchableOpacity>
+						<TouchableOpacity onPress={handleBlock}>
 							<Text style={styles.textIsMe}>차단</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />

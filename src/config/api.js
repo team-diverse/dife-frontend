@@ -354,3 +354,9 @@ export const reportMember = (type, receiverId) => {
 		receiverId,
 	});
 };
+
+export const blockMember = (blockMemberId) => {
+	return api.post("/blocks", {
+		blockMemberId,
+	});
+};
