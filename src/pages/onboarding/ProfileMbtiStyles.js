@@ -28,11 +28,14 @@ const ProfileMbtiStyles = StyleSheet.create({
 		marginLeft: 24,
 	},
 	containerMbti: {
+		alignItems: "center",
 		marginTop: 47,
+	},
+	flexStartMbti: {
+		alignItems: "flex-start",
 	},
 	rowMbti: {
 		flexDirection: "row",
-		justifyContent: "center",
 	},
 	buttonCheck: {
 		marginTop: 134,

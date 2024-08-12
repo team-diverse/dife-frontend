@@ -19,7 +19,6 @@ const HomeCardFront = ({
 	introduction,
 	name,
 	country,
-	age,
 	onPress,
 	isLikedOnPress,
 	isLikedActive,
@@ -37,10 +36,7 @@ const HomeCardFront = ({
 				<Text style={styles.introduction}>{introduction}</Text>
 				<View style={styles.myinfoContainer}>
 					<Text style={styles.textName}>{name}</Text>
-					<Text style={styles.myinfo}>
-						{" "}
-						| {country} | {age}
-					</Text>
+					<Text style={styles.myinfo}> | {country}</Text>
 				</View>
 			</View>
 			<View style={styles.connectIconContainer}>

@@ -107,12 +107,13 @@ export const deletePost = (id) => {
 	return api.delete(`/posts/${id}`);
 };
 
-export const createPost = (title, content, isPublic, boardType) => {
+export const createPost = (title, content, isPublic, boardType, postFile) => {
 	return api.post("/posts", {
 		title,
 		content,
 		isPublic,
 		boardType,
+		postFile,
 	});
 };
 
@@ -141,31 +142,35 @@ export const getBookmarkPost = () => {
 	return api.get("/bookmarks");
 };
 
-export const postCommentSend = (id, valueComment, isChecked) => {
-	return api.post(`comments/${id}`, {
+export const createComment = (postId, valueComment, isChecked) => {
+	return api.post("/comments", {
 		content: valueComment,
 		isPublic: isChecked,
-		postId: id,
-		parentCommentId: 0,
-	});
-};
-
-export const getCommentById = (id) => {
-	return api.get(`comments/${id}`);
-};
-
-export const createLike = (type, postId, commentId) => {
-	return api.post("/likes", {
-		type: type,
 		postId: postId,
-		commentId: commentId,
 	});
 };
 
-export const createBookmark = (chatroomId, chatId, postId) => {
+export const getCommentByPostId = (postId) => {
+	return api.get(`/comments/${postId}`);
+};
+
+export const createLikePost = (postId) => {
+	return api.post("/likes", {
+		type: "POST",
+		id: postId,
+	});
+};
+
+export const createLikeComment = (commentId) => {
+	return api.post("/likes", {
+		type: "COMMENT",
+		id: commentId,
+	});
+};
+
+export const createPostBookmark = (postId) => {
 	return api.post("/bookmarks", {
-		chatroomId: chatroomId,
-		chatId: chatId,
+		type: "POST",
 		postId: postId,
 	});
 };
@@ -220,4 +225,22 @@ export const getProfileImageByFileName = (fileName) => {
 
 export const deleteConnectById = (connectId) => {
 	return api.delete(`/connects/${connectId}`);
+};
+
+export const deleteBookmarkByPostId = (postId) => {
+	return api.delete(`/bookmarks`, {
+		data: {
+			type: "POST",
+			postId: postId,
+		},
+	});
+};
+
+export const deleteLikeByPostId = (postId) => {
+	return api.delete(`/likes`, {
+		data: {
+			type: "POST",
+			postId: postId,
+		},
+	});
 };

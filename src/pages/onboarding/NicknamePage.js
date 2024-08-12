@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -9,16 +9,18 @@ import {
 	Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+
 import NicknameStyles from "@pages/onboarding/NicknameStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
 import { useOnboarding } from "src/states/OnboardingContext.js";
+import { checkUserName } from "config/api";
+import { debounce } from "util/debounce";
 
 import ArrowRight from "@components/common/ArrowRight";
 import Progress1 from "@components/onboarding/Progress1";
 import LoginBackground from "@components/login/LoginBackground";
 import IconDelete from "@components/onboarding/IconDelete";
 import ApplyButton from "@components/common/ApplyButton";
-import { checkUsername } from "config/api";
 
 const NicknamePage = () => {
 	const navigation = useNavigation();
@@ -33,9 +35,15 @@ const NicknamePage = () => {
 	];
 	const [nickname, setNickname] = useState("");
 	const [nicknameValid, setNicknameValid] = useState(null);
+	const { updateOnboardingData } = useOnboarding();
 
 	const handleNicknameChange = (text) => {
 		setNickname(text);
+		if (text.length > 0) {
+			handleNickname(text);
+		} else {
+			setNicknameValid(null);
+		}
 	};
 
 	const handleKeyboard = () => {
@@ -44,27 +52,32 @@ const NicknamePage = () => {
 
 	const handleClearText = () => {
 		setNickname("");
+		setNicknameValid(null);
 	};
 
-	const { updateOnboardingData } = useOnboarding();
+	const handleNicknameSubmit = () => {
+		if (nicknameValid) {
+			updateOnboardingData({ username: nickname });
+			navigation.navigate("Profile");
+		}
+	};
 
-	const handleNickname = () => {
-		checkUsername(nickname)
-			.then((response) => {
-				// TODO: Status Code 200 / 204 두가지로 처리 필요 백엔드 수정도 필요
+	const handleNickname = useCallback(
+		debounce(async (text) => {
+			try {
+				const response = await checkUserName(text);
 				if (response.status === 200) {
 					setNicknameValid(true);
-					updateOnboardingData({ username: nickname });
-					navigation.navigate("Profile");
 				} else {
 					setNicknameValid(false);
 				}
-			})
-			.catch((error) => {
-				console.error("닉네임 사용 불가: ", error.response.status);
+			} catch (error) {
+				console.error("닉네임 사용 불가: ", error.message);
 				setNicknameValid(false);
-			});
-	};
+			}
+		}, 100),
+		[],
+	);
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
@@ -112,8 +125,8 @@ const NicknamePage = () => {
 				<View style={NicknameStyles.buttonCheck}>
 					<ApplyButton
 						text="확인"
-						onPress={handleNickname}
-						disabled={nickname.length === 0}
+						onPress={handleNicknameSubmit}
+						disabled={!nicknameValid || nickname.length === 0}
 					/>
 				</View>
 			</SafeAreaView>

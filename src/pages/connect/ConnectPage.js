@@ -26,7 +26,7 @@ import GroupFilterBottomSlide from "@components/connect/GroupFilterBottomSlide";
 import IconNewGroup from "@components/connect/IconNewGroup";
 import ModalGroupCreationComplete from "@components/connect/ModalGroupCreationComplete";
 
-const ConnectPage = ({ route }) => {
+const ConnectPage = () => {
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
@@ -74,10 +74,14 @@ const ConnectPage = ({ route }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [groupModalVisible, setGroupModalVisible] = useState(false);
 
-	const [isIndividualTab, setIsIndividualTab] = useState(false);
+	const [isGroupTab, setIsGroupTab] = useState(false);
 
 	const pressButton = () => {
-		setModalVisible(true);
+		if (isGroupTab) {
+			setGroupModalVisible(true);
+		} else {
+			setModalVisible(true);
+		}
 	};
 
 	const handleSearch = async () => {
@@ -109,11 +113,11 @@ const ConnectPage = ({ route }) => {
 	};
 
 	const handleMoveOnetoone = () => {
-		setIsIndividualTab(false);
+		setIsGroupTab(false);
 	};
 
 	const handleMoveGroup = () => {
-		setIsIndividualTab(true);
+		setIsGroupTab(true);
 	};
 
 	const handleFilterResponse = (response) => {
@@ -126,12 +130,6 @@ const ConnectPage = ({ route }) => {
 	};
 
 	const [modalGroupVisible, setModalGroupVisible] = useState(false);
-
-	useEffect(() => {
-		if (route.params?.modalGroupVisible) {
-			setModalGroupVisible(true);
-		}
-	}, [route.params?.modalGroupVisible]);
 
 	const grouplist = [
 		{
@@ -209,7 +207,7 @@ const ConnectPage = ({ route }) => {
 					<View style={ConnectStyles.tabContainer}>
 						<Text
 							style={
-								isIndividualTab
+								isGroupTab
 									? ConnectStyles.textTab
 									: ConnectStyles.textActiveTab
 							}
@@ -219,7 +217,7 @@ const ConnectPage = ({ route }) => {
 						</Text>
 						<Text
 							style={
-								isIndividualTab
+								isGroupTab
 									? ConnectStyles.textActiveTab
 									: ConnectStyles.textTab
 							}
@@ -246,7 +244,7 @@ const ConnectPage = ({ route }) => {
 					>
 						<ConnectCard fail="true" />
 					</View>
-				) : isIndividualTab ? (
+				) : isGroupTab ? (
 					<View style={ConnectStyles.cardContainer}>
 						<TouchableOpacity
 							style={ConnectStyles.iconNewGroup}
