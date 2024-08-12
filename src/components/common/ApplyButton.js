@@ -10,7 +10,9 @@ const ApplyButton = ({
 	onPress = null,
 	disabled = false,
 }) => {
-	const rectangleStyle = background ? styles.rectangle : {};
+	const rectangleStyle = background
+		? styles.rectangleShadow
+		: styles.rectangle;
 
 	return (
 		<View>

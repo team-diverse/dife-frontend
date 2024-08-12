@@ -74,7 +74,7 @@ const LoginPage = () => {
 			console.log(accessToken);
 			updateOnboardingData({ id, accessToken, refreshToken });
 
-			const profileResponse = await getProfile();
+			const profileResponse = await getMyProfile();
 			if (profileResponse.data.isVerified) {
 				setIsLoggedIn(true);
 			} else {

@@ -3,7 +3,7 @@ import { View, ScrollView } from "react-native";
 
 import BookmarkPostStyles from "@pages/member/BookmarkPostStyles";
 
-import { getBookmarkedPosts } from "config/api";
+import { getBookmarkedPost } from "config/api";
 import ItemLikeBookmark from "@components/member/ItemLikeBookmark";
 
 const BookmarkPostPage = () => {
@@ -12,7 +12,7 @@ const BookmarkPostPage = () => {
 	useEffect(() => {
 		const handleBookmarkPost = async () => {
 			try {
-				const bookmarkPostResponse = await getBookmarkedPosts();
+				const bookmarkPostResponse = await getBookmarkedPost();
 				setBookmarkPostList(bookmarkPostResponse.data);
 				console.log(bookmarkPostResponse.data);
 			} catch (error) {
