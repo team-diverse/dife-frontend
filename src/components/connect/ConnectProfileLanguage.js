@@ -4,14 +4,16 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontSub14 } = CustomTheme;
 
-const ConnectProfileLanguage = ({ language = "language" }) => {
+const ConnectProfileLanguage = ({ languages = [] }) => {
 	return (
-		<View>
-			<View style={styles.rectangle}>
-				<Text style={styles.language}>{language}</Text>
-				<View style={styles.line} />
-			</View>
-		</View>
+		<>
+			{languages.map((language, index) => (
+				<View style={styles.rectangle}>
+					<Text style={styles.language}>{language}</Text>
+					<View style={styles.line} />
+				</View>
+			))}
+		</>
 	);
 };
 
