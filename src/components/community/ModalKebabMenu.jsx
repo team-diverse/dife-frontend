@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Modal from "react-native-modal";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { deletePost } from "config/api";
+import { deletePost, blockMember } from "config/api";
 
 import InfoCircle from "@components/common/InfoCircle";
 import Report from "@components/Report";
@@ -75,6 +75,17 @@ const ModalKebabMenu = ({
 		navigation.navigate("ConnectProfilePage", { memberId: memberId });
 	};
 
+	const handleBlock = async () => {
+		try {
+			await blockMember(memberId);
+		} catch (error) {
+			console.error(
+				"차단 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	return (
 		<Modal
 			isVisible={modalVisible}
@@ -102,7 +113,10 @@ const ModalKebabMenu = ({
 							<Text style={styles.textIsMe}>차단</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />
-						<TouchableOpacity style={styles.containerReport}>
+						<TouchableOpacity
+							style={styles.containerReport}
+							onPress={handleReport}
+						>
 							<Text
 								style={[
 									styles.textIsMe,
@@ -113,6 +127,16 @@ const ModalKebabMenu = ({
 							</Text>
 							<InfoCircle color={CustomTheme.warningRed} />
 						</TouchableOpacity>
+						<Report
+							modalVisible={modalReportVisible}
+							setModalVisible={setModalReportVisible}
+							reportTitle={
+								commentId ? "댓글 신고" : "게시글 신고"
+							}
+							{...(commentId
+								? { commentId: commentId }
+								: { postId: postId })}
+						/>
 					</>
 				) : (
 					<>
@@ -120,7 +144,7 @@ const ModalKebabMenu = ({
 							<Text style={styles.textIsMe}>프로필 상세</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />
-						<TouchableOpacity>
+						<TouchableOpacity onPress={handleBlock}>
 							<Text style={styles.textIsMe}>차단</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />
@@ -141,11 +165,12 @@ const ModalKebabMenu = ({
 						<Report
 							modalVisible={modalReportVisible}
 							setModalVisible={setModalReportVisible}
-							reportTitle="개인 프로필 신고"
-							report1="혐오적인 컨텐츠"
-							report2="욕설/도배"
-							report3="다른 사람을 사칭함"
-							report4="기타"
+							reportTitle={
+								commentId ? "댓글 신고" : "게시글 신고"
+							}
+							{...(commentId
+								? { commentId: commentId }
+								: { postId: postId })}
 						/>
 					</>
 				)}
