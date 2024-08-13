@@ -6,7 +6,6 @@ const { fontCaption, fontSub16, fontBody14 } = CustomTheme;
 const GroupProfileStyles = StyleSheet.create({
 	container: {
 		flex: 1,
-		position: "relative",
 		backgroundColor: CustomTheme.primaryMedium,
 	},
 	topBar: {
@@ -16,7 +15,7 @@ const GroupProfileStyles = StyleSheet.create({
 		marginHorizontal: 20,
 	},
 	scrollView: {
-		flex: 1,
+		width: "100%",
 	},
 	background: {
 		position: "absolute",

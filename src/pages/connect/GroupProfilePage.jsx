@@ -95,7 +95,7 @@ const GroupProfilePage = () => {
 						<ConnectProfileTag tag={profileData.tags} />
 					</View>
 					<Text style={GroupProfileStyles.fontSub16}>언어</Text>
-					<ConnectProfileLanguage language={profileData.language} />
+					<ConnectProfileLanguage languages={profileData.language} />
 					<View style={GroupProfileStyles.languageLine} />
 				</View>
 				<View

@@ -5,6 +5,7 @@ import {
 	Text,
 	TouchableOpacity,
 	Alert,
+	Image,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
@@ -24,7 +25,8 @@ const ModifyProfilePage = () => {
 	const navigation = useNavigation();
 
 	const [profile, setProfile] = useState();
-	const [profileImage, setProfileImage] = useState(null);
+	const [, setProfileImage] = useState(null);
+	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
 
 	const { onboardingData } = useOnboarding();
 
@@ -47,6 +49,7 @@ const ModifyProfilePage = () => {
 			const response = await getMyProfile();
 			const updatedData = formatProfileData([response.data]);
 			setProfile(updatedData[0]);
+			setProfilePresignUrl(updatedData[0].profilePresignUrl);
 		} catch (error) {
 			console.error(
 				"프로필 조회 오류:",
@@ -83,19 +86,17 @@ const ModifyProfilePage = () => {
 	};
 
 	const handleProfileImage = async (imageUri) => {
-		const formData = new FormData();
-		if (profileImage) {
+		try {
+			const formData = new FormData();
 			const file = {
 				uri: imageUri,
 				type: "image/jpeg",
 				name: `${onboardingData.id}_profile.jpg`,
 			};
 			formData.append("profileImg", file);
-		}
 
-		try {
-			const response = await updateMyProfile(onboardingData.id, formData);
-			console.log("프로필 이미지 변경 성공:", response.data.message);
+			await updateMyProfile(formData);
+			await getMyProfileInfo();
 		} catch (error) {
 			setProfileImage(null);
 			console.error(
@@ -121,7 +122,15 @@ const ModifyProfilePage = () => {
 				<Text style={ModifyProfileStyles.textTitle}>프로필 사진</Text>
 				<View style={ModifyProfileStyles.containerProfileImage}>
 					<View style={ModifyProfileStyles.modifyKBackground}>
-						{profileImage === null && <ModifyKBackground />}
+						{profilePresignUrl ? (
+							<Image
+								style={ModifyProfileStyles.modifyKBackground}
+								source={{ uri: profilePresignUrl }}
+								resizeMode="cover"
+							/>
+						) : (
+							<ModifyKBackground />
+						)}
 					</View>
 					<TouchableOpacity
 						style={ModifyProfileStyles.iconProfileEdit}
@@ -279,7 +288,7 @@ const ModifyProfilePage = () => {
 												ModifyProfileStyles.textContent
 											}
 										>
-											{"국적"}
+											{profile.country}
 										</Text>
 									</View>
 									<View

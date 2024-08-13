@@ -81,6 +81,7 @@ const ModifyProfileStyles = StyleSheet.create({
 	},
 	containerTagLanguage: {
 		flexDirection: "row",
+		flexWrap: "wrap",
 	},
 });
 

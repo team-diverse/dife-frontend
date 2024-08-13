@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { SafeAreaView, View, Text, TextInput } from "react-native";
+import { SafeAreaView, View, Text, TextInput, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import ModifyProfileInputStyles from "@pages/member/ModifyProfileInputStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { checkUserName, updateMyProfile } from "config/api";
+import { checkUsername, updateMyProfile } from "config/api";
 import { debounce } from "util/debounce";
 
 import ModifyProfileTopBar from "@components/common/ModifyProfileTopBar";
@@ -167,7 +167,7 @@ const ModifyProfileInputPage = ({ route }) => {
 	const handleNickname = useCallback(
 		debounce(async (text) => {
 			try {
-				const response = await checkUserName(text);
+				const response = await checkUsername(text);
 				if (response.status === 200) {
 					setNicknameValid(true);
 				} else {
@@ -185,7 +185,7 @@ const ModifyProfileInputPage = ({ route }) => {
 		try {
 			const formData = new FormData();
 			if (
-				nicknameInput !== undefined &&
+				nicknameInput.trim() !== "" &&
 				nicknameInput !== originalProfile.username
 			) {
 				formData.append("username", nicknameInput);
@@ -193,16 +193,24 @@ const ModifyProfileInputPage = ({ route }) => {
 			if (bioInput !== originalProfile.bio) {
 				formData.append("bio", bioInput);
 			}
-			if (selectedMBTI !== originalProfile.mbti) {
+			if (
+				selectedMBTI.length > 0 &&
+				selectedMBTI !== originalProfile.mbti
+			) {
 				formData.append("mbti", selectedMBTI);
 			}
-			if (selectedHobby !== originalProfile.hobbies) {
+			if (
+				selectedHobby.length > 0 &&
+				selectedHobby !== originalProfile.hobbies
+			) {
 				formData.append("hobbies", selectedHobby);
 			}
-			if (selectedLanguage !== originalProfile.languages) {
+			if (
+				selectedLanguage.length > 0 &&
+				selectedLanguage !== originalProfile.languages
+			) {
 				formData.append("languages", selectedLanguage);
 			}
-
 			await updateMyProfile(formData);
 			navigation.navigate("ModifyProfilePage");
 		} catch (error) {
@@ -278,7 +286,11 @@ const ModifyProfileInputPage = ({ route }) => {
 			{nicknameContent == null && bioContent == null && (
 				<>
 					{languageContent.length == 0 && tagContent && (
-						<>
+						<ScrollView>
+							<Text style={ModifyProfileInputStyles.textTagTitle}>
+								MBTI
+							</Text>
+							<View style={ModifyProfileInputStyles.line} />
 							<View
 								style={ModifyProfileInputStyles.containerMbti}
 							>
@@ -312,6 +324,10 @@ const ModifyProfileInputPage = ({ route }) => {
 								</View>
 							</View>
 
+							<Text style={ModifyProfileInputStyles.textTagTitle}>
+								취미/관심사
+							</Text>
+							<View style={ModifyProfileInputStyles.line} />
 							<View
 								style={
 									ModifyProfileInputStyles.infoTextContainer
@@ -348,7 +364,7 @@ const ModifyProfileInputPage = ({ route }) => {
 									</View>
 								))}
 							</View>
-						</>
+						</ScrollView>
 					)}
 
 					{tagContent.length == 0 && languageContent && (

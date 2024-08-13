@@ -6,8 +6,6 @@ const { fontSub16, fontBody14 } = CustomTheme;
 const ConnectProfileStyles = StyleSheet.create({
 	container: {
 		flex: 1,
-		// position: "relative",
-		// width: "100%",
 		backgroundColor: CustomTheme.primaryMedium,
 	},
 	topBar: {

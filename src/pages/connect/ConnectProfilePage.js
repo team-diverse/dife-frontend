@@ -173,7 +173,7 @@ const ConnectProfilePage = ({ route }) => {
 						</View>
 						<Text style={ConnectProfileStyles.fontSub16}>언어</Text>
 						<ConnectProfileLanguage
-							language={profileData.languages}
+							languages={profileData.languages}
 						/>
 						<View style={ConnectProfileStyles.languageLine} />
 					</View>

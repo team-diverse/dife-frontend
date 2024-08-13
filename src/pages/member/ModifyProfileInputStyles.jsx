@@ -47,6 +47,20 @@ const ModifyProfileInputStyles = StyleSheet.create({
 		marginTop: 8,
 		marginLeft: 30,
 	},
+	textTagTitle: {
+		fontSize: 18,
+		lineHeight: 26,
+		fontFamily: "NotoSansCJKkr-Bold",
+		color: CustomTheme.textPrimary,
+		marginVertical: 16,
+		marginLeft: 24,
+	},
+	line: {
+		width: "100%",
+		height: 2,
+		backgroundColor: CustomTheme.bgList,
+		marginBottom: 5,
+	},
 	textCount: {
 		...fontCaption,
 		position: "absolute",
