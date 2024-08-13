@@ -69,6 +69,7 @@ const HomePage = ({ count = 3 }) => {
 	const handleNextProfile = () => {
 		if (currentProfileIndex < profileDataList.length - 1) {
 			setCurrentProfileIndex(currentProfileIndex + 1);
+			setShowNewCard(false);
 		} else {
 			setShowMoreProfiles(true);
 		}
@@ -79,6 +80,7 @@ const HomePage = ({ count = 3 }) => {
 			setShowMoreProfiles(false);
 		} else if (currentProfileIndex > 0) {
 			setCurrentProfileIndex(currentProfileIndex - 1);
+			setShowNewCard(false);
 		}
 	};
 
