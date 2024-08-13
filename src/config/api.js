@@ -67,10 +67,20 @@ export const getMyProfile = () => {
 	return api.get("/members/profile");
 };
 
-export const checkUserName = (username) => {
-	return api.head("/members", {
+export const checkUsername = (username) => {
+	return api.head("/members/check", {
 		params: {
+			email: null,
 			username,
+		},
+	});
+};
+
+export const checkEmail = (email) => {
+	return api.head("/members/check", {
+		params: {
+			email,
+			username: null,
 		},
 	});
 };
@@ -113,7 +123,14 @@ export const createPost = (title, content, isPublic, boardType, postFile) => {
 	formData.append("content", content);
 	formData.append("isPublic", isPublic);
 	formData.append("boardType", boardType);
-	formData.append("postFile", postFile || null);
+	if (postFile) {
+		const file = {
+			uri: postFile,
+			type: "image/jpeg",
+			name: `image_${postFile}.jpg`,
+		};
+		formData.append("profileImg", file);
+	}
 
 	const headers = {
 		"Content-Type": "multipart/form-data",
@@ -187,10 +204,23 @@ export const createLikeComment = (commentId) => {
 	});
 };
 
+export const getLikeMember = () => {
+	return api.get("/members/likes");
+};
+
 export const createLikeMember = (memberId) => {
 	return api.post("/likes", {
 		type: "MEMBER",
 		id: memberId,
+	});
+};
+
+export const deleteLikeMember = (memberId) => {
+	return api.delete("/likes", {
+		data: {
+			type: "MEMBER",
+			id: memberId,
+		},
 	});
 };
 

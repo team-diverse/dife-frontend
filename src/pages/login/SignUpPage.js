@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -12,7 +12,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import SignUpStyles from "@pages/login/SignUpStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
-import { signUp } from "config/api";
+import { signUp, checkEmail } from "config/api";
+import { debounce } from "util/debounce";
 
 import ApplyButton from "@components/common/ApplyButton";
 import InfoCircle from "@components/common/InfoCircle";
@@ -49,12 +50,31 @@ const SignUpPage = () => {
 		setShowPW(!showPW);
 	};
 
-	const handleEmail = (text) => {
+	const handleEmailFormat = (email) => {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		setValidID(emailRegex.test(text));
-		setErrorMessage("유효한 이메일 형식을 입력해주세요.");
-		onChangeID(text);
+		const isValid = emailRegex.test(email);
+		setValidID(isValid);
+		if (isValid) {
+			handleEmail(email);
+		} else {
+			setErrorMessage("유효한 이메일 형식을 입력해주세요.");
+		}
+		onChangeID(email);
 	};
+
+	const handleEmail = useCallback(
+		debounce(async (email) => {
+			try {
+				await checkEmail(email);
+				setValidID(true);
+			} catch (error) {
+				console.error("이메일 사용 불가: ", error.message);
+				setValidID(false);
+				setErrorMessage("중복된 이메일 주소입니다.");
+			}
+		}, 300),
+		[validID],
+	);
 
 	const handlePasswordError = (text) => {
 		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
@@ -94,7 +114,7 @@ const SignUpPage = () => {
 				<TextInput
 					style={SignUpStyles.textInputId}
 					placeholder="이메일을 입력해주세요"
-					onChangeText={handleEmail}
+					onChangeText={handleEmailFormat}
 					value={valueID}
 				/>
 				{!validID && (

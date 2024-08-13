@@ -94,14 +94,14 @@ const LoginPage = () => {
 						"401:",
 						error.response ? error.response.data : error.message,
 					);
-					navigation.navigate("LoadingVerification");
+					setLoginFailed(true);
 					break;
-				case 500:
+				case 403:
 					console.error(
-						"500:",
+						"403:",
 						error.response ? error.response.data : error.message,
 					);
-					setLoginFailed(true);
+					navigation.navigate("LoadingVerification");
 					break;
 				default:
 					console.error(

@@ -13,7 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import NicknameStyles from "@pages/onboarding/NicknameStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
 import { useOnboarding } from "src/states/OnboardingContext.js";
-import { checkUserName } from "config/api";
+import { checkUsername } from "config/api";
 import { debounce } from "util/debounce";
 
 import ArrowRight from "@components/common/ArrowRight";
@@ -65,7 +65,7 @@ const NicknamePage = () => {
 	const handleNickname = useCallback(
 		debounce(async (text) => {
 			try {
-				const response = await checkUserName(text);
+				const response = await checkUsername(text);
 				if (response.status === 200) {
 					setNicknameValid(true);
 				} else {

@@ -9,7 +9,7 @@ export const OnboardingProvider = ({ children }) => {
 		accessToken: "",
 		refreshToken: "",
 		username: "",
-		isKorean: "",
+		country: "",
 		bio: "",
 		mbti: "",
 		hobbies: "",

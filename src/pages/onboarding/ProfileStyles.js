@@ -61,10 +61,12 @@ const ProfileStyles = StyleSheet.create({
 		marginTop: 28,
 		marginLeft: 23,
 	},
-	textInputPassword: {
+	containerNation: {
 		...fontSub14,
 		height: 43,
 		marginTop: 12,
+		// alignItems: "center",
+		justifyContent: "center",
 		paddingHorizontal: 13,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 14,
