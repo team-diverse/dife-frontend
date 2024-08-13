@@ -360,3 +360,15 @@ export const blockMember = (blockMemberId) => {
 		blockMemberId,
 	});
 };
+
+export const getBlockMember = () => {
+	return api.get("/blocks");
+};
+
+export const deleteBlockMember = (memberId) => {
+	return api.delete("/blocks", {
+		params: {
+			memberId,
+		},
+	});
+};

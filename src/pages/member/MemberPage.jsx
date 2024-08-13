@@ -69,7 +69,10 @@ const MemberPage = () => {
 						<View style={MemberStyles.difeLogo}>
 							<DifeLogo />
 						</View>
-						<TouchableOpacity style={MemberStyles.iconSetting}>
+						<TouchableOpacity
+							style={MemberStyles.iconSetting}
+							onPress={() => navigation.navigate("SettingPage")}
+						>
 							<IconSetting />
 						</TouchableOpacity>
 					</View>
