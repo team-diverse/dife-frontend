@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -11,7 +11,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import FindPasswordStyles from "@pages/login/FindPasswordStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
-import { changePassword } from "config/api";
+import { changePassword, checkEmail } from "config/api";
+import { debounce } from "util/debounce";
 
 import InfoCircle from "@components/common/InfoCircle";
 import ApplyButton from "@components/common/ApplyButton";
@@ -29,12 +30,30 @@ const FindPasswordPage = () => {
 		Keyboard.dismiss();
 	};
 
-	const handleEmail = (text) => {
+	const handleEmailFormat = (email) => {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-		setValidID(emailRegex.test(text));
-		setErrorMessage("유효한 이메일 형식을 입력해주세요.");
-		onChangeID(text);
+		const isValid = emailRegex.test(email);
+		setValidID(isValid);
+		if (isValid) {
+			handleEmail(email);
+		} else {
+			setErrorMessage("유효한 이메일 형식을 입력해주세요.");
+		}
+		onChangeID(email);
 	};
+
+	const handleEmail = useCallback(
+		debounce(async (email) => {
+			try {
+				await checkEmail(email);
+				setValidID(false);
+				setErrorMessage("존재하지 않는 이메일입니다.");
+			} catch (error) {
+				setValidID(true);
+			}
+		}, 300),
+		[validID],
+	);
 
 	const handleFindPassword = async () => {
 		setModalConnectVisible(true);
@@ -73,7 +92,7 @@ const FindPasswordPage = () => {
 				<View style={FindPasswordStyles.textInputId}>
 					<TextInput
 						placeholder="이메일을 입력해주세요"
-						onChangeText={handleEmail}
+						onChangeText={handleEmailFormat}
 						value={valueID}
 					/>
 				</View>

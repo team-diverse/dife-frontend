@@ -60,10 +60,10 @@ const StudentVerificationPage = () => {
 
 	const { onboardingData } = useOnboarding();
 
-	const handleOnboarding = () => {
+	const handleOnboarding = async () => {
 		const formData = new FormData();
 		formData.append("username", onboardingData.username);
-		formData.append("isKorean", onboardingData.isKorean);
+		formData.append("country", onboardingData.country);
 		formData.append("bio", onboardingData.bio);
 		formData.append("mbti", onboardingData.mbti);
 		formData.append("hobbies", JSON.stringify(onboardingData.hobbies));
@@ -87,17 +87,15 @@ const StudentVerificationPage = () => {
 			formData.append("verificationFile", file);
 		}
 
-		updateMyProfile(memberId, formData)
-			.then((response) => {
-				console.log("온보딩 저장 성공:", response.data);
-				navigation.navigate("CompleteProfile");
-			})
-			.catch((error) => {
-				console.error(
-					"온보딩 저장 실패:",
-					error.response ? error.response.data : error.message,
-				);
-			});
+		try {
+			await updateMyProfile(formData);
+			navigation.navigate("CompleteProfile");
+		} catch (error) {
+			console.error(
+				"온보딩 저장 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
 
 	return (
