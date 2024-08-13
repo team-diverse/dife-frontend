@@ -11,6 +11,8 @@ import {
 	Dimensions,
 	Alert,
 	Keyboard,
+	FlatList,
+	Image,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -29,6 +31,7 @@ import {
 	getLikedPost,
 	getBookmarkedPost,
 	deleteBookmarkByPostId,
+	getProfileImageByFileName,
 } from "config/api";
 
 import TopBar from "@components/common/TopBar";
@@ -58,6 +61,7 @@ const PostPage = ({ route }) => {
 	const [isPublic, setIsPublic] = useState();
 	const [created, setCreated] = useState("");
 	const [isMe, setIsMe] = useState(false);
+	const [images, setImages] = useState([]);
 	const [comments, setComments] = useState([]);
 	const [valueComment, onChangeComment] = useState("");
 	const [isChecked, setIsChecked] = useState(false);
@@ -65,6 +69,19 @@ const PostPage = ({ route }) => {
 	const [parentCommentId, setParentCommentId] = useState(null);
 
 	const commentRef = useRef(null);
+
+	const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+
+	useEffect(() => {
+		if (images.length === 1) {
+			Image.getSize(images[0], (width, height) => {
+				const screenWidth = Dimensions.get("window").width;
+				const ratio = width / screenWidth;
+				const imageHeight = height / ratio;
+				setImageSize({ width: screenWidth, height: imageHeight });
+			});
+		}
+	}, [images]);
 
 	const handlePress = () => {
 		setIsChecked(!isChecked);
@@ -90,6 +107,18 @@ const PostPage = ({ route }) => {
 					setCreated(date(postByIdResponse.data.created));
 					setIsPublic(postByIdResponse.data.isPublic);
 					setMemberId(postByIdResponse.data.writer.id);
+					const fileNames = postByIdResponse.data.files.map(
+						(file) => file.originalName,
+					);
+					const responses = await Promise.all(
+						fileNames.map((fileName) =>
+							getProfileImageByFileName(fileName),
+						),
+					);
+					const responseImages = responses.map(
+						(response) => response.data,
+					);
+					setImages(responseImages);
 
 					if (postByIdResponse.data.isPublic === false) {
 						setWriterName(postByIdResponse.data.writer.username);
@@ -381,6 +410,37 @@ const PostPage = ({ route }) => {
 					</View>
 					<Text style={PostStyles.textTitle}>{title}</Text>
 					<Text style={PostStyles.textContext}>{context}</Text>
+					{images && (
+						<View style={PostStyles.containerImage}>
+							{images.length === 1 ? (
+								<Image
+									source={{ uri: images[0] }}
+									style={[
+										PostStyles.singleImage,
+										{
+											width: imageSize.width - 48,
+											height: imageSize.height,
+										},
+									]}
+									resizeMode="cover"
+								/>
+							) : (
+								<FlatList
+									data={images}
+									renderItem={({ item }) => (
+										<Image
+											source={{ uri: item }}
+											style={PostStyles.images}
+										/>
+									)}
+									keyExtractor={(item, index) =>
+										index.toString()
+									}
+									horizontal={true}
+								/>
+							)}
+						</View>
+					)}
 					<View style={PostStyles.containerIconRow}>
 						<TouchableOpacity
 							style={PostStyles.iconRow}

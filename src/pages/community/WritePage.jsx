@@ -6,8 +6,12 @@ import {
 	SafeAreaView,
 	ScrollView,
 	TouchableOpacity,
+	Alert,
+	Image,
+	FlatList,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import * as ImagePicker from "expo-image-picker";
 
 import WriteStyles from "@pages/community/WriteStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -16,14 +20,18 @@ import TopBar from "@components/common/TopBar";
 import IconImage from "@components/community/IconImage";
 import Checkbox from "@components/common/Checkbox";
 import { createPost } from "config/api";
+import IconDelete from "@components/onboarding/IconDelete";
+import IconCircleNumber from "@components/community/IconCircleNumber";
 
 const WritePage = ({ route }) => {
 	const { noticeboard } = route.params;
 	const navigation = useNavigation();
+
 	const [isChecked, setIsChecked] = useState(false);
 	const [valueTitle, onChangeTitle] = useState("");
 	const [valueContext, onChangeContext] = useState("");
 	const [isBoardType, setIsBoardType] = useState("");
+	const [images, setImages] = useState(null);
 
 	const handlePress = () => {
 		setIsChecked(!isChecked);
@@ -39,13 +47,13 @@ const WritePage = ({ route }) => {
 
 	const handleWrite = async () => {
 		try {
-			const response = await createPost(
+			await createPost(
 				valueTitle,
 				valueContext,
 				isChecked,
 				isBoardType,
+				images || null,
 			);
-			console.log("게시글 작성 성공:", response.data.message);
 			navigation.goBack();
 		} catch (error) {
 			console.error(
@@ -53,6 +61,35 @@ const WritePage = ({ route }) => {
 				error.response ? error.response.data : error.message,
 			);
 		}
+	};
+
+	const pickImage = async () => {
+		const { status } =
+			await ImagePicker.requestMediaLibraryPermissionsAsync();
+		if (status !== "granted") {
+			Alert.alert("알림", "설정에서 이미지 권한을 허용해주세요.");
+			return;
+		}
+
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			aspect: [4, 3],
+			quality: 1,
+			allowsMultipleSelection: true,
+		});
+
+		if (!result.canceled) {
+			const selectedImages = result.assets.map((asset) => asset.uri);
+			if (selectedImages.length > 9) {
+				Alert.alert("알림", `최대 9장까지만 선택할 수 있습니다.`);
+				return;
+			}
+			setImages(selectedImages);
+		}
+	};
+
+	const handleImageDelete = (uri) => {
+		setImages(images.filter((image) => image !== uri));
 	};
 
 	return (
@@ -89,8 +126,45 @@ const WritePage = ({ route }) => {
 						onChangeText={(text) => onChangeContext(text)}
 						value={valueContext}
 					/>
+					{images && (
+						<View style={WriteStyles.containerImage}>
+							<FlatList
+								data={images}
+								renderItem={({ item }) => (
+									<>
+										<TouchableOpacity
+											style={WriteStyles.iconDelete}
+											onPress={() =>
+												handleImageDelete(item)
+											}
+										>
+											<IconDelete />
+										</TouchableOpacity>
+										<Image
+											source={{ uri: item }}
+											style={WriteStyles.image}
+										/>
+									</>
+								)}
+								keyExtractor={(item, index) => index.toString()}
+								horizontal={true}
+							/>
+						</View>
+					)}
 					<View style={WriteStyles.containerIconCheckbox}>
-						<IconImage />
+						<TouchableOpacity onPress={pickImage}>
+							{images && (
+								<View style={WriteStyles.containerImageNumber}>
+									<IconCircleNumber
+										style={WriteStyles.iconCircleNumber}
+									/>
+									<Text style={WriteStyles.textImageNumber}>
+										{images.length}
+									</Text>
+								</View>
+							)}
+							<IconImage />
+						</TouchableOpacity>
 						<Checkbox
 							checked={isChecked}
 							onPress={() => {

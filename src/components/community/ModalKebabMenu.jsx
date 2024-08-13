@@ -144,7 +144,10 @@ const ModalKebabMenu = ({
 							<Text style={styles.textIsMe}>차단</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />
-						<TouchableOpacity style={styles.containerReport}>
+						<TouchableOpacity
+							style={styles.containerReport}
+							onPress={handleReport}
+						>
 							<Text
 								style={[
 									styles.textIsMe,
@@ -155,6 +158,16 @@ const ModalKebabMenu = ({
 							</Text>
 							<InfoCircle color={CustomTheme.warningRed} />
 						</TouchableOpacity>
+						<Report
+							modalVisible={modalReportVisible}
+							setModalVisible={setModalReportVisible}
+							reportTitle={
+								commentId ? "댓글 신고" : "게시글 신고"
+							}
+							{...(commentId
+								? { commentId: commentId }
+								: { postId: postId })}
+						/>
 					</>
 				) : (
 					<>
@@ -183,11 +196,12 @@ const ModalKebabMenu = ({
 						<Report
 							modalVisible={modalReportVisible}
 							setModalVisible={setModalReportVisible}
-							reportTitle="개인 프로필 신고"
-							report1="혐오적인 컨텐츠"
-							report2="욕설/도배"
-							report3="다른 사람을 사칭함"
-							report4="기타"
+							reportTitle={
+								commentId ? "댓글 신고" : "게시글 신고"
+							}
+							{...(commentId
+								? { commentId: commentId }
+								: { postId: postId })}
 						/>
 					</>
 				)}

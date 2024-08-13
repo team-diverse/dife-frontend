@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontBody18, fontBody14 } = CustomTheme;
+const { fontBody18, fontBody14, fontNaviBold } = CustomTheme;
 
 const WriteStyles = StyleSheet.create({
 	container: {
@@ -40,12 +40,45 @@ const WriteStyles = StyleSheet.create({
 		width: "100%",
 		minHeight: 177,
 	},
+	containerImage: {
+		marginHorizontal: -10,
+	},
+	iconDelete: {
+		width: 20,
+		height: 20,
+		position: "absolute",
+		zIndex: 10,
+		top: 6,
+		right: 7,
+	},
+	image: {
+		width: 100,
+		height: 100,
+		borderRadius: 6,
+		marginHorizontal: 6,
+	},
 	containerIconCheckbox: {
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
-		marginTop: 10,
+		marginTop: 15,
 		marginBottom: 6,
+	},
+	containerImageNumber: {
+		position: "absolute",
+		top: -2,
+		right: -3,
+		justifyContent: "center",
+		alignItems: "center",
+		zIndex: 10,
+	},
+	iconCircleNumber: {
+		position: "absolute",
+	},
+	textImageNumber: {
+		...fontNaviBold,
+		color: CustomTheme.primaryMedium,
+		zIndex: 11,
 	},
 	containerRule: {
 		marginTop: -30,

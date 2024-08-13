@@ -81,7 +81,7 @@ const GroupProfilePreviewPage = () => {
 					<Text style={GroupProfilePreviewStyles.fontSub16}>
 						언어
 					</Text>
-					<ConnectProfileLanguage language={profileData.language} />
+					<ConnectProfileLanguage languages={profileData.language} />
 					<View style={GroupProfilePreviewStyles.languageLine} />
 				</View>
 			</ScrollView>

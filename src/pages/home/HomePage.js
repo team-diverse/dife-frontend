@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import HomeStyles from "@pages/home/HomeStyles.js";
-import { getRandomMembersByCount } from "config/api";
+import {
+	getRandomMembersByCount,
+	createLikeMember,
+	deleteLikeMember,
+} from "config/api";
 
 import HomeBg from "@assets/images/svg_js/HomeBg.js";
 import LogoBr from "@components/Logo/LogoBr.js";
@@ -24,7 +28,7 @@ const HomePage = ({ count = 3 }) => {
 	const [profileDataList, setProfileDataList] = useState([]);
 	const RANDOM_MEMBER_COUNT = 10;
 
-	useEffect(async () => {
+	const homeProfile = async () => {
 		try {
 			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
 			function cleanHobbies(hobbies) {
@@ -39,13 +43,25 @@ const HomePage = ({ count = 3 }) => {
 				return data;
 			});
 			setProfileDataList(updatedData);
+
+			const initialHeart = {};
+			updatedData.forEach((profile) => {
+				initialHeart[profile.id] = profile.isLiked;
+			});
+			setHeart(initialHeart);
 		} catch (error) {
 			console.error(
 				"오류:",
 				error.response ? error.response.data : error.message,
 			);
 		}
-	}, []);
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			homeProfile();
+		}, []),
+	);
 
 	const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
 	const [showMoreProfiles, setShowMoreProfiles] = useState(false);
@@ -53,6 +69,7 @@ const HomePage = ({ count = 3 }) => {
 	const handleNextProfile = () => {
 		if (currentProfileIndex < profileDataList.length - 1) {
 			setCurrentProfileIndex(currentProfileIndex + 1);
+			setShowNewCard(false);
 		} else {
 			setShowMoreProfiles(true);
 		}
@@ -63,6 +80,7 @@ const HomePage = ({ count = 3 }) => {
 			setShowMoreProfiles(false);
 		} else if (currentProfileIndex > 0) {
 			setCurrentProfileIndex(currentProfileIndex - 1);
+			setShowNewCard(false);
 		}
 	};
 
@@ -70,7 +88,8 @@ const HomePage = ({ count = 3 }) => {
 	const { id, profilePresignUrl, tags, bio, username, country } = profileData
 		? profileData
 		: {
-				profileFileName: null,
+				id: null,
+				profilePresignUrl: null,
 				tags: ["tag"],
 				bio: "bio",
 				username: "username",
@@ -78,13 +97,37 @@ const HomePage = ({ count = 3 }) => {
 			};
 
 	const [showNewCard, setShowNewCard] = useState(false);
-	const [isLiked, setIsLiked] = useState({});
 
-	const handleIsLikedPress = () => {
-		setIsLiked((prev) => ({
-			...prev,
-			[id]: !prev[id],
-		}));
+	const [heart, setHeart] = useState({});
+
+	const handleCreateHeart = async () => {
+		try {
+			await createLikeMember(id);
+			setHeart((prev) => ({
+				...prev,
+				[id]: true,
+			}));
+		} catch (error) {
+			console.error(
+				"멤버 좋아요 생성 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleDeleteHeart = async () => {
+		try {
+			await deleteLikeMember(id);
+			setHeart((prev) => ({
+				...prev,
+				[id]: false,
+			}));
+		} catch (error) {
+			console.error(
+				"멤버 좋아요 취소 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
 
 	return (
@@ -146,10 +189,12 @@ const HomePage = ({ count = 3 }) => {
 									name={username}
 									country={country}
 									onPress={() => setShowNewCard(true)}
-									isLikedOnPress={() =>
-										handleIsLikedPress(id)
-									}
-									isLikedActive={isLiked[id] || false}
+									isLikedOnPress={() => {
+										heart[id]
+											? handleDeleteHeart()
+											: handleCreateHeart();
+									}}
+									isLikedActive={heart[id]}
 								/>
 							</View>
 						</View>

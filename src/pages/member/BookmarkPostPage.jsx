@@ -14,7 +14,6 @@ const BookmarkPostPage = () => {
 			try {
 				const bookmarkPostResponse = await getBookmarkedPost();
 				setBookmarkPostList(bookmarkPostResponse.data);
-				console.log(bookmarkPostResponse.data);
 			} catch (error) {
 				console.error(
 					"북마크한 게시글 조회 오류:",
