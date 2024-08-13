@@ -70,6 +70,8 @@ import ModifyProfileInputPage from "@pages/member/ModifyProfileInputPage";
 import SettingPage from "@pages/member/SettingPage";
 import SecurityPage from "@pages/member/SecurityPage";
 import BlockListPage from "@pages/member/BlockListPage";
+import InquiryPage from "@pages/member/InquiryPage";
+import TremsPage from "@pages/member/TremsPage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -262,6 +264,8 @@ function MainNavigator() {
 				component={FindPasswordPage}
 			/>
 			<Stack.Screen name="BlockListPage" component={BlockListPage} />
+			<Stack.Screen name="InquiryPage" component={InquiryPage} />
+			<Stack.Screen name="TremsPage" component={TremsPage} />
 		</Stack.Navigator>
 	);
 }

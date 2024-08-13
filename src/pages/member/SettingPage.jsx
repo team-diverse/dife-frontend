@@ -95,7 +95,10 @@ const SettingPage = () => {
 				<View style={SettingStyles.containerTitle}>
 					<Text style={SettingStyles.textTitle}>고객 지원</Text>
 				</View>
-				<View style={SettingStyles.containerContent}>
+				<TouchableOpacity
+					style={SettingStyles.containerContent}
+					onPress={() => navigation.navigate("InquiryPage")}
+				>
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingInquiry />
 						<Text style={SettingStyles.textContent}>1:1 문의</Text>
@@ -105,7 +108,7 @@ const SettingPage = () => {
 						size={24}
 						style={{ transform: [{ scaleX: -1 }] }}
 					/>
-				</View>
+				</TouchableOpacity>
 				<View style={SettingStyles.line} />
 				<View style={SettingStyles.containerContent}>
 					<View style={SettingStyles.containerIconText}>
@@ -121,7 +124,10 @@ const SettingPage = () => {
 					/>
 				</View>
 				<View style={SettingStyles.line} />
-				<View style={SettingStyles.containerContent}>
+				<TouchableOpacity
+					style={SettingStyles.containerContent}
+					onPress={() => navigation.navigate("TremsPage")}
+				>
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingTrems />
 						<Text style={SettingStyles.textContent}>
@@ -133,7 +139,7 @@ const SettingPage = () => {
 						size={24}
 						style={{ transform: [{ scaleX: -1 }] }}
 					/>
-				</View>
+				</TouchableOpacity>
 				<View style={SettingStyles.line} />
 			</View>
 		</SafeAreaView>
