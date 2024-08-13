@@ -65,7 +65,10 @@ const SettingPage = () => {
 					/>
 				</TouchableOpacity>
 				<View style={SettingStyles.line} />
-				<View style={SettingStyles.containerContent}>
+				<TouchableOpacity
+					style={SettingStyles.containerContent}
+					onPress={() => navigation.navigate("BlockListPage")}
+				>
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingBlocks />
 						<Text style={SettingStyles.textContent}>차단 관리</Text>
@@ -75,7 +78,7 @@ const SettingPage = () => {
 						size={24}
 						style={{ transform: [{ scaleX: -1 }] }}
 					/>
-				</View>
+				</TouchableOpacity>
 				<View style={SettingStyles.line} />
 				<View style={SettingStyles.containerContent}>
 					<View style={SettingStyles.containerIconText}>
