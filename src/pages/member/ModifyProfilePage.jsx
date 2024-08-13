@@ -20,6 +20,7 @@ import ModifyKBackground from "@components/member/ModifyKBackground";
 import IconLock from "@components/member/IconLock";
 import IconCamera from "@components/member/IconCamera";
 import Loading from "@components/common/loading/Loading";
+import * as Sentry from "@sentry/react-native";
 
 const ModifyProfilePage = () => {
 	const navigation = useNavigation();
@@ -44,6 +45,7 @@ const ModifyProfilePage = () => {
 			setProfile(updatedData[0]);
 			setProfilePresignUrl(updatedData[0].profilePresignUrl);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"프로필 조회 오류:",
 				error.response ? error.response.data : error.message,
@@ -91,6 +93,7 @@ const ModifyProfilePage = () => {
 			await updateMyProfile(formData);
 			await getMyProfileInfo();
 		} catch (error) {
+			Sentry.captureException(error);
 			setProfileImage(null);
 			console.error(
 				"프로필 이미지 변경 실패:",

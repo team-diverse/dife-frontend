@@ -34,6 +34,7 @@ import GroupFilterBottomSlide from "@components/connect/GroupFilterBottomSlide";
 import IconNewGroup from "@components/connect/IconNewGroup";
 import ModalGroupCreationComplete from "@components/connect/ModalGroupCreationComplete";
 import IconCircleNumber from "@components/community/IconCircleNumber";
+import * as Sentry from "@sentry/react-native";
 
 const ConnectPage = ({ route }) => {
 	const navigation = useNavigation();
@@ -50,6 +51,7 @@ const ConnectPage = ({ route }) => {
 			setSearchTerm("");
 			setSearchFail(false);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"커넥트 카드 조회 오류:",
 				error.response ? error.response.data : error.message,
@@ -88,6 +90,7 @@ const ConnectPage = ({ route }) => {
 			const updatedData = formatProfileData(response.data);
 			setSearchData(updatedData);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"커넥트 검색 오류:",
 				error.response ? error.response.data : error.message,

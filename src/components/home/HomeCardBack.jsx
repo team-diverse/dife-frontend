@@ -14,6 +14,7 @@ import HomecardDifeB from "@components/home/HomecardDifeB";
 import HomeProfile from "@components/home/HomeProfile";
 import HomecardBackBtn from "@components/home/HomecardBackBtn.js";
 import ConnectRequest from "@components/ConnectRequest";
+import * as Sentry from "@sentry/react-native";
 
 const { fontCaption } = CustomTheme;
 
@@ -34,6 +35,7 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 			const myMebmberId = await getMyMemberId();
 			setRequestSent(response.data.from_member.id == myMebmberId);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"커넥트 상태 조회 오류:",
 				error.response ? error.response.data : error.message,
@@ -46,6 +48,7 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 			const response = await requestConnectById(memberId);
 			setConnectStatus(response.data.status);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"커넥트 요청 오류:",
 				error.response ? error.response.data : error.message,
@@ -62,6 +65,7 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 			await rejectedConnectByConnectId(connectId);
 			setConnectStatus(undefined);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"커넥트 삭제 오류:",
 				error.response ? error.response.data : error.message,

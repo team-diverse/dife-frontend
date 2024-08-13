@@ -61,6 +61,12 @@ import HomeAc32 from "@components/Icon32/HomeAc32";
 import CommuAc32 from "@components/Icon32/CommuAc32";
 import MyAc32 from "@components/Icon32/MyAc32";
 import "text-encoding";
+import * as Sentry from "@sentry/react-native";
+
+Sentry.init({
+	dsn: "https://5a585cef4237affff9605bb2182bf1d1@o4507762694422528.ingest.us.sentry.io/4507769192448000",
+	debug: true,
+});
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -405,4 +411,4 @@ function AuthNavigator({ initialRoute }) {
 	);
 }
 
-export default App;
+export default Sentry.wrap(App);

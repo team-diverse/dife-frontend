@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Svg, { Path, Defs, ClipPath, Image as SvgImage } from "react-native-svg";
 import { getProfileImageByFileName } from "config/api";
+import * as Sentry from "@sentry/react-native";
 
 const IconChatProfile = ({ size = 48, imageName, ...props }) => {
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
@@ -10,6 +11,7 @@ const IconChatProfile = ({ size = 48, imageName, ...props }) => {
 			const response = await getProfileImageByFileName(imageName);
 			setProfilePresignUrl(response.data);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"프로필 이미지 조회 오류:",
 				error.response ? error.response.data : error.message,

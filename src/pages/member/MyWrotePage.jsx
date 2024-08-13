@@ -9,6 +9,7 @@ import { communityPresignUrl } from "util/communityPresignUrl";
 
 import TopBar from "@components/common/TopBar";
 import ItemCommunity from "@components/community/ItemCommunity";
+import * as Sentry from "@sentry/react-native";
 
 const MyWrotePage = () => {
 	const [myPostList, setMyPostList] = useState();
@@ -19,6 +20,7 @@ const MyWrotePage = () => {
 			const presignUrl = await communityPresignUrl(response.data);
 			setMyPostList(presignUrl);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"내가 쓴 글 조회 오류:",
 				error.response ? error.response.data : error.message,

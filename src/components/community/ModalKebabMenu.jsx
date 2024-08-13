@@ -10,6 +10,7 @@ import InfoCircle from "@components/common/InfoCircle";
 import Report from "@components/Report";
 import PostModifyPage from "@pages/community/PostModifyPage";
 import IconTrashCan from "./IconTrashCan";
+import * as Sentry from "@sentry/react-native";
 
 const { fontBody14 } = CustomTheme;
 
@@ -52,6 +53,7 @@ const ModalKebabMenu = ({
 								navigation.goBack();
 							})
 							.catch((error) => {
+								Sentry.captureException(error);
 								console.error(
 									"게시글 삭제 오류:",
 									error.response

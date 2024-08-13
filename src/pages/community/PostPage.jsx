@@ -45,6 +45,7 @@ import Checkbox from "@components/common/Checkbox";
 import IconChatSend from "@components/chat/IconChatSend";
 import ItemComment from "@components/community/ItemComment";
 import ModalKebabMenu from "@components/community/ModalKebabMenu";
+import * as Sentry from "@sentry/react-native";
 
 const PostPage = ({ route }) => {
 	const navigation = useNavigation();
@@ -141,6 +142,7 @@ const PostPage = ({ route }) => {
 						await getCommentByPostId(postId);
 					setComments(commentByIdResponse.data);
 				} catch (error) {
+					Sentry.captureException(error);
 					console.error(
 						"게시글 조회 오류:",
 						error.response ? error.response.data : error.message,
@@ -219,6 +221,7 @@ const PostPage = ({ route }) => {
 				]);
 			}
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"댓글 작성 실패:",
 				error.response ? error.response.data : error.message,
@@ -258,6 +261,7 @@ const PostPage = ({ route }) => {
 			setHeart((prevHeart) => prevHeart + 1);
 			setPressHeart(true);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 좋아요 실패:",
 				error.response ? error.response.data : error.message,
@@ -273,6 +277,7 @@ const PostPage = ({ route }) => {
 			setPressHeart(false);
 			setHeart(heart !== 0 ? (prevHeart) => prevHeart - 1 : 0);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 좋아요 취소 실패:",
 				error.response ? error.response.data : error.message,
@@ -288,6 +293,7 @@ const PostPage = ({ route }) => {
 			const likedPostIdList = response.data.map((item) => item.id);
 			setPressHeart(likedPostIdList.includes(postId));
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"좋아요 상태 조회 실패:",
 				error.response ? error.response.data : error.message,
@@ -303,6 +309,7 @@ const PostPage = ({ route }) => {
 			setBookmark((prevBookmark) => prevBookmark + 1);
 			setPressBookmark(true);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 북마크 실패:",
 				error.response ? error.response.data : error.message,
@@ -316,6 +323,7 @@ const PostPage = ({ route }) => {
 		try {
 			await deleteBookmarkByPostId(postId);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 북마크 삭제 실패:",
 				error.response ? error.response.data : error.message,
@@ -355,6 +363,7 @@ const PostPage = ({ route }) => {
 			);
 			setPressBookmark(bookmarkedPostIdList.includes(postId));
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"북마크 상태 조회 실패:",
 				error.response ? error.response.data : error.message,
