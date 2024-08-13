@@ -55,7 +55,9 @@ const SettingPage = () => {
 					onPress={() => navigation.navigate("SecurityPage")}
 				>
 					<View style={SettingStyles.containerIconText}>
-						<IconSettingSecurity />
+						<View style={{ marginHorizontal: 2 }}>
+							<IconSettingSecurity />
+						</View>
 						<Text style={SettingStyles.textContent}>보안</Text>
 					</View>
 					<ArrowRight

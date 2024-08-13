@@ -75,6 +75,48 @@ const ModalKebabMenu = ({
 		navigation.navigate("ConnectProfilePage", { memberId: memberId });
 	};
 
+	const handleBlockAlert = () => {
+		setModalVisible(false);
+		Alert.alert(
+			"",
+			"사용자를 차단하겠습니까?",
+			[
+				{
+					text: "취소",
+					style: "cancel",
+				},
+				{
+					text: "확인",
+					onPress: () => {
+						handleBlock();
+					},
+				},
+			],
+			{ cancelable: false },
+		);
+	};
+
+	const handleBlock = async () => {
+		try {
+			await blockMember(memberId);
+			Alert.alert(
+				"",
+				"사용자를 차단하였습니다.",
+				[
+					{
+						text: "확인",
+					},
+				],
+				{ cancelable: false },
+			);
+		} catch (error) {
+			console.error(
+				"차단 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	return (
 		<Modal
 			isVisible={modalVisible}
@@ -120,7 +162,7 @@ const ModalKebabMenu = ({
 							<Text style={styles.textIsMe}>프로필 상세</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />
-						<TouchableOpacity>
+						<TouchableOpacity onPress={handleBlockAlert}>
 							<Text style={styles.textIsMe}>차단</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />
