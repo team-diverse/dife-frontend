@@ -15,7 +15,6 @@ const BlockListPage = () => {
 		try {
 			const response = await getBlockMember();
 			setBlackList(response.data);
-			console.log(response.data);
 		} catch (error) {
 			console.error(
 				"차단 목록 조회 오류:",
@@ -26,6 +25,20 @@ const BlockListPage = () => {
 	useEffect(() => {
 		getblockMemberList();
 	}, []);
+
+	const renderItem = ({ item }) => {
+		const imageName = item.profileImg?.originalName || null;
+
+		console.log(imageName);
+
+		return (
+			<ItemBlockList
+				memberId={item.id}
+				name={item.username}
+				imageName={imageName}
+			/>
+		);
+	};
 
 	return (
 		<SafeAreaView style={BlockListStyles.container}>
@@ -40,19 +53,7 @@ const BlockListPage = () => {
 			<FlatList
 				style={BlockListStyles.flatlist}
 				data={blackList}
-				renderItem={({ item }) => {
-					return (
-						<ItemBlockList
-							memberId={item.id}
-							name={item.username}
-							// imageName={
-							// 	item.profileImg.originalName
-							// 		? item.profileImg.originalName
-							// 		: null
-							// }
-						/>
-					);
-				}}
+				renderItem={renderItem}
 				keyExtractor={(item, index) => index.toString()}
 			/>
 		</SafeAreaView>

@@ -35,7 +35,7 @@ const SettingPage = () => {
 				</View>
 				<TouchableOpacity
 					style={SettingStyles.containerContent}
-					onPress={() => navigation.navigate("FindPasswordPage")}
+					onPress={() => navigation.navigate("ModifyProfilePage")}
 				>
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingProfile />

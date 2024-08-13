@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Modal from "react-native-modal";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { deletePost } from "config/api";
+import { deletePost, blockMember } from "config/api";
 
 import InfoCircle from "@components/common/InfoCircle";
 import Report from "@components/Report";

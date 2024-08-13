@@ -18,9 +18,7 @@ const IconChatProfile = ({ size = 48, imageName, ...props }) => {
 	};
 
 	useEffect(() => {
-		if (imageName) {
-			getProfileImage();
-		}
+		getProfileImage();
 	}, []);
 
 	return (

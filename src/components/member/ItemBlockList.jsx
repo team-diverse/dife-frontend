@@ -7,7 +7,7 @@ import IconChatProfile from "@components/chat/IconChatProfile";
 import IconMenu from "@components/chat/IconMenu";
 import ModalKebabMenuBlock from "@components/member/ModalKebabMenuBlock";
 
-const ItemBlockList = ({ memberId, name, imageName = null }) => {
+const ItemBlockList = ({ memberId, name, imageName }) => {
 	const navigation = useNavigation();
 
 	let blockDate = "05/11";
