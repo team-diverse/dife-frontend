@@ -1,16 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+
 import { CustomTheme } from "@styles/CustomTheme";
+import { reportPost, reportComment, reportMember } from "config/api";
+
 import RadioButtonGroup from "@components/RadioButton/RadioButtonGroup";
 import Modal from "react-native-modal";
 import CompleteIcon from "@components/common/CompleteIcon";
 
 const { fontSub14 } = CustomTheme;
 
-const Report = ({ modalVisible, setModalVisible, reportTitle }) => {
+const Report = ({
+	modalVisible,
+	setModalVisible,
+	reportTitle,
+	postId = null,
+	commentId = null,
+	memberId = null,
+}) => {
 	const [selected, setSelected] = useState("");
 	const [isReportButtonDisabled, setIsReportButtonDisabled] = useState(true);
 	const [showComplete, setShowComplete] = useState(false);
+	const [reportType, setReportType] = useState(false);
 
 	const reportTypes = [
 		"혐오적인 컨텐츠",
@@ -24,14 +35,48 @@ const Report = ({ modalVisible, setModalVisible, reportTitle }) => {
 		setSelected("");
 	};
 
-	const handleReportButtonPress = () => {
-		setShowComplete(true);
-		setTimeout(() => {
-			setModalVisible(false);
-			setSelected("");
-			setIsReportButtonDisabled(true);
-			setShowComplete(false);
-		}, 2000);
+	useEffect(() => {
+		if (selected === "혐오적인 컨텐츠") {
+			setReportType("CONTENT");
+		} else if (selected === "욕설/도배") {
+			setReportType("CURSE");
+		} else if (selected === "다른 사람을 사칭함") {
+			setReportType("IMPERSONATION");
+		} else {
+			setReportType("ETC");
+		}
+	}, [selected]);
+
+	const handleReportButtonPress = async () => {
+		try {
+			if (postId) {
+				await reportPost(reportType, postId);
+			} else if (commentId) {
+				await reportComment(reportType, commentId);
+			} else if (memberId) {
+				await reportMember(reportType, memberId);
+			}
+
+			await handleReportComplte();
+		} catch (error) {
+			console.error(
+				"신고 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleReportComplte = () => {
+		return new Promise((resolve) => {
+			setShowComplete(true);
+			setTimeout(() => {
+				setModalVisible(false);
+				setSelected("");
+				setIsReportButtonDisabled(true);
+				setShowComplete(false);
+				resolve();
+			}, 2000);
+		});
 	};
 
 	const handleRadioButtonSelect = (value) => {

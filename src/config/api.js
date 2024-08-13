@@ -333,3 +333,30 @@ export const createNotificationToken = (pushToken, deviceId) => {
 		deviceId,
 	});
 };
+
+export const reportPost = (type, postId) => {
+	return api.post("/reports", {
+		type,
+		postId,
+	});
+};
+
+export const reportComment = (type, commentId) => {
+	return api.post("/reports", {
+		type,
+		commentId,
+	});
+};
+
+export const reportMember = (type, receiverId) => {
+	return api.post("/reports", {
+		type,
+		receiverId,
+	});
+};
+
+export const blockMember = (blockMemberId) => {
+	return api.post("/blocks", {
+		blockMemberId,
+	});
+};
