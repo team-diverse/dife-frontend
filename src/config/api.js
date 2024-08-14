@@ -372,3 +372,9 @@ export const deleteBlockMember = (memberId) => {
 		},
 	});
 };
+
+export const refreshToken = (token) => {
+	return api.post("/members/refresh-token", {
+		token,
+	});
+};
