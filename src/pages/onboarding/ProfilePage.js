@@ -5,6 +5,9 @@ import {
 	Text,
 	TextInput,
 	SafeAreaView,
+	ScrollView,
+	KeyboardAvoidingView,
+	Platform,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
@@ -83,115 +86,133 @@ const ProfilePage = () => {
 	};
 
 	return (
-		<TouchableWithoutFeedback onPress={handleKeyboard}>
-			<SafeAreaView style={[ProfileStyles.container]}>
-				<TouchableOpacity onPress={handleGoBack}>
-					<ArrowRight
-						style={ProfileStyles.iconArrow}
-						color={CustomTheme.textPrimary}
-					/>
-				</TouchableOpacity>
-				<View style={[ProfileStyles.iconProgress]}>
-					<Progress2 />
-				</View>
-				<Text style={ProfileStyles.textTitle}>{ProfileData[0]}</Text>
-				<Text style={ProfileStyles.textSubTitle}>{ProfileData[1]}</Text>
-				{image ? (
-					<View style={ProfileStyles.containerImage}>
-						<Image
-							source={{ uri: image }}
-							style={ProfileStyles.imageProfile}
-						/>
-						<IconProfileBorder style={ProfileStyles.imageBorder} />
-						<TouchableOpacity onPress={pickImage}>
-							<IconProfileChange />
+		<KeyboardAvoidingView
+			behavior={Platform.OS === "ios" ? "padding" : "height"}
+			style={{ flex: 1 }}
+		>
+			<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+				<TouchableWithoutFeedback onPress={handleKeyboard}>
+					<SafeAreaView style={[ProfileStyles.container]}>
+						<TouchableOpacity onPress={handleGoBack}>
+							<ArrowRight
+								style={ProfileStyles.iconArrow}
+								color={CustomTheme.textPrimary}
+							/>
 						</TouchableOpacity>
-					</View>
-				) : (
-					<TouchableOpacity
-						style={ProfileStyles.containerImage}
-						onPress={pickImage}
-					>
-						<IconProfileUpload />
-					</TouchableOpacity>
-				)}
-				<Text style={ProfileStyles.textNationIntroduction}>국적</Text>
-				<View style={ProfileStyles.containerRadioButton}>
-					<RadioButtonGroup
-						values={["내국인 (Korean)", "외국인"]}
-						value={selected}
-						onValueChange={handleRadioButtonSelect}
-						mainColor={CustomTheme.primaryMedium}
-						borderColor="#B0D0FF"
-						onboarding="true"
-					/>
-					{selected === "외국인" && (
-						<>
-							<Text
-								style={[
-									ProfileStyles.textNationIntroduction,
-									{ marginLeft: 0 },
-								]}
-							>
-								국적
-							</Text>
-							<View style={ProfileStyles.containerNation}>
-								<RNPickerSelect
-									onValueChange={(value) => setNation(value)}
-									items={[
-										{
-											label: "United States / United States",
-											value: "United States / United States",
-										},
-										{
-											label: "中國 / China",
-											value: "中國 / China",
-										},
-										{
-											label: "日本 / Japan",
-											value: "日本 / Japan",
-										},
-										{
-											label: "España / Spain",
-											value: "España / Spain",
-										},
-									]}
-									placeholder={{
-										label: "국적을 선택해주세요",
-										value: null,
-									}}
+						<View style={[ProfileStyles.iconProgress]}>
+							<Progress2 />
+						</View>
+						<Text style={ProfileStyles.textTitle}>
+							{ProfileData[0]}
+						</Text>
+						<Text style={ProfileStyles.textSubTitle}>
+							{ProfileData[1]}
+						</Text>
+						{image ? (
+							<View style={ProfileStyles.containerImage}>
+								<Image
+									source={{ uri: image }}
+									style={ProfileStyles.imageProfile}
 								/>
+								<IconProfileBorder
+									style={ProfileStyles.imageBorder}
+								/>
+								<TouchableOpacity onPress={pickImage}>
+									<IconProfileChange />
+								</TouchableOpacity>
 							</View>
-						</>
-					)}
-				</View>
-				<Text style={ProfileStyles.textNationIntroduction}>
-					한줄소개
-				</Text>
-				<View style={ProfileStyles.containerTextInput}>
-					<TextInput
-						style={ProfileStyles.textInputIntroduction}
-						placeholder="간단한 자기소개를 입력해주세요"
-						onChangeText={setText}
-						value={text}
-						multiline={true}
-						maxLength={60}
-					/>
-					<Text style={ProfileStyles.textIntroductionCount}>
-						{text.length}/60
-					</Text>
-				</View>
-				<View style={ProfileStyles.buttonCheck}>
-					<ApplyButton
-						text="다음"
-						onPress={handleDataSave}
-						disabled={
-							!selected || (selected === "외국인" && !nation)
-						}
-					/>
-				</View>
-			</SafeAreaView>
-		</TouchableWithoutFeedback>
+						) : (
+							<TouchableOpacity
+								style={ProfileStyles.containerImage}
+								onPress={pickImage}
+							>
+								<IconProfileUpload />
+							</TouchableOpacity>
+						)}
+						<Text style={ProfileStyles.textNationIntroduction}>
+							국적
+						</Text>
+						<View style={ProfileStyles.containerRadioButton}>
+							<RadioButtonGroup
+								values={["내국인 (Korean)", "외국인"]}
+								value={selected}
+								onValueChange={handleRadioButtonSelect}
+								mainColor={CustomTheme.primaryMedium}
+								borderColor="#B0D0FF"
+								onboarding="true"
+							/>
+							{selected === "외국인" && (
+								<>
+									<Text
+										style={[
+											ProfileStyles.textNationIntroduction,
+											{ marginLeft: 0 },
+										]}
+									>
+										국적
+									</Text>
+									<View style={ProfileStyles.containerNation}>
+										<RNPickerSelect
+											onValueChange={(value) =>
+												setNation(value)
+											}
+											items={[
+												{
+													label: "United States / United States",
+													value: "United States / United States",
+												},
+												{
+													label: "中國 / China",
+													value: "中國 / China",
+												},
+												{
+													label: "日本 / Japan",
+													value: "日本 / Japan",
+												},
+												{
+													label: "España / Spain",
+													value: "España / Spain",
+												},
+											]}
+											placeholder={{
+												label: "국적을 선택해주세요",
+												value: null,
+											}}
+										/>
+									</View>
+								</>
+							)}
+						</View>
+						<Text style={ProfileStyles.textNationIntroduction}>
+							한줄소개
+						</Text>
+						<View style={ProfileStyles.containerTextInput}>
+							<TextInput
+								style={ProfileStyles.textInputIntroduction}
+								placeholder="간단한 자기소개를 입력해주세요"
+								onChangeText={setText}
+								value={text}
+								multiline={true}
+								maxLength={60}
+							/>
+							<Text style={ProfileStyles.textIntroductionCount}>
+								{text.length}/60
+							</Text>
+						</View>
+						<View style={ProfileStyles.buttonCheck}>
+							<ApplyButton
+								text="다음"
+								onPress={handleDataSave}
+								disabled={
+									!selected ||
+									(selected === "외국인" && !nation)
+								}
+							/>
+						</View>
+					</SafeAreaView>
+				</TouchableWithoutFeedback>
+			</ScrollView>
+		</KeyboardAvoidingView>
 	);
 };
 
