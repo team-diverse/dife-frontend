@@ -42,7 +42,7 @@ const MemberStyles = StyleSheet.create({
 	},
 	textName: {
 		fontSize: 16,
-		lineHeight: 17,
+		lineHeight: 20,
 		fontFamily: "NotoSansCJKkr-Bold",
 		color: CustomTheme.primaryPressed,
 		marginTop: 10,
