@@ -75,6 +75,7 @@ import SecurityPage from "@pages/member/SecurityPage";
 import BlockListPage from "@pages/member/BlockListPage";
 import InquiryPage from "@pages/member/InquiryPage";
 import TremsPage from "@pages/member/TremsPage";
+import CountrySelectionPage from "@pages/onboarding/CountrySelectionPage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -341,6 +342,10 @@ function AuthNavigator({ initialRoute }) {
 				component={LoadingVerificationPage}
 			/>
 			<Stack.Screen name="Home" component={HomeStack} />
+			<Stack.Screen
+				name="CountrySelectionPage"
+				component={CountrySelectionPage}
+			/>
 		</Stack.Navigator>
 	);
 }

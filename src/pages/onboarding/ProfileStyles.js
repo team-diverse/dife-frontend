@@ -65,13 +65,15 @@ const ProfileStyles = StyleSheet.create({
 		...fontSub14,
 		height: 43,
 		marginTop: 12,
-		// alignItems: "center",
 		justifyContent: "center",
 		paddingHorizontal: 13,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 14,
 		borderWidth: 1,
 		borderColor: "#B0D0FF",
+	},
+	textNation: {
+		...fontSub14,
 	},
 	containerTextInput: {
 		position: "relative",

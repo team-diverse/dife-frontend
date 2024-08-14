@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	View,
 	Image,
@@ -15,7 +15,6 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import RNPickerSelect from "react-native-picker-select";
 
 import ProfileStyles from "@pages/onboarding/ProfileStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
@@ -29,15 +28,17 @@ import RadioButtonGroup from "@components/RadioButton/RadioButtonGroup";
 import IconProfileChange from "@components/onboarding/IconProfileChange";
 import IconProfileBorder from "@components/onboarding/IconProfileBorder";
 
-const ProfilePage = () => {
+const ProfilePage = ({ route }) => {
+	const { selectedCountry } = route.params || {};
+
 	const navigation = useNavigation();
-	const [image, setImage] = useState(null);
 
 	const handleGoBack = () => {
 		navigation.goBack();
 	};
 
 	const ProfileData = ["프로필 생성하기", "프로필 사진"];
+	const [image, setImage] = useState(null);
 	const [selected, setSelected] = useState("");
 	const [selectedValue, setSelectedValue] = useState(true);
 	const [, setIsReportButtonDisabled] = useState(true);
@@ -85,6 +86,10 @@ const ProfilePage = () => {
 		navigation.navigate("ProfileMbti");
 	};
 
+	useEffect(() => {
+		setNation(selectedCountry);
+	}, [selectedCountry]);
+
 	return (
 		<KeyboardAvoidingView
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -92,7 +97,7 @@ const ProfilePage = () => {
 		>
 			<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 				<TouchableWithoutFeedback onPress={handleKeyboard}>
-					<SafeAreaView style={[ProfileStyles.container]}>
+					<SafeAreaView style={ProfileStyles.container}>
 						<TouchableOpacity onPress={handleGoBack}>
 							<ArrowRight
 								style={ProfileStyles.iconArrow}
@@ -151,35 +156,33 @@ const ProfilePage = () => {
 									>
 										국적
 									</Text>
-									<View style={ProfileStyles.containerNation}>
-										<RNPickerSelect
-											onValueChange={(value) =>
-												setNation(value)
-											}
-											items={[
-												{
-													label: "United States / United States",
-													value: "United States / United States",
-												},
-												{
-													label: "中國 / China",
-													value: "中國 / China",
-												},
-												{
-													label: "日本 / Japan",
-													value: "日本 / Japan",
-												},
-												{
-													label: "España / Spain",
-													value: "España / Spain",
-												},
-											]}
-											placeholder={{
-												label: "국적을 선택해주세요",
-												value: null,
-											}}
-										/>
-									</View>
+									<TouchableOpacity
+										style={ProfileStyles.containerNation}
+										onPress={() =>
+											navigation.navigate(
+												"CountrySelectionPage",
+											)
+										}
+									>
+										{nation ? (
+											<Text
+												style={ProfileStyles.textNation}
+											>
+												{nation}
+											</Text>
+										) : (
+											<Text
+												style={[
+													ProfileStyles.textNation,
+													{
+														color: CustomTheme.borderColor,
+													},
+												]}
+											>
+												국적을 선택해주세요
+											</Text>
+										)}
+									</TouchableOpacity>
 								</>
 							)}
 						</View>
