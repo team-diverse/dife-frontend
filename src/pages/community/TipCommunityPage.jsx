@@ -12,6 +12,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 
 import TipCommunityStyles from "@pages/community/TipCommunityStyles";
+import { CustomTheme } from "@styles/CustomTheme";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import IconPostPlus from "@components/community/IconPostPlus";
@@ -20,9 +21,14 @@ import ConnectSearchCancel from "@components/connect/ConnectSearchCancel";
 import IconBookmark from "@components/chat/IconBookmark";
 import ItemCommunity from "@components/community/ItemCommunity";
 import { getPostsByType } from "config/api";
+import ArrowRight from "@components/common/ArrowRight";
 
 const TipCommunityPage = () => {
 	const navigation = useNavigation();
+
+	const handleGoBack = () => {
+		navigation.goBack();
+	};
 
 	const [searchTerm, setSearchTerm] = useState("");
 	const [, setSearchData] = useState([]);
@@ -93,6 +99,12 @@ const TipCommunityPage = () => {
 					<ConnectTop />
 				</View>
 				<View style={TipCommunityStyles.containerTextIcon}>
+					<TouchableOpacity
+						style={TipCommunityStyles.iconArrowRight}
+						onPress={handleGoBack}
+					>
+						<ArrowRight color={CustomTheme.bgBasic} />
+					</TouchableOpacity>
 					<Text style={TipCommunityStyles.textChattingTitle}>
 						꿀팁게시판
 					</Text>
