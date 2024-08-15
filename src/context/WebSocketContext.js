@@ -95,7 +95,7 @@ export const WebSocketProvider = ({ children }) => {
 		];
 
 		const initialMessages = allChatrooms.reduce((acc, chatroom) => {
-			acc[chatroom.id] = sortByIds(chatroom.chats) || [];
+			acc[chatroom.id] = sortByIds(chatroom.chats || []);
 			return acc;
 		}, {});
 
