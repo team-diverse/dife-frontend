@@ -11,6 +11,7 @@ const RadioButtonGroup = ({
 	mainColor = "#FFC0C0",
 	borderColor = CustomTheme.warningRed,
 	onboarding = null,
+	fontSize16 = null,
 }) => {
 	const [selected, setSelected] = useState(value);
 
@@ -32,6 +33,7 @@ const RadioButtonGroup = ({
 							mainColor={mainColor}
 							borderColor={borderColor}
 							onboarding={onboarding}
+							fontSize16={fontSize16}
 						/>
 					</View>
 				))}
