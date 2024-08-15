@@ -9,6 +9,7 @@ import { deletePost, blockMember } from "config/api";
 import InfoCircle from "@components/common/InfoCircle";
 import Report from "@components/Report";
 import PostModifyPage from "@pages/community/PostModifyPage";
+import IconTrashCan from "./IconTrashCan";
 
 const { fontBody14 } = CustomTheme;
 
@@ -22,12 +23,12 @@ const ModalKebabMenu = ({
 	isMe,
 	position,
 }) => {
-	const rectangleStyle = () =>
-		isMe
-			? styles.rectangle
-			: isPublic
-				? styles.rectangle
-				: styles.rectangleIsPublic;
+	const rectangleStyle = () => {
+		if (isMe) {
+			return commentId ? styles.rectangleCommentIsMe : styles.rectangle;
+		}
+		return isPublic ? styles.rectangle : styles.rectangleIsPublic;
+	};
 
 	const navigation = useNavigation();
 
@@ -37,6 +38,7 @@ const ModalKebabMenu = ({
 	};
 
 	const handleDelete = () => {
+		setModalVisible(false);
 		Alert.alert(
 			"삭제",
 			"이 게시글을 삭제하시겠습니까?",
@@ -45,7 +47,7 @@ const ModalKebabMenu = ({
 				{
 					text: "확인",
 					onPress: () => {
-						deletePost(postId ? postId : commentId)
+						deletePost(postId)
 							.then(() => {
 								navigation.goBack();
 							})
@@ -58,6 +60,22 @@ const ModalKebabMenu = ({
 								);
 							});
 					},
+				},
+			],
+			{ cancelable: false },
+		);
+	};
+
+	const handleDeleteComment = () => {
+		setModalVisible(false);
+		Alert.alert(
+			"삭제",
+			"이 댓글을 삭제하시겠습니까?",
+			[
+				{ text: "취소", style: "cancel" },
+				{
+					text: "확인",
+					onPress: () => {},
 				},
 			],
 			{ cancelable: false },
@@ -126,17 +144,31 @@ const ModalKebabMenu = ({
 			]}
 			onBackdropPress={() => setModalVisible(false)}
 			backdropColor="rgba(0, 0, 0, 0.3)"
+			animationIn="fadeIn"
+			animationOut="fadeOut"
 		>
 			<View style={rectangleStyle()}>
 				{isMe ? (
 					<>
-						<TouchableOpacity onPress={handleModify}>
-							<Text style={styles.textIsMe}>글 수정</Text>
-						</TouchableOpacity>
-						<View style={styles.line} />
-						<TouchableOpacity onPress={handleDelete}>
-							<Text style={styles.textIsMe}>글 삭제</Text>
-						</TouchableOpacity>
+						{commentId ? (
+							<TouchableOpacity
+								style={styles.containerDeleteComment}
+								onPress={handleDeleteComment}
+							>
+								<Text style={styles.textIsMe}>댓글 삭제</Text>
+								<IconTrashCan />
+							</TouchableOpacity>
+						) : (
+							<>
+								<TouchableOpacity onPress={handleModify}>
+									<Text style={styles.textIsMe}>글 수정</Text>
+								</TouchableOpacity>
+								<View style={styles.line} />
+								<TouchableOpacity onPress={handleDelete}>
+									<Text style={styles.textIsMe}>글 삭제</Text>
+								</TouchableOpacity>
+							</>
+						)}
 					</>
 				) : isPublic ? (
 					<>
@@ -228,6 +260,19 @@ const styles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 10,
 		position: "relative",
+	},
+	rectangleCommentIsMe: {
+		width: 95,
+		height: 36,
+		backgroundColor: CustomTheme.bgBasic,
+		borderRadius: 10,
+		position: "relative",
+	},
+	containerDeleteComment: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		marginRight: 11,
 	},
 	line: {
 		width: 86,

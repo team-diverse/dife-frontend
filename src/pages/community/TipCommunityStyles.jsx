@@ -39,11 +39,14 @@ const TipCommunityStyles = StyleSheet.create({
 		marginTop: 55,
 		zIndex: 2,
 	},
+	iconArrowRight: {
+		marginLeft: 18,
+		marginRight: 4,
+	},
 	textChattingTitle: {
 		flex: 1,
 		...fontHead20,
 		color: CustomTheme.primaryBg,
-		marginLeft: 24,
 	},
 	iconBookmark: {
 		flex: 1,

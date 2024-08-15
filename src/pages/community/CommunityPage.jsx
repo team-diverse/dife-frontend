@@ -118,57 +118,55 @@ const CommunityPage = () => {
 				</View>
 
 				<View style={{ marginTop: 130 }}>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("TipCommunityPage")}
-					>
-						<View style={CommunityStyles.containerCommunityTop}>
-							<View style={CommunityStyles.containerTitle}>
-								<IconCommunityTitle
-									style={CommunityStyles.iconCommunity}
-								/>
-								<Text
-									style={CommunityStyles.textCommunityTitle}
-								>
-									꿀팁게시판
-								</Text>
-							</View>
-							<View style={CommunityStyles.containerMore}>
-								<Text style={CommunityStyles.textCommunityMore}>
-									더보기
-								</Text>
-								<ArrowRight style={CommunityStyles.iconArrow} />
-							</View>
+					<View style={CommunityStyles.containerCommunityTop}>
+						<View style={CommunityStyles.containerTitle}>
+							<IconCommunityTitle
+								style={CommunityStyles.iconCommunity}
+							/>
+							<Text style={CommunityStyles.textCommunityTitle}>
+								꿀팁게시판
+							</Text>
 						</View>
-						<View style={CommunityStyles.itemCommunityPreview}>
-							<ItemCommunityPreview postList={tipPostList} />
-						</View>
-					</TouchableOpacity>
+						<TouchableOpacity
+							style={CommunityStyles.containerMore}
+							onPress={() =>
+								navigation.navigate("TipCommunityPage")
+							}
+						>
+							<Text style={CommunityStyles.textCommunityMore}>
+								더보기
+							</Text>
+							<ArrowRight style={CommunityStyles.iconArrow} />
+						</TouchableOpacity>
+					</View>
+					<View style={CommunityStyles.itemCommunityPreview}>
+						<ItemCommunityPreview postList={tipPostList} />
+					</View>
 
-					<TouchableOpacity
-						onPress={() => navigation.navigate("FreeCommunityPage")}
-					>
-						<View style={CommunityStyles.containerCommunityTop}>
-							<View style={CommunityStyles.containerTitle}>
-								<IconCommunityTitle
-									style={CommunityStyles.iconCommunity}
-								/>
-								<Text
-									style={CommunityStyles.textCommunityTitle}
-								>
-									자유게시판
-								</Text>
-							</View>
-							<View style={CommunityStyles.containerMore}>
-								<Text style={CommunityStyles.textCommunityMore}>
-									더보기
-								</Text>
-								<ArrowRight style={CommunityStyles.iconArrow} />
-							</View>
+					<View style={CommunityStyles.containerCommunityTop}>
+						<View style={CommunityStyles.containerTitle}>
+							<IconCommunityTitle
+								style={CommunityStyles.iconCommunity}
+							/>
+							<Text style={CommunityStyles.textCommunityTitle}>
+								자유게시판
+							</Text>
 						</View>
-						<View style={CommunityStyles.itemCommunityPreview}>
-							<ItemCommunityPreview postList={freePostList} />
-						</View>
-					</TouchableOpacity>
+						<TouchableOpacity
+							style={CommunityStyles.containerMore}
+							onPress={() =>
+								navigation.navigate("FreeCommunityPage")
+							}
+						>
+							<Text style={CommunityStyles.textCommunityMore}>
+								더보기
+							</Text>
+							<ArrowRight style={CommunityStyles.iconArrow} />
+						</TouchableOpacity>
+					</View>
+					<View style={CommunityStyles.itemCommunityPreview}>
+						<ItemCommunityPreview postList={freePostList} />
+					</View>
 				</View>
 			</SafeAreaView>
 		</View>
