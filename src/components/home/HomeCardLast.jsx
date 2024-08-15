@@ -24,9 +24,6 @@ const HomeCardLast = () => {
 				<Text style={styles.textMoreProfile}>
 					커넥트 페이지에서{"\n"}더 많은 프로필을 탐색할 수 있어요!
 				</Text>
-				<Text style={styles.textLoadProfile}>
-					프로필 추가 로딩까지 20:00분
-				</Text>
 				<TouchableOpacity
 					style={styles.buttonAddProfile}
 					onPress={() => navigation.navigate("Connect")}
@@ -82,7 +79,7 @@ const styles = StyleSheet.create({
 		borderRadius: 12,
 		justifyContent: "center",
 		alignItems: "center",
-		marginTop: 60,
+		marginTop: 85,
 	},
 	textAddProfile: {
 		...fontButton,
