@@ -9,7 +9,7 @@ import * as SecureStore from "expo-secure-store";
 import { OnboardingProvider } from "src/states/OnboardingContext.js";
 import { PostModifyProvider } from "src/states/PostModifyContext";
 import { AuthProvider, useAuth } from "src/states/AuthContext";
-import { refreshToken, getMyProfile } from "config/api";
+import { getMyProfile } from "config/api";
 
 import ChattingPage from "@pages/chat/ChattingPage";
 import ConnectPage from "@pages/connect/ConnectPage";
@@ -169,18 +169,18 @@ function AppContent() {
 					await SecureStore.getItemAsync("accessToken");
 
 				if (memberId && accessToken) {
-					const response = await refreshToken(accessToken);
-					const profileResponse = await getMyProfile();
-					if (
-						response.status === 200 &&
-						profileResponse.data.isVerified
-					) {
-						setIsLoggedIn(true);
-					} else {
-						setIsLoggedIn(false);
+					try {
+						const profileResponse = await getMyProfile();
+						if (profileResponse.data.isVerified) {
+							setIsLoggedIn(true);
+						} else {
+							setIsLoggedIn(false);
+						}
+					} catch (error) {
+						if (error.response && error.response.status === 403) {
+							setIsLoggedIn(false);
+						}
 					}
-				} else {
-					setIsLoggedIn(false);
 				}
 			} catch (error) {
 				console.error(
