@@ -1,5 +1,11 @@
 import React from "react";
-import { SafeAreaView, View, Text } from "react-native";
+import {
+	SafeAreaView,
+	View,
+	Text,
+	Linking,
+	TouchableOpacity,
+} from "react-native";
 
 import InquiryStyles from "@pages/member/InquiryStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -8,6 +14,19 @@ import TopBar from "@components/common/TopBar";
 import IconEmail from "@components/login/IconEmail";
 
 const InquiryPage = () => {
+	const handleEmailPress = async () => {
+		const emailUrl = "mailto:dife.teamdiverse@gmail.com";
+
+		try {
+			await Linking.openURL(emailUrl);
+		} catch (error) {
+			console.error(
+				"이메일 열기 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	return (
 		<SafeAreaView style={InquiryStyles.container}>
 			<TopBar
@@ -23,9 +42,14 @@ const InquiryPage = () => {
 					dife 이메일로 문제를 전송해주세요
 				</Text>
 
-				<View style={InquiryStyles.containerEmail}>
-					<Text style={InquiryStyles.textEmail}>dife@ddd.com</Text>
-				</View>
+				<TouchableOpacity
+					style={InquiryStyles.containerEmail}
+					onPress={handleEmailPress}
+				>
+					<Text style={InquiryStyles.textEmail}>
+						dife.teamdiverse@gmail.com
+					</Text>
+				</TouchableOpacity>
 			</View>
 		</SafeAreaView>
 	);
