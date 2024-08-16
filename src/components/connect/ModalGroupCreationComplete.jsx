@@ -6,10 +6,24 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 import CompleteIcon from "@components/common/CompleteIcon";
 import IconCancelX from "@components/connect/IconCancelX";
+import { useNavigation } from "@react-navigation/native";
 
 const { fontCaption, fontSub14, fontSub16 } = CustomTheme;
 
-const ModalGroupCreationComplete = ({ modalVisible, setModalVisible }) => {
+const ModalGroupCreationComplete = ({
+	groupId,
+	modalVisible,
+	setModalVisible,
+}) => {
+	const navigation = useNavigation();
+
+	const handleMoveGroupProfile = () => {
+		setModalVisible(false);
+		navigation.navigate("GroupProfilePage", {
+			groupId: groupId,
+		});
+	};
+
 	return (
 		<Modal
 			isVisible={modalVisible}
@@ -30,7 +44,10 @@ const ModalGroupCreationComplete = ({ modalVisible, setModalVisible }) => {
 						그룹 생성 완료
 					</Text>
 				</View>
-				<TouchableOpacity style={styles.rectangleBlue}>
+				<TouchableOpacity
+					style={styles.rectangleBlue}
+					onPress={handleMoveGroupProfile}
+				>
 					<Text style={styles.textRectangleBlue}>
 						그룹 프로필로 바로 이동하기
 					</Text>

@@ -15,6 +15,7 @@ import * as ImagePicker from "expo-image-picker";
 
 import GroupCreatedStyles from "@pages/connect/GroupCreatedStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { useCreateGroup } from "src/states/CreateGroupDataContext.js";
 
 import TopBar from "@components/common/TopBar";
 import IconProfileBorder from "@components/onboarding/IconProfileBorder";
@@ -53,6 +54,17 @@ const GroupCreatedPage = () => {
 		}
 	};
 
+	const { updateCreateGroupData } = useCreateGroup();
+
+	const handleGroupInfo = () => {
+		updateCreateGroupData({
+			profileImg: image,
+			name: nameInput,
+			description: bioInput,
+		});
+		navigation.navigate("GroupCreatedDetailPage");
+	};
+
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
 			<SafeAreaView style={GroupCreatedStyles.container}>
@@ -77,12 +89,11 @@ const GroupCreatedPage = () => {
 						</TouchableOpacity>
 					</View>
 				) : (
-					<TouchableOpacity
-						style={GroupCreatedStyles.containerImage}
-						onPress={pickImage}
-					>
-						<IconProfileUpload />
-					</TouchableOpacity>
+					<View style={GroupCreatedStyles.containerImage}>
+						<TouchableOpacity onPress={pickImage}>
+							<IconProfileUpload />
+						</TouchableOpacity>
+					</View>
 				)}
 
 				<Text style={GroupCreatedStyles.textTitle}>이름</Text>
@@ -123,9 +134,8 @@ const GroupCreatedPage = () => {
 						/>
 						<View
 							text="다음"
-							onPress={() =>
-								navigation.navigate("GroupCreatedDetailPage")
-							}
+							onPress={handleGroupInfo}
+							disabled={!nameInput || !bioInput}
 						/>
 					</BottomTwoButtons>
 				</View>

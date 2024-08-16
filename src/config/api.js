@@ -37,6 +37,27 @@ export const createSingleChatroom = (toMemberId, name) => {
 	return api.post("/chatrooms", formData, { headers });
 };
 
+export const createGroupChatroom = (profileImg, name, description) => {
+	const formData = new FormData();
+	formData.append("chatroomType", "GROUP");
+	formData.append("name", name);
+	formData.append("description", description);
+
+	if (profileImg) {
+		const file = {
+			uri: profileImg,
+			type: "image/jpeg",
+			name: `${name}_profile.jpg`,
+		};
+		formData.append("profileImg", file);
+	}
+
+	const headers = {
+		"Content-Type": "multipart/form-data",
+	};
+	return api.post("/chatrooms", formData, { headers });
+};
+
 export const signUp = (email, password) => {
 	return api.post("/members/register", {
 		email,

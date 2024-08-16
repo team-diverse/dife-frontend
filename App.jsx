@@ -76,6 +76,9 @@ import BlockListPage from "@pages/member/BlockListPage";
 import InquiryPage from "@pages/member/InquiryPage";
 import TremsPage from "@pages/member/TremsPage";
 import CountrySelectionPage from "@pages/onboarding/CountrySelectionPage";
+import ConnectListPage from "@pages/member/ConnectListPage";
+import DefaultLanguagePage from "@pages/member/DefaultLanguagePage";
+import { CreateGroupProvider } from "states/CreateGroupDataContext";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -147,11 +150,13 @@ function App() {
 	return (
 		<AuthProvider>
 			<OnboardingProvider>
-				<PostModifyProvider>
-					<NavigationContainer>
-						<AppContent />
-					</NavigationContainer>
-				</PostModifyProvider>
+				<CreateGroupProvider>
+					<PostModifyProvider>
+						<NavigationContainer>
+							<AppContent />
+						</NavigationContainer>
+					</PostModifyProvider>
+				</CreateGroupProvider>
 			</OnboardingProvider>
 		</AuthProvider>
 	);
@@ -303,6 +308,11 @@ function MainNavigator() {
 			<Stack.Screen name="BlockListPage" component={BlockListPage} />
 			<Stack.Screen name="InquiryPage" component={InquiryPage} />
 			<Stack.Screen name="TremsPage" component={TremsPage} />
+			<Stack.Screen name="ConnectListPage" component={ConnectListPage} />
+			<Stack.Screen
+				name="DefaultLanguagePage"
+				component={DefaultLanguagePage}
+			/>
 		</Stack.Navigator>
 	);
 }
