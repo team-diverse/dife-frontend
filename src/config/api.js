@@ -237,6 +237,26 @@ export const createLikeComment = (commentId) => {
 	});
 };
 
+export const getLikeChatroom = () => {
+	return api.get("/chatrooms/likes");
+};
+
+export const createLikeChatroom = (chatroomId) => {
+	return api.post("/likes", {
+		type: "CHATROOM",
+		id: chatroomId,
+	});
+};
+
+export const deleteLikeChatroom = (chatroomId) => {
+	return api.delete("/likes", {
+		data: {
+			type: "CHATROOM",
+			id: chatroomId,
+		},
+	});
+};
+
 export const getLikeMember = () => {
 	return api.get("/members/likes");
 };

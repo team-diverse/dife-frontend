@@ -3,7 +3,12 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useNavigation } from "@react-navigation/native";
 
-import { createLikeMember, deleteLikeMember } from "config/api";
+import {
+	createLikeMember,
+	deleteLikeMember,
+	createLikeChatroom,
+	deleteLikeChatroom,
+} from "config/api";
 
 import IconHeart24 from "@components/Icon24/IconHeart24";
 import ConnectPlusIcon from "@components/connect/ConnectPlusIcon";
@@ -29,6 +34,7 @@ const ConnectCard = ({
 }) => {
 	const navigation = useNavigation();
 	const [heart, setHeart] = useState(isLiked);
+	const [groupHeart, setGroupHeart] = useState(isLiked);
 
 	const handleCreateHeart = async () => {
 		try {
@@ -49,6 +55,30 @@ const ConnectCard = ({
 		} catch (error) {
 			console.error(
 				"멤버 좋아요 취소 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleGroupCreateHeart = async () => {
+		try {
+			await createLikeChatroom(id);
+			setGroupHeart(true);
+		} catch (error) {
+			console.error(
+				"그룹 좋아요 생성 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleGroupDeleteHeart = async () => {
+		try {
+			await deleteLikeChatroom(id);
+			setGroupHeart(false);
+		} catch (error) {
+			console.error(
+				"그룹 좋아요 취소 실패:",
 				error.response ? error.response.data : error.message,
 			);
 		}
@@ -87,11 +117,15 @@ const ConnectCard = ({
 							</Text>
 							<View style={styles.iconContainer}>
 								<IconHeart24
-									active={heart}
+									active={count ? groupHeart : heart}
 									onPress={
-										heart
-											? handleDeleteHeart
-											: handleCreateHeart
+										count
+											? groupHeart
+												? handleGroupDeleteHeart
+												: handleGroupCreateHeart
+											: heart
+												? handleDeleteHeart
+												: handleCreateHeart
 									}
 								/>
 								<TouchableOpacity onPress={handleNavigation}>
