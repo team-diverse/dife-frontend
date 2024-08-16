@@ -22,7 +22,9 @@ const ConnectCard = ({
 	major = "major",
 	bio = "bio",
 	tags = ["tag"],
-	headcount,
+	groupName,
+	description,
+	count,
 	fail = false,
 }) => {
 	const navigation = useNavigation();
@@ -53,8 +55,8 @@ const ConnectCard = ({
 	};
 
 	const handleNavigation = () => {
-		if (headcount) {
-			navigation.navigate("GroupProfilePage");
+		if (count) {
+			navigation.navigate("GroupProfilePage", { groupId: id });
 		} else {
 			navigation.navigate("ConnectProfilePage", { memberId: id });
 		}
@@ -80,7 +82,9 @@ const ConnectCard = ({
 
 					<View style={styles.cardContainer}>
 						<View style={styles.containerNameIcon}>
-							<Text style={styles.textName}>{username}</Text>
+							<Text style={styles.textName}>
+								{groupName ? groupName : username}
+							</Text>
 							<View style={styles.iconContainer}>
 								<IconHeart24
 									active={heart}
@@ -97,12 +101,12 @@ const ConnectCard = ({
 								</TouchableOpacity>
 							</View>
 						</View>
-						{headcount && (
+						{count ? (
 							<View style={styles.containerHeadcount}>
 								<IconGroupHeadcount />
 								<View style={styles.containerTextHeadcount}>
 									<Text style={styles.textHeadcount}>
-										{headcount}
+										{count}
 									</Text>
 									<Text style={styles.textMaxHeadcount}>
 										{" "}
@@ -110,11 +114,15 @@ const ConnectCard = ({
 									</Text>
 								</View>
 							</View>
+						) : (
+							<Text style={styles.textBasicInfo}>
+								{country} | {major}
+							</Text>
 						)}
-						<Text style={styles.textBasicInfo}>
-							{country} | {major}
+
+						<Text style={styles.textIntroduction}>
+							{description ? description : bio}
 						</Text>
-						<Text style={styles.textIntroduction}>{bio}</Text>
 						<View style={styles.tagContainer}>
 							<Tag tag={tags} />
 						</View>

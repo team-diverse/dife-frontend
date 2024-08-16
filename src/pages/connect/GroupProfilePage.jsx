@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	SafeAreaView,
 	ScrollView,
@@ -8,6 +8,7 @@ import {
 } from "react-native";
 
 import GroupProfileStyles from "@pages/connect/GroupProfileStyles";
+import { getGroupByGroupId } from "config/api";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
 import IconHeart24 from "@components/Icon24/IconHeart24";
@@ -21,16 +22,10 @@ import IconGroupHeadcount from "@components/connect/IconGroupHeadcount";
 import ApplyButton from "@components/common/ApplyButton";
 import ModalGroupJoin from "@components/connect/ModalGroupJoin";
 
-const GroupProfilePage = () => {
+const GroupProfilePage = ({ route }) => {
 	const profileData = {
-		id: "1",
-		profile: require("@assets/images/test_img/test_connectProfile.jpeg"),
-		name: "From Italy💞💞",
-		headcount: 23,
-		introduction:
-			"이탈리아와 한국인의 만남!! 😀 같이 언어공부 해요, 언제든지 환영입니다. 기본적으로 영어로 대화합니다.",
 		tags: ["여행", "사진", "스포츠", "요리", "ENTP"],
-		language: ["English / English", "한국어 / Korean"],
+		languages: ["English / English", "한국어 / Korean"],
 	};
 
 	const [modalReportVisible, setModalReportVisible] = useState(false);
@@ -50,6 +45,27 @@ const GroupProfilePage = () => {
 		setModalGroupJoinVisible(true);
 	};
 
+	const { groupId } = route.params;
+
+	const [groupProfileData, setGroupProfileData] = useState([]);
+
+	const getDetailProfile = async () => {
+		try {
+			const response = await getGroupByGroupId(groupId);
+			console.log(response.data);
+			setGroupProfileData(response.data);
+		} catch (error) {
+			console.error(
+				"그룹 상세 페이지 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useEffect(() => {
+		getDetailProfile();
+	}, []);
+
 	return (
 		<SafeAreaView
 			style={[GroupProfileStyles.container, { alignItems: "center" }]}
@@ -66,15 +82,17 @@ const GroupProfilePage = () => {
 					<ConnectProfileBackground />
 				</View>
 				<View style={GroupProfileStyles.simpleProfileContainer}>
-					<ConnectProfile profile={profileData.profile} />
+					<ConnectProfile
+						profile={groupProfileData.profilePresignUrl}
+					/>
 					<Text style={GroupProfileStyles.name}>
-						{profileData.name}
+						{groupProfileData.name}
 					</Text>
 					<View style={GroupProfileStyles.containerHeadcount}>
 						<IconGroupHeadcount />
 						<View style={GroupProfileStyles.containerTextHeadcount}>
 							<Text style={GroupProfileStyles.textHeadcount}>
-								{profileData.headcount}
+								{groupProfileData.count}
 							</Text>
 							<Text style={GroupProfileStyles.textMaxHeadcount}>
 								{" "}
@@ -87,7 +105,7 @@ const GroupProfilePage = () => {
 					<Text style={GroupProfileStyles.fontSub16}>한줄소개</Text>
 					<View>
 						<ConnectProfileIntroduction
-							introduction={profileData.introduction}
+							introduction={groupProfileData.description}
 						/>
 					</View>
 					<Text style={GroupProfileStyles.fontSub16}>태그</Text>
@@ -95,7 +113,7 @@ const GroupProfilePage = () => {
 						<ConnectProfileTag tag={profileData.tags} />
 					</View>
 					<Text style={GroupProfileStyles.fontSub16}>언어</Text>
-					<ConnectProfileLanguage languages={profileData.language} />
+					<ConnectProfileLanguage languages={profileData.languages} />
 					<View style={GroupProfileStyles.languageLine} />
 				</View>
 				<View

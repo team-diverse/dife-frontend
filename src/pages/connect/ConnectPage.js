@@ -11,7 +11,11 @@ import {
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
-import { getRandomMembersByCount, getConnectSearch } from "config/api";
+import {
+	getRandomMembersByCount,
+	getConnectSearch,
+	getGroups,
+} from "config/api";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -64,10 +68,11 @@ const ConnectPage = ({ route }) => {
 
 	useFocusEffect(
 		useCallback(() => {
-			cardProfiles();
-		}, []),
+			if (!isGroupTab) {
+				cardProfiles();
+			}
+		}, [isGroupTab]),
 	);
-
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
@@ -135,22 +140,32 @@ const ConnectPage = ({ route }) => {
 	const [modalGroupVisible, setModalGroupVisible] = useState(false);
 
 	useEffect(() => {
-		console.log(modalGroup);
-		setModalGroupVisible(true);
+		if (modalGroup) {
+			setModalGroupVisible(true);
+		}
 	}, [modalGroup]);
 
-	const grouplist = [
-		{
-			profilePresignUrl: null,
-			username: "username",
-			country: "country",
-			age: "age",
-			major: "major",
-			bio: "bio",
-			tags: ["hi"],
-			headcount: 12,
-		},
-	];
+	const [grouplist, setGroupList] = useState();
+
+	const getGroupList = async () => {
+		try {
+			const response = await getGroups();
+			setGroupList(response.data);
+		} catch (error) {
+			console.error(
+				"전체 그룹 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			if (isGroupTab) {
+				getGroupList();
+			}
+		}, [isGroupTab]),
+	);
 
 	return (
 		<View style={ConnectStyles.container}>
@@ -269,7 +284,11 @@ const ConnectPage = ({ route }) => {
 								}
 								data={grouplist}
 								renderItem={({ item }) => (
-									<ConnectCard {...item} tags={item.tags} />
+									<ConnectCard
+										{...item}
+										groupName={item.name}
+										tags={item.tags}
+									/>
 								)}
 								keyExtractor={(item) => item.id}
 							/>

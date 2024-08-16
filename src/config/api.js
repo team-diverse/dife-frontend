@@ -58,6 +58,18 @@ export const createGroupChatroom = (profileImg, name, description) => {
 	return api.post("/chatrooms", formData, { headers });
 };
 
+export const getGroups = () => {
+	return api.get("/chatrooms", {
+		params: {
+			chatroomType: "GROUP",
+		},
+	});
+};
+
+export const getGroupByGroupId = (groupId) => {
+	return api.get(`/chatrooms/${groupId}`);
+};
+
 export const signUp = (email, password) => {
 	return api.post("/members/register", {
 		email,
