@@ -52,7 +52,6 @@ const GroupProfilePage = ({ route }) => {
 	const getDetailProfile = async () => {
 		try {
 			const response = await getGroupByGroupId(groupId);
-			console.log(response.data);
 			setGroupProfileData(response.data);
 		} catch (error) {
 			console.error(
