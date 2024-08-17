@@ -29,7 +29,12 @@ const LikeUserGroup = () => {
 						data={connectData}
 						renderItem={({ item }) => (
 							<View style={ConnectStyles.cardContainer}>
-								<ConnectCard {...item} tag={item.tags} />
+								<ConnectCard
+									{...item}
+									isLiked={true}
+									groupName={item.name}
+									tag={item.tags}
+								/>
 							</View>
 						)}
 						keyExtractor={(item) => item.id}

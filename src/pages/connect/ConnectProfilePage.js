@@ -12,6 +12,8 @@ import {
 	getConnectById,
 	requestConnectById,
 	deleteConnectById,
+	createLikeMember,
+	deleteLikeMember,
 } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
 import { getMyMemberId } from "util/secureStoreUtils";
@@ -34,12 +36,16 @@ const ConnectProfilePage = ({ route }) => {
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
 	const [requestSent, setRequestSent] = useState(false);
+	const [modalReportVisible, setModalReportVisible] = useState(false);
+	const [modalConnectVisible, setModalConnectVisible] = useState(false);
+	const [heart, setHeart] = useState(false);
 
 	const getConnectProfile = async () => {
 		try {
 			const response = await getProfileById(memberId);
 			const updatedData = formatProfileData([response.data]);
 			setProfileData(updatedData[0]);
+			setHeart(response.data.isLiked);
 		} catch (error) {
 			console.error(
 				"디테일 프로필 조회 오류:",
@@ -71,9 +77,6 @@ const ConnectProfilePage = ({ route }) => {
 	useEffect(() => {
 		getConnectStatus();
 	}, [connectStatus]);
-
-	const [modalReportVisible, setModalReportVisible] = useState(false);
-	const [modalConnectVisible, setModalConnectVisible] = useState(false);
 
 	const handleReport = () => {
 		setModalReportVisible(true);
@@ -116,10 +119,28 @@ const ConnectProfilePage = ({ route }) => {
 		null;
 	};
 
-	const [heart, setHeart] = useState(false);
+	const handleCreateHeart = async () => {
+		try {
+			await createLikeMember(memberId);
+			setHeart(true);
+		} catch (error) {
+			console.error(
+				"멤버 좋아요 생성 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
 
-	const handlehandleHeartPress = () => {
-		setHeart(!heart);
+	const handleDeleteHeart = async () => {
+		try {
+			await deleteLikeMember(memberId);
+			setHeart(false);
+		} catch (error) {
+			console.error(
+				"멤버 좋아요 취소 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
 
 	return (
@@ -128,7 +149,10 @@ const ConnectProfilePage = ({ route }) => {
 		>
 			<View style={ConnectProfileStyles.topBar}>
 				<ConnectProfileTopBar topBar="프로필" />
-				<IconHeart24 active={heart} onPress={handlehandleHeartPress} />
+				<IconHeart24
+					active={heart}
+					onPress={heart ? handleDeleteHeart : handleCreateHeart}
+				/>
 			</View>
 			<View style={ConnectProfileStyles.scrollView}>
 				<ScrollView contentContainerStyle={{ alignItems: "center" }}>
