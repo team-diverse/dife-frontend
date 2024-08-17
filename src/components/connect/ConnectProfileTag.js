@@ -14,11 +14,25 @@ const ConnectProfileTag = ({ tag = ["tag"] }) => {
 		<>
 			{groupedTags.map((groupItem, groupIndex) => (
 				<View key={groupIndex} style={styles.container}>
-					{groupItem.map((item, index) => (
-						<View key={index} style={styles.rectangle}>
-							<Text style={styles.text}>{item}</Text>
-						</View>
-					))}
+					{groupItem.map(
+						(item, index) =>
+							item && (
+								<View
+									key={index}
+									style={[
+										styles.rectangle,
+										{
+											width:
+												item.length >= 6
+													? item.length * 10 + 30
+													: 80,
+										},
+									]}
+								>
+									<Text style={styles.text}>{item}</Text>
+								</View>
+							),
+					)}
 				</View>
 			))}
 		</>

@@ -14,6 +14,7 @@ import ModifyProfileStyles from "@pages/member/ModifyProfileStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useOnboarding } from "src/states/OnboardingContext.js";
 import { getMyProfile, updateMyProfile } from "config/api";
+import { formatProfileData } from "util/formatProfileData";
 
 import TopBar from "@components/common/TopBar";
 import ModifyKBackground from "@components/member/ModifyKBackground";
@@ -29,20 +30,6 @@ const ModifyProfilePage = () => {
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
 
 	const { onboardingData } = useOnboarding();
-
-	const formatProfileData = (data) => {
-		function cleanHobbies(hobbies) {
-			return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
-		}
-		return data.map((item) => {
-			if (item.mbti !== null) {
-				const cleanedHobbies = cleanHobbies(item.hobbies);
-				const tags = [item.mbti, ...cleanedHobbies];
-				return { ...item, tags };
-			}
-			return item;
-		});
-	};
 
 	const getMyProfileInfo = async () => {
 		try {

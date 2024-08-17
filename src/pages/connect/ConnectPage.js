@@ -11,7 +11,12 @@ import {
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
-import { getRandomMembersByCount, getConnectSearch } from "config/api";
+import {
+	getRandomMembersByCount,
+	getConnectSearch,
+	getGroups,
+} from "config/api";
+import { formatProfileData } from "util/formatProfileData";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -31,20 +36,6 @@ const ConnectPage = () => {
 
 	const [profileDataList, setProfileDataList] = useState([]);
 	const RANDOM_MEMBER_COUNT = 10;
-
-	const formatProfileData = (data) => {
-		function cleanHobbies(hobbies) {
-			return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
-		}
-		return data.map((item) => {
-			if (item.mbti !== null) {
-				const cleanedHobbies = cleanHobbies(item.hobbies);
-				const tags = [item.mbti, ...cleanedHobbies];
-				return { ...item, tags };
-			}
-			return item;
-		});
-	};
 
 	const cardProfiles = async () => {
 		try {

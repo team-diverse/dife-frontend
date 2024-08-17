@@ -13,6 +13,7 @@ import {
 	requestConnectById,
 	deleteConnectById,
 } from "config/api";
+import { formatProfileData } from "util/formatProfileData";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
 import IconHeart24 from "@components/Icon24/IconHeart24";
@@ -31,20 +32,6 @@ const ConnectProfilePage = ({ route }) => {
 	const [profileData, setProfileData] = useState([]);
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
-
-	const formatProfileData = (data) => {
-		function cleanHobbies(hobbies) {
-			return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
-		}
-		return data.map((item) => {
-			if (item.mbti !== null) {
-				const cleanedHobbies = cleanHobbies(item.hobbies);
-				const tags = [item.mbti, ...cleanedHobbies];
-				return { ...item, tags };
-			}
-			return item;
-		});
-	};
 
 	const getConnectProfile = async () => {
 		try {
@@ -203,7 +190,7 @@ const ConnectProfilePage = ({ route }) => {
 							connectStatus === undefined
 								? "커넥트 요청"
 								: connectStatus === "PENDING"
-									? "요청 취소"
+									? "요청 수락"
 									: "커넥트 취소"
 						}
 						onPress={handleConnect}
