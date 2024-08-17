@@ -245,7 +245,13 @@ const ModifyProfileInputPage = ({ route }) => {
 									]}
 									onChangeText={handleNicknameChange}
 									value={nicknameInput}
+									maxLength={12}
 								/>
+								<Text
+									style={ModifyProfileInputStyles.textCount}
+								>
+									{nicknameInput.length} / 12
+								</Text>
 							</>
 						)}
 
