@@ -122,20 +122,38 @@ const ConnectPage = () => {
 		setSearchFail(response);
 	};
 
-	const [modalGroupVisible, setModalGroupVisible] = useState(false);
+	const { groupId, modalGroup } = route.params || {};
+	const [modalGroupVisible, setModalGroupVisible] = useState();
 
-	const grouplist = [
-		{
-			profilePresignUrl: null,
-			username: "username",
-			country: "country",
-			age: "age",
-			major: "major",
-			bio: "bio",
-			tags: ["hi"],
-			headcount: 12,
-		},
-	];
+	useEffect(() => {
+		if (modalGroup) {
+			setModalGroupVisible(true);
+		} else {
+			setModalGroupVisible(false);
+		}
+	}, [groupId]);
+
+	const [grouplist, setGroupList] = useState();
+
+	const getGroupList = async () => {
+		try {
+			const response = await getGroups();
+			setGroupList(response.data);
+		} catch (error) {
+			console.error(
+				"전체 그룹 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			if (isGroupTab) {
+				getGroupList();
+			}
+		}, [isGroupTab]),
+	);
 
 	return (
 		<View style={ConnectStyles.container}>
