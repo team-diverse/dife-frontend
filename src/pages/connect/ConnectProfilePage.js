@@ -14,6 +14,7 @@ import {
 	deleteConnectById,
 } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
+import { getMyMemberId } from "util/secureStoreUtils";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
 import IconHeart24 from "@components/Icon24/IconHeart24";
@@ -32,6 +33,7 @@ const ConnectProfilePage = ({ route }) => {
 	const [profileData, setProfileData] = useState([]);
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
+	const [requestSent, setRequestSent] = useState(false);
 
 	const getConnectProfile = async () => {
 		try {
@@ -51,6 +53,9 @@ const ConnectProfilePage = ({ route }) => {
 			const response = await getConnectById(memberId);
 			setConnectStatus(response.data.status);
 			setConnectId(response.data.id);
+
+			const myMebmberId = await getMyMemberId();
+			setRequestSent(response.data.from_member.id == myMebmberId);
 		} catch (error) {
 			console.error(
 				"커넥트 상태 조회 오류:",
@@ -190,7 +195,9 @@ const ConnectProfilePage = ({ route }) => {
 							connectStatus === undefined
 								? "커넥트 요청"
 								: connectStatus === "PENDING"
-									? "요청 수락"
+									? requestSent
+										? "요청 취소"
+										: "요청 수락"
 									: "커넥트 취소"
 						}
 						onPress={handleConnect}
