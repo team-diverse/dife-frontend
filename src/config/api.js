@@ -237,7 +237,11 @@ export const createReplyComment = (
 };
 
 export const getCommentByPostId = (postId) => {
-	return api.get(`/comments/${postId}`);
+	return api.get(`/posts/${postId}/comments`);
+};
+
+export const deleteCommentByCommentId = (commentId) => {
+	return api.delete(`/comments/${commentId}`);
 };
 
 export const createLikePost = (postId) => {

@@ -66,15 +66,6 @@ const PostPage = ({ route }) => {
 	const [isChecked, setIsChecked] = useState(false);
 	const [isReplying, setIsReplying] = useState(false);
 	const [parentCommentId, setParentCommentId] = useState(null);
-	const [myMemberId, setMyMemberId] = useState(null);
-
-	useEffect(() => {
-		const getMyId = async () => {
-			const id = await getMyMemberId();
-			setMyMemberId(id);
-		};
-		getMyId();
-	}, []);
 
 	const commentRef = useRef(null);
 
@@ -107,6 +98,8 @@ const PostPage = ({ route }) => {
 		useCallback(() => {
 			const postComment = async () => {
 				try {
+					const myMemberId = await getMyMemberId();
+
 					const postByIdResponse = await getPostById(postId);
 					setTitle(postByIdResponse.data.title);
 					setContext(postByIdResponse.data.content);
@@ -162,7 +155,7 @@ const PostPage = ({ route }) => {
 			};
 
 			postComment();
-		}, [pressHeart, pressBookmark]),
+		}, [pressHeart, pressBookmark, comments]),
 	);
 
 	const [scrollY, setScrollY] = useState(0);
