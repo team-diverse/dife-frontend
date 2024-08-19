@@ -207,6 +207,14 @@ function AppContent() {
 		checkAccess();
 	}, []);
 
+	Notifications.setNotificationHandler({
+		handleNotification: async () => ({
+			shouldShowAlert: true,
+			shouldPlaySound: false,
+			shouldSetBadge: false,
+		}),
+	});
+
 	const [loaded] = useFonts({
 		"NotoSansCJKkr-Bold": require("@assets/fonts/NotoSansCJKkr-Bold.otf"),
 		"NotoSansCJKkr-Medium": require("@assets/fonts/NotoSansCJKkr-Medium.otf"),
