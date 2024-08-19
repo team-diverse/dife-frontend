@@ -78,6 +78,7 @@ import TremsPage from "@pages/member/TremsPage";
 import CountrySelectionPage from "@pages/onboarding/CountrySelectionPage";
 import ConnectListPage from "@pages/member/ConnectListPage";
 import DefaultLanguagePage from "@pages/member/DefaultLanguagePage";
+import { CreateGroupProvider } from "states/CreateGroupDataContext";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -148,13 +149,9 @@ function MainTabs() {
 function App() {
 	return (
 		<AuthProvider>
-			<OnboardingProvider>
-				<PostModifyProvider>
-					<NavigationContainer>
-						<AppContent />
-					</NavigationContainer>
-				</PostModifyProvider>
-			</OnboardingProvider>
+			<NavigationContainer>
+				<AppContent />
+			</NavigationContainer>
 		</AuthProvider>
 	);
 }
@@ -222,10 +219,16 @@ function AppContent() {
 
 	return isLoggedIn ? (
 		<WebSocketProvider>
-			<MainNavigator />
+			<CreateGroupProvider>
+				<PostModifyProvider>
+					<MainNavigator />
+				</PostModifyProvider>
+			</CreateGroupProvider>
 		</WebSocketProvider>
 	) : (
-		<AuthNavigator initialRoute={initialRoute} />
+		<OnboardingProvider>
+			<AuthNavigator initialRoute={initialRoute} />
+		</OnboardingProvider>
 	);
 }
 

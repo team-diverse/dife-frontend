@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -11,7 +11,11 @@ import {
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
-import { getRandomMembersByCount, getConnectSearch } from "config/api";
+import {
+	getRandomMembersByCount,
+	getConnectSearch,
+	getGroups,
+} from "config/api";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -26,7 +30,7 @@ import GroupFilterBottomSlide from "@components/connect/GroupFilterBottomSlide";
 import IconNewGroup from "@components/connect/IconNewGroup";
 import ModalGroupCreationComplete from "@components/connect/ModalGroupCreationComplete";
 
-const ConnectPage = () => {
+const ConnectPage = ({ route }) => {
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
@@ -64,10 +68,11 @@ const ConnectPage = () => {
 
 	useFocusEffect(
 		useCallback(() => {
-			cardProfiles();
-		}, []),
+			if (!isGroupTab) {
+				cardProfiles();
+			}
+		}, [isGroupTab]),
 	);
-
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
@@ -131,20 +136,36 @@ const ConnectPage = () => {
 		setSearchFail(response);
 	};
 
+	const { groupId, modalGroup } = route.params || {};
 	const [modalGroupVisible, setModalGroupVisible] = useState(false);
 
-	const grouplist = [
-		{
-			profilePresignUrl: null,
-			username: "username",
-			country: "country",
-			age: "age",
-			major: "major",
-			bio: "bio",
-			tags: ["hi"],
-			headcount: 12,
-		},
-	];
+	useEffect(() => {
+		if (modalGroup) {
+			setModalGroupVisible(true);
+		}
+	}, [modalGroup]);
+
+	const [grouplist, setGroupList] = useState();
+
+	const getGroupList = async () => {
+		try {
+			const response = await getGroups();
+			setGroupList(response.data);
+		} catch (error) {
+			console.error(
+				"전체 그룹 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			if (isGroupTab) {
+				getGroupList();
+			}
+		}, [isGroupTab]),
+	);
 
 	return (
 		<View style={ConnectStyles.container}>
@@ -263,17 +284,20 @@ const ConnectPage = () => {
 								}
 								data={grouplist}
 								renderItem={({ item }) => (
-									<ConnectCard {...item} tags={item.tags} />
+									<ConnectCard
+										{...item}
+										groupName={item.name}
+										tags={item.tags}
+									/>
 								)}
 								keyExtractor={(item) => item.id}
 							/>
 						</View>
-						{modalGroupVisible && (
-							<ModalGroupCreationComplete
-								modalVisible={modalGroupVisible}
-								setModalVisible={setModalGroupVisible}
-							/>
-						)}
+						<ModalGroupCreationComplete
+							groupId={groupId}
+							modalVisible={modalGroupVisible}
+							setModalVisible={setModalGroupVisible}
+						/>
 					</View>
 				) : (
 					<View style={ConnectStyles.cardContainer}>

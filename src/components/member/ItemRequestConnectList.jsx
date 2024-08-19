@@ -10,57 +10,33 @@ import IconChatProfile from "@components/chat/IconChatProfile";
 import IconSend from "@components/common/IconSend";
 import IconMenu from "@components/chat/IconMenu";
 
-const ItemRequestConnectList = ({ memberId, name, imageName, status }) => {
+const ItemRequestConnectList = ({
+	memberId,
+	name,
+	imageName,
+	received = false,
+}) => {
 	const navigation = useNavigation();
 
 	return (
-		<>
-			{status === "PENDING" ? (
-				<View style={styles.rectangle}>
-					<View style={styles.containerContext}>
-						<TouchableOpacity
-							style={styles.iconTextContainer}
-							onPress={() =>
-								navigation.navigate("ConnectProfilePage", {
-									memberId: memberId,
-								})
-							}
-						>
-							<View style={styles.icon}>
-								<IconChatProfile imageName={imageName} />
-							</View>
-							<Text style={styles.textName}>{name}</Text>
-						</TouchableOpacity>
-						<View style={styles.containerIcon}>
-							<Text style={styles.textPending}>수락 대기중</Text>
-							<TouchableOpacity>
-								<View style={styles.rectangleChat}>
-									<IconSend />
-								</View>
-							</TouchableOpacity>
-							<View style={styles.iconMenu}>
-								<IconMenu />
-							</View>
-						</View>
+		<View style={styles.rectangle}>
+			<View style={styles.containerContext}>
+				<TouchableOpacity
+					style={styles.iconTextContainer}
+					onPress={() =>
+						navigation.navigate("ConnectProfilePage", {
+							memberId: memberId,
+						})
+					}
+				>
+					<View style={styles.icon}>
+						<IconChatProfile imageName={imageName} />
 					</View>
-				</View>
-			) : (
-				<View style={styles.rectangle}>
-					<View style={styles.containerContext}>
-						<TouchableOpacity
-							style={styles.iconTextContainer}
-							onPress={() =>
-								navigation.navigate("ConnectProfilePage", {
-									memberId: memberId,
-								})
-							}
-						>
-							<View style={styles.icon}>
-								<IconChatProfile imageName={imageName} />
-							</View>
-							<Text style={styles.textName}>{name}</Text>
-						</TouchableOpacity>
-						<View style={styles.containerIcon}>
+					<Text style={styles.textName}>{name}</Text>
+				</TouchableOpacity>
+				<View style={styles.containerIcon}>
+					{received ? (
+						<>
 							<View
 								style={[
 									styles.buttonAcceptRefuse,
@@ -94,11 +70,23 @@ const ItemRequestConnectList = ({ memberId, name, imageName, status }) => {
 							<View style={styles.iconMenu}>
 								<IconMenu />
 							</View>
-						</View>
-					</View>
+						</>
+					) : (
+						<>
+							<Text style={styles.textPending}>수락 대기중</Text>
+							<TouchableOpacity>
+								<View style={styles.rectangleChat}>
+									<IconSend />
+								</View>
+							</TouchableOpacity>
+							<View style={styles.iconMenu}>
+								<IconMenu />
+							</View>
+						</>
+					)}
 				</View>
-			)}
-		</>
+			</View>
+		</View>
 	);
 };
 
