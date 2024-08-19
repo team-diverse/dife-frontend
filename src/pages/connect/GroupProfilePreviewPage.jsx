@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView, ScrollView, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -15,6 +15,7 @@ import ConnectProfileIntroduction from "@components/connect/ConnectProfileIntrod
 import ConnectProfileTag from "@components/connect/ConnectProfileTag";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
+import Loading from "@components/common/loading/Loading";
 
 const GroupProfilePreviewPage = () => {
 	const navigation = useNavigation();
@@ -68,9 +69,9 @@ const GroupProfilePreviewPage = () => {
 					</View>
 				</View>
 				<View style={GroupProfilePreviewStyles.simpleProfileContainer}>
-					<ConnectProfile profile={profileData.profile} />
+					<ConnectProfile profile={groupProfile.profileImg} />
 					<Text style={GroupProfilePreviewStyles.name}>
-						{profileData.name}
+						{groupProfile.name}
 					</Text>
 					<View style={GroupProfilePreviewStyles.containerHeadcount}>
 						<IconGroupHeadcount />
@@ -82,7 +83,8 @@ const GroupProfilePreviewPage = () => {
 							<Text
 								style={GroupProfilePreviewStyles.textHeadcount}
 							>
-								{profileData.headcount}명 제한
+								{groupProfile.limitMembersNumber[0]}~
+								{groupProfile.limitMembersNumber[1]}명 제한
 							</Text>
 						</View>
 					</View>
@@ -93,19 +95,21 @@ const GroupProfilePreviewPage = () => {
 					</Text>
 					<View>
 						<ConnectProfileIntroduction
-							introduction={profileData.introduction}
+							introduction={groupProfile.description}
 						/>
 					</View>
 					<Text style={GroupProfilePreviewStyles.fontSub16}>
 						태그
 					</Text>
 					<View style={{ marginBottom: 8 }}>
-						<ConnectProfileTag tag={profileData.tags} />
+						<ConnectProfileTag tag={groupProfile.tags} />
 					</View>
 					<Text style={GroupProfilePreviewStyles.fontSub16}>
 						언어
 					</Text>
-					<ConnectProfileLanguage languages={profileData.language} />
+					<ConnectProfileLanguage
+						languages={groupProfile.languages}
+					/>
 					<View style={GroupProfilePreviewStyles.languageLine} />
 				</View>
 			</ScrollView>
@@ -113,14 +117,7 @@ const GroupProfilePreviewPage = () => {
 			<View style={GroupProfilePreviewStyles.bottomTwoButtons}>
 				<BottomTwoButtons shadow="true">
 					<View text="뒤로가기" onPress={() => navigation.goBack()} />
-					<View
-						text="그룹 생성하기"
-						onPress={() =>
-							navigation.navigate("ConnectPage", {
-								modalGroupVisible: true,
-							})
-						}
-					/>
+					<View text="그룹 생성하기" onPress={handleCreateGroup} />
 				</BottomTwoButtons>
 			</View>
 		</SafeAreaView>

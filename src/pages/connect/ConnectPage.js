@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -31,7 +31,7 @@ import GroupFilterBottomSlide from "@components/connect/GroupFilterBottomSlide";
 import IconNewGroup from "@components/connect/IconNewGroup";
 import ModalGroupCreationComplete from "@components/connect/ModalGroupCreationComplete";
 
-const ConnectPage = () => {
+const ConnectPage = ({ route }) => {
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
@@ -55,10 +55,11 @@ const ConnectPage = () => {
 
 	useFocusEffect(
 		useCallback(() => {
-			cardProfiles();
-		}, []),
+			if (!isGroupTab) {
+				cardProfiles();
+			}
+		}, [isGroupTab]),
 	);
-
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
@@ -272,17 +273,20 @@ const ConnectPage = () => {
 								}
 								data={grouplist}
 								renderItem={({ item }) => (
-									<ConnectCard {...item} tags={item.tags} />
+									<ConnectCard
+										{...item}
+										groupName={item.name}
+										tags={item.tags}
+									/>
 								)}
 								keyExtractor={(item) => item.id}
 							/>
 						</View>
-						{modalGroupVisible && (
-							<ModalGroupCreationComplete
-								modalVisible={modalGroupVisible}
-								setModalVisible={setModalGroupVisible}
-							/>
-						)}
+						<ModalGroupCreationComplete
+							groupId={groupId}
+							modalVisible={modalGroupVisible}
+							setModalVisible={setModalGroupVisible}
+						/>
 					</View>
 				) : (
 					<View style={ConnectStyles.cardContainer}>

@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
 		marginBottom: 8,
 	},
 	rectangle: {
-		width: 80,
 		height: 32,
 		backgroundColor: CustomTheme.bgBasic,
 		borderWidth: 1,

@@ -111,7 +111,12 @@ const LoginPage = () => {
 						"403:",
 						error.response ? error.response.data : error.message,
 					);
-					navigation.navigate("LoadingVerification");
+					if (error.response.data.message === "탈퇴한 회원입니다!") {
+						setLoginFailed(true);
+					} else {
+						navigation.navigate("LoadingVerification");
+					}
+
 					break;
 				default:
 					console.error(

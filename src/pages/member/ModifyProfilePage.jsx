@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import {
 	SafeAreaView,
 	View,
@@ -12,9 +12,8 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import ModifyProfileStyles from "@pages/member/ModifyProfileStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { useOnboarding } from "src/states/OnboardingContext.js";
-import { getMyProfile, updateMyProfile } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
+import { getMyMemberId, getMyProfile, updateMyProfile } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ModifyKBackground from "@components/member/ModifyKBackground";
@@ -28,8 +27,15 @@ const ModifyProfilePage = () => {
 	const [profile, setProfile] = useState();
 	const [, setProfileImage] = useState(null);
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
+	const [myMemberId, setMyMemberId] = useState(null);
 
-	const { onboardingData } = useOnboarding();
+	useEffect(() => {
+		const getMyId = async () => {
+			const memberId = await getMyMemberId();
+			setMyMemberId(memberId);
+		};
+		getMyId();
+	}, []);
 
 	const getMyProfileInfo = async () => {
 		try {
@@ -78,7 +84,7 @@ const ModifyProfilePage = () => {
 			const file = {
 				uri: imageUri,
 				type: "image/jpeg",
-				name: `${onboardingData.id}_profile.jpg`,
+				name: `${myMemberId}_profile.jpg`,
 			};
 			formData.append("profileImg", file);
 

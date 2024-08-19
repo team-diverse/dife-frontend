@@ -15,6 +15,7 @@ import IconSettingSeviceNews from "@components/member/IconSettingSeviceNews";
 import IconSettingTrems from "@components/member/IconSettingTrems";
 import IconSwitchOn from "@components/member/IconSwitchOn";
 import IconSwitchOff from "@components/member/IconSwitchOff";
+import IconSettingLanguage from "@components/member/IconSettingLanguage";
 
 const SettingPage = () => {
 	const navigation = useNavigation();
@@ -74,6 +75,23 @@ const SettingPage = () => {
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingBlocks />
 						<Text style={SettingStyles.textContent}>차단 관리</Text>
+					</View>
+					<ArrowRight
+						color="#B0D0FF"
+						size={24}
+						style={{ transform: [{ scaleX: -1 }] }}
+					/>
+				</TouchableOpacity>
+				<View style={SettingStyles.line} />
+				<TouchableOpacity
+					style={SettingStyles.containerContent}
+					onPress={() => navigation.navigate("DefaultLanguagePage")}
+				>
+					<View style={SettingStyles.containerIconText}>
+						<IconSettingLanguage />
+						<Text style={SettingStyles.textContent}>
+							기본 언어 설정
+						</Text>
 					</View>
 					<ArrowRight
 						color="#B0D0FF"
