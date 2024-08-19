@@ -70,6 +70,7 @@ const GroupCreatedDetailPage = () => {
 		"日本語 / Japanese",
 		"Español / Spanish",
 		"한국어 / Korean",
+		"기타",
 	];
 
 	const categories = ["소통/친구 사귀기", "언어교환", "자유"];
