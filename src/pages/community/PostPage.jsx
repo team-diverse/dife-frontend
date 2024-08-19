@@ -14,7 +14,7 @@ import {
 	FlatList,
 	Image,
 } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import PostStyles from "@pages/community/PostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -46,6 +46,8 @@ import ItemComment from "@components/community/ItemComment";
 import ModalKebabMenu from "@components/community/ModalKebabMenu";
 
 const PostPage = ({ route }) => {
+	const navigation = useNavigation();
+
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const { postId } = route.params;
@@ -86,7 +88,8 @@ const PostPage = ({ route }) => {
 		setIsChecked(!isChecked);
 	};
 
-	const difeLinesCount = Math.floor(comments.length / 1.5);
+	const difeLinesCount =
+		comments.length === 0 ? 1 : Math.floor(comments.length / 1.5);
 
 	const date = (date) => {
 		const datePart = date.split("T")[0];
@@ -414,25 +417,49 @@ const PostPage = ({ route }) => {
 					{images && (
 						<View style={PostStyles.containerImage}>
 							{images.length === 1 ? (
-								<Image
-									source={{ uri: images[0] }}
-									style={[
-										PostStyles.singleImage,
-										{
-											width: imageSize.width - 48,
-											height: imageSize.height,
-										},
-									]}
-									resizeMode="cover"
-								/>
+								<TouchableOpacity
+									onPress={() =>
+										navigation.navigate(
+											"EnlargeImagePage",
+											{
+												images: images,
+											},
+										)
+									}
+								>
+									<Image
+										source={{ uri: images[0] }}
+										style={[
+											PostStyles.singleImage,
+											{
+												width: imageSize.width - 48,
+												height: imageSize.height,
+											},
+										]}
+										resizeMode="cover"
+									/>
+								</TouchableOpacity>
 							) : (
 								<FlatList
 									data={images}
-									renderItem={({ item }) => (
-										<Image
-											source={{ uri: item }}
-											style={PostStyles.images}
-										/>
+									renderItem={({ item, index }) => (
+										<TouchableOpacity
+											onPress={() =>
+												navigation.navigate(
+													"EnlargeImagePage",
+													{
+														images: images,
+														initialIndex: index,
+													},
+												)
+											}
+										>
+											<Image
+												source={{ uri: item }}
+												style={PostStyles.images}
+												resizeMode="cover"
+											/>
+										</TouchableOpacity>
 									)}
 									keyExtractor={(item, index) =>
 										index.toString()
@@ -474,7 +501,12 @@ const PostPage = ({ route }) => {
 				<View
 					style={[
 						PostStyles.containerBackground,
-						{ minHeight: windowHeight - 300 },
+						{
+							minHeight:
+								images.length !== 0
+									? windowHeight - 400
+									: windowHeight - 300,
+						},
 					]}
 				>
 					<View style={PostStyles.difeLine}>

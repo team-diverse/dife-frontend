@@ -79,6 +79,7 @@ import CountrySelectionPage from "@pages/onboarding/CountrySelectionPage";
 import ConnectListPage from "@pages/member/ConnectListPage";
 import DefaultLanguagePage from "@pages/member/DefaultLanguagePage";
 import { CreateGroupProvider } from "states/CreateGroupDataContext";
+import EnlargeImagePage from "@pages/community/EnlargeImagePage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -312,6 +313,10 @@ function MainNavigator() {
 			<Stack.Screen
 				name="DefaultLanguagePage"
 				component={DefaultLanguagePage}
+			/>
+			<Stack.Screen
+				name="EnlargeImagePage"
+				component={EnlargeImagePage}
 			/>
 		</Stack.Navigator>
 	);
