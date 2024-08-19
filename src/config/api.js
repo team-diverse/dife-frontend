@@ -37,6 +37,39 @@ export const createSingleChatroom = (toMemberId, name) => {
 	return api.post("/chatrooms", formData, { headers });
 };
 
+export const createGroupChatroom = (profileImg, name, description) => {
+	const formData = new FormData();
+	formData.append("chatroomType", "GROUP");
+	formData.append("name", name);
+	formData.append("description", description);
+
+	if (profileImg) {
+		const file = {
+			uri: profileImg,
+			type: "image/jpeg",
+			name: `${name}_profile.jpg`,
+		};
+		formData.append("profileImg", file);
+	}
+
+	const headers = {
+		"Content-Type": "multipart/form-data",
+	};
+	return api.post("/chatrooms", formData, { headers });
+};
+
+export const getGroups = () => {
+	return api.get("/chatrooms", {
+		params: {
+			chatroomType: "GROUP",
+		},
+	});
+};
+
+export const getGroupByGroupId = (groupId) => {
+	return api.get(`/chatrooms/${groupId}`);
+};
+
 export const signUp = (email, password) => {
 	return api.post("/members/register", {
 		email,
@@ -147,13 +180,18 @@ export const updatePost = (
 	boardType,
 	memberId,
 ) => {
-	return api.put(`/posts/${id}`, {
-		title,
-		content,
-		isPublic,
-		boardType,
-		memberId,
-	});
+	const formData = new FormData();
+	formData.append("title", title);
+	formData.append("content", content);
+	formData.append("isPublic", isPublic);
+	formData.append("boardType", boardType);
+	formData.append("memberId", memberId);
+
+	const headers = {
+		"Content-Type": "multipart/form-data",
+	};
+
+	return api.put(`/posts/${id}`, formData, { headers });
 };
 
 export const getLikedPost = () => {
@@ -201,6 +239,26 @@ export const createLikeComment = (commentId) => {
 	return api.post("/likes", {
 		type: "COMMENT",
 		id: commentId,
+	});
+};
+
+export const getLikeChatroom = () => {
+	return api.get("/chatrooms/likes");
+};
+
+export const createLikeChatroom = (chatroomId) => {
+	return api.post("/likes", {
+		type: "CHATROOM",
+		id: chatroomId,
+	});
+};
+
+export const deleteLikeChatroom = (chatroomId) => {
+	return api.delete("/likes", {
+		data: {
+			type: "CHATROOM",
+			id: chatroomId,
+		},
 	});
 };
 

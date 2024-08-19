@@ -29,8 +29,6 @@ const BlockListPage = () => {
 	const renderItem = ({ item }) => {
 		const imageName = item.profileImg?.originalName || null;
 
-		console.log(imageName);
-
 		return (
 			<ItemBlockList
 				memberId={item.id}

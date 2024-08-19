@@ -8,16 +8,24 @@ const { fontSub16 } = CustomTheme;
 const BottomTwoButtons = ({ shadow = false, children }) => {
 	const containerStyle = shadow ? styles.rectangleShadow : styles.rectangle;
 
-	const buttons = Children.map(children, (child, index) => (
-		<TouchableOpacity
-			style={index === 0 ? styles.button1 : styles.button2}
-			onPress={child.props.onPress}
-		>
-			<Text style={index === 0 ? styles.text1 : styles.text2}>
-				{child.props.text}
-			</Text>
-		</TouchableOpacity>
-	));
+	const buttons = Children.map(children, (child, index) => {
+		const isDisabled = child.props.disabled;
+
+		return (
+			<TouchableOpacity
+				style={[
+					index === 0 ? styles.button1 : styles.button2,
+					isDisabled && styles.buttonDisabled,
+				]}
+				onPress={isDisabled ? null : child.props.onPress}
+				disabled={isDisabled}
+			>
+				<Text style={index === 0 ? styles.text1 : styles.text2}>
+					{child.props.text}
+				</Text>
+			</TouchableOpacity>
+		);
+	});
 
 	return <View style={containerStyle}>{buttons}</View>;
 };
@@ -78,6 +86,10 @@ const styles = StyleSheet.create({
 		...fontSub16,
 		color: CustomTheme.bgBasic,
 		paddingVertical: 10,
+	},
+	buttonDisabled: {
+		backgroundColor: CustomTheme.borderColor,
+		borderColor: CustomTheme.borderColor,
 	},
 });
 

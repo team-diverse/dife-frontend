@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
 	TouchableOpacity,
 	Text,
@@ -18,7 +18,7 @@ import { useFocusEffect } from "@react-navigation/native";
 
 import PostStyles from "@pages/community/PostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { useOnboarding } from "src/states/OnboardingContext.js";
+import { getMyMemberId } from "util/secureStoreUtils";
 import { usePostModify } from "src/states/PostModifyContext";
 import {
 	getPostById,
@@ -49,7 +49,6 @@ const PostPage = ({ route }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const { postId } = route.params;
-	const { onboardingData } = useOnboarding();
 	const { updatePostModifyData } = usePostModify();
 
 	const [memberId, setMemberId] = useState("");
@@ -67,6 +66,15 @@ const PostPage = ({ route }) => {
 	const [isChecked, setIsChecked] = useState(false);
 	const [isReplying, setIsReplying] = useState(false);
 	const [parentCommentId, setParentCommentId] = useState(null);
+	const [myMemberId, setMyMemberId] = useState(null);
+
+	useEffect(() => {
+		const getMyId = async () => {
+			const id = await getMyMemberId();
+			setMyMemberId(id);
+		};
+		getMyId();
+	}, []);
 
 	const commentRef = useRef(null);
 
@@ -96,7 +104,7 @@ const PostPage = ({ route }) => {
 	};
 
 	useFocusEffect(
-		React.useCallback(() => {
+		useCallback(() => {
 			const postComment = async () => {
 				try {
 					const postByIdResponse = await getPostById(postId);
@@ -126,10 +134,10 @@ const PostPage = ({ route }) => {
 						setWriterName("익명");
 					}
 
-					if (onboardingData.id === postByIdResponse.data.writer.id) {
+					if (myMemberId === postByIdResponse.data.writer.id) {
 						setIsMe(true);
 						updatePostModifyData({
-							memberId: postByIdResponse.data.writer.id,
+							memberId: myMemberId,
 							id: postId,
 							title: postByIdResponse.data.title,
 							context: postByIdResponse.data.content,

@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
 import GroupCreatedDetailStyles from "@pages/connect/GroupCreatedDetailStyles";
+import { useCreateGroup } from "src/states/CreateGroupDataContext.js";
 
 import TopBar from "@components/common/TopBar";
 import InfoCircle from "@components/common/InfoCircle";
@@ -32,6 +33,12 @@ const GroupCreatedDetailPage = () => {
 	const [isCheckedList, setIsCheckedList] = useState([
 		false,
 		false,
+		false,
+		false,
+		false,
+	]);
+
+	const [isCategoryCheckedList, setIsCategoryCheckedList] = useState([
 		false,
 		false,
 		false,
@@ -90,6 +97,9 @@ const GroupCreatedDetailPage = () => {
 	};
 
 	const handleSelectLanguage = (index) => {
+		if (selectedLanguage.length >= 2 && !isCheckedList[index]) {
+			return;
+		}
 		setIsCheckedList((prevState) => {
 			const newState = [...prevState];
 			newState[index] = !newState[index];
@@ -107,14 +117,17 @@ const GroupCreatedDetailPage = () => {
 	};
 
 	const handleSelectCategory = (index) => {
-		setIsCheckedList((prevState) => {
+		if (selectedCategory.length >= 2 && !isCategoryCheckedList[index]) {
+			return;
+		}
+		setIsCategoryCheckedList((prevState) => {
 			const newState = [...prevState];
 			newState[index] = !newState[index];
 			return newState;
 		});
 
 		const category = categories[index];
-		if (isCheckedList[index]) {
+		if (isCategoryCheckedList[index]) {
 			setSelectedCategory(
 				selectedCategory.filter((item) => item !== category),
 			);
@@ -123,7 +136,7 @@ const GroupCreatedDetailPage = () => {
 		}
 	};
 
-	const [multiSliderValue, setMultiSliderValue] = React.useState([3, 7]);
+	const [multiSliderValue, setMultiSliderValue] = useState([3, 7]);
 	const multiSliderValuesChange = (values) => setMultiSliderValue(values);
 
 	const reportTypes = ["공개", "비공개"];
@@ -132,6 +145,20 @@ const GroupCreatedDetailPage = () => {
 		setSelected(value);
 	};
 	const [passwordInput, setPasswordInput] = useState("");
+
+	const { updateCreateGroupData } = useCreateGroup();
+
+	const handleGroupInfo = () => {
+		updateCreateGroupData({
+			hobbies: selectedHobby,
+			languages: selectedLanguage,
+			categories: selectedCategory,
+			limitMembersNumber: multiSliderValue,
+			isPublic: selected === "공개" ? true : false,
+			groupPassword: passwordInput || null,
+		});
+		navigation.navigate("GroupProfilePreviewPage");
+	};
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
@@ -232,7 +259,7 @@ const GroupCreatedDetailPage = () => {
 							{categories.map((category, index) => (
 								<Checkbox
 									key={index}
-									checked={isCheckedList[index]}
+									checked={isCategoryCheckedList[index]}
 									onPress={() => handleSelectCategory(index)}
 									text={category}
 								/>
@@ -309,8 +336,14 @@ const GroupCreatedDetailPage = () => {
 						/>
 						<View
 							text="다음"
-							onPress={() =>
-								navigation.navigate("GroupProfilePreviewPage")
+							onPress={handleGroupInfo}
+							disabled={
+								selectedHobby.length === 0 ||
+								selectedLanguage.length === 0 ||
+								selectedCategory.length === 0 ||
+								selected === "" ||
+								(selected === "비공개" &&
+									passwordInput.length !== 5)
 							}
 						/>
 					</BottomTwoButtons>
