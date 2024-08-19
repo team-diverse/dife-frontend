@@ -31,7 +31,7 @@ const WritePage = ({ route }) => {
 	const [valueTitle, onChangeTitle] = useState("");
 	const [valueContext, onChangeContext] = useState("");
 	const [isBoardType, setIsBoardType] = useState("");
-	const [images, setImages] = useState(null);
+	const [images, setImages] = useState("");
 
 	const handlePress = () => {
 		setIsChecked(!isChecked);
@@ -47,14 +47,27 @@ const WritePage = ({ route }) => {
 
 	const handleWrite = async () => {
 		try {
-			await createPost(
-				valueTitle,
-				valueContext,
-				isChecked,
-				isBoardType,
-				images || null,
-			);
-			navigation.goBack();
+			if (valueTitle.trim().length !== 0) {
+				await createPost(
+					valueTitle,
+					valueContext,
+					isChecked,
+					isBoardType,
+					images,
+				);
+				navigation.goBack();
+			} else {
+				Alert.alert(
+					"",
+					"제목을 입력해주세요",
+					[
+						{
+							text: "확인",
+						},
+					],
+					{ cancelable: false },
+				);
+			}
 		} catch (error) {
 			console.error(
 				"게시글 작성 실패:",
@@ -73,18 +86,12 @@ const WritePage = ({ route }) => {
 
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			aspect: [4, 3],
+			allowsEditing: true,
 			quality: 1,
-			allowsMultipleSelection: true,
 		});
 
 		if (!result.canceled) {
-			const selectedImages = result.assets.map((asset) => asset.uri);
-			if (selectedImages.length > 9) {
-				Alert.alert("알림", `최대 9장까지만 선택할 수 있습니다.`);
-				return;
-			}
-			setImages(selectedImages);
+			setImages([...images, result.assets[0].uri]);
 		}
 	};
 
