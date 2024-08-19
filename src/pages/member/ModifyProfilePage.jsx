@@ -12,6 +12,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import ModifyProfileStyles from "@pages/member/ModifyProfileStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { formatProfileData } from "util/formatProfileData";
 import { getMyMemberId, getMyProfile, updateMyProfile } from "config/api";
 
 import TopBar from "@components/common/TopBar";
@@ -35,20 +36,6 @@ const ModifyProfilePage = () => {
 		};
 		getMyId();
 	}, []);
-
-	const formatProfileData = (data) => {
-		function cleanHobbies(hobbies) {
-			return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
-		}
-		return data.map((item) => {
-			if (item.mbti !== null) {
-				const cleanedHobbies = cleanHobbies(item.hobbies);
-				const tags = [item.mbti, ...cleanedHobbies];
-				return { ...item, tags };
-			}
-			return item;
-		});
-	};
 
 	const getMyProfileInfo = async () => {
 		try {

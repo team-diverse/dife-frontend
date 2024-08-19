@@ -8,6 +8,7 @@ import {
 	requestConnectById,
 	deleteConnectById,
 } from "config/api";
+import { getMyMemberId } from "util/secureStoreUtils";
 
 import HomecardDifeB from "@components/home/HomecardDifeB";
 import HomeProfile from "@components/home/HomeProfile";
@@ -22,12 +23,16 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
+	const [requestSent, setRequestSent] = useState(false);
 
 	const getConnectStatus = async () => {
 		try {
 			const response = await getConnectById(memberId);
 			setConnectStatus(response.data.status);
 			setConnectId(response.data.id);
+
+			const myMebmberId = await getMyMemberId();
+			setRequestSent(response.data.from_member.id == myMebmberId);
 		} catch (error) {
 			console.error(
 				"커넥트 상태 조회 오류:",
@@ -101,10 +106,12 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 				<HomecardBackBtn
 					btnText={
 						connectStatus === undefined
-							? "신청하기"
+							? "커넥트 요청"
 							: connectStatus === "PENDING"
-								? "요청 취소"
-								: "커넥트 삭제"
+								? requestSent
+									? "요청 취소"
+									: "요청 수락"
+								: "커넥트 취소"
 					}
 					onPress={pressButton}
 				/>

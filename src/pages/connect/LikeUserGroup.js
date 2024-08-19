@@ -37,6 +37,7 @@ const LikeUserGroup = () => {
 							<View style={ConnectStyles.cardContainer}>
 								<ConnectCard
 									{...item}
+									isLiked={true}
 									groupName={item.name}
 									tag={item.tags}
 								/>

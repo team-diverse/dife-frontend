@@ -24,12 +24,11 @@ import ArrowRight from "@components/common/ArrowRight";
 import Progress2 from "@components/onboarding/Progress2";
 import ApplyButton from "@components/common/ApplyButton";
 import IconProfileUpload from "@components/onboarding/IconProfileUpload";
-import RadioButtonGroup from "@components/RadioButton/RadioButtonGroup";
 import IconProfileChange from "@components/onboarding/IconProfileChange";
 import IconProfileBorder from "@components/onboarding/IconProfileBorder";
 
 const ProfilePage = ({ route }) => {
-	const { selectedCountry } = route.params || {};
+	const { selectedCountry, selectedCountryCode } = route.params || {};
 
 	const navigation = useNavigation();
 
@@ -39,20 +38,11 @@ const ProfilePage = ({ route }) => {
 
 	const ProfileData = ["프로필 생성하기", "프로필 사진"];
 	const [image, setImage] = useState(null);
-	const [selected, setSelected] = useState("");
-	const [selectedValue, setSelectedValue] = useState(true);
-	const [, setIsReportButtonDisabled] = useState(true);
 	const [text, setText] = useState("");
 	const [nation, setNation] = useState("");
 
 	const handleKeyboard = () => {
 		Keyboard.dismiss();
-	};
-
-	const handleRadioButtonSelect = (value) => {
-		setSelected(value);
-		setIsReportButtonDisabled(false);
-		setSelectedValue(value === "내국인 (Korean)");
 	};
 
 	const pickImage = async () => {
@@ -80,7 +70,8 @@ const ProfilePage = ({ route }) => {
 	const handleDataSave = () => {
 		updateOnboardingData({
 			profileImg: image,
-			country: selectedValue ? "대한민국 / Korea" : nation,
+			country: nation,
+			countryCode: selectedCountryCode,
 			bio: text,
 		});
 		navigation.navigate("ProfileMbti");
@@ -134,57 +125,38 @@ const ProfilePage = ({ route }) => {
 								<IconProfileUpload />
 							</TouchableOpacity>
 						)}
-						<Text style={ProfileStyles.textNationIntroduction}>
-							국적
-						</Text>
-						<View style={ProfileStyles.containerRadioButton}>
-							<RadioButtonGroup
-								values={["내국인 (Korean)", "외국인"]}
-								value={selected}
-								onValueChange={handleRadioButtonSelect}
-								mainColor={CustomTheme.primaryMedium}
-								borderColor="#B0D0FF"
-								onboarding="true"
-							/>
-							{selected === "외국인" && (
-								<>
+						<View style={ProfileStyles.containerNation}>
+							<Text
+								style={[
+									ProfileStyles.textNationIntroduction,
+									{ marginLeft: 0 },
+								]}
+							>
+								국적
+							</Text>
+							<TouchableOpacity
+								style={ProfileStyles.containerNationInput}
+								onPress={() =>
+									navigation.navigate("CountrySelectionPage")
+								}
+							>
+								{nation ? (
+									<Text style={ProfileStyles.textNation}>
+										{nation}
+									</Text>
+								) : (
 									<Text
 										style={[
-											ProfileStyles.textNationIntroduction,
-											{ marginLeft: 0 },
+											ProfileStyles.textNation,
+											{
+												color: CustomTheme.borderColor,
+											},
 										]}
 									>
-										국적
+										국적을 선택해주세요
 									</Text>
-									<TouchableOpacity
-										style={ProfileStyles.containerNation}
-										onPress={() =>
-											navigation.navigate(
-												"CountrySelectionPage",
-											)
-										}
-									>
-										{nation ? (
-											<Text
-												style={ProfileStyles.textNation}
-											>
-												{nation}
-											</Text>
-										) : (
-											<Text
-												style={[
-													ProfileStyles.textNation,
-													{
-														color: CustomTheme.borderColor,
-													},
-												]}
-											>
-												국적을 선택해주세요
-											</Text>
-										)}
-									</TouchableOpacity>
-								</>
-							)}
+								)}
+							</TouchableOpacity>
 						</View>
 						<Text style={ProfileStyles.textNationIntroduction}>
 							한줄소개
@@ -206,10 +178,7 @@ const ProfilePage = ({ route }) => {
 							<ApplyButton
 								text="다음"
 								onPress={handleDataSave}
-								disabled={
-									!selected ||
-									(selected === "외국인" && !nation)
-								}
+								disabled={!nation}
 							/>
 						</View>
 					</SafeAreaView>

@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import GroupProfilePreviewStyles from "@pages/connect/GroupProfilePreviewStyles";
 import { useCreateGroup } from "src/states/CreateGroupDataContext.js";
 import { createGroupChatroom } from "config/api";
+import { formatProfileData } from "util/formatProfileData";
 
 import TopBar from "@components/common/TopBar";
 import InfoCircle from "@components/common/InfoCircle";
@@ -22,20 +23,6 @@ const GroupProfilePreviewPage = () => {
 	const { createGroupData } = useCreateGroup();
 
 	const [groupProfile, setGroupProfile] = useState(null);
-
-	const formatProfileData = (data) => {
-		function cleanHobbies(hobbies) {
-			return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
-		}
-		return data.map((item) => {
-			if (item.categories !== null) {
-				const cleanedHobbies = cleanHobbies(item.hobbies);
-				const tags = [...item.categories, ...cleanedHobbies];
-				return { ...item, tags };
-			}
-			return item;
-		});
-	};
 
 	useEffect(() => {
 		const profile = formatProfileData([createGroupData]);

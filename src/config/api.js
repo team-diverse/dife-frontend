@@ -92,8 +92,20 @@ export const changePassword = (email) => {
 	});
 };
 
-export const getMyConnects = () => {
-	return api.get("/connects");
+export const getMyAcceptedConnects = () => {
+	return api.get("/connects", {
+		params: {
+			status: "ACCEPTED",
+		},
+	});
+};
+
+export const getMyPendingConnects = () => {
+	return api.get("/connects", {
+		params: {
+			status: "PENDING",
+		},
+	});
 };
 
 export const getMyProfile = () => {

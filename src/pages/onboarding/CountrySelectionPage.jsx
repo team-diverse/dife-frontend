@@ -87,7 +87,10 @@ const CountrySelectionPage = ({ navigation }) => {
 	};
 
 	const handleCountrySelect = (item) => {
-		navigation.navigate("Profile", { selectedCountry: item.name });
+		navigation.navigate("Profile", {
+			selectedCountry: item.name,
+			selectedCountryCode: item.code,
+		});
 	};
 
 	return (
