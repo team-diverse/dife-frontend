@@ -101,6 +101,7 @@ const ModifyProfileInputPage = ({ route }) => {
 		"日本語 / Japanese",
 		"Español / Spanish",
 		"한국어 / Korean",
+		"기타",
 	];
 
 	const defaultLanguages =

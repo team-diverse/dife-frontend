@@ -113,7 +113,7 @@ const ModifyProfilePage = () => {
 	return (
 		<SafeAreaView style={ModifyProfileStyles.container}>
 			<TopBar
-				topBar="프로필 수정"
+				topBar="프로필 설정"
 				color="#000"
 				backgroundColor={CustomTheme.primaryBg}
 			/>
@@ -142,6 +142,36 @@ const ModifyProfilePage = () => {
 
 				<Text style={ModifyProfileStyles.textTitle}>프로필 정보</Text>
 				<View style={ModifyProfileStyles.containerBackgroundWhite}>
+					<View
+						style={[
+							ModifyProfileStyles.backgroundWhite,
+							{
+								flexDirection: "row",
+								justifyContent: "space-between",
+							},
+						]}
+					>
+						<View style={{ flexDirection: "row" }}>
+							<Text
+								style={[
+									ModifyProfileStyles.textSubTitle,
+									{ marginBottom: 0 },
+								]}
+							>
+								아이디
+							</Text>
+							<Text
+								style={[
+									ModifyProfileStyles.textContent,
+									{ color: CustomTheme.primaryMedium },
+								]}
+							>
+								{profile.email}
+							</Text>
+						</View>
+						<IconLock />
+					</View>
+
 					<TouchableOpacity
 						style={[
 							ModifyProfileStyles.backgroundWhite,
