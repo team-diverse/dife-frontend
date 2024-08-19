@@ -100,11 +100,13 @@ const MemberPage = () => {
 						<TouchableOpacity
 							style={MemberStyles.icon}
 							onPress={() =>
-								navigation.navigate("FriendListPage")
+								navigation.navigate("ConnectListPage")
 							}
 						>
 							<IconFriendList />
-							<Text style={MemberStyles.textIcon}>친구목록</Text>
+							<Text style={MemberStyles.textIcon}>
+								커넥트 목록
+							</Text>
 						</TouchableOpacity>
 						<View style={MemberStyles.line} />
 						<TouchableOpacity

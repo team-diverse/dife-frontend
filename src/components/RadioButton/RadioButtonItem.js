@@ -9,6 +9,7 @@ const RadioButtonItem = ({
 	mainColor,
 	borderColor,
 	onboarding,
+	fontSize16,
 }) => {
 	return (
 		<Pressable
@@ -42,17 +43,28 @@ const RadioButtonItem = ({
 				)}
 			</View>
 			<Text
-				style={[
-					styles.label,
-					{
-						color:
-							onboarding && isSelected
-								? mainColor
-								: isSelected
-									? borderColor
-									: CustomTheme.textSecondary,
-					},
-				]}
+				style={
+					fontSize16
+						? [
+								styles.labelFontSize16,
+								{
+									color: isSelected
+										? borderColor
+										: CustomTheme.textSecondary,
+								},
+							]
+						: [
+								styles.label,
+								{
+									color:
+										onboarding && isSelected
+											? mainColor
+											: isSelected
+												? borderColor
+												: CustomTheme.textSecondary,
+								},
+							]
+				}
 			>
 				{value}
 			</Text>
@@ -84,6 +96,12 @@ const styles = StyleSheet.create({
 		marginTop: 9,
 		marginBottom: 13,
 		...CustomTheme.fontSub14,
+	},
+	labelFontSize16: {
+		marginLeft: 8,
+		marginTop: 9,
+		marginBottom: 13,
+		...CustomTheme.fontSub16,
 	},
 });
 
