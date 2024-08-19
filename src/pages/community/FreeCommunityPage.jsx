@@ -12,6 +12,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import axios from "axios";
 
 import FreeCommunityStyles from "@pages/community/FreeCommunityStyles";
+import { CustomTheme } from "@styles/CustomTheme";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import IconPostPlus from "@components/community/IconPostPlus";
@@ -20,9 +21,14 @@ import ConnectSearchCancel from "@components/connect/ConnectSearchCancel";
 import IconBookmark from "@components/chat/IconBookmark";
 import ItemCommunity from "@components/community/ItemCommunity";
 import { getPostsByType } from "config/api";
+import ArrowRight from "@components/common/ArrowRight";
 
 const FreeCommunityPage = () => {
 	const navigation = useNavigation();
+
+	const handleGoBack = () => {
+		navigation.goBack();
+	};
 
 	const [searchTerm, setSearchTerm] = useState("");
 	const [, setSearchData] = useState([]);
@@ -93,6 +99,12 @@ const FreeCommunityPage = () => {
 					<ConnectTop />
 				</View>
 				<View style={FreeCommunityStyles.containerTextIcon}>
+					<TouchableOpacity
+						style={FreeCommunityStyles.iconArrowRight}
+						onPress={handleGoBack}
+					>
+						<ArrowRight color={CustomTheme.bgBasic} />
+					</TouchableOpacity>
 					<Text style={FreeCommunityStyles.textChattingTitle}>
 						자유게시판
 					</Text>

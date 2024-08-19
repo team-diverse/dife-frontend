@@ -15,14 +15,26 @@ const ConnectRequest = ({
 	const [showConnectComplete, setShowConnectComplete] = useState(false);
 
 	useEffect(() => {
+		let timeoutRequest, timeoutComplete;
+
 		if (modalVisible) {
 			setShowConnectRequest(true);
 			setShowConnectComplete(false);
+
+			timeoutRequest = setTimeout(() => {
+				setShowConnectRequest(false);
+				setShowConnectComplete(true);
+			}, 2500);
+
+			timeoutComplete = setTimeout(() => {
+				setModalVisible(false);
+			}, 4500);
 		}
-		setTimeout(() => {
-			setShowConnectRequest(false);
-			setShowConnectComplete(true);
-		}, 2500);
+
+		return () => {
+			clearTimeout(timeoutRequest);
+			clearTimeout(timeoutComplete);
+		};
 	}, [modalVisible]);
 
 	const handleBackdropPress = () => {

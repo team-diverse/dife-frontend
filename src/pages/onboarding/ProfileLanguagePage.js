@@ -30,6 +30,7 @@ const ProfileLanguagePage = () => {
 		"日本語 / Japanese",
 		"Español / Spanish",
 		"한국어 / Korean",
+		"기타",
 	];
 	const [isCheckedList, setIsCheckedList] = useState(
 		new Array(languages.length).fill(false),

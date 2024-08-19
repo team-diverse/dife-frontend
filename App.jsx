@@ -4,9 +4,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import * as Notifications from "expo-notifications";
+import * as SecureStore from "expo-secure-store";
+
 import { OnboardingProvider } from "src/states/OnboardingContext.js";
 import { PostModifyProvider } from "src/states/PostModifyContext";
 import { AuthProvider, useAuth } from "src/states/AuthContext";
+import { getMyProfile } from "config/api";
 
 import ChattingPage from "@pages/chat/ChattingPage";
 import ConnectPage from "@pages/connect/ConnectPage";
@@ -157,8 +160,41 @@ function App() {
 }
 
 function AppContent() {
-	const { isLoggedIn } = useAuth();
+	const { isLoggedIn, setIsLoggedIn } = useAuth();
 	const [initialRoute, setInitialRoute] = useState("Access");
+
+	useEffect(() => {
+		const checkAutoLogin = async () => {
+			try {
+				const memberId = await SecureStore.getItemAsync("memberId");
+				const accessToken =
+					await SecureStore.getItemAsync("accessToken");
+
+				if (memberId && accessToken) {
+					try {
+						const profileResponse = await getMyProfile();
+						if (profileResponse.data.isVerified) {
+							setIsLoggedIn(true);
+						} else {
+							setIsLoggedIn(false);
+						}
+					} catch (error) {
+						if (error.response && error.response.status === 403) {
+							setIsLoggedIn(false);
+						}
+					}
+				}
+			} catch (error) {
+				console.error(
+					"자동 로그인 오류: ",
+					error.response ? error.response.data : error.message,
+				);
+				setIsLoggedIn(false);
+			}
+		};
+
+		checkAutoLogin();
+	}, []);
 
 	useEffect(() => {
 		const checkAccess = async () => {
