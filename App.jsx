@@ -149,15 +149,9 @@ function MainTabs() {
 function App() {
 	return (
 		<AuthProvider>
-			<OnboardingProvider>
-				<CreateGroupProvider>
-					<PostModifyProvider>
-						<NavigationContainer>
-							<AppContent />
-						</NavigationContainer>
-					</PostModifyProvider>
-				</CreateGroupProvider>
-			</OnboardingProvider>
+			<NavigationContainer>
+				<AppContent />
+			</NavigationContainer>
 		</AuthProvider>
 	);
 }
@@ -225,10 +219,16 @@ function AppContent() {
 
 	return isLoggedIn ? (
 		<WebSocketProvider>
-			<MainNavigator />
+			<CreateGroupProvider>
+				<PostModifyProvider>
+					<MainNavigator />
+				</PostModifyProvider>
+			</CreateGroupProvider>
 		</WebSocketProvider>
 	) : (
-		<AuthNavigator initialRoute={initialRoute} />
+		<OnboardingProvider>
+			<AuthNavigator initialRoute={initialRoute} />
+		</OnboardingProvider>
 	);
 }
 

@@ -180,13 +180,18 @@ export const updatePost = (
 	boardType,
 	memberId,
 ) => {
-	return api.put(`/posts/${id}`, {
-		title,
-		content,
-		isPublic,
-		boardType,
-		memberId,
-	});
+	const formData = new FormData();
+	formData.append("title", title);
+	formData.append("content", content);
+	formData.append("isPublic", isPublic);
+	formData.append("boardType", boardType);
+	formData.append("memberId", memberId);
+
+	const headers = {
+		"Content-Type": "multipart/form-data",
+	};
+
+	return api.put(`/posts/${id}`, formData, { headers });
 };
 
 export const getLikedPost = () => {
