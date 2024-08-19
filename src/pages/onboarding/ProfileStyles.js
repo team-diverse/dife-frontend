@@ -48,12 +48,8 @@ const ProfileStyles = StyleSheet.create({
 		bottom: 0,
 		zIndex: 10,
 	},
-	containerRadioButton: {
+	containerNation: {
 		marginHorizontal: 23,
-	},
-	textRadioButton: {
-		...fontSub14,
-		marginRight: 28,
 	},
 	textNationIntroduction: {
 		...fontSub16,
@@ -61,7 +57,7 @@ const ProfileStyles = StyleSheet.create({
 		marginTop: 28,
 		marginLeft: 23,
 	},
-	containerNation: {
+	containerNationInput: {
 		...fontSub14,
 		height: 43,
 		marginTop: 12,

@@ -37,7 +37,7 @@ const ModifyProfileInputPage = ({ route }) => {
 				}
 			});
 
-			setSelectedMBTI(tagMbti ? [tagMbti] : []);
+			setSelectedMBTI(tagMbti ? [tagMbti] : [""]);
 			setSelectedHobby(tagHobbies);
 		};
 
@@ -119,8 +119,8 @@ const ModifyProfileInputPage = ({ route }) => {
 	}
 
 	const handleSelectMBTI = (mbti) => {
-		if (selectedMBTI.includes(mbti)) {
-			setSelectedMBTI([]);
+		if (mbti === "선택안함") {
+			setSelectedMBTI([""]);
 		} else {
 			setSelectedMBTI([mbti]);
 		}
@@ -245,7 +245,13 @@ const ModifyProfileInputPage = ({ route }) => {
 									]}
 									onChangeText={handleNicknameChange}
 									value={nicknameInput}
+									maxLength={12}
 								/>
+								<Text
+									style={ModifyProfileInputStyles.textCount}
+								>
+									{nicknameInput.length} / 12
+								</Text>
 							</>
 						)}
 
@@ -315,9 +321,15 @@ const ModifyProfileInputPage = ({ route }) => {
 													onPress={() =>
 														handleSelectMBTI(type)
 													}
-													selected={selectedMBTI.includes(
-														type,
-													)}
+													selected={
+														type === "선택안함"
+															? selectedMBTI.includes(
+																	"",
+																)
+															: selectedMBTI.includes(
+																	type,
+																)
+													}
 												/>
 											))}
 										</View>

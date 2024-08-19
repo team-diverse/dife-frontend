@@ -4,25 +4,12 @@ import { SafeAreaView, View, FlatList } from "react-native";
 import ConnectLikeUserStyles from "@pages/connect/ConnectLikeUserStyles.js";
 import ConnectStyles from "@pages/connect/ConnectStyles";
 import { getLikeMember } from "config/api";
+import { formatProfileData } from "util/formatProfileData";
 
 import ConnectCard from "@components/connect/ConnectCard.js";
 
 const LikeUserOneToOne = () => {
 	const [connectData, setConnectData] = useState(null);
-
-	const formatProfileData = (data) => {
-		function cleanHobbies(hobbies) {
-			return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
-		}
-		return data.map((item) => {
-			if (item.mbti !== null) {
-				const cleanedHobbies = cleanHobbies(item.hobbies);
-				const tags = [item.mbti, ...cleanedHobbies];
-				return { ...item, tags };
-			}
-			return item;
-		});
-	};
 
 	const getLikedMember = async () => {
 		try {
@@ -53,7 +40,11 @@ const LikeUserOneToOne = () => {
 							data={connectData}
 							renderItem={({ item }) => (
 								<View style={ConnectStyles.cardContainer}>
-									<ConnectCard {...item} tag={item.tags} />
+									<ConnectCard
+										{...item}
+										isLiked={true}
+										tag={item.tags}
+									/>
 								</View>
 							)}
 							keyExtractor={(item) => item.id}

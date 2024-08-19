@@ -16,6 +16,7 @@ import {
 	getConnectSearch,
 	getGroups,
 } from "config/api";
+import { formatProfileData } from "util/formatProfileData";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -35,20 +36,6 @@ const ConnectPage = ({ route }) => {
 
 	const [profileDataList, setProfileDataList] = useState([]);
 	const RANDOM_MEMBER_COUNT = 10;
-
-	const formatProfileData = (data) => {
-		function cleanHobbies(hobbies) {
-			return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
-		}
-		return data.map((item) => {
-			if (item.mbti !== null) {
-				const cleanedHobbies = cleanHobbies(item.hobbies);
-				const tags = [item.mbti, ...cleanedHobbies];
-				return { ...item, tags };
-			}
-			return item;
-		});
-	};
 
 	const cardProfiles = async () => {
 		try {
@@ -137,13 +124,15 @@ const ConnectPage = ({ route }) => {
 	};
 
 	const { groupId, modalGroup } = route.params || {};
-	const [modalGroupVisible, setModalGroupVisible] = useState(false);
+	const [modalGroupVisible, setModalGroupVisible] = useState();
 
 	useEffect(() => {
 		if (modalGroup) {
 			setModalGroupVisible(true);
+		} else {
+			setModalGroupVisible(false);
 		}
-	}, [modalGroup]);
+	}, [groupId]);
 
 	const [grouplist, setGroupList] = useState();
 
