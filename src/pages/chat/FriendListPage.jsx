@@ -9,7 +9,8 @@ import FriendList from "@components/chat/FriendList";
 import { getMyConnects } from "config/api";
 import { getMyMemberId } from "util/secureStoreUtils";
 
-const FriendListPage = () => {
+const FriendListPage = ({ route }) => {
+	const { member } = route.params || {};
 	const [connects, setConnects] = useState([]);
 	const [myMemberId, setMyMemberId] = useState(null);
 
@@ -36,7 +37,11 @@ const FriendListPage = () => {
 
 	return (
 		<SafeAreaView style={FriendListStyles.container}>
-			<TopBar topBar="친구 목록" />
+			{member ? (
+				<View style={{ marginTop: 7 }} />
+			) : (
+				<TopBar topBar="친구 목록" />
+			)}
 			<View style={FriendListStyles.containerFriendNumber}>
 				<Text style={FriendListStyles.textFriend}>내 친구</Text>
 				<IconFriendNumber />

@@ -372,3 +372,7 @@ export const deleteBlockMember = (memberId) => {
 		},
 	});
 };
+
+export const deleteMember = () => {
+	return api.delete("/members");
+};

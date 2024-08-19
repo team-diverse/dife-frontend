@@ -76,6 +76,8 @@ import BlockListPage from "@pages/member/BlockListPage";
 import InquiryPage from "@pages/member/InquiryPage";
 import TremsPage from "@pages/member/TremsPage";
 import CountrySelectionPage from "@pages/onboarding/CountrySelectionPage";
+import ConnectListPage from "@pages/member/ConnectListPage";
+import DefaultLanguagePage from "@pages/member/DefaultLanguagePage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -303,6 +305,11 @@ function MainNavigator() {
 			<Stack.Screen name="BlockListPage" component={BlockListPage} />
 			<Stack.Screen name="InquiryPage" component={InquiryPage} />
 			<Stack.Screen name="TremsPage" component={TremsPage} />
+			<Stack.Screen name="ConnectListPage" component={ConnectListPage} />
+			<Stack.Screen
+				name="DefaultLanguagePage"
+				component={DefaultLanguagePage}
+			/>
 		</Stack.Navigator>
 	);
 }
