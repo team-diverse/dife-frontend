@@ -60,6 +60,16 @@ const LoginPage = () => {
 		navigation.navigate("SignUp");
 	};
 
+	const handleEmail = (text) => {
+		setEmail(text);
+		setLoginFailed(false);
+	};
+
+	const handlePassword = (text) => {
+		setPassword(text);
+		setLoginFailed(false);
+	};
+
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(valueID, valuePW);
@@ -142,7 +152,7 @@ const LoginPage = () => {
 							: LoginStyles.textInputId
 					}
 					placeholder="이메일을 입력해주세요"
-					onChangeText={(text) => setEmail(text)}
+					onChangeText={(text) => handleEmail(text)}
 					value={valueID}
 				/>
 				<Text style={LoginStyles.textPw}>Password</Text>
@@ -157,7 +167,7 @@ const LoginPage = () => {
 								: LoginStyles.textInputPw
 						}
 						placeholder="비밀번호를 입력해주세요"
-						onChangeText={(text) => setPassword(text)}
+						onChangeText={(text) => handlePassword(text)}
 						value={valuePW}
 						secureTextEntry={!showPW}
 					/>

@@ -1,9 +1,17 @@
 import React, { useState } from "react";
-import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
+import {
+	SafeAreaView,
+	View,
+	Text,
+	TouchableOpacity,
+	Alert,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from "expo-secure-store";
 
 import SecurityStyles from "@pages/member/SecurityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { useAuth } from "src/states/AuthContext";
 
 import TopBar from "@components/common/TopBar";
 import ArrowRight from "@components/common/ArrowRight";
@@ -13,11 +21,42 @@ import IconSwitchOff from "@components/member/IconSwitchOff";
 const SecurityPage = () => {
 	const navigation = useNavigation();
 
+	const { setIsLoggedIn } = useAuth();
 	const [switchOn, setSwitchOn] = useState(false);
 
 	const handleSwitch = () => {
 		setSwitchOn(!switchOn);
 	};
+
+	const handleLogout = async () => {
+		try {
+			await SecureStore.deleteItemAsync("memberId");
+			await SecureStore.deleteItemAsync("accessToken");
+			await SecureStore.deleteItemAsync("refreshToken");
+
+			setIsLoggedIn(false);
+		} catch (error) {
+			console.error("로그아웃 오류: ", error.message);
+		}
+	};
+
+	const handleAlertLogout = () => {
+		Alert.alert(
+			"",
+			"로그아웃하시겠습니까?",
+			[
+				{ text: "취소", style: "cancel" },
+				{
+					text: "확인",
+					onPress: () => {
+						handleLogout();
+					},
+				},
+			],
+			{ cancelable: false },
+		);
+	};
+
 	return (
 		<SafeAreaView style={SecurityStyles.container}>
 			<TopBar
@@ -57,7 +96,10 @@ const SecurityPage = () => {
 			<View style={SecurityStyles.line} />
 
 			<View style={SecurityStyles.containerContent}>
-				<TouchableOpacity style={SecurityStyles.backgroundWhite}>
+				<TouchableOpacity
+					style={SecurityStyles.backgroundWhite}
+					onPress={handleAlertLogout}
+				>
 					<View style={SecurityStyles.containerRow}>
 						<Text style={SecurityStyles.textContent}>로그아웃</Text>
 						<ArrowRight
