@@ -11,6 +11,7 @@ import {
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
+import { CustomTheme } from "@styles/CustomTheme";
 import {
 	getRandomMembersByCount,
 	getConnectSearch,
@@ -30,6 +31,7 @@ import ConnectReset from "@components/connect/ConnectReset";
 import GroupFilterBottomSlide from "@components/connect/GroupFilterBottomSlide";
 import IconNewGroup from "@components/connect/IconNewGroup";
 import ModalGroupCreationComplete from "@components/connect/ModalGroupCreationComplete";
+import IconCircleNumber from "@components/community/IconCircleNumber";
 
 const ConnectPage = ({ route }) => {
 	const navigation = useNavigation();
@@ -156,6 +158,60 @@ const ConnectPage = ({ route }) => {
 		}, [isGroupTab]),
 	);
 
+	const [groupSearchTerm, setGroupSearchTerm] = useState("");
+	const [groupSearchData, setGroupSearchData] = useState(null);
+
+	const handleGroupSearch = async () => {
+		try {
+			const response = await getGroupConnectSearch(groupSearchTerm);
+			const updatedData = formatProfileData(response.data);
+			setGroupSearchData(updatedData);
+		} catch (error) {
+			console.error(
+				"그룹 커넥트 검색 오류:",
+				error.response ? error.response.data : error.message,
+			);
+			setSearchFail(true);
+		}
+	};
+
+	const handleGroupCancel = () => {
+		setGroupSearchTerm("");
+		setIsSearching(false);
+		Keyboard.dismiss();
+	};
+
+	const handleGroupFilterResponse = (response) => {
+		const updatedData = formatProfileData(response);
+		setGroupSearchData(updatedData);
+	};
+
+	const [totalSelection, setTotalSelection] = useState(null);
+	const [groupTotalSelection, setGroupTotalSelection] = useState(null);
+
+	const handleTotalSelection = (response) => {
+		setTotalSelection(response);
+	};
+
+	const handleGroupTotalSelection = (response) => {
+		setGroupTotalSelection(response);
+	};
+
+	const [isReset, setIsReset] = useState(false);
+	const [isGroupReset, setIsGroupReset] = useState(false);
+
+	const handleReset = () => {
+		if (isGroupTab) {
+			getGroupList();
+			setGroupTotalSelection(null);
+			setIsGroupReset(!isGroupReset);
+		} else {
+			cardProfiles();
+			setTotalSelection(null);
+			setIsReset(!isReset);
+		}
+	};
+
 	return (
 		<View style={ConnectStyles.container}>
 			<View style={ConnectStyles.backgroundBlue} />
@@ -175,16 +231,65 @@ const ConnectPage = ({ route }) => {
 				<View style={ConnectStyles.searchContainer}>
 					<TouchableOpacity onPress={pressButton}>
 						<FilterIcon style={ConnectStyles.searchFilter} />
+						{isGroupTab
+							? groupTotalSelection > 0 && (
+									<View
+										style={
+											ConnectStyles.containerImageNumber
+										}
+									>
+										<IconCircleNumber
+											style={
+												ConnectStyles.iconCircleNumber
+											}
+											color={CustomTheme.bgBasic}
+										/>
+										<Text
+											style={
+												ConnectStyles.textImageNumber
+											}
+										>
+											{groupTotalSelection}
+										</Text>
+									</View>
+								)
+							: totalSelection > 0 && (
+									<View
+										style={
+											ConnectStyles.containerImageNumber
+										}
+									>
+										<IconCircleNumber
+											style={
+												ConnectStyles.iconCircleNumber
+											}
+											color={CustomTheme.bgBasic}
+										/>
+										<Text
+											style={
+												ConnectStyles.textImageNumber
+											}
+										>
+											{totalSelection}
+										</Text>
+									</View>
+								)}
 					</TouchableOpacity>
 					<FilterBottomSlide
 						modalVisible={modalVisible}
 						setModalVisible={setModalVisible}
 						onFilterResponse={handleFilterResponse}
 						onSearchResponse={handleFilterSearchFail}
+						onTotalSelection={handleTotalSelection}
+						isReset={isReset}
 					/>
 					<GroupFilterBottomSlide
 						modalVisible={groupModalVisible}
 						setModalVisible={setGroupModalVisible}
+						onFilterResponse={handleGroupFilterResponse}
+						onSearchResponse={handleFilterSearchFail}
+						onTotalSelection={handleGroupTotalSelection}
+						isReset={isGroupReset}
 					/>
 					<View style={ConnectStyles.searchIconContainer}>
 						<TextInput
@@ -240,7 +345,7 @@ const ConnectPage = ({ route }) => {
 					</View>
 					<TouchableOpacity
 						style={ConnectStyles.resetContainer}
-						onPress={cardProfiles}
+						onPress={handleReset}
 					>
 						<Text style={ConnectStyles.textReset}>Reset</Text>
 						<ConnectReset />
