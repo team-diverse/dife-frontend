@@ -21,12 +21,19 @@ import FilterArrowBottom from "@components/connect/FilterArrowBottom";
 import FilterArrowTop from "@components/connect/FilterArrowTop";
 import FilterCategory from "@components/connect/FilterCategory";
 import Checkbox from "@components/common/Checkbox";
-import ApplyButton from "@components/common/ApplyButton";
+import FilterBottomTwoButtons from "@components/connect/FilterBottomTwoButtons";
 
 const { fontCaption, fontSub16 } = CustomTheme;
 
 const GroupFilterBottomSlide = (props) => {
-	const { modalVisible, setModalVisible } = props;
+	const {
+		modalVisible,
+		setModalVisible,
+		onFilterResponse,
+		onSearchResponse,
+		onTotalSelection,
+		isReset,
+	} = props;
 	const screenHeight = Dimensions.get("screen").height;
 	const panY = useRef(new Animated.Value(screenHeight)).current;
 
@@ -177,8 +184,62 @@ const GroupFilterBottomSlide = (props) => {
 		}
 	};
 
-	const [multiSliderValue, setMultiSliderValue] = React.useState([3, 7]);
-	const multiSliderValuesChange = (values) => setMultiSliderValue(values);
+	const encoded = (selected) => {
+		const encoded = selected.map((item) => item);
+		return `${encoded.join(",")}`;
+	};
+
+	const reset = (isSearch = false) => {
+		setCollapsedStates([true, true, true]);
+		if (isSearch) {
+			setModalVisible(false);
+		} else {
+			setSelectedHobby([]);
+			setSelectedLanguage([]);
+			setSelectedCategory([]);
+			setIsCheckedList(new Array(languages.length).fill(false));
+			setIsCategoryCheckedList(new Array(categories.length).fill(false));
+			setSliderValue(null);
+		}
+	};
+
+	useEffect(() => {
+		reset();
+	}, [isReset]);
+
+	const handleGroupFilter = async () => {
+		try {
+			const response = await getGroupConnectFilter(
+				encoded(selectedHobby),
+				encoded(selectedLanguage),
+				encoded(selectedCategory),
+				sliderValue,
+			);
+			onFilterResponse(response.data);
+			onTotalSelection(totalSelection);
+			reset(true);
+		} catch (error) {
+			console.error(
+				"그룹 필터 검색 오류:",
+				error.response ? error.response.data : error.message,
+			);
+			reset(true);
+			onSearchResponse(true);
+			onTotalSelection(totalSelection);
+		}
+	};
+
+	const [totalSelection, setTotalSelection] = useState();
+
+	useEffect(() => {
+		let slider = sliderValue ? 1 : 0;
+		setTotalSelection(
+			selectedHobby.length +
+				selectedLanguage.length +
+				selectedCategory.length +
+				slider,
+		);
+	}, [selectedHobby, selectedLanguage, selectedCategory, sliderValue]);
 
 	return (
 		<Modal
@@ -203,7 +264,21 @@ const GroupFilterBottomSlide = (props) => {
 							style={styles.list}
 							onPress={() => toggleCollapsed(1)}
 						>
-							<Text style={styles.listText}>주제</Text>
+							<Text
+								style={[
+									styles.listText,
+									selectedHobby.length >= 1 && {
+										color: CustomTheme.primaryMedium,
+									},
+								]}
+							>
+								주제{"  "}
+								{selectedHobby.length >= 1 && (
+									<Text style={styles.textSelectedNumber}>
+										{selectedHobby.length}
+									</Text>
+								)}
+							</Text>
 							{collapsedStates[1] ? (
 								<FilterArrowBottom style={styles.listIcon} />
 							) : (
@@ -244,7 +319,21 @@ const GroupFilterBottomSlide = (props) => {
 							style={styles.list}
 							onPress={() => toggleCollapsed(2)}
 						>
-							<Text style={styles.listText}>언어</Text>
+							<Text
+								style={[
+									styles.listText,
+									selectedLanguage.length >= 1 && {
+										color: CustomTheme.primaryMedium,
+									},
+								]}
+							>
+								언어{"  "}
+								{selectedLanguage.length >= 1 && (
+									<Text style={styles.textSelectedNumber}>
+										{selectedLanguage.length}
+									</Text>
+								)}
+							</Text>
 							{collapsedStates[2] ? (
 								<FilterArrowBottom style={styles.listIcon} />
 							) : (
@@ -272,7 +361,21 @@ const GroupFilterBottomSlide = (props) => {
 							style={styles.list}
 							onPress={() => toggleCollapsed(0)}
 						>
-							<Text style={styles.listText}>그룹 인원/유형</Text>
+							<Text
+								style={[
+									styles.listText,
+									selectedCategory.length >= 1 && {
+										color: CustomTheme.primaryMedium,
+									},
+								]}
+							>
+								그룹 인원/유형{"  "}
+								{selectedCategory.length >= 1 && (
+									<Text style={styles.textSelectedNumber}>
+										{selectedCategory.length}
+									</Text>
+								)}
+							</Text>
 							{collapsedStates[0] ? (
 								<FilterArrowBottom style={styles.listIcon} />
 							) : (
@@ -322,7 +425,15 @@ const GroupFilterBottomSlide = (props) => {
 						</Collapsible>
 					</ScrollView>
 
-					<ApplyButton text="적용하기" background="true" />
+					<FilterBottomTwoButtons>
+						<View
+							totalSelection={totalSelection}
+							text="전체 선택 해제"
+							onPress={() => reset()}
+							disabled={totalSelection === 0}
+						/>
+						<View text="적용하기" onPress={handleGroupFilter} />
+					</FilterBottomTwoButtons>
 				</Animated.View>
 			</View>
 		</Modal>
