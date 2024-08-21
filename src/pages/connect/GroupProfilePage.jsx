@@ -52,10 +52,17 @@ const GroupProfilePage = ({ route }) => {
 			const profile = formatProfileData([response.data]);
 			setGroupProfileData(profile[0]);
 
-			const image = await getProfileImageByFileName(
-				response.data.profileImg.originalName,
-			);
-			setProfilePresignUrl(image.data);
+			if (
+				response.data.profileImg &&
+				response.data.profileImg.originalName
+			) {
+				const image = await getProfileImageByFileName(
+					response.data.profileImg.originalName,
+				);
+				setProfilePresignUrl(image.data);
+			} else {
+				setProfilePresignUrl(null);
+			}
 		} catch (error) {
 			console.error(
 				"그룹 상세 페이지 조회 오류:",
@@ -84,7 +91,7 @@ const GroupProfilePage = ({ route }) => {
 					<ConnectProfileBackground />
 				</View>
 				<View style={GroupProfileStyles.simpleProfileContainer}>
-					<ConnectProfile profile={profilePresignUrl} />
+					<ConnectProfile profile={profilePresignUrl || null} />
 					<Text style={GroupProfileStyles.name}>
 						{groupProfileData.name}
 					</Text>
@@ -96,7 +103,7 @@ const GroupProfilePage = ({ route }) => {
 							</Text>
 							<Text style={GroupProfileStyles.textMaxHeadcount}>
 								{" "}
-								/ 30
+								/ {groupProfileData.maxCount}
 							</Text>
 						</View>
 					</View>

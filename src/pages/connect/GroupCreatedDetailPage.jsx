@@ -31,20 +31,6 @@ const GroupCreatedDetailPage = () => {
 		Keyboard.dismiss();
 	};
 
-	const [isCheckedList, setIsCheckedList] = useState([
-		false,
-		false,
-		false,
-		false,
-		false,
-	]);
-
-	const [isCategoryCheckedList, setIsCategoryCheckedList] = useState([
-		false,
-		false,
-		false,
-	]);
-
 	const [selectedHobby, setSelectedHobby] = useState([]);
 	const [selectedLanguage, setSelectedLanguage] = useState([]);
 	const [selectedCategory, setSelectedCategory] = useState([]);
@@ -73,6 +59,7 @@ const GroupCreatedDetailPage = () => {
 		"영화",
 		"맛집",
 	];
+
 	const languages = [
 		"English / English",
 		"中文 / Chinese",
@@ -83,6 +70,14 @@ const GroupCreatedDetailPage = () => {
 	];
 
 	const categories = ["소통/친구 사귀기", "언어교환", "자유"];
+
+	const [isCheckedList, setIsCheckedList] = useState(
+		new Array(languages.length).fill(false),
+	);
+
+	const [isCategoryCheckedList, setIsCategoryCheckedList] = useState(
+		new Array(categories.length).fill(false),
+	);
 
 	const size = 3;
 	const hobbyRows = [];
@@ -287,6 +282,9 @@ const GroupCreatedDetailPage = () => {
 										}
 										thumbTintColor={
 											CustomTheme.primaryMedium
+										}
+										maximumTrackTintColor={
+											CustomTheme.bgList
 										}
 									/>
 									<View

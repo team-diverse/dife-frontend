@@ -343,6 +343,30 @@ export const getConnectFilter = (mbtis, hobbies, languages) => {
 	});
 };
 
+export const getGroupConnectSearch = (keyword) => {
+	return api.get("/chatrooms/search", {
+		params: {
+			keyword,
+		},
+	});
+};
+
+export const getGroupConnectFilter = (
+	hobbies,
+	languages,
+	purposes,
+	maxCount,
+) => {
+	return api.get("/chatrooms/filter", {
+		params: {
+			hobbies,
+			languages,
+			purposes,
+			maxCount,
+		},
+	});
+};
+
 export const getConnectById = (memberId) => {
 	return api.get(`/connects/`, {
 		params: {
