@@ -81,6 +81,7 @@ import DefaultLanguagePage from "@pages/member/DefaultLanguagePage";
 import { CreateGroupProvider } from "states/CreateGroupDataContext";
 import EnlargeImagePage from "@pages/community/EnlargeImagePage";
 import PreparingPage from "@pages/etc/PreparingPage";
+import StudentVerificationErrorPage from "@pages/onboarding/StudentVerificationErrorPage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -362,6 +363,10 @@ function AuthNavigator({ initialRoute }) {
 			<Stack.Screen
 				name="CountrySelectionPage"
 				component={CountrySelectionPage}
+			/>
+			<Stack.Screen
+				name="StudentVerificationErrorPage"
+				component={StudentVerificationErrorPage}
 			/>
 		</Stack.Navigator>
 	);
