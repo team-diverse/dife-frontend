@@ -86,12 +86,17 @@ const WritePage = ({ route }) => {
 
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
 			quality: 1,
+			allowsMultipleSelection: true,
 		});
 
 		if (!result.canceled) {
-			setImages([...images, result.assets[0].uri]);
+			const selectedImages = result.assets.map((asset) => asset.uri);
+			if (selectedImages.length > 9) {
+				Alert.alert("알림", `최대 9장까지만 선택할 수 있습니다.`);
+				return;
+			}
+			setImages(selectedImages);
 		}
 	};
 
