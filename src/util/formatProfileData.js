@@ -10,8 +10,8 @@ export const formatProfileData = (data) => {
 		if (item.mbti !== null) {
 			tags = [item.mbti, ...tags];
 		}
-		if (item.categories && item.categories.length > 0) {
-			tags = [...item.categories, ...tags];
+		if (item.purposes && item.purposes.length > 0) {
+			tags = [...item.purposes, ...tags];
 		}
 
 		return { ...item, tags };

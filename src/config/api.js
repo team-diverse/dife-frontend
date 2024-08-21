@@ -37,11 +37,27 @@ export const createSingleChatroom = (toMemberId, name) => {
 	return api.post("/chatrooms", formData, { headers });
 };
 
-export const createGroupChatroom = (profileImg, name, description) => {
+export const createGroupChatroom = (
+	profileImg,
+	name,
+	description,
+	hobbies,
+	maxCount,
+	purposes,
+	languages,
+	isPublic,
+	password,
+) => {
 	const formData = new FormData();
 	formData.append("chatroomType", "GROUP");
 	formData.append("name", name);
 	formData.append("description", description);
+	formData.append("hobbies", hobbies);
+	formData.append("maxCount", maxCount);
+	formData.append("purposes", purposes);
+	formData.append("languages", languages);
+	formData.append("isPublic", isPublic);
+	formData.append("password", password);
 
 	if (profileImg) {
 		const file = {
