@@ -7,7 +7,7 @@ export const formatProfileData = (data) => {
 		const cleanedHobbies = cleanHobbies(item.hobbies);
 
 		let tags = [...cleanedHobbies];
-		if (item.mbti !== null) {
+		if (item.mbti !== null && item.mbti !== undefined) {
 			tags = [item.mbti, ...tags];
 		}
 		if (item.purposes && item.purposes.length > 0) {

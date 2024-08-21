@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
 	SafeAreaView,
 	View,
@@ -158,10 +158,6 @@ const GroupCreatedDetailPage = () => {
 		});
 		navigation.navigate("GroupProfilePreviewPage");
 	};
-
-	useEffect(() => {
-		console.log(sliderValue);
-	}, [sliderValue]);
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>

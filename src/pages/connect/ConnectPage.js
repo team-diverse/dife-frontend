@@ -15,6 +15,7 @@ import {
 	getRandomMembersByCount,
 	getConnectSearch,
 	getGroups,
+	getProfileImageByFileName,
 } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
 
@@ -139,7 +140,26 @@ const ConnectPage = ({ route }) => {
 	const getGroupList = async () => {
 		try {
 			const response = await getGroups();
-			setGroupList(response.data);
+			const addImageUrlGroupList = await Promise.all(
+				response.data.map(async (item) => {
+					if (item.profileImg && item.profileImg.originalName) {
+						const image = await getProfileImageByFileName(
+							item.profileImg.originalName,
+						);
+						return {
+							...item,
+							profilePresignUrl: image.data,
+						};
+					} else {
+						return {
+							...item,
+							profilePresignUrl: null,
+						};
+					}
+				}),
+			);
+			const addTags = formatProfileData(addImageUrlGroupList);
+			setGroupList(addTags);
 		} catch (error) {
 			console.error(
 				"전체 그룹 조회 오류:",
@@ -275,8 +295,10 @@ const ConnectPage = ({ route }) => {
 								renderItem={({ item }) => (
 									<ConnectCard
 										{...item}
+										profilePresignUrl={
+											item.groupProfilePresignUrl
+										}
 										groupName={item.name}
-										tags={item.tags}
 									/>
 								)}
 								keyExtractor={(item) => item.id}
