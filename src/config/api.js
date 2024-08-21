@@ -74,6 +74,14 @@ export const createGroupChatroom = (
 	return api.post("/chatrooms", formData, { headers });
 };
 
+export const checkGroupName = (name) => {
+	return api.head("/chatrooms/check", {
+		params: {
+			name,
+		},
+	});
+};
+
 export const getGroups = () => {
 	return api.get("/chatrooms", {
 		params: {
