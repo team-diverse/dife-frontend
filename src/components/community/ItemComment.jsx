@@ -117,19 +117,11 @@ const ItemComment = ({ commentList = [], onReply }) => {
 
 	const [myMemberId, setMyMemberId] = useState(null);
 
-	const getMyId = async () => {
-		try {
-			const id = await getMyMemberId();
-			setMyMemberId(id);
-		} catch (error) {
-			console.error(
-				"내 멤버 아이디 가져오기 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
 	useEffect(() => {
+		const getMyId = async () => {
+			const memberId = await getMyMemberId();
+			setMyMemberId(memberId);
+		};
 		getMyId();
 	}, []);
 
