@@ -168,13 +168,16 @@ export const createPost = (title, content, isPublic, boardType, postFile) => {
 	formData.append("content", content);
 	formData.append("isPublic", isPublic);
 	formData.append("boardType", boardType);
-	if (postFile) {
-		const file = {
-			uri: postFile,
-			type: "image/jpeg",
-			name: `image_${postFile}.jpg`,
-		};
-		formData.append("profileImg", file);
+
+	if (postFile && Array.isArray(postFile)) {
+		postFile.forEach((uri, index) => {
+			const fileExtension = uri.split(".").pop();
+			formData.append("postFiles", {
+				uri: uri,
+				type: `image/${fileExtension}`,
+				name: `${title}_image_${index}.${fileExtension}`,
+			});
+		});
 	}
 
 	const headers = {
@@ -237,7 +240,11 @@ export const createReplyComment = (
 };
 
 export const getCommentByPostId = (postId) => {
-	return api.get(`/comments/${postId}`);
+	return api.get(`/posts/${postId}/comments`);
+};
+
+export const deleteCommentByCommentId = (commentId) => {
+	return api.delete(`/comments/${commentId}`);
 };
 
 export const createLikePost = (postId) => {

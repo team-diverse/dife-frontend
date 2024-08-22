@@ -125,7 +125,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		getMyId();
 	}, []);
 
-	const renderComment = async (comment) => {
+	const renderComment = (comment) => {
 		const replies = commentList.filter(
 			(reply) =>
 				reply.parentComment && reply.parentComment.id === comment.id,
