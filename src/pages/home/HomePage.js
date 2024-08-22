@@ -2,13 +2,16 @@ import React, { useState, useCallback } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import * as SecureStore from "expo-secure-store";
 
 import HomeStyles from "@pages/home/HomeStyles.js";
 import {
 	getRandomMembersByCount,
 	createLikeMember,
 	deleteLikeMember,
+	getNotifications,
 } from "config/api";
+import { formatProfileData } from "util/formatProfileData";
 
 import HomeBg from "@assets/images/svg_js/HomeBg.js";
 import LogoBr from "@components/Logo/LogoBr.js";
@@ -22,26 +25,18 @@ import HomeCardFront from "@components/home/HomeCardFront";
 import HomeCard from "@components/home/HomeCard";
 import HomeCardLast from "@components/home/HomeCardLast";
 
-const HomePage = ({ count = 3 }) => {
+const HomePage = () => {
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
+	const [notificationNumber, setNotificationNumber] = useState(0);
+
 	const RANDOM_MEMBER_COUNT = 10;
 
 	const homeProfile = async () => {
 		try {
 			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
-			function cleanHobbies(hobbies) {
-				return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
-			}
-			const updatedData = response.data.map((data) => {
-				if (data.mbti !== null) {
-					const cleanedHobbies = cleanHobbies(data.hobbies);
-					const tags = [data.mbti, ...cleanedHobbies];
-					return { ...data, tags };
-				}
-				return data;
-			});
+			const updatedData = formatProfileData(response.data);
 			setProfileDataList(updatedData);
 
 			const initialHeart = {};
@@ -51,7 +46,27 @@ const HomePage = ({ count = 3 }) => {
 			setHeart(initialHeart);
 		} catch (error) {
 			console.error(
-				"오류:",
+				"홈 카드 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const getNotificationNumber = async () => {
+		try {
+			const notificationResponse = await getNotifications();
+			const count = await SecureStore.getItemAsync(
+				"readNotificationCount",
+			);
+			const unreadNotificationCount =
+				notificationResponse.data.length -
+				(count ? parseInt(count, 10) : 0);
+			setNotificationNumber(
+				unreadNotificationCount > 0 ? unreadNotificationCount : 0,
+			);
+		} catch (error) {
+			console.error(
+				"홈페이지 알림 조회 오류:",
 				error.response ? error.response.data : error.message,
 			);
 		}
@@ -59,6 +74,7 @@ const HomePage = ({ count = 3 }) => {
 
 	useFocusEffect(
 		useCallback(() => {
+			getNotificationNumber();
 			homeProfile();
 		}, []),
 	);
@@ -130,6 +146,11 @@ const HomePage = ({ count = 3 }) => {
 		}
 	};
 
+	const handleNaviNotification = () => {
+		setNotificationNumber(0);
+		navigation.navigate("NotificationPage");
+	};
+
 	return (
 		<SafeAreaView style={HomeStyles.container}>
 			<LinearGradient
@@ -144,9 +165,9 @@ const HomePage = ({ count = 3 }) => {
 					</View>
 					<TouchableOpacity
 						style={HomeStyles.notify}
-						onPress={() => navigation.navigate("NotificationPage")}
+						onPress={handleNaviNotification}
 					>
-						<Notification32 count={count} />
+						<Notification32 count={notificationNumber} />
 					</TouchableOpacity>
 				</View>
 
