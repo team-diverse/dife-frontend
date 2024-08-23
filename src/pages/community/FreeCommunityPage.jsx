@@ -9,11 +9,10 @@ import {
 	ScrollView,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import axios from "axios";
 
 import FreeCommunityStyles from "@pages/community/FreeCommunityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { getPostsByType } from "config/api";
+import { getPostsByType, getFreeCommunitySearch } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
 
 import ConnectTop from "@components/connect/ConnectTop";
@@ -23,6 +22,7 @@ import ConnectSearchCancel from "@components/connect/ConnectSearchCancel";
 import IconBookmark from "@components/chat/IconBookmark";
 import ItemCommunity from "@components/community/ItemCommunity";
 import ArrowRight from "@components/common/ArrowRight";
+import IconSearchFail from "@components/common/IconSearchFail";
 
 const FreeCommunityPage = () => {
 	const navigation = useNavigation();
@@ -31,20 +31,22 @@ const FreeCommunityPage = () => {
 		navigation.goBack();
 	};
 
+	const [postList, setPostList] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
-	const [, setSearchData] = useState([]);
+	const [searchData, setSearchData] = useState(null);
+	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
 
-	const handleSearch = () => {
-		if (searchTerm.trim() !== "") {
-			axios
-				.get(`${searchTerm}`)
-				.then((response) => {
-					setSearchData(response.data);
-				})
-				.catch((error) => {
-					console.error("Error:", error);
-				});
+	const handleSearch = async () => {
+		try {
+			const response = await getFreeCommunitySearch(searchTerm);
+			setSearchData(response.data);
+		} catch (error) {
+			console.error(
+				"커넥트 검색 오류:",
+				error.response ? error.response.data : error.message,
+			);
+			setSearchFail(true);
 		}
 	};
 
@@ -61,8 +63,6 @@ const FreeCommunityPage = () => {
 		setIsSearching(false);
 		Keyboard.dismiss();
 	};
-
-	const [postList, setPostList] = useState([]);
 
 	useFocusEffect(
 		useCallback(() => {
@@ -121,6 +121,7 @@ const FreeCommunityPage = () => {
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}
 							onBlur={handleBlur}
+							onSubmitEditing={handleSearch}
 						/>
 						{isSearching ? (
 							<ConnectSearchCancel
@@ -137,9 +138,22 @@ const FreeCommunityPage = () => {
 				</View>
 
 				<ScrollView>
-					<View style={FreeCommunityStyles.itemCommunity}>
-						<ItemCommunity postList={postList} />
-					</View>
+					{searchFail ? (
+						<View style={FreeCommunityStyles.containerFail}>
+							<IconSearchFail />
+							<Text style={FreeCommunityStyles.textFail}>
+								일치하는 검색 결과가 없습니다
+							</Text>
+						</View>
+					) : (
+						<View style={FreeCommunityStyles.itemCommunity}>
+							<ItemCommunity
+								postList={
+									searchData === null ? postList : searchData
+								}
+							/>
+						</View>
+					)}
 				</ScrollView>
 			</SafeAreaView>
 		</View>
