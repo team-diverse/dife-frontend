@@ -242,9 +242,14 @@ const HomePage = () => {
 				</View>
 
 				<View style={HomeStyles.homeSchEv}>
-					<HomeSchEv />
-					<Text style={HomeStyles.textHomeSchool}>학교정보</Text>
-					<HomeSchoolInfo style={HomeStyles.homeSchIcon} />
+					<TouchableOpacity
+						style={HomeStyles.homeEvent}
+						onPress={() => navigation.navigate("PreparingPage")}
+					>
+						<HomeSchEv />
+						<Text style={HomeStyles.textHomeSchool}>학교정보</Text>
+						<HomeSchoolInfo style={HomeStyles.homeSchIcon} />
+					</TouchableOpacity>
 					<TouchableOpacity
 						style={HomeStyles.homeEvent}
 						onPress={() => navigation.navigate("EventPage")}
