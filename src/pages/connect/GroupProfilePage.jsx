@@ -1,24 +1,16 @@
 import React, { useEffect, useState } from "react";
-import {
-	SafeAreaView,
-	ScrollView,
-	View,
-	Text,
-	TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, ScrollView, View, Text } from "react-native";
 
 import GroupProfileStyles from "@pages/connect/GroupProfileStyles";
 import { getGroupByGroupId, getProfileImageByFileName } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
-import IconHeart24 from "@components/Icon24/IconHeart24";
 import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";
 import ConnectProfile from "@components/connect/ConnectProfile";
 import ConnectProfileIntroduction from "@components/connect/ConnectProfileIntroduction";
 import ConnectProfileTag from "@components/connect/ConnectProfileTag";
 import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
-import Report from "@components/Report";
 import IconGroupHeadcount from "@components/connect/IconGroupHeadcount";
 import ApplyButton from "@components/common/ApplyButton";
 import ModalGroupJoin from "@components/connect/ModalGroupJoin";
@@ -26,10 +18,6 @@ import ModalGroupJoin from "@components/connect/ModalGroupJoin";
 const GroupProfilePage = ({ route }) => {
 	const [modalReportVisible, setModalReportVisible] = useState(false);
 	const [modalGroupJoinVisible, setModalGroupJoinVisible] = useState(false);
-
-	const handleReport = () => {
-		setModalReportVisible(true);
-	};
 
 	const [heart, setHeart] = useState(false);
 
@@ -79,10 +67,11 @@ const GroupProfilePage = ({ route }) => {
 		<SafeAreaView
 			style={[GroupProfileStyles.container, { alignItems: "center" }]}
 		>
-			<View style={GroupProfileStyles.topBar}>
-				<ConnectProfileTopBar topBar="프로필" />
-				<IconHeart24 active={heart} onPress={handleHeartPress} />
-			</View>
+			<ConnectProfileTopBar
+				topBar="프로필"
+				active={heart}
+				onPressHeart={handleHeartPress}
+			/>
 			<ScrollView
 				contentContainerStyle={{ alignItems: "center" }}
 				style={GroupProfileStyles.scrollView}
@@ -125,25 +114,7 @@ const GroupProfilePage = ({ route }) => {
 					/>
 					<View style={GroupProfileStyles.languageLine} />
 				</View>
-				<View
-					style={GroupProfileStyles.report}
-					onPress={() => this.setState({ open: true })}
-				>
-					<TouchableOpacity onPress={handleReport}>
-						<Text style={GroupProfileStyles.textReport}>
-							신고하기
-						</Text>
-					</TouchableOpacity>
-					<Report
-						modalVisible={modalReportVisible}
-						setModalVisible={setModalReportVisible}
-						reportTitle="개인 프로필 신고"
-						report1="혐오적인 컨텐츠"
-						report2="욕설/도배"
-						report3="다른 사람을 사칭함"
-						report4="기타"
-					/>
-				</View>
+				<View style={GroupProfileStyles.margin} />
 			</ScrollView>
 			<View style={GroupProfileStyles.applyButton}>
 				<ApplyButton

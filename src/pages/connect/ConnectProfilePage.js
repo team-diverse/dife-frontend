@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-	SafeAreaView,
-	ScrollView,
-	View,
-	Text,
-	TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, ScrollView, View, Text } from "react-native";
 
 import {
 	getProfileById,
@@ -19,7 +13,6 @@ import { formatProfileData } from "util/formatProfileData";
 import { getMyMemberId } from "util/secureStoreUtils";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
-import IconHeart24 from "@components/Icon24/IconHeart24";
 import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";
 import ConnectProfileStyles from "@pages/connect/ConnectProfileStyles";
 import ConnectProfile from "@components/connect/ConnectProfile";
@@ -27,7 +20,6 @@ import ConnectProfileIntroduction from "@components/connect/ConnectProfileIntrod
 import ConnectProfileTag from "@components/connect/ConnectProfileTag";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
-import Report from "@components/Report";
 import ConnectRequest from "@components/ConnectRequest";
 
 const ConnectProfilePage = ({ route }) => {
@@ -36,7 +28,6 @@ const ConnectProfilePage = ({ route }) => {
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
 	const [requestSent, setRequestSent] = useState(false);
-	const [modalReportVisible, setModalReportVisible] = useState(false);
 	const [modalConnectVisible, setModalConnectVisible] = useState(false);
 	const [heart, setHeart] = useState(false);
 
@@ -77,10 +68,6 @@ const ConnectProfilePage = ({ route }) => {
 	useEffect(() => {
 		getConnectStatus();
 	}, [connectStatus]);
-
-	const handleReport = () => {
-		setModalReportVisible(true);
-	};
 
 	const requestConnect = async () => {
 		try {
@@ -147,13 +134,12 @@ const ConnectProfilePage = ({ route }) => {
 		<SafeAreaView
 			style={[ConnectProfileStyles.container, { alignItems: "center" }]}
 		>
-			<View style={ConnectProfileStyles.topBar}>
-				<ConnectProfileTopBar topBar="프로필" />
-				<IconHeart24
-					active={heart}
-					onPress={heart ? handleDeleteHeart : handleCreateHeart}
-				/>
-			</View>
+			<ConnectProfileTopBar
+				topBar="프로필"
+				active={heart}
+				onPressHeart={heart ? handleDeleteHeart : handleCreateHeart}
+				memberId={memberId}
+			/>
 			<View style={ConnectProfileStyles.scrollView}>
 				<ScrollView contentContainerStyle={{ alignItems: "center" }}>
 					<View style={ConnectProfileStyles.background}>
@@ -191,24 +177,8 @@ const ConnectProfilePage = ({ route }) => {
 						<ConnectProfileLanguage
 							languages={profileData.languages}
 						/>
-						<View style={ConnectProfileStyles.languageLine} />
 					</View>
-					<View
-						style={ConnectProfileStyles.report}
-						onPress={() => this.setState({ open: true })}
-					>
-						<TouchableOpacity onPress={handleReport}>
-							<Text style={ConnectProfileStyles.textReport}>
-								신고하기
-							</Text>
-						</TouchableOpacity>
-						<Report
-							modalVisible={modalReportVisible}
-							setModalVisible={setModalReportVisible}
-							reportTitle="개인 프로필 신고"
-							memberId={memberId}
-						/>
-					</View>
+					<View style={ConnectProfileStyles.margin} />
 				</ScrollView>
 			</View>
 			<View style={ConnectProfileStyles.bottomTwoButtons}>
