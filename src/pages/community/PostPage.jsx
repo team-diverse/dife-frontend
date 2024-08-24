@@ -33,6 +33,7 @@ import {
 	deleteBookmarkByPostId,
 	getProfileImageByFileName,
 } from "config/api";
+import { formatDate } from "util/formatDate";
 
 import TopBar from "@components/common/TopBar";
 import IconProfileK from "@components/community/IconProfileK";
@@ -91,12 +92,6 @@ const PostPage = ({ route }) => {
 	const difeLinesCount =
 		comments.length === 0 ? 1 : Math.floor(comments.length / 1.5);
 
-	const date = (date) => {
-		const datePart = date.split("T")[0];
-		const monthDay = datePart.slice(5);
-		return monthDay.replace("-", "/");
-	};
-
 	useFocusEffect(
 		useCallback(() => {
 			const postComment = async () => {
@@ -108,7 +103,7 @@ const PostPage = ({ route }) => {
 					setContext(postByIdResponse.data.content);
 					setHeart(postByIdResponse.data.likesCount);
 					setBookmark(postByIdResponse.data.bookmarkCount);
-					setCreated(date(postByIdResponse.data.created));
+					setCreated(formatDate(postByIdResponse.data.created));
 					setIsPublic(postByIdResponse.data.isPublic);
 					setMemberId(postByIdResponse.data.writer.id);
 					const fileNames = postByIdResponse.data.files.map(

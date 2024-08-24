@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import { createLikeComment, deleteLikeByCommentId } from "config/api";
 import { getMyMemberId } from "util/secureStoreUtils";
+import { formatDate } from "util/formatDate";
 
 import IconHeart from "@components/community/IconHeart";
 import IconKebabMenu from "@components/community/IconKebabMenu";
@@ -14,12 +15,6 @@ import ModalKebabMenu from "@components/community/ModalKebabMenu";
 const { fontCaption, fontNavi } = CustomTheme;
 
 const ItemComment = ({ commentList = [], onReply }) => {
-	const date = (date) => {
-		const datePart = date.split("T")[0];
-		const monthDay = datePart.slice(5);
-		return monthDay.replace("-", "/");
-	};
-
 	const initialHeartStates = commentList.map((post) => ({
 		id: post.id,
 		likesCount: post.likesCount,
@@ -197,7 +192,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 								</TouchableOpacity>
 								<View style={styles.containerText}>
 									<Text style={styles.text}>
-										{date(comment.created)}
+										{formatDate(comment.created)}
 									</Text>
 								</View>
 							</View>
@@ -278,7 +273,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 										</TouchableOpacity>
 										<View style={styles.containerText}>
 											<Text style={styles.text}>
-												{date(reply.created)}
+												{formatDate(reply.created)}
 											</Text>
 										</View>
 									</View>
