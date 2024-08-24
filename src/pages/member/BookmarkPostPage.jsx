@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { View, ScrollView } from "react-native";
 
 import BookmarkPostStyles from "@pages/member/BookmarkPostStyles";
-
 import { getBookmarkedPost } from "config/api";
+import { communityPresignUrl } from "util/communityPresignUrl";
+
 import ItemLikeBookmark from "@components/member/ItemLikeBookmark";
 
 const BookmarkPostPage = () => {
@@ -13,7 +14,10 @@ const BookmarkPostPage = () => {
 		const handleBookmarkPost = async () => {
 			try {
 				const bookmarkPostResponse = await getBookmarkedPost();
-				setBookmarkPostList(bookmarkPostResponse.data);
+				const presignUrl = await communityPresignUrl(
+					bookmarkPostResponse.data,
+				);
+				setBookmarkPostList(presignUrl);
 			} catch (error) {
 				console.error(
 					"북마크한 게시글 조회 오류:",

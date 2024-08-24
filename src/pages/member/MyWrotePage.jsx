@@ -5,6 +5,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import MyPostStyles from "@pages/member/MyPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { getMyPosts } from "config/api";
+import { communityPresignUrl } from "util/communityPresignUrl";
 
 import TopBar from "@components/common/TopBar";
 import ItemCommunity from "@components/community/ItemCommunity";
@@ -15,7 +16,8 @@ const MyWrotePage = () => {
 	const getMyPostList = async () => {
 		try {
 			const response = await getMyPosts();
-			setMyPostList(response.data);
+			const presignUrl = await communityPresignUrl(response.data);
+			setMyPostList(presignUrl);
 		} catch (error) {
 			console.error(
 				"내가 쓴 글 조회 오류:",
