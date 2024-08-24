@@ -5,6 +5,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import MyPostStyles from "@pages/member/MyPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { getMyPosts, getMyComments } from "config/api";
+import { communityPresignUrl } from "util/communityPresignUrl";
 
 import TopBar from "@components/common/TopBar";
 import ArrowRight from "@components/common/ArrowRight";
@@ -19,7 +20,8 @@ const MyPostPage = () => {
 	const getMyPostList = async () => {
 		try {
 			const myPost = await getMyPosts();
-			setMyPostList(myPost.data.slice(0, 3));
+			const presignUrl = await communityPresignUrl(myPost.data);
+			setMyPostList(presignUrl.slice(0, 3));
 
 			const myComment = await getMyComments();
 			setMyCommentList(myComment.data.slice(0, 3));
