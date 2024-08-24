@@ -42,7 +42,7 @@ const ModalNoBookmark = ({
 					</View>
 					<View style={styles.containerNoBookmark}>
 						<Text style={styles.textNoBookmark}>
-							스크랩을 해제하시겠어요?
+							북마크를 해제하시겠어요?
 						</Text>
 					</View>
 				</View>

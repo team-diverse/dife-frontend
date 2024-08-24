@@ -41,11 +41,13 @@ const ItemLikeBookmark = ({ likedAndBookmarkPostList, type = "like" }) => {
 							</Text>
 						</View>
 
-						{post.image && (
-							<Image
-								source={post.image}
-								style={styles.imagePost}
-							/>
+						{post.profilePresignUrl && (
+							<View style={styles.containerImage}>
+								<Image
+									source={{ uri: post.profilePresignUrl }}
+									style={styles.imagePost}
+								/>
+							</View>
 						)}
 					</View>
 				</TouchableOpacity>
@@ -85,11 +87,6 @@ const styles = StyleSheet.create({
 		height: 17,
 		marginTop: 3,
 	},
-	imagePost: {
-		width: 48,
-		height: 48,
-		borderRadius: 10,
-	},
 	containerTextRow: {
 		flexDirection: "row",
 		marginTop: 3,
@@ -103,6 +100,16 @@ const styles = StyleSheet.create({
 		...fontNavi,
 		color: "#8C8D91",
 		marginLeft: 1,
+	},
+	containerImage: {
+		position: "absolute",
+		alignItems: "center",
+		right: -3,
+	},
+	imagePost: {
+		width: 48,
+		height: 48,
+		borderRadius: 10,
 	},
 });
 

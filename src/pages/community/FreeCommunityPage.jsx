@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -13,6 +13,8 @@ import axios from "axios";
 
 import FreeCommunityStyles from "@pages/community/FreeCommunityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { getPostsByType } from "config/api";
+import { communityPresignUrl } from "util/communityPresignUrl";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import IconPostPlus from "@components/community/IconPostPlus";
@@ -20,7 +22,6 @@ import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
 import ConnectSearchCancel from "@components/connect/ConnectSearchCancel";
 import IconBookmark from "@components/chat/IconBookmark";
 import ItemCommunity from "@components/community/ItemCommunity";
-import { getPostsByType } from "config/api";
 import ArrowRight from "@components/common/ArrowRight";
 
 const FreeCommunityPage = () => {
@@ -64,11 +65,12 @@ const FreeCommunityPage = () => {
 	const [postList, setPostList] = useState([]);
 
 	useFocusEffect(
-		React.useCallback(() => {
+		useCallback(() => {
 			const freeCommunity = async () => {
 				try {
 					const response = await getPostsByType("FREE");
-					setPostList(response.data);
+					const presignUrl = await communityPresignUrl(response.data);
+					setPostList(presignUrl);
 				} catch (error) {
 					console.error(
 						"게시글 조회 오류:",
