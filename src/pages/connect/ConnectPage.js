@@ -15,6 +15,8 @@ import {
 	getRandomMembersByCount,
 	getConnectSearch,
 	getGroups,
+	getProfileImageByFileName,
+	getGroupConnectSearch,
 } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
 
@@ -134,12 +136,34 @@ const ConnectPage = ({ route }) => {
 		}
 	}, [groupId]);
 
-	const [grouplist, setGroupList] = useState();
+	const [groupList, setGroupList] = useState();
 
 	const getGroupList = async () => {
 		try {
 			const response = await getGroups();
-			setGroupList(response.data);
+			const addImageUrlGroupList = await Promise.all(
+				response.data.map(async (item) => {
+					if (item.profileImg && item.profileImg.originalName) {
+						const image = await getProfileImageByFileName(
+							item.profileImg.originalName,
+						);
+						return {
+							...item,
+							profilePresignUrl: image.data,
+						};
+					} else {
+						return {
+							...item,
+							profilePresignUrl: null,
+						};
+					}
+				}),
+			);
+			const addTags = formatProfileData(addImageUrlGroupList);
+			setGroupList(addTags);
+			setGroupSearchData(null);
+			setGroupSearchTerm("");
+			setSearchFail(false);
 		} catch (error) {
 			console.error(
 				"전체 그룹 조회 오류:",
@@ -155,6 +179,34 @@ const ConnectPage = ({ route }) => {
 			}
 		}, [isGroupTab]),
 	);
+
+	const [groupSearchTerm, setGroupSearchTerm] = useState("");
+	const [groupSearchData, setGroupSearchData] = useState(null);
+
+	const handleGroupSearch = async () => {
+		try {
+			const response = await getGroupConnectSearch(groupSearchTerm);
+			const updatedData = formatProfileData(response.data);
+			setGroupSearchData(updatedData);
+		} catch (error) {
+			console.error(
+				"그룹 커넥트 검색 오류:",
+				error.response ? error.response.data : error.message,
+			);
+			setSearchFail(true);
+		}
+	};
+
+	const handleGroupCancel = () => {
+		setGroupSearchTerm("");
+		setIsSearching(false);
+		Keyboard.dismiss();
+	};
+
+	const handleGroupFilterResponse = (response) => {
+		const updatedData = formatProfileData(response);
+		setGroupSearchData(updatedData);
+	};
 
 	return (
 		<View style={ConnectStyles.container}>
@@ -185,26 +237,40 @@ const ConnectPage = ({ route }) => {
 					<GroupFilterBottomSlide
 						modalVisible={groupModalVisible}
 						setModalVisible={setGroupModalVisible}
+						onFilterResponse={handleGroupFilterResponse}
+						onSearchResponse={handleFilterSearchFail}
 					/>
 					<View style={ConnectStyles.searchIconContainer}>
 						<TextInput
 							style={ConnectStyles.search}
 							placeholder="검색"
-							value={searchTerm}
-							onChangeText={setSearchTerm}
+							value={isGroupTab ? groupSearchTerm : searchTerm}
+							onChangeText={
+								isGroupTab ? setGroupSearchTerm : setSearchTerm
+							}
 							onFocus={handleFocus}
 							onBlur={handleBlur}
-							onSubmitEditing={handleSearch}
+							onSubmitEditing={
+								isGroupTab ? handleGroupSearch : handleSearch
+							}
 						/>
 						{isSearching ? (
 							<ConnectSearchCancel
 								style={ConnectStyles.searchIcon}
-								onPress={handleCancel}
+								onPress={
+									isGroupTab
+										? handleGroupCancel
+										: handleCancel
+								}
 							/>
 						) : (
 							<ConnectSearchIcon
 								style={ConnectStyles.searchIcon}
-								onPress={handleSearch}
+								onPress={
+									isGroupTab
+										? handleGroupSearch
+										: handleSearch
+								}
 							/>
 						)}
 					</View>
@@ -240,7 +306,7 @@ const ConnectPage = ({ route }) => {
 					</View>
 					<TouchableOpacity
 						style={ConnectStyles.resetContainer}
-						onPress={cardProfiles}
+						onPress={isGroupTab ? getGroupList : cardProfiles}
 					>
 						<Text style={ConnectStyles.textReset}>Reset</Text>
 						<ConnectReset />
@@ -271,12 +337,15 @@ const ConnectPage = ({ route }) => {
 								contentContainerStyle={
 									ConnectStyles.flatlistContent
 								}
-								data={grouplist}
+								data={
+									groupSearchData === null
+										? groupList
+										: groupSearchData
+								}
 								renderItem={({ item }) => (
 									<ConnectCard
 										{...item}
 										groupName={item.name}
-										tags={item.tags}
 									/>
 								)}
 								keyExtractor={(item) => item.id}
