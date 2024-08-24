@@ -3,7 +3,12 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useNavigation } from "@react-navigation/native";
 
-import { createLikeMember, deleteLikeMember } from "config/api";
+import {
+	createLikeMember,
+	deleteLikeMember,
+	createLikeChatroom,
+	deleteLikeChatroom,
+} from "config/api";
 
 import IconHeart24 from "@components/Icon24/IconHeart24";
 import ConnectPlusIcon from "@components/connect/ConnectPlusIcon";
@@ -22,11 +27,14 @@ const ConnectCard = ({
 	major = "major",
 	bio = "bio",
 	tags = ["tag"],
-	headcount,
+	groupName,
+	description,
+	count,
 	fail = false,
 }) => {
 	const navigation = useNavigation();
 	const [heart, setHeart] = useState(isLiked);
+	const [groupHeart, setGroupHeart] = useState(isLiked);
 
 	const handleCreateHeart = async () => {
 		try {
@@ -52,9 +60,33 @@ const ConnectCard = ({
 		}
 	};
 
+	const handleGroupCreateHeart = async () => {
+		try {
+			await createLikeChatroom(id);
+			setGroupHeart(true);
+		} catch (error) {
+			console.error(
+				"그룹 좋아요 생성 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleGroupDeleteHeart = async () => {
+		try {
+			await deleteLikeChatroom(id);
+			setGroupHeart(false);
+		} catch (error) {
+			console.error(
+				"그룹 좋아요 취소 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	const handleNavigation = () => {
-		if (headcount) {
-			navigation.navigate("GroupProfilePage");
+		if (count) {
+			navigation.navigate("GroupProfilePage", { groupId: id });
 		} else {
 			navigation.navigate("ConnectProfilePage", { memberId: id });
 		}
@@ -80,14 +112,20 @@ const ConnectCard = ({
 
 					<View style={styles.cardContainer}>
 						<View style={styles.containerNameIcon}>
-							<Text style={styles.textName}>{username}</Text>
+							<Text style={styles.textName}>
+								{groupName ? groupName : username}
+							</Text>
 							<View style={styles.iconContainer}>
 								<IconHeart24
-									active={heart}
+									active={count ? groupHeart : heart}
 									onPress={
-										heart
-											? handleDeleteHeart
-											: handleCreateHeart
+										count
+											? groupHeart
+												? handleGroupDeleteHeart
+												: handleGroupCreateHeart
+											: heart
+												? handleDeleteHeart
+												: handleCreateHeart
 									}
 								/>
 								<TouchableOpacity onPress={handleNavigation}>
@@ -97,12 +135,12 @@ const ConnectCard = ({
 								</TouchableOpacity>
 							</View>
 						</View>
-						{headcount && (
+						{count ? (
 							<View style={styles.containerHeadcount}>
 								<IconGroupHeadcount />
 								<View style={styles.containerTextHeadcount}>
 									<Text style={styles.textHeadcount}>
-										{headcount}
+										{count}
 									</Text>
 									<Text style={styles.textMaxHeadcount}>
 										{" "}
@@ -110,11 +148,15 @@ const ConnectCard = ({
 									</Text>
 								</View>
 							</View>
+						) : (
+							<Text style={styles.textBasicInfo}>
+								{country} | {major}
+							</Text>
 						)}
-						<Text style={styles.textBasicInfo}>
-							{country} | {major}
+
+						<Text style={styles.textIntroduction}>
+							{description ? description : bio}
 						</Text>
-						<Text style={styles.textIntroduction}>{bio}</Text>
 						<View style={styles.tagContainer}>
 							<Tag tag={tags} />
 						</View>

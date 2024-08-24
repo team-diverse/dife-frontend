@@ -37,6 +37,63 @@ export const createSingleChatroom = (toMemberId, name) => {
 	return api.post("/chatrooms", formData, { headers });
 };
 
+export const createGroupChatroom = (
+	profileImg,
+	name,
+	description,
+	hobbies,
+	maxCount,
+	purposes,
+	languages,
+	isPublic,
+	password,
+) => {
+	const formData = new FormData();
+	formData.append("chatroomType", "GROUP");
+	formData.append("name", name);
+	formData.append("description", description);
+	formData.append("hobbies", hobbies);
+	formData.append("maxCount", maxCount);
+	formData.append("purposes", purposes);
+	formData.append("languages", languages);
+	formData.append("isPublic", isPublic);
+	formData.append("password", password);
+
+	if (profileImg) {
+		const file = {
+			uri: profileImg,
+			type: "image/jpeg",
+			name: `${name}_profile.jpg`,
+		};
+		formData.append("profileImg", file);
+	}
+
+	const headers = {
+		"Content-Type": "multipart/form-data",
+	};
+	return api.post("/chatrooms", formData, { headers });
+};
+
+export const checkGroupName = (name) => {
+	return api.head("/chatrooms/check", {
+		params: {
+			name,
+		},
+	});
+};
+
+export const getGroups = () => {
+	return api.get("/chatrooms", {
+		params: {
+			chatroomType: "GROUP",
+		},
+	});
+};
+
+export const getGroupByGroupId = (groupId) => {
+	return api.get(`/chatrooms/${groupId}`);
+};
+
 export const signUp = (email, password) => {
 	return api.post("/members/register", {
 		email,
@@ -59,8 +116,20 @@ export const changePassword = (email) => {
 	});
 };
 
-export const getMyConnects = () => {
-	return api.get("/connects");
+export const getMyAcceptedConnects = () => {
+	return api.get("/connects", {
+		params: {
+			status: "ACCEPTED",
+		},
+	});
+};
+
+export const getMyPendingConnects = () => {
+	return api.get("/connects", {
+		params: {
+			status: "PENDING",
+		},
+	});
 };
 
 export const getMyProfile = () => {
@@ -123,13 +192,16 @@ export const createPost = (title, content, isPublic, boardType, postFile) => {
 	formData.append("content", content);
 	formData.append("isPublic", isPublic);
 	formData.append("boardType", boardType);
-	if (postFile) {
-		const file = {
-			uri: postFile,
-			type: "image/jpeg",
-			name: `image_${postFile}.jpg`,
-		};
-		formData.append("profileImg", file);
+
+	if (postFile && Array.isArray(postFile)) {
+		postFile.forEach((uri, index) => {
+			const fileExtension = uri.split(".").pop();
+			formData.append("postFiles", {
+				uri: uri,
+				type: `image/${fileExtension}`,
+				name: `${title}_image_${index}.${fileExtension}`,
+			});
+		});
 	}
 
 	const headers = {
@@ -147,13 +219,18 @@ export const updatePost = (
 	boardType,
 	memberId,
 ) => {
-	return api.put(`/posts/${id}`, {
-		title,
-		content,
-		isPublic,
-		boardType,
-		memberId,
-	});
+	const formData = new FormData();
+	formData.append("title", title);
+	formData.append("content", content);
+	formData.append("isPublic", isPublic);
+	formData.append("boardType", boardType);
+	formData.append("memberId", memberId);
+
+	const headers = {
+		"Content-Type": "multipart/form-data",
+	};
+
+	return api.put(`/posts/${id}`, formData, { headers });
 };
 
 export const getLikedPost = () => {
@@ -187,7 +264,11 @@ export const createReplyComment = (
 };
 
 export const getCommentByPostId = (postId) => {
-	return api.get(`/comments/${postId}`);
+	return api.get(`/posts/${postId}/comments`);
+};
+
+export const deleteCommentByCommentId = (commentId) => {
+	return api.delete(`/comments/${commentId}`);
 };
 
 export const createLikePost = (postId) => {
@@ -201,6 +282,26 @@ export const createLikeComment = (commentId) => {
 	return api.post("/likes", {
 		type: "COMMENT",
 		id: commentId,
+	});
+};
+
+export const getLikeChatroom = () => {
+	return api.get("/chatrooms/likes");
+};
+
+export const createLikeChatroom = (chatroomId) => {
+	return api.post("/likes", {
+		type: "CHATROOM",
+		id: chatroomId,
+	});
+};
+
+export const deleteLikeChatroom = (chatroomId) => {
+	return api.delete("/likes", {
+		data: {
+			type: "CHATROOM",
+			id: chatroomId,
+		},
 	});
 };
 
@@ -245,6 +346,30 @@ export const getConnectFilter = (mbtis, hobbies, languages) => {
 			mbtis: mbtis,
 			hobbies: hobbies,
 			languages: languages,
+		},
+	});
+};
+
+export const getGroupConnectSearch = (keyword) => {
+	return api.get("/chatrooms/search", {
+		params: {
+			keyword,
+		},
+	});
+};
+
+export const getGroupConnectFilter = (
+	hobbies,
+	languages,
+	purposes,
+	maxCount,
+) => {
+	return api.get("/chatrooms/filter", {
+		params: {
+			hobbies,
+			languages,
+			purposes,
+			maxCount,
 		},
 	});
 };
@@ -334,6 +459,10 @@ export const createNotificationToken = (pushToken, deviceId) => {
 	});
 };
 
+export const getNotifications = () => {
+	return api.get("/notifications");
+};
+
 export const reportPost = (type, postId) => {
 	return api.post("/reports", {
 		type,
@@ -371,4 +500,8 @@ export const deleteBlockMember = (memberId) => {
 			memberId,
 		},
 	});
+};
+
+export const deleteMember = () => {
+	return api.delete("/members");
 };

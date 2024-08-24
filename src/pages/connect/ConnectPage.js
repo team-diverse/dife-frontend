@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -16,6 +16,8 @@ import {
 	getRandomMembersByCount,
 	getConnectSearch,
 	getGroups,
+	getProfileImageByFileName,
+	getGroupConnectSearch,
 } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
 
@@ -33,25 +35,11 @@ import IconNewGroup from "@components/connect/IconNewGroup";
 import ModalGroupCreationComplete from "@components/connect/ModalGroupCreationComplete";
 import IconCircleNumber from "@components/community/IconCircleNumber";
 
-const ConnectPage = () => {
+const ConnectPage = ({ route }) => {
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
 	const RANDOM_MEMBER_COUNT = 10;
-
-	const formatProfileData = (data) => {
-		function cleanHobbies(hobbies) {
-			return hobbies.map((hobby) => hobby.replace(/[[\]"]/g, ""));
-		}
-		return data.map((item) => {
-			if (item.mbti !== null) {
-				const cleanedHobbies = cleanHobbies(item.hobbies);
-				const tags = [item.mbti, ...cleanedHobbies];
-				return { ...item, tags };
-			}
-			return item;
-		});
-	};
 
 	const cardProfiles = async () => {
 		try {
@@ -71,10 +59,11 @@ const ConnectPage = () => {
 
 	useFocusEffect(
 		useCallback(() => {
-			cardProfiles();
-		}, []),
+			if (!isGroupTab) {
+				cardProfiles();
+			}
+		}, [isGroupTab]),
 	);
-
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
@@ -138,7 +127,83 @@ const ConnectPage = () => {
 		setSearchFail(response);
 	};
 
-	const [modalGroupVisible, setModalGroupVisible] = useState(false);
+	const { groupId, modalGroup } = route.params || {};
+	const [modalGroupVisible, setModalGroupVisible] = useState();
+
+	useEffect(() => {
+		if (modalGroup) {
+			setModalGroupVisible(true);
+		} else {
+			setModalGroupVisible(false);
+		}
+	}, [groupId]);
+
+	const [groupList, setGroupList] = useState();
+
+	const getGroupList = async () => {
+		try {
+			const response = await getGroups();
+			const addImageUrlGroupList = await Promise.all(
+				response.data.map(async (item) => {
+					if (item.profileImg && item.profileImg.originalName) {
+						const image = await getProfileImageByFileName(
+							item.profileImg.originalName,
+						);
+						return {
+							...item,
+							profilePresignUrl: image.data,
+						};
+					} else {
+						return {
+							...item,
+							profilePresignUrl: null,
+						};
+					}
+				}),
+			);
+			const addTags = formatProfileData(addImageUrlGroupList);
+			setGroupList(addTags);
+			setGroupSearchData(null);
+			setGroupSearchTerm("");
+			setSearchFail(false);
+		} catch (error) {
+			console.error(
+				"전체 그룹 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			if (isGroupTab) {
+				getGroupList();
+			}
+		}, [isGroupTab]),
+	);
+
+	const [groupSearchTerm, setGroupSearchTerm] = useState("");
+	const [groupSearchData, setGroupSearchData] = useState(null);
+
+	const handleGroupSearch = async () => {
+		try {
+			const response = await getGroupConnectSearch(groupSearchTerm);
+			const updatedData = formatProfileData(response.data);
+			setGroupSearchData(updatedData);
+		} catch (error) {
+			console.error(
+				"그룹 커넥트 검색 오류:",
+				error.response ? error.response.data : error.message,
+			);
+			setSearchFail(true);
+		}
+	};
+
+	const handleGroupCancel = () => {
+		setGroupSearchTerm("");
+		setIsSearching(false);
+		Keyboard.dismiss();
+	};
 
 	const [grouplist, setGroupList] = useState();
 
@@ -299,21 +364,33 @@ const ConnectPage = () => {
 						<TextInput
 							style={ConnectStyles.search}
 							placeholder="검색"
-							value={searchTerm}
-							onChangeText={setSearchTerm}
+							value={isGroupTab ? groupSearchTerm : searchTerm}
+							onChangeText={
+								isGroupTab ? setGroupSearchTerm : setSearchTerm
+							}
 							onFocus={handleFocus}
 							onBlur={handleBlur}
-							onSubmitEditing={handleSearch}
+							onSubmitEditing={
+								isGroupTab ? handleGroupSearch : handleSearch
+							}
 						/>
 						{isSearching ? (
 							<ConnectSearchCancel
 								style={ConnectStyles.searchIcon}
-								onPress={handleCancel}
+								onPress={
+									isGroupTab
+										? handleGroupCancel
+										: handleCancel
+								}
 							/>
 						) : (
 							<ConnectSearchIcon
 								style={ConnectStyles.searchIcon}
-								onPress={handleSearch}
+								onPress={
+									isGroupTab
+										? handleGroupSearch
+										: handleSearch
+								}
 							/>
 						)}
 					</View>
@@ -380,19 +457,25 @@ const ConnectPage = () => {
 								contentContainerStyle={
 									ConnectStyles.flatlistContent
 								}
-								data={grouplist}
+								data={
+									groupSearchData === null
+										? groupList
+										: groupSearchData
+								}
 								renderItem={({ item }) => (
-									<ConnectCard {...item} tags={item.tags} />
+									<ConnectCard
+										{...item}
+										groupName={item.name}
+									/>
 								)}
 								keyExtractor={(item) => item.id}
 							/>
 						</View>
-						{modalGroupVisible && (
-							<ModalGroupCreationComplete
-								modalVisible={modalGroupVisible}
-								setModalVisible={setModalGroupVisible}
-							/>
-						)}
+						<ModalGroupCreationComplete
+							groupId={groupId}
+							modalVisible={modalGroupVisible}
+							setModalVisible={setModalGroupVisible}
+						/>
 					</View>
 				) : (
 					<View style={ConnectStyles.cardContainer}>

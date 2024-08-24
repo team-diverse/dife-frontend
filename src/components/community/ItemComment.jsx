@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { createLikeComment, deleteLikeByCommentId } from "config/api";
-import { useOnboarding } from "src/states/OnboardingContext.js";
+import { getMyMemberId } from "util/secureStoreUtils";
 
 import IconHeart from "@components/community/IconHeart";
 import IconKebabMenu from "@components/community/IconKebabMenu";
@@ -88,8 +88,6 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		commentIsMe: false,
 	});
 
-	const { onboardingData } = useOnboarding();
-
 	const handleCommentKebabMenu = (
 		commentId,
 		commentWriterId,
@@ -116,6 +114,16 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		top: 300,
 		width: 200,
 	};
+
+	const [myMemberId, setMyMemberId] = useState(null);
+
+	useEffect(() => {
+		const getMyId = async () => {
+			const memberId = await getMyMemberId();
+			setMyMemberId(memberId);
+		};
+		getMyId();
+	}, []);
 
 	const renderComment = (comment) => {
 		const replies = commentList.filter(
@@ -187,7 +195,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 									comment.id,
 									comment.writer.id,
 									comment.isPublic,
-									onboardingData.id === comment.writer.id,
+									myMemberId === comment.writer.id,
 								)
 							}
 						>
@@ -267,8 +275,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 											reply.id,
 											reply.writer.id,
 											reply.isPublic,
-											reply.writer.id ===
-												onboardingData.id,
+											reply.writer.id === myMemberId,
 										)
 									}
 								>

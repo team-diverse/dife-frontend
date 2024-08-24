@@ -43,7 +43,6 @@ const PostStyles = StyleSheet.create({
 	},
 	containerImage: {
 		marginTop: 12,
-		alignItems: "center",
 	},
 	singleImage: {
 		borderRadius: 10,

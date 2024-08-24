@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Modal from "react-native-modal";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { deletePost, blockMember } from "config/api";
+import { deletePost, deleteCommentByCommentId, blockMember } from "config/api";
 
 import InfoCircle from "@components/common/InfoCircle";
 import Report from "@components/Report";
@@ -66,7 +66,18 @@ const ModalKebabMenu = ({
 		);
 	};
 
-	const handleDeleteComment = () => {
+	const handleDeleteComment = async () => {
+		try {
+			await deleteCommentByCommentId(commentId);
+		} catch (error) {
+			console.error(
+				"댓글 삭제 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleDeleteCommentAlert = () => {
 		setModalVisible(false);
 		Alert.alert(
 			"삭제",
@@ -75,7 +86,9 @@ const ModalKebabMenu = ({
 				{ text: "취소", style: "cancel" },
 				{
 					text: "확인",
-					onPress: () => {},
+					onPress: () => {
+						handleDeleteComment();
+					},
 				},
 			],
 			{ cancelable: false },
@@ -96,7 +109,7 @@ const ModalKebabMenu = ({
 	const handleBlockAlert = () => {
 		setModalVisible(false);
 		Alert.alert(
-			"",
+			"차단",
 			"사용자를 차단하겠습니까?",
 			[
 				{
@@ -118,7 +131,7 @@ const ModalKebabMenu = ({
 		try {
 			await blockMember(memberId);
 			Alert.alert(
-				"",
+				"차단",
 				"사용자를 차단하였습니다.",
 				[
 					{
@@ -153,7 +166,7 @@ const ModalKebabMenu = ({
 						{commentId ? (
 							<TouchableOpacity
 								style={styles.containerDeleteComment}
-								onPress={handleDeleteComment}
+								onPress={handleDeleteCommentAlert}
 							>
 								<Text style={styles.textIsMe}>댓글 삭제</Text>
 								<IconTrashCan />
@@ -172,7 +185,7 @@ const ModalKebabMenu = ({
 					</>
 				) : isPublic ? (
 					<>
-						<TouchableOpacity>
+						<TouchableOpacity onPress={handleBlockAlert}>
 							<Text style={styles.textIsMe}>차단</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />

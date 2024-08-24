@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView, ScrollView, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import GroupProfilePreviewStyles from "@pages/connect/GroupProfilePreviewStyles";
+import { useCreateGroup } from "src/states/CreateGroupDataContext.js";
+import { createGroupChatroom } from "config/api";
+import { formatProfileData } from "util/formatProfileData";
 
 import TopBar from "@components/common/TopBar";
 import InfoCircle from "@components/common/InfoCircle";
@@ -12,20 +15,48 @@ import ConnectProfileIntroduction from "@components/connect/ConnectProfileIntrod
 import ConnectProfileTag from "@components/connect/ConnectProfileTag";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
+import Loading from "@components/common/loading/Loading";
 
 const GroupProfilePreviewPage = () => {
 	const navigation = useNavigation();
 
-	const profileData = {
-		id: "1",
-		profile: require("@assets/images/test_img/test_connectProfile.jpeg"),
-		name: "From Italy💞💞",
-		headcount: 23,
-		introduction:
-			"이탈리아와 한국인의 만남!! 😀 같이 언어공부 해요, 언제든지 환영입니다. 기본적으로 영어로 대화합니다.",
-		tags: ["여행", "사진", "스포츠", "요리", "ENTP"],
-		language: ["English / English", "한국어 / Korean"],
+	const { createGroupData } = useCreateGroup();
+
+	const [groupProfile, setGroupProfile] = useState(null);
+
+	useEffect(() => {
+		const profile = formatProfileData([createGroupData]);
+		setGroupProfile(profile[0]);
+	}, []);
+
+	const handleCreateGroup = async () => {
+		try {
+			const response = await createGroupChatroom(
+				groupProfile.profileImg,
+				groupProfile.name,
+				groupProfile.description,
+				groupProfile.hobbies,
+				groupProfile.maxCount,
+				groupProfile.purposes,
+				groupProfile.languages,
+				groupProfile.isPublic,
+				groupProfile.groupPassword,
+			);
+			navigation.navigate("ConnectPage", {
+				groupId: response.data.id,
+				modalGroup: true,
+			});
+		} catch (error) {
+			console.error(
+				"그룹 채팅방 생성 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
+
+	if (!groupProfile) {
+		return <Loading />;
+	}
 
 	return (
 		<SafeAreaView style={GroupProfilePreviewStyles.container}>
@@ -44,9 +75,9 @@ const GroupProfilePreviewPage = () => {
 					</View>
 				</View>
 				<View style={GroupProfilePreviewStyles.simpleProfileContainer}>
-					<ConnectProfile profile={profileData.profile} />
+					<ConnectProfile profile={groupProfile.profileImg} />
 					<Text style={GroupProfilePreviewStyles.name}>
-						{profileData.name}
+						{groupProfile.name}
 					</Text>
 					<View style={GroupProfilePreviewStyles.containerHeadcount}>
 						<IconGroupHeadcount />
@@ -58,7 +89,7 @@ const GroupProfilePreviewPage = () => {
 							<Text
 								style={GroupProfilePreviewStyles.textHeadcount}
 							>
-								{profileData.headcount}명 제한
+								{groupProfile.maxCount}명 제한
 							</Text>
 						</View>
 					</View>
@@ -69,19 +100,21 @@ const GroupProfilePreviewPage = () => {
 					</Text>
 					<View>
 						<ConnectProfileIntroduction
-							introduction={profileData.introduction}
+							introduction={groupProfile.description}
 						/>
 					</View>
 					<Text style={GroupProfilePreviewStyles.fontSub16}>
 						태그
 					</Text>
 					<View style={{ marginBottom: 8 }}>
-						<ConnectProfileTag tag={profileData.tags} />
+						<ConnectProfileTag tag={groupProfile.tags} />
 					</View>
 					<Text style={GroupProfilePreviewStyles.fontSub16}>
 						언어
 					</Text>
-					<ConnectProfileLanguage languages={profileData.language} />
+					<ConnectProfileLanguage
+						languages={groupProfile.languages}
+					/>
 					<View style={GroupProfilePreviewStyles.languageLine} />
 				</View>
 			</ScrollView>
@@ -89,14 +122,7 @@ const GroupProfilePreviewPage = () => {
 			<View style={GroupProfilePreviewStyles.bottomTwoButtons}>
 				<BottomTwoButtons shadow="true">
 					<View text="뒤로가기" onPress={() => navigation.goBack()} />
-					<View
-						text="그룹 생성하기"
-						onPress={() =>
-							navigation.navigate("ConnectPage", {
-								modalGroupVisible: true,
-							})
-						}
-					/>
+					<View text="그룹 생성하기" onPress={handleCreateGroup} />
 				</BottomTwoButtons>
 			</View>
 		</SafeAreaView>

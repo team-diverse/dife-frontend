@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	SafeAreaView,
 	View,
@@ -12,6 +12,7 @@ import * as SecureStore from "expo-secure-store";
 import SecurityStyles from "@pages/member/SecurityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useAuth } from "src/states/AuthContext";
+import { getMyProfile, updateMyProfile, deleteMember } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ArrowRight from "@components/common/ArrowRight";
@@ -24,8 +25,34 @@ const SecurityPage = () => {
 	const { setIsLoggedIn } = useAuth();
 	const [switchOn, setSwitchOn] = useState(false);
 
-	const handleSwitch = () => {
-		setSwitchOn(!switchOn);
+	const getIsPublic = async () => {
+		try {
+			const response = await getMyProfile();
+			setSwitchOn(!response.data.isPublic);
+		} catch (error) {
+			console.error(
+				"프로필 공개 여부 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useEffect(() => {
+		getIsPublic();
+	}, []);
+
+	const handleSwitch = async () => {
+		try {
+			setSwitchOn(!switchOn);
+			const formData = new FormData();
+			formData.append("isPublic", switchOn);
+			await updateMyProfile(formData);
+		} catch (error) {
+			console.error(
+				"프로필 비공개 전환 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
 
 	const handleLogout = async () => {
@@ -50,6 +77,32 @@ const SecurityPage = () => {
 					text: "확인",
 					onPress: () => {
 						handleLogout();
+					},
+				},
+			],
+			{ cancelable: false },
+		);
+	};
+
+	const handleDeleteMember = async () => {
+		try {
+			await deleteMember();
+			setIsLoggedIn(false);
+		} catch (error) {
+			console.error("회원 탈퇴 오류: ", error.message);
+		}
+	};
+
+	const handleAlertDeleteMember = () => {
+		Alert.alert(
+			"회원 탈퇴",
+			"정말 회원 탈퇴를 하시겠습니까?\n소중한 회원님을 잃게 되어 아쉽습니다.",
+			[
+				{ text: "취소", style: "cancel" },
+				{
+					text: "확인",
+					onPress: () => {
+						handleDeleteMember();
 					},
 				},
 			],
@@ -109,7 +162,10 @@ const SecurityPage = () => {
 						/>
 					</View>
 				</TouchableOpacity>
-				<TouchableOpacity style={SecurityStyles.backgroundWhite}>
+				<TouchableOpacity
+					style={SecurityStyles.backgroundWhite}
+					onPress={handleAlertDeleteMember}
+				>
 					<View style={SecurityStyles.containerRow}>
 						<Text style={SecurityStyles.textContent}>
 							회원 탈퇴

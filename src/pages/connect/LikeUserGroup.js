@@ -1,24 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, View, FlatList } from "react-native";
-import ConnectLikeUserStyles from "@pages/connect/ConnectLikeUserStyles.js";
-import ConnectStyles from "./ConnectStyles";
-import ConnectCard from "@components/connect/ConnectCard.js";
+
+import ConnectLikeUserStyles from "@pages/connect/ConnectLikeUserStyles";
+import ConnectStyles from "@pages/connect/ConnectStyles";
+import { getLikeChatroom } from "config/api";
+
+import ConnectCard from "@components/connect/ConnectCard";
 
 const LikeUserGroup = () => {
-	const connectData = [
-		{
-			id: "1",
-			profile: require("@assets/images/test_img/test_connectProfile.jpeg"),
-			name: "Amy",
-			country: "France",
-			age: "23",
-			major: "Industrial Design",
-			introduction:
-				"adipiscing varius eu sit nulla, luctus tincidunt ex at ullamcorper cursus odio laoreet placerat.",
-			tags: ["enfp", "Sports", "Drawing"],
-			headcount: 23,
-		},
-	];
+	const [groupConnectData, setGroupConnectData] = useState(null);
+
+	const getLikedMember = async () => {
+		try {
+			const response = await getLikeChatroom();
+			setGroupConnectData(response.data);
+		} catch (error) {
+			console.error(
+				"멤버 좋아요 목록 조회 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useEffect(() => {
+		getLikedMember();
+	}, []);
 
 	return (
 		<SafeAreaView style={ConnectLikeUserStyles.container}>
@@ -26,10 +32,15 @@ const LikeUserGroup = () => {
 				<View style={ConnectStyles.flatlist}>
 					<FlatList
 						contentContainerStyle={ConnectStyles.flatlistContent}
-						data={connectData}
+						data={groupConnectData}
 						renderItem={({ item }) => (
 							<View style={ConnectStyles.cardContainer}>
-								<ConnectCard {...item} tag={item.tags} />
+								<ConnectCard
+									{...item}
+									isLiked={true}
+									groupName={item.name}
+									tag={item.tags}
+								/>
 							</View>
 						)}
 						keyExtractor={(item) => item.id}

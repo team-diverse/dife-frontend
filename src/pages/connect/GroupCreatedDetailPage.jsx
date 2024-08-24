@@ -11,9 +11,11 @@ import {
 	TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import MultiSlider from "@ptomasroos/react-native-multi-slider";
+import Slider from "@react-native-community/slider";
 
 import GroupCreatedDetailStyles from "@pages/connect/GroupCreatedDetailStyles";
+import { useCreateGroup } from "src/states/CreateGroupDataContext.js";
+import { CustomTheme } from "@styles/CustomTheme";
 
 import TopBar from "@components/common/TopBar";
 import InfoCircle from "@components/common/InfoCircle";
@@ -29,17 +31,10 @@ const GroupCreatedDetailPage = () => {
 		Keyboard.dismiss();
 	};
 
-	const [isCheckedList, setIsCheckedList] = useState([
-		false,
-		false,
-		false,
-		false,
-		false,
-	]);
-
 	const [selectedHobby, setSelectedHobby] = useState([]);
 	const [selectedLanguage, setSelectedLanguage] = useState([]);
 	const [selectedCategory, setSelectedCategory] = useState([]);
+	const [sliderValue, setSliderValue] = useState(3);
 
 	const hobby = [
 		"SNS",
@@ -64,6 +59,7 @@ const GroupCreatedDetailPage = () => {
 		"영화",
 		"맛집",
 	];
+
 	const languages = [
 		"English / English",
 		"中文 / Chinese",
@@ -74,6 +70,14 @@ const GroupCreatedDetailPage = () => {
 	];
 
 	const categories = ["소통/친구 사귀기", "언어교환", "자유"];
+
+	const [isCheckedList, setIsCheckedList] = useState(
+		new Array(languages.length).fill(false),
+	);
+
+	const [isCategoryCheckedList, setIsCategoryCheckedList] = useState(
+		new Array(categories.length).fill(false),
+	);
 
 	const size = 3;
 	const hobbyRows = [];
@@ -90,6 +94,9 @@ const GroupCreatedDetailPage = () => {
 	};
 
 	const handleSelectLanguage = (index) => {
+		if (selectedLanguage.length >= 2 && !isCheckedList[index]) {
+			return;
+		}
 		setIsCheckedList((prevState) => {
 			const newState = [...prevState];
 			newState[index] = !newState[index];
@@ -107,14 +114,17 @@ const GroupCreatedDetailPage = () => {
 	};
 
 	const handleSelectCategory = (index) => {
-		setIsCheckedList((prevState) => {
+		if (selectedCategory.length >= 2 && !isCategoryCheckedList[index]) {
+			return;
+		}
+		setIsCategoryCheckedList((prevState) => {
 			const newState = [...prevState];
 			newState[index] = !newState[index];
 			return newState;
 		});
 
 		const category = categories[index];
-		if (isCheckedList[index]) {
+		if (isCategoryCheckedList[index]) {
 			setSelectedCategory(
 				selectedCategory.filter((item) => item !== category),
 			);
@@ -123,15 +133,26 @@ const GroupCreatedDetailPage = () => {
 		}
 	};
 
-	const [multiSliderValue, setMultiSliderValue] = React.useState([3, 7]);
-	const multiSliderValuesChange = (values) => setMultiSliderValue(values);
-
 	const reportTypes = ["공개", "비공개"];
 	const [selected, setSelected] = useState("");
 	const handleRadioButtonSelect = (value) => {
 		setSelected(value);
 	};
 	const [passwordInput, setPasswordInput] = useState("");
+
+	const { updateCreateGroupData } = useCreateGroup();
+
+	const handleGroupInfo = () => {
+		updateCreateGroupData({
+			hobbies: selectedHobby,
+			languages: selectedLanguage,
+			purposes: selectedCategory,
+			maxCount: sliderValue,
+			isPublic: selected === "공개" ? true : false,
+			groupPassword: passwordInput || null,
+		});
+		navigation.navigate("GroupProfilePreviewPage");
+	};
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
@@ -232,7 +253,7 @@ const GroupCreatedDetailPage = () => {
 							{categories.map((category, index) => (
 								<Checkbox
 									key={index}
-									checked={isCheckedList[index]}
+									checked={isCategoryCheckedList[index]}
 									onPress={() => handleSelectCategory(index)}
 									text={category}
 								/>
@@ -246,26 +267,54 @@ const GroupCreatedDetailPage = () => {
 							<View
 								style={GroupCreatedDetailStyles.containerSlider}
 							>
-								<MultiSlider
-									values={[
-										multiSliderValue[0],
-										multiSliderValue[1],
-									]}
-									sliderLength={216}
-									onValuesChange={multiSliderValuesChange}
-									min={3}
-									max={30}
-									step={1}
-									allowOverlap
-									snapped
-								/>
+								<View>
+									<Slider
+										style={{ width: 200, height: 40 }}
+										minimumValue={3}
+										maximumValue={30}
+										step={1}
+										value={sliderValue}
+										onValueChange={(value) =>
+											setSliderValue(value)
+										}
+										minimumTrackTintColor={
+											CustomTheme.primaryMedium
+										}
+										thumbTintColor={
+											CustomTheme.primaryMedium
+										}
+										maximumTrackTintColor={
+											CustomTheme.bgList
+										}
+									/>
+									<View
+										style={{
+											flexDirection: "row",
+											justifyContent: "space-between",
+										}}
+									>
+										<Text
+											style={
+												GroupCreatedDetailStyles.textMinMaxCount
+											}
+										>
+											3
+										</Text>
+										<Text
+											style={
+												GroupCreatedDetailStyles.textMinMaxCount
+											}
+										>
+											30
+										</Text>
+									</View>
+								</View>
 								<Text
 									style={
 										GroupCreatedDetailStyles.textHeadcount
 									}
 								>
-									{multiSliderValue[0]} ~{" "}
-									{multiSliderValue[1]}명
+									{sliderValue}명 제한
 								</Text>
 							</View>
 						</View>
@@ -309,8 +358,14 @@ const GroupCreatedDetailPage = () => {
 						/>
 						<View
 							text="다음"
-							onPress={() =>
-								navigation.navigate("GroupProfilePreviewPage")
+							onPress={handleGroupInfo}
+							disabled={
+								selectedHobby.length === 0 ||
+								selectedLanguage.length === 0 ||
+								selectedCategory.length === 0 ||
+								selected === "" ||
+								(selected === "비공개" &&
+									passwordInput.length !== 5)
 							}
 						/>
 					</BottomTwoButtons>

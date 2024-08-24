@@ -60,7 +60,9 @@ const ProfileMBTIPage = () => {
 	};
 
 	const handleDataSave = () => {
-		updateOnboardingData({ mbti: selectedMBTI });
+		updateOnboardingData({
+			mbti: selectedMBTI !== "선택안함" ? selectedMBTI : "",
+		});
 		navigation.navigate("ProfileHobby");
 	};
 

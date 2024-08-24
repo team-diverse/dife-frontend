@@ -8,6 +8,12 @@ const NotificationStyles = StyleSheet.create({
 	},
 	flatlist: {
 		width: "100%",
+		marginTop: 10,
+	},
+	line: {
+		width: "100%",
+		height: 1,
+		backgroundColor: CustomTheme.bgList,
 	},
 });
 
