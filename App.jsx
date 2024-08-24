@@ -80,6 +80,12 @@ import ConnectListPage from "@pages/member/ConnectListPage";
 import DefaultLanguagePage from "@pages/member/DefaultLanguagePage";
 import { CreateGroupProvider } from "states/CreateGroupDataContext";
 import EnlargeImagePage from "@pages/community/EnlargeImagePage";
+import PreparingPage from "@pages/etc/PreparingPage";
+import StudentVerificationErrorPage from "@pages/onboarding/StudentVerificationErrorPage";
+import SkeletonHomePage from "@pages/etc/SkeletonHomePage";
+import SkeletonEventPage from "@pages/etc/SkeletonEventPage";
+import SkeletonConnectPage from "@pages/etc/SkeletonConnectPage";
+import SkeletonConnectLikePage from "@pages/etc/SkeletonConnectLikePage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -326,6 +332,23 @@ function MainNavigator() {
 				name="EnlargeImagePage"
 				component={EnlargeImagePage}
 			/>
+			<Stack.Screen name="PreparingPage" component={PreparingPage} />
+			<Stack.Screen
+				name="SkeletonHomePage"
+				component={SkeletonHomePage}
+			/>
+			<Stack.Screen
+				name="SkeletonEventPage"
+				component={SkeletonEventPage}
+			/>
+			<Stack.Screen
+				name="SkeletonConnectPage"
+				component={SkeletonConnectPage}
+			/>
+			<Stack.Screen
+				name="SkeletonConnectLikePage"
+				component={SkeletonConnectLikePage}
+			/>
 		</Stack.Navigator>
 	);
 }
@@ -368,6 +391,10 @@ function AuthNavigator({ initialRoute }) {
 			<Stack.Screen
 				name="CountrySelectionPage"
 				component={CountrySelectionPage}
+			/>
+			<Stack.Screen
+				name="StudentVerificationErrorPage"
+				component={StudentVerificationErrorPage}
 			/>
 		</Stack.Navigator>
 	);
