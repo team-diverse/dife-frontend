@@ -182,43 +182,6 @@ const ConnectPage = ({ route }) => {
 		}, [isGroupTab]),
 	);
 
-	const [groupSearchTerm, setGroupSearchTerm] = useState("");
-	const [groupSearchData, setGroupSearchData] = useState(null);
-
-	const handleGroupSearch = async () => {
-		try {
-			const response = await getGroupConnectSearch(groupSearchTerm);
-			const updatedData = formatProfileData(response.data);
-			setGroupSearchData(updatedData);
-		} catch (error) {
-			console.error(
-				"그룹 커넥트 검색 오류:",
-				error.response ? error.response.data : error.message,
-			);
-			setSearchFail(true);
-		}
-	};
-
-	const handleGroupCancel = () => {
-		setGroupSearchTerm("");
-		setIsSearching(false);
-		Keyboard.dismiss();
-	};
-
-	const [grouplist, setGroupList] = useState();
-
-	const getGroupList = async () => {
-		try {
-			const response = await getGroups();
-			setGroupList(response.data);
-		} catch (error) {
-			console.error(
-				"전체 그룹 조회 오류:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
 	useFocusEffect(
 		useCallback(() => {
 			if (isGroupTab) {
