@@ -35,6 +35,12 @@ const GroupProfilePreviewPage = () => {
 				groupProfile.profileImg,
 				groupProfile.name,
 				groupProfile.description,
+				groupProfile.hobbies,
+				groupProfile.maxCount,
+				groupProfile.purposes,
+				groupProfile.languages,
+				groupProfile.isPublic,
+				groupProfile.groupPassword,
 			);
 			navigation.navigate("ConnectPage", {
 				groupId: response.data.id,
@@ -83,8 +89,7 @@ const GroupProfilePreviewPage = () => {
 							<Text
 								style={GroupProfilePreviewStyles.textHeadcount}
 							>
-								{groupProfile.limitMembersNumber[0]}~
-								{groupProfile.limitMembersNumber[1]}명 제한
+								{groupProfile.maxCount}명 제한
 							</Text>
 						</View>
 					</View>

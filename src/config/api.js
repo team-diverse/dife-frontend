@@ -37,11 +37,27 @@ export const createSingleChatroom = (toMemberId, name) => {
 	return api.post("/chatrooms", formData, { headers });
 };
 
-export const createGroupChatroom = (profileImg, name, description) => {
+export const createGroupChatroom = (
+	profileImg,
+	name,
+	description,
+	hobbies,
+	maxCount,
+	purposes,
+	languages,
+	isPublic,
+	password,
+) => {
 	const formData = new FormData();
 	formData.append("chatroomType", "GROUP");
 	formData.append("name", name);
 	formData.append("description", description);
+	formData.append("hobbies", hobbies);
+	formData.append("maxCount", maxCount);
+	formData.append("purposes", purposes);
+	formData.append("languages", languages);
+	formData.append("isPublic", isPublic);
+	formData.append("password", password);
 
 	if (profileImg) {
 		const file = {
@@ -56,6 +72,14 @@ export const createGroupChatroom = (profileImg, name, description) => {
 		"Content-Type": "multipart/form-data",
 	};
 	return api.post("/chatrooms", formData, { headers });
+};
+
+export const checkGroupName = (name) => {
+	return api.head("/chatrooms/check", {
+		params: {
+			name,
+		},
+	});
 };
 
 export const getGroups = () => {
@@ -322,6 +346,30 @@ export const getConnectFilter = (mbtis, hobbies, languages) => {
 			mbtis: mbtis,
 			hobbies: hobbies,
 			languages: languages,
+		},
+	});
+};
+
+export const getGroupConnectSearch = (keyword) => {
+	return api.get("/chatrooms/search", {
+		params: {
+			keyword,
+		},
+	});
+};
+
+export const getGroupConnectFilter = (
+	hobbies,
+	languages,
+	purposes,
+	maxCount,
+) => {
+	return api.get("/chatrooms/filter", {
+		params: {
+			hobbies,
+			languages,
+			purposes,
+			maxCount,
 		},
 	});
 };

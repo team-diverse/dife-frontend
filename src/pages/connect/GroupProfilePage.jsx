@@ -8,7 +8,8 @@ import {
 } from "react-native";
 
 import GroupProfileStyles from "@pages/connect/GroupProfileStyles";
-import { getGroupByGroupId } from "config/api";
+import { getGroupByGroupId, getProfileImageByFileName } from "config/api";
+import { formatProfileData } from "util/formatProfileData";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
 import IconHeart24 from "@components/Icon24/IconHeart24";
@@ -23,11 +24,6 @@ import ApplyButton from "@components/common/ApplyButton";
 import ModalGroupJoin from "@components/connect/ModalGroupJoin";
 
 const GroupProfilePage = ({ route }) => {
-	const profileData = {
-		tags: ["여행", "사진", "스포츠", "요리", "ENTP"],
-		languages: ["English / English", "한국어 / Korean"],
-	};
-
 	const [modalReportVisible, setModalReportVisible] = useState(false);
 	const [modalGroupJoinVisible, setModalGroupJoinVisible] = useState(false);
 
@@ -48,11 +44,25 @@ const GroupProfilePage = ({ route }) => {
 	const { groupId } = route.params;
 
 	const [groupProfileData, setGroupProfileData] = useState([]);
+	const [profilePresignUrl, setProfilePresignUrl] = useState("");
 
 	const getDetailProfile = async () => {
 		try {
 			const response = await getGroupByGroupId(groupId);
-			setGroupProfileData(response.data);
+			const profile = formatProfileData([response.data]);
+			setGroupProfileData(profile[0]);
+
+			if (
+				response.data.profileImg &&
+				response.data.profileImg.originalName
+			) {
+				const image = await getProfileImageByFileName(
+					response.data.profileImg.originalName,
+				);
+				setProfilePresignUrl(image.data);
+			} else {
+				setProfilePresignUrl(null);
+			}
 		} catch (error) {
 			console.error(
 				"그룹 상세 페이지 조회 오류:",
@@ -81,9 +91,7 @@ const GroupProfilePage = ({ route }) => {
 					<ConnectProfileBackground />
 				</View>
 				<View style={GroupProfileStyles.simpleProfileContainer}>
-					<ConnectProfile
-						profile={groupProfileData.profilePresignUrl}
-					/>
+					<ConnectProfile profile={profilePresignUrl || null} />
 					<Text style={GroupProfileStyles.name}>
 						{groupProfileData.name}
 					</Text>
@@ -95,7 +103,7 @@ const GroupProfilePage = ({ route }) => {
 							</Text>
 							<Text style={GroupProfileStyles.textMaxHeadcount}>
 								{" "}
-								/ 30
+								/ {groupProfileData.maxCount}
 							</Text>
 						</View>
 					</View>
@@ -109,10 +117,12 @@ const GroupProfilePage = ({ route }) => {
 					</View>
 					<Text style={GroupProfileStyles.fontSub16}>태그</Text>
 					<View style={{ marginBottom: 8 }}>
-						<ConnectProfileTag tag={profileData.tags} />
+						<ConnectProfileTag tag={groupProfileData.tags} />
 					</View>
 					<Text style={GroupProfileStyles.fontSub16}>언어</Text>
-					<ConnectProfileLanguage languages={profileData.languages} />
+					<ConnectProfileLanguage
+						languages={groupProfileData.languages}
+					/>
 					<View style={GroupProfileStyles.languageLine} />
 				</View>
 				<View
