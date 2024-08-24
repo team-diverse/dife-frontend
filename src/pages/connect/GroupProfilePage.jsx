@@ -16,7 +16,6 @@ import ApplyButton from "@components/common/ApplyButton";
 import ModalGroupJoin from "@components/connect/ModalGroupJoin";
 
 const GroupProfilePage = ({ route }) => {
-	const [modalReportVisible, setModalReportVisible] = useState(false);
 	const [modalGroupJoinVisible, setModalGroupJoinVisible] = useState(false);
 
 	const [heart, setHeart] = useState(false);
