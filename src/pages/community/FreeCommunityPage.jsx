@@ -50,6 +50,12 @@ const FreeCommunityPage = () => {
 		}
 	};
 
+	const handleSearchBack = () => {
+		setSearchFail(false);
+		setSearchData(null);
+		setSearchTerm(null);
+	};
+
 	const handleFocus = () => {
 		setIsSearching(true);
 	};
@@ -115,7 +121,13 @@ const FreeCommunityPage = () => {
 				<View style={FreeCommunityStyles.containerSearch}>
 					<View style={FreeCommunityStyles.containerSearchIcon}>
 						<TextInput
-							style={FreeCommunityStyles.search}
+							style={[
+								FreeCommunityStyles.search,
+								(searchFail ||
+									(searchData && searchData.length > 0)) && {
+									paddingLeft: 40,
+								},
+							]}
 							placeholder="검색"
 							value={searchTerm}
 							onChangeText={setSearchTerm}
@@ -123,6 +135,15 @@ const FreeCommunityPage = () => {
 							onBlur={handleBlur}
 							onSubmitEditing={handleSearch}
 						/>
+						{(searchFail ||
+							(searchData && searchData.length > 0)) && (
+							<TouchableOpacity
+								style={FreeCommunityStyles.iconArrowRightSearch}
+								onPress={handleSearchBack}
+							>
+								<ArrowRight color="#B0D0FF" />
+							</TouchableOpacity>
+						)}
 						{isSearching ? (
 							<ConnectSearchCancel
 								style={FreeCommunityStyles.searchIcon}

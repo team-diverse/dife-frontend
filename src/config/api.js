@@ -25,6 +25,14 @@ export const getChatroomsByType = (type) => {
 	});
 };
 
+export const getChatroomsByCount = (count) => {
+	return api.get("/chatrooms/random", {
+		params: {
+			count,
+		},
+	});
+};
+
 export const createSingleChatroom = (toMemberId, name) => {
 	const formData = new FormData();
 	formData.append("chatroomType", "SINGLE");
@@ -82,14 +90,6 @@ export const checkGroupName = (name) => {
 	});
 };
 
-export const getGroups = () => {
-	return api.get("/chatrooms", {
-		params: {
-			chatroomType: "GROUP",
-		},
-	});
-};
-
 export const getGroupByGroupId = (groupId) => {
 	return api.get(`/chatrooms/${groupId}`);
 };
@@ -130,6 +130,16 @@ export const getMyPendingConnects = () => {
 			status: "PENDING",
 		},
 	});
+};
+
+export const acceptedConnectByMemberId = (memberId) => {
+	return api.patch("/connects/", {
+		member_id: memberId,
+	});
+};
+
+export const rejectedConnectByConnectId = (connectId) => {
+	return api.delete(`/connects/${connectId}`);
 };
 
 export const getMyProfile = () => {
@@ -180,6 +190,14 @@ export const getPostsByType = (type) => {
 
 export const getPostById = (id) => {
 	return api.get(`/posts/${id}`);
+};
+
+export const getCommunitySearch = (keyword) => {
+	return api.get("/posts/search", {
+		params: {
+			keyword,
+		},
+	});
 };
 
 export const getFreeCommunitySearch = (keyword) => {
@@ -420,10 +438,6 @@ export const getProfileImageByFileName = (fileName) => {
 			fileName: fileName,
 		},
 	});
-};
-
-export const deleteConnectById = (connectId) => {
-	return api.delete(`/connects/${connectId}`);
 };
 
 export const deleteBookmarkByPostId = (postId) => {
