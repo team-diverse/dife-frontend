@@ -132,6 +132,16 @@ export const getMyPendingConnects = () => {
 	});
 };
 
+export const acceptedConnectByMemberId = (memberId) => {
+	return api.patch("/connects/", {
+		member_id: memberId,
+	});
+};
+
+export const rejectedConnectByConnectId = (connectId) => {
+	return api.delete(`/connects/${connectId}`);
+};
+
 export const getMyProfile = () => {
 	return api.get("/members/profile");
 };
@@ -428,10 +438,6 @@ export const getProfileImageByFileName = (fileName) => {
 			fileName: fileName,
 		},
 	});
-};
-
-export const deleteConnectById = (connectId) => {
-	return api.delete(`/connects/${connectId}`);
 };
 
 export const deleteBookmarkByPostId = (postId) => {

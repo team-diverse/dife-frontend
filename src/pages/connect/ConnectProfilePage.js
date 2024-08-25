@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-	SafeAreaView,
-	ScrollView,
-	View,
-	Text,
-	TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, ScrollView, View, Text, Alert } from "react-native";
 
 import {
 	getProfileById,
 	getConnectById,
 	requestConnectById,
-	deleteConnectById,
+	acceptedConnectByMemberId,
+	rejectedConnectByConnectId,
 	createLikeMember,
 	deleteLikeMember,
 } from "config/api";
@@ -94,13 +89,24 @@ const ConnectProfilePage = ({ route }) => {
 		}
 	};
 
-	const deleteConnect = async () => {
+	const handleAcceptedConnect = async () => {
 		try {
-			await deleteConnectById(connectId);
+			await acceptedConnectByMemberId(memberId);
+		} catch (error) {
+			console.error(
+				"커넥트 수락 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleRejectedConnect = async () => {
+		try {
+			await rejectedConnectByConnectId(connectId);
 			setConnectStatus(undefined);
 		} catch (error) {
 			console.error(
-				"커넥트 삭제 오류:",
+				"커넥트 거절 오류:",
 				error.response ? error.response.data : error.message,
 			);
 		}
@@ -110,9 +116,37 @@ const ConnectProfilePage = ({ route }) => {
 		if (connectStatus === undefined) {
 			setModalConnectVisible(true);
 			requestConnect();
+		} else if (connectStatus === "PENDING") {
+			if (requestSent) {
+				handleRejectedConnect();
+			} else {
+				handleAcceptedConnect();
+			}
 		} else {
-			deleteConnect();
+			console.log(profileData);
+			handleConnectAlert();
 		}
+		getConnectStatus();
+	};
+
+	const handleConnectAlert = () => {
+		Alert.alert(
+			"",
+			`${profileData.username} 커넥트를 취소하겠습니까?`,
+			[
+				{
+					text: "취소",
+					style: "cancel",
+				},
+				{
+					text: "확인",
+					onPress: () => {
+						handleRejectedConnect();
+					},
+				},
+			],
+			{ cancelable: false },
+		);
 	};
 
 	const handleChat = () => {
