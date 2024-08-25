@@ -17,6 +17,7 @@ import IconImage from "@components/community/IconImage";
 import Checkbox from "@components/common/Checkbox";
 import { usePostModify } from "states/PostModifyContext";
 import { updatePost } from "config/api";
+import * as Sentry from "@sentry/react-native";
 
 const PostModifyPage = () => {
 	const navigation = useNavigation();
@@ -52,6 +53,7 @@ const PostModifyPage = () => {
 				navigation.goBack();
 			})
 			.catch((error) => {
+				Sentry.captureException(error);
 				console.error(
 					"게시글 수정 실패:",
 					error.response ? error.response.data : error.message,

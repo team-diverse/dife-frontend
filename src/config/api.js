@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
-import { API_URL } from "@env";
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export const api = axios.create({
 	baseURL: API_URL,

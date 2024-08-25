@@ -21,6 +21,7 @@ import IconChatPlus from "@components/chat/IconChatPlus";
 import { useWebSocket } from "context/WebSocketContext";
 import ChatroomItem from "@components/chat/ChatroomItem";
 import formatKoreanTime from "util/formatTime";
+import * as Sentry from "@sentry/react-native";
 
 const ChattingPage = () => {
 	const navigation = useNavigation();
@@ -42,6 +43,7 @@ const ChattingPage = () => {
 				.get(`${searchTerm}`)
 				.then(() => {})
 				.catch((error) => {
+					Sentry.captureException(error);
 					console.error("Error:", error);
 				});
 		}

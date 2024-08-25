@@ -22,6 +22,7 @@ import ConnectProfileTag from "@components/connect/ConnectProfileTag";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
 import ConnectRequest from "@components/ConnectRequest";
+import * as Sentry from "@sentry/react-native";
 
 const ConnectProfilePage = ({ route }) => {
 	const { memberId } = route.params;
@@ -39,6 +40,7 @@ const ConnectProfilePage = ({ route }) => {
 			setProfileData(updatedData[0]);
 			setHeart(response.data.isLiked);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"디테일 프로필 조회 오류:",
 				error.response ? error.response.data : error.message,
@@ -55,6 +57,7 @@ const ConnectProfilePage = ({ route }) => {
 			const myMebmberId = await getMyMemberId();
 			setRequestSent(response.data.from_member.id == myMebmberId);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"커넥트 상태 조회 오류:",
 				error.response ? error.response.data : error.message,
@@ -75,6 +78,7 @@ const ConnectProfilePage = ({ route }) => {
 			const response = await requestConnectById(memberId);
 			setConnectStatus(response.data.status);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"커넥트 요청 오류:",
 				error.response ? error.response.data : error.message,
@@ -98,6 +102,7 @@ const ConnectProfilePage = ({ route }) => {
 			await rejectedConnectByConnectId(connectId);
 			setConnectStatus(undefined);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"커넥트 거절 오류:",
 				error.response ? error.response.data : error.message,

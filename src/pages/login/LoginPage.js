@@ -23,9 +23,11 @@ import { useAuth } from "src/states/AuthContext";
 import InfoCircle from "@components/common/InfoCircle";
 import { getMyProfile, login, createNotificationToken } from "config/api";
 import * as SecureStore from "expo-secure-store";
-import { MOCK_LOGIN, MOCK_EMAIL, MOCK_PASSWORD } from "@env";
+import * as Sentry from "@sentry/react-native";
 
-const isMockLoginEnabled = MOCK_LOGIN === "true";
+const isMockLoginEnabled = process.env.EXPO_PUBLIC_MOCK_LOGIN === "true";
+const mockEmail = process.env.EXPO_PUBLIC_MOCK_EMAIL || "";
+const mockPassword = process.env.EXPO_PUBLIC_MOCK_PASSWORD || "";
 
 const LoginPage = () => {
 	const navigation = useNavigation();
@@ -93,6 +95,7 @@ const LoginPage = () => {
 
 			await createNotificationToken(accessToken, deviceId);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"로그인 또는 프로필 확인 오류:",
 				error.response ? error.response.data : error.message,
@@ -129,8 +132,8 @@ const LoginPage = () => {
 
 	useEffect(() => {
 		if (isMockLoginEnabled) {
-			setEmail(MOCK_EMAIL);
-			setPassword(MOCK_PASSWORD);
+			setEmail(mockEmail);
+			setPassword(mockPassword);
 		}
 	}, []);
 

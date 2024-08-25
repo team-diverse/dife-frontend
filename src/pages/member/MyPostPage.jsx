@@ -10,6 +10,7 @@ import { communityPresignUrl } from "util/communityPresignUrl";
 import TopBar from "@components/common/TopBar";
 import ArrowRight from "@components/common/ArrowRight";
 import ItemCommunity from "@components/community/ItemCommunity";
+import * as Sentry from "@sentry/react-native";
 
 const MyPostPage = () => {
 	const navigation = useNavigation();
@@ -26,6 +27,7 @@ const MyPostPage = () => {
 			const myComment = await getMyComments();
 			setMyCommentList(myComment.data.slice(0, 3));
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"내가 쓴 글 및 쓴 댓글 조회 오류:",
 				error.response ? error.response.data : error.message,
