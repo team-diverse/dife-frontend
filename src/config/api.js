@@ -25,6 +25,14 @@ export const getChatroomsByType = (type) => {
 	});
 };
 
+export const getChatroomsByCount = (count) => {
+	return api.get("/chatrooms/random", {
+		params: {
+			count,
+		},
+	});
+};
+
 export const createSingleChatroom = (toMemberId, name) => {
 	const formData = new FormData();
 	formData.append("chatroomType", "SINGLE");
@@ -78,14 +86,6 @@ export const checkGroupName = (name) => {
 	return api.head("/chatrooms/check", {
 		params: {
 			name,
-		},
-	});
-};
-
-export const getGroups = () => {
-	return api.get("/chatrooms", {
-		params: {
-			chatroomType: "GROUP",
 		},
 	});
 };
