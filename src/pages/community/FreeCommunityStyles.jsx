@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontHead20, fontSub16 } = CustomTheme;
+const { fontHead20, fontSub16, fontCaption } = CustomTheme;
 
 const FreeCommunityStyles = StyleSheet.create({
 	container: {
@@ -79,6 +79,15 @@ const FreeCommunityStyles = StyleSheet.create({
 	searchIcon: {
 		position: "absolute",
 		right: 12,
+	},
+	containerFail: {
+		alignItems: "center",
+		marginTop: 78,
+	},
+	textFail: {
+		...fontCaption,
+		color: CustomTheme.textSecondary,
+		marginTop: 13,
 	},
 	itemCommunity: {
 		alignItems: "center",

@@ -10,12 +10,12 @@ const { fontBody14 } = CustomTheme;
 const ModalKebabMenuBlock = ({
 	modalVisible,
 	setModalVisible,
-	memberId,
+	blacklistedMemberId,
 	position,
 }) => {
 	const handleBlock = async () => {
 		try {
-			await deleteBlockMember(memberId);
+			await deleteBlockMember(blacklistedMemberId);
 			setModalVisible(false);
 		} catch (error) {
 			console.error(
@@ -28,9 +28,11 @@ const ModalKebabMenuBlock = ({
 	return (
 		<Modal
 			isVisible={modalVisible}
-			style={[styles.modal, { top: position.top, right: position.width }]}
+			style={[styles.modal, { top: position.top - 25, right: 16 }]}
 			onBackdropPress={() => setModalVisible(false)}
 			backdropColor="rgba(0, 0, 0, 0.3)"
+			animationIn="fadeIn"
+			animationOut="fadeOut"
 		>
 			<View style={styles.rectangle}>
 				<TouchableOpacity onPress={handleBlock}>

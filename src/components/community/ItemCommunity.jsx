@@ -3,6 +3,7 @@ import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { CustomTheme } from "@styles/CustomTheme";
+import { formatDate } from "util/formatDate";
 
 import IconHeart from "@components/community/IconHeart";
 import IconBookmark from "@components/community/IconBookmark";
@@ -12,12 +13,6 @@ const { fontCaption, fontNavi } = CustomTheme;
 
 const ItemCommunity = ({ postList = [], comment = false }) => {
 	const navigation = useNavigation();
-
-	const date = (date) => {
-		const datePart = date.split("T")[0];
-		const monthDay = datePart.slice(5);
-		return monthDay.replace("-", "/");
-	};
 
 	return (
 		<>
@@ -84,7 +79,7 @@ const ItemCommunity = ({ postList = [], comment = false }) => {
 									</View>
 									<View style={styles.containerText}>
 										<Text style={styles.text}>
-											{date(post.created)}
+											{formatDate(post.created)}
 										</Text>
 									</View>
 								</View>
