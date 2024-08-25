@@ -4,6 +4,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import { createLikeComment, deleteLikeByCommentId } from "config/api";
 import { getMyMemberId } from "util/secureStoreUtils";
+import { formatDate } from "util/formatDate";
 
 import IconHeart from "@components/community/IconHeart";
 import IconKebabMenu from "@components/community/IconKebabMenu";
@@ -14,12 +15,6 @@ import ModalKebabMenu from "@components/community/ModalKebabMenu";
 const { fontCaption, fontNavi } = CustomTheme;
 
 const ItemComment = ({ commentList = [], onReply }) => {
-	const date = (date) => {
-		const datePart = date.split("T")[0];
-		const monthDay = datePart.slice(5);
-		return monthDay.replace("-", "/");
-	};
-
 	const initialHeartStates = commentList.map((post) => ({
 		id: post.id,
 		likesCount: post.likesCount,
@@ -88,6 +83,26 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		commentIsMe: false,
 	});
 
+	const [modalPosition, setModalPosition] = useState({
+		top: 0,
+		left: 0,
+	});
+
+	const handleIconPress = (
+		event,
+		commentId,
+		commentWriterId,
+		isPublic,
+		isMe,
+	) => {
+		const { pageX, pageY } = event.nativeEvent;
+		setModalPosition({
+			top: Math.floor(pageY / 10) * 10,
+			left: Math.floor(pageX / 10) * 10,
+		});
+		handleCommentKebabMenu(commentId, commentWriterId, isPublic, isMe);
+	};
+
 	const handleCommentKebabMenu = (
 		commentId,
 		commentWriterId,
@@ -108,11 +123,6 @@ const ItemComment = ({ commentList = [], onReply }) => {
 			...prevData,
 			modalVisible: false,
 		}));
-	};
-
-	const modalPosition = {
-		top: 300,
-		width: 200,
 	};
 
 	const [myMemberId, setMyMemberId] = useState(null);
@@ -182,7 +192,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 								</TouchableOpacity>
 								<View style={styles.containerText}>
 									<Text style={styles.text}>
-										{date(comment.created)}
+										{formatDate(comment.created)}
 									</Text>
 								</View>
 							</View>
@@ -190,8 +200,9 @@ const ItemComment = ({ commentList = [], onReply }) => {
 
 						<TouchableOpacity
 							style={styles.iconKebabMenu}
-							onPress={() =>
-								handleCommentKebabMenu(
+							onPress={(event) =>
+								handleIconPress(
+									event,
 									comment.id,
 									comment.writer.id,
 									comment.isPublic,
@@ -262,7 +273,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 										</TouchableOpacity>
 										<View style={styles.containerText}>
 											<Text style={styles.text}>
-												{date(reply.created)}
+												{formatDate(reply.created)}
 											</Text>
 										</View>
 									</View>
@@ -350,6 +361,8 @@ const styles = StyleSheet.create({
 	},
 	iconKebabMenu: {
 		position: "absolute",
+		width: 13,
+		height: 13,
 		top: 0,
 		right: -11,
 	},

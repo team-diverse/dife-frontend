@@ -182,6 +182,24 @@ export const getPostById = (id) => {
 	return api.get(`/posts/${id}`);
 };
 
+export const getFreeCommunitySearch = (keyword) => {
+	return api.get("/posts/search", {
+		params: {
+			type: "FREE",
+			keyword,
+		},
+	});
+};
+
+export const getTipCommunitySearch = (keyword) => {
+	return api.get("/posts/search", {
+		params: {
+			type: "TIP",
+			keyword,
+		},
+	});
+};
+
 export const deletePost = (id) => {
 	return api.delete(`/posts/${id}`);
 };
@@ -486,7 +504,7 @@ export const reportMember = (type, receiverId) => {
 
 export const blockMember = (blockMemberId) => {
 	return api.post("/blocks", {
-		blockMemberId,
+		memberId: blockMemberId,
 	});
 };
 

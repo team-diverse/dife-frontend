@@ -4,19 +4,13 @@ import * as SecureStore from "expo-secure-store";
 
 import NotificationStyles from "@pages/home/NotificationStyles.js";
 import { getNotifications } from "config/api";
+import { formatDate } from "util/formatDate";
 
 import TopBar from "@components/common/TopBar";
 import NotificationCard from "@components/notification/NotificationCard.js";
 
 const NotificationPage = () => {
 	const [notificationData, setNotificationData] = useState([]);
-
-	const date = (date) => {
-		if (!date) return "";
-		const datePart = date.split("T")[0];
-		const monthDay = datePart.slice(5);
-		return monthDay.replace("-", "/");
-	};
 
 	const handleNotification = async () => {
 		try {
@@ -53,7 +47,7 @@ const NotificationPage = () => {
 								notificationId={item.id}
 								type={item.type}
 								typeId={item.typeId}
-								created={date(item.created)}
+								created={formatDate(item.created)}
 								content={item.message}
 							/>
 							<View style={NotificationStyles.line} />
