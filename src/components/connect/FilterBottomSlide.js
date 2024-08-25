@@ -22,6 +22,7 @@ import FilterArrowTop from "@components/connect/FilterArrowTop";
 import FilterCategory from "@components/connect/FilterCategory";
 import Checkbox from "@components/common/Checkbox";
 import FilterBottomTwoButtons from "@components/connect/FilterBottomTwoButtons";
+import * as Sentry from "@sentry/react-native";
 
 const { fontCaption, fontNaviBold } = CustomTheme;
 
@@ -225,6 +226,7 @@ const FilterBottomSlide = ({
 			onFilterResponse(response.data);
 			onTotalSelection(totalSelection);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"필터 검색 오류:",
 				error.response ? error.response.data : error.message,

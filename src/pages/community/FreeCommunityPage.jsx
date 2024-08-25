@@ -23,6 +23,7 @@ import IconBookmark from "@components/chat/IconBookmark";
 import ItemCommunity from "@components/community/ItemCommunity";
 import ArrowRight from "@components/common/ArrowRight";
 import IconSearchFail from "@components/common/IconSearchFail";
+import * as Sentry from "@sentry/react-native";
 
 const FreeCommunityPage = () => {
 	const navigation = useNavigation();
@@ -42,6 +43,7 @@ const FreeCommunityPage = () => {
 			const response = await getFreeCommunitySearch(searchTerm);
 			setSearchData(response.data);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"커넥트 검색 오류:",
 				error.response ? error.response.data : error.message,
@@ -78,6 +80,7 @@ const FreeCommunityPage = () => {
 					const presignUrl = await communityPresignUrl(response.data);
 					setPostList(presignUrl);
 				} catch (error) {
+					Sentry.captureException(error);
 					console.error(
 						"게시글 조회 오류:",
 						error.response ? error.response.data : error.message,

@@ -22,6 +22,7 @@ import Checkbox from "@components/common/Checkbox";
 import { createPost } from "config/api";
 import IconDelete from "@components/onboarding/IconDelete";
 import IconCircleNumber from "@components/community/IconCircleNumber";
+import * as Sentry from "@sentry/react-native";
 
 const WritePage = ({ route }) => {
 	const { noticeboard } = route.params;
@@ -69,6 +70,7 @@ const WritePage = ({ route }) => {
 				);
 			}
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 작성 실패:",
 				error.response ? error.response.data : error.message,

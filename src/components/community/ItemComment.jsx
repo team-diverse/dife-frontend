@@ -12,6 +12,8 @@ import IconComment from "@components/community/IconComment";
 import IconReply from "@components/community/IconReply";
 import ModalKebabMenu from "@components/community/ModalKebabMenu";
 
+import * as Sentry from "@sentry/react-native";
+
 const { fontCaption, fontNavi } = CustomTheme;
 
 const ItemComment = ({ commentList = [], onReply }) => {
@@ -68,6 +70,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 				);
 			}
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"좋아요 처리 실패:",
 				error.response ? error.response.data : error.message,

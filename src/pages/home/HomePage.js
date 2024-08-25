@@ -24,6 +24,7 @@ import HomeCardBack from "@components/home/HomeCardBack";
 import HomeCardFront from "@components/home/HomeCardFront";
 import HomeCard from "@components/home/HomeCard";
 import HomeCardLast from "@components/home/HomeCardLast";
+import * as Sentry from "@sentry/react-native";
 
 const HomePage = () => {
 	const navigation = useNavigation();
@@ -45,6 +46,7 @@ const HomePage = () => {
 			});
 			setHeart(initialHeart);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"홈 카드 조회 오류:",
 				error.response ? error.response.data : error.message,

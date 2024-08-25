@@ -21,6 +21,7 @@ import Progress1 from "@components/onboarding/Progress1";
 import LoginBackground from "@components/login/LoginBackground";
 import IconDelete from "@components/onboarding/IconDelete";
 import ApplyButton from "@components/common/ApplyButton";
+import * as Sentry from "@sentry/react-native";
 
 const NicknamePage = () => {
 	const navigation = useNavigation();
@@ -73,6 +74,7 @@ const NicknamePage = () => {
 				}
 			} catch (error) {
 				console.error("닉네임 사용 불가: ", error.message);
+				Sentry.captureException(error);
 				setNicknameValid(false);
 			}
 		}, 100),

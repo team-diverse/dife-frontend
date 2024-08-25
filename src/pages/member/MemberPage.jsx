@@ -22,6 +22,7 @@ import BookmarkPostPage from "@pages/member/BookmarkPostPage";
 import IconProfileEdit from "@components/member/IconProfileEdit";
 import IconLike from "@components/member/IconLike";
 import IconBookmark from "@components/member/IconBookmark";
+import * as Sentry from "@sentry/react-native";
 
 const MemberPage = () => {
 	const navigation = useNavigation();
@@ -36,6 +37,7 @@ const MemberPage = () => {
 			setName(response.data.username);
 			setProfileImage(response.data.profilePresignUrl);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"마이페이지 조회 오류:",
 				error.response ? error.response.data : error.message,

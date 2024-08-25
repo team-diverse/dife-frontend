@@ -11,6 +11,7 @@ import ModifyProfileTopBar from "@components/common/ModifyProfileTopBar";
 import FilterCategory from "@components/connect/FilterCategory";
 import InfoCircle from "@components/common/InfoCircle";
 import Checkbox from "@components/common/Checkbox";
+import * as Sentry from "@sentry/react-native";
 
 const ModifyProfileInputPage = ({ route }) => {
 	const navigation = useNavigation();
@@ -175,6 +176,7 @@ const ModifyProfileInputPage = ({ route }) => {
 					setNicknameValid(false);
 				}
 			} catch (error) {
+				Sentry.captureException(error);
 				console.error("닉네임 사용 불가: ", error.message);
 				setNicknameValid(false);
 			}
@@ -215,6 +217,7 @@ const ModifyProfileInputPage = ({ route }) => {
 			await updateMyProfile(formData);
 			navigation.navigate("ModifyProfilePage");
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"프로필 변경 실패:",
 				error.response ? error.response.data : error.message,

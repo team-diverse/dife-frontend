@@ -21,6 +21,7 @@ import ArrowRight from "@components/common/ArrowRight";
 import ItemCommunityPreview from "@components/community/ItemCommunityPreview";
 import IconSearchFail from "@components/common/IconSearchFail";
 import ItemCommunity from "@components/community/ItemCommunity";
+import * as Sentry from "@sentry/react-native";
 
 const CommunityPage = () => {
 	const navigation = useNavigation();
@@ -37,6 +38,7 @@ const CommunityPage = () => {
 			const response = await getCommunitySearch(searchTerm);
 			setSearchData(response.data);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"커넥트 검색 오류:",
 				error.response ? error.response.data : error.message,
@@ -74,6 +76,7 @@ const CommunityPage = () => {
 					setTipPostList(responseTip.data.slice(0, 3));
 					setFreePostList(responseFree.data.slice(0, 3));
 				} catch (error) {
+					Sentry.captureException(error);
 					console.error(
 						"게시글 조회 오류:",
 						error.response ? error.response.data : error.message,

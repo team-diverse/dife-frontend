@@ -9,6 +9,7 @@ import { createSingleChatroom } from "config/api";
 import { useNavigation } from "@react-navigation/native";
 import { useWebSocket } from "context/WebSocketContext";
 import { getMyMemberId } from "util/secureStoreUtils";
+import * as Sentry from "@sentry/react-native";
 
 const FriendList = ({ memberId, name, imageName }) => {
 	const navigation = useNavigation("");
@@ -41,6 +42,7 @@ const FriendList = ({ memberId, name, imageName }) => {
 				chatroomInfo,
 			});
 		} catch (error) {
+			Sentry.captureException(error);
 			console.log("채팅방 생성 에러:", error);
 		}
 	};

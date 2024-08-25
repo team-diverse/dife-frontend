@@ -8,6 +8,7 @@ import { getMyComments } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ItemCommunity from "@components/community/ItemCommunity";
+import * as Sentry from "@sentry/react-native";
 
 const MyCommentPage = () => {
 	const [myCommentList, setMyCommentList] = useState();
@@ -17,6 +18,7 @@ const MyCommentPage = () => {
 			const response = await getMyComments();
 			setMyCommentList(response.data);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"내가 쓴 글 조회 오류:",
 				error.response ? error.response.data : error.message,

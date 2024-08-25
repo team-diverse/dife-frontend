@@ -6,6 +6,7 @@ import { getLikedPost } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
 
 import ItemLikeBookmark from "@components/member/ItemLikeBookmark";
+import * as Sentry from "@sentry/react-native";
 
 const LikedPostPage = () => {
 	const [likedPostList, setLikedPostList] = useState([]);
@@ -19,6 +20,7 @@ const LikedPostPage = () => {
 				);
 				setLikedPostList(presignUrl);
 			} catch (error) {
+				Sentry.captureException(error);
 				console.error(
 					"좋아요한 게시글 조회 오류:",
 					error.response ? error.response.data : error.message,
