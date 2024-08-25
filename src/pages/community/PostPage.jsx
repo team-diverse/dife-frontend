@@ -14,7 +14,7 @@ import {
 	FlatList,
 	Image,
 } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
 import PostStyles from "@pages/community/PostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -33,6 +33,7 @@ import {
 	deleteBookmarkByPostId,
 	getProfileImageByFileName,
 } from "config/api";
+import { formatDate } from "util/formatDate";
 
 import TopBar from "@components/common/TopBar";
 import IconProfileK from "@components/community/IconProfileK";
@@ -44,8 +45,11 @@ import Checkbox from "@components/common/Checkbox";
 import IconChatSend from "@components/chat/IconChatSend";
 import ItemComment from "@components/community/ItemComment";
 import ModalKebabMenu from "@components/community/ModalKebabMenu";
+import * as Sentry from "@sentry/react-native";
 
 const PostPage = ({ route }) => {
+	const navigation = useNavigation();
+
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const { postId } = route.params;
@@ -66,15 +70,6 @@ const PostPage = ({ route }) => {
 	const [isChecked, setIsChecked] = useState(false);
 	const [isReplying, setIsReplying] = useState(false);
 	const [parentCommentId, setParentCommentId] = useState(null);
-	const [myMemberId, setMyMemberId] = useState(null);
-
-	useEffect(() => {
-		const getMyId = async () => {
-			const id = await getMyMemberId();
-			setMyMemberId(id);
-		};
-		getMyId();
-	}, []);
 
 	const commentRef = useRef(null);
 
@@ -95,24 +90,21 @@ const PostPage = ({ route }) => {
 		setIsChecked(!isChecked);
 	};
 
-	const difeLinesCount = Math.floor(comments.length / 1.5);
-
-	const date = (date) => {
-		const datePart = date.split("T")[0];
-		const monthDay = datePart.slice(5);
-		return monthDay.replace("-", "/");
-	};
+	const difeLinesCount =
+		comments.length === 0 ? 1 : Math.floor(comments.length / 1.5);
 
 	useFocusEffect(
 		useCallback(() => {
 			const postComment = async () => {
 				try {
+					const myMemberId = await getMyMemberId();
+
 					const postByIdResponse = await getPostById(postId);
 					setTitle(postByIdResponse.data.title);
 					setContext(postByIdResponse.data.content);
 					setHeart(postByIdResponse.data.likesCount);
 					setBookmark(postByIdResponse.data.bookmarkCount);
-					setCreated(date(postByIdResponse.data.created));
+					setCreated(formatDate(postByIdResponse.data.created));
 					setIsPublic(postByIdResponse.data.isPublic);
 					setMemberId(postByIdResponse.data.writer.id);
 					const fileNames = postByIdResponse.data.files.map(
@@ -150,6 +142,7 @@ const PostPage = ({ route }) => {
 						await getCommentByPostId(postId);
 					setComments(commentByIdResponse.data);
 				} catch (error) {
+					Sentry.captureException(error);
 					console.error(
 						"게시글 조회 오류:",
 						error.response ? error.response.data : error.message,
@@ -162,7 +155,7 @@ const PostPage = ({ route }) => {
 			};
 
 			postComment();
-		}, [pressHeart, pressBookmark]),
+		}, [pressHeart, pressBookmark, comments]),
 	);
 
 	const [scrollY, setScrollY] = useState(0);
@@ -189,13 +182,8 @@ const PostPage = ({ route }) => {
 	};
 
 	const modalPosition = {
-		top:
-			iconPosition.height +
-			iconPosition.y +
-			topBarPosition.height +
-			topBarPosition.y -
-			scrollY,
-		width: iconPosition.width,
+		top: topBarPosition.height + topBarPosition.y - scrollY,
+		width: iconPosition.width + 5,
 	};
 
 	const windowHeight = Dimensions.get("window").height;
@@ -233,6 +221,7 @@ const PostPage = ({ route }) => {
 				]);
 			}
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"댓글 작성 실패:",
 				error.response ? error.response.data : error.message,
@@ -272,6 +261,7 @@ const PostPage = ({ route }) => {
 			setHeart((prevHeart) => prevHeart + 1);
 			setPressHeart(true);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 좋아요 실패:",
 				error.response ? error.response.data : error.message,
@@ -287,6 +277,7 @@ const PostPage = ({ route }) => {
 			setPressHeart(false);
 			setHeart(heart !== 0 ? (prevHeart) => prevHeart - 1 : 0);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 좋아요 취소 실패:",
 				error.response ? error.response.data : error.message,
@@ -302,6 +293,7 @@ const PostPage = ({ route }) => {
 			const likedPostIdList = response.data.map((item) => item.id);
 			setPressHeart(likedPostIdList.includes(postId));
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"좋아요 상태 조회 실패:",
 				error.response ? error.response.data : error.message,
@@ -317,6 +309,7 @@ const PostPage = ({ route }) => {
 			setBookmark((prevBookmark) => prevBookmark + 1);
 			setPressBookmark(true);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 북마크 실패:",
 				error.response ? error.response.data : error.message,
@@ -330,6 +323,7 @@ const PostPage = ({ route }) => {
 		try {
 			await deleteBookmarkByPostId(postId);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 북마크 삭제 실패:",
 				error.response ? error.response.data : error.message,
@@ -369,6 +363,7 @@ const PostPage = ({ route }) => {
 			);
 			setPressBookmark(bookmarkedPostIdList.includes(postId));
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"북마크 상태 조회 실패:",
 				error.response ? error.response.data : error.message,
@@ -421,25 +416,49 @@ const PostPage = ({ route }) => {
 					{images && (
 						<View style={PostStyles.containerImage}>
 							{images.length === 1 ? (
-								<Image
-									source={{ uri: images[0] }}
-									style={[
-										PostStyles.singleImage,
-										{
-											width: imageSize.width - 48,
-											height: imageSize.height,
-										},
-									]}
-									resizeMode="cover"
-								/>
+								<TouchableOpacity
+									onPress={() =>
+										navigation.navigate(
+											"EnlargeImagePage",
+											{
+												images: images,
+											},
+										)
+									}
+								>
+									<Image
+										source={{ uri: images[0] }}
+										style={[
+											PostStyles.singleImage,
+											{
+												width: imageSize.width - 48,
+												height: imageSize.height,
+											},
+										]}
+										resizeMode="cover"
+									/>
+								</TouchableOpacity>
 							) : (
 								<FlatList
 									data={images}
-									renderItem={({ item }) => (
-										<Image
-											source={{ uri: item }}
-											style={PostStyles.images}
-										/>
+									renderItem={({ item, index }) => (
+										<TouchableOpacity
+											onPress={() =>
+												navigation.navigate(
+													"EnlargeImagePage",
+													{
+														images: images,
+														initialIndex: index,
+													},
+												)
+											}
+										>
+											<Image
+												source={{ uri: item }}
+												style={PostStyles.images}
+												resizeMode="cover"
+											/>
+										</TouchableOpacity>
 									)}
 									keyExtractor={(item, index) =>
 										index.toString()
@@ -481,7 +500,12 @@ const PostPage = ({ route }) => {
 				<View
 					style={[
 						PostStyles.containerBackground,
-						{ minHeight: windowHeight - 300 },
+						{
+							minHeight:
+								images.length !== 0
+									? windowHeight - 400
+									: windowHeight - 300,
+						},
 					]}
 				>
 					<View style={PostStyles.difeLine}>

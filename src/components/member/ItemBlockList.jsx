@@ -1,26 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { CustomTheme } from "@styles/CustomTheme";
 import { useNavigation } from "@react-navigation/native";
+
+import { CustomTheme } from "@styles/CustomTheme";
+import { formatDate } from "util/formatDate";
+import { getProfileById } from "config/api";
 
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconMenu from "@components/chat/IconMenu";
 import ModalKebabMenuBlock from "@components/member/ModalKebabMenuBlock";
 
-const ItemBlockList = ({ memberId, name, imageName }) => {
+const ItemBlockList = ({ blacklistedMemberId, date }) => {
 	const navigation = useNavigation();
 
-	let blockDate = "05/11";
 	const [modalVisible, setModalVisible] = useState(false);
 
-	const handleModal = () => {
+	const [modalPosition, setModalPosition] = useState({
+		top: 0,
+		left: 0,
+	});
+
+	const handleIconPress = (event) => {
 		setModalVisible(true);
+		const { pageY } = event.nativeEvent;
+		setModalPosition({
+			top: Math.floor(pageY / 10) * 10,
+		});
 	};
 
-	const modalPosition = {
-		top: 200,
-		width: 20,
+	const [name, setName] = useState();
+	const [imageName, setImageName] = useState(null);
+
+	const getConnectProfile = async () => {
+		try {
+			const response = await getProfileById(blacklistedMemberId);
+			setName(response.data.username);
+			setImageName(response.data.profileImg?.originalName || null);
+		} catch (error) {
+			console.error(
+				"디테일 프로필 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
+
+	useEffect(() => {
+		getConnectProfile();
+	}, []);
 
 	return (
 		<>
@@ -30,7 +56,7 @@ const ItemBlockList = ({ memberId, name, imageName }) => {
 						style={styles.iconTextContainer}
 						onPress={() =>
 							navigation.navigate("ConnectProfilePage", {
-								memberId: memberId,
+								memberId: blacklistedMemberId,
 							})
 						}
 					>
@@ -41,18 +67,18 @@ const ItemBlockList = ({ memberId, name, imageName }) => {
 					</TouchableOpacity>
 					<View style={styles.iconTextContainer}>
 						<Text style={styles.textBlockDate}>
-							{blockDate} 차단함
+							{formatDate(date)} 차단함
 						</Text>
 						<TouchableOpacity
 							style={styles.iconMenu}
-							onPress={handleModal}
+							onPress={(event) => handleIconPress(event)}
 						>
 							<IconMenu />
 						</TouchableOpacity>
 						<ModalKebabMenuBlock
 							modalVisible={modalVisible}
 							setModalVisible={setModalVisible}
-							memberId={memberId}
+							blacklistedMemberId={blacklistedMemberId}
 							position={modalPosition}
 						/>
 					</View>
@@ -97,6 +123,8 @@ const styles = StyleSheet.create({
 		marginRight: 12,
 	},
 	iconMenu: {
+		width: 13,
+		height: 13,
 		marginRight: 16,
 	},
 });

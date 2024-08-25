@@ -22,6 +22,7 @@ import Checkbox from "@components/common/Checkbox";
 import { createPost } from "config/api";
 import IconDelete from "@components/onboarding/IconDelete";
 import IconCircleNumber from "@components/community/IconCircleNumber";
+import * as Sentry from "@sentry/react-native";
 
 const WritePage = ({ route }) => {
 	const { noticeboard } = route.params;
@@ -31,7 +32,7 @@ const WritePage = ({ route }) => {
 	const [valueTitle, onChangeTitle] = useState("");
 	const [valueContext, onChangeContext] = useState("");
 	const [isBoardType, setIsBoardType] = useState("");
-	const [images, setImages] = useState(null);
+	const [images, setImages] = useState("");
 
 	const handlePress = () => {
 		setIsChecked(!isChecked);
@@ -47,15 +48,29 @@ const WritePage = ({ route }) => {
 
 	const handleWrite = async () => {
 		try {
-			await createPost(
-				valueTitle,
-				valueContext,
-				isChecked,
-				isBoardType,
-				images || null,
-			);
-			navigation.goBack();
+			if (valueTitle.trim().length !== 0) {
+				await createPost(
+					valueTitle,
+					valueContext,
+					isChecked,
+					isBoardType,
+					images,
+				);
+				navigation.goBack();
+			} else {
+				Alert.alert(
+					"",
+					"제목을 입력해주세요",
+					[
+						{
+							text: "확인",
+						},
+					],
+					{ cancelable: false },
+				);
+			}
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 작성 실패:",
 				error.response ? error.response.data : error.message,
@@ -73,7 +88,6 @@ const WritePage = ({ route }) => {
 
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			aspect: [4, 3],
 			quality: 1,
 			allowsMultipleSelection: true,
 		});

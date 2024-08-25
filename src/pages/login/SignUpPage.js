@@ -20,6 +20,7 @@ import InfoCircle from "@components/common/InfoCircle";
 import IconNotSeePw from "@components/login/IconNotSeePw";
 import IconSeePw from "@components/login/IconSeePw";
 import GoBack from "@components/common/GoBack";
+import * as Sentry from "@sentry/react-native";
 
 const SignUpPage = () => {
 	const navigation = useNavigation();
@@ -96,6 +97,7 @@ const SignUpPage = () => {
 			await signUp(valueID, valuePW);
 			navigation.navigate("Login");
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"회원가입 실패:",
 				error.response ? error.response.data : error.message,

@@ -18,6 +18,7 @@ import InfoCircle from "@components/common/InfoCircle";
 import ApplyButton from "@components/common/ApplyButton";
 import ConnectRequest from "@components/ConnectRequest";
 import GoBack from "@components/common/GoBack";
+import * as Sentry from "@sentry/react-native";
 
 const FindPasswordPage = () => {
 	const [valueID, onChangeID] = useState("");
@@ -62,6 +63,7 @@ const FindPasswordPage = () => {
 			setValidID(true);
 			navigation.navigate("FindPasswordVerifying");
 		} catch (error) {
+			Sentry.captureException(error);
 			setModalConnectVisible(false);
 			console.error(
 				"비밀번호 재발급 실패:",

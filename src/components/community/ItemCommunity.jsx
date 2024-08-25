@@ -3,6 +3,7 @@ import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { CustomTheme } from "@styles/CustomTheme";
+import { formatDate } from "util/formatDate";
 
 import IconHeart from "@components/community/IconHeart";
 import IconBookmark from "@components/community/IconBookmark";
@@ -13,17 +14,11 @@ const { fontCaption, fontNavi } = CustomTheme;
 const ItemCommunity = ({ postList = [], comment = false }) => {
 	const navigation = useNavigation();
 
-	const date = (date) => {
-		const datePart = date.split("T")[0];
-		const monthDay = datePart.slice(5);
-		return monthDay.replace("-", "/");
-	};
-
 	return (
 		<>
 			{postList.map((post, index) => {
 				const commentText = comment
-					? `'${post.title}' 글에 댓글`
+					? `'${post.post.title}' 글에 댓글`
 					: post.title;
 
 				return (
@@ -32,7 +27,7 @@ const ItemCommunity = ({ postList = [], comment = false }) => {
 						style={styles.ItemCommunity}
 						onPress={() =>
 							navigation.navigate("PostPage", {
-								postId: post.id,
+								postId: comment ? post.post.id : post.id,
 							})
 						}
 					>
@@ -57,7 +52,7 @@ const ItemCommunity = ({ postList = [], comment = false }) => {
 
 								<View style={styles.containerTextRow}>
 									<View style={styles.containerText}>
-										<IconHeart />
+										<IconHeart active={post.isLiked} />
 										<Text style={styles.text}>
 											{post.likesCount == null
 												? 0
@@ -77,22 +72,26 @@ const ItemCommunity = ({ postList = [], comment = false }) => {
 									<View style={styles.containerText}>
 										<IconComment />
 										<Text style={styles.text}>
-											{post.commentCount}
+											{post.commentsCount == null
+												? 0
+												: post.commentsCount}
 										</Text>
 									</View>
 									<View style={styles.containerText}>
 										<Text style={styles.text}>
-											{date(post.created)}
+											{formatDate(post.created)}
 										</Text>
 									</View>
 								</View>
 							</View>
 
-							{post.image && (
-								<Image
-									source={post.image}
-									style={styles.imagePost}
-								/>
+							{post.profilePresignUrl && (
+								<View style={styles.containerImage}>
+									<Image
+										source={{ uri: post.profilePresignUrl }}
+										style={styles.imagePost}
+									/>
+								</View>
 							)}
 						</View>
 					</TouchableOpacity>
@@ -132,6 +131,11 @@ const styles = StyleSheet.create({
 		width: 272,
 		height: 17,
 		marginTop: 3,
+	},
+	containerImage: {
+		position: "absolute",
+		alignItems: "center",
+		right: -3,
 	},
 	imagePost: {
 		width: 48,

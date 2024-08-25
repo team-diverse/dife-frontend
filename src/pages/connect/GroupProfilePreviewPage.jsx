@@ -29,12 +29,35 @@ const GroupProfilePreviewPage = () => {
 		setGroupProfile(profile[0]);
 	}, []);
 
+	const CategoryEnum = {
+		COMMUNICATION: "COMMUNICATION",
+		EXCHANGE: "EXCHANGE",
+		FREE: "FREE",
+	};
+
+	const categoryStringToEnum = (stringValue) => {
+		const enumMap = {
+			"소통/친구 사귀기": CategoryEnum.COMMUNICATION,
+			언어교환: CategoryEnum.EXCHANGE,
+			자유: CategoryEnum.FREE,
+		};
+		return enumMap[stringValue] || null;
+	};
+
 	const handleCreateGroup = async () => {
 		try {
+			const purposesEnum =
+				groupProfile.purposes.map(categoryStringToEnum);
 			const response = await createGroupChatroom(
 				groupProfile.profileImg,
 				groupProfile.name,
 				groupProfile.description,
+				groupProfile.hobbies,
+				groupProfile.maxCount,
+				purposesEnum,
+				groupProfile.languages,
+				groupProfile.isPublic,
+				groupProfile.groupPassword,
 			);
 			navigation.navigate("ConnectPage", {
 				groupId: response.data.id,
@@ -83,8 +106,7 @@ const GroupProfilePreviewPage = () => {
 							<Text
 								style={GroupProfilePreviewStyles.textHeadcount}
 							>
-								{groupProfile.limitMembersNumber[0]}~
-								{groupProfile.limitMembersNumber[1]}명 제한
+								{groupProfile.maxCount}명 제한
 							</Text>
 						</View>
 					</View>

@@ -61,6 +61,12 @@ import HomeAc32 from "@components/Icon32/HomeAc32";
 import CommuAc32 from "@components/Icon32/CommuAc32";
 import MyAc32 from "@components/Icon32/MyAc32";
 import "text-encoding";
+import * as Sentry from "@sentry/react-native";
+
+Sentry.init({
+	dsn: "https://5a585cef4237affff9605bb2182bf1d1@o4507762694422528.ingest.us.sentry.io/4507769192448000",
+	debug: true,
+});
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -79,6 +85,14 @@ import CountrySelectionPage from "@pages/onboarding/CountrySelectionPage";
 import ConnectListPage from "@pages/member/ConnectListPage";
 import DefaultLanguagePage from "@pages/member/DefaultLanguagePage";
 import { CreateGroupProvider } from "states/CreateGroupDataContext";
+import EnlargeImagePage from "@pages/community/EnlargeImagePage";
+import PreparingPage from "@pages/etc/PreparingPage";
+import StudentVerificationErrorPage from "@pages/onboarding/StudentVerificationErrorPage";
+import SkeletonHomePage from "@pages/etc/SkeletonHomePage";
+import SkeletonEventPage from "@pages/etc/SkeletonEventPage";
+import SkeletonConnectPage from "@pages/etc/SkeletonConnectPage";
+import SkeletonConnectLikePage from "@pages/etc/SkeletonConnectLikePage";
+import DeleteMemberPage from "@pages/member/DeleteMemberPage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -207,6 +221,14 @@ function AppContent() {
 		checkAccess();
 	}, []);
 
+	Notifications.setNotificationHandler({
+		handleNotification: async () => ({
+			shouldShowAlert: true,
+			shouldPlaySound: false,
+			shouldSetBadge: false,
+		}),
+	});
+
 	const [loaded] = useFonts({
 		"NotoSansCJKkr-Bold": require("@assets/fonts/NotoSansCJKkr-Bold.otf"),
 		"NotoSansCJKkr-Medium": require("@assets/fonts/NotoSansCJKkr-Medium.otf"),
@@ -313,6 +335,31 @@ function MainNavigator() {
 				name="DefaultLanguagePage"
 				component={DefaultLanguagePage}
 			/>
+			<Stack.Screen
+				name="EnlargeImagePage"
+				component={EnlargeImagePage}
+			/>
+			<Stack.Screen name="PreparingPage" component={PreparingPage} />
+			<Stack.Screen
+				name="SkeletonHomePage"
+				component={SkeletonHomePage}
+			/>
+			<Stack.Screen
+				name="SkeletonEventPage"
+				component={SkeletonEventPage}
+			/>
+			<Stack.Screen
+				name="SkeletonConnectPage"
+				component={SkeletonConnectPage}
+			/>
+			<Stack.Screen
+				name="SkeletonConnectLikePage"
+				component={SkeletonConnectLikePage}
+			/>
+			<Stack.Screen
+				name="DeleteMemberPage"
+				component={DeleteMemberPage}
+			/>
 		</Stack.Navigator>
 	);
 }
@@ -356,8 +403,12 @@ function AuthNavigator({ initialRoute }) {
 				name="CountrySelectionPage"
 				component={CountrySelectionPage}
 			/>
+			<Stack.Screen
+				name="StudentVerificationErrorPage"
+				component={StudentVerificationErrorPage}
+			/>
 		</Stack.Navigator>
 	);
 }
 
-export default App;
+export default Sentry.wrap(App);

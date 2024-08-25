@@ -21,6 +21,7 @@ import ArrowRight from "@components/common/ArrowRight";
 import BackgroundOnkookminUpload from "@components/onboarding/BackgroundOnkookminUpload";
 import IconOnkookminUpload from "@components/onboarding/IconOnkookminUpload";
 import ApplyButton from "@components/common/ApplyButton";
+import * as Sentry from "@sentry/react-native";
 
 const StudentVerificationPage = () => {
 	const [isModalVisible, setModalVisible] = useState(true);
@@ -91,6 +92,7 @@ const StudentVerificationPage = () => {
 			await updateMyProfile(formData);
 			navigation.navigate("CompleteProfile");
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"온보딩 저장 실패:",
 				error.response ? error.response.data : error.message,

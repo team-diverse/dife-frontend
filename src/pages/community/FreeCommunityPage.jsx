@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -9,10 +9,11 @@ import {
 	ScrollView,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import axios from "axios";
 
 import FreeCommunityStyles from "@pages/community/FreeCommunityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { getPostsByType, getFreeCommunitySearch } from "config/api";
+import { communityPresignUrl } from "util/communityPresignUrl";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import IconPostPlus from "@components/community/IconPostPlus";
@@ -20,8 +21,9 @@ import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
 import ConnectSearchCancel from "@components/connect/ConnectSearchCancel";
 import IconBookmark from "@components/chat/IconBookmark";
 import ItemCommunity from "@components/community/ItemCommunity";
-import { getPostsByType } from "config/api";
 import ArrowRight from "@components/common/ArrowRight";
+import IconSearchFail from "@components/common/IconSearchFail";
+import * as Sentry from "@sentry/react-native";
 
 const FreeCommunityPage = () => {
 	const navigation = useNavigation();
@@ -30,21 +32,30 @@ const FreeCommunityPage = () => {
 		navigation.goBack();
 	};
 
+	const [postList, setPostList] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
-	const [, setSearchData] = useState([]);
+	const [searchData, setSearchData] = useState(null);
+	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
 
-	const handleSearch = () => {
-		if (searchTerm.trim() !== "") {
-			axios
-				.get(`${searchTerm}`)
-				.then((response) => {
-					setSearchData(response.data);
-				})
-				.catch((error) => {
-					console.error("Error:", error);
-				});
+	const handleSearch = async () => {
+		try {
+			const response = await getFreeCommunitySearch(searchTerm);
+			setSearchData(response.data);
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"커넥트 검색 오류:",
+				error.response ? error.response.data : error.message,
+			);
+			setSearchFail(true);
 		}
+	};
+
+	const handleSearchBack = () => {
+		setSearchFail(false);
+		setSearchData(null);
+		setSearchTerm(null);
 	};
 
 	const handleFocus = () => {
@@ -61,15 +72,15 @@ const FreeCommunityPage = () => {
 		Keyboard.dismiss();
 	};
 
-	const [postList, setPostList] = useState([]);
-
 	useFocusEffect(
-		React.useCallback(() => {
+		useCallback(() => {
 			const freeCommunity = async () => {
 				try {
 					const response = await getPostsByType("FREE");
-					setPostList(response.data);
+					const presignUrl = await communityPresignUrl(response.data);
+					setPostList(presignUrl);
 				} catch (error) {
+					Sentry.captureException(error);
 					console.error(
 						"게시글 조회 오류:",
 						error.response ? error.response.data : error.message,
@@ -113,13 +124,29 @@ const FreeCommunityPage = () => {
 				<View style={FreeCommunityStyles.containerSearch}>
 					<View style={FreeCommunityStyles.containerSearchIcon}>
 						<TextInput
-							style={FreeCommunityStyles.search}
+							style={[
+								FreeCommunityStyles.search,
+								(searchFail ||
+									(searchData && searchData.length > 0)) && {
+									paddingLeft: 40,
+								},
+							]}
 							placeholder="검색"
 							value={searchTerm}
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}
 							onBlur={handleBlur}
+							onSubmitEditing={handleSearch}
 						/>
+						{(searchFail ||
+							(searchData && searchData.length > 0)) && (
+							<TouchableOpacity
+								style={FreeCommunityStyles.iconArrowRightSearch}
+								onPress={handleSearchBack}
+							>
+								<ArrowRight color="#B0D0FF" />
+							</TouchableOpacity>
+						)}
 						{isSearching ? (
 							<ConnectSearchCancel
 								style={FreeCommunityStyles.searchIcon}
@@ -135,9 +162,22 @@ const FreeCommunityPage = () => {
 				</View>
 
 				<ScrollView>
-					<View style={FreeCommunityStyles.itemCommunity}>
-						<ItemCommunity postList={postList} />
-					</View>
+					{searchFail ? (
+						<View style={FreeCommunityStyles.containerFail}>
+							<IconSearchFail />
+							<Text style={FreeCommunityStyles.textFail}>
+								일치하는 검색 결과가 없습니다
+							</Text>
+						</View>
+					) : (
+						<View style={FreeCommunityStyles.itemCommunity}>
+							<ItemCommunity
+								postList={
+									searchData === null ? postList : searchData
+								}
+							/>
+						</View>
+					)}
 				</ScrollView>
 			</SafeAreaView>
 		</View>
