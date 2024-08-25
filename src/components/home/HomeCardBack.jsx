@@ -6,7 +6,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 import {
 	getConnectById,
 	requestConnectById,
-	deleteConnectById,
+	rejectedConnectByConnectId,
 } from "config/api";
 import { getMyMemberId } from "util/secureStoreUtils";
 
@@ -59,7 +59,7 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 
 	const deleteConnect = async () => {
 		try {
-			await deleteConnectById(connectId);
+			await rejectedConnectByConnectId(connectId);
 			setConnectStatus(undefined);
 		} catch (error) {
 			console.error(

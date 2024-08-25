@@ -50,6 +50,12 @@ const TipCommunityPage = () => {
 		}
 	};
 
+	const handleSearchBack = () => {
+		setSearchFail(false);
+		setSearchData(null);
+		setSearchTerm(null);
+	};
+
 	const handleFocus = () => {
 		setIsSearching(true);
 	};
@@ -115,7 +121,13 @@ const TipCommunityPage = () => {
 				<View style={TipCommunityStyles.containerSearch}>
 					<View style={TipCommunityStyles.containerSearchIcon}>
 						<TextInput
-							style={TipCommunityStyles.search}
+							style={[
+								TipCommunityStyles.search,
+								(searchFail ||
+									(searchData && searchData.length > 0)) && {
+									paddingLeft: 40,
+								},
+							]}
 							placeholder="검색"
 							value={searchTerm}
 							onChangeText={setSearchTerm}
@@ -123,6 +135,15 @@ const TipCommunityPage = () => {
 							onBlur={handleBlur}
 							onSubmitEditing={handleSearch}
 						/>
+						{(searchFail ||
+							(searchData && searchData.length > 0)) && (
+							<TouchableOpacity
+								style={TipCommunityStyles.iconArrowRightSearch}
+								onPress={handleSearchBack}
+							>
+								<ArrowRight color="#B0D0FF" />
+							</TouchableOpacity>
+						)}
 						{isSearching ? (
 							<ConnectSearchCancel
 								style={TipCommunityStyles.searchIcon}

@@ -38,7 +38,7 @@ const RequestConnectListPage = () => {
 
 	useEffect(() => {
 		getPenddingConnects();
-	}, []);
+	}, [receivedConnects]);
 
 	return (
 		<SafeAreaView style={RequestConnectListStyles.container}>
@@ -54,6 +54,7 @@ const RequestConnectListPage = () => {
 				renderItem={({ item }) => (
 					<ItemRequestConnectList
 						received={true}
+						connectId={item.id}
 						memberId={item.from_member.id}
 						name={item.from_member.username}
 						imageName={item.from_member.profileImg}

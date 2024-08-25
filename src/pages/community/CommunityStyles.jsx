@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontHead20, fontSub16, fontBody14 } = CustomTheme;
+const { fontHead20, fontSub16, fontBody14, fontCaption } = CustomTheme;
 
 const ChattingStyles = StyleSheet.create({
 	container: {
@@ -70,6 +70,10 @@ const ChattingStyles = StyleSheet.create({
 		borderRadius: 24,
 		paddingLeft: 20,
 	},
+	iconArrowRightSearch: {
+		position: "absolute",
+		left: 8,
+	},
 	searchIcon: {
 		position: "absolute",
 		right: 12,
@@ -110,6 +114,20 @@ const ChattingStyles = StyleSheet.create({
 	itemCommunityPreview: {
 		alignItems: "center",
 		marginTop: 12,
+		marginHorizontal: 24,
+	},
+	containerFail: {
+		alignItems: "center",
+		marginTop: 78,
+	},
+	textFail: {
+		...fontCaption,
+		color: CustomTheme.textSecondary,
+		marginTop: 13,
+	},
+	itemCommunity: {
+		alignItems: "center",
+		marginTop: 18,
 		marginHorizontal: 24,
 	},
 });

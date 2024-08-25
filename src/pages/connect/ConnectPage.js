@@ -15,7 +15,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 import {
 	getRandomMembersByCount,
 	getConnectSearch,
-	getGroups,
+	getChatroomsByCount,
 	getProfileImageByFileName,
 	getGroupConnectSearch,
 } from "config/api";
@@ -142,7 +142,7 @@ const ConnectPage = ({ route }) => {
 
 	const getGroupList = async () => {
 		try {
-			const response = await getGroups();
+			const response = await getChatroomsByCount(RANDOM_MEMBER_COUNT);
 			const addImageUrlGroupList = await Promise.all(
 				response.data.map(async (item) => {
 					if (item.profileImg && item.profileImg.originalName) {
