@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontHead20, fontSub16 } = CustomTheme;
+const { fontHead20, fontSub16, fontCaption } = CustomTheme;
 
 const TipCommunityStyles = StyleSheet.create({
 	container: {
@@ -88,6 +88,15 @@ const TipCommunityStyles = StyleSheet.create({
 		alignItems: "center",
 		marginTop: 18,
 		marginHorizontal: 24,
+	},
+	containerFail: {
+		alignItems: "center",
+		marginTop: 78,
+	},
+	textFail: {
+		...fontCaption,
+		color: CustomTheme.textSecondary,
+		marginTop: 13,
 	},
 });
 
