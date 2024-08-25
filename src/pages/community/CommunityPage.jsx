@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import {
 	View,
 	Text,
@@ -8,9 +8,9 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import axios from "axios";
 
 import CommunityStyles from "@pages/community/CommunityStyles";
+import { getPostsByType, getCommunitySearch } from "config/api";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -19,26 +19,38 @@ import IconBookmark from "@components/chat/IconBookmark";
 import IconCommunityTitle from "@components/community/IconCommunityTitle";
 import ArrowRight from "@components/common/ArrowRight";
 import ItemCommunityPreview from "@components/community/ItemCommunityPreview";
-import { getPostsByType } from "config/api";
+import IconSearchFail from "@components/common/IconSearchFail";
+import ItemCommunity from "@components/community/ItemCommunity";
+import * as Sentry from "@sentry/react-native";
 
 const CommunityPage = () => {
 	const navigation = useNavigation();
 
+	const [tipPostList, setTipPostList] = useState([]);
+	const [freePostList, setFreePostList] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
-	const [, setSearchData] = useState([]);
+	const [searchData, setSearchData] = useState(null);
+	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
 
-	const handleSearch = () => {
-		if (searchTerm.trim() !== "") {
-			axios
-				.get(`${searchTerm}`)
-				.then((response) => {
-					setSearchData(response.data);
-				})
-				.catch((error) => {
-					console.error("Error:", error);
-				});
+	const handleSearch = async () => {
+		try {
+			const response = await getCommunitySearch(searchTerm);
+			setSearchData(response.data);
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"커넥트 검색 오류:",
+				error.response ? error.response.data : error.message,
+			);
+			setSearchFail(true);
 		}
+	};
+
+	const handleSearchBack = () => {
+		setSearchFail(false);
+		setSearchData(null);
+		setSearchTerm(null);
 	};
 
 	const handleFocus = () => {
@@ -55,31 +67,24 @@ const CommunityPage = () => {
 		Keyboard.dismiss();
 	};
 
-	const [tipPostList, setTipPostList] = useState([]);
-	const [freePostList, setFreePostList] = useState([]);
-
 	useFocusEffect(
-		React.useCallback(() => {
-			getPostsByType("TIP")
-				.then((response) => {
-					setTipPostList(response.data.slice(0, 3));
-				})
-				.catch((error) => {
+		useCallback(() => {
+			const community = async () => {
+				try {
+					const responseTip = await getPostsByType("TIP");
+					const responseFree = await getPostsByType("FREE");
+					setTipPostList(responseTip.data.slice(0, 3));
+					setFreePostList(responseFree.data.slice(0, 3));
+				} catch (error) {
+					Sentry.captureException(error);
 					console.error(
 						"게시글 조회 오류:",
 						error.response ? error.response.data : error.message,
 					);
-				});
-			getPostsByType("FREE")
-				.then((response) => {
-					setFreePostList(response.data.slice(0, 3));
-				})
-				.catch((error) => {
-					console.error(
-						"게시글 조회 오류:",
-						error.response ? error.response.data : error.message,
-					);
-				});
+				}
+			};
+
+			community();
 		}, []),
 	);
 
@@ -96,13 +101,29 @@ const CommunityPage = () => {
 				<View style={CommunityStyles.containerSearch}>
 					<View style={CommunityStyles.containerSearchIcon}>
 						<TextInput
-							style={CommunityStyles.search}
+							style={[
+								CommunityStyles.search,
+								(searchFail ||
+									(searchData && searchData.length > 0)) && {
+									paddingLeft: 40,
+								},
+							]}
 							placeholder="검색"
 							value={searchTerm}
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}
 							onBlur={handleBlur}
+							onSubmitEditing={handleSearch}
 						/>
+						{(searchFail ||
+							(searchData && searchData.length > 0)) && (
+							<TouchableOpacity
+								style={CommunityStyles.iconArrowRightSearch}
+								onPress={handleSearchBack}
+							>
+								<ArrowRight color="#B0D0FF" />
+							</TouchableOpacity>
+						)}
 						{isSearching ? (
 							<ConnectSearchCancel
 								style={CommunityStyles.searchIcon}
@@ -118,55 +139,90 @@ const CommunityPage = () => {
 				</View>
 
 				<View style={{ marginTop: 130 }}>
-					<View style={CommunityStyles.containerCommunityTop}>
-						<View style={CommunityStyles.containerTitle}>
-							<IconCommunityTitle
-								style={CommunityStyles.iconCommunity}
-							/>
-							<Text style={CommunityStyles.textCommunityTitle}>
-								꿀팁게시판
+					{searchFail ? (
+						<View style={CommunityStyles.containerFail}>
+							<IconSearchFail />
+							<Text style={CommunityStyles.textFail}>
+								일치하는 검색 결과가 없습니다
 							</Text>
 						</View>
-						<TouchableOpacity
-							style={CommunityStyles.containerMore}
-							onPress={() =>
-								navigation.navigate("TipCommunityPage")
-							}
-						>
-							<Text style={CommunityStyles.textCommunityMore}>
-								더보기
-							</Text>
-							<ArrowRight style={CommunityStyles.iconArrow} />
-						</TouchableOpacity>
-					</View>
-					<View style={CommunityStyles.itemCommunityPreview}>
-						<ItemCommunityPreview postList={tipPostList} />
-					</View>
+					) : searchData && searchData.length > 0 ? (
+						<View style={CommunityStyles.itemCommunity}>
+							<ItemCommunity postList={searchData} />
+						</View>
+					) : (
+						<>
+							<View style={CommunityStyles.containerCommunityTop}>
+								<View style={CommunityStyles.containerTitle}>
+									<IconCommunityTitle
+										style={CommunityStyles.iconCommunity}
+									/>
+									<Text
+										style={
+											CommunityStyles.textCommunityTitle
+										}
+									>
+										꿀팁게시판
+									</Text>
+								</View>
+								<TouchableOpacity
+									style={CommunityStyles.containerMore}
+									onPress={() =>
+										navigation.navigate("TipCommunityPage")
+									}
+								>
+									<Text
+										style={
+											CommunityStyles.textCommunityMore
+										}
+									>
+										더보기
+									</Text>
+									<ArrowRight
+										style={CommunityStyles.iconArrow}
+									/>
+								</TouchableOpacity>
+							</View>
+							<View style={CommunityStyles.itemCommunityPreview}>
+								<ItemCommunityPreview postList={tipPostList} />
+							</View>
 
-					<View style={CommunityStyles.containerCommunityTop}>
-						<View style={CommunityStyles.containerTitle}>
-							<IconCommunityTitle
-								style={CommunityStyles.iconCommunity}
-							/>
-							<Text style={CommunityStyles.textCommunityTitle}>
-								자유게시판
-							</Text>
-						</View>
-						<TouchableOpacity
-							style={CommunityStyles.containerMore}
-							onPress={() =>
-								navigation.navigate("FreeCommunityPage")
-							}
-						>
-							<Text style={CommunityStyles.textCommunityMore}>
-								더보기
-							</Text>
-							<ArrowRight style={CommunityStyles.iconArrow} />
-						</TouchableOpacity>
-					</View>
-					<View style={CommunityStyles.itemCommunityPreview}>
-						<ItemCommunityPreview postList={freePostList} />
-					</View>
+							<View style={CommunityStyles.containerCommunityTop}>
+								<View style={CommunityStyles.containerTitle}>
+									<IconCommunityTitle
+										style={CommunityStyles.iconCommunity}
+									/>
+									<Text
+										style={
+											CommunityStyles.textCommunityTitle
+										}
+									>
+										자유게시판
+									</Text>
+								</View>
+								<TouchableOpacity
+									style={CommunityStyles.containerMore}
+									onPress={() =>
+										navigation.navigate("FreeCommunityPage")
+									}
+								>
+									<Text
+										style={
+											CommunityStyles.textCommunityMore
+										}
+									>
+										더보기
+									</Text>
+									<ArrowRight
+										style={CommunityStyles.iconArrow}
+									/>
+								</TouchableOpacity>
+							</View>
+							<View style={CommunityStyles.itemCommunityPreview}>
+								<ItemCommunityPreview postList={freePostList} />
+							</View>
+						</>
+					)}
 				</View>
 			</SafeAreaView>
 		</View>

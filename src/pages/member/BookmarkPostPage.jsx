@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import { View, ScrollView } from "react-native";
 
 import BookmarkPostStyles from "@pages/member/BookmarkPostStyles";
-
 import { getBookmarkedPost } from "config/api";
+import { communityPresignUrl } from "util/communityPresignUrl";
+
 import ItemLikeBookmark from "@components/member/ItemLikeBookmark";
+import * as Sentry from "@sentry/react-native";
 
 const BookmarkPostPage = () => {
 	const [bookmarkPostList, setBookmarkPostList] = useState([]);
@@ -13,8 +15,12 @@ const BookmarkPostPage = () => {
 		const handleBookmarkPost = async () => {
 			try {
 				const bookmarkPostResponse = await getBookmarkedPost();
-				setBookmarkPostList(bookmarkPostResponse.data);
+				const presignUrl = await communityPresignUrl(
+					bookmarkPostResponse.data,
+				);
+				setBookmarkPostList(presignUrl);
 			} catch (error) {
+				Sentry.captureException(error);
 				console.error(
 					"북마크한 게시글 조회 오류:",
 					error.response ? error.response.data : error.message,

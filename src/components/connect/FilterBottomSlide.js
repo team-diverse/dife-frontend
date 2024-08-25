@@ -21,15 +21,18 @@ import FilterArrowBottom from "@components/connect/FilterArrowBottom";
 import FilterArrowTop from "@components/connect/FilterArrowTop";
 import FilterCategory from "@components/connect/FilterCategory";
 import Checkbox from "@components/common/Checkbox";
-import ApplyButton from "@components/common/ApplyButton";
+import FilterBottomTwoButtons from "@components/connect/FilterBottomTwoButtons";
+import * as Sentry from "@sentry/react-native";
 
-const { fontCaption } = CustomTheme;
+const { fontCaption, fontNaviBold } = CustomTheme;
 
 const FilterBottomSlide = ({
 	modalVisible,
 	setModalVisible,
 	onFilterResponse,
 	onSearchResponse,
+	onTotalSelection,
+	isReset,
 }) => {
 	const screenHeight = Dimensions.get("screen").height;
 	const panY = useRef(new Animated.Value(screenHeight)).current;
@@ -88,14 +91,6 @@ const FilterBottomSlide = ({
 		setCollapsedStates(newCollapsedStates);
 	};
 
-	const [isCheckedList, setIsCheckedList] = useState([
-		false,
-		false,
-		false,
-		false,
-		false,
-	]);
-
 	const [selectedMBTI, setSelectedMBTI] = useState([]);
 	const [selectedHobby, setSelectedHobby] = useState([]);
 	const [selectedLanguage, setSelectedLanguage] = useState([]);
@@ -118,6 +113,7 @@ const FilterBottomSlide = ({
 		"ISTJ",
 		"ENFJ",
 	];
+
 	const hobby = [
 		"SNS",
 		"OTT",
@@ -141,6 +137,7 @@ const FilterBottomSlide = ({
 		"영화",
 		"맛집",
 	];
+
 	const languages = [
 		"English / English",
 		"中文 / Chinese",
@@ -149,6 +146,10 @@ const FilterBottomSlide = ({
 		"한국어 / Korean",
 		"기타",
 	];
+
+	const [isCheckedList, setIsCheckedList] = useState(
+		new Array(languages.length).fill(false),
+	);
 
 	const size = 3;
 	const mbtiRows = [];
@@ -198,14 +199,21 @@ const FilterBottomSlide = ({
 		return `${encoded.join(",")}`;
 	};
 
-	const filterReset = () => {
-		setModalVisible(false);
-		setSelectedMBTI([]);
-		setSelectedHobby([]);
-		setSelectedLanguage([]);
-		setIsCheckedList([false, false, false, false, false]);
+	const reset = (isSearch = false) => {
 		setCollapsedStates([true, true, true]);
+		if (isSearch) {
+			setModalVisible(false);
+		} else {
+			setSelectedMBTI([]);
+			setSelectedHobby([]);
+			setSelectedLanguage([]);
+			setIsCheckedList(new Array(languages.length).fill(false));
+		}
 	};
+
+	useEffect(() => {
+		reset();
+	}, [isReset]);
 
 	const handleFilter = async () => {
 		try {
@@ -214,17 +222,30 @@ const FilterBottomSlide = ({
 				encoded(selectedHobby),
 				encoded(selectedLanguage),
 			);
+			reset(true);
 			onFilterResponse(response.data);
-			filterReset();
+			onTotalSelection(totalSelection);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"필터 검색 오류:",
 				error.response ? error.response.data : error.message,
 			);
-			filterReset();
+			reset(true);
 			onSearchResponse(true);
+			onTotalSelection(totalSelection);
 		}
 	};
+
+	const [totalSelection, setTotalSelection] = useState();
+
+	useEffect(() => {
+		setTotalSelection(
+			selectedMBTI.length +
+				selectedHobby.length +
+				selectedLanguage.length,
+		);
+	}, [selectedMBTI, selectedHobby, selectedLanguage]);
 
 	return (
 		<Modal
@@ -250,7 +271,21 @@ const FilterBottomSlide = ({
 							style={styles.list}
 							onPress={() => toggleCollapsed(0)}
 						>
-							<Text style={styles.listText}>MBTI</Text>
+							<Text
+								style={[
+									styles.listText,
+									selectedMBTI.length >= 1 && {
+										color: CustomTheme.primaryMedium,
+									},
+								]}
+							>
+								MBTI{"  "}
+								{selectedMBTI.length >= 1 && (
+									<Text style={styles.textSelectedNumber}>
+										{selectedMBTI.length}
+									</Text>
+								)}
+							</Text>
 							{collapsedStates[0] ? (
 								<FilterArrowBottom style={styles.listIcon} />
 							) : (
@@ -294,7 +329,21 @@ const FilterBottomSlide = ({
 							style={styles.list}
 							onPress={() => toggleCollapsed(1)}
 						>
-							<Text style={styles.listText}>취미/관심사</Text>
+							<Text
+								style={[
+									styles.listText,
+									selectedHobby.length >= 1 && {
+										color: CustomTheme.primaryMedium,
+									},
+								]}
+							>
+								취미/관심사{"  "}
+								{selectedHobby.length >= 1 && (
+									<Text style={styles.textSelectedNumber}>
+										{selectedHobby.length}
+									</Text>
+								)}
+							</Text>
 							{collapsedStates[1] ? (
 								<FilterArrowBottom style={styles.listIcon} />
 							) : (
@@ -324,6 +373,9 @@ const FilterBottomSlide = ({
 												onPress={() =>
 													handleSelectHobby(type)
 												}
+												selected={selectedHobby.includes(
+													type,
+												)}
 											/>
 										))}
 									</View>
@@ -335,7 +387,21 @@ const FilterBottomSlide = ({
 							style={styles.list}
 							onPress={() => toggleCollapsed(2)}
 						>
-							<Text style={styles.listText}>언어</Text>
+							<Text
+								style={[
+									styles.listText,
+									selectedLanguage.length >= 1 && {
+										color: CustomTheme.primaryMedium,
+									},
+								]}
+							>
+								언어{"  "}
+								{selectedLanguage.length >= 1 && (
+									<Text style={styles.textSelectedNumber}>
+										{selectedLanguage.length}
+									</Text>
+								)}
+							</Text>
 							{collapsedStates[2] ? (
 								<FilterArrowBottom style={styles.listIcon} />
 							) : (
@@ -360,11 +426,15 @@ const FilterBottomSlide = ({
 						</Collapsible>
 					</ScrollView>
 
-					<ApplyButton
-						text="적용하기"
-						background="true"
-						onPress={handleFilter}
-					/>
+					<FilterBottomTwoButtons>
+						<View
+							totalSelection={totalSelection}
+							text="전체 선택 해제"
+							onPress={() => reset()}
+							disabled={totalSelection === 0}
+						/>
+						<View text="적용하기" onPress={handleFilter} />
+					</FilterBottomTwoButtons>
 				</Animated.View>
 			</View>
 		</Modal>
@@ -414,6 +484,11 @@ const styles = StyleSheet.create({
 		marginLeft: 24,
 		marginVertical: 16,
 	},
+	textSelectedNumber: {
+		fontSize: 16,
+		lineHeight: 18,
+		fontFamily: "NotoSansCJKkr-Bold",
+	},
 	listIcon: {
 		marginRight: 24,
 	},
@@ -461,6 +536,22 @@ const styles = StyleSheet.create({
 	},
 	label: {
 		marginLeft: 8,
+	},
+	containerImageNumber: {
+		position: "absolute",
+		top: -2,
+		right: -3,
+		justifyContent: "center",
+		alignItems: "center",
+		zIndex: 10,
+	},
+	iconCircleNumber: {
+		position: "absolute",
+	},
+	textImageNumber: {
+		...fontNaviBold,
+		color: CustomTheme.primaryMedium,
+		zIndex: 11,
 	},
 });
 

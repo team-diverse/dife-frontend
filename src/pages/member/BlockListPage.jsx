@@ -14,6 +14,7 @@ const BlockListPage = () => {
 	const getblockMemberList = async () => {
 		try {
 			const response = await getBlockMember();
+			console.log(response.data);
 			setBlackList(response.data);
 		} catch (error) {
 			console.error(
@@ -22,18 +23,16 @@ const BlockListPage = () => {
 			);
 		}
 	};
+
 	useEffect(() => {
 		getblockMemberList();
-	}, []);
+	}, [blackList]);
 
 	const renderItem = ({ item }) => {
-		const imageName = item.profileImg?.originalName || null;
-
 		return (
 			<ItemBlockList
-				memberId={item.id}
-				name={item.username}
-				imageName={imageName}
+				blacklistedMemberId={item.blacklistedMemberId}
+				date={item.modified}
 			/>
 		);
 	};

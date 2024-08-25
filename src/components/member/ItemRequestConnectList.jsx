@@ -3,20 +3,47 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { CustomTheme } from "@styles/CustomTheme";
-
-const { fontCaption } = CustomTheme;
+import {
+	acceptedConnectByMemberId,
+	rejectedConnectByConnectId,
+} from "config/api";
 
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconSend from "@components/common/IconSend";
 import IconMenu from "@components/chat/IconMenu";
 
+const { fontCaption } = CustomTheme;
+
 const ItemRequestConnectList = ({
+	connectId,
 	memberId,
 	name,
 	imageName,
 	received = false,
 }) => {
 	const navigation = useNavigation();
+
+	const handleAcceptedConnect = async () => {
+		try {
+			await acceptedConnectByMemberId(memberId);
+		} catch (error) {
+			console.error(
+				"커넥트 수락 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleRejectedConnect = async () => {
+		try {
+			await rejectedConnectByConnectId(connectId);
+		} catch (error) {
+			console.error(
+				"커넥트 거절 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
 
 	return (
 		<View style={styles.rectangle}>
@@ -42,6 +69,7 @@ const ItemRequestConnectList = ({
 									styles.buttonAcceptRefuse,
 									{ borderColor: CustomTheme.primaryMedium },
 								]}
+								onPress={handleAcceptedConnect}
 							>
 								<Text
 									style={[
@@ -52,11 +80,12 @@ const ItemRequestConnectList = ({
 									수락
 								</Text>
 							</View>
-							<View
+							<TouchableOpacity
 								style={[
 									styles.buttonAcceptRefuse,
 									{ borderColor: CustomTheme.warningRed },
 								]}
+								onPress={handleRejectedConnect}
 							>
 								<Text
 									style={[
@@ -66,7 +95,7 @@ const ItemRequestConnectList = ({
 								>
 									거절
 								</Text>
-							</View>
+							</TouchableOpacity>
 							<View style={styles.iconMenu}>
 								<IconMenu />
 							</View>

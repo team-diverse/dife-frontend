@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-	SafeAreaView,
-	ScrollView,
-	View,
-	Text,
-	TouchableOpacity,
-} from "react-native";
+import { SafeAreaView, ScrollView, View, Text, Alert } from "react-native";
 
 import {
 	getProfileById,
 	getConnectById,
 	requestConnectById,
-	deleteConnectById,
+	acceptedConnectByMemberId,
+	rejectedConnectByConnectId,
 	createLikeMember,
 	deleteLikeMember,
 } from "config/api";
@@ -19,7 +14,6 @@ import { formatProfileData } from "util/formatProfileData";
 import { getMyMemberId } from "util/secureStoreUtils";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
-import IconHeart24 from "@components/Icon24/IconHeart24";
 import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";
 import ConnectProfileStyles from "@pages/connect/ConnectProfileStyles";
 import ConnectProfile from "@components/connect/ConnectProfile";
@@ -27,8 +21,8 @@ import ConnectProfileIntroduction from "@components/connect/ConnectProfileIntrod
 import ConnectProfileTag from "@components/connect/ConnectProfileTag";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
-import Report from "@components/Report";
 import ConnectRequest from "@components/ConnectRequest";
+import * as Sentry from "@sentry/react-native";
 
 const ConnectProfilePage = ({ route }) => {
 	const { memberId } = route.params;
@@ -36,7 +30,6 @@ const ConnectProfilePage = ({ route }) => {
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
 	const [requestSent, setRequestSent] = useState(false);
-	const [modalReportVisible, setModalReportVisible] = useState(false);
 	const [modalConnectVisible, setModalConnectVisible] = useState(false);
 	const [heart, setHeart] = useState(false);
 
@@ -47,6 +40,7 @@ const ConnectProfilePage = ({ route }) => {
 			setProfileData(updatedData[0]);
 			setHeart(response.data.isLiked);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"디테일 프로필 조회 오류:",
 				error.response ? error.response.data : error.message,
@@ -63,6 +57,7 @@ const ConnectProfilePage = ({ route }) => {
 			const myMebmberId = await getMyMemberId();
 			setRequestSent(response.data.from_member.id == myMebmberId);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"커넥트 상태 조회 오류:",
 				error.response ? error.response.data : error.message,
@@ -78,15 +73,12 @@ const ConnectProfilePage = ({ route }) => {
 		getConnectStatus();
 	}, [connectStatus]);
 
-	const handleReport = () => {
-		setModalReportVisible(true);
-	};
-
 	const requestConnect = async () => {
 		try {
 			const response = await requestConnectById(memberId);
 			setConnectStatus(response.data.status);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"커넥트 요청 오류:",
 				error.response ? error.response.data : error.message,
@@ -94,13 +86,25 @@ const ConnectProfilePage = ({ route }) => {
 		}
 	};
 
-	const deleteConnect = async () => {
+	const handleAcceptedConnect = async () => {
 		try {
-			await deleteConnectById(connectId);
-			setConnectStatus(undefined);
+			await acceptedConnectByMemberId(memberId);
 		} catch (error) {
 			console.error(
-				"커넥트 삭제 오류:",
+				"커넥트 수락 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleRejectedConnect = async () => {
+		try {
+			await rejectedConnectByConnectId(connectId);
+			setConnectStatus(undefined);
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"커넥트 거절 오류:",
 				error.response ? error.response.data : error.message,
 			);
 		}
@@ -110,9 +114,37 @@ const ConnectProfilePage = ({ route }) => {
 		if (connectStatus === undefined) {
 			setModalConnectVisible(true);
 			requestConnect();
+		} else if (connectStatus === "PENDING") {
+			if (requestSent) {
+				handleRejectedConnect();
+			} else {
+				handleAcceptedConnect();
+			}
 		} else {
-			deleteConnect();
+			console.log(profileData);
+			handleConnectAlert();
 		}
+		getConnectStatus();
+	};
+
+	const handleConnectAlert = () => {
+		Alert.alert(
+			"",
+			`${profileData.username} 커넥트를 취소하겠습니까?`,
+			[
+				{
+					text: "취소",
+					style: "cancel",
+				},
+				{
+					text: "확인",
+					onPress: () => {
+						handleRejectedConnect();
+					},
+				},
+			],
+			{ cancelable: false },
+		);
 	};
 
 	const handleChat = () => {
@@ -147,13 +179,12 @@ const ConnectProfilePage = ({ route }) => {
 		<SafeAreaView
 			style={[ConnectProfileStyles.container, { alignItems: "center" }]}
 		>
-			<View style={ConnectProfileStyles.topBar}>
-				<ConnectProfileTopBar topBar="프로필" />
-				<IconHeart24
-					active={heart}
-					onPress={heart ? handleDeleteHeart : handleCreateHeart}
-				/>
-			</View>
+			<ConnectProfileTopBar
+				topBar="프로필"
+				active={heart}
+				onPressHeart={heart ? handleDeleteHeart : handleCreateHeart}
+				memberId={memberId}
+			/>
 			<View style={ConnectProfileStyles.scrollView}>
 				<ScrollView contentContainerStyle={{ alignItems: "center" }}>
 					<View style={ConnectProfileStyles.background}>
@@ -191,24 +222,8 @@ const ConnectProfilePage = ({ route }) => {
 						<ConnectProfileLanguage
 							languages={profileData.languages}
 						/>
-						<View style={ConnectProfileStyles.languageLine} />
 					</View>
-					<View
-						style={ConnectProfileStyles.report}
-						onPress={() => this.setState({ open: true })}
-					>
-						<TouchableOpacity onPress={handleReport}>
-							<Text style={ConnectProfileStyles.textReport}>
-								신고하기
-							</Text>
-						</TouchableOpacity>
-						<Report
-							modalVisible={modalReportVisible}
-							setModalVisible={setModalReportVisible}
-							reportTitle="개인 프로필 신고"
-							memberId={memberId}
-						/>
-					</View>
+					<View style={ConnectProfileStyles.margin} />
 				</ScrollView>
 			</View>
 			<View style={ConnectProfileStyles.bottomTwoButtons}>

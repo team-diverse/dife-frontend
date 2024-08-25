@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { Client } from "@stomp/stompjs";
 import { getChatroomsByType } from "../config/api"; // Adjust the import path as necessary
-import { WS_URL } from "@env";
 import Loading from "@components/common/loading/Loading";
 
 const WebSocketContext = createContext(null);
@@ -17,6 +16,7 @@ export const WebSocketProvider = ({ children }) => {
 	const [chatrooms, setChatrooms] = useState([]);
 	const [messages, setMessages] = useState({});
 	const [isConnected, setIsConnected] = useState(false);
+	const WS_URL = process.env.EXPO_PUBLIC_WS_URL;
 
 	useEffect(() => {
 		ws.current = new Client({
