@@ -12,7 +12,7 @@ import * as SecureStore from "expo-secure-store";
 import SecurityStyles from "@pages/member/SecurityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useAuth } from "src/states/AuthContext";
-import { getMyProfile, updateMyProfile, deleteMember } from "config/api";
+import { getMyProfile, updateMyProfile } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ArrowRight from "@components/common/ArrowRight";
@@ -84,32 +84,6 @@ const SecurityPage = () => {
 		);
 	};
 
-	const handleDeleteMember = async () => {
-		try {
-			await deleteMember();
-			setIsLoggedIn(false);
-		} catch (error) {
-			console.error("회원 탈퇴 오류: ", error.message);
-		}
-	};
-
-	const handleAlertDeleteMember = () => {
-		Alert.alert(
-			"회원 탈퇴",
-			"정말 회원 탈퇴를 하시겠습니까?\n소중한 회원님을 잃게 되어 아쉽습니다.",
-			[
-				{ text: "취소", style: "cancel" },
-				{
-					text: "확인",
-					onPress: () => {
-						handleDeleteMember();
-					},
-				},
-			],
-			{ cancelable: false },
-		);
-	};
-
 	return (
 		<SafeAreaView style={SecurityStyles.container}>
 			<TopBar
@@ -164,7 +138,7 @@ const SecurityPage = () => {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={SecurityStyles.backgroundWhite}
-					onPress={handleAlertDeleteMember}
+					onPress={() => navigation.navigate("DeleteMemberPage")}
 				>
 					<View style={SecurityStyles.containerRow}>
 						<Text style={SecurityStyles.textContent}>

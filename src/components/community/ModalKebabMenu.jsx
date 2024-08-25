@@ -153,7 +153,16 @@ const ModalKebabMenu = ({
 			isVisible={modalVisible}
 			style={[
 				styles.modal,
-				{ top: position.top, right: position.width / 2 },
+				commentId
+					? {
+							top: position.top,
+							left: position.left - 115,
+						}
+					: {
+							top: position.top,
+							right: position.width,
+							alignItems: "flex-end",
+						},
 			]}
 			onBackdropPress={() => setModalVisible(false)}
 			backdropColor="rgba(0, 0, 0, 0.3)"
@@ -258,7 +267,6 @@ const ModalKebabMenu = ({
 const styles = StyleSheet.create({
 	modal: {
 		justifyContent: "flex-start",
-		alignItems: "flex-end",
 	},
 	rectangle: {
 		width: 95,

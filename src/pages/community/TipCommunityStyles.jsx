@@ -84,6 +84,15 @@ const TipCommunityStyles = StyleSheet.create({
 		position: "absolute",
 		right: 12,
 	},
+	containerFail: {
+		alignItems: "center",
+		marginTop: 78,
+	},
+	textFail: {
+		...fontCaption,
+		color: CustomTheme.textSecondary,
+		marginTop: 13,
+	},
 	itemCommunity: {
 		alignItems: "center",
 		marginTop: 18,
