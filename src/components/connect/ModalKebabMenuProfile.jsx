@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import Modal from "react-native-modal";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { blockMember } from "config/api";
+import { createBlockMemberByMemberId } from "config/api";
 
 import InfoCircle from "@components/common/InfoCircle";
 import Report from "@components/Report";
@@ -45,7 +45,7 @@ const ModalKebabMenuProfile = ({
 
 	const handleBlock = async () => {
 		try {
-			await blockMember(memberId);
+			await createBlockMemberByMemberId(memberId);
 			Alert.alert(
 				"",
 				"사용자를 차단하였습니다.",
