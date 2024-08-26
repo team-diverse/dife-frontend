@@ -14,9 +14,10 @@ const Report = ({
 	modalVisible,
 	setModalVisible,
 	reportTitle,
-	postId = null,
-	commentId = null,
-	memberId = null,
+	postId,
+	commentId,
+	memberId,
+	groupId,
 }) => {
 	const [selected, setSelected] = useState("");
 	const [isReportButtonDisabled, setIsReportButtonDisabled] = useState(true);
@@ -55,6 +56,8 @@ const Report = ({
 				await reportComment(reportType, commentId);
 			} else if (memberId) {
 				await reportMember(reportType, memberId);
+			} else {
+				await reportMember(reportType, groupId);
 			}
 
 			await handleReportComplte();

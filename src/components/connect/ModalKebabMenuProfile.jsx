@@ -14,6 +14,7 @@ const ModalKebabMenuProfile = ({
 	modalVisible,
 	setModalVisible,
 	memberId,
+	groupId,
 	position,
 }) => {
 	const [modalReportVisible, setModalReportVisible] = useState(false);
@@ -76,36 +77,65 @@ const ModalKebabMenuProfile = ({
 			animationIn="fadeIn"
 			animationOut="fadeOut"
 		>
-			<View style={styles.rectangleIsPublic}>
-				<TouchableOpacity>
-					<Text style={styles.textIsMe}>프로필 공유</Text>
-				</TouchableOpacity>
-				<View style={styles.line} />
-				<TouchableOpacity onPress={handleBlockAlert}>
-					<Text style={styles.textIsMe}>차단</Text>
-				</TouchableOpacity>
-				<View style={styles.line} />
-				<TouchableOpacity
-					style={styles.containerReport}
-					onPress={handleReport}
-				>
-					<Text
-						style={[
-							styles.textIsMe,
-							{ color: CustomTheme.warningRed },
-						]}
+			{groupId ? (
+				<View style={styles.rectangleIsGroup}>
+					<TouchableOpacity>
+						<Text style={styles.textIsMe}>프로필 공유</Text>
+					</TouchableOpacity>
+					<View style={styles.line} />
+					<TouchableOpacity
+						style={styles.containerReport}
+						onPress={handleReport}
 					>
-						신고
-					</Text>
-					<InfoCircle color={CustomTheme.warningRed} />
-				</TouchableOpacity>
-				<Report
-					modalVisible={modalReportVisible}
-					setModalVisible={setModalReportVisible}
-					reportTitle="개인 프로필 신고"
-					memberId={memberId}
-				/>
-			</View>
+						<Text
+							style={[
+								styles.textIsMe,
+								{ color: CustomTheme.warningRed },
+							]}
+						>
+							신고
+						</Text>
+						<InfoCircle color={CustomTheme.warningRed} />
+					</TouchableOpacity>
+					<Report
+						modalVisible={modalReportVisible}
+						setModalVisible={setModalReportVisible}
+						reportTitle="그룹 프로필 신고"
+						groupId={groupId}
+					/>
+				</View>
+			) : (
+				<View style={styles.rectangle}>
+					<TouchableOpacity>
+						<Text style={styles.textIsMe}>프로필 공유</Text>
+					</TouchableOpacity>
+					<View style={styles.line} />
+					<TouchableOpacity onPress={handleBlockAlert}>
+						<Text style={styles.textIsMe}>차단</Text>
+					</TouchableOpacity>
+					<View style={styles.line} />
+					<TouchableOpacity
+						style={styles.containerReport}
+						onPress={handleReport}
+					>
+						<Text
+							style={[
+								styles.textIsMe,
+								{ color: CustomTheme.warningRed },
+							]}
+						>
+							신고
+						</Text>
+						<InfoCircle color={CustomTheme.warningRed} />
+					</TouchableOpacity>
+					<Report
+						modalVisible={modalReportVisible}
+						setModalVisible={setModalReportVisible}
+						reportTitle="개인 프로필 신고"
+						memberId={memberId}
+					/>
+				</View>
+			)}
 		</Modal>
 	);
 };
@@ -115,9 +145,16 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start",
 		alignItems: "flex-end",
 	},
-	rectangleIsPublic: {
+	rectangle: {
 		width: 95,
 		height: 110,
+		backgroundColor: CustomTheme.bgBasic,
+		borderRadius: 10,
+		position: "relative",
+	},
+	rectangleIsGroup: {
+		width: 95,
+		height: 72,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 10,
 		position: "relative",

@@ -20,7 +20,7 @@ api.interceptors.request.use(async (config) => {
 export const getChatroomsByType = (type) => {
 	return api.get("/chatrooms", {
 		params: {
-			chatroomType: type,
+			type,
 		},
 	});
 };
