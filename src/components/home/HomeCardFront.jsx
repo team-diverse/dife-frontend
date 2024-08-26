@@ -35,8 +35,13 @@ const HomeCardFront = ({
 				</View>
 				<Text style={styles.introduction}>{introduction}</Text>
 				<View style={styles.myinfoContainer}>
-					<Text style={styles.textName}>{name}</Text>
-					<Text style={styles.myinfo}> | {country}</Text>
+					<Text
+						style={styles.myinfo}
+						numberOfLines={1}
+						ellipsizeMode="tail"
+					>
+						<Text style={styles.textName}>{name}</Text>| {country}
+					</Text>
 				</View>
 			</View>
 			<View style={styles.connectIconContainer}>
@@ -95,6 +100,7 @@ const styles = StyleSheet.create({
 	},
 	myinfoContainer: {
 		flexDirection: "row",
+		maxWidth: 200,
 	},
 	textName: {
 		fontSize: 12,
