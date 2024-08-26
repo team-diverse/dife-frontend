@@ -17,25 +17,23 @@ import ModalGroupJoin from "@components/connect/ModalGroupJoin";
 
 const GroupProfilePage = ({ route }) => {
 	const [modalGroupJoinVisible, setModalGroupJoinVisible] = useState(false);
-
-	const [heart, setHeart] = useState(false);
-
-	const handleHeartPress = () => {
-		setHeart(!heart);
-	};
+	const [groupHeart, setGroupHeart] = useState(false);
+	const [groupIsEntered, setGroupIsEntered] = useState(false);
 
 	const handleGroupJoin = () => {
+		setGroupIsEntered(true);
 		setModalGroupJoinVisible(true);
 	};
 
-	const { groupId } = route.params;
-
-	const [groupProfileData, setGroupProfileData] = useState([]);
-	const [profilePresignUrl, setProfilePresignUrl] = useState("");
+	const handleGroupQuit = () => {
+		setGroupIsEntered(false);
+	};
 
 	const getDetailProfile = async () => {
 		try {
 			const response = await getGroupByGroupId(groupId);
+			setGroupHeart(response.data.isLiked);
+			setGroupIsEntered(response.data.isEntered);
 			const profile = formatProfileData([response.data]);
 			setGroupProfileData(profile[0]);
 
@@ -117,19 +115,15 @@ const GroupProfilePage = ({ route }) => {
 			</ScrollView>
 			<View style={GroupProfileStyles.applyButton}>
 				<ApplyButton
-					text="그룹 가입하기"
+					text={groupIsEntered ? "그룹 탈퇴하기" : "그룹 가입하기"}
 					background="true"
-					onPress={handleGroupJoin}
+					onPress={groupIsEntered ? handleGroupQuit : handleGroupJoin}
 				/>
 			</View>
 			<ModalGroupJoin
 				modalVisible={modalGroupJoinVisible}
 				setModalVisible={setModalGroupJoinVisible}
-				reportTitle="개인 프로필 신고"
-				report1="혐오적인 컨텐츠"
-				report2="욕설/도배"
-				report3="다른 사람을 사칭함"
-				report4="기타"
+				isPublic={groupProfileData.isPublic}
 			/>
 		</SafeAreaView>
 	);
