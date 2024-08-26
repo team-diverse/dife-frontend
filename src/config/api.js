@@ -516,6 +516,13 @@ export const reportMember = (type, receiverId) => {
 	});
 };
 
+export const reportGroup = (type, chatroomId) => {
+	return api.post("/reports", {
+		type,
+		chatroomId,
+	});
+};
+
 export const createBlockMemberByMemberId = (blockMemberId) => {
 	return api.post("/blocks", {
 		memberId: blockMemberId,
