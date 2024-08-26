@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import Modal from "react-native-modal";
+import * as Sharing from "expo-sharing";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { createBlockMemberByMemberId } from "config/api";
@@ -65,6 +66,29 @@ const ModalKebabMenuProfile = ({
 		}
 	};
 
+	const baseUrl = process.env.EXPO_PUBLIC_API_URL;
+
+	const createUrl = (id, type) => `${baseUrl}/${type}/${id}`;
+
+	const handleShare = async (id, type) => {
+		if (!(await Sharing.isAvailableAsync())) {
+			Alert.alert(
+				"해당 기종에서 프로필 공유 기능을 사용하기 어렵습니다.",
+			);
+			return;
+		}
+
+		const url = createUrl(id, type);
+		await Sharing.shareAsync(url);
+	};
+
+	const handleShareProfile = (groupId, memberId) => {
+		const type = groupId ? "chatrooms" : "members";
+		const id = groupId || memberId;
+
+		handleShare(id, type);
+	};
+
 	return (
 		<Modal
 			isVisible={modalVisible}
@@ -79,7 +103,7 @@ const ModalKebabMenuProfile = ({
 		>
 			{groupId ? (
 				<View style={styles.rectangleIsGroup}>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={handleShareProfile}>
 						<Text style={styles.textIsMe}>프로필 공유</Text>
 					</TouchableOpacity>
 					<View style={styles.line} />
@@ -106,7 +130,7 @@ const ModalKebabMenuProfile = ({
 				</View>
 			) : (
 				<View style={styles.rectangle}>
-					<TouchableOpacity>
+					<TouchableOpacity onPress={handleShareProfile}>
 						<Text style={styles.textIsMe}>프로필 공유</Text>
 					</TouchableOpacity>
 					<View style={styles.line} />
