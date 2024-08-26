@@ -409,6 +409,7 @@ const PostPage = ({ route }) => {
 							isPublic={isPublic}
 							isMe={isMe}
 							position={modalPosition}
+							onNavigation={navigation}
 						/>
 					</View>
 					<Text style={PostStyles.textTitle}>{title}</Text>

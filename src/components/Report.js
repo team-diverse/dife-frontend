@@ -14,9 +14,11 @@ const Report = ({
 	modalVisible,
 	setModalVisible,
 	reportTitle,
-	postId = null,
-	commentId = null,
-	memberId = null,
+	postId,
+	commentId,
+	memberId,
+	groupId,
+	onReportComplete,
 }) => {
 	const [selected, setSelected] = useState("");
 	const [isReportButtonDisabled, setIsReportButtonDisabled] = useState(true);
@@ -58,6 +60,7 @@ const Report = ({
 			}
 
 			await handleReportComplte();
+			onReportComplete();
 		} catch (error) {
 			console.error(
 				"신고 오류:",
