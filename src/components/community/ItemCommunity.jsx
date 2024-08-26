@@ -72,9 +72,9 @@ const ItemCommunity = ({ postList = [], comment = false }) => {
 									<View style={styles.containerText}>
 										<IconComment />
 										<Text style={styles.text}>
-											{post.commentsCount == null
+											{post.commentCount == null
 												? 0
-												: post.commentsCount}
+												: post.commentCount}
 										</Text>
 									</View>
 									<View style={styles.containerText}>

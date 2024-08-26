@@ -59,7 +59,7 @@ const ItemLikeBookmark = ({ likedAndBookmarkPostList, type = "like" }) => {
 const styles = StyleSheet.create({
 	ItemCommunity: {
 		width: "100%",
-		height: 78,
+		height: 62,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
 		borderWidth: 2,

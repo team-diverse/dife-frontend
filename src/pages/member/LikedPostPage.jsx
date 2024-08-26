@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 
 import LikedPostStyles from "@pages/member/LikedPostStyles";
 import { getLikedPost } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
 
-import ItemLikeBookmark from "@components/member/ItemLikeBookmark";
+import TopBar from "@components/common/TopBar";
+import ItemCommunity from "@components/community/ItemCommunity";
+
 import * as Sentry from "@sentry/react-native";
 
 const LikedPostPage = () => {
@@ -31,15 +33,13 @@ const LikedPostPage = () => {
 	}, []);
 
 	return (
-		<View style={LikedPostStyles.container}>
-			<ScrollView>
-				<View style={LikedPostStyles.itemLikeBookmark}>
-					<ItemLikeBookmark
-						likedAndBookmarkPostList={likedPostList}
-					/>
-				</View>
-			</ScrollView>
-		</View>
+		<SafeAreaView style={LikedPostStyles.container}>
+			<TopBar topBar="좋아요 누른 게시글" color="#000" />
+
+			<View style={LikedPostStyles.itemCommunity}>
+				<ItemCommunity postList={likedPostList} />
+			</View>
+		</SafeAreaView>
 	);
 };
 
