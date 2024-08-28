@@ -73,7 +73,8 @@
 		"typescript": "~5.3.3",
 		"uuid": "^9.0.1",
 		"expo-media-library": "~16.0.4",
-		"expo-insights": "~0.7.0"
+		"expo-insights": "~0.7.0",
+		"expo-dev-client": "~4.0.25"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.24.0",
