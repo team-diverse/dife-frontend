@@ -63,14 +63,6 @@ const ChattingPage = () => {
 		Keyboard.dismiss();
 	};
 
-	// const handleMoveOnetoone = () => {
-	// 	setIsIndividualTab(false);
-	// };
-
-	// const handleMoveGroup = () => {
-	// 	setIsIndividualTab(true);
-	// };
-
 	useFocusEffect(
 		React.useCallback(() => {
 			updateChatroomsAndMessages();
@@ -122,29 +114,6 @@ const ChattingPage = () => {
 						)}
 					</View>
 				</View>
-
-				{/* <View style={ChattingStyles.tabContainer}>
-					<Text
-						style={
-							isIndividualTab
-								? ChattingStyles.textTab
-								: ChattingStyles.textActiveTab
-						}
-						onPress={handleMoveOnetoone}
-					>
-						1 : 1
-					</Text>
-					<Text
-						style={
-							isIndividualTab
-								? ChattingStyles.textActiveTab
-								: ChattingStyles.textTab
-						}
-						onPress={handleMoveGroup}
-					>
-						그룹
-					</Text>
-				</View> */}
 
 				{isIndividualTab ? (
 					<></>

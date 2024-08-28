@@ -41,11 +41,6 @@ import TipCommunityPage from "@pages/community/TipCommunityPage";
 import FreeCommunityPage from "@pages/community/FreeCommunityPage";
 import WritePage from "@pages/community/WritePage";
 import PostPage from "@pages/community/PostPage";
-// import GroupListPage from "@pages/member/GroupListPage";
-// import GroupProfilePage from "@pages/connect/GroupProfilePage";
-// import GroupCreatedPage from "@pages/connect/GroupCreatedPage";
-// import GroupCreatedDetailPage from "@pages/connect/GroupCreatedDetailPage";
-// import GroupProfilePreviewPage from "@pages/connect/GroupProfilePreviewPage";
 import MyPostPage from "@pages/member/MyPostPage";
 import PostModifyPage from "@pages/community/PostModifyPage";
 
@@ -84,7 +79,6 @@ import TremsPage from "@pages/member/TremsPage";
 import CountrySelectionPage from "@pages/onboarding/CountrySelectionPage";
 import ConnectListPage from "@pages/member/ConnectListPage";
 import DefaultLanguagePage from "@pages/member/DefaultLanguagePage";
-// import { CreateGroupProvider } from "states/CreateGroupDataContext";
 import EnlargeImagePage from "@pages/community/EnlargeImagePage";
 import PreparingPage from "@pages/etc/PreparingPage";
 import StudentVerificationErrorPage from "@pages/onboarding/StudentVerificationErrorPage";
@@ -244,11 +238,9 @@ function AppContent() {
 
 	return isLoggedIn ? (
 		<WebSocketProvider>
-			{/* <CreateGroupProvider> */}
 			<PostModifyProvider>
 				<MainNavigator />
 			</PostModifyProvider>
-			{/* </CreateGroupProvider> */}
 		</WebSocketProvider>
 	) : (
 		<OnboardingProvider>
@@ -297,23 +289,6 @@ function MainNavigator() {
 			<Stack.Screen name="PostPage" component={PostPage} />
 			<Stack.Screen name="PostModifyPage" component={PostModifyPage} />
 			<Stack.Screen name="MyPostPage" component={MyPostPage} />
-			{/* <Stack.Screen name="GroupListPage" component={GroupListPage} />
-			<Stack.Screen
-				name="GroupProfilePage"
-				component={GroupProfilePage}
-			/>
-			<Stack.Screen
-				name="GroupCreatedPage"
-				component={GroupCreatedPage}
-			/>
-			<Stack.Screen
-				name="GroupCreatedDetailPage"
-				component={GroupCreatedDetailPage}
-			/>
-			<Stack.Screen
-				name="GroupProfilePreviewPage"
-				component={GroupProfilePreviewPage}
-			/> */}
 			<Stack.Screen name="MyWrotePage" component={MyWrotePage} />
 			<Stack.Screen name="MyCommentPage" component={MyCommentPage} />
 			<Stack.Screen
