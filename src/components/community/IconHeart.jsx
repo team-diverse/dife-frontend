@@ -2,15 +2,22 @@ import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const IconHeart = ({ active, ...props }) => {
-	const color = active ? CustomTheme.warningRed : CustomTheme.borderColor;
+const IconHeart = (props) => {
+	const { active, likedPostBlue, ...restProps } = props;
+
+	const color = likedPostBlue
+		? CustomTheme.primaryMedium
+		: active
+			? CustomTheme.warningRed
+			: CustomTheme.borderColor;
+
 	return (
 		<Svg
 			xmlns="http://www.w3.org/2000/svg"
 			width={16}
 			height={16}
 			fill="none"
-			{...props}
+			{...restProps}
 		>
 			<Path
 				fill={color}

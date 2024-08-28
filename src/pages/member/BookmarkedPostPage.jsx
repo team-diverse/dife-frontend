@@ -37,7 +37,11 @@ const BookmarkedPostPage = () => {
 			<TopBar topBar="북마크한 게시글" color="#000" />
 
 			<View style={BookmarkedPostStyles.itemCommunity}>
-				<ItemCommunity postList={bookmarkPostList} />
+				<ItemCommunity
+					postList={bookmarkPostList}
+					apiPost={true}
+					bookmarkedPostBlue={true}
+				/>
 			</View>
 		</SafeAreaView>
 	);

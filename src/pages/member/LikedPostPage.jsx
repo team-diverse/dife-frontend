@@ -37,7 +37,11 @@ const LikedPostPage = () => {
 			<TopBar topBar="좋아요 누른 게시글" color="#000" />
 
 			<View style={LikedPostStyles.itemCommunity}>
-				<ItemCommunity postList={likedPostList} />
+				<ItemCommunity
+					postList={likedPostList}
+					apiPost={true}
+					likedPostBlue={true}
+				/>
 			</View>
 		</SafeAreaView>
 	);

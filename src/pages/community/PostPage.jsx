@@ -28,8 +28,6 @@ import {
 	createLikePost,
 	deleteLikeByPostId,
 	createPostBookmark,
-	getLikedPost,
-	getBookmarkedPost,
 	deleteBookmarkByPostId,
 	getProfileImageByFileName,
 } from "config/api";
@@ -59,7 +57,9 @@ const PostPage = ({ route }) => {
 	const [title, setTitle] = useState("");
 	const [context, setContext] = useState("");
 	const [heart, setHeart] = useState();
+	const [pressHeart, setPressHeart] = useState();
 	const [bookmark, setBookmark] = useState();
+	const [pressBookmark, setPressBookmark] = useState();
 	const [writerName, setWriterName] = useState("");
 	const [isPublic, setIsPublic] = useState();
 	const [created, setCreated] = useState("");
@@ -90,8 +90,7 @@ const PostPage = ({ route }) => {
 		setIsChecked(!isChecked);
 	};
 
-	const difeLinesCount =
-		comments.length === 0 ? 1 : Math.floor(comments.length / 1.5);
+	const difeLinesCount = Math.max(1, Math.floor(comments.length / 1.5));
 
 	useFocusEffect(
 		useCallback(() => {
@@ -253,8 +252,6 @@ const PostPage = ({ route }) => {
 		};
 	}, []);
 
-	const [pressHeart, setPressHeart] = useState();
-
 	const handleHeart = async () => {
 		try {
 			await createLikePost(postId);
@@ -286,22 +283,6 @@ const PostPage = ({ route }) => {
 			setHeart((prevHeart) => prevHeart + 1);
 		}
 	};
-
-	const likedPosts = async () => {
-		try {
-			const response = await getLikedPost();
-			const likedPostIdList = response.data.map((item) => item.id);
-			setPressHeart(likedPostIdList.includes(postId));
-		} catch (error) {
-			Sentry.captureException(error);
-			console.error(
-				"좋아요 상태 조회 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
-	const [pressBookmark, setPressBookmark] = useState();
 
 	const handleBookmark = async () => {
 		try {
@@ -355,25 +336,22 @@ const PostPage = ({ route }) => {
 		);
 	};
 
-	const bookmarkedPosts = async () => {
+	const getLikedAndBookmarkedStatus = async () => {
 		try {
-			const response = await getBookmarkedPost();
-			const bookmarkedPostIdList = response.data.map(
-				(item) => item.post.id,
-			);
-			setPressBookmark(bookmarkedPostIdList.includes(postId));
+			const response = await getPostById(postId);
+			setPressHeart(response.data.isLiked);
+			setPressBookmark(response.data.isBookmarked);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
-				"북마크 상태 조회 실패:",
+				"좋아요 및 북마크 상태 조회 실패:",
 				error.response ? error.response.data : error.message,
 			);
 		}
 	};
 
 	useEffect(() => {
-		likedPosts();
-		bookmarkedPosts();
+		getLikedAndBookmarkedStatus();
 	}, [pressHeart, pressBookmark]);
 
 	return (
