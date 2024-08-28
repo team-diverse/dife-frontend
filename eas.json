@@ -25,7 +25,6 @@
 			"channel": "production"
 		},
 		"staging": {
-			"developmentClient": true,
 			"autoIncrement": true,
 			"ios": {
 				"image": "latest"
