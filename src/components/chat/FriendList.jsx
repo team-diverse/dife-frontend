@@ -81,7 +81,13 @@ const FriendList = ({ connectId, memberId, name, imageName }) => {
 						<View style={styles.icon}>
 							<IconChatProfile imageName={imageName} />
 						</View>
-						<Text style={styles.textName}>{name}</Text>
+						<Text
+							style={styles.textName}
+							numberOfLines={1}
+							ellipsizeMode="tail"
+						>
+							{name}
+						</Text>
 					</TouchableOpacity>
 					<View style={styles.containerIcon}>
 						<TouchableOpacity onPress={handleCreateSingleChatroom}>
@@ -140,6 +146,7 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		lineHeight: 17,
 		fontFamily: "NotoSansCJKkr-Bold",
+		maxWidth: 120,
 	},
 	containerIcon: {
 		flexDirection: "row",
