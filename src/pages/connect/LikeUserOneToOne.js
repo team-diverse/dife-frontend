@@ -7,6 +7,7 @@ import { getLikeMember } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
 
 import ConnectCard from "@components/connect/ConnectCard.js";
+import TopBar from "@components/common/TopBar";
 
 const LikeUserOneToOne = () => {
 	const [connectData, setConnectData] = useState(null);
@@ -30,6 +31,7 @@ const LikeUserOneToOne = () => {
 
 	return (
 		<SafeAreaView style={ConnectLikeUserStyles.container}>
+			<TopBar topBar="좋아요 목록" />
 			<View style={[ConnectStyles.cardContainer, { marginTop: 14 }]}>
 				{connectData ? (
 					<View style={ConnectStyles.flatlist}>

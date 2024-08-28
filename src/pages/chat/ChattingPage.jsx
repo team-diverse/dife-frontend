@@ -35,7 +35,7 @@ const ChattingPage = () => {
 		return chats.length ? chats[chats.length - 1].message : "";
 	};
 
-	const [isIndividualTab, setIsIndividualTab] = useState(false);
+	const [isIndividualTab] = useState(false);
 
 	const handleSearch = () => {
 		if (searchTerm.trim() !== "") {
@@ -63,13 +63,13 @@ const ChattingPage = () => {
 		Keyboard.dismiss();
 	};
 
-	const handleMoveOnetoone = () => {
-		setIsIndividualTab(false);
-	};
+	// const handleMoveOnetoone = () => {
+	// 	setIsIndividualTab(false);
+	// };
 
-	const handleMoveGroup = () => {
-		setIsIndividualTab(true);
-	};
+	// const handleMoveGroup = () => {
+	// 	setIsIndividualTab(true);
+	// };
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -123,7 +123,7 @@ const ChattingPage = () => {
 					</View>
 				</View>
 
-				<View style={ChattingStyles.tabContainer}>
+				{/* <View style={ChattingStyles.tabContainer}>
 					<Text
 						style={
 							isIndividualTab
@@ -144,7 +144,7 @@ const ChattingPage = () => {
 					>
 						그룹
 					</Text>
-				</View>
+				</View> */}
 
 				{isIndividualTab ? (
 					<></>
