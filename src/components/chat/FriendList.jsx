@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
@@ -10,8 +10,9 @@ import { useNavigation } from "@react-navigation/native";
 import { useWebSocket } from "context/WebSocketContext";
 import { getMyMemberId } from "util/secureStoreUtils";
 import * as Sentry from "@sentry/react-native";
+import ModalKebabMenuConnectList from "@components/member/ModalKebabMenuConnectList";
 
-const FriendList = ({ memberId, name, imageName }) => {
+const FriendList = ({ connectId, memberId, name, imageName }) => {
 	const navigation = useNavigation("");
 	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
 
@@ -47,35 +48,61 @@ const FriendList = ({ memberId, name, imageName }) => {
 		}
 	};
 
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalPosition, setModalPosition] = useState({
+		top: 0,
+		width: 0,
+	});
+
+	const handleIconPress = (event) => {
+		setModalVisible(true);
+		const { pageY } = event.nativeEvent;
+		setModalPosition({
+			top: Math.floor(pageY / 10) * 10 - 50,
+			width: 16,
+		});
+	};
+
 	return (
 		<>
-			<TouchableOpacity
-				style={styles.rectangle}
-				onPress={() =>
-					navigation.navigate("ConnectProfilePage", {
-						memberId: memberId,
-					})
-				}
-			>
+			<View style={styles.rectangle}>
 				<View style={styles.containerContext}>
-					<View style={styles.iconTextContainer}>
+					<TouchableOpacity
+						style={styles.iconTextContainer}
+						onPress={() =>
+							navigation.navigate("ConnectProfilePage", {
+								memberId: memberId,
+							})
+						}
+					>
 						<View style={styles.icon}>
 							<IconChatProfile imageName={imageName} />
 						</View>
 						<Text style={styles.textName}>{name}</Text>
-					</View>
+					</TouchableOpacity>
 					<View style={styles.containerIcon}>
 						<TouchableOpacity onPress={handleCreateSingleChatroom}>
 							<View style={styles.rectangleChat}>
 								<IconSend />
 							</View>
 						</TouchableOpacity>
-						<View style={styles.iconMenu}>
+						<TouchableOpacity
+							style={styles.iconMenu}
+							onPress={(event) => handleIconPress(event)}
+						>
 							<IconMenu />
-						</View>
+						</TouchableOpacity>
+						<ModalKebabMenuConnectList
+							modalVisible={modalVisible}
+							setModalVisible={setModalVisible}
+							name={name}
+							connectId={connectId}
+							memberId={memberId}
+							position={modalPosition}
+						/>
 					</View>
 				</View>
-			</TouchableOpacity>
+			</View>
 		</>
 	);
 };
