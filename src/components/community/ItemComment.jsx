@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
@@ -86,23 +86,22 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		commentIsMe: false,
 	});
 
+	const iconRefs = useRef({});
+
 	const [modalPosition, setModalPosition] = useState({
-		top: 0,
-		left: 0,
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
 	});
 
-	const handleIconPress = (
-		event,
-		commentId,
-		commentWriterId,
-		isPublic,
-		isMe,
-	) => {
-		const { pageX, pageY } = event.nativeEvent;
-		setModalPosition({
-			top: Math.floor(pageY / 10) * 10,
-			left: Math.floor(pageX / 10) * 10,
-		});
+	const handleIconPress = (commentId, commentWriterId, isPublic, isMe) => {
+		const iconRef = iconRefs.current[commentId];
+		if (iconRef) {
+			iconRef.measureInWindow((x, y, width, height) => {
+				setModalPosition({ x, y, width, height });
+			});
+		}
 		handleCommentKebabMenu(commentId, commentWriterId, isPublic, isMe);
 	};
 
@@ -112,6 +111,12 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		isPublic,
 		isMe,
 	) => {
+		const iconRef = iconRefs.current[commentId];
+		if (iconRef) {
+			iconRef.measureInWindow((x, y, width, height) => {
+				setModalPosition({ x, y, width, height });
+			});
+		}
 		setModalData({
 			modalVisible: true,
 			commentId,
@@ -203,9 +208,8 @@ const ItemComment = ({ commentList = [], onReply }) => {
 
 						<TouchableOpacity
 							style={styles.iconKebabMenu}
-							onPress={(event) =>
+							onPress={() =>
 								handleIconPress(
-									event,
 									comment.id,
 									comment.writer.id,
 									comment.isPublic,
@@ -213,20 +217,28 @@ const ItemComment = ({ commentList = [], onReply }) => {
 								)
 							}
 						>
-							<IconKebabMenu />
+							<View
+								ref={(ref) =>
+									(iconRefs.current[comment.id] = ref)
+								}
+							>
+								<IconKebabMenu />
+							</View>
 						</TouchableOpacity>
-						<ModalKebabMenu
-							modalVisible={
-								modalData.modalVisible &&
-								modalData.commentId === comment.id
-							}
-							setModalVisible={closeModal}
-							memberId={modalData.commentWriterId}
-							commentId={modalData.commentId}
-							isPublic={modalData.commentIsPublic}
-							isMe={modalData.commentIsMe}
-							position={modalPosition}
-						/>
+						{modalPosition && (
+							<ModalKebabMenu
+								modalVisible={
+									modalData.modalVisible &&
+									modalData.commentId === comment.id
+								}
+								setModalVisible={closeModal}
+								memberId={modalData.commentWriterId}
+								commentId={modalData.commentId}
+								isPublic={modalData.commentIsPublic}
+								isMe={modalData.commentIsMe}
+								position={modalPosition}
+							/>
+						)}
 						<TouchableOpacity style={styles.textTranslation}>
 							<Text style={styles.textTranslation}>번역하기</Text>
 						</TouchableOpacity>
@@ -293,20 +305,28 @@ const ItemComment = ({ commentList = [], onReply }) => {
 										)
 									}
 								>
-									<IconKebabMenu />
+									<View
+										ref={(ref) =>
+											(iconRefs.current[reply.id] = ref)
+										}
+									>
+										<IconKebabMenu />
+									</View>
 								</TouchableOpacity>
-								<ModalKebabMenu
-									modalVisible={
-										modalData.modalVisible &&
-										modalData.commentId === reply.id
-									}
-									setModalVisible={closeModal}
-									memberId={modalData.commentWriterId}
-									commentId={modalData.commentId}
-									isPublic={modalData.commentIsPublic}
-									isMe={modalData.commentIsMe}
-									position={modalPosition}
-								/>
+								{modalPosition && (
+									<ModalKebabMenu
+										modalVisible={
+											modalData.modalVisible &&
+											modalData.commentId === reply.id
+										}
+										setModalVisible={closeModal}
+										memberId={modalData.commentWriterId}
+										commentId={modalData.commentId}
+										isPublic={modalData.commentIsPublic}
+										isMe={modalData.commentIsMe}
+										position={modalPosition}
+									/>
+								)}
 								<TouchableOpacity
 									style={styles.textTranslation}
 								>
@@ -364,8 +384,6 @@ const styles = StyleSheet.create({
 	},
 	iconKebabMenu: {
 		position: "absolute",
-		width: 13,
-		height: 13,
 		top: 0,
 		right: -11,
 	},

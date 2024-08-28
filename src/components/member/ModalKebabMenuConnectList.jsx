@@ -119,7 +119,13 @@ const ModalKebabMenuConnectList = ({
 	return (
 		<Modal
 			isVisible={modalVisible}
-			style={[styles.modal, { top: position.top, right: position.width }]}
+			style={[
+				styles.modal,
+				{
+					top: position.y - (position.height + 75) / 2,
+					left: position.x - (position.width + 100),
+				},
+			]}
 			onBackdropPress={() => setModalVisible(false)}
 			backdropColor="rgba(0, 0, 0, 0.3)"
 			animationIn="fadeIn"
@@ -153,7 +159,7 @@ const ModalKebabMenuConnectList = ({
 const styles = StyleSheet.create({
 	modal: {
 		justifyContent: "flex-start",
-		alignItems: "flex-end",
+		alignItems: "flex-start",
 	},
 	rectangle: {
 		width: 95,

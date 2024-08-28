@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -24,19 +24,23 @@ const ItemRequestConnectList = ({
 }) => {
 	const navigation = useNavigation();
 
+	const iconRef = useRef();
+
 	const [modalVisible, setModalVisible] = useState(false);
 	const [modalPosition, setModalPosition] = useState({
-		top: 0,
+		x: 0,
+		y: 0,
 		width: 0,
+		height: 0,
 	});
 
-	const handleIconPress = (event) => {
+	const handleIconPress = () => {
 		setModalVisible(true);
-		const { pageY } = event.nativeEvent;
-		setModalPosition({
-			top: Math.floor(pageY / 10) * 10 - 50,
-			width: 16,
-		});
+		if (iconRef.current) {
+			iconRef.current.measureInWindow((x, y, width, height) => {
+				setModalPosition({ x, y, width, height });
+			});
+		}
 	};
 
 	const handleAcceptedConnect = async () => {
@@ -129,19 +133,23 @@ const ItemRequestConnectList = ({
 							</TouchableOpacity>
 							<TouchableOpacity
 								style={styles.iconMenu}
-								onPress={(event) => handleIconPress(event)}
+								onPress={handleIconPress}
 							>
-								<IconMenu />
+								<View ref={iconRef}>
+									<IconMenu />
+								</View>
 							</TouchableOpacity>
-							<ModalKebabMenuConnectList
-								modalVisible={modalVisible}
-								setModalVisible={setModalVisible}
-								name={name}
-								connectId={connectId}
-								memberId={memberId}
-								pending={true}
-								position={modalPosition}
-							/>
+							{modalPosition && (
+								<ModalKebabMenuConnectList
+									modalVisible={modalVisible}
+									setModalVisible={setModalVisible}
+									name={name}
+									connectId={connectId}
+									memberId={memberId}
+									pending={true}
+									position={modalPosition}
+								/>
+							)}
 						</>
 					)}
 				</View>

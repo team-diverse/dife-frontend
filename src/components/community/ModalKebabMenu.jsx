@@ -256,11 +256,11 @@ const ModalKebabMenu = ({
 				styles.modal,
 				commentId
 					? {
-							top: position.top,
-							left: position.left - 115,
+							top: position.y,
+							left: position.x - (position.width + 95),
 						}
 					: {
-							top: position.top,
+							top: position.top - 5,
 							right: position.width,
 							alignItems: "flex-end",
 						},
@@ -370,6 +370,7 @@ const ModalKebabMenu = ({
 const styles = StyleSheet.create({
 	modal: {
 		justifyContent: "flex-start",
+		alignItems: "flex-start",
 	},
 	rectangle: {
 		width: 95,
