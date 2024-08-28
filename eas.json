@@ -26,7 +26,6 @@
 		},
 		"staging": {
 			"developmentClient": true,
-			"distribution": "internal",
 			"autoIncrement": true,
 			"ios": {
 				"image": "latest"
