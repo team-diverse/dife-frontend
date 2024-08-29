@@ -136,5 +136,23 @@
 	"returnToLogin": "Return to login screen",
 
 	"profileCompletionTitle": "Profile Creation Complete!",
-	"profileCompletionDescription": "Please wait a moment for student verification confirmation"
+	"profileCompletionDescription": "Please wait a moment for student verification confirmation",
+
+	"connect": "Connect",
+	"newFriendText": "Join with new friends!",
+	"schoolInfo": "School Info",
+	"events": "Events",
+	"notifications": "Notifications",
+
+	"moreProfilesText": "You can explore more profiles on the Connect page!",
+	"exploreProfilesButton": "Explore More Profiles",
+
+	"viewProfileText": "View Profile",
+	"connectRequestConfirmation": "Would you like to request a connect with {{username}}?",
+	"requestButtonText": "Request Connect",
+	"cancelRequestButtonText": "Cancel Request",
+	"acceptRequestButtonText": "Accept Request",
+	"cancelConnectButtonText": "Cancel Connect",
+	"noButtonText": "No",
+	"serviceUnderConstruction": "This service is still under development"
 }

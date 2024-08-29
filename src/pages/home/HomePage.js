@@ -3,6 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
+import { useTranslation } from "react-i18next";
 
 import HomeStyles from "@pages/home/HomeStyles.js";
 import {
@@ -27,6 +28,7 @@ import HomeCardLast from "@components/home/HomeCardLast";
 import * as Sentry from "@sentry/react-native";
 
 const HomePage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
@@ -174,9 +176,9 @@ const HomePage = () => {
 				</View>
 
 				<View style={HomeStyles.textConnectWithContainer}>
-					<Text style={HomeStyles.textConnect}>커넥트</Text>
+					<Text style={HomeStyles.textConnect}>{t("connect")}</Text>
 					<Text style={HomeStyles.textWithnewfriend}>
-						새로운 친구와 함께해요!
+						{t("newFriendText")}
 					</Text>
 				</View>
 
@@ -249,7 +251,9 @@ const HomePage = () => {
 						onPress={() => navigation.navigate("PreparingPage")}
 					>
 						<HomeSchEv />
-						<Text style={HomeStyles.textHomeSchool}>학교정보</Text>
+						<Text style={HomeStyles.textHomeSchool}>
+							{t("schoolInfo")}
+						</Text>
 						<HomeSchoolInfo style={HomeStyles.homeSchIcon} />
 					</TouchableOpacity>
 					<TouchableOpacity
@@ -257,7 +261,9 @@ const HomePage = () => {
 						onPress={() => navigation.navigate("EventPage")}
 					>
 						<HomeSchEv />
-						<Text style={HomeStyles.textHomeEvent}>이벤트</Text>
+						<Text style={HomeStyles.textHomeEvent}>
+							{t("events")}
+						</Text>
 						<HomeEvent style={HomeStyles.iconHomeEvent} />
 					</TouchableOpacity>
 				</View>

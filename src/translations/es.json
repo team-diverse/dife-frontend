@@ -136,5 +136,23 @@
 	"returnToLogin": "Regresar a la pantalla de inicio de sesión",
 
 	"profileCompletionTitle": "¡Creación de Perfil Completa!",
-	"profileCompletionDescription": "Por favor, espera un momento para la confirmación de la verificación de estudiante"
+	"profileCompletionDescription": "Por favor, espera un momento para la confirmación de la verificación de estudiante",
+
+	"connect": "Conectar",
+	"newFriendText": "¡Únete con nuevos amigos!",
+	"schoolInfo": "Información Escolar",
+	"events": "Eventos",
+	"notifications": "Notificaciones",
+
+	"moreProfilesText": "¡Puedes explorar más perfiles en la página de Conectar!",
+	"exploreProfilesButton": "Explorar Más Perfiles",
+
+	"viewProfileText": "Ver Perfil",
+	"connectRequestConfirmation": "¿Desea solicitar una conexión con {{username}}?",
+	"requestButtonText": "Solicitar Conexión",
+	"cancelRequestButtonText": "Cancelar Solicitud",
+	"acceptRequestButtonText": "Aceptar Solicitud",
+	"cancelConnectButtonText": "Cancelar Conexión",
+	"noButtonText": "No",
+	"serviceUnderConstruction": "Este servicio aún está en desarrollo"
 }

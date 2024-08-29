@@ -136,5 +136,23 @@
 	"returnToLogin": "ログイン画面に戻る",
 
 	"profileCompletionTitle": "プロフィール作成完了！",
-	"profileCompletionDescription": "学生認証確認までしばらくお待ちください"
+	"profileCompletionDescription": "学生認証確認までしばらくお待ちください",
+
+	"connect": "コネクト",
+	"newFriendText": "新しい友達と一緒に参加しましょう！",
+	"schoolInfo": "学校情報",
+	"events": "イベント",
+	"notifications": "通知",
+
+	"moreProfilesText": "コネクトページでさらに多くのプロフィールを探索できます！",
+	"exploreProfilesButton": "さらにプロフィールを探索する",
+
+	"viewProfileText": "プロフィール詳細を見る",
+	"connectRequestConfirmation": "{{username}}に接続リクエストを送信しますか？",
+	"requestButtonText": "接続リクエスト",
+	"cancelRequestButtonText": "リクエストをキャンセル",
+	"acceptRequestButtonText": "リクエストを承認",
+	"cancelConnectButtonText": "接続をキャンセル",
+	"noButtonText": "いいえ",
+	"serviceUnderConstruction": "まだ準備中のサービスです"
 }

@@ -136,5 +136,23 @@
 	"returnToLogin": "返回登录界面",
 
 	"profileCompletionTitle": "个人资料创建完成！",
-	"profileCompletionDescription": "请稍等片刻以确认学生认证"
+	"profileCompletionDescription": "请稍等片刻以确认学生认证",
+
+	"connect": "连接",
+	"newFriendText": "和新朋友一起加入吧！",
+	"schoolInfo": "学校信息",
+	"events": "活动",
+	"notifications": "通知",
+
+	"moreProfilesText": "在连接页面中，您可以探索更多的个人资料！",
+	"exploreProfilesButton": "探索更多个人资料",
+
+	"viewProfileText": "查看个人资料",
+	"connectRequestConfirmation": "是否请求与{{username}}连接？",
+	"requestButtonText": "请求连接",
+	"cancelRequestButtonText": "取消请求",
+	"acceptRequestButtonText": "接受请求",
+	"cancelConnectButtonText": "取消连接",
+	"noButtonText": "否",
+	"serviceUnderConstruction": "该服务仍在开发中"
 }
