@@ -101,8 +101,7 @@ const ConnectStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 	},
 	midContainer: {
-		flexDirection: "row",
-		alignItems: "center",
+		alignItems: "flex-end",
 		marginTop: 20,
 		marginBottom: 12,
 	},

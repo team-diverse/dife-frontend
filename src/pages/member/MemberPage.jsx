@@ -15,7 +15,6 @@ import IconSetting from "@components/member/IconSetting";
 import ProfileKBackground from "@components/member/ProfileKBackground";
 import ProfileK from "@components/member/ProfileK";
 import IconFriendList from "@components/member/IconFriendList";
-import IconGroup from "@components/member/IconGroup";
 import IconMyPost from "@components/member/IconMyPost";
 import TabLikedPostPage from "@pages/member/TabLikedPostPage";
 import TabBookmarkPostPage from "@pages/member/TabBookmarkPostPage";
@@ -109,14 +108,6 @@ const MemberPage = () => {
 							<Text style={MemberStyles.textIcon}>
 								커넥트 목록
 							</Text>
-						</TouchableOpacity>
-						<View style={MemberStyles.line} />
-						<TouchableOpacity
-							style={MemberStyles.icon}
-							onPress={() => navigation.navigate("GroupListPage")}
-						>
-							<IconGroup />
-							<Text style={MemberStyles.textIcon}>그룹</Text>
 						</TouchableOpacity>
 						<View style={MemberStyles.line} />
 						<TouchableOpacity
