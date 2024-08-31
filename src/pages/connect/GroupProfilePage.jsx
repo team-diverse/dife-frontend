@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, View, Text } from "react-native";
 
 import GroupProfileStyles from "@pages/connect/GroupProfileStyles";
-import { getGroupByGroupId, getProfileImageByFileName } from "config/api";
+import {
+	getGroupByGroupId,
+	getProfileImageByFileName,
+	createLikeChatroom,
+	deleteLikeChatroom,
+} from "config/api";
 import { formatProfileData } from "util/formatProfileData";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
@@ -16,26 +21,28 @@ import ApplyButton from "@components/common/ApplyButton";
 import ModalGroupJoin from "@components/connect/ModalGroupJoin";
 
 const GroupProfilePage = ({ route }) => {
+	const { groupId } = route.params;
+	const [groupProfileData, setGroupProfileData] = useState([]);
+	const [profilePresignUrl, setProfilePresignUrl] = useState("");
 	const [modalGroupJoinVisible, setModalGroupJoinVisible] = useState(false);
-
-	const [heart, setHeart] = useState(false);
-
-	const handleHeartPress = () => {
-		setHeart(!heart);
-	};
+	const [groupHeart, setGroupHeart] = useState(false);
+	const [groupIsEntered, setGroupIsEntered] = useState(false);
 
 	const handleGroupJoin = () => {
+		setGroupIsEntered(true);
 		setModalGroupJoinVisible(true);
 	};
 
-	const { groupId } = route.params;
-
-	const [groupProfileData, setGroupProfileData] = useState([]);
-	const [profilePresignUrl, setProfilePresignUrl] = useState("");
+	const handleGroupQuit = () => {
+		setGroupIsEntered(false);
+	};
 
 	const getDetailProfile = async () => {
 		try {
 			const response = await getGroupByGroupId(groupId);
+			setGroupHeart(response.data.isLiked);
+			setGroupIsEntered(response.data.isEntered);
+      
 			const profile = formatProfileData([response.data]);
 			setGroupProfileData(profile[0]);
 
@@ -62,14 +69,41 @@ const GroupProfilePage = ({ route }) => {
 		getDetailProfile();
 	}, []);
 
+	const handleGroupCreateHeart = async () => {
+		try {
+			await createLikeChatroom(groupId);
+			setGroupHeart(true);
+		} catch (error) {
+			console.error(
+				"그룹 좋아요 생성 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleGroupDeleteHeart = async () => {
+		try {
+			await deleteLikeChatroom(groupId);
+			setGroupHeart(false);
+		} catch (error) {
+			console.error(
+				"그룹 좋아요 취소 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	return (
 		<SafeAreaView
 			style={[GroupProfileStyles.container, { alignItems: "center" }]}
 		>
 			<ConnectProfileTopBar
 				topBar="프로필"
-				active={heart}
-				onPressHeart={handleHeartPress}
+				active={groupHeart}
+				onPressHeart={
+					groupHeart ? handleGroupDeleteHeart : handleGroupCreateHeart
+				}
+				groupId={groupId}
 			/>
 			<ScrollView
 				contentContainerStyle={{ alignItems: "center" }}
@@ -117,19 +151,15 @@ const GroupProfilePage = ({ route }) => {
 			</ScrollView>
 			<View style={GroupProfileStyles.applyButton}>
 				<ApplyButton
-					text="그룹 가입하기"
+					text={groupIsEntered ? "그룹 탈퇴하기" : "그룹 가입하기"}
 					background="true"
-					onPress={handleGroupJoin}
+					onPress={groupIsEntered ? handleGroupQuit : handleGroupJoin}
 				/>
 			</View>
 			<ModalGroupJoin
 				modalVisible={modalGroupJoinVisible}
 				setModalVisible={setModalGroupJoinVisible}
-				reportTitle="개인 프로필 신고"
-				report1="혐오적인 컨텐츠"
-				report2="욕설/도배"
-				report3="다른 사람을 사칭함"
-				report4="기타"
+				isPublic={groupProfileData.isPublic}
 			/>
 		</SafeAreaView>
 	);

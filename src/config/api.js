@@ -20,7 +20,7 @@ api.interceptors.request.use(async (config) => {
 export const getChatroomsByType = (type) => {
 	return api.get("/chatrooms", {
 		params: {
-			chatroomType: type,
+			type,
 		},
 	});
 };
@@ -183,7 +183,7 @@ export const getRandomMembersByCount = (count) => {
 export const getPostsByType = (type) => {
 	return api.get("/posts", {
 		params: {
-			boardCategory: type,
+			type,
 		},
 	});
 };
@@ -323,6 +323,14 @@ export const createLikeComment = (commentId) => {
 
 export const getLikeChatroom = () => {
 	return api.get("/chatrooms/likes");
+};
+
+export const updateGroupProfile = (groupId, formData) => {
+	return api.put(`/chatrooms/${groupId}`, formData, {
+		headers: {
+			"Content-Type": "multipart/form-data",
+		},
+	});
 };
 
 export const createLikeChatroom = (chatroomId) => {
@@ -516,10 +524,21 @@ export const reportMember = (type, receiverId) => {
 	});
 };
 
-export const blockMember = (blockMemberId) => {
+export const reportGroup = (type, chatroomId) => {
+	return api.post("/reports", {
+		type,
+		chatroomId,
+	});
+};
+
+export const createBlockMemberByMemberId = (blockMemberId) => {
 	return api.post("/blocks", {
 		memberId: blockMemberId,
 	});
+};
+
+export const createBlockPostByPostId = (blockPostId) => {
+	return api.post(`/posts/${blockPostId}/blocks`);
 };
 
 export const getBlockMember = () => {

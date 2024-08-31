@@ -96,7 +96,13 @@ const CommunityPage = () => {
 					<Text style={CommunityStyles.textChattingTitle}>
 						게시판
 					</Text>
-					<IconBookmark style={CommunityStyles.iconBookmark} />
+					<TouchableOpacity
+						onPress={() =>
+							navigation.navigate("BookmarkedPostPage")
+						}
+					>
+						<IconBookmark style={CommunityStyles.iconBookmark} />
+					</TouchableOpacity>
 				</View>
 				<View style={CommunityStyles.containerSearch}>
 					<View style={CommunityStyles.containerSearchIcon}>
