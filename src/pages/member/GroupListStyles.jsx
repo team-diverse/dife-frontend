@@ -11,21 +11,21 @@ const GroupListStyles = StyleSheet.create({
 	flatlist: {
 		width: "100%",
 	},
-	containerFriendNumber: {
-		flexDirection: "row",
-		alignItems: "center",
-		marginLeft: 24,
-		marginTop: 8,
-		marginBottom: 12,
-	},
 	textFriend: {
 		...fontBody14,
-		marginRight: 7,
+		marginTop: 16,
+		marginBottom: 12,
+		marginLeft: 24,
 	},
 	textNumber: {
 		...fontCaption,
 		color: CustomTheme.primaryMedium,
 		marginLeft: 3,
+	},
+	line: {
+		width: "100%",
+		height: 2,
+		backgroundColor: CustomTheme.bgList,
 	},
 });
 

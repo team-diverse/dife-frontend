@@ -121,7 +121,6 @@ const ConnectProfilePage = ({ route }) => {
 				handleAcceptedConnect();
 			}
 		} else {
-			console.log(profileData);
 			handleConnectAlert();
 		}
 		getConnectStatus();
