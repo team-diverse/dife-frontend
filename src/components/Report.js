@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { reportPost, reportComment, reportMember } from "config/api";
+import {
+	reportPost,
+	reportComment,
+	reportMember,
+	reportGroup,
+} from "config/api";
 
 import RadioButtonGroup from "@components/RadioButton/RadioButtonGroup";
 import Modal from "react-native-modal";
@@ -57,6 +62,8 @@ const Report = ({
 				await reportComment(reportType, commentId);
 			} else if (memberId) {
 				await reportMember(reportType, memberId);
+			} else {
+				await reportGroup(reportType, groupId);
 			}
 
 			await handleReportComplte();

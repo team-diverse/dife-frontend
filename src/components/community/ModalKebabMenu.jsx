@@ -7,6 +7,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 import {
 	deletePost,
 	deleteCommentByCommentId,
+	createBlockMemberByMemberId,
 	createBlockPostByPostId,
 } from "config/api";
 
@@ -167,7 +168,7 @@ const ModalKebabMenu = ({
 	const handleBlockPostAlert = () => {
 		setModalVisible(false);
 		Alert.alert(
-			"차단",
+			"",
 			`게시글을 차단하면 다시 해제할 수 없으며, 차단된 게시글은 목록에서 보이지 않습니다.`,
 			[
 				{
@@ -189,15 +190,11 @@ const ModalKebabMenu = ({
 		try {
 			await createBlockPostByPostId(postId);
 			Alert.alert(
-				"차단",
+				"",
 				"게시글을 차단하였습니다.",
 				[
 					{
 						text: "확인",
-						onPress: () => {
-							setModalVisible(false);
-							onNavigation.goBack();
-						},
 					},
 				],
 				{ cancelable: false },
@@ -292,7 +289,7 @@ const ModalKebabMenu = ({
 							<Text style={styles.textIsMe}>프로필 상세</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />
-						<TouchableOpacity onPress={handleBlockPostAlert}>
+						<TouchableOpacity onPress={handleBlockAlert}>
 							<Text style={styles.textIsMe}>차단</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />
