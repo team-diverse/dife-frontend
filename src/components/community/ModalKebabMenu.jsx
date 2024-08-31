@@ -207,48 +207,6 @@ const ModalKebabMenu = ({
 		}
 	};
 
-	const handleBlockPostAlert = () => {
-		setModalVisible(false);
-		Alert.alert(
-			"",
-			`게시글을 차단하면 다시 해제할 수 없으며, 차단된 게시글은 목록에서 보이지 않습니다.`,
-			[
-				{
-					text: "취소",
-					style: "cancel",
-				},
-				{
-					text: "확인",
-					onPress: () => {
-						handleBlockPost();
-					},
-				},
-			],
-			{ cancelable: false },
-		);
-	};
-
-	const handleBlockPost = async () => {
-		try {
-			await createBlockPostByPostId(postId);
-			Alert.alert(
-				"",
-				"게시글을 차단하였습니다.",
-				[
-					{
-						text: "확인",
-					},
-				],
-				{ cancelable: false },
-			);
-		} catch (error) {
-			console.error(
-				"차단 오류:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
 	return (
 		<Modal
 			isVisible={modalVisible}
