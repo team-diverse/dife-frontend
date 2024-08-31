@@ -42,45 +42,50 @@ const RequestConnectListPage = () => {
 
 	return (
 		<SafeAreaView style={RequestConnectListStyles.container}>
-			<Text style={RequestConnectListStyles.textRequest}>
-				받은 요청{"   "}
-				<Text style={RequestConnectListStyles.textRequestNumber}>
-					{receivedConnects.length}
+			<View style={RequestConnectListStyles.containerList}>
+				<Text style={RequestConnectListStyles.textRequest}>
+					받은 요청{"   "}
+					<Text style={RequestConnectListStyles.textRequestNumber}>
+						{receivedConnects.length}
+					</Text>
 				</Text>
-			</Text>
-			<FlatList
-				style={RequestConnectListStyles.flatlist}
-				data={receivedConnects}
-				renderItem={({ item }) => (
-					<ItemRequestConnectList
-						received={true}
-						connectId={item.id}
-						memberId={item.from_member.id}
-						name={item.from_member.username}
-						imageName={item.from_member.profileImg}
-					/>
-				)}
-				keyExtractor={(item, index) => index.toString()}
-			/>
+				<FlatList
+					style={RequestConnectListStyles.flatlist}
+					data={receivedConnects}
+					renderItem={({ item }) => (
+						<ItemRequestConnectList
+							received={true}
+							connectId={item.id}
+							memberId={item.from_member.id}
+							name={item.from_member.username}
+							imageName={item.from_member.profileImg}
+						/>
+					)}
+					keyExtractor={(item, index) => index.toString()}
+				/>
+			</View>
 			<View style={RequestConnectListStyles.line} />
-			<Text style={RequestConnectListStyles.textRequest}>
-				보낸 요청{"   "}
-				<Text style={RequestConnectListStyles.textRequestNumber}>
-					{sentConnects.length}
+			<View style={RequestConnectListStyles.containerList}>
+				<Text style={RequestConnectListStyles.textRequest}>
+					보낸 요청{"   "}
+					<Text style={RequestConnectListStyles.textRequestNumber}>
+						{sentConnects.length}
+					</Text>
 				</Text>
-			</Text>
-			<FlatList
-				style={RequestConnectListStyles.flatlist}
-				data={sentConnects}
-				renderItem={({ item }) => (
-					<ItemRequestConnectList
-						memberId={item.to_member.id}
-						name={item.to_member.username}
-						imageName={item.to_member.profileImg}
-					/>
-				)}
-				keyExtractor={(item, index) => index.toString()}
-			/>
+				<FlatList
+					style={RequestConnectListStyles.flatlist}
+					data={sentConnects}
+					renderItem={({ item }) => (
+						<ItemRequestConnectList
+							connectId={item.id}
+							memberId={item.to_member.id}
+							name={item.to_member.username}
+							imageName={item.to_member.profileImg}
+						/>
+					)}
+					keyExtractor={(item, index) => index.toString()}
+				/>
+			</View>
 		</SafeAreaView>
 	);
 };

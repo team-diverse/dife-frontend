@@ -181,8 +181,12 @@ const PostPage = ({ route }) => {
 	};
 
 	const modalPosition = {
-		top: topBarPosition.height + topBarPosition.y - scrollY,
-		width: iconPosition.width + 5,
+		top:
+			topBarPosition.height +
+			topBarPosition.y +
+			iconPosition.height -
+			scrollY,
+		width: iconPosition.width,
 	};
 
 	const windowHeight = Dimensions.get("window").height;
