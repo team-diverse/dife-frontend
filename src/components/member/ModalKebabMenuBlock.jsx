@@ -28,7 +28,13 @@ const ModalKebabMenuBlock = ({
 	return (
 		<Modal
 			isVisible={modalVisible}
-			style={[styles.modal, { top: position.top - 25, right: 16 }]}
+			style={[
+				styles.modal,
+				{
+					top: position.y - (position.height + 38) / 2,
+					left: position.x - (position.width + 100),
+				},
+			]}
 			onBackdropPress={() => setModalVisible(false)}
 			backdropColor="rgba(0, 0, 0, 0.3)"
 			animationIn="fadeIn"
@@ -46,7 +52,7 @@ const ModalKebabMenuBlock = ({
 const styles = StyleSheet.create({
 	modal: {
 		justifyContent: "flex-start",
-		alignItems: "flex-end",
+		alignItems: "flex-start",
 	},
 	rectangle: {
 		width: 95,
