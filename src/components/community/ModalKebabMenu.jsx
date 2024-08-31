@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import Modal from "react-native-modal";
+import { useNavigation } from "@react-navigation/native";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import {
@@ -24,19 +24,20 @@ const ModalKebabMenu = ({
 	setModalVisible,
 	memberId,
 	postId,
-	commentId = null,
+	commentId,
 	isPublic,
 	isMe,
 	position,
+	onNavigation,
 }) => {
+	const navigation = useNavigation();
+
 	const rectangleStyle = () => {
 		if (isMe) {
 			return commentId ? styles.rectangleCommentIsMe : styles.rectangle;
 		}
 		return isPublic ? styles.rectangle : styles.rectangleIsPublic;
 	};
-
-	const navigation = useNavigation();
 
 	const handleModify = () => {
 		setModalVisible(false);
@@ -55,7 +56,7 @@ const ModalKebabMenu = ({
 					onPress: () => {
 						deletePost(postId)
 							.then(() => {
-								navigation.goBack();
+								onNavigation.goBack();
 							})
 							.catch((error) => {
 								Sentry.captureException(error);
@@ -108,6 +109,11 @@ const ModalKebabMenu = ({
 		setModalReportVisible(true);
 	};
 
+	const handleReportComplete = () => {
+		setModalReportVisible(false);
+		setModalVisible(false);
+	};
+
 	const handleDetailProfile = () => {
 		setModalVisible(false);
 		navigation.navigate("ConnectProfilePage", { memberId: memberId });
@@ -140,6 +146,52 @@ const ModalKebabMenu = ({
 			Alert.alert(
 				"",
 				"사용자를 차단하였습니다.",
+				[
+					{
+						text: "확인",
+						onPress: () => {
+							setModalVisible(false);
+							onNavigation.goBack();
+						},
+					},
+				],
+				{ cancelable: false },
+			);
+		} catch (error) {
+			console.error(
+				"차단 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleBlockPostAlert = () => {
+		setModalVisible(false);
+		Alert.alert(
+			"",
+			`게시글을 차단하면 다시 해제할 수 없으며, 차단된 게시글은 목록에서 보이지 않습니다.`,
+			[
+				{
+					text: "취소",
+					style: "cancel",
+				},
+				{
+					text: "확인",
+					onPress: () => {
+						handleBlockPost();
+					},
+				},
+			],
+			{ cancelable: false },
+		);
+	};
+
+	const handleBlockPost = async () => {
+		try {
+			await createBlockPostByPostId(postId);
+			Alert.alert(
+				"",
+				"게시글을 차단하였습니다.",
 				[
 					{
 						text: "확인",
@@ -270,6 +322,7 @@ const ModalKebabMenu = ({
 							{...(commentId
 								? { commentId: commentId }
 								: { postId: postId })}
+							onReportComplete={handleReportComplete}
 						/>
 					</>
 				) : (
@@ -305,6 +358,7 @@ const ModalKebabMenu = ({
 							{...(commentId
 								? { commentId: commentId }
 								: { postId: postId })}
+							onReportComplete={handleReportComplete}
 						/>
 					</>
 				)}
