@@ -20,7 +20,7 @@ api.interceptors.request.use(async (config) => {
 export const getChatroomsByType = (type) => {
 	return api.get("/chatrooms", {
 		params: {
-			chatroomType: type,
+			type,
 		},
 	});
 };
@@ -521,6 +521,13 @@ export const reportMember = (type, receiverId) => {
 	return api.post("/reports", {
 		type,
 		receiverId,
+	});
+};
+
+export const reportGroup = (type, chatroomId) => {
+	return api.post("/reports", {
+		type,
+		chatroomId,
 	});
 };
 

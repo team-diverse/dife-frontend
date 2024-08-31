@@ -149,9 +149,23 @@ const ConnectCard = ({
 								</View>
 							</View>
 						) : (
-							<Text style={styles.textBasicInfo}>
-								{country} | {major}
-							</Text>
+							<View style={styles.containerBasicInfo}>
+								<Text
+									style={styles.textBasicInfo}
+									numberOfLines={1}
+									ellipsizeMode="tail"
+								>
+									{country}
+								</Text>
+								<Text style={styles.textBasicInfo}> | </Text>
+								<Text
+									style={styles.textBasicInfo}
+									numberOfLines={1}
+									ellipsizeMode="tail"
+								>
+									{major}
+								</Text>
+							</View>
 						)}
 
 						<Text style={styles.textIntroduction}>
@@ -220,9 +234,14 @@ const styles = StyleSheet.create({
 		...fontCaption,
 		color: CustomTheme.borderColor,
 	},
+	containerBasicInfo: {
+		flexDirection: "row",
+	},
 	textBasicInfo: {
 		...fontCaption,
 		marginBottom: 6,
+		maxWidth: 93,
+		overflow: "hidden",
 	},
 	textIntroduction: {
 		...fontSub14,

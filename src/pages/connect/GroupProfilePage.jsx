@@ -42,7 +42,7 @@ const GroupProfilePage = ({ route }) => {
 			const response = await getGroupByGroupId(groupId);
 			setGroupHeart(response.data.isLiked);
 			setGroupIsEntered(response.data.isEntered);
-
+      
 			const profile = formatProfileData([response.data]);
 			setGroupProfileData(profile[0]);
 
