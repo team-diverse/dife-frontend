@@ -325,6 +325,14 @@ export const getLikeChatroom = () => {
 	return api.get("/chatrooms/likes");
 };
 
+export const updateGroupProfile = (groupId, formData) => {
+	return api.put(`/chatrooms/${groupId}`, formData, {
+		headers: {
+			"Content-Type": "multipart/form-data",
+		},
+	});
+};
+
 export const createLikeChatroom = (chatroomId) => {
 	return api.post("/likes", {
 		type: "CHATROOM",

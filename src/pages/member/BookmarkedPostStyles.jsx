@@ -1,16 +1,16 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const BookmarkPostStyles = StyleSheet.create({
+const BookmarkedPostStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
 	},
-	itemLikeBookmark: {
+	itemCommunity: {
 		alignItems: "center",
-		marginTop: 12,
+		marginTop: 16,
 		marginHorizontal: 24,
 	},
 });
 
-export default BookmarkPostStyles;
+export default BookmarkedPostStyles;

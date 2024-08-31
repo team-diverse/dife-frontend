@@ -18,7 +18,12 @@ import InfoCircle from "@components/common/InfoCircle";
 
 const { fontCaption, fontSub14, fontSub16 } = CustomTheme;
 
-const ModalGroupJoin = ({ modalVisible, setModalVisible, length = 5 }) => {
+const ModalGroupJoin = ({
+	modalVisible,
+	setModalVisible,
+	isPublic,
+	length = 5,
+}) => {
 	const [showComplete, setShowComplete] = useState(false);
 	const [password, setPassword] = useState(Array(length).fill(""));
 	const [incorrectPassword, setIncorrectPassword] = useState(false);
@@ -63,7 +68,7 @@ const ModalGroupJoin = ({ modalVisible, setModalVisible, length = 5 }) => {
 				>
 					<IconCancelX />
 				</TouchableOpacity>
-				{showComplete ? (
+				{isPublic || showComplete ? (
 					<>
 						<View style={styles.reportCompleteContainer}>
 							<CompleteIcon isConnect={true} />

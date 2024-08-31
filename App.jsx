@@ -93,6 +93,8 @@ import SkeletonEventPage from "@pages/etc/SkeletonEventPage";
 import SkeletonConnectPage from "@pages/etc/SkeletonConnectPage";
 import SkeletonConnectLikePage from "@pages/etc/SkeletonConnectLikePage";
 import DeleteMemberPage from "@pages/member/DeleteMemberPage";
+import LikedPostPage from "@pages/member/LikedPostPage";
+import BookmarkedPostPage from "@pages/member/BookmarkedPostPage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -359,6 +361,11 @@ function MainNavigator() {
 			<Stack.Screen
 				name="DeleteMemberPage"
 				component={DeleteMemberPage}
+			/>
+			<Stack.Screen name="LikedPostPage" component={LikedPostPage} />
+			<Stack.Screen
+				name="BookmarkedPostPage"
+				component={BookmarkedPostPage}
 			/>
 		</Stack.Navigator>
 	);

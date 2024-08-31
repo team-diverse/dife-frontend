@@ -6,9 +6,9 @@ const LikedPostStyles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
 	},
-	itemLikeBookmark: {
+	itemCommunity: {
 		alignItems: "center",
-		marginTop: 12,
+		marginTop: 16,
 		marginHorizontal: 24,
 	},
 });

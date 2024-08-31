@@ -26,15 +26,23 @@ const GroupProfilePage = ({ route }) => {
 	const [profilePresignUrl, setProfilePresignUrl] = useState("");
 	const [modalGroupJoinVisible, setModalGroupJoinVisible] = useState(false);
 	const [groupHeart, setGroupHeart] = useState(false);
+	const [groupIsEntered, setGroupIsEntered] = useState(false);
 
 	const handleGroupJoin = () => {
+		setGroupIsEntered(true);
 		setModalGroupJoinVisible(true);
+	};
+
+	const handleGroupQuit = () => {
+		setGroupIsEntered(false);
 	};
 
 	const getDetailProfile = async () => {
 		try {
 			const response = await getGroupByGroupId(groupId);
 			setGroupHeart(response.data.isLiked);
+			setGroupIsEntered(response.data.isEntered);
+      
 			const profile = formatProfileData([response.data]);
 			setGroupProfileData(profile[0]);
 
@@ -143,14 +151,15 @@ const GroupProfilePage = ({ route }) => {
 			</ScrollView>
 			<View style={GroupProfileStyles.applyButton}>
 				<ApplyButton
-					text="그룹 가입하기"
+					text={groupIsEntered ? "그룹 탈퇴하기" : "그룹 가입하기"}
 					background="true"
-					onPress={handleGroupJoin}
+					onPress={groupIsEntered ? handleGroupQuit : handleGroupJoin}
 				/>
 			</View>
 			<ModalGroupJoin
 				modalVisible={modalGroupJoinVisible}
 				setModalVisible={setModalGroupJoinVisible}
+				isPublic={groupProfileData.isPublic}
 			/>
 		</SafeAreaView>
 	);

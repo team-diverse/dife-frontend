@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { View, ScrollView } from "react-native";
+import { SafeAreaView, View } from "react-native";
 
-import BookmarkPostStyles from "@pages/member/BookmarkPostStyles";
+import BookmarkedPostStyles from "@pages/member/BookmarkedPostStyles";
 import { getBookmarkedPost } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
 
-import ItemLikeBookmark from "@components/member/ItemLikeBookmark";
+import TopBar from "@components/common/TopBar";
+import ItemCommunity from "@components/community/ItemCommunity";
+
 import * as Sentry from "@sentry/react-native";
 
-const BookmarkPostPage = () => {
+const BookmarkedPostPage = () => {
 	const [bookmarkPostList, setBookmarkPostList] = useState([]);
 
 	useEffect(() => {
@@ -31,17 +33,18 @@ const BookmarkPostPage = () => {
 	}, []);
 
 	return (
-		<View style={BookmarkPostStyles.container}>
-			<ScrollView>
-				<View style={BookmarkPostStyles.itemLikeBookmark}>
-					<ItemLikeBookmark
-						likedAndBookmarkPostList={bookmarkPostList}
-						type="bookmark"
-					/>
-				</View>
-			</ScrollView>
-		</View>
+		<SafeAreaView style={BookmarkedPostStyles.container}>
+			<TopBar topBar="북마크한 게시글" color="#000" />
+
+			<View style={BookmarkedPostStyles.itemCommunity}>
+				<ItemCommunity
+					postList={bookmarkPostList}
+					apiPost={true}
+					bookmarkedPostBlue={true}
+				/>
+			</View>
+		</SafeAreaView>
 	);
 };
 
-export default BookmarkPostPage;
+export default BookmarkedPostPage;
