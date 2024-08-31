@@ -14,7 +14,6 @@ const BlockListPage = () => {
 	const getblockMemberList = async () => {
 		try {
 			const response = await getBlockMember();
-			console.log(response.data);
 			setBlackList(response.data);
 		} catch (error) {
 			console.error(
