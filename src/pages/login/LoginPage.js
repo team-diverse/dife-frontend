@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Device from "expo-device";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import LoginStyles from "@pages/login/LoginStyles";
@@ -30,9 +31,11 @@ const mockEmail = process.env.EXPO_PUBLIC_MOCK_EMAIL || "";
 const mockPassword = process.env.EXPO_PUBLIC_MOCK_PASSWORD || "";
 
 const LoginPage = () => {
+	const { t } = useTranslation();
+
 	const navigation = useNavigation();
 
-	const loginData = ["Dife와 함께하는\n캠퍼스 라이프!", "지금 바로 시작하기"];
+	// const loginData = ["Dife와 함께하는\n캠퍼스 라이프!", "지금 바로 시작하기"];
 	const [valueID, setEmail] = useState("");
 	const [valuePW, setPassword] = useState("");
 	const [showPW, setShowPW] = useState(false);
@@ -147,8 +150,10 @@ const LoginPage = () => {
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
 			<SafeAreaView style={[LoginStyles.container]}>
 				<LoginBackground style={LoginStyles.backgroundLogin} />
-				<Text style={LoginStyles.textTitle}>{loginData[0]}</Text>
-				<Text style={LoginStyles.textSubTitle}>{loginData[1]}</Text>
+				<Text style={LoginStyles.textTitle}>{t("loginTitle")}</Text>
+				<Text style={LoginStyles.textSubTitle}>
+					{t("loginSubtitle")}
+				</Text>
 				<Text style={LoginStyles.textId}>ID (Email Address)</Text>
 				<TextInput
 					style={
@@ -159,7 +164,7 @@ const LoginPage = () => {
 								]
 							: LoginStyles.textInputId
 					}
-					placeholder="이메일을 입력해주세요"
+					placeholder={t("placeholderEmail")}
 					onChangeText={(text) => handleEmail(text)}
 					value={valueID}
 				/>
@@ -174,7 +179,7 @@ const LoginPage = () => {
 									]
 								: LoginStyles.textInputPw
 						}
-						placeholder="비밀번호를 입력해주세요"
+						placeholder={t("placeholderPassword")}
 						onChangeText={(text) => handlePassword(text)}
 						value={valuePW}
 						secureTextEntry={!showPW}
@@ -194,20 +199,20 @@ const LoginPage = () => {
 					<View style={LoginStyles.containerError}>
 						<InfoCircle color={CustomTheme.warningRed} />
 						<Text style={LoginStyles.textError}>
-							입력하신 아이디 또는 비밀번호를 확인해주세요
+							{t("loginError")}
 						</Text>
 					</View>
 				)}
 				<View style={LoginStyles.ButtonSignupPwContainer}>
 					<BottomTwoButtons>
-						<View text="회원가입" onPress={handleSignUp} />
-						<View text="로그인" onPress={handleLogin} />
+						<View text={t("signUp")} onPress={handleSignUp} />
+						<View text={t("login")} onPress={handleLogin} />
 					</BottomTwoButtons>
 					<TouchableOpacity
 						onPress={() => navigation.navigate("FindPassword")}
 					>
 						<Text style={LoginStyles.textReport}>
-							비밀번호를 까먹었어요
+							{t("loginForgotPassword")}
 						</Text>
 					</TouchableOpacity>
 				</View>

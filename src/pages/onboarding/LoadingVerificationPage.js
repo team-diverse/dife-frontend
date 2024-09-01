@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { View, Text, SafeAreaView, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import LoadingVerificationStyles from "@pages/onboarding/LoadingVerificationStyles";
 import IconLoading from "@components/onboarding/IconLoading";
 import Checkbox from "@components/common/Checkbox";
 
 const LoadingVerificationPage = () => {
+	const { t } = useTranslation();
+
 	const navigation = useNavigation();
 
 	const [isChecked, setIsChecked] = useState(false);
@@ -27,28 +30,31 @@ const LoadingVerificationPage = () => {
 						style={LoadingVerificationStyles.containerModalContent}
 					>
 						<Text style={LoadingVerificationStyles.textModal}>
-							재학생 인증 대기중
+							{t("waitingVerificationTitle")}
 						</Text>
 						<View style={LoadingVerificationStyles.iconLoading}>
 							<IconLoading />
 						</View>
 						<Text style={LoadingVerificationStyles.textModal}>
-							인증이 완료되면{"\n"}모든 기능을 사용할 수 있어요
+							{t("waitingVerificationDescription")}
 						</Text>
-						<Checkbox
+						<View
 							style={LoadingVerificationStyles.checkboxRememberMe}
-							checked={isChecked}
-							onPress={() => {
-								handlePress();
-							}}
-							text="인증 완료 알림 받기"
-							basic="true"
-						/>
+						>
+							<Checkbox
+								checked={isChecked}
+								onPress={() => {
+									handlePress();
+								}}
+								text={t("receiveNotification")}
+								basic="true"
+							/>
+						</View>
 						<Text
 							style={LoadingVerificationStyles.textMove}
 							onPress={() => navigation.navigate("Login")}
 						>
-							로그인 화면으로 돌아가기
+							{t("returnToLogin")}
 						</Text>
 					</View>
 				</View>

@@ -1,12 +1,15 @@
 import React from "react";
 import { View, FlatList, SafeAreaView } from "react-native";
+import { useTranslation } from "react-i18next";
 
-import EventStyles from "@pages/home/EventStyles.js";
+import EventStyles from "@pages/home/EventStyles";
 
 import TopBar from "@components/common/TopBar";
-import EventCard from "@components/event/EventCard.js";
+import EventCard from "@components/event/EventCard";
 
 const EventPage = () => {
+	const { t } = useTranslation();
+
 	const eventData = [
 		{
 			id: "1",
@@ -40,7 +43,7 @@ const EventPage = () => {
 
 	return (
 		<SafeAreaView style={[EventStyles.container, { alignItems: "center" }]}>
-			<TopBar topBar="이벤트" />
+			<TopBar topBar={t("events")} />
 			<View style={EventStyles.flatlist}>
 				<FlatList
 					contentContainerStyle={EventStyles.flatlistContent}

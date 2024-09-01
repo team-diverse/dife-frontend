@@ -34,6 +34,7 @@ const StudentVerificationStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
 		justifyContent: "center",
+		overflow: "hidden",
 	},
 	containerModalContent: {
 		alignItems: "center",
