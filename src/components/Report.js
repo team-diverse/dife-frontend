@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import {
@@ -25,16 +26,17 @@ const Report = ({
 	groupId,
 	onReportComplete,
 }) => {
+	const { t } = useTranslation();
 	const [selected, setSelected] = useState("");
 	const [isReportButtonDisabled, setIsReportButtonDisabled] = useState(true);
 	const [showComplete, setShowComplete] = useState(false);
 	const [reportType, setReportType] = useState(false);
 
 	const reportTypes = [
-		"혐오적인 컨텐츠",
-		"욕설/도배",
-		"다른 사람을 사칭함",
-		"기타",
+		t("hateContent"),
+		t("abusiveLanguage"),
+		t("impersonation"),
+		t("other"),
 	];
 
 	const handleNoButtonPress = () => {
@@ -43,14 +45,18 @@ const Report = ({
 	};
 
 	useEffect(() => {
-		if (selected === "혐오적인 컨텐츠") {
-			setReportType("CONTENT");
-		} else if (selected === "욕설/도배") {
-			setReportType("CURSE");
-		} else if (selected === "다른 사람을 사칭함") {
-			setReportType("IMPERSONATION");
-		} else {
-			setReportType("ETC");
+		switch (selected) {
+			case t("hateContent"):
+				setReportType("CONTENT");
+				break;
+			case t("abusiveLanguage"):
+				setReportType("CURSE");
+				break;
+			case t("impersonation"):
+				setReportType("IMPERSONATION");
+				break;
+			default:
+				setReportType("ETC");
 		}
 	}, [selected]);
 
@@ -104,7 +110,9 @@ const Report = ({
 				{showComplete ? (
 					<View style={styles.reportCompleteContainer}>
 						<CompleteIcon />
-						<Text style={styles.reportCompleteText}>신고 완료</Text>
+						<Text style={styles.reportCompleteText}>
+							{t("reportComplete")}
+						</Text>
 					</View>
 				) : (
 					<>
@@ -123,14 +131,18 @@ const Report = ({
 								style={styles.buttonNo}
 								onPress={handleNoButtonPress}
 							>
-								<Text style={styles.textNo}>아니오</Text>
+								<Text style={styles.textNo}>
+									{t("noButtonText")}
+								</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
 								style={styles.buttonReport}
 								onPress={handleReportButtonPress}
 								disabled={isReportButtonDisabled}
 							>
-								<Text style={styles.textReport}>신고하기</Text>
+								<Text style={styles.textReport}>
+									{t("submitReport")}
+								</Text>
 							</TouchableOpacity>
 						</View>
 					</>

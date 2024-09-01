@@ -1,6 +1,7 @@
 import React from "react";
 import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { formatDate } from "util/formatDate";
@@ -18,13 +19,14 @@ const ItemCommunity = ({
 	likedPostBlue = false,
 	bookmarkedPostBlue = false,
 }) => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	return (
 		<>
 			{postList.map((post, index) => {
 				const commentText = comment
-					? `'${post.post.title}' 글에 댓글`
+					? `'${post.post.title}' ${t("commentOnPost")}`
 					: post.title;
 
 				return (

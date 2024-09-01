@@ -9,6 +9,7 @@ import {
 	ScrollView,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import TipCommunityStyles from "@pages/community/TipCommunityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -26,6 +27,7 @@ import IconSearchFail from "@components/common/IconSearchFail";
 import * as Sentry from "@sentry/react-native";
 
 const TipCommunityPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const handleGoBack = () => {
@@ -99,7 +101,7 @@ const TipCommunityPage = () => {
 				style={TipCommunityStyles.iconPostPlus}
 				onPress={() =>
 					navigation.navigate("WritePage", {
-						noticeboard: "꿀팁게시판",
+						noticeboard: t("tipsBoard"),
 					})
 				}
 			>
@@ -117,7 +119,7 @@ const TipCommunityPage = () => {
 						<ArrowRight color={CustomTheme.bgBasic} />
 					</TouchableOpacity>
 					<Text style={TipCommunityStyles.textChattingTitle}>
-						꿀팁게시판
+						{t("tipsBoard")}
 					</Text>
 					<IconBookmark style={TipCommunityStyles.iconBookmark} />
 				</View>
@@ -131,7 +133,7 @@ const TipCommunityPage = () => {
 									paddingLeft: 40,
 								},
 							]}
-							placeholder="검색"
+							placeholder={t("searchPlaceholder")}
 							value={searchTerm}
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}
@@ -166,7 +168,7 @@ const TipCommunityPage = () => {
 						<View style={TipCommunityStyles.containerFail}>
 							<IconSearchFail />
 							<Text style={TipCommunityStyles.textFail}>
-								일치하는 검색 결과가 없습니다
+								{t("searchNoResults")}
 							</Text>
 						</View>
 					) : (
