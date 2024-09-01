@@ -9,6 +9,7 @@ import {
 	Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import NicknameStyles from "@pages/onboarding/NicknameStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
@@ -24,16 +25,14 @@ import ApplyButton from "@components/common/ApplyButton";
 import * as Sentry from "@sentry/react-native";
 
 const NicknamePage = () => {
+	const { t } = useTranslation();
+
 	const navigation = useNavigation();
 
 	const handleGoBack = () => {
 		navigation.goBack();
 	};
 
-	const loginData = [
-		"환영합니다:)",
-		"디프에서 사용할 닉네임을 입력해주세요!",
-	];
 	const [nickname, setNickname] = useState("");
 	const [nicknameValid, setNicknameValid] = useState(null);
 	const { updateOnboardingData } = useOnboarding();
@@ -94,12 +93,16 @@ const NicknamePage = () => {
 					<Progress1 />
 				</View>
 				<LoginBackground style={NicknameStyles.backgroundLogin} />
-				<Text style={NicknameStyles.textTitle}>{loginData[0]}</Text>
-				<Text style={NicknameStyles.textSubTitle}>{loginData[1]}</Text>
+				<Text style={NicknameStyles.textTitle}>
+					{t("welcomeMessage")}
+				</Text>
+				<Text style={NicknameStyles.textSubTitle}>
+					{t("nicknamePrompt")}
+				</Text>
 				<View style={NicknameStyles.containerInput}>
 					<TextInput
 						style={NicknameStyles.textInputNickname}
-						placeholder="최대 12자"
+						placeholder={t("nicknamePlaceholder")}
 						onChangeText={handleNicknameChange}
 						value={nickname}
 						maxLength={12}
@@ -117,16 +120,16 @@ const NicknamePage = () => {
 					typeof nicknameValid === "boolean" &&
 					(nicknameValid ? (
 						<Text style={NicknameStyles.textAvailableNickname}>
-							사용 가능한 닉네임이에요.
+							{t("nicknameAvailable")}
 						</Text>
 					) : (
 						<Text style={NicknameStyles.textUnavailableNickname}>
-							이미 사용 중인 닉네임이에요.
+							{t("nicknameUnavailable")}
 						</Text>
 					))}
 				<View style={NicknameStyles.buttonCheck}>
 					<ApplyButton
-						text="확인"
+						text={t("confirmButtonText")}
 						onPress={handleNicknameSubmit}
 						disabled={!nicknameValid || nickname.length === 0}
 					/>

@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import StudentVerificationErrorStyles from "@pages/onboarding/StudentVerificationErrorStyles";
 
@@ -14,6 +15,8 @@ import IconCancel from "@components/common/IconCancel";
 import IconStudentVerificationError from "@components/onboarding/IconStudentVerificationError";
 
 const StudentVerificationErrorPage = () => {
+	const { t } = useTranslation();
+
 	const navigation = useNavigation();
 
 	const handleCancel = () => {
@@ -40,7 +43,7 @@ const StudentVerificationErrorPage = () => {
 						}
 					>
 						<Text style={StudentVerificationErrorStyles.textModal}>
-							재학생 인증 오류
+							{t("studentVerificationErrorTitle")}
 						</Text>
 						<View
 							style={StudentVerificationErrorStyles.iconLoading}
@@ -48,13 +51,13 @@ const StudentVerificationErrorPage = () => {
 							<IconStudentVerificationError />
 						</View>
 						<Text style={StudentVerificationErrorStyles.textModal}>
-							재학생 인증을{"\n"}다시 한번 시도해주세요
+							{t("retryInstructions")}
 						</Text>
 						<Text
 							style={StudentVerificationErrorStyles.textMove}
 							onPress={() => navigation.navigate("Login")}
 						>
-							재학생 인증 재시도하기
+							{t("retryButtonText")}
 						</Text>
 					</View>
 				</View>

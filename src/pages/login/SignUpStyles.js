@@ -63,7 +63,7 @@ const SignUpStyles = StyleSheet.create({
 	containerError: {
 		flexDirection: "row",
 		marginTop: 8,
-		marginLeft: 25,
+		marginHorizontal: 25,
 	},
 	textError: {
 		...fontCaption,

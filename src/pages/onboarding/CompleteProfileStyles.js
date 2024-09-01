@@ -17,7 +17,7 @@ const CompleteProfileStyles = StyleSheet.create({
 		...fontHead18,
 		color: CustomTheme.primaryMedium,
 		marginTop: 12,
-		marginLeft: 24,
+		marginHorizontal: 24,
 	},
 	iconLoading: {
 		alignItems: "center",

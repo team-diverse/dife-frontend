@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import ProfileLanguageStyles from "@pages/onboarding/ProfileLanguageStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
@@ -12,6 +13,8 @@ import Checkbox from "@components/common/Checkbox";
 import ApplyButton from "@components/common/ApplyButton";
 
 const ProfileLanguagePage = () => {
+	const { t } = useTranslation();
+
 	const navigation = useNavigation();
 
 	const handleGoBack = () => {
@@ -20,18 +23,7 @@ const ProfileLanguagePage = () => {
 
 	const { onboardingData, updateOnboardingData } = useOnboarding();
 
-	const ProfileData = [
-		"프로필 생성하기",
-		`${onboardingData.username}님의 사용언어를 알려주세요!`,
-	];
-	const languages = [
-		"English / English",
-		"中文 / Chinese",
-		"日本語 / Japanese",
-		"Español / Spanish",
-		"한국어 / Korean",
-		"기타",
-	];
+	const languages = t("languages", { returnObjects: true });
 	const [isCheckedList, setIsCheckedList] = useState(
 		new Array(languages.length).fill(false),
 	);
@@ -71,10 +63,10 @@ const ProfileLanguagePage = () => {
 				<Progress5 />
 			</View>
 			<Text style={ProfileLanguageStyles.textTitle}>
-				{ProfileData[0]}
+				{t("profileCreationTitle")}
 			</Text>
 			<Text style={ProfileLanguageStyles.textSubTitle}>
-				{ProfileData[1]}
+				{t("languageSubtitle", { username: onboardingData.username })}
 			</Text>
 			<View style={ProfileLanguageStyles.containerCheckbox}>
 				{languages.map((language, index) => (
@@ -88,7 +80,7 @@ const ProfileLanguagePage = () => {
 			</View>
 			<View style={ProfileLanguageStyles.buttonCheck}>
 				<ApplyButton
-					text="다음"
+					text={t("nextButton")}
 					onPress={handleDataSave}
 					disabled={!isCheckedList.some((isChecked) => isChecked)}
 				/>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, View, FlatList } from "react-native";
 import * as SecureStore from "expo-secure-store";
+import { useTranslation } from "react-i18next";
 
 import NotificationStyles from "@pages/home/NotificationStyles.js";
 import { getNotifications } from "config/api";
@@ -10,6 +11,8 @@ import TopBar from "@components/common/TopBar";
 import NotificationCard from "@components/notification/NotificationCard.js";
 
 const NotificationPage = () => {
+	const { t } = useTranslation();
+
 	const [notificationData, setNotificationData] = useState([]);
 
 	const handleNotification = async () => {
@@ -36,7 +39,7 @@ const NotificationPage = () => {
 		<SafeAreaView
 			style={[NotificationStyles.container, { alignItems: "center" }]}
 		>
-			<TopBar topBar="알림" />
+			<TopBar topBar={t("notifications")} />
 			<FlatList
 				style={NotificationStyles.flatlist}
 				data={notificationData}

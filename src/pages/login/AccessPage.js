@@ -3,6 +3,7 @@ import { View, Text, SafeAreaView, Alert } from "react-native";
 import * as Notifications from "expo-notifications";
 import * as Linking from "expo-linking";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import AccessStyles from "@pages/login/AccessStyles";
 
@@ -14,6 +15,8 @@ import IconAccessPhone from "@components/login/IconAccessPhone";
 import GoBack from "@components/common/GoBack";
 
 const AccessPage = () => {
+	const { t } = useTranslation();
+
 	const navigation = useNavigation();
 
 	const requestPermissions = async () => {
@@ -46,45 +49,53 @@ const AccessPage = () => {
 	return (
 		<SafeAreaView style={[AccessStyles.container]}>
 			<GoBack />
-			<Text style={AccessStyles.textTitle}>앱 서비스 접근 권한 허용</Text>
+			<Text style={AccessStyles.textTitle}>{t("accessPageTitle")}</Text>
 			<View style={AccessStyles.containerContent}>
 				<IconAccessPhone />
 				<View style={AccessStyles.containerText}>
 					<Text style={AccessStyles.textSubTitle}>
-						기기정보 및 ID
+						{t("accessPhoneSubtitle")}
 					</Text>
 					<Text style={AccessStyles.textId}>
-						재학생 인증 및 오류 확인
+						{t("accessPhoneDescription")}
 					</Text>
 				</View>
 			</View>
 			<View style={AccessStyles.containerContent}>
 				<IconAccessNotification />
 				<View style={AccessStyles.containerText}>
-					<Text style={AccessStyles.textSubTitle}>알림(선택)</Text>
+					<Text style={AccessStyles.textSubTitle}>
+						{t("accessNotificationSubtitle")}
+					</Text>
 					<Text style={AccessStyles.textId}>
-						푸시 알림 및 수신 안내
+						{t("accessNotificationDescription")}
 					</Text>
 				</View>
 			</View>
 			<View style={AccessStyles.containerContent}>
 				<IconAccessImage />
 				<View style={AccessStyles.containerText}>
-					<Text style={AccessStyles.textSubTitle}>저장공간</Text>
-					<Text style={AccessStyles.textId}>사진 및 정보 저장</Text>
+					<Text style={AccessStyles.textSubTitle}>
+						{t("accessImageSubtitle")}
+					</Text>
+					<Text style={AccessStyles.textId}>
+						{t("accessImageDescription")}
+					</Text>
 				</View>
 			</View>
 			<View style={AccessStyles.containerContent}>
 				<IconAccessCamera />
 				<View style={AccessStyles.containerText}>
-					<Text style={AccessStyles.textSubTitle}>카메라</Text>
-					<Text style={AccessStyles.textId}>사진 업로드</Text>
+					<Text style={AccessStyles.textSubTitle}>
+						{t("accessCameraSubtitle")}
+					</Text>
+					<Text style={AccessStyles.textId}>
+						{t("accessCameraDescription")}
+					</Text>
 				</View>
 			</View>
 			<View style={AccessStyles.guide}>
-				<Text style={AccessStyles.textGuide}>
-					권한을 허용하지 않을 시 Dife 서비스 이용이 어렵습니다.
-				</Text>
+				<Text style={AccessStyles.textGuide}>{t("guideText")}</Text>
 			</View>
 			<View style={AccessStyles.applyButton}>
 				<ApplyButton text="확인" access="true" onPress={handlePress} />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import {
@@ -19,6 +20,7 @@ import * as Sentry from "@sentry/react-native";
 const { fontCaption } = CustomTheme;
 
 const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [modalVisible, setModalVisible] = useState(false);
@@ -82,6 +84,9 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 		}
 	};
 
+	const translation = t("connectRequestConfirmation", { username: name });
+
+	const [beforeUsername, afterUsername] = translation.split(name);
 	return (
 		<View style={styles.rectangle}>
 			<View style={styles.homecardDifeB}>
@@ -96,26 +101,32 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 						})
 					}
 				>
-					<Text style={styles.viewProfile}>프로필 상세보기</Text>
+					<Text style={styles.viewProfile}>
+						{t("viewProfileText")}
+					</Text>
 				</TouchableOpacity>
 				<View style={styles.addFriendOk}>
 					<Text style={styles.textConnect}>
-						<Text style={styles.textNameBold}>{name}</Text>에게
-						{"\n"}커넥트 요청하시겠습니까?
+						<Text>{beforeUsername}</Text>
+						<Text style={styles.textNameBold}>{name}</Text>
+						<Text>{afterUsername}</Text>
 					</Text>
 				</View>
 			</View>
 			<View style={styles.homecardBackBtn}>
-				<HomecardBackBtn btnText="아니오" onPress={onPress} />
+				<HomecardBackBtn
+					btnText={t("noButtonText")}
+					onPress={onPress}
+				/>
 				<HomecardBackBtn
 					btnText={
 						connectStatus === undefined
-							? "커넥트 요청"
+							? t("requestButtonText")
 							: connectStatus === "PENDING"
 								? requestSent
-									? "요청 취소"
-									: "요청 수락"
-								: "커넥트 취소"
+									? t("cancelRequestButtonText")
+									: t("acceptRequestButtonText")
+								: t("cancelConnectButtonText")
 					}
 					onPress={pressButton}
 				/>
@@ -123,6 +134,8 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 			<ConnectRequest
 				modalVisible={modalVisible}
 				setModalVisible={setModalVisible}
+				textLoading={t("emailSendingText")}
+				textComplete={t("emailSentText")}
 			/>
 		</View>
 	);
@@ -161,6 +174,7 @@ const styles = StyleSheet.create({
 		lineHeight: 16,
 		fontFamily: "NotoSansCJKkr-Regular",
 		textAlign: "center",
+		marginHorizontal: 30,
 	},
 	textNameBold: {
 		fontFamily: "NotoSansCJKkr-Bold",

@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import * as Notifications from "expo-notifications";
 import * as SecureStore from "expo-secure-store";
+import { I18nextProvider } from "react-i18next";
+import i18n from "src/i18n.js";
 
 import { OnboardingProvider } from "src/states/OnboardingContext.js";
 import { PostModifyProvider } from "src/states/PostModifyContext";
@@ -160,9 +162,11 @@ function MainTabs() {
 function App() {
 	return (
 		<AuthProvider>
-			<NavigationContainer>
-				<AppContent />
-			</NavigationContainer>
+			<I18nextProvider i18n={i18n}>
+				<NavigationContainer>
+					<AppContent />
+				</NavigationContainer>
+			</I18nextProvider>
 		</AuthProvider>
 	);
 }

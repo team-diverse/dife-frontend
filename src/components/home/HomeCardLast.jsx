@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
@@ -10,6 +11,7 @@ import IconTwoUsers from "@components/home/IconTwoUsers";
 const { fontCaption, fontButton } = CustomTheme;
 
 const HomeCardLast = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	return (
@@ -22,14 +24,14 @@ const HomeCardLast = () => {
 					<IconTwoUsers />
 				</View>
 				<Text style={styles.textMoreProfile}>
-					커넥트 페이지에서{"\n"}더 많은 프로필을 탐색할 수 있어요!
+					{t("moreProfilesText")}
 				</Text>
 				<TouchableOpacity
 					style={styles.buttonAddProfile}
 					onPress={() => navigation.navigate("Connect")}
 				>
 					<Text style={styles.textAddProfile}>
-						더 많은 프로필 탐색하기
+						{t("exploreProfilesButton")}
 					</Text>
 				</TouchableOpacity>
 			</View>
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
 	},
 	homeProfile: {
 		position: "absolute",
-		left: 20,
+		marginHorizontal: 20,
 		top: 20,
 	},
 	containerImage: {
