@@ -40,7 +40,7 @@ const HomeCardFront = ({
 						numberOfLines={1}
 						ellipsizeMode="tail"
 					>
-						<Text style={styles.textName}>{name}</Text>| {country}
+						<Text style={styles.textName}>{name}</Text> | {country}
 					</Text>
 				</View>
 			</View>
