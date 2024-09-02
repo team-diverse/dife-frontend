@@ -276,5 +276,116 @@
 	"profileShare": "Share Profile",
 	"shareError": "Profile sharing is not available on this device.",
 	"reportGroupProfile": "Report Group Profile",
-	"reportIndividualProfile": "Report Individual Profile"
+	"reportIndividualProfile": "Report Individual Profile",
+
+	"blockManagement": "Block Management",
+	"blockList": "Block List",
+
+	"bookmarkedPosts": "Bookmarked Posts",
+
+	"connectList": "Connect List",
+	"friend": "Friend",
+	"connectRequest": "Connect Request",
+
+	"defaultLanguageSettings": "Default Language Settings",
+	"english": "English",
+	"chinese": "Chinese",
+	"japanese": "Japanese",
+	"spanish": "Spanish",
+	"korean": "Korean",
+
+	"deleteMember": "Delete Member",
+	"confirmDeleteMember": "Are you sure you want to delete your account?\nWe will miss you.",
+	"postDeletionNotice": "When you delete your account, all posts will be anonymized, and all activities including comments, bookmarks, and likes will be removed.",
+	"accountDeletionNotice": "Account deletion including detailed information will be completed within a week, and you cannot re-register with the same email until deletion is complete.",
+	"reasonTitle": "Please let us know why you are leaving dife",
+	"reasonOptions": {
+		"unpleasantUser": "Unpleasant User Interaction",
+		"serviceNeedDecrease": "Decrease in Service Need",
+		"privacyConcerns": "Safety and Privacy Concerns",
+		"serviceQuality": "Service Quality Below Expectations",
+		"other": "Other",
+		"pleaseSelect": "Please Select"
+	},
+
+	"groupList": "Group List",
+	"myGroups": "My Created Groups",
+	"joinedGroups": "My Joined Groups",
+
+	"inquiry": "1:1 Inquiry",
+	"emailInquiry": "Email Inquiry",
+	"emailDescription": "Please send your issue to dife email",
+	"contactEmail": "dife.teamdiverse@gmail.com",
+
+	"likedPosts": "Liked Posts",
+
+	"myPosts": "My Posts",
+	"profileEdit": "Edit Profile",
+
+	"subject": "Subject",
+
+	"groupProfileTitle": "Group Profile Photo",
+	"groupInfoTitle": "Group Info",
+	"groupName": "Group Name",
+	"edit": "Edit",
+	"subjectAndPurpose": "Subject/Purpose",
+	"publicStatus": "Public Status",
+	"basicInfo": "Basic Info",
+	"maxCount": "Max Count",
+	"currentCount": "Current Count",
+
+	"nickname": "Nickname",
+	"selectNone": "Select None",
+
+	"profileSettings": "Profile Settings",
+	"profileInfo": "Profile Info",
+	"id": "ID",
+	"major": "Major",
+
+	"myWritePosts": "My Written Posts",
+	"myComments": "My Comments",
+
+	"receivedRequests": "Received Requests",
+	"sentRequests": "Sent Requests",
+	"logoutConfirmation": "Do you want to log out?",
+	"security": "Security",
+	"profilePrivacy": "Profile Privacy",
+	"logout": "Log Out",
+	"deleteAccount": "Delete Account",
+
+	"notificationPermissionAlert": "Please {{action}} notification permissions in settings",
+	"notificationPermissionEnable": "enable",
+	"notificationPermissionDisable": "disable",
+	"notificationEnable": "Notification feature has been enabled.",
+	"notificationDisable": "Notification permissions have been denied.",
+	"settings": "Settings",
+	"accountManagement": "Account Management",
+	"pushNotifications": "Push Notifications",
+	"customerSupport": "Customer Support",
+	"serviceNews": "Service News",
+	"termsPrivacy": "Privacy Policy and Terms of Use",
+
+	"terms": {
+		"title": "Policy and Privacy Collection Information",
+		"subTitle": "Our app complies with the following content policies and privacy practices to ensure a safe and pleasant experience for users.",
+		"policy": "1. Content Policy Our app strictly prohibits content that is offensive, unpleasant, or hateful.",
+		"policyContent": "Therefore, the following types of content are strictly prohibited: Discriminatory or malicious content, defamation or discriminatory mentions or descriptions of religious, racial, sexual orientation, gender, ethnicity/race, or other specific groups. Content that may insult, threaten, or harm individuals or groups. Violent and cruel content, realistic depiction or encouragement of murder, mutilation, torture, or abuse. Violent expressions targeting specific races, cultures, governments, corporations, etc. Illegal encouragement of weapons and hazardous materials, content promoting the illegal or reckless use of weapons and hazardous materials or inducing the purchase of firearms or ammunition. Sexual content, public or pornographic materials including explicit depiction or expression of sexual organs or acts. Religious incitement and misleading content, incitement of religious interpretations or inaccurate or misleading quotes from scriptures. False information and deception, false information and features including inaccurate device data, fake location trackers, etc. Exploitation of recent events or current issues, content that exploits recent events or current issues like violent conflicts, terrorist attacks, epidemics for profit.",
+		"privacy": "2. Collection and Use of Personal Information Our app collects and uses personal information for the following purposes:",
+		"privacyContent": "Collection and Use Purposes: To provide personalized matching services and optimize app functionality. Collection Items: Profile information, activity data, location information, etc. Privacy Settings: If a member sets their profile to private, the profile will not be visible to others. This is a feature to protect user privacy. Push Notifications: Push notifications may be used to provide important alerts, updates, and personalized recommendations. User Activity Tracking: User activity data may be tracked to improve service quality and provide personalized recommendations.",
+		"accountDeletion": "3. Account Deletion and Information Removal Upon request for account deletion, all member information will be completely removed within a week from the request date.",
+		"accountDeletionContent": "Deleted information cannot be restored, so please backup any necessary data before deletion. Note: Chats left in chat rooms, comments left on posts, and posts written by you may still be visible through the bookmarks of other users if they have bookmarked them. Please be aware of this."
+	},
+
+	"blocked": "Blocked",
+
+	"accept": "Accept",
+	"reject": "Reject",
+	"pending": "Pending",
+
+	"removeBlock": "Remove Block",
+
+	"blockAlertMessage": "'{{name}}'\nDo you want to block this user?",
+	"blockSuccessMessage": "'{{name}}'\nUser has been blocked.",
+	"connectCancelAlertMessage": "'{{name}}'\nDo you want to cancel the connect request?",
+	"connectCancelSuccessMessage": "'{{name}}'\nConnect request has been canceled."
 }

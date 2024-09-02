@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import ModifyGroupProfileStyles from "@pages/member/ModifyGroupProfileStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -22,6 +23,7 @@ import Loading from "@components/common/loading/Loading";
 import * as Sentry from "@sentry/react-native";
 
 const ModifyGroupProfilePage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	// const { groupId } = route.params;
@@ -56,7 +58,10 @@ const ModifyGroupProfilePage = () => {
 		const { status } =
 			await ImagePicker.requestMediaLibraryPermissionsAsync();
 		if (status !== "granted") {
-			Alert.alert("알림", "설정에서 이미지 권한을 허용해주세요.");
+			Alert.alert(
+				t("imagePermissionAlertTitle"),
+				t("imagePermissionAlertMessage"),
+			);
 			return;
 		}
 
@@ -102,14 +107,14 @@ const ModifyGroupProfilePage = () => {
 	return (
 		<SafeAreaView style={ModifyGroupProfileStyles.container}>
 			<TopBar
-				topBar="그룹 설정"
+				topBar={t("groupProfileTitle")}
 				color="#000"
 				backgroundColor={CustomTheme.primaryBg}
 			/>
 
 			<View style={{ marginTop: 14 }}>
 				<Text style={ModifyGroupProfileStyles.textTitle}>
-					그룹 프로필 사진
+					{t("groupProfileTitle")}
 				</Text>
 				<View style={ModifyGroupProfileStyles.containerProfileImage}>
 					<View style={ModifyGroupProfileStyles.modifyKBackground}>
@@ -134,7 +139,7 @@ const ModifyGroupProfilePage = () => {
 				</View>
 
 				<Text style={ModifyGroupProfileStyles.textTitle}>
-					그룹 정보
+					{t("groupInfoTitle")}
 				</Text>
 				<View style={ModifyGroupProfileStyles.containerBackgroundWhite}>
 					<TouchableOpacity
@@ -147,7 +152,7 @@ const ModifyGroupProfilePage = () => {
 						]}
 						onPress={() =>
 							navigation.navigate("ModifyGroupProfileInputPage", {
-								title: "그룹 이름",
+								title: t("groupName"),
 								nicknameContent: profile.name,
 								profileData: profile,
 							})
@@ -160,7 +165,7 @@ const ModifyGroupProfilePage = () => {
 									{ marginBottom: 0 },
 								]}
 							>
-								그룹 이름
+								{t("groupName")}
 							</Text>
 							<Text
 								style={[
@@ -172,7 +177,7 @@ const ModifyGroupProfilePage = () => {
 							</Text>
 						</View>
 						<Text style={ModifyGroupProfileStyles.textModify}>
-							수정
+							{t("edit")}
 						</Text>
 					</TouchableOpacity>
 
@@ -180,7 +185,7 @@ const ModifyGroupProfilePage = () => {
 						style={ModifyGroupProfileStyles.backgroundWhite}
 						onPress={() =>
 							navigation.navigate("ModifyGroupProfileInputPage", {
-								title: "한줄소개",
+								title: t("bio"),
 								bioContent: profile.description,
 								profileData: profile,
 							})
@@ -188,10 +193,10 @@ const ModifyGroupProfilePage = () => {
 					>
 						<View style={ModifyGroupProfileStyles.containerRowText}>
 							<Text style={ModifyGroupProfileStyles.textSubTitle}>
-								한줄소개
+								{t("bio")}
 							</Text>
 							<Text style={ModifyGroupProfileStyles.textModify}>
-								수정
+								{t("edit")}
 							</Text>
 						</View>
 						<Text style={ModifyGroupProfileStyles.textContent}>
@@ -203,7 +208,7 @@ const ModifyGroupProfilePage = () => {
 						style={ModifyGroupProfileStyles.backgroundWhite}
 						onPress={() =>
 							navigation.navigate("ModifyGroupProfileInputPage", {
-								title: "주제/유형",
+								title: t("subjectAndPurpose"),
 								hobbiesContent: profile.hobbies,
 								purposesContent: profile.purposes,
 								profileData: profile,
@@ -212,10 +217,10 @@ const ModifyGroupProfilePage = () => {
 					>
 						<View style={ModifyGroupProfileStyles.containerRowText}>
 							<Text style={ModifyGroupProfileStyles.textSubTitle}>
-								주제/유형
+								{t("subjectAndPurpose")}
 							</Text>
 							<Text style={ModifyGroupProfileStyles.textModify}>
-								수정
+								{t("edit")}
 							</Text>
 						</View>
 						<View
@@ -238,7 +243,7 @@ const ModifyGroupProfilePage = () => {
 						style={ModifyGroupProfileStyles.backgroundWhite}
 						onPress={() =>
 							navigation.navigate("ModifyGroupProfileInputPage", {
-								title: "언어",
+								title: t("language"),
 								languageContent: profile.languages,
 								profileData: profile,
 							})
@@ -246,10 +251,10 @@ const ModifyGroupProfilePage = () => {
 					>
 						<View style={ModifyGroupProfileStyles.containerRowText}>
 							<Text style={ModifyGroupProfileStyles.textSubTitle}>
-								언어
+								{t("language")}
 							</Text>
 							<Text style={ModifyGroupProfileStyles.textModify}>
-								수정
+								{t("edit")}
 							</Text>
 						</View>
 						<View
@@ -272,7 +277,7 @@ const ModifyGroupProfilePage = () => {
 						style={ModifyGroupProfileStyles.backgroundWhite}
 						onPress={() =>
 							navigation.navigate("ModifyGroupProfileInputPage", {
-								title: "공개여부",
+								title: t("publicStatus"),
 								isPublicContent: profile.isPublic,
 								profileData: profile,
 							})
@@ -280,10 +285,10 @@ const ModifyGroupProfilePage = () => {
 					>
 						<View style={ModifyGroupProfileStyles.containerRowText}>
 							<Text style={ModifyGroupProfileStyles.textSubTitle}>
-								공개여부
+								{t("publicStatus")}
 							</Text>
 							<Text style={ModifyGroupProfileStyles.textModify}>
-								수정
+								{t("edit")}
 							</Text>
 						</View>
 						<View
@@ -292,7 +297,7 @@ const ModifyGroupProfilePage = () => {
 							}
 						>
 							<Text style={ModifyGroupProfileStyles.textContent}>
-								{"공개"}
+								{profile.isPublic ? t("public") : t("private")}
 							</Text>
 						</View>
 					</TouchableOpacity>
@@ -301,7 +306,7 @@ const ModifyGroupProfilePage = () => {
 						style={ModifyGroupProfileStyles.backgroundWhite}
 						onPress={() =>
 							navigation.navigate("ModifyGroupProfileInputPage", {
-								title: "인원 제한",
+								title: t("maxCount"),
 								// countContent: profile.count,
 								maxCountContent: profile.maxCount,
 								profileData: profile,
@@ -319,7 +324,7 @@ const ModifyGroupProfilePage = () => {
 										ModifyGroupProfileStyles.textSubTitle
 									}
 								>
-									기본정보
+									{t("basicInfo")}
 								</Text>
 								<View>
 									<View
@@ -332,7 +337,7 @@ const ModifyGroupProfilePage = () => {
 												ModifyGroupProfileStyles.textBasicInfo
 											}
 										>
-											인원제한
+											{t("maxCount")}
 										</Text>
 										<Text
 											style={
@@ -352,7 +357,7 @@ const ModifyGroupProfilePage = () => {
 												ModifyGroupProfileStyles.textBasicInfo
 											}
 										>
-											참여인원
+											{t("currentCount")}
 										</Text>
 										<Text
 											style={
@@ -365,7 +370,7 @@ const ModifyGroupProfilePage = () => {
 								</View>
 							</View>
 							<Text style={ModifyGroupProfileStyles.textModify}>
-								수정
+								{t("edit")}
 							</Text>
 						</View>
 					</TouchableOpacity>

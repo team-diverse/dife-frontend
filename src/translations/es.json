@@ -276,5 +276,117 @@
 	"profileShare": "Compartir Perfil",
 	"shareError": "La función de compartir perfil no está disponible en este dispositivo.",
 	"reportGroupProfile": "Reportar Perfil de Grupo",
-	"reportIndividualProfile": "Reportar Perfil Individual"
+	"reportIndividualProfile": "Reportar Perfil Individual",
+
+	"blockManagement": "Gestión de Bloqueos",
+	"blockList": "Lista de Bloqueos",
+
+	"bookmarkedPosts": "Publicaciones Marcadas",
+
+	"connectList": "Lista de Conexiones",
+	"friend": "Amigo",
+	"connectRequest": "Solicitud de Conexión",
+
+	"defaultLanguageSettings": "Configuración de Idioma Predeterminada",
+	"english": "Inglés / English",
+	"chinese": "Chino / Chinese",
+	"japanese": "Japonés / Japanese",
+	"spanish": "Español / Spanish",
+	"korean": "Coreano / Korean",
+
+	"deleteMember": "Eliminar Miembro",
+	"confirmDeleteMember": "¿Está seguro de que desea eliminar su cuenta?\nLe echaremos de menos.",
+	"postDeletionNotice": "Cuando elimine su cuenta, todas las publicaciones se anonimizan y todas las actividades, incluidos comentarios, marcadores y 'me gusta', se eliminarán.",
+	"accountDeletionNotice": "La eliminación de la cuenta, incluida la información detallada, se completará dentro de una semana, y no podrá volver a registrarse con el mismo correo electrónico hasta que se complete la eliminación.",
+	"reasonTitle": "Por favor, infórmenos por qué se está yendo de dife",
+	"reasonOptions": {
+		"unpleasantUser": "Interacción con Usuario Desagradable",
+		"serviceNeedDecrease": "Disminución de la Necesidad del Servicio",
+		"privacyConcerns": "Preocupaciones de Seguridad y Privacidad",
+		"serviceQuality": "Calidad del Servicio Inferior a las Expectativas",
+		"other": "Otro",
+		"pleaseSelect": "Por favor seleccione"
+	},
+
+	"groupList": "Lista de Grupos",
+	"myGroups": "Mis Grupos Creados",
+	"joinedGroups": "Mis Grupos Unidos",
+
+	"inquiry": "Consulta 1:1",
+	"emailInquiry": "Consulta por Correo Electrónico",
+	"emailDescription": "Envíe su problema al correo electrónico de dife",
+	"contactEmail": "dife.teamdiverse@gmail.com",
+
+	"likedPosts": "Publicaciones que Me Gusta",
+
+	"myPosts": "Mis Publicaciones",
+	"profileEdit": "Editar Perfil",
+
+	"subject": "Tema",
+
+	"groupProfileTitle": "Foto de Perfil del Grupo",
+	"groupInfoTitle": "Información del Grupo",
+	"groupName": "Nombre del Grupo",
+	"edit": "Editar",
+	"subjectAndPurpose": "Tema/Propósito",
+	"publicStatus": "Estado Público",
+	"basicInfo": "Información Básica",
+	"maxCount": "Número Máximo",
+	"currentCount": "Número Actual",
+
+	"nickname": "Apodo",
+	"selectNone": "No Seleccionar",
+
+	"profileSettings": "Configuración del Perfil",
+	"profileInfo": "Información del Perfil",
+	"id": "ID",
+	"major": "Especialidad",
+
+	"myWritePosts": "Mis Publicaciones Escritas",
+	"myComments": "Mis Comentarios",
+
+	"receivedRequests": "Solicitudes Recibidas",
+	"sentRequests": "Solicitudes Enviadas",
+
+	"logoutConfirmation": "¿Desea cerrar sesión?",
+	"security": "Seguridad",
+	"profilePrivacy": "Privacidad del Perfil",
+	"logout": "Cerrar Sesión",
+	"deleteAccount": "Eliminar Cuenta",
+
+	"notificationPermissionAlert": "Por favor {{action}} los permisos de notificación en la configuración",
+	"notificationPermissionEnable": "habilítelos.",
+	"notificationPermissionDisable": "desactívelos.",
+	"notificationEnable": "La función de notificación ha sido activada.",
+	"notificationDisable": "Los permisos de notificación han sido rechazados.",
+	"settings": "Configuración",
+	"accountManagement": "Gestión de Cuenta",
+	"pushNotifications": "Notificaciones Push",
+	"customerSupport": "Soporte al Cliente",
+	"serviceNews": "Noticias del Servicio",
+	"termsPrivacy": "Política de Privacidad y Términos de Uso",
+
+	"terms": {
+		"title": "Política de Uso de la Aplicación y Recopilación de Información Personal",
+		"subTitle": "Nuestra aplicación cumple con las siguientes políticas de contenido y prácticas de privacidad para garantizar una experiencia segura y agradable para los usuarios.",
+		"policy": "1. Política de Contenidos Nuestra aplicación prohíbe estrictamente el contenido ofensivo, desagradable o que incite al odio.",
+		"policyContent": "Por lo tanto, los siguientes tipos de contenido están estrictamente prohibidos: Contenido discriminatorio o malicioso, menciones o descripciones difamatorias o discriminatorias sobre religión, raza, orientación sexual, género, etnicidad/raza o otros grupos específicos. Contenido que pueda insultar, amenazar o dañar a individuos o grupos. Contenido violento y cruel, representación realista o fomento del asesinato, mutilación, tortura o abuso. Expresiones violentas dirigidas a razas, culturas, gobiernos, corporaciones específicas, etc. Fomento ilegal de armas y materiales peligrosos, contenido que promueva el uso ilegal o imprudente de armas y materiales peligrosos o que induzca la compra de armas de fuego o municiones. Contenido sexual, materiales públicos o pornográficos que incluyan representaciones o descripciones explícitas de órganos sexuales o actos sexuales. Incitación religiosa y contenido engañoso, interpretaciones religiosas incitadoras o citas incorrectas o engañosas de escrituras. Información falsa y engaño, información y características falsas que incluyan datos incorrectos del dispositivo, rastreadores de ubicación falsos, etc. Uso perjudicial de eventos recientes o temas de actualidad, contenido que explote eventos recientes o temas de actualidad como conflictos violentos, ataques terroristas, pandemias, etc. para obtener beneficios.",
+		"privacy": "2. Recopilación y Uso de Información Personal Nuestra aplicación recopila y usa información personal para los siguientes propósitos:",
+		"privacyContent": "Propósito de recopilación y uso: Recopilamos y usamos la información personal para ofrecer servicios de coincidencia personalizados y optimizar las funciones de la aplicación. Elementos recopilados: Información del perfil, datos de actividades, información de ubicación, etc. Configuración de privacidad: Si un miembro establece su perfil como privado, ese perfil no será visible para otros. Esta es una función para proteger la privacidad del usuario. Notificaciones Push: Las notificaciones push pueden usarse para proporcionar notificaciones importantes, actualizaciones y recomendaciones personalizadas. Seguimiento de la Actividad del Usuario: Se puede realizar un seguimiento de los datos de actividad del usuario para mejorar la calidad del servicio y ofrecer recomendaciones personalizadas.",
+		"accountDeletion": "3. Eliminación de Cuenta y Eliminación de Información Cuando se solicita la eliminación de la cuenta, toda la información del miembro se eliminará completamente dentro de una semana a partir de la fecha de la solicitud.",
+		"accountDeletionContent": "La información eliminada no se puede recuperar, así que asegúrese de hacer una copia de seguridad de los datos necesarios antes de eliminar su cuenta. Nota: Las conversaciones dejadas en las salas de chat, los comentarios dejados en las publicaciones y las publicaciones escritas que otros usuarios han marcado como favoritas pueden seguir apareciendo a través de las colecciones de esos usuarios. Tenga en cuenta esto."
+	},
+
+	"blocked": "Bloqueado",
+
+	"accept": "Aceptar",
+	"reject": "Rechazar",
+	"pending": "Pendiente",
+
+	"removeBlock": "Eliminar Bloqueo",
+
+	"blockAlertMessage": "'{{name}}'\n¿Está seguro de que desea bloquear a este usuario?",
+	"blockSuccessMessage": "'{{name}}'\nEl usuario ha sido bloqueado.",
+	"connectCancelAlertMessage": "'{{name}}'\n¿Está seguro de que desea cancelar la solicitud de conexión?",
+	"connectCancelSuccessMessage": "'{{name}}'\nLa solicitud de conexión ha sido cancelada."
 }

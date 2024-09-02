@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Notifications from "expo-notifications";
+import { useTranslation } from "react-i18next";
 
 import SettingStyles from "@pages/member/SettingStyles";
 
@@ -28,6 +29,7 @@ import IconSwitchOff from "@components/member/IconSwitchOff";
 import IconSettingLanguage from "@components/member/IconSettingLanguage";
 
 const SettingPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [switchOn, setSwitchOn] = useState(false);
@@ -63,35 +65,52 @@ const SettingPage = () => {
 	const handleSwitch = async () => {
 		if (switchOn) {
 			if (Platform.OS === "ios") {
-				Alert.alert("알림", "설정에서 알림 권한을 꺼주세요.", [
-					{
-						text: "확인",
-						onPress: () => {
-							Linking.openURL("app-settings:");
+				Alert.alert(
+					t("notifications"),
+					t("notificationPermissionAlert", {
+						action: t("notificationPermissionDisable"),
+					}),
+					[
+						{
+							text: t("confirmButtonText"),
+							onPress: () => {
+								Linking.openURL("app-settings:");
+							},
 						},
-					},
-				]);
+					],
+				);
 			} else {
-				Alert.alert("알림", "설정에서 알림 권한을 꺼주세요.");
+				Alert.alert(
+					t("notifications"),
+					t("notificationPermissionAlert", {
+						action: t("notificationPermissionDisable"),
+					}),
+				);
 			}
 		} else {
 			if (Platform.OS === "ios") {
-				Alert.alert("알림", "설정에서 알림 권한을 켜주세요.", [
-					{
-						text: "확인",
-						onPress: () => {
-							Linking.openURL("app-settings:");
+				Alert.alert(
+					t("notifications"),
+					t("notificationPermissionAlert", {
+						action: t("notificationPermissionEnable"),
+					}),
+					[
+						{
+							text: t("confirmButtonText"),
+							onPress: () => {
+								Linking.openURL("app-settings:");
+							},
 						},
-					},
-				]);
+					],
+				);
 			} else {
 				const { status } =
 					await Notifications.requestPermissionsAsync();
 				if (status === "granted") {
-					Alert.alert("알림", "알림 기능이 활성화되었습니다.");
+					Alert.alert(t("notifications"), t("notificationEnable"));
 					setSwitchOn(true);
 				} else {
-					Alert.alert("알림", "알림 권한이 거부되었습니다.");
+					Alert.alert(t("notifications"), t("notificationDisable"));
 					setSwitchOn(false);
 				}
 			}
@@ -100,11 +119,13 @@ const SettingPage = () => {
 
 	return (
 		<SafeAreaView style={SettingStyles.container}>
-			<TopBar topBar="설정" color="#000" />
+			<TopBar topBar={t("settings")} color="#000" />
 
 			<View style={{ marginTop: 10 }}>
 				<View style={SettingStyles.containerTitle}>
-					<Text style={SettingStyles.textTitle}>계정 관리</Text>
+					<Text style={SettingStyles.textTitle}>
+						{t("accountManagement")}
+					</Text>
 				</View>
 				<TouchableOpacity
 					style={SettingStyles.containerContent}
@@ -113,7 +134,7 @@ const SettingPage = () => {
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingProfile />
 						<Text style={SettingStyles.textContent}>
-							프로필 설정
+							{t("profileSettings")}
 						</Text>
 					</View>
 					<ArrowRight
@@ -131,7 +152,9 @@ const SettingPage = () => {
 						<View style={{ marginHorizontal: 2 }}>
 							<IconSettingSecurity />
 						</View>
-						<Text style={SettingStyles.textContent}>보안</Text>
+						<Text style={SettingStyles.textContent}>
+							{t("security")}
+						</Text>
 					</View>
 					<ArrowRight
 						color="#B0D0FF"
@@ -146,7 +169,9 @@ const SettingPage = () => {
 				>
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingBlocks />
-						<Text style={SettingStyles.textContent}>차단 관리</Text>
+						<Text style={SettingStyles.textContent}>
+							{t("blockManagement")}
+						</Text>
 					</View>
 					<ArrowRight
 						color="#B0D0FF"
@@ -162,7 +187,7 @@ const SettingPage = () => {
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingLanguage />
 						<Text style={SettingStyles.textContent}>
-							기본 언어 설정
+							{t("defaultLanguageSettings")}
 						</Text>
 					</View>
 					<ArrowRight
@@ -175,7 +200,9 @@ const SettingPage = () => {
 				<View style={SettingStyles.containerContent}>
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingNotify />
-						<Text style={SettingStyles.textContent}>푸쉬 알림</Text>
+						<Text style={SettingStyles.textContent}>
+							{t("pushNotifications")}
+						</Text>
 					</View>
 					<TouchableOpacity onPress={handleSwitch}>
 						{switchOn ? <IconSwitchOn /> : <IconSwitchOff />}
@@ -183,7 +210,9 @@ const SettingPage = () => {
 				</View>
 
 				<View style={SettingStyles.containerTitle}>
-					<Text style={SettingStyles.textTitle}>고객 지원</Text>
+					<Text style={SettingStyles.textTitle}>
+						{t("customerSupport")}
+					</Text>
 				</View>
 				<TouchableOpacity
 					style={SettingStyles.containerContent}
@@ -191,7 +220,9 @@ const SettingPage = () => {
 				>
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingInquiry />
-						<Text style={SettingStyles.textContent}>1:1 문의</Text>
+						<Text style={SettingStyles.textContent}>
+							{t("inquiry")}
+						</Text>
 					</View>
 					<ArrowRight
 						color="#B0D0FF"
@@ -204,7 +235,7 @@ const SettingPage = () => {
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingSeviceNews />
 						<Text style={SettingStyles.textContent}>
-							서비스 소식
+							{t("serviceNews")}
 						</Text>
 					</View>
 					<ArrowRight
@@ -221,7 +252,7 @@ const SettingPage = () => {
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingTrems />
 						<Text style={SettingStyles.textContent}>
-							개인정보 처리방침 및 이용약관
+							{t("termsPrivacy")}
 						</Text>
 					</View>
 					<ArrowRight

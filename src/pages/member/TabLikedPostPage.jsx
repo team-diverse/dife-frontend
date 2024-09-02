@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import TabLikedPostStyles from "@pages/member/TabLikedPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -13,6 +14,7 @@ import ArrowRight from "@components/common/ArrowRight";
 import * as Sentry from "@sentry/react-native";
 
 const TabLikedPostPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [likedPostList, setLikedPostList] = useState([]);
@@ -41,12 +43,16 @@ const TabLikedPostPage = () => {
 	return (
 		<View style={TabLikedPostStyles.container}>
 			<View style={TabLikedPostStyles.containerTitle}>
-				<Text style={TabLikedPostStyles.textTitle}>좋아요 누른 글</Text>
+				<Text style={TabLikedPostStyles.textTitle}>
+					{t("likedPosts")}
+				</Text>
 				<TouchableOpacity
 					style={TabLikedPostStyles.containerMore}
 					onPress={() => navigation.navigate("LikedPostPage")}
 				>
-					<Text style={TabLikedPostStyles.textMore}>더보기</Text>
+					<Text style={TabLikedPostStyles.textMore}>
+						{t("moreButton")}
+					</Text>
 					<ArrowRight
 						style={TabLikedPostStyles.iconArrowRight}
 						color={CustomTheme.textSecondary}

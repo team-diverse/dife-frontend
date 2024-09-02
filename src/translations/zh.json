@@ -276,5 +276,117 @@
 	"profileShare": "分享资料",
 	"shareError": "该设备无法使用资料分享功能。",
 	"reportGroupProfile": "举报群组资料",
-	"reportIndividualProfile": "举报个人资料"
+	"reportIndividualProfile": "举报个人资料",
+
+	"blockManagement": "阻止管理",
+	"blockList": "阻止列表",
+
+	"bookmarkedPosts": "收藏的帖子",
+
+	"connectList": "连接列表",
+	"friend": "朋友",
+	"connectRequest": "连接请求",
+
+	"defaultLanguageSettings": "默认语言设置",
+	"english": "英语 / English",
+	"chinese": "中文 / Chinese",
+	"japanese": "日语 / Japanese",
+	"spanish": "西班牙语 / Spanish",
+	"korean": "韩语 / Korean",
+
+	"deleteMember": "删除会员",
+	"confirmDeleteMember": "您确定要删除账户吗？\n我们会很想念您。",
+	"postDeletionNotice": "删除账户时，所有帖子将被匿名处理，所有活动，包括评论、收藏和点赞，将被删除。",
+	"accountDeletionNotice": "账户删除，包括详细信息，将在一周内完成，在删除完成之前，您不能使用相同的电子邮件重新注册。",
+	"reasonTitle": "请告诉我们您离开dife的原因",
+	"reasonOptions": {
+		"unpleasantUser": "不愉快的用户互动",
+		"serviceNeedDecrease": "服务需求减少",
+		"privacyConcerns": "安全和隐私担忧",
+		"serviceQuality": "服务质量未达预期",
+		"other": "其他",
+		"pleaseSelect": "请选择"
+	},
+
+	"groupList": "小组列表",
+	"myGroups": "我创建的小组",
+	"joinedGroups": "我加入的小组",
+
+	"inquiry": "1:1咨询",
+	"emailInquiry": "电子邮件咨询",
+	"emailDescription": "请将问题发送到dife电子邮件",
+	"contactEmail": "dife.teamdiverse@gmail.com",
+
+	"likedPosts": "点赞的帖子",
+
+	"myPosts": "我的帖子",
+	"profileEdit": "编辑个人资料",
+
+	"subject": "主题",
+
+	"groupProfileTitle": "小组头像",
+	"groupInfoTitle": "小组信息",
+	"groupName": "小组名称",
+	"edit": "编辑",
+	"subjectAndPurpose": "主题/目的",
+	"publicStatus": "公开状态",
+	"basicInfo": "基本信息",
+	"maxCount": "最大人数",
+	"currentCount": "当前人数",
+
+	"nickname": "昵称",
+	"selectNone": "不选择",
+
+	"profileSettings": "个人资料设置",
+	"profileInfo": "个人资料信息",
+	"id": "ID",
+	"major": "专业",
+
+	"myWritePosts": "我写的帖子",
+	"myComments": "我的评论",
+
+	"receivedRequests": "收到的请求",
+	"sentRequests": "发送的请求",
+
+	"logoutConfirmation": "您确定要退出登录吗？",
+	"security": "安全",
+	"profilePrivacy": "个人资料隐私",
+	"logout": "退出登录",
+	"deleteAccount": "删除账户",
+
+	"notificationPermissionAlert": "请在设置中{{action}}通知权限",
+	"notificationPermissionEnable": "启用",
+	"notificationPermissionDisable": "禁用",
+	"notificationEnable": "通知功能已启用。",
+	"notificationDisable": "通知权限已被拒绝。",
+	"settings": "设置",
+	"accountManagement": "账户管理",
+	"pushNotifications": "推送通知",
+	"customerSupport": "客户支持",
+	"serviceNews": "服务新闻",
+	"termsPrivacy": "隐私政策和使用条款",
+
+	"terms": {
+		"title": "应用使用政策及隐私收集说明",
+		"subTitle": "我们的应用遵守以下内容政策和隐私使用规则，以确保用户安全和愉快的体验。",
+		"policy": "1. 内容政策 我们的应用严格禁止冒犯、不愉快或仇恨的内容。",
+		"policyContent": "因此，以下类型的内容被严格禁止：歧视性或恶意内容，涉及宗教、种族、性取向、性别、民族/种族或其他特定群体的诽谤性或歧视性提及或描述。可能侮辱、威胁或伤害个人或团体的内容。暴力和残酷内容，现实描绘或鼓励谋杀、残废、折磨或虐待的内容。针对特定种族、文化、政府、企业等的暴力表达。非法鼓励武器和危险品的内容，鼓励非法或不顾后果地使用武器和危险品或诱导购买枪支或弹药的内容。性内容，公开或色情材料，包括对性器官或行为的明确描绘或表达。宗教煽动和误导性内容，煽动性的宗教解释或不准确或误导性的经典引用。虚假信息和欺骗，包含不准确的设备数据、虚假位置跟踪器等虚假信息和功能。对近期事件或时事问题的有害利用，利用暴力冲突、恐怖袭击、流行病等近期事件或时事问题获取利益的内容。",
+		"privacy": "2. 个人信息的收集和使用 我们的应用收集和使用个人信息的目的如下：",
+		"privacyContent": "收集和使用目的：为用户提供个性化匹配服务和优化应用功能。收集项目：个人资料信息、活动数据、位置信息等。隐私设置：如果会员将个人资料设置为私密，则该个人资料不会对其他人可见。这是一个保护用户隐私的功能。推送通知：推送通知可用于提供重要通知、更新和个性化推荐。用户活动跟踪：可能会跟踪用户活动数据，以改善服务质量和提供个性化推荐。",
+		"accountDeletion": "3. 账户删除和信息删除 请求账户删除时，所有会员信息将在请求日期后的一个星期内完全删除。",
+		"accountDeletionContent": "删除的信息无法恢复，因此请在删除前备份必要的数据。注意：您在聊天房间中留下的聊天记录、在帖子中留下的评论以及您写的帖子，如果被其他用户收藏，可能会继续显示。请注意。"
+	},
+
+	"blocked": "已阻止",
+
+	"accept": "接受",
+	"reject": "拒绝",
+	"pending": "待定",
+
+	"removeBlock": "解除阻止",
+
+	"blockAlertMessage": "'{{name}}'\n您确定要阻止此用户吗？",
+	"blockSuccessMessage": "'{{name}}'\n用户已被阻止。",
+	"connectCancelAlertMessage": "'{{name}}'\n您确定要取消连接请求吗？",
+	"connectCancelSuccessMessage": "'{{name}}'\n连接请求已被取消。"
 }

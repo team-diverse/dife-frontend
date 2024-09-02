@@ -276,5 +276,117 @@
 	"profileShare": "プロフィールを共有",
 	"shareError": "このデバイスではプロフィール共有機能を使用できません。",
 	"reportGroupProfile": "グループプロフィールの報告",
-	"reportIndividualProfile": "個人プロフィールの報告"
+	"reportIndividualProfile": "個人プロフィールの報告",
+
+	"blockManagement": "ブロック管理",
+	"blockList": "ブロックリスト",
+
+	"bookmarkedPosts": "ブックマークした投稿",
+
+	"connectList": "コネクトリスト",
+	"friend": "友達",
+	"connectRequest": "コネクトリクエスト",
+
+	"defaultLanguageSettings": "デフォルト言語設定",
+	"english": "英語 / English",
+	"chinese": "中国語 / Chinese",
+	"japanese": "日本語 / Japanese",
+	"spanish": "スペイン語 / Spanish",
+	"korean": "韓国語 / Korean",
+
+	"deleteMember": "会員退会",
+	"confirmDeleteMember": "本当に会員退会しますか？\nお別れするのは寂しいです。",
+	"postDeletionNotice": "退会すると、すべての投稿は匿名化され、コメント、ブックマーク、いいねなどのすべての活動情報が削除されます。",
+	"accountDeletionNotice": "詳細情報を含むアカウント削除は、リクエストから1週間以内に完了します。削除が完了するまで、同じメールで再登録することはできません。",
+	"reasonTitle": "difeを離れる理由を教えてください",
+	"reasonOptions": {
+		"unpleasantUser": "不快なユーザーとのやり取り",
+		"serviceNeedDecrease": "サービスの必要性の減少",
+		"privacyConcerns": "安全とプライバシーの懸念",
+		"serviceQuality": "期待に応えないサービス品質",
+		"other": "その他",
+		"pleaseSelect": "選択してください"
+	},
+
+	"groupList": "グループリスト",
+	"myGroups": "私が作成したグループ",
+	"joinedGroups": "私が参加したグループ",
+
+	"inquiry": "1:1問い合わせ",
+	"emailInquiry": "メール問い合わせ",
+	"emailDescription": "difeのメールに問題を送信してください",
+	"contactEmail": "dife.teamdiverse@gmail.com",
+
+	"likedPosts": "いいねした投稿",
+
+	"myPosts": "私の投稿",
+	"profileEdit": "プロフィール編集",
+
+	"subject": "主題",
+
+	"groupProfileTitle": "グループプロフィール写真",
+	"groupInfoTitle": "グループ情報",
+	"groupName": "グループ名",
+	"edit": "編集",
+	"subjectAndPurpose": "主題/目的",
+	"publicStatus": "公開状態",
+	"basicInfo": "基本情報",
+	"maxCount": "最大人数",
+	"currentCount": "現在の人数",
+
+	"nickname": "ニックネーム",
+	"selectNone": "選択しない",
+
+	"profileSettings": "プロフィール設定",
+	"profileInfo": "プロフィール情報",
+	"id": "ID",
+	"major": "専攻",
+
+	"myWritePosts": "私が書いた投稿",
+	"myComments": "私のコメント",
+
+	"receivedRequests": "受け取ったリクエスト",
+	"sentRequests": "送信したリクエスト",
+
+	"logoutConfirmation": "ログアウトしますか？",
+	"security": "セキュリティ",
+	"profilePrivacy": "プロフィールのプライバシー",
+	"logout": "ログアウト",
+	"deleteAccount": "アカウント削除",
+
+	"notificationPermissionAlert": "設定で通知権限を{{action}}",
+	"notificationPermissionEnable": "有効にしてください。",
+	"notificationPermissionDisable": "無効にしてください。",
+	"notificationEnable": "通知機能が有効になりました。",
+	"notificationDisable": "通知権限が拒否されました。",
+	"settings": "設定",
+	"accountManagement": "アカウント管理",
+	"pushNotifications": "プッシュ通知",
+	"customerSupport": "カスタマーサポート",
+	"serviceNews": "サービスニュース",
+	"termsPrivacy": "プライバシーポリシーおよび利用規約",
+
+	"terms": {
+		"title": "アプリ利用に関するポリシーおよび個人情報収集のご案内",
+		"subTitle": "当アプリは、安全で快適にサービスをご利用いただけるよう、以下のコンテンツポリシーおよびプライバシー使用規則を遵守します。",
+		"policy": "1. コンテンツポリシー 当アプリは、侮辱的、嫌な、または憎悪を引き起こすコンテンツを厳格に禁止します。",
+		"policyContent": "したがって、以下のようなコンテンツは一切許可されません：差別的または悪意のあるコンテンツ、宗教、民族、性別、性的指向、民族/人種、またはその他の特定のグループに対する名誉毀損や差別的な言及や説明。個人やグループが侮辱されたり、脅迫されたり、被害を受ける可能性があるコンテンツ。暴力的で残酷なコンテンツ、殺害、肢体障害、拷問、虐待を現実的に描写したり暴力を助長するコンテンツ。特定の人種、文化、政府、企業などを対象とした暴力的な表現。武器や危険物の違法な助長、武器や危険物の違法または無分別な使用を助長するコンテンツ、銃や弾薬の購入を誘導するコンテンツ。性的コンテンツ、性器や性行為の露骨な描写や表現を含む公然とした性的またはポルノ的な資料。宗教的煽動および誤解を招くコンテンツ、煽動的な宗教的解釈や不正確または誤解を招く聖典の引用。虚偽の情報および詐欺、虚偽の情報や機能、例えば不正確なデバイスデータ、偽の位置追跡など。最近の事件や時事問題の有害な利用、暴力的な衝突、テロ攻撃、流行病などの最近の事件や時事問題を利用して利益を得ようとするコンテンツ。",
+		"privacy": "2. 個人情報の収集と使用 当アプリは、以下の目的で個人情報を収集し使用します。",
+		"privacyContent": "収集および使用目的：ユーザーにパーソナライズされたマッチングサービスを提供し、アプリ機能を最適化するために個人情報を収集および使用します。収集項目：プロフィール情報、活動データ、位置情報など。非公開設定：会員がプロフィールを非公開に設定した場合、そのプロフィールは他の人に表示されません。これはユーザーのプライバシー保護のための機能です。プッシュ通知：重要な通知や更新、パーソナライズされた推奨情報を提供するためにプッシュ通知を使用することがあります。ユーザー活動の追跡：サービスの品質向上とパーソナライズされた推奨の提供のために、ユーザーの活動データを追跡することがあります。",
+		"accountDeletion": "3. 会員退会および情報削除 会員退会のリクエストがあった場合、リクエスト日から1週間以内にすべての会員情報が完全に削除されます。",
+		"accountDeletionContent": "削除された情報は復元できないため、退会前に必要なデータをバックアップしてください。注意：チャットルームに残したチャット、投稿に残したコメント、および作成した投稿は、他のユーザーがブックマークした場合、そのユーザーのブックマークを通じて表示され続ける可能性があります。これにご注意ください。"
+	},
+
+	"blocked": "ブロック済み",
+
+	"accept": "受け入れる",
+	"reject": "拒否する",
+	"pending": "保留中",
+
+	"removeBlock": "ブロック解除",
+
+	"blockAlertMessage": "'{{name}}'\nこのユーザーをブロックしますか？",
+	"blockSuccessMessage": "'{{name}}'\nユーザーがブロックされました。",
+	"connectCancelAlertMessage": "'{{name}}'\nコネクトリクエストをキャンセルしますか？",
+	"connectCancelSuccessMessage": "'{{name}}'\nコネクトリクエストがキャンセルされました。"
 }

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { SafeAreaView, View, ScrollView } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import MyPostStyles from "@pages/member/MyPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -12,6 +13,7 @@ import ItemCommunity from "@components/community/ItemCommunity";
 import * as Sentry from "@sentry/react-native";
 
 const MyWrotePage = () => {
+	const { t } = useTranslation();
 	const [myPostList, setMyPostList] = useState();
 
 	const getMyPostList = async () => {
@@ -37,7 +39,7 @@ const MyWrotePage = () => {
 	return (
 		<SafeAreaView style={MyPostStyles.container}>
 			<TopBar
-				topBar="내가 쓴 글"
+				topBar={t("myWritePosts")}
 				color="#000"
 				backgroundColor={CustomTheme.primaryBg}
 			/>
