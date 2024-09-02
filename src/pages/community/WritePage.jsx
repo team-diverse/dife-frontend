@@ -102,7 +102,7 @@ const WritePage = ({ route }) => {
 			if (selectedImages.length > 9) {
 				Alert.alert(
 					t("imagePermissionAlertTitle"),
-					t("permissionAlert"),
+					t("imagePermissionAlertMessage"),
 				);
 				return;
 			}

@@ -172,7 +172,6 @@
 	"titlePlaceholder": "标题",
 	"contentPlaceholder": "内容",
 	"deleteImageAlert": "最多只能选择9张图片。",
-	"permissionAlert": "请在设置中允许图片权限。",
 	"anonymousCheckboxLabel": "匿名",
 	"ruleTitle": "Dife 社区规则",
 	"ruleContent": "Dife 是由国民大学学生创建的全球社区。为了确保所有成员都能愉快地参与，请遵守以下规则：\n- 尊重与包容：不要对任何群体进行种族、宗教、性别、地区等方面的贬低或冒犯言论。\n- 个人隐私保护：不要泄露或分享其他用户的个人信息。\n- 合适的内容：不要发布淫秽或性暗示内容。\n- 准确的信息：不要发布宣传内容、金钱要求或虚假信息。\n\n违规处理程序\n- 论坛：被举报的帖子将在管理员确认违规后删除。如果违规次数超过3次，您的会员资格将被暂停30天，并且在此期间您必须向 difeemail@kookmin.ac.kr 提出申诉。如果没有申诉，会员资格将被取消。\n- 非法内容：发布非法内容将根据《电信法》立即删除并限制服务使用，可能会面临法律处罚。\n- 匹配/聊天：如果收到3次以上举报，您的会员资格将被暂停30天。在此期间，您必须向 difeemail@kookmin.ac.kr 提出申诉或采取适当措施。如果不采取措施，将取消会员资格。\n\n请大家共同努力，维护安全和愉快的社区环境。",
@@ -208,5 +207,74 @@
 	"impersonation": "冒充",
 	"other": "其他",
 	"reportComplete": "举报完成",
-	"submitReport": "提交举报"
+	"submitReport": "提交举报",
+
+	"likeListTitle": "喜欢列表",
+	"oneToOne": "1:1",
+	"group": "群组",
+
+	"connectTitle": "连接",
+
+	"profile": "个人资料",
+	"connectCancelAlert": "你确定要取消连接吗？",
+	"realName": "真实姓名",
+	"tag": "标签",
+	"language": "语言",
+	"chat": "聊天",
+
+	"categories": ["沟通/交友", "语言交换", "自由"],
+	"public": "公开",
+	"private": "私密",
+	"chatRoomSettings": "聊天房间设置",
+	"topic": "话题",
+	"max4Selection": "最多选择4个",
+	"max2Selection": "最多选择2个",
+	"category": "类型",
+	"memberLimitTitle": "群组成员限制",
+	"memberLimit": "成员限制",
+	"visibility": "可见性",
+	"groupPasswordPlaceholder": "请输入5位数字密码",
+	"backButton": "返回",
+
+	"groupCreatedTitle": "创建群组聊天房间",
+	"name": "名称",
+	"groupNamePlaceholder": "请输入群组名称",
+	"groupNameAvailable": "该群组名称可用。",
+	"groupNameUnavailable": "该群组名称已被使用。",
+
+	"groupJoin": "加入群组",
+	"groupQuit": "退出群组",
+
+	"communication": "沟通/交友",
+	"exchange": "语言交换",
+	"free": "自由",
+	"finalPreview": "最终资料预览",
+	"checkInfo": "请检查信息是否正确",
+	"createGroupButton": "创建群组",
+
+	"connectRequestInProgress": "连接请求处理中",
+	"connectRequestComplete": "连接请求完成！",
+
+	"max3Selection": "最多选择3个",
+	"mbti": "MBTI",
+	"hobby": "爱好/兴趣",
+	"duplicateSelection": "允许重复选择",
+	"clearAll": "全部清除",
+	"apply": "应用",
+
+	"groupCategoryTitle": "群组成员/类型",
+	"headcount": "人数",
+	"people": "人",
+
+	"groupCreationComplete": "群组创建完成",
+	"moveToGroupProfile": "前往群组资料",
+
+	"joinComplete": "加入完成",
+	"goToChatRoom": "前往聊天房间",
+	"incorrectPassword": "密码错误",
+
+	"profileShare": "分享资料",
+	"shareError": "该设备无法使用资料分享功能。",
+	"reportGroupProfile": "举报群组资料",
+	"reportIndividualProfile": "举报个人资料"
 }

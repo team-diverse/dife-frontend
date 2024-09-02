@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { CustomTheme } from "@styles/CustomTheme";
 import Modal from "react-native-modal";
+import { useTranslation } from "react-i18next";
+
+import { CustomTheme } from "@styles/CustomTheme";
+
 import CompleteIcon from "@components/common/CompleteIcon";
 import ConnectRequestIcon from "@components/common/ConnectRequestIcon";
 
 const ConnectRequest = ({ modalVisible }) => {
+	const { t } = useTranslation();
+
 	const [showConnectRequest, setShowConnectRequest] = useState(true);
 	const [showConnectComplete, setShowConnectComplete] = useState(false);
 
@@ -26,7 +31,7 @@ const ConnectRequest = ({ modalVisible }) => {
 						</View>
 						<View style={styles.connectTextView}>
 							<Text style={styles.connectText}>
-								커넥트 요청중
+								{t("connectRequestInProgress")}
 							</Text>
 						</View>
 					</View>
@@ -37,7 +42,7 @@ const ConnectRequest = ({ modalVisible }) => {
 						<CompleteIcon isConnect={true} />
 						<View style={styles.connectTextView}>
 							<Text style={styles.connectText}>
-								커넥트 요청 완료!
+								{t("connectRequestComplete")}
 							</Text>
 						</View>
 					</View>

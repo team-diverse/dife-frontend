@@ -172,7 +172,6 @@
 	"titlePlaceholder": "Título",
 	"contentPlaceholder": "Contenido",
 	"deleteImageAlert": "Solo puedes seleccionar hasta 9 imágenes.",
-	"permissionAlert": "Por favor, permite los permisos de imagen en la configuración.",
 	"anonymousCheckboxLabel": "Anónimo",
 	"ruleTitle": "Reglas de la Comunidad Dife",
 	"ruleContent": "Dife es una comunidad global creada por estudiantes de la Universidad de Kookmin. Para garantizar un entorno agradable para todos los miembros, por favor, sigue las siguientes reglas:\n- Respeto e Inclusión: No hagas comentarios despectivos u ofensivos hacia ningún grupo basado en raza, religión, género, región, etc.\n- Protección de la Privacidad: No reveles ni compartas la información personal de otros usuarios.\n- Contenido Apropiado: No publiques contenido obsceno o sexualmente explícito.\n- Información Precisa: No publiques contenido promocional, solicitudes de dinero o información falsa.\n\nProcedimiento en Caso de Violación\n- Tablero: Las publicaciones denunciadas serán eliminadas después de que el administrador confirme la violación. Si violas más de 3 veces, tu membresía será suspendida por 30 días, y deberás presentar una apelación a difeemail@kookmin.ac.kr durante este período. Si no haces una apelación, tu membresía será revocada.\n- Contenido Ilegal: Publicar contenido ilegal resultará en la eliminación inmediata y restricción del servicio según la Ley de Telecomunicaciones, y pueden aplicarse sanciones legales.\n- Coincidencias/Chats: Si recibes más de 3 informes, tu membresía será suspendida por 30 días. Durante este período, debes presentar una apelación a difeemail@kookmin.ac.kr o tomar medidas adecuadas. Si no lo haces, tu membresía será revocada.\n\nPor favor, trabaja en conjunto para mantener un entorno de comunidad seguro y agradable.",
@@ -208,5 +207,74 @@
 	"impersonation": "Suplantación",
 	"other": "Otro",
 	"reportComplete": "Reporte Completo",
-	"submitReport": "Enviar Reporte"
+	"submitReport": "Enviar Reporte",
+
+	"likeListTitle": "Lista de Me Gusta",
+	"oneToOne": "1:1",
+	"group": "Grupo",
+
+	"connectTitle": "Conectar",
+
+	"profile": "Perfil",
+	"connectCancelAlert": "¿Quieres cancelar la conexión?",
+	"realName": "Nombre Real",
+	"tag": "Etiqueta",
+	"language": "Idioma",
+	"chat": "Chatear",
+
+	"categories": ["Comunicación/Amistad", "Intercambio de Idiomas", "Libre"],
+	"public": "Público",
+	"private": "Privado",
+	"chatRoomSettings": "Configuración del Chat",
+	"topic": "Tema",
+	"max4Selection": "Se permiten hasta 4 selecciones",
+	"max2Selection": "Se permiten hasta 2 selecciones",
+	"category": "Tipo",
+	"memberLimitTitle": "Límite de Miembros del Grupo",
+	"memberLimit": "límite de miembros",
+	"visibility": "Visibilidad",
+	"groupPasswordPlaceholder": "Ingrese una contraseña de 5 dígitos",
+	"backButton": "Atrás",
+
+	"groupCreatedTitle": "Crear Sala de Chat de Grupo",
+	"name": "Nombre",
+	"groupNamePlaceholder": "Ingrese el nombre del grupo",
+	"groupNameAvailable": "Este nombre de grupo está disponible.",
+	"groupNameUnavailable": "Este nombre de grupo ya está en uso.",
+
+	"groupJoin": "Unirse al Grupo",
+	"groupQuit": "Salir del Grupo",
+
+	"communication": "Comunicación/Amistad",
+	"exchange": "Intercambio de Idiomas",
+	"free": "Libre",
+	"finalPreview": "Vista Previa Final del Perfil",
+	"checkInfo": "Por favor, verifica si la información es correcta",
+	"createGroupButton": "Crear Grupo",
+
+	"connectRequestInProgress": "Solicitud de conexión en progreso",
+	"connectRequestComplete": "¡Solicitud de conexión completada!",
+
+	"max3Selection": "Se permiten hasta 3 selecciones",
+	"mbti": "MBTI",
+	"hobby": "Pasatiempos/Intereses",
+	"duplicateSelection": "Selecciones duplicadas permitidas",
+	"clearAll": "Desmarcar Todo",
+	"apply": "Aplicar",
+
+	"groupCategoryTitle": "Miembros/Tipo del Grupo",
+	"headcount": "Número de Personas",
+	"people": "personas",
+
+	"groupCreationComplete": "Grupo Creado",
+	"moveToGroupProfile": "Ir al Perfil del Grupo",
+
+	"joinComplete": "Unión Completa",
+	"goToChatRoom": "Ir a la Sala de Chat",
+	"incorrectPassword": "Contraseña incorrecta",
+
+	"profileShare": "Compartir Perfil",
+	"shareError": "La función de compartir perfil no está disponible en este dispositivo.",
+	"reportGroupProfile": "Reportar Perfil de Grupo",
+	"reportIndividualProfile": "Reportar Perfil Individual"
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, View, Text, Alert } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import {
 	getProfileById,
@@ -26,6 +27,7 @@ import * as Sentry from "@sentry/react-native";
 
 const ConnectProfilePage = ({ route }) => {
 	const { memberId } = route.params;
+	const { t } = useTranslation();
 	const [profileData, setProfileData] = useState([]);
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
@@ -129,14 +131,14 @@ const ConnectProfilePage = ({ route }) => {
 	const handleConnectAlert = () => {
 		Alert.alert(
 			"",
-			`${profileData.username} 커넥트를 취소하겠습니까?`,
+			`${profileData.username} ${t("connectCancelAlert")}`,
 			[
 				{
-					text: "취소",
+					text: t("cancelButton"),
 					style: "cancel",
 				},
 				{
-					text: "확인",
+					text: t("confirmButtonText"),
 					onPress: () => {
 						handleRejectedConnect();
 					},
@@ -179,7 +181,7 @@ const ConnectProfilePage = ({ route }) => {
 			style={[ConnectProfileStyles.container, { alignItems: "center" }]}
 		>
 			<ConnectProfileTopBar
-				topBar="프로필"
+				topBar={t("profile")}
 				active={heart}
 				onPressHeart={heart ? handleDeleteHeart : handleCreateHeart}
 				memberId={memberId}
@@ -201,23 +203,29 @@ const ConnectProfilePage = ({ route }) => {
 						</Text>
 					</View>
 					<View style={ConnectProfileStyles.detailProfileContainer}>
-						<Text style={ConnectProfileStyles.fontSub16}>본명</Text>
+						<Text style={ConnectProfileStyles.fontSub16}>
+							{t("realName")}
+						</Text>
 						<Text style={ConnectProfileStyles.fontBody14}>
 							{profileData.name}
 						</Text>
 						<Text style={ConnectProfileStyles.fontSub16}>
-							한줄소개
+							{t("bio")}
 						</Text>
 						<View>
 							<ConnectProfileIntroduction
 								introduction={profileData.bio}
 							/>
 						</View>
-						<Text style={ConnectProfileStyles.fontSub16}>태그</Text>
+						<Text style={ConnectProfileStyles.fontSub16}>
+							{t("tag")}
+						</Text>
 						<View style={{ marginBottom: 8 }}>
 							<ConnectProfileTag tag={profileData.tags} />
 						</View>
-						<Text style={ConnectProfileStyles.fontSub16}>언어</Text>
+						<Text style={ConnectProfileStyles.fontSub16}>
+							{t("language")}
+						</Text>
 						<ConnectProfileLanguage
 							languages={profileData.languages}
 						/>
@@ -227,16 +235,16 @@ const ConnectProfilePage = ({ route }) => {
 			</View>
 			<View style={ConnectProfileStyles.bottomTwoButtons}>
 				<BottomTwoButtons shadow="true">
-					<View text="채팅하기" onPress={handleChat} />
+					<View text={t("chat")} onPress={handleChat} />
 					<View
 						text={
 							connectStatus === undefined
-								? "커넥트 요청"
+								? t("requestButtonText")
 								: connectStatus === "PENDING"
 									? requestSent
-										? "요청 취소"
-										: "요청 수락"
-									: "커넥트 취소"
+										? t("cancelRequestButtonText")
+										: t("acceptRequestButtonText")
+									: t("cancelConnectButtonText")
 						}
 						onPress={handleConnect}
 					/>

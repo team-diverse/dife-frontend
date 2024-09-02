@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, View, Text } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import GroupProfileStyles from "@pages/connect/GroupProfileStyles";
 import {
@@ -22,6 +23,7 @@ import ModalGroupJoin from "@components/connect/ModalGroupJoin";
 
 const GroupProfilePage = ({ route }) => {
 	const { groupId } = route.params;
+	const { t } = useTranslation();
 	const [groupProfileData, setGroupProfileData] = useState([]);
 	const [profilePresignUrl, setProfilePresignUrl] = useState("");
 	const [modalGroupJoinVisible, setModalGroupJoinVisible] = useState(false);
@@ -98,7 +100,7 @@ const GroupProfilePage = ({ route }) => {
 			style={[GroupProfileStyles.container, { alignItems: "center" }]}
 		>
 			<ConnectProfileTopBar
-				topBar="프로필"
+				topBar={t("profile")}
 				active={groupHeart}
 				onPressHeart={
 					groupHeart ? handleGroupDeleteHeart : handleGroupCreateHeart
@@ -131,17 +133,19 @@ const GroupProfilePage = ({ route }) => {
 					</View>
 				</View>
 				<View style={GroupProfileStyles.detailProfileContainer}>
-					<Text style={GroupProfileStyles.fontSub16}>한줄소개</Text>
+					<Text style={GroupProfileStyles.fontSub16}>{t("bio")}</Text>
 					<View>
 						<ConnectProfileIntroduction
 							introduction={groupProfileData.description}
 						/>
 					</View>
-					<Text style={GroupProfileStyles.fontSub16}>태그</Text>
+					<Text style={GroupProfileStyles.fontSub16}>{t("tag")}</Text>
 					<View style={{ marginBottom: 8 }}>
 						<ConnectProfileTag tag={groupProfileData.tags} />
 					</View>
-					<Text style={GroupProfileStyles.fontSub16}>언어</Text>
+					<Text style={GroupProfileStyles.fontSub16}>
+						{t("language")}
+					</Text>
 					<ConnectProfileLanguage
 						languages={groupProfileData.languages}
 					/>
@@ -151,7 +155,7 @@ const GroupProfilePage = ({ route }) => {
 			</ScrollView>
 			<View style={GroupProfileStyles.applyButton}>
 				<ApplyButton
-					text={groupIsEntered ? "그룹 탈퇴하기" : "그룹 가입하기"}
+					text={groupIsEntered ? t("groupQuit") : t("groupJoin")}
 					background="true"
 					onPress={groupIsEntered ? handleGroupQuit : handleGroupJoin}
 				/>
