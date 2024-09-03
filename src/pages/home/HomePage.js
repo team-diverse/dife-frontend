@@ -245,26 +245,26 @@ const HomePage = () => {
 					</TouchableOpacity>
 				</View>
 
-				<View style={HomeStyles.homeSchEv}>
+				<View style={HomeStyles.containerShoolInfoEvents}>
 					<TouchableOpacity
-						style={HomeStyles.homeEvent}
+						style={HomeStyles.containerShoolInfoEventsMargin}
 						onPress={() => navigation.navigate("PreparingPage")}
 					>
 						<HomeSchEv />
-						<Text style={HomeStyles.textHomeSchool}>
+						<Text style={HomeStyles.textSchoolInfoEvents}>
 							{t("schoolInfo")}
 						</Text>
-						<HomeSchoolInfo style={HomeStyles.homeSchIcon} />
+						<HomeSchoolInfo style={HomeStyles.iconSchoolInfo} />
 					</TouchableOpacity>
 					<TouchableOpacity
-						style={HomeStyles.homeEvent}
+						style={HomeStyles.containerShoolInfoEventsMargin}
 						onPress={() => navigation.navigate("EventPage")}
 					>
 						<HomeSchEv />
-						<Text style={HomeStyles.textHomeEvent}>
+						<Text style={HomeStyles.textSchoolInfoEvents}>
 							{t("events")}
 						</Text>
-						<HomeEvent style={HomeStyles.iconHomeEvent} />
+						<HomeEvent style={HomeStyles.iconEvents} />
 					</TouchableOpacity>
 				</View>
 			</LinearGradient>

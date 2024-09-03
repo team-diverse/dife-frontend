@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
@@ -23,6 +23,22 @@ const HomeCardFront = ({
 	isLikedOnPress,
 	isLikedActive,
 }) => {
+	const [tagHeight, setTagHeight] = useState(0);
+	const [introductionLines, setIntroductionLines] = useState(1);
+
+	useEffect(() => {
+		if (tagHeight > 40) {
+			setIntroductionLines(2);
+		} else {
+			setIntroductionLines(4);
+		}
+	}, [tagHeight]);
+
+	const handleTagLayout = (event) => {
+		const { height } = event.nativeEvent.layout;
+		setTagHeight(height);
+	};
+
 	return (
 		<View style={styles.rectangle}>
 			<View style={styles.homecardDifeF}>
@@ -30,10 +46,16 @@ const HomeCardFront = ({
 			</View>
 			<View style={styles.homeProfile}>
 				<HomeProfile profile={profileImg} />
-				<View style={styles.tagContainer}>
+				<View style={styles.tagContainer} onLayout={handleTagLayout}>
 					<Tag tag={tags} />
 				</View>
-				<Text style={styles.introduction}>{introduction}</Text>
+				<Text
+					style={styles.introduction}
+					numberOfLines={introductionLines}
+					ellipsizeMode="tail"
+				>
+					{introduction}
+				</Text>
 				<View style={styles.myinfoContainer}>
 					<Text
 						style={styles.myinfo}
@@ -88,13 +110,13 @@ const styles = StyleSheet.create({
 	},
 	tagContainer: {
 		flexDirection: "row",
-		width: 200,
+		maxWidth: 200,
 		marginTop: 12,
 		marginBottom: 6,
 	},
 	introduction: {
 		...fontCaption,
-		width: 200,
+		maxWidth: 200,
 		marginTop: 6,
 		marginBottom: 12,
 	},
@@ -113,7 +135,7 @@ const styles = StyleSheet.create({
 	connectIconContainer: {
 		position: "absolute",
 		left: 10,
-		bottom: 28,
+		bottom: 13,
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",

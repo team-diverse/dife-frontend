@@ -56,7 +56,7 @@ const HomeStyles = StyleSheet.create({
 		shadowOpacity: 0.71,
 		shadowRadius: 6,
 	},
-	homeSchEv: {
+	containerShoolInfoEvents: {
 		flexDirection: "row",
 		marginTop: 28,
 		shadowColor: "#3C454E4A",
@@ -64,33 +64,25 @@ const HomeStyles = StyleSheet.create({
 		shadowOpacity: 0.29,
 		shadowRadius: 6,
 	},
-	textHomeSchool: {
+	containerShoolInfoEventsMargin: {
+		marginHorizontal: 10,
+	},
+	textSchoolInfoEvents: {
 		...fontSub16,
 		position: "absolute",
 		top: 12,
 		left: 12,
 	},
-	homeSchIcon: {
+	iconSchoolInfo: {
 		position: "absolute",
 		top: 35,
 		left: 40,
 	},
-	homeEvent: {
-		position: "relative",
-		marginLeft: 21,
-	},
-	textHomeEvent: {
-		...fontSub16,
-		position: "absolute",
-		top: 12,
-		left: 12,
-	},
-	iconHomeEvent: {
+	iconEvents: {
 		position: "absolute",
 		top: 48,
 		left: 47,
 	},
-
 	backgroundHomecard: {
 		position: "absolute",
 		top: 10,
