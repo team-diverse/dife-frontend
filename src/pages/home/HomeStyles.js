@@ -96,6 +96,14 @@ const HomeStyles = StyleSheet.create({
 		shadowRadius: 6,
 		zIndex: 0,
 	},
+	containerWhite: {
+		position: "absolute",
+		bottom: 0,
+		width: "100%",
+		height: 200,
+		backgroundColor: CustomTheme.bgBasic,
+		zIndex: -1,
+	},
 });
 
 export default HomeStyles;

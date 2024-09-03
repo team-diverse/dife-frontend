@@ -7,6 +7,7 @@ import {
 	FlatList,
 	Keyboard,
 	TouchableOpacity,
+	Dimensions,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
@@ -118,13 +119,21 @@ const ConnectPage = () => {
 		setIsReset(!isReset);
 	};
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
 	return (
 		<SafeAreaView style={ConnectStyles.container}>
 			<View style={ConnectStyles.backgroundBlue} />
 			<View style={ConnectStyles.connectTop}>
 				<ConnectTop />
 			</View>
-			<View style={ConnectStyles.textIconContainer}>
+			<View
+				style={[
+					ConnectStyles.textIconContainer,
+					isSmallScreen && { top: -25 },
+				]}
+			>
 				<Text style={ConnectStyles.connectTitle}>
 					{t("connectTitle")}
 				</Text>
@@ -133,7 +142,12 @@ const ConnectPage = () => {
 					onPress={() => navigation.navigate("LikeUserOneToOne")}
 				/>
 			</View>
-			<View style={ConnectStyles.searchContainer}>
+			<View
+				style={[
+					ConnectStyles.searchContainer,
+					isSmallScreen && { top: -25 },
+				]}
+			>
 				<TouchableOpacity onPress={pressButton}>
 					<FilterIcon style={ConnectStyles.searchFilter} />
 					{totalSelection > 0 && (

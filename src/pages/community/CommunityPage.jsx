@@ -6,6 +6,8 @@ import {
 	SafeAreaView,
 	Keyboard,
 	TouchableOpacity,
+	ScrollView,
+	Dimensions,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 
@@ -88,11 +90,91 @@ const CommunityPage = () => {
 		}, []),
 	);
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
+	const renderCommunity = () => (
+		<>
+			{searchFail ? (
+				<View style={CommunityStyles.containerFail}>
+					<IconSearchFail />
+					<Text style={CommunityStyles.textFail}>
+						{t("searchNoResults")}
+					</Text>
+				</View>
+			) : searchData && searchData.length > 0 ? (
+				<View style={CommunityStyles.itemCommunity}>
+					<ItemCommunity postList={searchData} />
+				</View>
+			) : (
+				<>
+					<View style={CommunityStyles.containerCommunityTop}>
+						<View style={CommunityStyles.containerTitle}>
+							<IconCommunityTitle
+								style={CommunityStyles.iconCommunity}
+							/>
+							<Text style={CommunityStyles.textCommunityTitle}>
+								{t("tipsBoard")}
+							</Text>
+						</View>
+						<TouchableOpacity
+							style={CommunityStyles.containerMore}
+							onPress={() =>
+								navigation.navigate("TipCommunityPage")
+							}
+						>
+							<Text style={CommunityStyles.textCommunityMore}>
+								{t("moreButton")}
+							</Text>
+							<ArrowRight style={CommunityStyles.iconArrow} />
+						</TouchableOpacity>
+					</View>
+					<View style={CommunityStyles.itemCommunityPreview}>
+						<ItemCommunityPreview postList={tipPostList} />
+					</View>
+
+					<View style={CommunityStyles.containerCommunityTop}>
+						<View style={CommunityStyles.containerTitle}>
+							<IconCommunityTitle
+								style={CommunityStyles.iconCommunity}
+							/>
+							<Text style={CommunityStyles.textCommunityTitle}>
+								{t("freeBoard")}
+							</Text>
+						</View>
+						<TouchableOpacity
+							style={CommunityStyles.containerMore}
+							onPress={() =>
+								navigation.navigate("FreeCommunityPage")
+							}
+						>
+							<Text style={CommunityStyles.textCommunityMore}>
+								{t("moreButton")}
+							</Text>
+							<ArrowRight style={CommunityStyles.iconArrow} />
+						</TouchableOpacity>
+					</View>
+					<View style={CommunityStyles.itemCommunityPreview}>
+						<ItemCommunityPreview postList={freePostList} />
+					</View>
+				</>
+			)}
+		</>
+	);
+
 	return (
 		<View style={CommunityStyles.container}>
-			<ConnectTop style={CommunityStyles.connectTop} />
-			<SafeAreaView style={CommunityStyles.safeAreaView}>
-				<View style={CommunityStyles.containerTextIcon}>
+			<SafeAreaView style={CommunityStyles.container}>
+				<View style={CommunityStyles.backgroundBlue} />
+				<View style={CommunityStyles.connectTop}>
+					<ConnectTop />
+				</View>
+				<View
+					style={[
+						CommunityStyles.containerTextIcon,
+						isSmallScreen && { top: -25 },
+					]}
+				>
 					<Text style={CommunityStyles.textChattingTitle}>
 						게시판
 					</Text>
@@ -104,7 +186,12 @@ const CommunityPage = () => {
 						<IconBookmark style={CommunityStyles.iconBookmark} />
 					</TouchableOpacity>
 				</View>
-				<View style={CommunityStyles.containerSearch}>
+				<View
+					style={[
+						CommunityStyles.containerSearch,
+						isSmallScreen && { top: -25 },
+					]}
+				>
 					<View style={CommunityStyles.containerSearchIcon}>
 						<TextInput
 							style={[
@@ -143,93 +230,18 @@ const CommunityPage = () => {
 						)}
 					</View>
 				</View>
-
-				<View style={{ marginTop: 130 }}>
-					{searchFail ? (
-						<View style={CommunityStyles.containerFail}>
-							<IconSearchFail />
-							<Text style={CommunityStyles.textFail}>
-								일치하는 검색 결과가 없습니다
-							</Text>
-						</View>
-					) : searchData && searchData.length > 0 ? (
-						<View style={CommunityStyles.itemCommunity}>
-							<ItemCommunity postList={searchData} />
-						</View>
-					) : (
-						<>
-							<View style={CommunityStyles.containerCommunityTop}>
-								<View style={CommunityStyles.containerTitle}>
-									<IconCommunityTitle
-										style={CommunityStyles.iconCommunity}
-									/>
-									<Text
-										style={
-											CommunityStyles.textCommunityTitle
-										}
-									>
-										꿀팁게시판
-									</Text>
-								</View>
-								<TouchableOpacity
-									style={CommunityStyles.containerMore}
-									onPress={() =>
-										navigation.navigate("TipCommunityPage")
-									}
-								>
-									<Text
-										style={
-											CommunityStyles.textCommunityMore
-										}
-									>
-										더보기
-									</Text>
-									<ArrowRight
-										style={CommunityStyles.iconArrow}
-									/>
-								</TouchableOpacity>
-							</View>
-							<View style={CommunityStyles.itemCommunityPreview}>
-								<ItemCommunityPreview postList={tipPostList} />
-							</View>
-
-							<View style={CommunityStyles.containerCommunityTop}>
-								<View style={CommunityStyles.containerTitle}>
-									<IconCommunityTitle
-										style={CommunityStyles.iconCommunity}
-									/>
-									<Text
-										style={
-											CommunityStyles.textCommunityTitle
-										}
-									>
-										자유게시판
-									</Text>
-								</View>
-								<TouchableOpacity
-									style={CommunityStyles.containerMore}
-									onPress={() =>
-										navigation.navigate("FreeCommunityPage")
-									}
-								>
-									<Text
-										style={
-											CommunityStyles.textCommunityMore
-										}
-									>
-										더보기
-									</Text>
-									<ArrowRight
-										style={CommunityStyles.iconArrow}
-									/>
-								</TouchableOpacity>
-							</View>
-							<View style={CommunityStyles.itemCommunityPreview}>
-								<ItemCommunityPreview postList={freePostList} />
-							</View>
-						</>
-					)}
-				</View>
+				{isSmallScreen ? (
+					<ScrollView
+						contentContainerStyle={{
+							flexGrow: 1,
+							paddingBottom: 25,
+						}}
+					>
+						{renderCommunity()}
+					</ScrollView>
+				) : (
+					<>{renderCommunity()}</>
+				)}
 			</SafeAreaView>
 		</View>
 	);

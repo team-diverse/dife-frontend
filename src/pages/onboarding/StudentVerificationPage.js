@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 	Modal,
 	Alert,
+	Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
@@ -103,6 +104,9 @@ const StudentVerificationPage = () => {
 		}
 	};
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
 	return (
 		<SafeAreaView style={StudentVerificationStyles.container}>
 			<Modal
@@ -182,7 +186,12 @@ const StudentVerificationPage = () => {
 					<BackgroundOnkookminUpload />
 				</TouchableOpacity>
 			)}
-			<View style={StudentVerificationStyles.buttonCheck}>
+			<View
+				style={[
+					StudentVerificationStyles.buttonCheck,
+					isSmallScreen && { bottom: 30 },
+				]}
+			>
 				<ApplyButton
 					text={t("completeButtonText")}
 					onPress={handleOnboarding}

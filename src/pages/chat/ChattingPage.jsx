@@ -7,6 +7,7 @@ import {
 	FlatList,
 	Keyboard,
 	TouchableOpacity,
+	Dimensions,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "axios";
@@ -69,20 +70,33 @@ const ChattingPage = () => {
 		}, []),
 	);
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
 	return (
 		<SafeAreaView style={ChattingStyles.container}>
 			<View style={ChattingStyles.backgroundBlue} />
 			<View style={ChattingStyles.connectTop}>
 				<ConnectTop />
 			</View>
-			<View style={ChattingStyles.containerTextIcon}>
+			<View
+				style={[
+					ChattingStyles.containerTextIcon,
+					isSmallScreen && { top: -25 },
+				]}
+			>
 				<Text style={ChattingStyles.textChattingTitle}>Chatting</Text>
 				<IconBookmark
 					style={ChattingStyles.iconBookmark}
 					onPress={() => navigation.navigate("BookmarkPage")}
 				/>
 			</View>
-			<View style={ChattingStyles.containerSearch}>
+			<View
+				style={[
+					ChattingStyles.containerSearch,
+					isSmallScreen && { top: -25 },
+				]}
+			>
 				<View style={ChattingStyles.containerSearchIcon}>
 					<TextInput
 						style={ChattingStyles.search}

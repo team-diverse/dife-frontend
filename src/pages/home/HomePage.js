@@ -1,6 +1,13 @@
 import React, { useState, useCallback } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	SafeAreaView,
+	TouchableOpacity,
+	ScrollView,
+	Dimensions,
+} from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import { useTranslation } from "react-i18next";
@@ -155,119 +162,145 @@ const HomePage = () => {
 		navigation.navigate("NotificationPage");
 	};
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
+	const renderHome = () => (
+		<LinearGradient
+			style={HomeStyles.linearGradient}
+			colors={["#0029F4", "#6199C1", "#6199C1"]}
+		>
+			<HomeBg style={HomeStyles.homebg} preserveAspectRatio="none" />
+
+			<View style={HomeStyles.topContainer}>
+				<View style={HomeStyles.logo}>
+					<LogoBr />
+				</View>
+				<TouchableOpacity
+					style={HomeStyles.notify}
+					onPress={handleNaviNotification}
+				>
+					<Notification32 count={notificationNumber} />
+				</TouchableOpacity>
+			</View>
+
+			<View style={HomeStyles.textConnectWithContainer}>
+				<Text style={HomeStyles.textConnect}>{t("connect")}</Text>
+				<Text style={HomeStyles.textWithnewfriend}>
+					{t("newFriendText")}
+				</Text>
+			</View>
+
+			<View
+				style={{
+					flexDirection: "row",
+					alignItems: "center",
+				}}
+			>
+				<TouchableOpacity onPress={handlePrevProfile}>
+					<HomeArrow style={{ transform: [{ scaleX: -1 }] }} />
+				</TouchableOpacity>
+
+				{showNewCard ? (
+					<View style={HomeStyles.homecardContainer}>
+						<View style={HomeStyles.homecard}>
+							<HomeCardBack
+								memberId={id}
+								profileImg={profilePresignUrl}
+								name={username}
+								onPress={() => setShowNewCard(false)}
+							/>
+						</View>
+					</View>
+				) : showMoreProfiles ? (
+					<View style={HomeStyles.homecardContainer}>
+						<View style={HomeStyles.homecard}>
+							<HomeCardLast />
+						</View>
+					</View>
+				) : (
+					<View style={HomeStyles.homecardContainer}>
+						<View style={HomeStyles.homecard}>
+							<HomeCardFront
+								profileImg={profilePresignUrl}
+								tags={tags}
+								introduction={bio}
+								name={username}
+								country={country}
+								onPress={() => setShowNewCard(true)}
+								isLikedOnPress={() => {
+									heart[id]
+										? handleDeleteHeart()
+										: handleCreateHeart();
+								}}
+								isLikedActive={heart[id]}
+							/>
+						</View>
+					</View>
+				)}
+				<View style={HomeStyles.backgroundHomecard}>
+					<HomeCard />
+				</View>
+				<View
+					style={[
+						HomeStyles.backgroundHomecard,
+						{
+							transform: [{ scale: 0.8 }],
+							right: -5,
+							zIndex: -1,
+						},
+					]}
+				>
+					<HomeCard />
+				</View>
+
+				<TouchableOpacity onPress={handleNextProfile}>
+					<HomeArrow />
+				</TouchableOpacity>
+			</View>
+
+			<View
+				style={[
+					HomeStyles.containerShoolInfoEvents,
+					isSmallScreen && { marginBottom: 36 },
+				]}
+			>
+				<TouchableOpacity
+					style={HomeStyles.containerShoolInfoEventsMargin}
+					onPress={() => navigation.navigate("PreparingPage")}
+				>
+					<HomeSchEv />
+					<Text style={HomeStyles.textSchoolInfoEvents}>
+						{t("schoolInfo")}
+					</Text>
+					<HomeSchoolInfo style={HomeStyles.iconSchoolInfo} />
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={HomeStyles.containerShoolInfoEventsMargin}
+					onPress={() => navigation.navigate("EventPage")}
+				>
+					<HomeSchEv />
+					<Text style={HomeStyles.textSchoolInfoEvents}>
+						{t("events")}
+					</Text>
+					<HomeEvent style={HomeStyles.iconEvents} />
+				</TouchableOpacity>
+			</View>
+		</LinearGradient>
+	);
+
 	return (
 		<SafeAreaView style={HomeStyles.container}>
-			<LinearGradient
-				style={HomeStyles.linearGradient}
-				colors={["#0029F4", "#6199C1", "#6199C1"]}
-			>
-				<HomeBg style={HomeStyles.homebg} preserveAspectRatio="none" />
-
-				<View style={HomeStyles.topContainer}>
-					<View style={HomeStyles.logo}>
-						<LogoBr />
-					</View>
-					<TouchableOpacity
-						style={HomeStyles.notify}
-						onPress={handleNaviNotification}
-					>
-						<Notification32 count={notificationNumber} />
-					</TouchableOpacity>
-				</View>
-
-				<View style={HomeStyles.textConnectWithContainer}>
-					<Text style={HomeStyles.textConnect}>{t("connect")}</Text>
-					<Text style={HomeStyles.textWithnewfriend}>
-						{t("newFriendText")}
-					</Text>
-				</View>
-
-				<View style={{ flexDirection: "row", alignItems: "center" }}>
-					<TouchableOpacity onPress={handlePrevProfile}>
-						<HomeArrow style={{ transform: [{ scaleX: -1 }] }} />
-					</TouchableOpacity>
-
-					{showNewCard ? (
-						<View style={HomeStyles.homecardContainer}>
-							<View style={HomeStyles.homecard}>
-								<HomeCardBack
-									memberId={id}
-									profileImg={profilePresignUrl}
-									name={username}
-									onPress={() => setShowNewCard(false)}
-								/>
-							</View>
-						</View>
-					) : showMoreProfiles ? (
-						<View style={HomeStyles.homecardContainer}>
-							<View style={HomeStyles.homecard}>
-								<HomeCardLast />
-							</View>
-						</View>
-					) : (
-						<View style={HomeStyles.homecardContainer}>
-							<View style={HomeStyles.homecard}>
-								<HomeCardFront
-									profileImg={profilePresignUrl}
-									tags={tags}
-									introduction={bio}
-									name={username}
-									country={country}
-									onPress={() => setShowNewCard(true)}
-									isLikedOnPress={() => {
-										heart[id]
-											? handleDeleteHeart()
-											: handleCreateHeart();
-									}}
-									isLikedActive={heart[id]}
-								/>
-							</View>
-						</View>
-					)}
-					<View style={HomeStyles.backgroundHomecard}>
-						<HomeCard />
-					</View>
-					<View
-						style={[
-							HomeStyles.backgroundHomecard,
-							{
-								transform: [{ scale: 0.8 }],
-								right: -5,
-								zIndex: -1,
-							},
-						]}
-					>
-						<HomeCard />
-					</View>
-
-					<TouchableOpacity onPress={handleNextProfile}>
-						<HomeArrow />
-					</TouchableOpacity>
-				</View>
-
-				<View style={HomeStyles.containerShoolInfoEvents}>
-					<TouchableOpacity
-						style={HomeStyles.containerShoolInfoEventsMargin}
-						onPress={() => navigation.navigate("PreparingPage")}
-					>
-						<HomeSchEv />
-						<Text style={HomeStyles.textSchoolInfoEvents}>
-							{t("schoolInfo")}
-						</Text>
-						<HomeSchoolInfo style={HomeStyles.iconSchoolInfo} />
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={HomeStyles.containerShoolInfoEventsMargin}
-						onPress={() => navigation.navigate("EventPage")}
-					>
-						<HomeSchEv />
-						<Text style={HomeStyles.textSchoolInfoEvents}>
-							{t("events")}
-						</Text>
-						<HomeEvent style={HomeStyles.iconEvents} />
-					</TouchableOpacity>
-				</View>
-			</LinearGradient>
+			{isSmallScreen ? (
+				<>
+					<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+						{renderHome()}
+					</ScrollView>
+					<View style={HomeStyles.containerWhite} />
+				</>
+			) : (
+				<>{renderHome()}</>
+			)}
 		</SafeAreaView>
 	);
 };
