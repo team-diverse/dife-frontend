@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
-import ConnectRequest from "@components/connect/ConnectRequest";
+import ModalRequest from "@components/common/ModalRequest";
 
 const { fontSub16 } = CustomTheme;
 
@@ -24,9 +24,11 @@ const ConnectProfileChatRequest = () => {
 			<TouchableOpacity style={styles.request} onPress={pressButton}>
 				<Text style={styles.textRequest}>{t("requestButtonText")}</Text>
 			</TouchableOpacity>
-			<ConnectRequest
+			<ModalRequest
 				modalVisible={modalVisible}
 				setModalVisible={setModalVisible}
+				textLoading={t("connectRequestInProgress")}
+				textComplete={t("connectRequestComplete")}
 			/>
 		</View>
 	);

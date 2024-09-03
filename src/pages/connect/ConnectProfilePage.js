@@ -22,7 +22,7 @@ import ConnectProfileIntroduction from "@components/connect/ConnectProfileIntrod
 import ConnectProfileTag from "@components/connect/ConnectProfileTag";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
-import ConnectRequest from "@components/ConnectRequest";
+import ModalRequest from "@components/common/ModalRequest";
 import * as Sentry from "@sentry/react-native";
 
 const ConnectProfilePage = ({ route }) => {
@@ -250,9 +250,11 @@ const ConnectProfilePage = ({ route }) => {
 					/>
 				</BottomTwoButtons>
 			</View>
-			<ConnectRequest
+			<ModalRequest
 				modalVisible={modalConnectVisible}
 				setModalVisible={setModalConnectVisible}
+				textLoading={t("connectRequestInProgress")}
+				textComplete={t("connectRequestComplete")}
 			/>
 		</SafeAreaView>
 	);
