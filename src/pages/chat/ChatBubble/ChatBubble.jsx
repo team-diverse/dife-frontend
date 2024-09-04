@@ -2,9 +2,10 @@ import * as React from "react";
 import { Text, StyleSheet, View, Image } from "react-native";
 import ChatBubbleRightTrailSVG from "./ChatBubbleRightTrailSVG";
 import ChatBubbleLeftTrailSVG from "./ChatBubbleLeftTrailSVG";
+import IconChatProfile from "@components/chat/IconChatProfile";
 
 const ChatBubble = ({
-	url,
+	profileImageName,
 	username,
 	message,
 	time,
@@ -33,24 +34,32 @@ const ChatBubble = ({
 
 	return (
 		<View style={rowStyles}>
-			<View style={styles.profileWrapper}>
-				{/* TODO: Profile Image 연동 및 D 디자인 보이게 하기} */}
+			<View style={styles.profileChatWrapper}>
 				{showProfile && (
-					<Image source={{ uri: url }} styles={styles.profileImage} />
-				)}
-			</View>
-			<View>
-				{showProfile && (
-					<Text style={styles.profileName}>{username}</Text>
-				)}
-				<View style={frameParentStyles}>
-					<View style={styles.timeWrapper}>
-						<Text style={styles.time}>{time}</Text>
+					<View style={styles.profileWrapper}>
+						<View style={styles.iconChatProfileWrapper}>
+							<IconChatProfile
+								size={36}
+								imageName={profileImageName}
+							/>
+						</View>
 					</View>
-					<View style={bubbleStyles}>
-						<Text style={messageStyles}>{message}</Text>
+				)}
+				<View>
+					{showProfile && (
+						<View>
+							<Text style={styles.profileName}>{username}</Text>
+						</View>
+					)}
+					<View style={frameParentStyles}>
+						<View style={styles.timeWrapper}>
+							<Text style={styles.time}>{time}</Text>
+						</View>
+						<View style={bubbleStyles}>
+							<Text style={messageStyles}>{message}</Text>
+						</View>
+						<View>{TrailSVG}</View>
 					</View>
-					{TrailSVG}
 				</View>
 			</View>
 		</View>
@@ -58,14 +67,15 @@ const ChatBubble = ({
 };
 
 const styles = StyleSheet.create({
-	profileWrapper: {
-		alignItems: "center",
-		marginRight: 10,
+	profileChatWrapper: {
+		flexDirection: "row",
 	},
-	profileImage: {
-		width: 40,
-		height: 40,
-		borderRadius: 20,
+	iconChatProfileWrapper: {
+		paddingBottom: 10,
+	},
+	profileWrapper: {
+		marginBottom: 10,
+		marginRight: 10,
 	},
 	profileName: {
 		fontSize: 12,

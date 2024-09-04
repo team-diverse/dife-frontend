@@ -39,6 +39,7 @@ const ChatRoomPage = ({ route }) => {
 	const { chatroomInfo } = route.params;
 	const [memberId, setMemberId] = useState(null);
 	const members = sortByIds(chatroomInfo.members);
+	const otherMember = members.find((member) => member.id !== memberId);
 	const flatListRef = useRef(null);
 
 	useEffect(() => {
@@ -141,7 +142,10 @@ const ChatRoomPage = ({ route }) => {
 									return (
 										<ChatBubble
 											key={msg.id}
-											url={null}
+											profileImageName={
+												otherMember.profileImg
+													.originalName
+											}
 											username={msg.member.username}
 											message={msg.message}
 											time={formatKoreanTime(msg.created)}
