@@ -556,3 +556,9 @@ export const deleteBlockMember = (memberId) => {
 export const deleteMember = () => {
 	return api.delete("/members");
 };
+
+export const translationByPostId = (postId) => {
+	return api.post("/translations", {
+		postId,
+	});
+};
