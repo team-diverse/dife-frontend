@@ -21,7 +21,7 @@ const IconChatProfile = ({ size = 48, imageName, ...props }) => {
 
 	useEffect(() => {
 		getProfileImage();
-	}, []);
+	}, [imageName]);
 	const pathData = `
 		M0 ${size * 0.2083}C0 ${size * 0.0933} ${size * 0.0933} 0 ${size * 0.2083} 0H${size * 0.5}
 		C${size * 0.7761} 0 ${size} ${size * 0.2182} ${size} ${size * 0.5}
