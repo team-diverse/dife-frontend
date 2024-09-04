@@ -26,6 +26,7 @@ import ChatBubble from "./ChatBubble/ChatBubble";
 import { useWebSocket } from "context/WebSocketContext";
 import formatKoreanTime from "util/formatTime";
 import { getMyMemberId } from "util/secureStoreUtils";
+import { sortByIds } from "util/util";
 
 const ChatRoomPage = ({ route }) => {
 	const navigation = useNavigation();
@@ -37,6 +38,7 @@ const ChatRoomPage = ({ route }) => {
 	const { messages } = useWebSocket();
 	const { chatroomInfo } = route.params;
 	const [memberId, setMemberId] = useState(null);
+	const members = sortByIds(chatroomInfo.members);
 	const flatListRef = useRef(null);
 
 	useEffect(() => {
@@ -193,18 +195,19 @@ const ChatRoomPage = ({ route }) => {
 						>
 							참가자
 						</Text>
-						<View style={ChatRoomStyles.containerChatPeople}>
-							<IconChatProfile size="36" />
-							<Text style={ChatRoomStyles.textChatPeople}>
-								나
-							</Text>
-						</View>
-						<View style={ChatRoomStyles.containerChatPeople}>
-							<IconChatProfile size="36" />
-							<Text style={ChatRoomStyles.textChatPeople}>
-								Name
-							</Text>
-						</View>
+						{members.map((member) => (
+							<View
+								key={member.id}
+								style={ChatRoomStyles.containerChatPeople}
+							>
+								<IconChatProfile
+									imageName={member.profileImg.originalName}
+								/>
+								<Text style={ChatRoomStyles.textChatPeople}>
+									{member.username}
+								</Text>
+							</View>
+						))}
 					</View>
 					<View style={ChatRoomStyles.line} />
 					<TouchableOpacity style={ChatRoomStyles.containerDrawer}>

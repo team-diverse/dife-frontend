@@ -451,7 +451,7 @@ export const getConnectList = () => {
 export const getProfileImageByFileName = (fileName) => {
 	return api.get(`/files`, {
 		params: {
-			fileName: fileName,
+			name: fileName,
 		},
 	});
 };
