@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import {
@@ -11,6 +12,7 @@ import {
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconSend from "@components/common/IconSend";
 import IconMenu from "@components/chat/IconMenu";
+import ModalKebabMenuConnectList from "./ModalKebabMenuConnectList";
 
 const { fontCaption } = CustomTheme;
 
@@ -21,7 +23,27 @@ const ItemRequestConnectList = ({
 	imageName,
 	received = false,
 }) => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
+
+	const iconRef = useRef();
+
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalPosition, setModalPosition] = useState({
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
+	});
+
+	const handleIconPress = () => {
+		setModalVisible(true);
+		if (iconRef.current) {
+			iconRef.current.measureInWindow((x, y, width, height) => {
+				setModalPosition({ x, y, width, height });
+			});
+		}
+	};
 
 	const handleAcceptedConnect = async () => {
 		try {
@@ -59,12 +81,18 @@ const ItemRequestConnectList = ({
 					<View style={styles.icon}>
 						<IconChatProfile imageName={imageName} />
 					</View>
-					<Text style={styles.textName}>{name}</Text>
+					<Text
+						style={styles.textName}
+						numberOfLines={1}
+						ellipsizeMode="tail"
+					>
+						{name}
+					</Text>
 				</TouchableOpacity>
 				<View style={styles.containerIcon}>
 					{received ? (
 						<>
-							<View
+							<TouchableOpacity
 								style={[
 									styles.buttonAcceptRefuse,
 									{ borderColor: CustomTheme.primaryMedium },
@@ -77,9 +105,9 @@ const ItemRequestConnectList = ({
 										{ color: CustomTheme.primaryMedium },
 									]}
 								>
-									수락
+									{t("accept")}
 								</Text>
-							</View>
+							</TouchableOpacity>
 							<TouchableOpacity
 								style={[
 									styles.buttonAcceptRefuse,
@@ -93,24 +121,39 @@ const ItemRequestConnectList = ({
 										{ color: CustomTheme.warningRed },
 									]}
 								>
-									거절
+									{t("reject")}
 								</Text>
 							</TouchableOpacity>
-							<View style={styles.iconMenu}>
-								<IconMenu />
-							</View>
 						</>
 					) : (
 						<>
-							<Text style={styles.textPending}>수락 대기중</Text>
+							<Text style={styles.textPending}>
+								{t("pending")}
+							</Text>
 							<TouchableOpacity>
 								<View style={styles.rectangleChat}>
 									<IconSend />
 								</View>
 							</TouchableOpacity>
-							<View style={styles.iconMenu}>
-								<IconMenu />
-							</View>
+							<TouchableOpacity
+								style={styles.iconMenu}
+								onPress={handleIconPress}
+							>
+								<View ref={iconRef}>
+									<IconMenu />
+								</View>
+							</TouchableOpacity>
+							{modalPosition && (
+								<ModalKebabMenuConnectList
+									modalVisible={modalVisible}
+									setModalVisible={setModalVisible}
+									name={name}
+									connectId={connectId}
+									memberId={memberId}
+									pending={true}
+									position={modalPosition}
+								/>
+							)}
 						</>
 					)}
 				</View>
@@ -145,6 +188,7 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		lineHeight: 17,
 		fontFamily: "NotoSansCJKkr-Bold",
+		maxWidth: 120,
 	},
 	containerIcon: {
 		flexDirection: "row",
@@ -153,16 +197,16 @@ const styles = StyleSheet.create({
 	textPending: {
 		...fontCaption,
 		color: CustomTheme.primaryMedium,
-		marginRight: 96,
+		marginRight: 20,
 	},
 	buttonAcceptRefuse: {
-		width: 76,
+		width: 57,
 		height: 31,
 		borderRadius: 12,
 		borderWidth: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		marginRight: 8,
+		marginRight: 14,
 	},
 	textAcceptRefuse: {
 		...fontCaption,

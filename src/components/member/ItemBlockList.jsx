@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { formatDate } from "util/formatDate";
@@ -11,21 +12,26 @@ import IconMenu from "@components/chat/IconMenu";
 import ModalKebabMenuBlock from "@components/member/ModalKebabMenuBlock";
 
 const ItemBlockList = ({ blacklistedMemberId, date }) => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
-	const [modalVisible, setModalVisible] = useState(false);
+	const iconRef = useRef();
 
+	const [modalVisible, setModalVisible] = useState(false);
 	const [modalPosition, setModalPosition] = useState({
-		top: 0,
-		left: 0,
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
 	});
 
-	const handleIconPress = (event) => {
+	const handleIconPress = () => {
 		setModalVisible(true);
-		const { pageY } = event.nativeEvent;
-		setModalPosition({
-			top: Math.floor(pageY / 10) * 10,
-		});
+		if (iconRef.current) {
+			iconRef.current.measureInWindow((x, y, width, height) => {
+				setModalPosition({ x, y, width, height });
+			});
+		}
 	};
 
 	const [name, setName] = useState();
@@ -67,20 +73,24 @@ const ItemBlockList = ({ blacklistedMemberId, date }) => {
 					</TouchableOpacity>
 					<View style={styles.iconTextContainer}>
 						<Text style={styles.textBlockDate}>
-							{formatDate(date)} 차단함
+							{formatDate(date)} {t("blocked")}
 						</Text>
 						<TouchableOpacity
 							style={styles.iconMenu}
-							onPress={(event) => handleIconPress(event)}
+							onPress={handleIconPress}
 						>
-							<IconMenu />
+							<View ref={iconRef}>
+								<IconMenu />
+							</View>
 						</TouchableOpacity>
-						<ModalKebabMenuBlock
-							modalVisible={modalVisible}
-							setModalVisible={setModalVisible}
-							blacklistedMemberId={blacklistedMemberId}
-							position={modalPosition}
-						/>
+						{modalPosition && (
+							<ModalKebabMenuBlock
+								modalVisible={modalVisible}
+								setModalVisible={setModalVisible}
+								blacklistedMemberId={blacklistedMemberId}
+								position={modalPosition}
+							/>
+						)}
 					</View>
 				</View>
 			</View>
@@ -123,8 +133,6 @@ const styles = StyleSheet.create({
 		marginRight: 12,
 	},
 	iconMenu: {
-		width: 13,
-		height: 13,
 		marginRight: 16,
 	},
 });

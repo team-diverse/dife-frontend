@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import Modal from "react-native-modal";
+import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { deletePost, deleteCommentByCommentId, blockMember } from "config/api";
+import {
+	deletePost,
+	deleteCommentByCommentId,
+	createBlockMemberByMemberId,
+	createBlockPostByPostId,
+} from "config/api";
 
 import InfoCircle from "@components/common/InfoCircle";
 import Report from "@components/Report";
 import PostModifyPage from "@pages/community/PostModifyPage";
-import IconTrashCan from "./IconTrashCan";
+import IconTrashCan from "@components/community/IconTrashCan";
 import * as Sentry from "@sentry/react-native";
 
 const { fontBody14 } = CustomTheme;
@@ -19,19 +25,21 @@ const ModalKebabMenu = ({
 	setModalVisible,
 	memberId,
 	postId,
-	commentId = null,
+	commentId,
 	isPublic,
 	isMe,
 	position,
+	onNavigation,
 }) => {
+	const { t } = useTranslation();
+	const navigation = useNavigation();
+
 	const rectangleStyle = () => {
 		if (isMe) {
 			return commentId ? styles.rectangleCommentIsMe : styles.rectangle;
 		}
 		return isPublic ? styles.rectangle : styles.rectangleIsPublic;
 	};
-
-	const navigation = useNavigation();
 
 	const handleModify = () => {
 		setModalVisible(false);
@@ -41,16 +49,16 @@ const ModalKebabMenu = ({
 	const handleDelete = () => {
 		setModalVisible(false);
 		Alert.alert(
-			"삭제",
-			"이 게시글을 삭제하시겠습니까?",
+			t("clearTextButton"),
+			t("deletePostConfirmation"),
 			[
-				{ text: "취소", style: "cancel" },
+				{ text: t("cancelButton"), style: "cancel" },
 				{
-					text: "확인",
+					text: t("confirmButtonText"),
 					onPress: () => {
 						deletePost(postId)
 							.then(() => {
-								navigation.goBack();
+								onNavigation.goBack();
 							})
 							.catch((error) => {
 								Sentry.captureException(error);
@@ -82,12 +90,12 @@ const ModalKebabMenu = ({
 	const handleDeleteCommentAlert = () => {
 		setModalVisible(false);
 		Alert.alert(
-			"삭제",
-			"이 댓글을 삭제하시겠습니까?",
+			t("deleteTitle"),
+			t("deleteCommentConfirmation"),
 			[
-				{ text: "취소", style: "cancel" },
+				{ text: t("cancelButton"), style: "cancel" },
 				{
-					text: "확인",
+					text: t("confirmButtonText"),
 					onPress: () => {
 						handleDeleteComment();
 					},
@@ -103,6 +111,11 @@ const ModalKebabMenu = ({
 		setModalReportVisible(true);
 	};
 
+	const handleReportComplete = () => {
+		setModalReportVisible(false);
+		setModalVisible(false);
+	};
+
 	const handleDetailProfile = () => {
 		setModalVisible(false);
 		navigation.navigate("ConnectProfilePage", { memberId: memberId });
@@ -111,15 +124,15 @@ const ModalKebabMenu = ({
 	const handleBlockAlert = () => {
 		setModalVisible(false);
 		Alert.alert(
-			"차단",
-			"사용자를 차단하겠습니까?",
+			"",
+			t("blockUserConfirmation"),
 			[
 				{
-					text: "취소",
+					text: t("cancelButton"),
 					style: "cancel",
 				},
 				{
-					text: "확인",
+					text: t("confirmButtonText"),
 					onPress: () => {
 						handleBlock();
 					},
@@ -131,13 +144,59 @@ const ModalKebabMenu = ({
 
 	const handleBlock = async () => {
 		try {
-			await blockMember(memberId);
+			await createBlockMemberByMemberId(memberId);
 			Alert.alert(
-				"차단",
-				"사용자를 차단하였습니다.",
+				"",
+				t("userBlocked"),
 				[
 					{
-						text: "확인",
+						text: t("confirmButtonText"),
+						onPress: () => {
+							setModalVisible(false);
+							onNavigation.goBack();
+						},
+					},
+				],
+				{ cancelable: false },
+			);
+		} catch (error) {
+			console.error(
+				"차단 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleBlockPostAlert = () => {
+		setModalVisible(false);
+		Alert.alert(
+			"",
+			t("blockPostWarning"),
+			[
+				{
+					text: t("cancelButton"),
+					style: "cancel",
+				},
+				{
+					text: t("confirmButtonText"),
+					onPress: () => {
+						handleBlockPost();
+					},
+				},
+			],
+			{ cancelable: false },
+		);
+	};
+
+	const handleBlockPost = async () => {
+		try {
+			await createBlockPostByPostId(postId);
+			Alert.alert(
+				"",
+				t("postBlocked"),
+				[
+					{
+						text: t("confirmButtonText"),
 					},
 				],
 				{ cancelable: false },
@@ -157,11 +216,11 @@ const ModalKebabMenu = ({
 				styles.modal,
 				commentId
 					? {
-							top: position.top,
-							left: position.left - 115,
+							top: position.y,
+							left: position.x - (position.width + 95),
 						}
 					: {
-							top: position.top,
+							top: position.top - 5,
 							right: position.width,
 							alignItems: "flex-end",
 						},
@@ -179,25 +238,31 @@ const ModalKebabMenu = ({
 								style={styles.containerDeleteComment}
 								onPress={handleDeleteCommentAlert}
 							>
-								<Text style={styles.textIsMe}>댓글 삭제</Text>
+								<Text style={styles.textIsMe}>
+									{t("deleteComment")}
+								</Text>
 								<IconTrashCan />
 							</TouchableOpacity>
 						) : (
 							<>
 								<TouchableOpacity onPress={handleModify}>
-									<Text style={styles.textIsMe}>글 수정</Text>
+									<Text style={styles.textIsMe}>
+										{t("modifyPost")}
+									</Text>
 								</TouchableOpacity>
 								<View style={styles.line} />
 								<TouchableOpacity onPress={handleDelete}>
-									<Text style={styles.textIsMe}>글 삭제</Text>
+									<Text style={styles.textIsMe}>
+										{t("deletePost")}
+									</Text>
 								</TouchableOpacity>
 							</>
 						)}
 					</>
 				) : isPublic ? (
 					<>
-						<TouchableOpacity onPress={handleBlockAlert}>
-							<Text style={styles.textIsMe}>차단</Text>
+						<TouchableOpacity onPress={handleBlockPostAlert}>
+							<Text style={styles.textIsMe}>{t("block")}</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />
 						<TouchableOpacity
@@ -210,7 +275,7 @@ const ModalKebabMenu = ({
 									{ color: CustomTheme.warningRed },
 								]}
 							>
-								신고
+								{t("report")}
 							</Text>
 							<InfoCircle color={CustomTheme.warningRed} />
 						</TouchableOpacity>
@@ -218,21 +283,24 @@ const ModalKebabMenu = ({
 							modalVisible={modalReportVisible}
 							setModalVisible={setModalReportVisible}
 							reportTitle={
-								commentId ? "댓글 신고" : "게시글 신고"
+								commentId ? t("reportComment") : t("reportPost")
 							}
 							{...(commentId
 								? { commentId: commentId }
 								: { postId: postId })}
+							onReportComplete={handleReportComplete}
 						/>
 					</>
 				) : (
 					<>
 						<TouchableOpacity onPress={handleDetailProfile}>
-							<Text style={styles.textIsMe}>프로필 상세</Text>
+							<Text style={styles.textIsMe}>
+								{t("viewProfile")}
+							</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />
 						<TouchableOpacity onPress={handleBlockAlert}>
-							<Text style={styles.textIsMe}>차단</Text>
+							<Text style={styles.textIsMe}>{t("block")}</Text>
 						</TouchableOpacity>
 						<View style={styles.line} />
 						<TouchableOpacity
@@ -245,7 +313,7 @@ const ModalKebabMenu = ({
 									{ color: CustomTheme.warningRed },
 								]}
 							>
-								신고
+								{t("report")}
 							</Text>
 							<InfoCircle color={CustomTheme.warningRed} />
 						</TouchableOpacity>
@@ -253,11 +321,12 @@ const ModalKebabMenu = ({
 							modalVisible={modalReportVisible}
 							setModalVisible={setModalReportVisible}
 							reportTitle={
-								commentId ? "댓글 신고" : "게시글 신고"
+								commentId ? t("reportComment") : t("reportPost")
 							}
 							{...(commentId
 								? { commentId: commentId }
 								: { postId: postId })}
+							onReportComplete={handleReportComplete}
 						/>
 					</>
 				)}
@@ -269,6 +338,7 @@ const ModalKebabMenu = ({
 const styles = StyleSheet.create({
 	modal: {
 		justifyContent: "flex-start",
+		alignItems: "flex-start",
 	},
 	rectangle: {
 		width: 95,

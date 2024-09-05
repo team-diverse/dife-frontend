@@ -7,6 +7,7 @@ import {
 	StyleSheet,
 } from "react-native";
 import Modal from "react-native-modal";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
@@ -18,7 +19,13 @@ import InfoCircle from "@components/common/InfoCircle";
 
 const { fontCaption, fontSub14, fontSub16 } = CustomTheme;
 
-const ModalGroupJoin = ({ modalVisible, setModalVisible, length = 5 }) => {
+const ModalGroupJoin = ({
+	modalVisible,
+	setModalVisible,
+	isPublic,
+	length = 5,
+}) => {
+	const { t } = useTranslation();
 	const [showComplete, setShowComplete] = useState(false);
 	const [password, setPassword] = useState(Array(length).fill(""));
 	const [incorrectPassword, setIncorrectPassword] = useState(false);
@@ -63,17 +70,17 @@ const ModalGroupJoin = ({ modalVisible, setModalVisible, length = 5 }) => {
 				>
 					<IconCancelX />
 				</TouchableOpacity>
-				{showComplete ? (
+				{isPublic || showComplete ? (
 					<>
 						<View style={styles.reportCompleteContainer}>
 							<CompleteIcon isConnect={true} />
 							<Text style={styles.reportCompleteText}>
-								가입 완료
+								{t("joinComplete")}
 							</Text>
 						</View>
 						<TouchableOpacity style={styles.rectangleBlue}>
 							<Text style={styles.textRectangleBlue}>
-								채팅방으로 바로 이동하기
+								{t("goToChatRoom")}
 							</Text>
 						</TouchableOpacity>
 					</>
@@ -108,18 +115,20 @@ const ModalGroupJoin = ({ modalVisible, setModalVisible, length = 5 }) => {
 							<View style={styles.containerError}>
 								<InfoCircle color={CustomTheme.warningRed} />
 								<Text style={styles.textError}>
-									잘못된 비밀번호입니다
+									{t("incorrectPassword")}
 								</Text>
 							</View>
 						)}
 						<Text style={styles.textPassword}>
-							비밀번호를 입력해주세요
+							{t("placeholderPassword")}
 						</Text>
 						<TouchableOpacity
 							style={styles.rectangleBlue}
 							onPress={() => setShowComplete(true)}
 						>
-							<Text style={styles.textRectangleBlue}>확인</Text>
+							<Text style={styles.textRectangleBlue}>
+								{t("confirmButtonText")}
+							</Text>
 						</TouchableOpacity>
 					</>
 				)}
