@@ -16,14 +16,6 @@ module.exports = function (api) {
 				},
 			],
 			"react-native-reanimated/plugin",
-			[
-				"module:react-native-dotenv",
-				{
-					envName: "LOCAL_ENV",
-					moduleName: "@env",
-					path: ".evn.local",
-				},
-			],
 		],
 	};
 };

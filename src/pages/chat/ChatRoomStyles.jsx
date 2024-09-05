@@ -13,6 +13,7 @@ const ChatRoomStyles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
+		marginBottom: 30,
 		height: 56,
 	},
 	containerChat: {

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, ScrollView, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import GroupProfilePreviewStyles from "@pages/connect/GroupProfilePreviewStyles";
 import { useCreateGroup } from "src/states/CreateGroupDataContext.js";
 import { createGroupChatroom } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
+import i18n from "i18next";
 
 import TopBar from "@components/common/TopBar";
 import InfoCircle from "@components/common/InfoCircle";
@@ -18,6 +20,7 @@ import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
 import Loading from "@components/common/loading/Loading";
 
 const GroupProfilePreviewPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const { createGroupData } = useCreateGroup();
@@ -29,12 +32,35 @@ const GroupProfilePreviewPage = () => {
 		setGroupProfile(profile[0]);
 	}, []);
 
+	const CategoryEnum = {
+		COMMUNICATION: "COMMUNICATION",
+		EXCHANGE: "EXCHANGE",
+		FREE: "FREE",
+	};
+
+	const categoryStringToEnum = (stringValue) => {
+		const enumMap = {
+			[i18n.t("communication")]: CategoryEnum.COMMUNICATION,
+			[i18n.t("exchange")]: CategoryEnum.EXCHANGE,
+			[i18n.t("free")]: CategoryEnum.FREE,
+		};
+		return enumMap[stringValue] || null;
+	};
+
 	const handleCreateGroup = async () => {
 		try {
+			const purposesEnum =
+				groupProfile.purposes.map(categoryStringToEnum);
 			const response = await createGroupChatroom(
 				groupProfile.profileImg,
 				groupProfile.name,
 				groupProfile.description,
+				groupProfile.hobbies,
+				groupProfile.maxCount,
+				purposesEnum,
+				groupProfile.languages,
+				groupProfile.isPublic,
+				groupProfile.groupPassword,
 			);
 			navigation.navigate("ConnectPage", {
 				groupId: response.data.id,
@@ -54,17 +80,17 @@ const GroupProfilePreviewPage = () => {
 
 	return (
 		<SafeAreaView style={GroupProfilePreviewStyles.container}>
-			<TopBar topBar="그룹 채팅방 만들기" color="#000" />
+			<TopBar topBar={t("groupCreatedTitle")} color="#000" />
 
 			<ScrollView>
 				<View style={GroupProfilePreviewStyles.containerText}>
 					<Text style={GroupProfilePreviewStyles.textPreview}>
-						최종 프로필 미리보기
+						{t("finalPreview")}
 					</Text>
 					<View style={GroupProfilePreviewStyles.infoTextContainer}>
 						<InfoCircle />
 						<Text style={GroupProfilePreviewStyles.infoText}>
-							입력한 정보가 맞는지 확인해주세요
+							{t("checkInfo")}
 						</Text>
 					</View>
 				</View>
@@ -83,15 +109,15 @@ const GroupProfilePreviewPage = () => {
 							<Text
 								style={GroupProfilePreviewStyles.textHeadcount}
 							>
-								{groupProfile.limitMembersNumber[0]}~
-								{groupProfile.limitMembersNumber[1]}명 제한
+								{groupProfile.maxCount}
+								{t("memberLimit")}
 							</Text>
 						</View>
 					</View>
 				</View>
 				<View style={GroupProfilePreviewStyles.detailProfileContainer}>
 					<Text style={GroupProfilePreviewStyles.fontSub16}>
-						한줄소개
+						{t("bio")}
 					</Text>
 					<View>
 						<ConnectProfileIntroduction
@@ -99,13 +125,13 @@ const GroupProfilePreviewPage = () => {
 						/>
 					</View>
 					<Text style={GroupProfilePreviewStyles.fontSub16}>
-						태그
+						{t("tag")}
 					</Text>
 					<View style={{ marginBottom: 8 }}>
 						<ConnectProfileTag tag={groupProfile.tags} />
 					</View>
 					<Text style={GroupProfilePreviewStyles.fontSub16}>
-						언어
+						{t("language")}
 					</Text>
 					<ConnectProfileLanguage
 						languages={groupProfile.languages}
@@ -116,8 +142,14 @@ const GroupProfilePreviewPage = () => {
 
 			<View style={GroupProfilePreviewStyles.bottomTwoButtons}>
 				<BottomTwoButtons shadow="true">
-					<View text="뒤로가기" onPress={() => navigation.goBack()} />
-					<View text="그룹 생성하기" onPress={handleCreateGroup} />
+					<View
+						text={t("backButton")}
+						onPress={() => navigation.goBack()}
+					/>
+					<View
+						text={t("createGroupButton")}
+						onPress={handleCreateGroup}
+					/>
 				</BottomTwoButtons>
 			</View>
 		</SafeAreaView>

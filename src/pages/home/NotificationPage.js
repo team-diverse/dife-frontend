@@ -1,48 +1,62 @@
-import React from "react";
-import { SafeAreaView, FlatList } from "react-native";
+import React, { useState, useEffect } from "react";
+import { SafeAreaView, View, FlatList } from "react-native";
+import * as SecureStore from "expo-secure-store";
+import { useTranslation } from "react-i18next";
+
+import NotificationStyles from "@pages/home/NotificationStyles.js";
+import { getNotifications } from "config/api";
+import { formatDate } from "util/formatDate";
+
 import TopBar from "@components/common/TopBar";
 import NotificationCard from "@components/notification/NotificationCard.js";
-import NotificationStyles from "@pages/home/NotificationStyles.js";
 
 const NotificationPage = () => {
-	const notificationData = [
-		{
-			id: "1",
-			icon: "chat",
-			name: "Dann",
-			context: "님이 새로 채팅을 보냈습니다. \n “Hi there!”",
-			time: "09 : 25",
-		},
-		{
-			id: "2",
-			icon: "heart",
-			name: "Dann",
-			context: "님이 “교환학생 잘가는법” 게시물에 좋아요를 눌렀습니다.",
-			time: "09 : 25",
-		},
-		{
-			id: "3",
-			icon: "connect",
-			name: "Dann",
-			context: "님이 회원님에게 커넥트 요청을 보냈습니다.",
-			time: "09 : 25",
-		},
-		{
-			id: "4",
-			name: "Dann",
-			context: "님이 새로 채팅을 보냈습니다. \n “Hi there!”",
-		},
-	];
+	const { t } = useTranslation();
+
+	const [notificationData, setNotificationData] = useState([]);
+
+	const handleNotification = async () => {
+		try {
+			const response = await getNotifications();
+			setNotificationData(response.data.reverse());
+			await SecureStore.setItemAsync(
+				"readNotificationCount",
+				response.data.length.toString(),
+			);
+		} catch (error) {
+			console.error(
+				"알림 조회 오류: ",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useEffect(() => {
+		handleNotification();
+	}, [notificationData]);
 
 	return (
 		<SafeAreaView
 			style={[NotificationStyles.container, { alignItems: "center" }]}
 		>
-			<TopBar topBar="알림" />
+			<TopBar topBar={t("notifications")} />
 			<FlatList
 				style={NotificationStyles.flatlist}
 				data={notificationData}
-				renderItem={({ item }) => <NotificationCard {...item} />}
+				renderItem={({ item }) => {
+					return (
+						<>
+							<NotificationCard
+								notificationId={item.id}
+								type={item.type}
+								typeId={item.typeId}
+								created={formatDate(item.created)}
+								content={item.message}
+							/>
+							<View style={NotificationStyles.line} />
+						</>
+					);
+				}}
 				keyExtractor={(item) => item.id}
 			/>
 		</SafeAreaView>

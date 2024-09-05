@@ -14,7 +14,8 @@ import {
 	FlatList,
 	Image,
 } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import PostStyles from "@pages/community/PostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -28,11 +29,11 @@ import {
 	createLikePost,
 	deleteLikeByPostId,
 	createPostBookmark,
-	getLikedPost,
-	getBookmarkedPost,
 	deleteBookmarkByPostId,
 	getProfileImageByFileName,
+	translationByPostId,
 } from "config/api";
+import { formatDate } from "util/formatDate";
 
 import TopBar from "@components/common/TopBar";
 import IconProfileK from "@components/community/IconProfileK";
@@ -44,8 +45,12 @@ import Checkbox from "@components/common/Checkbox";
 import IconChatSend from "@components/chat/IconChatSend";
 import ItemComment from "@components/community/ItemComment";
 import ModalKebabMenu from "@components/community/ModalKebabMenu";
+import * as Sentry from "@sentry/react-native";
 
 const PostPage = ({ route }) => {
+	const { t } = useTranslation();
+	const navigation = useNavigation();
+
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const { postId } = route.params;
@@ -55,7 +60,9 @@ const PostPage = ({ route }) => {
 	const [title, setTitle] = useState("");
 	const [context, setContext] = useState("");
 	const [heart, setHeart] = useState();
+	const [pressHeart, setPressHeart] = useState();
 	const [bookmark, setBookmark] = useState();
+	const [pressBookmark, setPressBookmark] = useState();
 	const [writerName, setWriterName] = useState("");
 	const [isPublic, setIsPublic] = useState();
 	const [created, setCreated] = useState("");
@@ -66,15 +73,7 @@ const PostPage = ({ route }) => {
 	const [isChecked, setIsChecked] = useState(false);
 	const [isReplying, setIsReplying] = useState(false);
 	const [parentCommentId, setParentCommentId] = useState(null);
-	const [myMemberId, setMyMemberId] = useState(null);
-
-	useEffect(() => {
-		const getMyId = async () => {
-			const id = await getMyMemberId();
-			setMyMemberId(id);
-		};
-		getMyId();
-	}, []);
+	const [isTranslation, setIsTranslation] = useState(false);
 
 	const commentRef = useRef(null);
 
@@ -95,63 +94,74 @@ const PostPage = ({ route }) => {
 		setIsChecked(!isChecked);
 	};
 
-	const difeLinesCount = Math.floor(comments.length / 1.5);
+	const difeLinesCount = Math.max(1, Math.floor(comments.length / 1.5));
 
-	const date = (date) => {
-		const datePart = date.split("T")[0];
-		const monthDay = datePart.slice(5);
-		return monthDay.replace("-", "/");
+	const getPost = async () => {
+		try {
+			const myMemberId = await getMyMemberId();
+
+			const postByIdResponse = await getPostById(postId);
+			setTitle(postByIdResponse.data.title);
+			setContext(postByIdResponse.data.content);
+			setCreated(formatDate(postByIdResponse.data.created));
+			setIsPublic(postByIdResponse.data.isPublic);
+			setMemberId(postByIdResponse.data.writer.id);
+			const fileNames = postByIdResponse.data.files.map(
+				(file) => file.originalName,
+			);
+			const responses = await Promise.all(
+				fileNames.map((fileName) =>
+					getProfileImageByFileName(fileName),
+				),
+			);
+			const responseImages = responses.map((response) => response.data);
+			setImages(responseImages);
+
+			if (postByIdResponse.data.isPublic === false) {
+				setWriterName(postByIdResponse.data.writer.username);
+			} else if (postByIdResponse.data.isPublic === true) {
+				setWriterName(t("anonymousCheckboxLabel"));
+			}
+
+			if (myMemberId === postByIdResponse.data.writer.id) {
+				setIsMe(true);
+				updatePostModifyData({
+					memberId: myMemberId,
+					id: postId,
+					title: postByIdResponse.data.title,
+					context: postByIdResponse.data.content,
+					boardType: postByIdResponse.data.boardType,
+					isPublic: postByIdResponse.data.isPublic,
+				});
+			}
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"게시글 제목 및 내용 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
+
+	useEffect(() => {
+		getPost();
+	}, []);
 
 	useFocusEffect(
 		useCallback(() => {
-			const postComment = async () => {
+			const getHeartBookmakrComment = async () => {
 				try {
 					const postByIdResponse = await getPostById(postId);
-					setTitle(postByIdResponse.data.title);
-					setContext(postByIdResponse.data.content);
 					setHeart(postByIdResponse.data.likesCount);
 					setBookmark(postByIdResponse.data.bookmarkCount);
-					setCreated(date(postByIdResponse.data.created));
-					setIsPublic(postByIdResponse.data.isPublic);
-					setMemberId(postByIdResponse.data.writer.id);
-					const fileNames = postByIdResponse.data.files.map(
-						(file) => file.originalName,
-					);
-					const responses = await Promise.all(
-						fileNames.map((fileName) =>
-							getProfileImageByFileName(fileName),
-						),
-					);
-					const responseImages = responses.map(
-						(response) => response.data,
-					);
-					setImages(responseImages);
-
-					if (postByIdResponse.data.isPublic === false) {
-						setWriterName(postByIdResponse.data.writer.username);
-					} else if (postByIdResponse.data.isPublic === true) {
-						setWriterName("익명");
-					}
-
-					if (myMemberId === postByIdResponse.data.writer.id) {
-						setIsMe(true);
-						updatePostModifyData({
-							memberId: myMemberId,
-							id: postId,
-							title: postByIdResponse.data.title,
-							context: postByIdResponse.data.content,
-							boardType: postByIdResponse.data.boardType,
-							isPublic: postByIdResponse.data.isPublic,
-						});
-					}
 
 					const commentByIdResponse =
 						await getCommentByPostId(postId);
 					setComments(commentByIdResponse.data);
 				} catch (error) {
+					Sentry.captureException(error);
 					console.error(
-						"게시글 조회 오류:",
+						"게시글 좋아요 및 북마크 조회 오류:",
 						error.response ? error.response.data : error.message,
 					);
 					console.error(
@@ -160,9 +170,8 @@ const PostPage = ({ route }) => {
 					);
 				}
 			};
-
-			postComment();
-		}, [pressHeart, pressBookmark]),
+			getHeartBookmakrComment();
+		}, [pressHeart, pressBookmark, comments]),
 	);
 
 	const [scrollY, setScrollY] = useState(0);
@@ -190,10 +199,9 @@ const PostPage = ({ route }) => {
 
 	const modalPosition = {
 		top:
-			iconPosition.height +
-			iconPosition.y +
 			topBarPosition.height +
-			topBarPosition.y -
+			topBarPosition.y +
+			iconPosition.height -
 			scrollY,
 		width: iconPosition.width,
 	};
@@ -233,6 +241,7 @@ const PostPage = ({ route }) => {
 				]);
 			}
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"댓글 작성 실패:",
 				error.response ? error.response.data : error.message,
@@ -264,14 +273,13 @@ const PostPage = ({ route }) => {
 		};
 	}, []);
 
-	const [pressHeart, setPressHeart] = useState();
-
 	const handleHeart = async () => {
 		try {
 			await createLikePost(postId);
 			setHeart((prevHeart) => prevHeart + 1);
 			setPressHeart(true);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 좋아요 실패:",
 				error.response ? error.response.data : error.message,
@@ -287,6 +295,7 @@ const PostPage = ({ route }) => {
 			setPressHeart(false);
 			setHeart(heart !== 0 ? (prevHeart) => prevHeart - 1 : 0);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 좋아요 취소 실패:",
 				error.response ? error.response.data : error.message,
@@ -296,27 +305,13 @@ const PostPage = ({ route }) => {
 		}
 	};
 
-	const likedPosts = async () => {
-		try {
-			const response = await getLikedPost();
-			const likedPostIdList = response.data.map((item) => item.id);
-			setPressHeart(likedPostIdList.includes(postId));
-		} catch (error) {
-			console.error(
-				"좋아요 상태 조회 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
-	const [pressBookmark, setPressBookmark] = useState();
-
 	const handleBookmark = async () => {
 		try {
 			await createPostBookmark(postId);
 			setBookmark((prevBookmark) => prevBookmark + 1);
 			setPressBookmark(true);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 북마크 실패:",
 				error.response ? error.response.data : error.message,
@@ -330,6 +325,7 @@ const PostPage = ({ route }) => {
 		try {
 			await deleteBookmarkByPostId(postId);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"게시글 북마크 삭제 실패:",
 				error.response ? error.response.data : error.message,
@@ -342,14 +338,14 @@ const PostPage = ({ route }) => {
 	const bookmarkDeleteAlert = () => {
 		Alert.alert(
 			"",
-			"북마크를 취소하시겠습니까?",
+			t("bookmarkCancelConfirmation"),
 			[
 				{
-					text: "취소",
+					text: t("cancelButton"),
 					style: "cancel",
 				},
 				{
-					text: "확인",
+					text: t("confirmButtonText"),
 					onPress: () => {
 						setBookmark((prevBookmark) => prevBookmark - 1);
 						setPressBookmark(false);
@@ -361,30 +357,48 @@ const PostPage = ({ route }) => {
 		);
 	};
 
-	const bookmarkedPosts = async () => {
+	const getLikedAndBookmarkedStatus = async () => {
 		try {
-			const response = await getBookmarkedPost();
-			const bookmarkedPostIdList = response.data.map(
-				(item) => item.post.id,
-			);
-			setPressBookmark(bookmarkedPostIdList.includes(postId));
+			const response = await getPostById(postId);
+			setPressHeart(response.data.isLiked);
+			setPressBookmark(response.data.isBookmarked);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
-				"북마크 상태 조회 실패:",
+				"좋아요 및 북마크 상태 조회 실패:",
 				error.response ? error.response.data : error.message,
 			);
 		}
 	};
 
 	useEffect(() => {
-		likedPosts();
-		bookmarkedPosts();
+		getLikedAndBookmarkedStatus();
 	}, [pressHeart, pressBookmark]);
+
+	const handleTranslations = async () => {
+		try {
+			if (isTranslation) {
+				setIsTranslation(false);
+				getPost();
+			} else {
+				setIsTranslation(true);
+				const response = await translationByPostId(postId);
+				setTitle(response.data.translations[0].text);
+				setContext(response.data.translations[1].text);
+			}
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"게시글 번역 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
 
 	return (
 		<SafeAreaView style={PostStyles.container}>
 			<View onLayout={handleTopBarLayout}>
-				<TopBar topBar="게시판" color="#000" />
+				<TopBar topBar={t("boardTitle")} color="#000" />
 			</View>
 			<ScrollView onScroll={handleScroll}>
 				<View style={PostStyles.containerWhite}>
@@ -414,6 +428,7 @@ const PostPage = ({ route }) => {
 							isPublic={isPublic}
 							isMe={isMe}
 							position={modalPosition}
+							onNavigation={navigation}
 						/>
 					</View>
 					<Text style={PostStyles.textTitle}>{title}</Text>
@@ -421,25 +436,49 @@ const PostPage = ({ route }) => {
 					{images && (
 						<View style={PostStyles.containerImage}>
 							{images.length === 1 ? (
-								<Image
-									source={{ uri: images[0] }}
-									style={[
-										PostStyles.singleImage,
-										{
-											width: imageSize.width - 48,
-											height: imageSize.height,
-										},
-									]}
-									resizeMode="cover"
-								/>
+								<TouchableOpacity
+									onPress={() =>
+										navigation.navigate(
+											"EnlargeImagePage",
+											{
+												images: images,
+											},
+										)
+									}
+								>
+									<Image
+										source={{ uri: images[0] }}
+										style={[
+											PostStyles.singleImage,
+											{
+												width: imageSize.width - 48,
+												height: imageSize.height,
+											},
+										]}
+										resizeMode="cover"
+									/>
+								</TouchableOpacity>
 							) : (
 								<FlatList
 									data={images}
-									renderItem={({ item }) => (
-										<Image
-											source={{ uri: item }}
-											style={PostStyles.images}
-										/>
+									renderItem={({ item, index }) => (
+										<TouchableOpacity
+											onPress={() =>
+												navigation.navigate(
+													"EnlargeImagePage",
+													{
+														images: images,
+														initialIndex: index,
+													},
+												)
+											}
+										>
+											<Image
+												source={{ uri: item }}
+												style={PostStyles.images}
+												resizeMode="cover"
+											/>
+										</TouchableOpacity>
 									)}
 									keyExtractor={(item, index) =>
 										index.toString()
@@ -470,9 +509,14 @@ const PostPage = ({ route }) => {
 							<IconBookmark active={pressBookmark} />
 							<Text style={PostStyles.textIcon}>{bookmark}</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={PostStyles.textTranslation}>
+						<TouchableOpacity
+							style={PostStyles.textTranslation}
+							onPress={handleTranslations}
+						>
 							<Text style={PostStyles.textTranslation}>
-								번역하기
+								{isTranslation
+									? t("viewOriginalButton")
+									: t("translateButton")}
 							</Text>
 						</TouchableOpacity>
 					</View>
@@ -481,7 +525,12 @@ const PostPage = ({ route }) => {
 				<View
 					style={[
 						PostStyles.containerBackground,
-						{ minHeight: windowHeight - 300 },
+						{
+							minHeight:
+								images.length !== 0
+									? windowHeight - 400
+									: windowHeight - 300,
+						},
 					]}
 				>
 					<View style={PostStyles.difeLine}>
@@ -510,7 +559,7 @@ const PostPage = ({ route }) => {
 							onPress={() => {
 								handlePress();
 							}}
-							text="익명"
+							text={t("anonymousCheckboxLabel")}
 							basic="true"
 						/>
 					</View>
@@ -518,9 +567,7 @@ const PostPage = ({ route }) => {
 						style={PostStyles.textInputComment}
 						ref={commentRef}
 						placeholder={
-							isReplying
-								? "대댓글을 입력해주세요"
-								: "댓글을 입력해주세요"
+							isReplying ? t("replyPrompt") : t("commentPrompt")
 						}
 						onChangeText={(text) => onChangeComment(text)}
 						value={valueComment}

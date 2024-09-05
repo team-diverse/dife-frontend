@@ -3,6 +3,7 @@
 		"name": "Dife",
 		"slug": "dife",
 		"version": "1.0.0",
+		"owner": "team-diverse",
 		"orientation": "portrait",
 		"icon": "src/assets/icon.png",
 		"userInterfaceStyle": "light",
@@ -14,7 +15,6 @@
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
 			"supportsTablet": true,
-			"buildNumber": "3",
 			"bundleIdentifier": "com.teamdiverse.dife",
 			"config": {
 				"usesNonExemptEncryption": false
@@ -40,6 +40,15 @@
 		"updates": {
 			"url": "https://u.expo.dev/7ec133fc-2004-4a77-9b59-25d22dede97b"
 		},
-		"plugins": ["expo-secure-store"]
+		"plugins": [
+			"expo-secure-store",
+			[
+				"@sentry/react-native/expo",
+				{
+					"url": "https://sentry.io/"
+				}
+			],
+			"expo-localization"
+		]
 	}
 }

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Svg, { Path, Defs, ClipPath, Image as SvgImage } from "react-native-svg";
 import { getProfileImageByFileName } from "config/api";
+import * as Sentry from "@sentry/react-native";
 
 const IconChatProfile = ({ size = 48, imageName, ...props }) => {
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
@@ -10,6 +11,7 @@ const IconChatProfile = ({ size = 48, imageName, ...props }) => {
 			const response = await getProfileImageByFileName(imageName);
 			setProfilePresignUrl(response.data);
 		} catch (error) {
+			Sentry.captureException(error);
 			console.error(
 				"프로필 이미지 조회 오류:",
 				error.response ? error.response.data : error.message,
@@ -19,7 +21,13 @@ const IconChatProfile = ({ size = 48, imageName, ...props }) => {
 
 	useEffect(() => {
 		getProfileImage();
-	}, []);
+	}, [imageName]);
+	const pathData = `
+		M0 ${size * 0.2083}C0 ${size * 0.0933} ${size * 0.0933} 0 ${size * 0.2083} 0H${size * 0.5}
+		C${size * 0.7761} 0 ${size} ${size * 0.2182} ${size} ${size * 0.5}
+		C${size} ${size * 0.7818} ${size * 0.7761} ${size} ${size * 0.5} ${size}H${size * 0.2083}
+		C${size * 0.0933} ${size} 0 ${size * 0.9067} 0 ${size * 0.7917}V${size * 0.2083}Z
+	`;
 
 	return (
 		<Svg
@@ -27,15 +35,12 @@ const IconChatProfile = ({ size = 48, imageName, ...props }) => {
 			width={size}
 			height={size}
 			fill="none"
-			viewBox="0 0 48 48"
+			viewBox={`0 0 ${size} ${size}`}
 			{...props}
 		>
 			<Defs>
 				<ClipPath id="clipPath">
-					<Path
-						fill="#D9EAFF"
-						d="M0 10C0 4.477 4.477 0 10 0h14c13.255 0 24 10.745 24 24S37.255 48 24 48H10C4.477 48 0 43.523 0 38V10Z"
-					/>
+					<Path fill="#D9EAFF" d={pathData} />
 				</ClipPath>
 			</Defs>
 
@@ -50,10 +55,7 @@ const IconChatProfile = ({ size = 48, imageName, ...props }) => {
 					clipPath="url(#clipPath)"
 				/>
 			) : (
-				<Path
-					fill="#D9EAFF"
-					d="M0 10C0 4.477 4.477 0 10 0h14c13.255 0 24 10.745 24 24S37.255 48 24 48H10C4.477 48 0 43.523 0 38V10Z"
-				/>
+				<Path fill="#D9EAFF" d={pathData} />
 			)}
 		</Svg>
 	);
