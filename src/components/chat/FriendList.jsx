@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
@@ -9,10 +9,8 @@ import { createSingleChatroom } from "config/api";
 import { useNavigation } from "@react-navigation/native";
 import { useWebSocket } from "context/WebSocketContext";
 import { getMyMemberId } from "util/secureStoreUtils";
-import * as Sentry from "@sentry/react-native";
-import ModalKebabMenuConnectList from "@components/member/ModalKebabMenuConnectList";
 
-const FriendList = ({ connectId, memberId, name, imageName }) => {
+const FriendList = ({ memberId, name, imageName }) => {
 	const navigation = useNavigation("");
 	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
 
@@ -43,79 +41,39 @@ const FriendList = ({ connectId, memberId, name, imageName }) => {
 				chatroomInfo,
 			});
 		} catch (error) {
-			Sentry.captureException(error);
 			console.log("채팅방 생성 에러:", error);
 		}
 	};
 
-	const iconRef = useRef();
-
-	const [modalVisible, setModalVisible] = useState(false);
-	const [modalPosition, setModalPosition] = useState({
-		x: 0,
-		y: 0,
-		width: 0,
-		height: 0,
-	});
-
-	const handleIconPress = () => {
-		setModalVisible(true);
-		if (iconRef.current) {
-			iconRef.current.measureInWindow((x, y, width, height) => {
-				setModalPosition({ x, y, width, height });
-			});
-		}
-	};
 	return (
 		<>
-			<View style={styles.rectangle}>
+			<TouchableOpacity
+				style={styles.rectangle}
+				onPress={() =>
+					navigation.navigate("ConnectProfilePage", {
+						memberId: memberId,
+					})
+				}
+			>
 				<View style={styles.containerContext}>
-					<TouchableOpacity
-						style={styles.iconTextContainer}
-						onPress={() =>
-							navigation.navigate("ConnectProfilePage", {
-								memberId: memberId,
-							})
-						}
-					>
+					<View style={styles.iconTextContainer}>
 						<View style={styles.icon}>
 							<IconChatProfile imageName={imageName} />
 						</View>
-						<Text
-							style={styles.textName}
-							numberOfLines={1}
-							ellipsizeMode="tail"
-						>
-							{name}
-						</Text>
-					</TouchableOpacity>
+						<Text style={styles.textName}>{name}</Text>
+					</View>
 					<View style={styles.containerIcon}>
 						<TouchableOpacity onPress={handleCreateSingleChatroom}>
 							<View style={styles.rectangleChat}>
 								<IconSend />
 							</View>
 						</TouchableOpacity>
-						<TouchableOpacity
-							style={styles.iconMenu}
-							onPress={handleIconPress}
-						>
-							<View ref={iconRef}>
-								<IconMenu />
-							</View>
-						</TouchableOpacity>
-						{modalPosition && (
-							<ModalKebabMenuConnectList
-								modalVisible={modalVisible}
-								setModalVisible={setModalVisible}
-								name={name}
-								connectId={connectId}
-								memberId={memberId}
-								position={modalPosition}
-							/>
-						)}
+						<View style={styles.iconMenu}>
+							<IconMenu />
+						</View>
 					</View>
 				</View>
-			</View>
+			</TouchableOpacity>
 		</>
 	);
 };
@@ -146,7 +104,6 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		lineHeight: 17,
 		fontFamily: "NotoSansCJKkr-Bold",
-		maxWidth: 120,
 	},
 	containerIcon: {
 		flexDirection: "row",

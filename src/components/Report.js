@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import {
-	reportPost,
-	reportComment,
-	reportMember,
-	reportGroup,
-} from "config/api";
+import { reportPost, reportComment, reportMember } from "config/api";
 
 import RadioButtonGroup from "@components/RadioButton/RadioButtonGroup";
 import Modal from "react-native-modal";
@@ -20,23 +14,20 @@ const Report = ({
 	modalVisible,
 	setModalVisible,
 	reportTitle,
-	postId,
-	commentId,
-	memberId,
-	groupId,
-	onReportComplete,
+	postId = null,
+	commentId = null,
+	memberId = null,
 }) => {
-	const { t } = useTranslation();
 	const [selected, setSelected] = useState("");
 	const [isReportButtonDisabled, setIsReportButtonDisabled] = useState(true);
 	const [showComplete, setShowComplete] = useState(false);
 	const [reportType, setReportType] = useState(false);
 
 	const reportTypes = [
-		t("hateContent"),
-		t("abusiveLanguage"),
-		t("impersonation"),
-		t("other"),
+		"혐오적인 컨텐츠",
+		"욕설/도배",
+		"다른 사람을 사칭함",
+		"기타",
 	];
 
 	const handleNoButtonPress = () => {
@@ -45,18 +36,14 @@ const Report = ({
 	};
 
 	useEffect(() => {
-		switch (selected) {
-			case t("hateContent"):
-				setReportType("CONTENT");
-				break;
-			case t("abusiveLanguage"):
-				setReportType("CURSE");
-				break;
-			case t("impersonation"):
-				setReportType("IMPERSONATION");
-				break;
-			default:
-				setReportType("ETC");
+		if (selected === "혐오적인 컨텐츠") {
+			setReportType("CONTENT");
+		} else if (selected === "욕설/도배") {
+			setReportType("CURSE");
+		} else if (selected === "다른 사람을 사칭함") {
+			setReportType("IMPERSONATION");
+		} else {
+			setReportType("ETC");
 		}
 	}, [selected]);
 
@@ -68,12 +55,9 @@ const Report = ({
 				await reportComment(reportType, commentId);
 			} else if (memberId) {
 				await reportMember(reportType, memberId);
-			} else {
-				await reportGroup(reportType, groupId);
 			}
 
 			await handleReportComplte();
-			onReportComplete();
 		} catch (error) {
 			console.error(
 				"신고 오류:",
@@ -110,9 +94,7 @@ const Report = ({
 				{showComplete ? (
 					<View style={styles.reportCompleteContainer}>
 						<CompleteIcon />
-						<Text style={styles.reportCompleteText}>
-							{t("reportComplete")}
-						</Text>
+						<Text style={styles.reportCompleteText}>신고 완료</Text>
 					</View>
 				) : (
 					<>
@@ -131,18 +113,14 @@ const Report = ({
 								style={styles.buttonNo}
 								onPress={handleNoButtonPress}
 							>
-								<Text style={styles.textNo}>
-									{t("noButtonText")}
-								</Text>
+								<Text style={styles.textNo}>아니오</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
 								style={styles.buttonReport}
 								onPress={handleReportButtonPress}
 								disabled={isReportButtonDisabled}
 							>
-								<Text style={styles.textReport}>
-									{t("submitReport")}
-								</Text>
+								<Text style={styles.textReport}>신고하기</Text>
 							</TouchableOpacity>
 						</View>
 					</>

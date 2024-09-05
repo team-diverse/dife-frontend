@@ -56,7 +56,7 @@ const HomeStyles = StyleSheet.create({
 		shadowOpacity: 0.71,
 		shadowRadius: 6,
 	},
-	containerShoolInfoEvents: {
+	homeSchEv: {
 		flexDirection: "row",
 		marginTop: 28,
 		shadowColor: "#3C454E4A",
@@ -64,25 +64,33 @@ const HomeStyles = StyleSheet.create({
 		shadowOpacity: 0.29,
 		shadowRadius: 6,
 	},
-	containerShoolInfoEventsMargin: {
-		marginHorizontal: 10,
-	},
-	textSchoolInfoEvents: {
+	textHomeSchool: {
 		...fontSub16,
 		position: "absolute",
 		top: 12,
 		left: 12,
 	},
-	iconSchoolInfo: {
+	homeSchIcon: {
 		position: "absolute",
 		top: 35,
 		left: 40,
 	},
-	iconEvents: {
+	homeEvent: {
+		position: "relative",
+		marginLeft: 21,
+	},
+	textHomeEvent: {
+		...fontSub16,
+		position: "absolute",
+		top: 12,
+		left: 12,
+	},
+	iconHomeEvent: {
 		position: "absolute",
 		top: 48,
 		left: 47,
 	},
+
 	backgroundHomecard: {
 		position: "absolute",
 		top: 10,
@@ -95,14 +103,6 @@ const HomeStyles = StyleSheet.create({
 		shadowOpacity: 0.71,
 		shadowRadius: 6,
 		zIndex: 0,
-	},
-	containerWhite: {
-		position: "absolute",
-		bottom: 0,
-		width: "100%",
-		height: 200,
-		backgroundColor: CustomTheme.bgBasic,
-		zIndex: -1,
 	},
 });
 

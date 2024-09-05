@@ -27,47 +27,63 @@ const LoginStyles = StyleSheet.create({
 		marginTop: 12,
 		marginLeft: 24,
 	},
-	containerIdPw: {
-		paddingHorizontal: 30,
-		marginTop: 115,
+	textId: {
+		...fontSub14,
+		color: CustomTheme.textPrimary,
+		marginTop: 127,
+		marginLeft: 24,
 	},
-	textInputIdPw: {
-		width: "100%",
+	textInputId: {
+		width: 327,
 		height: 44,
 		padding: 12,
 		borderWidth: 1,
 		borderColor: CustomTheme.borderColor,
 		borderRadius: 6,
 		marginTop: 8,
+		marginHorizontal: 25,
 		alignItems: "center",
 	},
-	textIdPw: {
+	textPw: {
 		...fontSub14,
 		color: CustomTheme.textPrimary,
 		marginTop: 12,
+		marginLeft: 24,
 	},
 	textInputPwContainer: {
+		position: "relative",
 		flexDirection: "row",
+		alignItems: "center",
+	},
+	textInputPw: {
+		width: 327,
+		height: 44,
+		padding: 12,
+		borderWidth: 1,
+		borderColor: CustomTheme.borderColor,
+		borderRadius: 6,
+		marginTop: 8,
+		marginHorizontal: 25,
 		alignItems: "center",
 	},
 	iconSee: {
 		position: "absolute",
+		alignItems: "center",
 		top: 17,
-		right: 12,
+		right: 50,
 	},
 	containerError: {
 		flexDirection: "row",
 		marginTop: 8,
+		marginLeft: 25,
 	},
 	textError: {
 		...fontCaption,
 		color: CustomTheme.warningRed,
 		marginLeft: 3,
 	},
-	containerButtonSignupLogin: {
-		position: "absolute",
-		width: "100%",
-		bottom: 45,
+	ButtonSignupPwContainer: {
+		marginTop: 170,
 		alignItems: "center",
 	},
 	textReport: {

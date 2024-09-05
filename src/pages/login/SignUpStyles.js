@@ -15,37 +15,55 @@ const SignUpStyles = StyleSheet.create({
 		marginTop: 33,
 		marginLeft: 24,
 	},
-	containerIdPw: {
-		marginHorizontal: 25,
-	},
-	textIdPw: {
+	textId: {
 		...fontSub14,
 		color: CustomTheme.textPrimary,
 		marginTop: 34,
+		marginLeft: 24,
 	},
-	textInputIdPw: {
-		width: "100%",
+	textInputId: {
+		width: 327,
 		height: 44,
 		padding: 12,
 		borderWidth: 1,
 		borderColor: CustomTheme.borderColor,
 		borderRadius: 6,
 		marginTop: 8,
-
+		marginHorizontal: 25,
 		alignItems: "center",
 	},
+	textPw: {
+		...fontSub14,
+		color: CustomTheme.textPrimary,
+		marginTop: 34,
+		marginLeft: 24,
+	},
 	textInputPwContainer: {
+		position: "relative",
 		flexDirection: "row",
+		alignItems: "center",
+	},
+	textInputPw: {
+		width: 327,
+		height: 44,
+		padding: 12,
+		borderWidth: 1,
+		borderColor: CustomTheme.borderColor,
+		borderRadius: 6,
+		marginTop: 8,
+		marginHorizontal: 25,
 		alignItems: "center",
 	},
 	iconSee: {
 		position: "absolute",
+		alignItems: "center",
 		top: 17,
-		right: 12,
+		right: 50,
 	},
 	containerError: {
 		flexDirection: "row",
 		marginTop: 8,
+		marginLeft: 25,
 	},
 	textError: {
 		...fontCaption,
@@ -53,8 +71,7 @@ const SignUpStyles = StyleSheet.create({
 		marginLeft: 3,
 	},
 	buttonMove: {
-		position: "absolute",
-		bottom: 126,
+		marginTop: 161,
 	},
 });
 

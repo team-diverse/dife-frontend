@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import {
-	View,
-	Text,
-	SafeAreaView,
-	TouchableOpacity,
-	Dimensions,
-} from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
 
 import ProfileLanguageStyles from "@pages/onboarding/ProfileLanguageStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
@@ -19,8 +12,6 @@ import Checkbox from "@components/common/Checkbox";
 import ApplyButton from "@components/common/ApplyButton";
 
 const ProfileLanguagePage = () => {
-	const { t } = useTranslation();
-
 	const navigation = useNavigation();
 
 	const handleGoBack = () => {
@@ -29,7 +20,18 @@ const ProfileLanguagePage = () => {
 
 	const { onboardingData, updateOnboardingData } = useOnboarding();
 
-	const languages = t("languages", { returnObjects: true });
+	const ProfileData = [
+		"프로필 생성하기",
+		`${onboardingData.username}님의 사용언어를 알려주세요!`,
+	];
+	const languages = [
+		"English / English",
+		"中文 / Chinese",
+		"日本語 / Japanese",
+		"Español / Spanish",
+		"한국어 / Korean",
+		"기타",
+	];
 	const [isCheckedList, setIsCheckedList] = useState(
 		new Array(languages.length).fill(false),
 	);
@@ -57,9 +59,6 @@ const ProfileLanguagePage = () => {
 		navigation.navigate("StudentVerification");
 	};
 
-	const { height: screenHeight } = Dimensions.get("window");
-	const isSmallScreen = screenHeight < 700;
-
 	return (
 		<SafeAreaView style={[ProfileLanguageStyles.container]}>
 			<TouchableOpacity onPress={handleGoBack}>
@@ -72,10 +71,10 @@ const ProfileLanguagePage = () => {
 				<Progress5 />
 			</View>
 			<Text style={ProfileLanguageStyles.textTitle}>
-				{t("profileCreationTitle")}
+				{ProfileData[0]}
 			</Text>
 			<Text style={ProfileLanguageStyles.textSubTitle}>
-				{t("languageSubtitle", { username: onboardingData.username })}
+				{ProfileData[1]}
 			</Text>
 			<View style={ProfileLanguageStyles.containerCheckbox}>
 				{languages.map((language, index) => (
@@ -87,14 +86,9 @@ const ProfileLanguagePage = () => {
 					/>
 				))}
 			</View>
-			<View
-				style={[
-					ProfileLanguageStyles.buttonCheck,
-					isSmallScreen && { bottom: 30 },
-				]}
-			>
+			<View style={ProfileLanguageStyles.buttonCheck}>
 				<ApplyButton
-					text={t("nextButton")}
+					text="다음"
 					onPress={handleDataSave}
 					disabled={!isCheckedList.some((isChecked) => isChecked)}
 				/>

@@ -8,12 +8,11 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
-import { useTranslation } from "react-i18next";
 
 import SecurityStyles from "@pages/member/SecurityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useAuth } from "src/states/AuthContext";
-import { getMyProfile, updateMyProfile } from "config/api";
+import { getMyProfile, updateMyProfile, deleteMember } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ArrowRight from "@components/common/ArrowRight";
@@ -21,7 +20,6 @@ import IconSwitchOn from "@components/member/IconSwitchOn";
 import IconSwitchOff from "@components/member/IconSwitchOff";
 
 const SecurityPage = () => {
-	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const { setIsLoggedIn } = useAuth();
@@ -72,13 +70,39 @@ const SecurityPage = () => {
 	const handleAlertLogout = () => {
 		Alert.alert(
 			"",
-			t("logoutConfirmation"),
+			"로그아웃하시겠습니까?",
 			[
-				{ text: t("cancelButton"), style: "cancel" },
+				{ text: "취소", style: "cancel" },
 				{
-					text: t("confirmButtonText"),
+					text: "확인",
 					onPress: () => {
 						handleLogout();
+					},
+				},
+			],
+			{ cancelable: false },
+		);
+	};
+
+	const handleDeleteMember = async () => {
+		try {
+			await deleteMember();
+			setIsLoggedIn(false);
+		} catch (error) {
+			console.error("회원 탈퇴 오류: ", error.message);
+		}
+	};
+
+	const handleAlertDeleteMember = () => {
+		Alert.alert(
+			"회원 탈퇴",
+			"정말 회원 탈퇴를 하시겠습니까?\n소중한 회원님을 잃게 되어 아쉽습니다.",
+			[
+				{ text: "취소", style: "cancel" },
+				{
+					text: "확인",
+					onPress: () => {
+						handleDeleteMember();
 					},
 				},
 			],
@@ -89,7 +113,7 @@ const SecurityPage = () => {
 	return (
 		<SafeAreaView style={SecurityStyles.container}>
 			<TopBar
-				topBar={t("security")}
+				topBar="보안"
 				color="#000"
 				backgroundColor={CustomTheme.primaryBg}
 			/>
@@ -98,7 +122,7 @@ const SecurityPage = () => {
 				<View style={SecurityStyles.backgroundWhite}>
 					<View style={SecurityStyles.containerRow}>
 						<Text style={SecurityStyles.textContent}>
-							{t("profilePrivacy")}
+							프로필 비공개
 						</Text>
 						<TouchableOpacity onPress={handleSwitch}>
 							{switchOn ? <IconSwitchOn /> : <IconSwitchOff />}
@@ -111,7 +135,7 @@ const SecurityPage = () => {
 				>
 					<View style={SecurityStyles.containerRow}>
 						<Text style={SecurityStyles.textContent}>
-							{t("findPasswordTitle")}
+							비밀번호 재발급
 						</Text>
 						<ArrowRight
 							color="#B0D0FF"
@@ -130,9 +154,7 @@ const SecurityPage = () => {
 					onPress={handleAlertLogout}
 				>
 					<View style={SecurityStyles.containerRow}>
-						<Text style={SecurityStyles.textContent}>
-							{t("logout")}
-						</Text>
+						<Text style={SecurityStyles.textContent}>로그아웃</Text>
 						<ArrowRight
 							color="#B0D0FF"
 							size={24}
@@ -142,11 +164,11 @@ const SecurityPage = () => {
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={SecurityStyles.backgroundWhite}
-					onPress={() => navigation.navigate("DeleteMemberPage")}
+					onPress={handleAlertDeleteMember}
 				>
 					<View style={SecurityStyles.containerRow}>
 						<Text style={SecurityStyles.textContent}>
-							{t("deleteAccount")}
+							회원 탈퇴
 						</Text>
 						<ArrowRight
 							color="#B0D0FF"

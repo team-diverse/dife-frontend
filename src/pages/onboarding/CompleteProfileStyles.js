@@ -17,15 +17,16 @@ const CompleteProfileStyles = StyleSheet.create({
 		...fontHead18,
 		color: CustomTheme.primaryMedium,
 		marginTop: 12,
-		marginHorizontal: 24,
+		marginLeft: 24,
 	},
 	iconLoading: {
 		alignItems: "center",
 		marginTop: 156,
 	},
 	buttonCheck: {
-		position: "absolute",
-		bottom: 104,
+		marginTop: 187,
+		marginHorizontal: 10,
+		marginBottom: 83,
 	},
 });
 

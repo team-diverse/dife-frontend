@@ -5,8 +5,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useFonts } from "expo-font";
 import * as Notifications from "expo-notifications";
 import * as SecureStore from "expo-secure-store";
-import { I18nextProvider } from "react-i18next";
-import i18n from "src/i18n.js";
 
 import { OnboardingProvider } from "src/states/OnboardingContext.js";
 import { PostModifyProvider } from "src/states/PostModifyContext";
@@ -43,6 +41,11 @@ import TipCommunityPage from "@pages/community/TipCommunityPage";
 import FreeCommunityPage from "@pages/community/FreeCommunityPage";
 import WritePage from "@pages/community/WritePage";
 import PostPage from "@pages/community/PostPage";
+import GroupListPage from "@pages/member/GroupListPage";
+import GroupProfilePage from "@pages/connect/GroupProfilePage";
+import GroupCreatedPage from "@pages/connect/GroupCreatedPage";
+import GroupCreatedDetailPage from "@pages/connect/GroupCreatedDetailPage";
+import GroupProfilePreviewPage from "@pages/connect/GroupProfilePreviewPage";
 import MyPostPage from "@pages/member/MyPostPage";
 import PostModifyPage from "@pages/community/PostModifyPage";
 
@@ -58,12 +61,6 @@ import HomeAc32 from "@components/Icon32/HomeAc32";
 import CommuAc32 from "@components/Icon32/CommuAc32";
 import MyAc32 from "@components/Icon32/MyAc32";
 import "text-encoding";
-import * as Sentry from "@sentry/react-native";
-
-Sentry.init({
-	dsn: "https://5a585cef4237affff9605bb2182bf1d1@o4507762694422528.ingest.us.sentry.io/4507769192448000",
-	debug: true,
-});
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -81,17 +78,7 @@ import TremsPage from "@pages/member/TremsPage";
 import CountrySelectionPage from "@pages/onboarding/CountrySelectionPage";
 import ConnectListPage from "@pages/member/ConnectListPage";
 import DefaultLanguagePage from "@pages/member/DefaultLanguagePage";
-import EnlargeImagePage from "@pages/community/EnlargeImagePage";
-import PreparingPage from "@pages/etc/PreparingPage";
-import StudentVerificationErrorPage from "@pages/onboarding/StudentVerificationErrorPage";
-import SkeletonHomePage from "@pages/etc/SkeletonHomePage";
-import SkeletonEventPage from "@pages/etc/SkeletonEventPage";
-import SkeletonConnectPage from "@pages/etc/SkeletonConnectPage";
-import SkeletonConnectLikePage from "@pages/etc/SkeletonConnectLikePage";
-import DeleteMemberPage from "@pages/member/DeleteMemberPage";
-import LikedPostPage from "@pages/member/LikedPostPage";
-import BookmarkedPostPage from "@pages/member/BookmarkedPostPage";
-import LikeUserOneToOne from "@pages/connect/LikeUserOneToOne";
+import { CreateGroupProvider } from "states/CreateGroupDataContext";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -162,11 +149,9 @@ function MainTabs() {
 function App() {
 	return (
 		<AuthProvider>
-			<I18nextProvider i18n={i18n}>
-				<NavigationContainer>
-					<AppContent />
-				</NavigationContainer>
-			</I18nextProvider>
+			<NavigationContainer>
+				<AppContent />
+			</NavigationContainer>
 		</AuthProvider>
 	);
 }
@@ -222,14 +207,6 @@ function AppContent() {
 		checkAccess();
 	}, []);
 
-	Notifications.setNotificationHandler({
-		handleNotification: async () => ({
-			shouldShowAlert: true,
-			shouldPlaySound: false,
-			shouldSetBadge: false,
-		}),
-	});
-
 	const [loaded] = useFonts({
 		"NotoSansCJKkr-Bold": require("@assets/fonts/NotoSansCJKkr-Bold.otf"),
 		"NotoSansCJKkr-Medium": require("@assets/fonts/NotoSansCJKkr-Medium.otf"),
@@ -242,9 +219,11 @@ function AppContent() {
 
 	return isLoggedIn ? (
 		<WebSocketProvider>
-			<PostModifyProvider>
-				<MainNavigator />
-			</PostModifyProvider>
+			<CreateGroupProvider>
+				<PostModifyProvider>
+					<MainNavigator />
+				</PostModifyProvider>
+			</CreateGroupProvider>
 		</WebSocketProvider>
 	) : (
 		<OnboardingProvider>
@@ -293,6 +272,23 @@ function MainNavigator() {
 			<Stack.Screen name="PostPage" component={PostPage} />
 			<Stack.Screen name="PostModifyPage" component={PostModifyPage} />
 			<Stack.Screen name="MyPostPage" component={MyPostPage} />
+			<Stack.Screen name="GroupListPage" component={GroupListPage} />
+			<Stack.Screen
+				name="GroupProfilePage"
+				component={GroupProfilePage}
+			/>
+			<Stack.Screen
+				name="GroupCreatedPage"
+				component={GroupCreatedPage}
+			/>
+			<Stack.Screen
+				name="GroupCreatedDetailPage"
+				component={GroupCreatedDetailPage}
+			/>
+			<Stack.Screen
+				name="GroupProfilePreviewPage"
+				component={GroupProfilePreviewPage}
+			/>
 			<Stack.Screen name="MyWrotePage" component={MyWrotePage} />
 			<Stack.Screen name="MyCommentPage" component={MyCommentPage} />
 			<Stack.Screen
@@ -316,40 +312,6 @@ function MainNavigator() {
 			<Stack.Screen
 				name="DefaultLanguagePage"
 				component={DefaultLanguagePage}
-			/>
-			<Stack.Screen
-				name="EnlargeImagePage"
-				component={EnlargeImagePage}
-			/>
-			<Stack.Screen name="PreparingPage" component={PreparingPage} />
-			<Stack.Screen
-				name="SkeletonHomePage"
-				component={SkeletonHomePage}
-			/>
-			<Stack.Screen
-				name="SkeletonEventPage"
-				component={SkeletonEventPage}
-			/>
-			<Stack.Screen
-				name="SkeletonConnectPage"
-				component={SkeletonConnectPage}
-			/>
-			<Stack.Screen
-				name="SkeletonConnectLikePage"
-				component={SkeletonConnectLikePage}
-			/>
-			<Stack.Screen
-				name="DeleteMemberPage"
-				component={DeleteMemberPage}
-			/>
-			<Stack.Screen name="LikedPostPage" component={LikedPostPage} />
-			<Stack.Screen
-				name="BookmarkedPostPage"
-				component={BookmarkedPostPage}
-			/>
-			<Stack.Screen
-				name="LikeUserOneToOne"
-				component={LikeUserOneToOne}
 			/>
 		</Stack.Navigator>
 	);
@@ -394,12 +356,8 @@ function AuthNavigator({ initialRoute }) {
 				name="CountrySelectionPage"
 				component={CountrySelectionPage}
 			/>
-			<Stack.Screen
-				name="StudentVerificationErrorPage"
-				component={StudentVerificationErrorPage}
-			/>
 		</Stack.Navigator>
 	);
 }
 
-export default Sentry.wrap(App);
+export default App;

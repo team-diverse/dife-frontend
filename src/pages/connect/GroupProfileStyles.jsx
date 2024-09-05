@@ -8,6 +8,12 @@ const GroupProfileStyles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: CustomTheme.primaryMedium,
 	},
+	topBar: {
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "center",
+		marginHorizontal: 20,
+	},
 	scrollView: {
 		width: "100%",
 	},
@@ -23,7 +29,6 @@ const GroupProfileStyles = StyleSheet.create({
 		marginLeft: 17,
 		marginRight: 17,
 		matginTop: 25,
-		marginBottom: 50,
 	},
 	name: {
 		fontSize: 16,
@@ -58,8 +63,10 @@ const GroupProfileStyles = StyleSheet.create({
 		...fontBody14,
 		marginBottom: 16,
 	},
-	margin: {
-		paddingBottom: 70,
+	report: {
+		alignItems: "center",
+		marginVertical: 16,
+		paddingBottom: 50,
 	},
 	textReport: {
 		...fontBody14,

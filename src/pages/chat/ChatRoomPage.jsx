@@ -4,6 +4,8 @@ import {
 	View,
 	Text,
 	TouchableOpacity,
+	Keyboard,
+	TouchableWithoutFeedback,
 	Animated,
 	Dimensions,
 	FlatList,
@@ -24,7 +26,6 @@ import ChatBubble from "./ChatBubble/ChatBubble";
 import { useWebSocket } from "context/WebSocketContext";
 import formatKoreanTime from "util/formatTime";
 import { getMyMemberId } from "util/secureStoreUtils";
-import { sortByIds } from "util/util";
 
 const ChatRoomPage = ({ route }) => {
 	const navigation = useNavigation();
@@ -36,8 +37,6 @@ const ChatRoomPage = ({ route }) => {
 	const { messages } = useWebSocket();
 	const { chatroomInfo } = route.params;
 	const [memberId, setMemberId] = useState(null);
-	const members = sortByIds(chatroomInfo.members);
-	const otherMember = members.find((member) => member.id !== memberId);
 	const flatListRef = useRef(null);
 
 	useEffect(() => {
@@ -81,6 +80,10 @@ const ChatRoomPage = ({ route }) => {
 		return groupedMessages;
 	};
 
+	const handleKeyboard = () => {
+		Keyboard.dismiss();
+	};
+
 	const handleGoBack = () => {
 		navigation.goBack();
 	};
@@ -103,136 +106,140 @@ const ChatRoomPage = ({ route }) => {
 	};
 
 	return (
-		<SafeAreaView style={ChatRoomStyles.container}>
-			<View style={ChatRoomStyles.containerTopBar}>
-				<View style={ChatRoomStyles.containerBackName}>
-					<TouchableOpacity
-						style={ChatRoomStyles.iconArrow}
-						onPress={handleGoBack}
-					>
-						<ArrowRight color="#000" />
-					</TouchableOpacity>
-					<Text style={ChatRoomStyles.textTopBar}>
-						{chatroomInfo.name}
-					</Text>
-				</View>
-				<TouchableOpacity
-					style={ChatRoomStyles.iconHamburgerMenu}
-					onPress={toggleMenu}
-				>
-					<IconHamburgerMenu />
-				</TouchableOpacity>
-			</View>
-
-			<View style={ChatRoomStyles.containerChat}>
-				<FlatList
-					ref={flatListRef}
-					data={groupMessages(messages[chatroomInfo.id] || [])}
-					keyExtractor={(item, index) => index.toString()}
-					showsVerticalScrollIndicator={false}
-					renderItem={({ item }) => (
-						<>
-							{item.map((msg, idx) => {
-								return (
-									<ChatBubble
-										key={msg.id}
-										profileImageName={
-											otherMember.profileImg.originalName
-										}
-										username={msg.member.username}
-										message={msg.message}
-										time={formatKoreanTime(msg.created)}
-										isMine={msg.member.id === memberId}
-										isHeadMessage={idx === 0}
-									/>
-								);
-							})}
-						</>
-					)}
-				/>
-			</View>
-			<ChatInputSend chatroomId={chatroomInfo.id} memberId={memberId} />
-			{menuOpen && (
-				<TouchableOpacity
-					onPress={toggleMenu}
-					style={[ChatRoomStyles.menuBackground, { top: insets.top }]}
-				/>
-			)}
-			<Animated.View
-				style={[
-					ChatRoomStyles.menu,
-					{
-						top: insets.top,
-						width: menuWidth,
-						transform: [{ translateX: menuAnim }],
-					},
-				]}
-			>
-				<View style={ChatRoomStyles.containerGray}>
-					<IconChatOut />
-					<View style={ChatRoomStyles.containerIcon}>
-						<View style={{ marginRight: 7 }}>
-							<IconChatNotification />
-						</View>
-						<IconChatSetting />
-					</View>
-				</View>
-				<View style={{ marginBottom: 4 }}>
-					<Text
-						style={[
-							ChatRoomStyles.textDrawer,
-							{ marginTop: 12, marginBottom: 8 },
-						]}
-					>
-						참가자
-					</Text>
-					{members.map((member) => (
-						<View
-							key={member.id}
-							style={ChatRoomStyles.containerChatPeople}
+		<TouchableWithoutFeedback onPress={handleKeyboard}>
+			<SafeAreaView style={ChatRoomStyles.container}>
+				<View style={ChatRoomStyles.containerTopBar}>
+					<View style={ChatRoomStyles.containerBackName}>
+						<TouchableOpacity
+							style={ChatRoomStyles.iconArrow}
+							onPress={handleGoBack}
 						>
-							<IconChatProfile
-								imageName={member.profileImg.originalName}
-							/>
-							<Text style={ChatRoomStyles.textChatPeople}>
-								{member.username}
-							</Text>
-						</View>
-					))}
-				</View>
-				<View style={ChatRoomStyles.line} />
-				<TouchableOpacity style={ChatRoomStyles.containerDrawer}>
-					<View style={ChatRoomStyles.containerDrawerTextCount}>
-						<Text style={ChatRoomStyles.textDrawer}>
-							스크랩 보관함
+							<ArrowRight color="#000" />
+						</TouchableOpacity>
+						<Text style={ChatRoomStyles.textTopBar}>
+							{chatroomInfo.name}
 						</Text>
-						<View style={ChatRoomStyles.containerDrawerCount}>
-							<Text style={ChatRoomStyles.textDrawerCount}>
-								3
+					</View>
+					<TouchableOpacity
+						style={ChatRoomStyles.iconHamburgerMenu}
+						onPress={toggleMenu}
+					>
+						<IconHamburgerMenu />
+					</TouchableOpacity>
+				</View>
+
+				<View style={ChatRoomStyles.containerChat}>
+					<FlatList
+						ref={flatListRef}
+						data={groupMessages(messages[chatroomInfo.id] || [])}
+						keyExtractor={(item, index) => index.toString()}
+						renderItem={({ item }) => (
+							<>
+								{item.map((msg, idx) => {
+									return (
+										<ChatBubble
+											key={msg.id}
+											url={null}
+											username={msg.member.username}
+											message={msg.message}
+											time={formatKoreanTime(msg.created)}
+											isMine={msg.member.id === memberId}
+											isHeadMessage={idx === 0}
+										/>
+									);
+								})}
+							</>
+						)}
+					/>
+				</View>
+				<ChatInputSend
+					chatroomId={chatroomInfo.id}
+					memberId={memberId}
+				/>
+				{menuOpen && (
+					<TouchableOpacity
+						onPress={toggleMenu}
+						style={[
+							ChatRoomStyles.menuBackground,
+							{ top: insets.top },
+						]}
+					/>
+				)}
+				<Animated.View
+					style={[
+						ChatRoomStyles.menu,
+						{
+							top: insets.top,
+							width: menuWidth,
+							transform: [{ translateX: menuAnim }],
+						},
+					]}
+				>
+					<View style={ChatRoomStyles.containerGray}>
+						<IconChatOut />
+						<View style={ChatRoomStyles.containerIcon}>
+							<View style={{ marginRight: 7 }}>
+								<IconChatNotification />
+							</View>
+							<IconChatSetting />
+						</View>
+					</View>
+					<View style={{ marginBottom: 4 }}>
+						<Text
+							style={[
+								ChatRoomStyles.textDrawer,
+								{ marginTop: 12, marginBottom: 8 },
+							]}
+						>
+							참가자
+						</Text>
+						<View style={ChatRoomStyles.containerChatPeople}>
+							<IconChatProfile size="36" />
+							<Text style={ChatRoomStyles.textChatPeople}>
+								나
+							</Text>
+						</View>
+						<View style={ChatRoomStyles.containerChatPeople}>
+							<IconChatProfile size="36" />
+							<Text style={ChatRoomStyles.textChatPeople}>
+								Name
 							</Text>
 						</View>
 					</View>
-					<View style={ChatRoomStyles.iconReverseArrow}>
-						<ArrowRight color="#000" />
-					</View>
-				</TouchableOpacity>
-				<View style={ChatRoomStyles.line} />
-				<TouchableOpacity style={ChatRoomStyles.containerDrawer}>
-					<View style={ChatRoomStyles.containerDrawerTextCount}>
-						<Text style={ChatRoomStyles.textDrawer}>앨범</Text>
-						<View style={ChatRoomStyles.containerDrawerCount}>
-							<Text style={ChatRoomStyles.textDrawerCount}>
-								3
+					<View style={ChatRoomStyles.line} />
+					<TouchableOpacity style={ChatRoomStyles.containerDrawer}>
+						<View style={ChatRoomStyles.containerDrawerTextCount}>
+							<Text style={ChatRoomStyles.textDrawer}>
+								스크랩 보관함
 							</Text>
+							<View style={ChatRoomStyles.containerDrawerCount}>
+								<Text style={ChatRoomStyles.textDrawerCount}>
+									3
+								</Text>
+							</View>
 						</View>
-					</View>
-					<View style={ChatRoomStyles.iconReverseArrow}>
-						<ArrowRight color="#000" />
-					</View>
-				</TouchableOpacity>
-				<View style={ChatRoomStyles.line} />
-			</Animated.View>
-		</SafeAreaView>
+						<View style={ChatRoomStyles.iconReverseArrow}>
+							<ArrowRight color="#000" />
+						</View>
+					</TouchableOpacity>
+					<View style={ChatRoomStyles.line} />
+					<TouchableOpacity style={ChatRoomStyles.containerDrawer}>
+						<View style={ChatRoomStyles.containerDrawerTextCount}>
+							<Text style={ChatRoomStyles.textDrawer}>앨범</Text>
+							<View style={ChatRoomStyles.containerDrawerCount}>
+								<Text style={ChatRoomStyles.textDrawerCount}>
+									3
+								</Text>
+							</View>
+						</View>
+						<View style={ChatRoomStyles.iconReverseArrow}>
+							<ArrowRight color="#000" />
+						</View>
+					</TouchableOpacity>
+					<View style={ChatRoomStyles.line} />
+				</Animated.View>
+			</SafeAreaView>
+		</TouchableWithoutFeedback>
 	);
 };
 

@@ -1,22 +1,18 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontHead20, fontSub16, fontBody14, fontCaption } = CustomTheme;
+const { fontHead20, fontSub16, fontBody14 } = CustomTheme;
 
 const ChattingStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
 	},
-	backgroundBlue: {
-		position: "absolute",
-		width: "100%",
-		height: 100,
-		backgroundColor: CustomTheme.primaryMedium,
-	},
 	connectTop: {
-		marginTop: -47,
-		// zIndex: 1,
+		position: "absolute",
+		top: 0,
+		left: 0,
+		right: 0,
 	},
 	iconChatPlus: {
 		position: "absolute",
@@ -27,6 +23,13 @@ const ChattingStyles = StyleSheet.create({
 		shadowOpacity: 0.4,
 		shadowRadius: 2,
 		zIndex: 2,
+	},
+	safeAreaView: {
+		flex: 1,
+		position: "absolute",
+		top: 0,
+		left: 0,
+		right: 0,
 	},
 	containerTextIcon: {
 		flexDirection: "row",
@@ -66,10 +69,6 @@ const ChattingStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 24,
 		paddingLeft: 20,
-	},
-	iconArrowRightSearch: {
-		position: "absolute",
-		left: 8,
 	},
 	searchIcon: {
 		position: "absolute",
@@ -111,20 +110,6 @@ const ChattingStyles = StyleSheet.create({
 	itemCommunityPreview: {
 		alignItems: "center",
 		marginTop: 12,
-		marginHorizontal: 24,
-	},
-	containerFail: {
-		alignItems: "center",
-		marginTop: 78,
-	},
-	textFail: {
-		...fontCaption,
-		color: CustomTheme.textSecondary,
-		marginTop: 13,
-	},
-	itemCommunity: {
-		alignItems: "center",
-		marginTop: 18,
 		marginHorizontal: 24,
 	},
 });

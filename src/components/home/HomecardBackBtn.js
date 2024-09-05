@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: CustomTheme.primaryMedium,
 		borderRadius: 12,
+		padding: 10,
 		justifyContent: "center",
 		alignItems: "center",
 		marginHorizontal: 8,

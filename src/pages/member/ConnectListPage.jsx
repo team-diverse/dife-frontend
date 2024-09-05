@@ -2,7 +2,6 @@ import React from "react";
 import { View, StyleSheet, SafeAreaView } from "react-native";
 import TopBar from "@components/common/TopBar";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
@@ -10,13 +9,11 @@ import FriendListPage from "@pages/chat/FriendListPage";
 import RequestConnectListPage from "@pages/member/RequestConnectListPage";
 
 const ConnectListPage = () => {
-	const { t } = useTranslation();
-
 	const Tab = createMaterialTopTabNavigator();
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopBar topBar={t("connectList")} color="#000" />
+			<TopBar topBar="커넥트 목록" color="#000" />
 			<View style={styles.tabContainer}>
 				<Tab.Navigator
 					initialRouteName="LikeUserOneToOne"
@@ -34,12 +31,12 @@ const ConnectListPage = () => {
 						name="1:1"
 						component={FriendListPage}
 						initialParams={{ member: true }}
-						options={{ tabBarLabel: t("friend") }}
+						options={{ tabBarLabel: "친구" }}
 					/>
 					<Tab.Screen
 						name="그룹"
 						component={RequestConnectListPage}
-						options={{ tabBarLabel: t("connectRequest") }}
+						options={{ tabBarLabel: "커넥트 요청" }}
 					/>
 				</Tab.Navigator>
 			</View>

@@ -6,7 +6,6 @@ import {
 	Linking,
 	TouchableOpacity,
 } from "react-native";
-import { useTranslation } from "react-i18next";
 
 import InquiryStyles from "@pages/member/InquiryStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -15,8 +14,6 @@ import TopBar from "@components/common/TopBar";
 import IconEmail from "@components/login/IconEmail";
 
 const InquiryPage = () => {
-	const { t } = useTranslation();
-
 	const handleEmailPress = async () => {
 		const emailUrl = "mailto:dife.teamdiverse@gmail.com";
 
@@ -33,16 +30,16 @@ const InquiryPage = () => {
 	return (
 		<SafeAreaView style={InquiryStyles.container}>
 			<TopBar
-				topBar={t("inquiry")}
+				topBar="1:1 문의"
 				color="#000"
 				backgroundColor={CustomTheme.primaryBg}
 			/>
 
 			<View style={InquiryStyles.containerContent}>
 				<IconEmail />
-				<Text style={InquiryStyles.textTitle}>{t("emailInquiry")}</Text>
+				<Text style={InquiryStyles.textTitle}>이메일 문의</Text>
 				<Text style={InquiryStyles.textContent}>
-					{t("emailDescription")}
+					dife 이메일로 문제를 전송해주세요
 				</Text>
 
 				<TouchableOpacity
@@ -50,7 +47,7 @@ const InquiryPage = () => {
 					onPress={handleEmailPress}
 				>
 					<Text style={InquiryStyles.textEmail}>
-						{t("contactEmail")}
+						dife.teamdiverse@gmail.com
 					</Text>
 				</TouchableOpacity>
 			</View>

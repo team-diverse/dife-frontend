@@ -10,12 +10,7 @@ const Tag = ({ tag = ["tag"] }) => {
 			{tag.map((item, index) => (
 				<View
 					key={index}
-					style={[
-						styles.rectangle,
-						{
-							width: item.length >= 6 ? item.length * 10 : 68,
-						},
-					]}
+					style={[styles.rectangle, { width: item.length + 50 }]}
 				>
 					<Text style={styles.text}>{item}</Text>
 				</View>

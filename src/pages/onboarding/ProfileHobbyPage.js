@@ -1,13 +1,6 @@
 import React, { useState } from "react";
-import {
-	View,
-	Text,
-	SafeAreaView,
-	TouchableOpacity,
-	Dimensions,
-} from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
 
 import ProfileHobbyStyles from "@pages/onboarding/ProfileHobbyStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
@@ -19,8 +12,6 @@ import FilterCategory from "@components/connect/FilterCategory";
 import ApplyButton from "@components/common/ApplyButton";
 
 const ProfileHobbyPage = () => {
-	const { t } = useTranslation();
-
 	const navigation = useNavigation();
 	const [selectedHobby, setSelectedHobby] = useState([]);
 
@@ -30,7 +21,34 @@ const ProfileHobbyPage = () => {
 
 	const { onboardingData, updateOnboardingData } = useOnboarding();
 
-	const hobby = t("hobbyOptions", { returnObjects: true });
+	const ProfileData = [
+		"프로필 생성하기",
+		`${onboardingData.username}님의 취미/관심사를 선택해주세요!`,
+	];
+
+	const hobby = [
+		"SNS",
+		"OTT",
+		"캠핑",
+		"쇼핑",
+		"드라이브",
+		"산책",
+		"반려동물",
+		"스포츠",
+		"K-POP",
+		"사진",
+		"음악",
+		"드라마",
+		"독서",
+		"그림",
+		"요리",
+		"만화",
+		"언어공부",
+		"여행",
+		"악기연주",
+		"영화",
+		"맛집",
+	];
 	const size = 3;
 	const hobbyRows = [];
 	for (let i = 0; i < hobby.length; i += size) {
@@ -50,9 +68,6 @@ const ProfileHobbyPage = () => {
 		navigation.navigate("ProfileLanguage");
 	};
 
-	const { height: screenHeight } = Dimensions.get("window");
-	const isSmallScreen = screenHeight < 700;
-
 	return (
 		<SafeAreaView style={[ProfileHobbyStyles.container]}>
 			<TouchableOpacity onPress={handleGoBack}>
@@ -64,11 +79,9 @@ const ProfileHobbyPage = () => {
 			<View style={[ProfileHobbyStyles.iconProgress]}>
 				<Progress4 />
 			</View>
-			<Text style={ProfileHobbyStyles.textTitle}>
-				{t("profileCreationTitle")}
-			</Text>
+			<Text style={ProfileHobbyStyles.textTitle}>{ProfileData[0]}</Text>
 			<Text style={ProfileHobbyStyles.textSubTitle}>
-				{t("hobbySubtitle", { username: onboardingData.username })}
+				{ProfileData[1]}
 			</Text>
 			<View style={ProfileHobbyStyles.containerHobby}>
 				{hobbyRows.map((row, rowIndex) => (
@@ -84,14 +97,9 @@ const ProfileHobbyPage = () => {
 					</View>
 				))}
 			</View>
-			<View
-				style={[
-					ProfileHobbyStyles.buttonCheck,
-					isSmallScreen && { bottom: 30 },
-				]}
-			>
+			<View style={ProfileHobbyStyles.buttonCheck}>
 				<ApplyButton
-					text={t("nextButton")}
+					text="다음"
 					onPress={handleDataSave}
 					disabled={selectedHobby.length === 0}
 				/>
