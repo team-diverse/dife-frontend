@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import MyPostStyles from "@pages/member/MyPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -13,6 +14,7 @@ import ItemCommunity from "@components/community/ItemCommunity";
 import * as Sentry from "@sentry/react-native";
 
 const MyPostPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [myPostList, setMyPostList] = useState();
@@ -44,19 +46,23 @@ const MyPostPage = () => {
 	return (
 		<SafeAreaView style={MyPostStyles.container}>
 			<TopBar
-				topBar="나의 글"
+				topBar={t("myPosts")}
 				color="#000"
 				backgroundColor={CustomTheme.primaryBg}
 			/>
 
 			<View style={{ marginTop: 14 }}>
 				<View style={MyPostStyles.containerTitle}>
-					<Text style={MyPostStyles.textTitle}>내가 쓴 글</Text>
+					<Text style={MyPostStyles.textTitle}>
+						{t("myWritePosts")}
+					</Text>
 					<TouchableOpacity
 						style={MyPostStyles.containerMore}
 						onPress={() => navigation.navigate("MyWrotePage")}
 					>
-						<Text style={MyPostStyles.textMore}>더보기</Text>
+						<Text style={MyPostStyles.textMore}>
+							{t("moreButton")}
+						</Text>
 						<ArrowRight
 							style={MyPostStyles.arrowRight}
 							color={CustomTheme.textSecondary}
@@ -72,12 +78,16 @@ const MyPostPage = () => {
 				<View style={MyPostStyles.line} />
 
 				<View style={MyPostStyles.containerTitle}>
-					<Text style={MyPostStyles.textTitle}>내가 단 댓글</Text>
+					<Text style={MyPostStyles.textTitle}>
+						{t("myComments")}
+					</Text>
 					<TouchableOpacity
 						style={MyPostStyles.containerMore}
 						onPress={() => navigation.navigate("MyCommentPage")}
 					>
-						<Text style={MyPostStyles.textMore}>더보기</Text>
+						<Text style={MyPostStyles.textMore}>
+							{t("moreButton")}
+						</Text>
 						<ArrowRight
 							style={MyPostStyles.arrowRight}
 							color={CustomTheme.textSecondary}

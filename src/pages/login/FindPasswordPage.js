@@ -17,7 +17,7 @@ import { debounce } from "util/debounce";
 
 import InfoCircle from "@components/common/InfoCircle";
 import ApplyButton from "@components/common/ApplyButton";
-import ConnectRequest from "@components/ConnectRequest";
+import ModalRequest from "@components/common/ModalRequest";
 import GoBack from "@components/common/GoBack";
 import * as Sentry from "@sentry/react-native";
 
@@ -114,7 +114,7 @@ const FindPasswordPage = () => {
 					disabled={!validID}
 					onPress={handleFindPassword}
 				/>
-				<ConnectRequest
+				<ModalRequest
 					modalVisible={modalConnectVisible}
 					setModalVisible={setModalConnectVisible}
 					textLoading={t("emailSendingText")}

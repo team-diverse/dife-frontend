@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import BookmarkedPostStyles from "@pages/member/BookmarkedPostStyles";
 import { getBookmarkedPost } from "config/api";
@@ -11,6 +12,7 @@ import ItemCommunity from "@components/community/ItemCommunity";
 import * as Sentry from "@sentry/react-native";
 
 const BookmarkedPostPage = () => {
+	const { t } = useTranslation();
 	const [bookmarkPostList, setBookmarkPostList] = useState([]);
 
 	useEffect(() => {
@@ -34,7 +36,7 @@ const BookmarkedPostPage = () => {
 
 	return (
 		<SafeAreaView style={BookmarkedPostStyles.container}>
-			<TopBar topBar="북마크한 게시글" color="#000" />
+			<TopBar topBar={t("bookmarkedPosts")} color="#000" />
 
 			<View style={BookmarkedPostStyles.itemCommunity}>
 				<ItemCommunity

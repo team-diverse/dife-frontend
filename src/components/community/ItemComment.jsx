@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { createLikeComment, deleteLikeByCommentId } from "config/api";
@@ -17,6 +18,7 @@ import * as Sentry from "@sentry/react-native";
 const { fontCaption, fontNavi } = CustomTheme;
 
 const ItemComment = ({ commentList = [], onReply }) => {
+	const { t } = useTranslation();
 	const initialHeartStates = commentList.map((post) => ({
 		id: post.id,
 		likesCount: post.likesCount,
@@ -156,7 +158,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 						<View>
 							<Text style={styles.textPostTitle}>
 								{comment.isPublic
-									? "익명"
+									? t("anonymousCheckboxLabel")
 									: comment.writer.username}
 							</Text>
 							<Text style={styles.textPostContext}>
@@ -240,7 +242,9 @@ const ItemComment = ({ commentList = [], onReply }) => {
 							/>
 						)}
 						<TouchableOpacity style={styles.textTranslation}>
-							<Text style={styles.textTranslation}>번역하기</Text>
+							<Text style={styles.textTranslation}>
+								{t("translateButton")}
+							</Text>
 						</TouchableOpacity>
 					</View>
 				</View>
@@ -253,7 +257,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 								<View>
 									<Text style={styles.textPostTitle}>
 										{reply.isPublic
-											? "익명"
+											? t("anonymousCheckboxLabel")
 											: reply.writer.username}
 									</Text>
 									<Text style={styles.textPostContext}>
@@ -331,7 +335,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 									style={styles.textTranslation}
 								>
 									<Text style={styles.textTranslation}>
-										번역하기
+										{t("translateButton")}
 									</Text>
 								</TouchableOpacity>
 							</View>

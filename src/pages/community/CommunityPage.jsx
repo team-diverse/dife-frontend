@@ -8,6 +8,7 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import CommunityStyles from "@pages/community/CommunityStyles";
 import { getPostsByType, getCommunitySearch } from "config/api";
@@ -24,6 +25,7 @@ import ItemCommunity from "@components/community/ItemCommunity";
 import * as Sentry from "@sentry/react-native";
 
 const CommunityPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [tipPostList, setTipPostList] = useState([]);
@@ -94,7 +96,7 @@ const CommunityPage = () => {
 			<SafeAreaView style={CommunityStyles.safeAreaView}>
 				<View style={CommunityStyles.containerTextIcon}>
 					<Text style={CommunityStyles.textChattingTitle}>
-						게시판
+						{t("boardTitle")}
 					</Text>
 					<TouchableOpacity
 						onPress={() =>
@@ -114,7 +116,7 @@ const CommunityPage = () => {
 									paddingLeft: 40,
 								},
 							]}
-							placeholder="검색"
+							placeholder={t("searchPlaceholder")}
 							value={searchTerm}
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}
@@ -149,7 +151,7 @@ const CommunityPage = () => {
 						<View style={CommunityStyles.containerFail}>
 							<IconSearchFail />
 							<Text style={CommunityStyles.textFail}>
-								일치하는 검색 결과가 없습니다
+								{t("searchNoResults")}
 							</Text>
 						</View>
 					) : searchData && searchData.length > 0 ? (
@@ -168,7 +170,7 @@ const CommunityPage = () => {
 											CommunityStyles.textCommunityTitle
 										}
 									>
-										꿀팁게시판
+										{t("tipsBoard")}
 									</Text>
 								</View>
 								<TouchableOpacity
@@ -182,7 +184,7 @@ const CommunityPage = () => {
 											CommunityStyles.textCommunityMore
 										}
 									>
-										더보기
+										{t("moreButton")}
 									</Text>
 									<ArrowRight
 										style={CommunityStyles.iconArrow}
@@ -203,7 +205,7 @@ const CommunityPage = () => {
 											CommunityStyles.textCommunityTitle
 										}
 									>
-										자유게시판
+										{t("freeBoard")}
 									</Text>
 								</View>
 								<TouchableOpacity
@@ -217,7 +219,7 @@ const CommunityPage = () => {
 											CommunityStyles.textCommunityMore
 										}
 									>
-										더보기
+										{t("moreButton")}
 									</Text>
 									<ArrowRight
 										style={CommunityStyles.iconArrow}

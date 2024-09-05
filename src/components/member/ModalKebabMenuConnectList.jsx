@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import Modal from "react-native-modal";
 import * as Sentry from "@sentry/react-native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import {
@@ -21,20 +22,21 @@ const ModalKebabMenuConnectList = ({
 	pending = false,
 	position,
 }) => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const handleBlockAlert = () => {
 		setModalVisible(false);
 		Alert.alert(
 			"",
-			`'${name}'\n사용자를 차단하겠습니까?`,
+			t("blockAlertMessage", { name }),
 			[
 				{
-					text: "취소",
+					text: t("cancelButton"),
 					style: "cancel",
 				},
 				{
-					text: "확인",
+					text: t("confirmButtonText"),
 					onPress: () => {
 						handleBlock();
 					},
@@ -49,10 +51,10 @@ const ModalKebabMenuConnectList = ({
 			await createBlockMemberByMemberId(memberId);
 			Alert.alert(
 				"",
-				`'${name}'\n사용자를 차단하였습니다.`,
+				t("blockSuccessMessage", { name }),
 				[
 					{
-						text: "확인",
+						text: t("confirmButtonText"),
 					},
 				],
 				{ cancelable: false },
@@ -77,14 +79,14 @@ const ModalKebabMenuConnectList = ({
 		setModalVisible(false);
 		Alert.alert(
 			"",
-			`'${name}'\n커넥트 요청을 취소하겠습니까?`,
+			t("connectCancelAlertMessage", { name }),
 			[
 				{
-					text: "취소",
+					text: t("cancelButton"),
 					style: "cancel",
 				},
 				{
-					text: "확인",
+					text: t("confirmButtonText"),
 					onPress: () => {
 						handleDeleteConnect();
 					},
@@ -99,10 +101,10 @@ const ModalKebabMenuConnectList = ({
 			await rejectedConnectByConnectId(connectId);
 			Alert.alert(
 				"",
-				`'${name}'\n커넥트 요청을 취소하였습니다.`,
+				t("connectCancelSuccessMessage", { name }),
 				[
 					{
-						text: "확인",
+						text: t("confirmButtonText"),
 					},
 				],
 				{ cancelable: false },
@@ -134,21 +136,25 @@ const ModalKebabMenuConnectList = ({
 			{pending ? (
 				<View style={styles.rectangle}>
 					<TouchableOpacity onPress={handleProfile}>
-						<Text style={styles.text}>프로필 보기</Text>
+						<Text style={styles.text}>{t("viewProfile")}</Text>
 					</TouchableOpacity>
 					<View style={styles.line} />
 					<TouchableOpacity onPress={handleConnectDeleteAlert}>
-						<Text style={styles.text}>요청 취소</Text>
+						<Text style={styles.text}>
+							{t("cancelRequestButtonText")}
+						</Text>
 					</TouchableOpacity>
 				</View>
 			) : (
 				<View style={styles.rectangle}>
 					<TouchableOpacity onPress={handleConnectDeleteAlert}>
-						<Text style={styles.text}>커넥트 취소</Text>
+						<Text style={styles.text}>
+							{t("cancelConnectButtonText")}
+						</Text>
 					</TouchableOpacity>
 					<View style={styles.line} />
 					<TouchableOpacity onPress={handleBlockAlert}>
-						<Text style={styles.text}>차단</Text>
+						<Text style={styles.text}>{t("block")}</Text>
 					</TouchableOpacity>
 				</View>
 			)}
