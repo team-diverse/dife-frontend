@@ -35,8 +35,8 @@ const ProfileHobbyStyles = StyleSheet.create({
 		justifyContent: "center",
 	},
 	buttonCheck: {
-		marginTop: 134,
-		marginHorizontal: 10,
+		position: "absolute",
+		bottom: 104,
 	},
 });
 

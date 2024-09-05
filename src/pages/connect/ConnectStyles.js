@@ -7,6 +7,7 @@ const { fontHead20, fontHead18, fontSub16, fontCaption, fontNaviBold } =
 const ConnectStyles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: CustomTheme.bgBasic,
 	},
 	containerImageNumber: {
 		position: "absolute",
@@ -95,10 +96,6 @@ const ConnectStyles = StyleSheet.create({
 	connectTop: {
 		marginTop: -47,
 		zIndex: 1,
-	},
-	safeAreaView: {
-		flex: 1,
-		backgroundColor: CustomTheme.bgBasic,
 	},
 	midContainer: {
 		alignItems: "flex-end",

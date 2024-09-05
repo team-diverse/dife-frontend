@@ -6,6 +6,7 @@ const { fontHead20, fontHead18, fontSub16, fontCaption } = CustomTheme;
 const ChattingStyles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: CustomTheme.bgBasic,
 	},
 	backgroundBlue: {
 		position: "absolute",
@@ -22,10 +23,6 @@ const ChattingStyles = StyleSheet.create({
 		shadowOpacity: 0.4,
 		shadowRadius: 2,
 		zIndex: 2,
-	},
-	safeAreaView: {
-		flex: 1,
-		backgroundColor: CustomTheme.bgBasic,
 	},
 	connectTop: {
 		marginTop: -47,

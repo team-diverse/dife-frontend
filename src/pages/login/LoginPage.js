@@ -35,7 +35,6 @@ const LoginPage = () => {
 
 	const navigation = useNavigation();
 
-	// const loginData = ["Dife와 함께하는\n캠퍼스 라이프!", "지금 바로 시작하기"];
 	const [valueID, setEmail] = useState("");
 	const [valuePW, setPassword] = useState("");
 	const [showPW, setShowPW] = useState(false);
@@ -59,10 +58,6 @@ const LoginPage = () => {
 
 	const handleKeyboard = () => {
 		Keyboard.dismiss();
-	};
-
-	const handleSignUp = () => {
-		navigation.navigate("SignUp");
 	};
 
 	const handleEmail = (text) => {
@@ -148,64 +143,73 @@ const LoginPage = () => {
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
-			<SafeAreaView style={[LoginStyles.container]}>
+			<SafeAreaView style={LoginStyles.container}>
 				<LoginBackground style={LoginStyles.backgroundLogin} />
 				<Text style={LoginStyles.textTitle}>{t("loginTitle")}</Text>
 				<Text style={LoginStyles.textSubTitle}>
 					{t("loginSubtitle")}
 				</Text>
-				<Text style={LoginStyles.textId}>ID (Email Address)</Text>
-				<TextInput
-					style={
-						loginFailed
-							? [
-									LoginStyles.textInputPw,
-									{ borderColor: CustomTheme.warningRed },
-								]
-							: LoginStyles.textInputId
-					}
-					placeholder={t("placeholderEmail")}
-					onChangeText={(text) => handleEmail(text)}
-					value={valueID}
-				/>
-				<Text style={LoginStyles.textPw}>Password</Text>
-				<View style={LoginStyles.textInputPwContainer}>
+				<View style={LoginStyles.containerIdPw}>
+					<Text style={LoginStyles.textIdPw}>ID (Email Address)</Text>
 					<TextInput
 						style={
 							loginFailed
 								? [
-										LoginStyles.textInputPw,
+										LoginStyles.textInputIdPw,
 										{ borderColor: CustomTheme.warningRed },
 									]
-								: LoginStyles.textInputPw
+								: LoginStyles.textInputIdPw
 						}
-						placeholder={t("placeholderPassword")}
-						onChangeText={(text) => handlePassword(text)}
-						value={valuePW}
-						secureTextEntry={!showPW}
+						placeholder={t("placeholderEmail")}
+						onChangeText={(text) => handleEmail(text)}
+						value={valueID}
 					/>
-					<TouchableOpacity
-						style={LoginStyles.iconSee}
-						onPress={handleShowPW}
-					>
-						{valuePW == "" ? null : showPW ? (
-							<IconSeePw />
-						) : (
-							<IconNotSeePw />
-						)}
-					</TouchableOpacity>
-				</View>
-				{loginFailed && (
-					<View style={LoginStyles.containerError}>
-						<InfoCircle color={CustomTheme.warningRed} />
-						<Text style={LoginStyles.textError}>
-							{t("loginError")}
-						</Text>
+					<Text style={LoginStyles.textIdPw}>Password</Text>
+					<View style={LoginStyles.textInputPwContainer}>
+						<TextInput
+							style={
+								loginFailed
+									? [
+											LoginStyles.textInputIdPw,
+											{
+												borderColor:
+													CustomTheme.warningRed,
+											},
+										]
+									: LoginStyles.textInputIdPw
+							}
+							placeholder={t("placeholderPassword")}
+							onChangeText={(text) => handlePassword(text)}
+							value={valuePW}
+							secureTextEntry={!showPW}
+						/>
+						<TouchableOpacity
+							style={LoginStyles.iconSee}
+							onPress={handleShowPW}
+						>
+							{valuePW == "" ? null : showPW ? (
+								<IconSeePw />
+							) : (
+								<IconNotSeePw />
+							)}
+						</TouchableOpacity>
 					</View>
-				)}
-				<View style={LoginStyles.ButtonSignupPwContainer}>
+					{loginFailed && (
+						<View style={LoginStyles.containerError}>
+							<InfoCircle color={CustomTheme.warningRed} />
+							<Text style={LoginStyles.textError}>
+								{t("loginError")}
+							</Text>
+						</View>
+					)}
+				</View>
+
+				<View style={LoginStyles.containerButtonSignupLogin}>
 					<BottomTwoButtons>
-						<View text={t("signUp")} onPress={handleSignUp} />
+						<View
+							text={t("signUp")}
+							onPress={() => navigation.navigate("SignUp")}
+						/>
 						<View text={t("login")} onPress={handleLogin} />
 					</BottomTwoButtons>
 					<TouchableOpacity

@@ -10,8 +10,8 @@ import { CustomTheme } from "@styles/CustomTheme";
 import { getMyProfile } from "config/api";
 
 import DifeLogo from "@components/member/DifeLogo";
-import CircleBackground from "@components/member/CircleBackground";
 import DifeLine from "@components/member/DifeLine";
+import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";
 import IconSetting from "@components/member/IconSetting";
 import ProfileKBackground from "@components/member/ProfileKBackground";
 import ProfileK from "@components/member/ProfileK";
@@ -65,7 +65,7 @@ const MemberPage = () => {
 						<DifeLine />
 					</View>
 					<View style={MemberStyles.circleBackground}>
-						<CircleBackground />
+						<ConnectProfileBackground />
 					</View>
 
 					<View style={MemberStyles.topContainer}>

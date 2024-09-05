@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, SafeAreaView, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
@@ -13,6 +13,9 @@ const CompleteProfilePage = () => {
 
 	const navigation = useNavigation();
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
 	return (
 		<SafeAreaView style={[CompleteProfileStyles.container]}>
 			<Text style={CompleteProfileStyles.textTitle}>
@@ -24,7 +27,12 @@ const CompleteProfilePage = () => {
 			<View style={CompleteProfileStyles.iconLoading}>
 				<IconLoading />
 			</View>
-			<View style={CompleteProfileStyles.buttonCheck}>
+			<View
+				style={[
+					CompleteProfileStyles.buttonCheck,
+					isSmallScreen && { bottom: 30 },
+				]}
+			>
 				<ApplyButton
 					text={t("confirmButtonText")}
 					onPress={() => navigation.navigate("LoadingVerification")}

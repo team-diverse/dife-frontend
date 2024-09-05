@@ -114,69 +114,74 @@ const SignUpPage = () => {
 			<SafeAreaView style={[SignUpStyles.container]}>
 				<GoBack />
 				<Text style={SignUpStyles.textTitle}>{t("signUpTitle")}</Text>
-				<Text style={SignUpStyles.textId}>{t("emailLabel")}</Text>
-				<TextInput
-					style={SignUpStyles.textInputId}
-					placeholder={t("emailPlaceholder")}
-					onChangeText={handleEmailFormat}
-					value={valueID}
-				/>
-				{!validID && (
-					<View style={SignUpStyles.containerError}>
-						<InfoCircle color={CustomTheme.warningRed} />
-						<Text style={SignUpStyles.textError}>
-							{errorMessage}
-						</Text>
-					</View>
-				)}
-				<Text style={SignUpStyles.textPw}>{t("passwordLabel")}</Text>
-				<View style={SignUpStyles.textInputPwContainer}>
+				<View style={SignUpStyles.containerIdPw}>
+					<Text style={SignUpStyles.textIdPw}>{t("emailLabel")}</Text>
 					<TextInput
-						style={SignUpStyles.textInputPw}
-						placeholder={t("passwordPlaceholder")}
-						onChangeText={handlePasswordError}
-						value={valuePW}
-						secureTextEntry={!showPW}
+						style={SignUpStyles.textInputIdPw}
+						placeholder={t("emailPlaceholder")}
+						onChangeText={handleEmailFormat}
+						value={valueID}
 					/>
-					<TouchableOpacity
-						style={SignUpStyles.iconSee}
-						onPress={handleShowPW}
-					>
-						{valuePW == "" ? null : showPW ? (
-							<IconSeePw />
-						) : (
-							<IconNotSeePw />
-						)}
-					</TouchableOpacity>
-				</View>
-				{passwordError && (
-					<View style={SignUpStyles.containerError}>
-						<InfoCircle color={CustomTheme.warningRed} />
-						<Text style={SignUpStyles.textError}>
-							{t("passwordError")}
-						</Text>
+					{!validID && (
+						<View style={SignUpStyles.containerError}>
+							<InfoCircle color={CustomTheme.warningRed} />
+							<Text style={SignUpStyles.textError}>
+								{errorMessage}
+							</Text>
+						</View>
+					)}
+					<Text style={SignUpStyles.textIdPw}>
+						{t("passwordLabel")}
+					</Text>
+					<View style={SignUpStyles.textInputPwContainer}>
+						<TextInput
+							style={SignUpStyles.textInputIdPw}
+							placeholder={t("passwordPlaceholder")}
+							onChangeText={handlePasswordError}
+							value={valuePW}
+							secureTextEntry={!showPW}
+						/>
+						<TouchableOpacity
+							style={SignUpStyles.iconSee}
+							onPress={handleShowPW}
+						>
+							{valuePW == "" ? null : showPW ? (
+								<IconSeePw />
+							) : (
+								<IconNotSeePw />
+							)}
+						</TouchableOpacity>
 					</View>
-				)}
-				<Text style={SignUpStyles.textPw}>
-					{t("confirmPasswordLabel")}
-				</Text>
-				<View style={SignUpStyles.textInputPwContainer}>
-					<TextInput
-						style={SignUpStyles.textInputPw}
-						placeholder={t("confirmPasswordPlaceholder")}
-						onChangeText={handleCheckPassword}
-						value={valueCheckPW}
-						secureTextEntry={!showPW}
-					/>
-				</View>
-				{!passwordMatch && (
-					<View style={SignUpStyles.containerError}>
-						<InfoCircle color={CustomTheme.warningRed} />
-						<Text style={SignUpStyles.textError}>
-							{t("passwordMismatchError")}
-						</Text>
+					{passwordError && (
+						<View style={SignUpStyles.containerError}>
+							<InfoCircle color={CustomTheme.warningRed} />
+							<Text style={SignUpStyles.textError}>
+								{t("passwordError")}
+							</Text>
+						</View>
+					)}
+					<Text style={SignUpStyles.textIdPw}>
+						{t("confirmPasswordLabel")}
+					</Text>
+					<View style={SignUpStyles.textInputPwContainer}>
+						<TextInput
+							style={SignUpStyles.textInputIdPw}
+							placeholder={t("confirmPasswordPlaceholder")}
+							onChangeText={handleCheckPassword}
+							value={valueCheckPW}
+							secureTextEntry={!showPW}
+						/>
 					</View>
-				)}
+					{!passwordMatch && (
+						<View style={SignUpStyles.containerError}>
+							<InfoCircle color={CustomTheme.warningRed} />
+							<Text style={SignUpStyles.textError}>
+								{t("passwordMismatchError")}
+							</Text>
+						</View>
+					)}
+				</View>
+
 				<View style={SignUpStyles.buttonMove}>
 					<ApplyButton
 						text={t("signUpCompleteButton")}

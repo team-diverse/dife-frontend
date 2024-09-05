@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	SafeAreaView,
+	TouchableOpacity,
+	Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
@@ -46,6 +52,9 @@ const ProfileMBTIPage = () => {
 		navigation.navigate("ProfileHobby");
 	};
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
 	return (
 		<SafeAreaView style={[ProfileMbtiStyles.container]}>
 			<TouchableOpacity onPress={handleGoBack}>
@@ -80,7 +89,12 @@ const ProfileMBTIPage = () => {
 					))}
 				</View>
 			</View>
-			<View style={ProfileMbtiStyles.buttonCheck}>
+			<View
+				style={[
+					ProfileMbtiStyles.buttonCheck,
+					isSmallScreen && { bottom: 30 },
+				]}
+			>
 				<ApplyButton
 					text={t("nextButton")}
 					onPress={handleDataSave}

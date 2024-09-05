@@ -23,11 +23,11 @@ const ConnectCard = ({
 	id,
 	isLiked = false,
 	profilePresignUrl = null,
-	username = "username",
-	country = "country",
-	major = "major",
-	bio = "bio",
-	tags = ["tag"],
+	username,
+	country,
+	major,
+	bio,
+	tags,
 	groupName,
 	description,
 	count,
@@ -111,30 +111,9 @@ const ConnectCard = ({
 					</View>
 
 					<View style={styles.cardContainer}>
-						<View style={styles.containerNameIcon}>
-							<Text style={styles.textName}>
-								{groupName ? groupName : username}
-							</Text>
-							<View style={styles.iconContainer}>
-								<IconHeart24
-									active={count ? groupHeart : heart}
-									onPress={
-										count
-											? groupHeart
-												? handleGroupDeleteHeart
-												: handleGroupCreateHeart
-											: heart
-												? handleDeleteHeart
-												: handleCreateHeart
-									}
-								/>
-								<TouchableOpacity onPress={handleNavigation}>
-									<ConnectPlusIcon
-										style={{ marginLeft: 9 }}
-									/>
-								</TouchableOpacity>
-							</View>
-						</View>
+						<Text style={styles.textName}>
+							{groupName ? groupName : username}
+						</Text>
 						{count ? (
 							<View style={styles.containerHeadcount}>
 								<IconGroupHeadcount />
@@ -168,11 +147,33 @@ const ConnectCard = ({
 							</View>
 						)}
 
-						<Text style={styles.textIntroduction}>
+						<Text
+							style={styles.textIntroduction}
+							numberOfLines={3}
+							ellipsizeMode="tail"
+						>
 							{description ? description : bio}
 						</Text>
 						<View style={styles.tagContainer}>
 							<Tag tag={tags} />
+						</View>
+
+						<View style={styles.iconContainer}>
+							<IconHeart24
+								active={count ? groupHeart : heart}
+								onPress={
+									count
+										? groupHeart
+											? handleGroupDeleteHeart
+											: handleGroupCreateHeart
+										: heart
+											? handleDeleteHeart
+											: handleCreateHeart
+								}
+							/>
+							<TouchableOpacity onPress={handleNavigation}>
+								<ConnectPlusIcon style={{ marginLeft: 9 }} />
+							</TouchableOpacity>
 						</View>
 					</View>
 				</>
@@ -202,18 +203,16 @@ const styles = StyleSheet.create({
 		height: "100%",
 	},
 	cardContainer: {
-		marginTop: 8,
-		marginLeft: 12,
-	},
-	containerNameIcon: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
+		flex: 1,
+		marginVertical: 8,
+		marginHorizontal: 12,
 	},
 	iconContainer: {
+		position: "absolute",
+		top: 0,
+		right: 0,
 		flexDirection: "row",
 		alignItems: "center",
-		justifyContent: "center",
 	},
 	textName: {
 		fontSize: 14,
@@ -245,12 +244,12 @@ const styles = StyleSheet.create({
 	},
 	textIntroduction: {
 		...fontSub14,
-		width: 187,
+		width: "100%",
 		marginBottom: 6,
 	},
 	tagContainer: {
 		flexDirection: "row",
-		width: 221,
+		width: "100%",
 	},
 	containerFail: {
 		justifyContent: "center",

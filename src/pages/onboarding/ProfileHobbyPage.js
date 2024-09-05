@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	SafeAreaView,
+	TouchableOpacity,
+	Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
@@ -44,6 +50,9 @@ const ProfileHobbyPage = () => {
 		navigation.navigate("ProfileLanguage");
 	};
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
 	return (
 		<SafeAreaView style={[ProfileHobbyStyles.container]}>
 			<TouchableOpacity onPress={handleGoBack}>
@@ -75,7 +84,12 @@ const ProfileHobbyPage = () => {
 					</View>
 				))}
 			</View>
-			<View style={ProfileHobbyStyles.buttonCheck}>
+			<View
+				style={[
+					ProfileHobbyStyles.buttonCheck,
+					isSmallScreen && { bottom: 30 },
+				]}
+			>
 				<ApplyButton
 					text={t("nextButton")}
 					onPress={handleDataSave}
