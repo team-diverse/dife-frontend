@@ -388,5 +388,8 @@
 	"blockAlertMessage": "'{{name}}'\n사용자를 차단하겠습니까?",
 	"blockSuccessMessage": "'{{name}}'\n사용자를 차단하였습니다.",
 	"connectCancelAlertMessage": "'{{name}}'\n커넥트 요청을 취소하겠습니까?",
-	"connectCancelSuccessMessage": "'{{name}}'\n커넥트 요청을 취소하였습니다."
+	"connectCancelSuccessMessage": "'{{name}}'\n커넥트 요청을 취소하였습니다.",
+
+	"changeLanguageConfirmation": "기본 언어를 바꾸시겠습니까?",
+	"languageChangedSuccess": "기본 언어가 바뀌었습니다."
 }

@@ -289,11 +289,11 @@
 	"connectRequest": "Solicitud de Conexión",
 
 	"defaultLanguageSettings": "Configuración de Idioma Predeterminada",
-	"english": "Inglés / English",
-	"chinese": "Chino / Chinese",
-	"japanese": "Japonés / Japanese",
+	"english": "English / English",
+	"chinese": "中文 / Chinese",
+	"japanese": "日本語 / Japanese",
 	"spanish": "Español / Spanish",
-	"korean": "Coreano / Korean",
+	"korean": "한국어 / Korean",
 
 	"deleteMember": "Eliminar Miembro",
 	"confirmDeleteMember": "¿Está seguro de que desea eliminar su cuenta?\nLe echaremos de menos.",
@@ -389,5 +389,8 @@
 	"blockAlertMessage": "'{{name}}'\n¿Está seguro de que desea bloquear a este usuario?",
 	"blockSuccessMessage": "'{{name}}'\nEl usuario ha sido bloqueado.",
 	"connectCancelAlertMessage": "'{{name}}'\n¿Está seguro de que desea cancelar la solicitud de conexión?",
-	"connectCancelSuccessMessage": "'{{name}}'\nLa solicitud de conexión ha sido cancelada."
+	"connectCancelSuccessMessage": "'{{name}}'\nLa solicitud de conexión ha sido cancelada.",
+
+	"changeLanguageConfirmation": "¿Desea cambiar el idioma predeterminado?",
+	"languageChangedSuccess": "El idioma predeterminado ha sido cambiado."
 }
