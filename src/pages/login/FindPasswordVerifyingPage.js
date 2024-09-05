@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
 
 import FindPasswordVerifyingStyles from "@pages/login/FindPasswordVerifyingStyles";
 
@@ -10,8 +9,6 @@ import ApplyButton from "@components/common/ApplyButton";
 import GoBack from "@components/common/GoBack";
 
 const FindPasswordVerifyingPage = () => {
-	const { t } = useTranslation();
-
 	const navigation = useNavigation();
 
 	const handleGoBack = () => {
@@ -24,14 +21,14 @@ const FindPasswordVerifyingPage = () => {
 			<View style={FindPasswordVerifyingStyles.containerContent}>
 				<IconEmail style={FindPasswordVerifyingStyles.iconEmail} />
 				<Text style={FindPasswordVerifyingStyles.textTitle}>
-					{t("emailVerificationTitle")}
+					이메일 확인
 				</Text>
 				<Text style={FindPasswordVerifyingStyles.textSubTitle}>
-					{t("emailVerificationSubtitle")}
+					비밀번호 재발급을 위한 이메일을 전송했습니다
 				</Text>
 				<View style={FindPasswordVerifyingStyles.buttonMove}>
 					<ApplyButton
-						text={t("loginPageButton")}
+						text="로그인 페이지로 이동하기"
 						onPress={() => navigation.navigate("Login")}
 					/>
 				</View>
@@ -40,7 +37,7 @@ const FindPasswordVerifyingPage = () => {
 						style={FindPasswordVerifyingStyles.textReport}
 						onPress={handleGoBack}
 					>
-						{t("resendEmailRequest")}
+						이메일 재전송 요청
 					</Text>
 				</TouchableOpacity>
 			</View>

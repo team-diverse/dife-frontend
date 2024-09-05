@@ -26,10 +26,13 @@ const FriendListPage = ({ route }) => {
 			setMyMemberId(myMemberId);
 
 			const response = await getMyAcceptedConnects();
-			setConnects(response.data);
+			const filteredOneConnects = response.data.filter(
+				(connect) => connect.from_member.id === myMemberId,
+			);
+			setConnects(filteredOneConnects);
 		};
 		fetchMyMemberIDAndConnects();
-	}, [connects]);
+	}, []);
 
 	return (
 		<SafeAreaView style={FriendListStyles.container}>
@@ -52,7 +55,6 @@ const FriendListPage = ({ route }) => {
 					const otherMember = getOtherMemberFromConnect(item);
 					return (
 						<FriendList
-							connectId={item.id}
 							memberId={otherMember.id}
 							name={otherMember.username}
 							imageName={otherMember.profileImg?.originalName}

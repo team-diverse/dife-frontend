@@ -32,13 +32,11 @@ const LoadingVerificationStyles = StyleSheet.create({
 	},
 	containerModalContent: {
 		alignItems: "center",
-		marginHorizontal: 25,
 	},
 	textModal: {
 		...fontSub14,
 		marginTop: 18,
 		marginBottom: 24,
-		textAlign: "center",
 	},
 	iconLoading: {
 		marginBottom: 6,

@@ -11,12 +11,10 @@ import {
 	TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Slider from "@react-native-community/slider";
-import { useTranslation } from "react-i18next";
+import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
 import GroupCreatedDetailStyles from "@pages/connect/GroupCreatedDetailStyles";
 import { useCreateGroup } from "src/states/CreateGroupDataContext.js";
-import { CustomTheme } from "@styles/CustomTheme";
 
 import TopBar from "@components/common/TopBar";
 import InfoCircle from "@components/common/InfoCircle";
@@ -26,29 +24,63 @@ import RadioButtonGroup from "@components/RadioButton/RadioButtonGroup";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 
 const GroupCreatedDetailPage = () => {
-	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const handleKeyboard = () => {
 		Keyboard.dismiss();
 	};
 
+	const [isCheckedList, setIsCheckedList] = useState([
+		false,
+		false,
+		false,
+		false,
+		false,
+	]);
+
+	const [isCategoryCheckedList, setIsCategoryCheckedList] = useState([
+		false,
+		false,
+		false,
+	]);
+
 	const [selectedHobby, setSelectedHobby] = useState([]);
 	const [selectedLanguage, setSelectedLanguage] = useState([]);
 	const [selectedCategory, setSelectedCategory] = useState([]);
-	const [sliderValue, setSliderValue] = useState(3);
 
-	const hobby = t("hobbyOptions", { returnObjects: true });
-	const languages = t("languages", { returnObjects: true });
-	const categories = t("categories", { returnObjects: true });
+	const hobby = [
+		"SNS",
+		"OTT",
+		"캠핑",
+		"쇼핑",
+		"드라이브",
+		"산책",
+		"반려동물",
+		"스포츠",
+		"K-POP",
+		"사진",
+		"음악",
+		"드라마",
+		"독서",
+		"그림",
+		"요리",
+		"만화",
+		"언어공부",
+		"여행",
+		"악기연주",
+		"영화",
+		"맛집",
+	];
+	const languages = [
+		"English / English",
+		"中文 / Chinese",
+		"日本語 / Japanese",
+		"Español / Spanish",
+		"한국어 / Korean",
+		"기타",
+	];
 
-	const [isCheckedList, setIsCheckedList] = useState(
-		new Array(languages.length).fill(false),
-	);
-
-	const [isCategoryCheckedList, setIsCategoryCheckedList] = useState(
-		new Array(categories.length).fill(false),
-	);
+	const categories = ["소통/친구 사귀기", "언어교환", "자유"];
 
 	const size = 3;
 	const hobbyRows = [];
@@ -104,7 +136,10 @@ const GroupCreatedDetailPage = () => {
 		}
 	};
 
-	const reportTypes = [t("public"), t("private")];
+	const [multiSliderValue, setMultiSliderValue] = useState([3, 7]);
+	const multiSliderValuesChange = (values) => setMultiSliderValue(values);
+
+	const reportTypes = ["공개", "비공개"];
 	const [selected, setSelected] = useState("");
 	const handleRadioButtonSelect = (value) => {
 		setSelected(value);
@@ -117,9 +152,9 @@ const GroupCreatedDetailPage = () => {
 		updateCreateGroupData({
 			hobbies: selectedHobby,
 			languages: selectedLanguage,
-			purposes: selectedCategory,
-			maxCount: sliderValue,
-			isPublic: selected === t("public") ? true : false,
+			categories: selectedCategory,
+			limitMembersNumber: multiSliderValue,
+			isPublic: selected === "공개" ? true : false,
 			groupPassword: passwordInput || null,
 		});
 		navigation.navigate("GroupProfilePreviewPage");
@@ -132,7 +167,7 @@ const GroupCreatedDetailPage = () => {
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					style={GroupCreatedDetailStyles.container}
 				>
-					<TopBar topBar={t("createGroup")} color="#000" />
+					<TopBar topBar="그룹 채팅방 만들기" color="#000" />
 					<ScrollView>
 						<View style={{ marginTop: 26 }}>
 							<Text
@@ -140,13 +175,13 @@ const GroupCreatedDetailPage = () => {
 									GroupCreatedDetailStyles.textGroupChatSetting
 								}
 							>
-								{t("chatRoomSettings")}
+								채팅방 설정
 							</Text>
 						</View>
 
 						<View style={GroupCreatedDetailStyles.containerItem}>
 							<Text style={GroupCreatedDetailStyles.textTitle}>
-								{t("topics")}
+								주제
 							</Text>
 							<View
 								style={
@@ -155,7 +190,7 @@ const GroupCreatedDetailPage = () => {
 							>
 								<InfoCircle />
 								<Text style={GroupCreatedDetailStyles.infoText}>
-									{t("max4Selection")}
+									최대 4개까지 선택 가능
 								</Text>
 							</View>
 							<View>
@@ -185,7 +220,7 @@ const GroupCreatedDetailPage = () => {
 
 						<View style={GroupCreatedDetailStyles.containerItem}>
 							<Text style={GroupCreatedDetailStyles.textTitle}>
-								{t("language")}
+								언어
 							</Text>
 							<View
 								style={
@@ -194,7 +229,7 @@ const GroupCreatedDetailPage = () => {
 							>
 								<InfoCircle />
 								<Text style={GroupCreatedDetailStyles.infoText}>
-									{t("max2Selection")}
+									최대 2개까지 선택 가능
 								</Text>
 							</View>
 							{languages.map((language, index) => (
@@ -209,7 +244,7 @@ const GroupCreatedDetailPage = () => {
 
 						<View style={GroupCreatedDetailStyles.containerItem}>
 							<Text style={GroupCreatedDetailStyles.textTitle}>
-								{t("category")}
+								유형
 							</Text>
 							<View
 								style={
@@ -218,7 +253,7 @@ const GroupCreatedDetailPage = () => {
 							>
 								<InfoCircle />
 								<Text style={GroupCreatedDetailStyles.infoText}>
-									{t("max2Selection")}
+									최대 2개까지 선택 가능
 								</Text>
 							</View>
 							{categories.map((category, index) => (
@@ -233,67 +268,38 @@ const GroupCreatedDetailPage = () => {
 
 						<View style={GroupCreatedDetailStyles.containerItem}>
 							<Text style={GroupCreatedDetailStyles.textTitle}>
-								{t("memberLimitTitle")}
+								그룹 멤버 수 제한
 							</Text>
 							<View
 								style={GroupCreatedDetailStyles.containerSlider}
 							>
-								<View>
-									<Slider
-										style={{ width: 200, height: 40 }}
-										minimumValue={3}
-										maximumValue={30}
-										step={1}
-										value={sliderValue}
-										onValueChange={(value) =>
-											setSliderValue(value)
-										}
-										minimumTrackTintColor={
-											CustomTheme.primaryMedium
-										}
-										thumbTintColor={
-											CustomTheme.primaryMedium
-										}
-										maximumTrackTintColor={
-											CustomTheme.bgList
-										}
-									/>
-									<View
-										style={{
-											flexDirection: "row",
-											justifyContent: "space-between",
-										}}
-									>
-										<Text
-											style={
-												GroupCreatedDetailStyles.textMinMaxCount
-											}
-										>
-											3
-										</Text>
-										<Text
-											style={
-												GroupCreatedDetailStyles.textMinMaxCount
-											}
-										>
-											30
-										</Text>
-									</View>
-								</View>
+								<MultiSlider
+									values={[
+										multiSliderValue[0],
+										multiSliderValue[1],
+									]}
+									sliderLength={216}
+									onValuesChange={multiSliderValuesChange}
+									min={3}
+									max={30}
+									step={1}
+									allowOverlap
+									snapped
+								/>
 								<Text
 									style={
 										GroupCreatedDetailStyles.textHeadcount
 									}
 								>
-									{sliderValue}
-									{t("membersLimit")}
+									{multiSliderValue[0]} ~{" "}
+									{multiSliderValue[1]}명
 								</Text>
 							</View>
 						</View>
 
 						<View style={GroupCreatedDetailStyles.containerItem}>
 							<Text style={GroupCreatedDetailStyles.textTitle}>
-								{t("visibility")}
+								공개 유무
 							</Text>
 							<View
 								style={
@@ -305,14 +311,12 @@ const GroupCreatedDetailPage = () => {
 									selected={selected}
 									onValueChange={handleRadioButtonSelect}
 								/>
-								{selected === t("private") && (
+								{selected === "비공개" && (
 									<TextInput
 										style={
 											GroupCreatedDetailStyles.textInputPassword
 										}
-										placeholder={t(
-											"groupPasswordPlaceholder",
-										)}
+										placeholder="숫자 5자리 비밀번호를 입력해주세요"
 										value={passwordInput}
 										onChangeText={setPasswordInput}
 										maxLength={5}
@@ -327,18 +331,18 @@ const GroupCreatedDetailPage = () => {
 				<View style={GroupCreatedDetailStyles.bottomTwoButtons}>
 					<BottomTwoButtons shadow="true">
 						<View
-							text={t("backButton")}
+							text="뒤로가기"
 							onPress={() => navigation.goBack()}
 						/>
 						<View
-							text={t("nextButton")}
+							text="다음"
 							onPress={handleGroupInfo}
 							disabled={
 								selectedHobby.length === 0 ||
 								selectedLanguage.length === 0 ||
 								selectedCategory.length === 0 ||
 								selected === "" ||
-								(selected === t("private") &&
+								(selected === "비공개" &&
 									passwordInput.length !== 5)
 							}
 						/>

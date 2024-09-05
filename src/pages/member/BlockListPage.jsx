@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, SafeAreaView, FlatList } from "react-native";
-import { useTranslation } from "react-i18next";
 
 import BlockListStyles from "@pages/member/BlockListStyles";
 import { getBlockMember } from "config/api";
@@ -10,7 +9,6 @@ import IconBlockUser from "@components/member/IconBlockUser";
 import ItemBlockList from "@components/member/ItemBlockList";
 
 const BlockListPage = () => {
-	const { t } = useTranslation();
 	const [blackList, setBlackList] = useState([]);
 
 	const getblockMemberList = async () => {
@@ -24,25 +22,27 @@ const BlockListPage = () => {
 			);
 		}
 	};
-
 	useEffect(() => {
 		getblockMemberList();
-	}, [blackList]);
+	}, []);
 
 	const renderItem = ({ item }) => {
+		const imageName = item.profileImg?.originalName || null;
+
 		return (
 			<ItemBlockList
-				blacklistedMemberId={item.blacklistedMemberId}
-				date={item.modified}
+				memberId={item.id}
+				name={item.username}
+				imageName={imageName}
 			/>
 		);
 	};
 
 	return (
 		<SafeAreaView style={BlockListStyles.container}>
-			<TopBar topBar={t("blockManagement")} color="#000" />
+			<TopBar topBar="차단 관리" color="#000" />
 			<View style={BlockListStyles.containerFriendNumber}>
-				<Text style={BlockListStyles.textFriend}>{t("blockList")}</Text>
+				<Text style={BlockListStyles.textFriend}>차단 목록</Text>
 				<IconBlockUser />
 				<Text style={BlockListStyles.textNumber}>
 					{blackList.length}

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useNavigation } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
 
 import {
 	createLikeMember,
@@ -23,17 +22,16 @@ const ConnectCard = ({
 	id,
 	isLiked = false,
 	profilePresignUrl = null,
-	username,
-	country,
-	major,
-	bio,
-	tags,
+	username = "username",
+	country = "country",
+	major = "major",
+	bio = "bio",
+	tags = ["tag"],
 	groupName,
 	description,
 	count,
 	fail = false,
 }) => {
-	const { t } = useTranslation();
 	const navigation = useNavigation();
 	const [heart, setHeart] = useState(isLiked);
 	const [groupHeart, setGroupHeart] = useState(isLiked);
@@ -99,7 +97,9 @@ const ConnectCard = ({
 			{fail ? (
 				<View style={styles.containerFail}>
 					<IconSearchFail />
-					<Text style={styles.textFail}>{t("searchNoResults")}</Text>
+					<Text style={styles.textFail}>
+						일치하는 검색 결과가 없습니다
+					</Text>
 				</View>
 			) : (
 				<>
@@ -111,9 +111,30 @@ const ConnectCard = ({
 					</View>
 
 					<View style={styles.cardContainer}>
-						<Text style={styles.textName}>
-							{groupName ? groupName : username}
-						</Text>
+						<View style={styles.containerNameIcon}>
+							<Text style={styles.textName}>
+								{groupName ? groupName : username}
+							</Text>
+							<View style={styles.iconContainer}>
+								<IconHeart24
+									active={count ? groupHeart : heart}
+									onPress={
+										count
+											? groupHeart
+												? handleGroupDeleteHeart
+												: handleGroupCreateHeart
+											: heart
+												? handleDeleteHeart
+												: handleCreateHeart
+									}
+								/>
+								<TouchableOpacity onPress={handleNavigation}>
+									<ConnectPlusIcon
+										style={{ marginLeft: 9 }}
+									/>
+								</TouchableOpacity>
+							</View>
+						</View>
 						{count ? (
 							<View style={styles.containerHeadcount}>
 								<IconGroupHeadcount />
@@ -128,52 +149,16 @@ const ConnectCard = ({
 								</View>
 							</View>
 						) : (
-							<View style={styles.containerBasicInfo}>
-								<Text
-									style={styles.textBasicInfo}
-									numberOfLines={1}
-									ellipsizeMode="tail"
-								>
-									{country}
-								</Text>
-								<Text style={styles.textBasicInfo}> | </Text>
-								<Text
-									style={styles.textBasicInfo}
-									numberOfLines={1}
-									ellipsizeMode="tail"
-								>
-									{major}
-								</Text>
-							</View>
+							<Text style={styles.textBasicInfo}>
+								{country} | {major}
+							</Text>
 						)}
 
-						<Text
-							style={styles.textIntroduction}
-							numberOfLines={3}
-							ellipsizeMode="tail"
-						>
+						<Text style={styles.textIntroduction}>
 							{description ? description : bio}
 						</Text>
 						<View style={styles.tagContainer}>
 							<Tag tag={tags} />
-						</View>
-
-						<View style={styles.iconContainer}>
-							<IconHeart24
-								active={count ? groupHeart : heart}
-								onPress={
-									count
-										? groupHeart
-											? handleGroupDeleteHeart
-											: handleGroupCreateHeart
-										: heart
-											? handleDeleteHeart
-											: handleCreateHeart
-								}
-							/>
-							<TouchableOpacity onPress={handleNavigation}>
-								<ConnectPlusIcon style={{ marginLeft: 9 }} />
-							</TouchableOpacity>
 						</View>
 					</View>
 				</>
@@ -203,16 +188,18 @@ const styles = StyleSheet.create({
 		height: "100%",
 	},
 	cardContainer: {
-		flex: 1,
-		marginVertical: 8,
-		marginHorizontal: 12,
+		marginTop: 8,
+		marginLeft: 12,
+	},
+	containerNameIcon: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 	},
 	iconContainer: {
-		position: "absolute",
-		top: 0,
-		right: 0,
 		flexDirection: "row",
 		alignItems: "center",
+		justifyContent: "center",
 	},
 	textName: {
 		fontSize: 14,
@@ -233,23 +220,18 @@ const styles = StyleSheet.create({
 		...fontCaption,
 		color: CustomTheme.borderColor,
 	},
-	containerBasicInfo: {
-		flexDirection: "row",
-	},
 	textBasicInfo: {
 		...fontCaption,
 		marginBottom: 6,
-		maxWidth: 93,
-		overflow: "hidden",
 	},
 	textIntroduction: {
 		...fontSub14,
-		width: "100%",
+		width: 187,
 		marginBottom: 6,
 	},
 	tagContainer: {
 		flexDirection: "row",
-		width: "100%",
+		width: 221,
 	},
 	containerFail: {
 		justifyContent: "center",

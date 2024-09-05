@@ -8,7 +8,7 @@ import IconBookmark from "@components/chat/IconBookmark";
 import ModalNoBookmark from "@components/chat/ModalNoBookmark";
 import DashedLine from "@components/chat/DashedLine";
 
-const { fontCaption, fontNavi } = CustomTheme;
+const { fontCaption } = CustomTheme;
 
 const Bookmark = ({
 	name = "name",
@@ -18,7 +18,6 @@ const Bookmark = ({
 	translation = "translation",
 }) => {
 	const [expanded, setExpanded] = useState(false);
-	const [isTranslation, setIsTranslation] = useState(false);
 
 	const handleExpanded = () => {
 		setExpanded(!expanded);
@@ -32,10 +31,6 @@ const Bookmark = ({
 
 	const rectangleStyle = () =>
 		expanded ? styles.rectangleExpanded : styles.rectangle;
-
-	const handleTranslation = () => {
-		setIsTranslation(!isTranslation);
-	};
 
 	return (
 		<>
@@ -80,32 +75,18 @@ const Bookmark = ({
 						<View style={styles.dashedLine}>
 							<DashedLine />
 						</View>
-
-						<View style={styles.containerOriginalTranslation}>
-							<View style={styles.containerTextExpanded}>
-								<Text style={styles.textExpandedTitle}>
-									원문:
-								</Text>
-								<Text style={styles.textExpandedContext}>
-									{context}
-								</Text>
-							</View>
-							<TouchableOpacity onPress={handleTranslation}>
-								<Text style={styles.textTranslation}>
-									{isTranslation ? "원문만 보기" : "번역하기"}
-								</Text>
-							</TouchableOpacity>
+						<View style={styles.containerTextExpanded}>
+							<Text style={styles.textExpandedTitle}>원문:</Text>
+							<Text style={styles.textExpandedContext}>
+								{context}
+							</Text>
 						</View>
-						{isTranslation && (
-							<View style={styles.containerTextExpanded}>
-								<Text style={styles.textExpandedTitle}>
-									번역:
-								</Text>
-								<Text style={styles.textExpandedContext}>
-									{translation}
-								</Text>
-							</View>
-						)}
+						<View style={styles.containerTextExpanded}>
+							<Text style={styles.textExpandedTitle}>번역:</Text>
+							<Text style={styles.textExpandedContext}>
+								{translation}
+							</Text>
+						</View>
 					</View>
 				</>
 			)}
@@ -187,11 +168,6 @@ const styles = StyleSheet.create({
 	dashedLine: {
 		position: "absolute",
 	},
-	textTranslation: {
-		...fontNavi,
-		color: CustomTheme.primaryMedium,
-		textDecorationLine: "underline",
-	},
 	containerExpanded: {
 		width: "100%",
 		backgroundColor: CustomTheme.primaryBg,
@@ -199,15 +175,9 @@ const styles = StyleSheet.create({
 		paddingBottom: 18,
 		paddingHorizontal: 17,
 	},
-	containerOriginalTranslation: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		marginTop: 12,
-		marginVertical: 5,
-	},
 	containerTextExpanded: {
 		flexDirection: "row",
-		flexShrink: 1,
+		marginTop: 12,
 	},
 	textExpandedTitle: {
 		...fontCaption,
@@ -215,8 +185,8 @@ const styles = StyleSheet.create({
 	textExpandedContext: {
 		...fontCaption,
 		color: CustomTheme.primaryMedium,
-		flexShrink: 1,
-		marginHorizontal: 15,
+		width: "100%",
+		marginLeft: 15,
 	},
 });
 

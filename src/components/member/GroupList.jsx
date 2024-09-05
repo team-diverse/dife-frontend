@@ -1,7 +1,5 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-
 import { CustomTheme } from "@styles/CustomTheme";
 
 import IconChatProfile from "@components/chat/IconChatProfile";
@@ -11,30 +9,21 @@ import IconFriendNumber from "@components/chat/IconFriendNumber";
 
 const { fontCaption } = CustomTheme;
 
-const GroupList = ({ id, name, count }) => {
-	const navigation = useNavigation();
-
+const GroupList = ({ name = "name", headcount = 0 }) => {
 	return (
 		<>
-			<View style={styles.rectangle}>
+			<TouchableOpacity style={styles.rectangle}>
 				<View style={styles.containerContext}>
-					<TouchableOpacity
-						style={styles.iconTextContainer}
-						onPress={() =>
-							navigation.navigate("GroupProfilePage", {
-								groupId: id,
-							})
-						}
-					>
+					<View style={styles.iconTextContainer}>
 						<View style={styles.icon}>
 							<IconChatProfile />
 						</View>
 						<Text style={styles.textName}>{name}</Text>
 						<View style={styles.containerHeadcount}>
 							<IconFriendNumber />
-							<Text style={styles.textNumber}>{count}</Text>
+							<Text style={styles.textNumber}>{headcount}</Text>
 						</View>
-					</TouchableOpacity>
+					</View>
 					<View style={styles.containerIcon}>
 						<View style={styles.rectangleChat}>
 							<IconSend />
@@ -44,7 +33,7 @@ const GroupList = ({ id, name, count }) => {
 						</View>
 					</View>
 				</View>
-			</View>
+			</TouchableOpacity>
 		</>
 	);
 };

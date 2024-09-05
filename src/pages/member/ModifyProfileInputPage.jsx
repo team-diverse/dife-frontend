@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { SafeAreaView, View, Text, TextInput, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
 
 import ModifyProfileInputStyles from "@pages/member/ModifyProfileInputStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -12,10 +11,8 @@ import ModifyProfileTopBar from "@components/common/ModifyProfileTopBar";
 import FilterCategory from "@components/connect/FilterCategory";
 import InfoCircle from "@components/common/InfoCircle";
 import Checkbox from "@components/common/Checkbox";
-import * as Sentry from "@sentry/react-native";
 
 const ModifyProfileInputPage = ({ route }) => {
-	const { t } = useTranslation();
 	const navigation = useNavigation();
 	const {
 		profileData,
@@ -55,9 +52,57 @@ const ModifyProfileInputPage = ({ route }) => {
 	const [selectedHobby, setSelectedHobby] = useState([]);
 	const [selectedLanguage, setSelectedLanguage] = useState(languageContent);
 
-	const mbti = t("mbtiOptions", { returnObjects: true });
-	const hobby = t("hobbyOptions", { returnObjects: true });
-	const languages = t("languages", { returnObjects: true });
+	const mbti = [
+		"ISTP",
+		"ISFP",
+		"ENTP",
+		"ISFJ",
+		"INFJ",
+		"ENTJ",
+		"INFP",
+		"INTP",
+		"ESFP",
+		"ESTP",
+		"ESFJ",
+		"INTJ",
+		"ESTJ",
+		"ENFP",
+		"ISTJ",
+		"ENFJ",
+		"선택안함",
+	];
+
+	const hobby = [
+		"SNS",
+		"OTT",
+		"캠핑",
+		"쇼핑",
+		"드라이브",
+		"산책",
+		"반려동물",
+		"스포츠",
+		"K-POP",
+		"사진",
+		"음악",
+		"드라마",
+		"독서",
+		"그림",
+		"요리",
+		"만화",
+		"언어공부",
+		"여행",
+		"악기연주",
+		"영화",
+		"맛집",
+	];
+	const languages = [
+		"English / English",
+		"中文 / Chinese",
+		"日本語 / Japanese",
+		"Español / Spanish",
+		"한국어 / Korean",
+		"기타",
+	];
 
 	const defaultLanguages =
 		languageContent.length === 0 ? ["", "", "", "", ""] : languageContent;
@@ -74,7 +119,7 @@ const ModifyProfileInputPage = ({ route }) => {
 	}
 
 	const handleSelectMBTI = (mbti) => {
-		if (mbti === t("selectNone")) {
+		if (mbti === "선택안함") {
 			setSelectedMBTI([""]);
 		} else {
 			setSelectedMBTI([mbti]);
@@ -130,7 +175,6 @@ const ModifyProfileInputPage = ({ route }) => {
 					setNicknameValid(false);
 				}
 			} catch (error) {
-				Sentry.captureException(error);
 				console.error("닉네임 사용 불가: ", error.message);
 				setNicknameValid(false);
 			}
@@ -171,7 +215,6 @@ const ModifyProfileInputPage = ({ route }) => {
 			await updateMyProfile(formData);
 			navigation.navigate("ModifyProfilePage");
 		} catch (error) {
-			Sentry.captureException(error);
 			console.error(
 				"프로필 변경 실패:",
 				error.response ? error.response.data : error.message,
@@ -237,13 +280,13 @@ const ModifyProfileInputPage = ({ route }) => {
 					<Text
 						style={ModifyProfileInputStyles.textAvailableNickname}
 					>
-						{t("nicknameAvailable")}
+						사용 가능한 닉네임이에요.
 					</Text>
 				) : (
 					<Text
 						style={ModifyProfileInputStyles.textUnavailableNickname}
 					>
-						{t("nicknameUnavailable")}
+						이미 사용 중인 닉네임이에요.
 					</Text>
 				))}
 
@@ -252,7 +295,7 @@ const ModifyProfileInputPage = ({ route }) => {
 					{languageContent.length == 0 && tagContent && (
 						<ScrollView>
 							<Text style={ModifyProfileInputStyles.textTagTitle}>
-								{t("mbti")}
+								MBTI
 							</Text>
 							<View style={ModifyProfileInputStyles.line} />
 							<View
@@ -279,7 +322,7 @@ const ModifyProfileInputPage = ({ route }) => {
 														handleSelectMBTI(type)
 													}
 													selected={
-														type === t("selectNone")
+														type === "선택안함"
 															? selectedMBTI.includes(
 																	"",
 																)
@@ -295,7 +338,7 @@ const ModifyProfileInputPage = ({ route }) => {
 							</View>
 
 							<Text style={ModifyProfileInputStyles.textTagTitle}>
-								{t("hobby")}
+								취미/관심사
 							</Text>
 							<View style={ModifyProfileInputStyles.line} />
 							<View
@@ -305,7 +348,7 @@ const ModifyProfileInputPage = ({ route }) => {
 							>
 								<InfoCircle />
 								<Text style={ModifyProfileInputStyles.infoText}>
-									{t("max3Selection")}
+									최대 3개까지 선택 가능
 								</Text>
 							</View>
 							<View>

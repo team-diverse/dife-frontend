@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
 
 import ModifyProfileStyles from "@pages/member/ModifyProfileStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -21,10 +20,8 @@ import ModifyKBackground from "@components/member/ModifyKBackground";
 import IconLock from "@components/member/IconLock";
 import IconCamera from "@components/member/IconCamera";
 import Loading from "@components/common/loading/Loading";
-import * as Sentry from "@sentry/react-native";
 
 const ModifyProfilePage = () => {
-	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [profile, setProfile] = useState();
@@ -47,7 +44,6 @@ const ModifyProfilePage = () => {
 			setProfile(updatedData[0]);
 			setProfilePresignUrl(updatedData[0].profilePresignUrl);
 		} catch (error) {
-			Sentry.captureException(error);
 			console.error(
 				"프로필 조회 오류:",
 				error.response ? error.response.data : error.message,
@@ -65,10 +61,7 @@ const ModifyProfilePage = () => {
 		const { status } =
 			await ImagePicker.requestMediaLibraryPermissionsAsync();
 		if (status !== "granted") {
-			Alert.alert(
-				t("imagePermissionAlertTitle"),
-				t("imagePermissionAlertMessage"),
-			);
+			Alert.alert("알림", "설정에서 이미지 권한을 허용해주세요.");
 			return;
 		}
 
@@ -98,7 +91,6 @@ const ModifyProfilePage = () => {
 			await updateMyProfile(formData);
 			await getMyProfileInfo();
 		} catch (error) {
-			Sentry.captureException(error);
 			setProfileImage(null);
 			console.error(
 				"프로필 이미지 변경 실패:",
@@ -114,15 +106,13 @@ const ModifyProfilePage = () => {
 	return (
 		<SafeAreaView style={ModifyProfileStyles.container}>
 			<TopBar
-				topBar={t("profileSettings")}
+				topBar="프로필 설정"
 				color="#000"
 				backgroundColor={CustomTheme.primaryBg}
 			/>
 
 			<View style={{ marginTop: 14 }}>
-				<Text style={ModifyProfileStyles.textTitle}>
-					{t("profilePictureSubtitle")}
-				</Text>
+				<Text style={ModifyProfileStyles.textTitle}>프로필 사진</Text>
 				<View style={ModifyProfileStyles.containerProfileImage}>
 					<View style={ModifyProfileStyles.modifyKBackground}>
 						{profilePresignUrl ? (
@@ -143,9 +133,7 @@ const ModifyProfilePage = () => {
 					</TouchableOpacity>
 				</View>
 
-				<Text style={ModifyProfileStyles.textTitle}>
-					{t("profileInfo")}
-				</Text>
+				<Text style={ModifyProfileStyles.textTitle}>프로필 정보</Text>
 				<View style={ModifyProfileStyles.containerBackgroundWhite}>
 					<View
 						style={[
@@ -163,7 +151,7 @@ const ModifyProfilePage = () => {
 									{ marginBottom: 0 },
 								]}
 							>
-								{t("id")}
+								아이디
 							</Text>
 							<Text
 								style={[
@@ -187,7 +175,7 @@ const ModifyProfilePage = () => {
 						]}
 						onPress={() =>
 							navigation.navigate("ModifyProfileInputPage", {
-								title: t("nickname"),
+								title: "닉네임",
 								nicknameContent: profile.username,
 								profileData: profile,
 							})
@@ -200,7 +188,7 @@ const ModifyProfilePage = () => {
 									{ marginBottom: 0 },
 								]}
 							>
-								{t("nickname")}
+								닉네임
 							</Text>
 							<Text
 								style={[
@@ -211,16 +199,14 @@ const ModifyProfilePage = () => {
 								{profile.username}
 							</Text>
 						</View>
-						<Text style={ModifyProfileStyles.textModify}>
-							{t("edit")}
-						</Text>
+						<Text style={ModifyProfileStyles.textModify}>수정</Text>
 					</TouchableOpacity>
 
 					<TouchableOpacity
 						style={ModifyProfileStyles.backgroundWhite}
 						onPress={() =>
 							navigation.navigate("ModifyProfileInputPage", {
-								title: t("bio"),
+								title: "한줄소개",
 								bioContent: profile.bio,
 								profileData: profile,
 							})
@@ -228,10 +214,10 @@ const ModifyProfilePage = () => {
 					>
 						<View style={ModifyProfileStyles.containerRowText}>
 							<Text style={ModifyProfileStyles.textSubTitle}>
-								{t("bio")}
+								한줄소개
 							</Text>
 							<Text style={ModifyProfileStyles.textModify}>
-								{t("edit")}
+								수정
 							</Text>
 						</View>
 						<Text style={ModifyProfileStyles.textContent}>
@@ -243,7 +229,7 @@ const ModifyProfilePage = () => {
 						style={ModifyProfileStyles.backgroundWhite}
 						onPress={() =>
 							navigation.navigate("ModifyProfileInputPage", {
-								title: t("tag"),
+								title: "태그",
 								tagContent: profile.tags,
 								profileData: profile,
 							})
@@ -251,10 +237,10 @@ const ModifyProfilePage = () => {
 					>
 						<View style={ModifyProfileStyles.containerRowText}>
 							<Text style={ModifyProfileStyles.textSubTitle}>
-								{t("tag")}
+								태그
 							</Text>
 							<Text style={ModifyProfileStyles.textModify}>
-								{t("edit")}
+								수정
 							</Text>
 						</View>
 						<View style={ModifyProfileStyles.containerTagLanguage}>
@@ -273,7 +259,7 @@ const ModifyProfilePage = () => {
 						style={ModifyProfileStyles.backgroundWhite}
 						onPress={() =>
 							navigation.navigate("ModifyProfileInputPage", {
-								title: t("language"),
+								title: "언어",
 								languageContent: profile.languages,
 								profileData: profile,
 							})
@@ -281,10 +267,10 @@ const ModifyProfilePage = () => {
 					>
 						<View style={ModifyProfileStyles.containerRowText}>
 							<Text style={ModifyProfileStyles.textSubTitle}>
-								{t("language")}
+								언어
 							</Text>
 							<Text style={ModifyProfileStyles.textModify}>
-								{t("edit")}
+								수정
 							</Text>
 						</View>
 						<View style={ModifyProfileStyles.containerTagLanguage}>
@@ -305,7 +291,7 @@ const ModifyProfilePage = () => {
 								style={ModifyProfileStyles.containerBasicInfo}
 							>
 								<Text style={ModifyProfileStyles.textSubTitle}>
-									{t("basicInfo")}
+									기본정보
 								</Text>
 								<View>
 									<View
@@ -318,7 +304,7 @@ const ModifyProfilePage = () => {
 												ModifyProfileStyles.textBasicInfo
 											}
 										>
-											{t("nationality")}
+											국적
 										</Text>
 										<Text
 											style={
@@ -338,7 +324,7 @@ const ModifyProfilePage = () => {
 												ModifyProfileStyles.textBasicInfo
 											}
 										>
-											{t("realName")}
+											본명
 										</Text>
 										<Text
 											style={
@@ -359,7 +345,7 @@ const ModifyProfilePage = () => {
 												ModifyProfileStyles.textBasicInfo
 											}
 										>
-											{t("major")}
+											전공
 										</Text>
 										<Text
 											style={

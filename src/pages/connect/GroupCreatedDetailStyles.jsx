@@ -43,13 +43,6 @@ const GroupCreatedDetailStyles = StyleSheet.create({
 		marginLeft: 24,
 		marginBottom: 18,
 	},
-	textMinMaxCount: {
-		fontSize: 11,
-		lineHeight: 14,
-		fontFamily: "NotoSansCJKkr-Medium",
-		color: CustomTheme.textDisable,
-		marginTop: -10,
-	},
 	textHeadcount: {
 		...fontSub16,
 		color: CustomTheme.primaryMedium,

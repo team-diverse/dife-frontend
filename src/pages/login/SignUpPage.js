@@ -9,7 +9,6 @@ import {
 	Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
 
 import SignUpStyles from "@pages/login/SignUpStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
@@ -21,13 +20,11 @@ import InfoCircle from "@components/common/InfoCircle";
 import IconNotSeePw from "@components/login/IconNotSeePw";
 import IconSeePw from "@components/login/IconSeePw";
 import GoBack from "@components/common/GoBack";
-import * as Sentry from "@sentry/react-native";
 
 const SignUpPage = () => {
 	const navigation = useNavigation();
 
-	const { t } = useTranslation();
-
+	const SignUpData = ["회원가입"];
 	const [valueID, onChangeID] = useState("");
 	const [valuePW, onChangePW] = useState("");
 	const [valueCheckPW, onChangeCheckPW] = useState("");
@@ -60,7 +57,7 @@ const SignUpPage = () => {
 		if (isValid) {
 			handleEmail(email);
 		} else {
-			setErrorMessage(t("emailInvalidError"));
+			setErrorMessage("유효한 이메일 형식을 입력해주세요.");
 		}
 		onChangeID(email);
 	};
@@ -73,7 +70,7 @@ const SignUpPage = () => {
 			} catch (error) {
 				console.error("이메일 사용 불가: ", error.message);
 				setValidID(false);
-				setErrorMessage(t("duplicateEmailError"));
+				setErrorMessage("중복된 이메일 주소입니다.");
 			}
 		}, 300),
 		[validID],
@@ -99,7 +96,6 @@ const SignUpPage = () => {
 			await signUp(valueID, valuePW);
 			navigation.navigate("Login");
 		} catch (error) {
-			Sentry.captureException(error);
 			console.error(
 				"회원가입 실패:",
 				error.response ? error.response.data : error.message,
@@ -113,78 +109,71 @@ const SignUpPage = () => {
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
 			<SafeAreaView style={[SignUpStyles.container]}>
 				<GoBack />
-				<Text style={SignUpStyles.textTitle}>{t("signUpTitle")}</Text>
-				<View style={SignUpStyles.containerIdPw}>
-					<Text style={SignUpStyles.textIdPw}>{t("emailLabel")}</Text>
+				<Text style={SignUpStyles.textTitle}>{SignUpData[0]}</Text>
+				<Text style={SignUpStyles.textId}>이메일</Text>
+				<TextInput
+					style={SignUpStyles.textInputId}
+					placeholder="이메일을 입력해주세요"
+					onChangeText={handleEmailFormat}
+					value={valueID}
+				/>
+				{!validID && (
+					<View style={SignUpStyles.containerError}>
+						<InfoCircle color={CustomTheme.warningRed} />
+						<Text style={SignUpStyles.textError}>
+							{errorMessage}
+						</Text>
+					</View>
+				)}
+				<Text style={SignUpStyles.textPw}>비밀번호</Text>
+				<View style={SignUpStyles.textInputPwContainer}>
 					<TextInput
-						style={SignUpStyles.textInputIdPw}
-						placeholder={t("emailPlaceholder")}
-						onChangeText={handleEmailFormat}
-						value={valueID}
+						style={SignUpStyles.textInputPw}
+						placeholder="영문, 숫자 포함 8자 이상"
+						onChangeText={handlePasswordError}
+						value={valuePW}
+						secureTextEntry={!showPW}
 					/>
-					{!validID && (
-						<View style={SignUpStyles.containerError}>
-							<InfoCircle color={CustomTheme.warningRed} />
-							<Text style={SignUpStyles.textError}>
-								{errorMessage}
-							</Text>
-						</View>
-					)}
-					<Text style={SignUpStyles.textIdPw}>
-						{t("passwordLabel")}
-					</Text>
-					<View style={SignUpStyles.textInputPwContainer}>
-						<TextInput
-							style={SignUpStyles.textInputIdPw}
-							placeholder={t("passwordPlaceholder")}
-							onChangeText={handlePasswordError}
-							value={valuePW}
-							secureTextEntry={!showPW}
-						/>
-						<TouchableOpacity
-							style={SignUpStyles.iconSee}
-							onPress={handleShowPW}
-						>
-							{valuePW == "" ? null : showPW ? (
-								<IconSeePw />
-							) : (
-								<IconNotSeePw />
-							)}
-						</TouchableOpacity>
-					</View>
-					{passwordError && (
-						<View style={SignUpStyles.containerError}>
-							<InfoCircle color={CustomTheme.warningRed} />
-							<Text style={SignUpStyles.textError}>
-								{t("passwordError")}
-							</Text>
-						</View>
-					)}
-					<Text style={SignUpStyles.textIdPw}>
-						{t("confirmPasswordLabel")}
-					</Text>
-					<View style={SignUpStyles.textInputPwContainer}>
-						<TextInput
-							style={SignUpStyles.textInputIdPw}
-							placeholder={t("confirmPasswordPlaceholder")}
-							onChangeText={handleCheckPassword}
-							value={valueCheckPW}
-							secureTextEntry={!showPW}
-						/>
-					</View>
-					{!passwordMatch && (
-						<View style={SignUpStyles.containerError}>
-							<InfoCircle color={CustomTheme.warningRed} />
-							<Text style={SignUpStyles.textError}>
-								{t("passwordMismatchError")}
-							</Text>
-						</View>
-					)}
+					<TouchableOpacity
+						style={SignUpStyles.iconSee}
+						onPress={handleShowPW}
+					>
+						{valuePW == "" ? null : showPW ? (
+							<IconSeePw />
+						) : (
+							<IconNotSeePw />
+						)}
+					</TouchableOpacity>
 				</View>
-
+				{passwordError && (
+					<View style={SignUpStyles.containerError}>
+						<InfoCircle color={CustomTheme.warningRed} />
+						<Text style={SignUpStyles.textError}>
+							영문, 숫자 포함 8자 이상의 비밀번호를 입력해주세요
+						</Text>
+					</View>
+				)}
+				<Text style={SignUpStyles.textPw}>비밀번호 확인</Text>
+				<View style={SignUpStyles.textInputPwContainer}>
+					<TextInput
+						style={SignUpStyles.textInputPw}
+						placeholder="비밀번호 확인"
+						onChangeText={handleCheckPassword}
+						value={valueCheckPW}
+						secureTextEntry={!showPW}
+					/>
+				</View>
+				{!passwordMatch && (
+					<View style={SignUpStyles.containerError}>
+						<InfoCircle color={CustomTheme.warningRed} />
+						<Text style={SignUpStyles.textError}>
+							비밀번호가 일치하지 않습니다.
+						</Text>
+					</View>
+				)}
 				<View style={SignUpStyles.buttonMove}>
 					<ApplyButton
-						text={t("signUpCompleteButton")}
+						text="회원가입 완료"
 						disabled={!isFormValid}
 						onPress={handleSignUp}
 					/>

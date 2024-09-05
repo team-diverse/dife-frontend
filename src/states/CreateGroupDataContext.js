@@ -11,8 +11,8 @@ export const CreateGroupProvider = ({ children }) => {
 		description: "",
 		hobbies: "",
 		languages: "",
-		purposes: "",
-		maxCount: "",
+		categories: "",
+		limitMembersNumber: "",
 		isPublic: "",
 		groupPassword: "",
 	});

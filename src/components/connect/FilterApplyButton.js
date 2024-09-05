@@ -1,19 +1,15 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useTranslation } from "react-i18next";
-
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontSub16 } = CustomTheme;
 
 const FilterApplyButton = () => {
-	const { t } = useTranslation();
-
 	return (
 		<TouchableOpacity>
 			<View style={styles.rectangle}>
 				<View style={styles.apply}>
-					<Text style={styles.text}>{t("apply")}</Text>
+					<Text style={styles.text}>적용하기</Text>
 				</View>
 			</View>
 		</TouchableOpacity>

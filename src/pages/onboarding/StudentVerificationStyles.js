@@ -34,7 +34,6 @@ const StudentVerificationStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
 		justifyContent: "center",
-		overflow: "hidden",
 	},
 	containerModalContent: {
 		alignItems: "center",
@@ -80,8 +79,9 @@ const StudentVerificationStyles = StyleSheet.create({
 		zIndex: 2,
 	},
 	buttonCheck: {
-		position: "absolute",
-		bottom: 104,
+		marginTop: 187,
+		marginHorizontal: 10,
+		marginBottom: 83,
 	},
 });
 

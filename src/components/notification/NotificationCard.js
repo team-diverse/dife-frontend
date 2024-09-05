@@ -1,80 +1,45 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import * as SecureStore from "expo-secure-store";
-
+import React from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 import IconChat24 from "@components/Icon24/IconChat24";
 import IconAddFriend24 from "@components/Icon24/IconAddFriend24";
 import IconHeart24 from "@components/Icon24/IconHeart24";
-import { useNavigation } from "@react-navigation/native";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
 const NotificationCard = ({
-	notificationId,
-	type,
-	typeId,
-	content,
-	created,
+	icon,
+	name = "name",
+	context = "context",
+	time = "time",
 }) => {
-	const navigation = useNavigation();
-	const [isRead, setIsRead] = useState(false);
-
 	let iconSvg;
-	if (type === "CHATROOM") {
+	if (icon === "chat") {
 		iconSvg = <IconChat24 />;
-	} else if (type === "CONNECT") {
+	} else if (icon === "connect") {
 		iconSvg = <IconAddFriend24 />;
-	} else if (type === "POST") {
+	} else if (icon === "heart") {
 		iconSvg = <IconHeart24 />;
 	} else {
 		iconSvg = <Text>icon</Text>;
 	}
 
-	useEffect(() => {
-		const getReadStatus = async () => {
-			const readStatus = await SecureStore.getItemAsync(
-				`notification-${notificationId}`,
-			);
-			if (readStatus === "true") {
-				setIsRead(true);
-			}
-		};
-
-		getReadStatus();
-	}, [typeId]);
-
-	const handleNotification = async () => {
-		setIsRead(true);
-		await SecureStore.setItemAsync(
-			`notification-${notificationId}`,
-			"true",
-		);
-		if (type === "CONNECT") {
-			navigation.navigate("ConnectProfilePage", { memberId: typeId });
-		} else if (type === "POST") {
-			navigation.navigate("PostPage", { postId: typeId });
-		} else {
-			null;
-		}
-	};
-
 	return (
-		<TouchableOpacity
-			style={[styles.rectangle, isRead && { opacity: 0.4 }]}
-			onPress={handleNotification}
-		>
+		<View style={styles.rectangle}>
 			<View style={styles.notify}>
 				<View style={styles.iconTextContainer}>
 					<View style={styles.icon}>{iconSvg}</View>
 					<View style={styles.textContainer}>
-						<Text style={styles.context}>{content}</Text>
+						<Text style={styles.context}>
+							{name}
+							{context}
+						</Text>
 					</View>
 				</View>
-				<Text style={styles.time}>{created}</Text>
+				<Text style={styles.time}>{time}</Text>
 			</View>
-		</TouchableOpacity>
+		</View>
 	);
 };
 
@@ -86,6 +51,8 @@ const styles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		flexDirection: "row",
 		alignItems: "center",
+		borderBottomWidth: 1,
+		borderBottomColor: CustomTheme.bgList,
 	},
 	notify: {
 		flex: 1,

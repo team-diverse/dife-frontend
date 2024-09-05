@@ -31,8 +31,9 @@ const ProfileLanguageStyles = StyleSheet.create({
 		marginTop: 44,
 	},
 	buttonCheck: {
-		position: "absolute",
-		bottom: 104,
+		marginTop: 187,
+		marginHorizontal: 10,
+		marginBottom: 83,
 	},
 });
 

@@ -1,58 +1,26 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
-
 import { CustomTheme } from "@styles/CustomTheme";
-import { formatDate } from "util/formatDate";
-import { getProfileById } from "config/api";
+import { useNavigation } from "@react-navigation/native";
 
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconMenu from "@components/chat/IconMenu";
 import ModalKebabMenuBlock from "@components/member/ModalKebabMenuBlock";
 
-const ItemBlockList = ({ blacklistedMemberId, date }) => {
-	const { t } = useTranslation();
+const ItemBlockList = ({ memberId, name, imageName }) => {
 	const navigation = useNavigation();
 
-	const iconRef = useRef();
-
+	let blockDate = "05/11";
 	const [modalVisible, setModalVisible] = useState(false);
-	const [modalPosition, setModalPosition] = useState({
-		x: 0,
-		y: 0,
-		width: 0,
-		height: 0,
-	});
 
-	const handleIconPress = () => {
+	const handleModal = () => {
 		setModalVisible(true);
-		if (iconRef.current) {
-			iconRef.current.measureInWindow((x, y, width, height) => {
-				setModalPosition({ x, y, width, height });
-			});
-		}
 	};
 
-	const [name, setName] = useState();
-	const [imageName, setImageName] = useState(null);
-
-	const getConnectProfile = async () => {
-		try {
-			const response = await getProfileById(blacklistedMemberId);
-			setName(response.data.username);
-			setImageName(response.data.profileImg?.originalName || null);
-		} catch (error) {
-			console.error(
-				"디테일 프로필 조회 오류:",
-				error.response ? error.response.data : error.message,
-			);
-		}
+	const modalPosition = {
+		top: 200,
+		width: 20,
 	};
-
-	useEffect(() => {
-		getConnectProfile();
-	}, []);
 
 	return (
 		<>
@@ -62,7 +30,7 @@ const ItemBlockList = ({ blacklistedMemberId, date }) => {
 						style={styles.iconTextContainer}
 						onPress={() =>
 							navigation.navigate("ConnectProfilePage", {
-								memberId: blacklistedMemberId,
+								memberId: memberId,
 							})
 						}
 					>
@@ -73,24 +41,20 @@ const ItemBlockList = ({ blacklistedMemberId, date }) => {
 					</TouchableOpacity>
 					<View style={styles.iconTextContainer}>
 						<Text style={styles.textBlockDate}>
-							{formatDate(date)} {t("blocked")}
+							{blockDate} 차단함
 						</Text>
 						<TouchableOpacity
 							style={styles.iconMenu}
-							onPress={handleIconPress}
+							onPress={handleModal}
 						>
-							<View ref={iconRef}>
-								<IconMenu />
-							</View>
+							<IconMenu />
 						</TouchableOpacity>
-						{modalPosition && (
-							<ModalKebabMenuBlock
-								modalVisible={modalVisible}
-								setModalVisible={setModalVisible}
-								blacklistedMemberId={blacklistedMemberId}
-								position={modalPosition}
-							/>
-						)}
+						<ModalKebabMenuBlock
+							modalVisible={modalVisible}
+							setModalVisible={setModalVisible}
+							memberId={memberId}
+							position={modalPosition}
+						/>
 					</View>
 				</View>
 			</View>

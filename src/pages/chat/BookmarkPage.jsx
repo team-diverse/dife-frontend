@@ -48,7 +48,7 @@ const BookmarkPage = () => {
 		<SafeAreaView
 			style={[BookmarkStyles.container, { alignItems: "center" }]}
 		>
-			<TopBar topBar="북마크" color="#000" />
+			<TopBar topBar="스크랩 보관함" />
 			<FlatList
 				style={BookmarkStyles.flatlist}
 				data={notificationData}

@@ -39,20 +39,22 @@ const NicknameStyles = StyleSheet.create({
 	containerInput: {
 		flexDirection: "row",
 		alignItems: "center",
-		marginTop: 116,
-		marginHorizontal: 27,
+		position: "relative",
 	},
 	textInputNickname: {
 		...fontBody18,
-		width: "100%",
+		width: 327,
 		height: 44,
 		paddingVertical: 11,
 		borderBottomWidth: 2,
+		marginTop: 116,
+		marginHorizontal: 27,
 		alignItems: "center",
 	},
 	iconDelete: {
 		position: "absolute",
-		right: 10,
+		right: 45,
+		bottom: 16,
 	},
 	textAvailableNickname: {
 		...fontBody14,
@@ -67,7 +69,8 @@ const NicknameStyles = StyleSheet.create({
 		marginLeft: 27,
 	},
 	buttonCheck: {
-		marginTop: 28,
+		marginTop: 24,
+		marginHorizontal: 10,
 	},
 });
 
