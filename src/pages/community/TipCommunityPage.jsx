@@ -10,6 +10,7 @@ import {
 	Dimensions,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import TipCommunityStyles from "@pages/community/TipCommunityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -27,6 +28,7 @@ import IconSearchFail from "@components/common/IconSearchFail";
 import * as Sentry from "@sentry/react-native";
 
 const TipCommunityPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const handleGoBack = () => {

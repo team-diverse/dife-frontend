@@ -10,6 +10,7 @@ import {
 	Dimensions,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -29,6 +30,7 @@ import IconCircleNumber from "@components/community/IconCircleNumber";
 import * as Sentry from "@sentry/react-native";
 
 const ConnectPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);

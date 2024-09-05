@@ -10,6 +10,7 @@ import {
 	Dimensions,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import CommunityStyles from "@pages/community/CommunityStyles";
 import { getPostsByType, getCommunitySearch } from "config/api";
@@ -26,6 +27,7 @@ import ItemCommunity from "@components/community/ItemCommunity";
 import * as Sentry from "@sentry/react-native";
 
 const CommunityPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [tipPostList, setTipPostList] = useState([]);
