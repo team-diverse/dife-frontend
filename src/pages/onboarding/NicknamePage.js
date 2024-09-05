@@ -19,7 +19,7 @@ import { debounce } from "util/debounce";
 
 import ArrowRight from "@components/common/ArrowRight";
 import Progress1 from "@components/onboarding/Progress1";
-import LoginBackground from "@components/login/LoginBackground";
+import DifeLine from "@components/common/DifeLine";
 import IconDelete from "@components/onboarding/IconDelete";
 import ApplyButton from "@components/common/ApplyButton";
 import * as Sentry from "@sentry/react-native";
@@ -92,7 +92,7 @@ const NicknamePage = () => {
 				<View style={[NicknameStyles.iconProgress]}>
 					<Progress1 />
 				</View>
-				<LoginBackground style={NicknameStyles.backgroundLogin} />
+				<DifeLine style={NicknameStyles.backgroundLogin} />
 				<Text style={NicknameStyles.textTitle}>
 					{t("welcomeMessage")}
 				</Text>
