@@ -6,8 +6,9 @@ import React, {
 	useState,
 } from "react";
 import { Client } from "@stomp/stompjs";
-import { getChatroomsByType } from "../config/api"; // Adjust the import path as necessary
+import { getChatroomsByType, getChatsByChatroomId } from "../config/api";
 import Loading from "@components/common/loading/Loading";
+import { sortByIds } from "util/util";
 
 const WebSocketContext = createContext(null);
 
@@ -86,6 +87,15 @@ export const WebSocketProvider = ({ children }) => {
 		});
 	};
 
+	const fetchInitialMessages = async (allChatrooms) => {
+		const messages = {};
+		for (const chatroom of allChatrooms) {
+			const chats = await getChatsByChatroomId(chatroom.id);
+			messages[chatroom.id] = sortByIds(chats.data || []);
+		}
+		return messages;
+	};
+
 	const getAuthorizedChatrooms = async () => {
 		const groupChatroomResult = await getChatroomsByType("GROUP");
 		const singleChatroomResult = await getChatroomsByType("SINGLE");
@@ -93,17 +103,8 @@ export const WebSocketProvider = ({ children }) => {
 			...groupChatroomResult.data,
 			...singleChatroomResult.data,
 		];
-
-		const initialMessages = allChatrooms.reduce((acc, chatroom) => {
-			acc[chatroom.id] = sortByIds(chatroom.chats || []);
-			return acc;
-		}, {});
-
+		const initialMessages = await fetchInitialMessages(allChatrooms);
 		return { allChatrooms, initialMessages };
-	};
-
-	const sortByIds = (array) => {
-		return array.sort((a, b) => a.id - b.id);
 	};
 
 	const publishMessage = (message) => {

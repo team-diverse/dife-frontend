@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	View,
 	Text,
@@ -23,10 +23,11 @@ import { useWebSocket } from "context/WebSocketContext";
 import ChatroomItem from "@components/chat/ChatroomItem";
 import formatKoreanTime from "util/formatTime";
 import * as Sentry from "@sentry/react-native";
+import { getMyMemberId } from "util/secureStoreUtils";
 
 const ChattingPage = () => {
 	const navigation = useNavigation();
-
+	const [myMemberId, setMyMemberId] = useState(null);
 	const { chatrooms, messages, updateChatroomsAndMessages } = useWebSocket();
 	const [searchTerm, setSearchTerm] = useState("");
 	const [isSearching, setIsSearching] = useState(false);
@@ -63,6 +64,14 @@ const ChattingPage = () => {
 		setIsSearching(false);
 		Keyboard.dismiss();
 	};
+
+	useEffect(() => {
+		const fetchMyMemberId = async () => {
+			const myMemberId = await getMyMemberId();
+			setMyMemberId(myMemberId);
+		};
+		fetchMyMemberId();
+	}, []);
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -139,6 +148,7 @@ const ChattingPage = () => {
 							renderItem={({ item }) => (
 								<ChatroomItem
 									chatroomInfo={item}
+									myMemberId={myMemberId}
 									name={item.name}
 									context={getLatestChatByChatroomId(item.id)}
 									time={formatKoreanTime(item.created)}
@@ -157,7 +167,6 @@ const ChattingPage = () => {
 				</View>
 			)}
 		</SafeAreaView>
-		// </SafeAreaView>
 	);
 };
 

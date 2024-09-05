@@ -25,6 +25,14 @@ export const getChatroomsByType = (type) => {
 	});
 };
 
+export const getChatsByChatroomId = (chatroomId) => {
+	return api.get("/chats", {
+		params: {
+			chatroomId,
+		},
+	});
+};
+
 export const getChatroomsByCount = (count) => {
 	return api.get("/chatrooms/random", {
 		params: {
@@ -443,7 +451,7 @@ export const getConnectList = () => {
 export const getProfileImageByFileName = (fileName) => {
 	return api.get(`/files`, {
 		params: {
-			fileName: fileName,
+			name: fileName,
 		},
 	});
 };
