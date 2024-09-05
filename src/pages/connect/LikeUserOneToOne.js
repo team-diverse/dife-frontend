@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, View, FlatList } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import ConnectLikeUserStyles from "@pages/connect/ConnectLikeUserStyles.js";
 import ConnectStyles from "@pages/connect/ConnectStyles";
@@ -10,6 +11,8 @@ import ConnectCard from "@components/connect/ConnectCard.js";
 import TopBar from "@components/common/TopBar";
 
 const LikeUserOneToOne = () => {
+	const { t } = useTranslation();
+
 	const [connectData, setConnectData] = useState(null);
 
 	const getLikedMember = async () => {
@@ -31,7 +34,7 @@ const LikeUserOneToOne = () => {
 
 	return (
 		<SafeAreaView style={ConnectLikeUserStyles.container}>
-			<TopBar topBar="좋아요 목록" />
+			<TopBar topBar={t("likeListTitle")} />
 			<View style={[ConnectStyles.cardContainer, { marginTop: 14 }]}>
 				{connectData ? (
 					<View style={ConnectStyles.flatlist}>

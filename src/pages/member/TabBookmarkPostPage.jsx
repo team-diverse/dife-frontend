@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import TabBookmarkPostStyles from "@pages/member/TabBookmarkPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -13,6 +14,7 @@ import ArrowRight from "@components/common/ArrowRight";
 import * as Sentry from "@sentry/react-native";
 
 const TabBookmarkPostPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [bookmarkPostList, setBookmarkPostList] = useState([]);
@@ -41,12 +43,16 @@ const TabBookmarkPostPage = () => {
 	return (
 		<View style={TabBookmarkPostStyles.container}>
 			<View style={TabBookmarkPostStyles.containerTitle}>
-				<Text style={TabBookmarkPostStyles.textTitle}>북마크한 글</Text>
+				<Text style={TabBookmarkPostStyles.textTitle}>
+					{t("bookmarkedPosts")}
+				</Text>
 				<TouchableOpacity
 					style={TabBookmarkPostStyles.containerMore}
 					onPress={() => navigation.navigate("BookmarkedPostPage")}
 				>
-					<Text style={TabBookmarkPostStyles.textMore}>더보기</Text>
+					<Text style={TabBookmarkPostStyles.textMore}>
+						{t("moreButton")}
+					</Text>
 					<ArrowRight
 						style={TabBookmarkPostStyles.iconArrowRight}
 						color={CustomTheme.textSecondary}

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import {
 	createLikeMember,
@@ -32,6 +33,7 @@ const ConnectCard = ({
 	count,
 	fail = false,
 }) => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 	const [heart, setHeart] = useState(isLiked);
 	const [groupHeart, setGroupHeart] = useState(isLiked);
@@ -97,9 +99,7 @@ const ConnectCard = ({
 			{fail ? (
 				<View style={styles.containerFail}>
 					<IconSearchFail />
-					<Text style={styles.textFail}>
-						일치하는 검색 결과가 없습니다
-					</Text>
+					<Text style={styles.textFail}>{t("searchNoResults")}</Text>
 				</View>
 			) : (
 				<>

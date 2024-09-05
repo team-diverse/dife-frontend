@@ -154,5 +154,239 @@
 	"acceptRequestButtonText": "リクエストを承認",
 	"cancelConnectButtonText": "接続をキャンセル",
 	"noButtonText": "いいえ",
-	"serviceUnderConstruction": "まだ準備中のサービスです"
+	"serviceUnderConstruction": "まだ準備中のサービスです",
+
+	"boardTitle": "掲示板",
+	"searchPlaceholder": "検索",
+	"searchNoResults": "一致する検索結果がありません",
+	"moreButton": "もっと見る",
+	"tipsBoard": "ヒント掲示板",
+	"freeBoard": "自由掲示板",
+	"cancelSearch": "検索をキャンセル",
+
+	"searchError": "検索中にエラーが発生しました",
+	"searchCancelButton": "検索をキャンセル",
+
+	"writePageTitle": "投稿を書く",
+	"completeWriteButton": "投稿完了",
+	"titlePlaceholder": "タイトル",
+	"contentPlaceholder": "内容",
+	"deleteImageAlert": "最大9枚まで選択できます。",
+	"anonymousCheckboxLabel": "匿名",
+	"ruleTitle": "Difeコミュニティ利用規則",
+	"ruleContent": "Difeは国民大学の学生が作り上げたグローバルコミュニティです。すべてのメンバーが楽しく参加できる環境を作るために、以下の規則を守ってください。\n- 尊重と包容: 人種、宗教、性別、地域などの特定のグループに対する批判や侮辱的な発言をしないでください。\n- 個人情報保護: 他のユーザーの個人情報を漏洩したり、共有したりしないでください。\n- 適切なコンテンツ: 不適切なコンテンツや性的に不快な内容を投稿しないでください。\n- 正確な情報: 広告、金銭要求、虚偽の情報を含む投稿をしないでください。\n\n違反の処理手順\n- 掲示板: 通報された投稿は管理者による違反確認後に削除されます。3回以上違反した場合、30日間の会員資格停止となり、この期間内にdifeemail@kookmin.ac.krに説明を提出する必要があります。説明がない場合、会員資格が剥奪されます。\n- 不正撮影物: 不正撮影物を投稿した場合、電気通信事業法に基づき、即時削除およびサービス利用制限、法的処罰が行われます。\n- マッチング/チャット: 3回以上通報された場合、30日間の会員資格停止となります。この期間内にdifeemail@kookmin.ac.krに説明を提出するか、適切な対策を講じてください。これを履行しない場合、会員資格が剥奪されます。\n\nすべてのメンバーが安全で快適なコミュニティ環境を維持できるよう、協力してください。",
+	"saveImageButton": "画像を保存",
+	"saveImageSuccess": "画像が正常に保存されました。",
+	"saveImageFailure": "画像の保存に失敗しました。",
+
+	"bookmarkCancelConfirmation": "ブックマークをキャンセルしますか？",
+	"cancelButton": "キャンセル",
+	"translateButton": "翻訳する",
+	"replyPrompt": "返信を入力してください",
+	"commentPrompt": "コメントを入力してください",
+
+	"commentOnPost": "投稿にコメント",
+
+	"deletePostConfirmation": "この投稿を削除しますか？",
+	"deleteCommentConfirmation": "このコメントを削除しますか？",
+	"userBlocked": "ユーザーがブロックされました。",
+	"blockUserConfirmation": "このユーザーをブロックしますか？",
+	"blockPostWarning": "投稿をブロックすると元に戻すことはできず、ブロックされた投稿はリストに表示されなくなります。",
+	"postBlocked": "投稿がブロックされました。",
+	"modifyPost": "投稿を編集",
+	"deletePost": "投稿を削除",
+	"deleteComment": "コメントを削除",
+	"block": "ブロック",
+	"report": "通報",
+	"reportPost": "投稿を通報",
+	"reportComment": "コメントを通報",
+	"viewProfile": "プロフィールを表示",
+
+	"hateContent": "憎悪的コンテンツ",
+	"abusiveLanguage": "悪口/スパム",
+	"impersonation": "他人を装う",
+	"other": "その他",
+	"reportComplete": "通報完了",
+	"submitReport": "通報する",
+
+	"likeListTitle": "いいねリスト",
+	"oneToOne": "1:1",
+	"group": "グループ",
+
+	"connectTitle": "接続",
+
+	"profile": "プロフィール",
+	"connectCancelAlert": "接続をキャンセルしますか？",
+	"realName": "本名",
+	"tag": "タグ",
+	"language": "言語",
+	"chat": "チャット",
+
+	"categories": ["コミュニケーション/友達作り", "言語交換", "自由"],
+	"public": "公開",
+	"private": "非公開",
+	"chatRoomSettings": "チャットルーム設定",
+	"topic": "トピック",
+	"max4Selection": "最大4つまで選択可能",
+	"max2Selection": "最大2つまで選択可能",
+	"category": "タイプ",
+	"memberLimitTitle": "グループメンバー制限",
+	"memberLimit": "名制限",
+	"visibility": "公開設定",
+	"groupPasswordPlaceholder": "5桁の数字のパスワードを入力してください",
+	"backButton": "戻る",
+
+	"groupCreatedTitle": "グループチャットルーム作成",
+	"name": "名前",
+	"groupNamePlaceholder": "グループ名を入力してください",
+	"groupNameAvailable": "このグループ名は使用可能です。",
+	"groupNameUnavailable": "このグループ名はすでに使用されています。",
+
+	"groupJoin": "グループに参加",
+	"groupQuit": "グループを退出",
+
+	"communication": "コミュニケーション/友達作り",
+	"exchange": "言語交換",
+	"free": "自由",
+	"finalPreview": "最終プロフィールプレビュー",
+	"checkInfo": "入力した情報が正しいか確認してください",
+	"createGroupButton": "グループ作成",
+
+	"connectRequestInProgress": "接続リクエスト中",
+	"connectRequestComplete": "接続リクエスト完了！",
+
+	"max3Selection": "最大3つまで選択可能",
+	"mbti": "MBTI",
+	"hobby": "趣味/関心",
+	"duplicateSelection": "重複選択可能",
+	"clearAll": "すべての選択を解除",
+	"apply": "適用",
+
+	"groupCategoryTitle": "グループ人数/タイプ",
+	"headcount": "人数",
+	"people": "人",
+
+	"groupCreationComplete": "グループ作成完了",
+	"moveToGroupProfile": "グループプロフィールに移動する",
+
+	"joinComplete": "参加完了",
+	"goToChatRoom": "チャットルームに移動する",
+	"incorrectPassword": "パスワードが間違っています",
+
+	"profileShare": "プロフィールを共有",
+	"shareError": "このデバイスではプロフィール共有機能を使用できません。",
+	"reportGroupProfile": "グループプロフィールの報告",
+	"reportIndividualProfile": "個人プロフィールの報告",
+
+	"blockManagement": "ブロック管理",
+	"blockList": "ブロックリスト",
+
+	"bookmarkedPosts": "ブックマークした投稿",
+
+	"connectList": "コネクトリスト",
+	"friend": "友達",
+	"connectRequest": "コネクトリクエスト",
+
+	"defaultLanguageSettings": "デフォルト言語設定",
+	"english": "英語 / English",
+	"chinese": "中国語 / Chinese",
+	"japanese": "日本語 / Japanese",
+	"spanish": "スペイン語 / Spanish",
+	"korean": "韓国語 / Korean",
+
+	"deleteMember": "会員退会",
+	"confirmDeleteMember": "本当に会員退会しますか？\nお別れするのは寂しいです。",
+	"postDeletionNotice": "退会すると、すべての投稿は匿名化され、コメント、ブックマーク、いいねなどのすべての活動情報が削除されます。",
+	"accountDeletionNotice": "詳細情報を含むアカウント削除は、リクエストから1週間以内に完了します。削除が完了するまで、同じメールで再登録することはできません。",
+	"reasonTitle": "difeを離れる理由を教えてください",
+	"reasonOptions": {
+		"unpleasantUser": "不快なユーザーとのやり取り",
+		"serviceNeedDecrease": "サービスの必要性の減少",
+		"privacyConcerns": "安全とプライバシーの懸念",
+		"serviceQuality": "期待に応えないサービス品質",
+		"other": "その他",
+		"pleaseSelect": "選択してください"
+	},
+
+	"groupList": "グループリスト",
+	"myGroups": "私が作成したグループ",
+	"joinedGroups": "私が参加したグループ",
+
+	"inquiry": "1:1問い合わせ",
+	"emailInquiry": "メール問い合わせ",
+	"emailDescription": "difeのメールに問題を送信してください",
+	"contactEmail": "dife.teamdiverse@gmail.com",
+
+	"likedPosts": "いいねした投稿",
+
+	"myPosts": "私の投稿",
+	"profileEdit": "プロフィール編集",
+
+	"subject": "主題",
+
+	"groupProfileTitle": "グループプロフィール写真",
+	"groupInfoTitle": "グループ情報",
+	"groupName": "グループ名",
+	"edit": "編集",
+	"subjectAndPurpose": "主題/目的",
+	"publicStatus": "公開状態",
+	"basicInfo": "基本情報",
+	"maxCount": "最大人数",
+	"currentCount": "現在の人数",
+
+	"nickname": "ニックネーム",
+	"selectNone": "選択しない",
+
+	"profileSettings": "プロフィール設定",
+	"profileInfo": "プロフィール情報",
+	"id": "ID",
+	"major": "専攻",
+
+	"myWritePosts": "私が書いた投稿",
+	"myComments": "私のコメント",
+
+	"receivedRequests": "受け取ったリクエスト",
+	"sentRequests": "送信したリクエスト",
+
+	"logoutConfirmation": "ログアウトしますか？",
+	"security": "セキュリティ",
+	"profilePrivacy": "プロフィールのプライバシー",
+	"logout": "ログアウト",
+	"deleteAccount": "アカウント削除",
+
+	"notificationPermissionAlert": "設定で通知権限を{{action}}",
+	"notificationPermissionEnable": "有効にしてください。",
+	"notificationPermissionDisable": "無効にしてください。",
+	"notificationEnable": "通知機能が有効になりました。",
+	"notificationDisable": "通知権限が拒否されました。",
+	"settings": "設定",
+	"accountManagement": "アカウント管理",
+	"pushNotifications": "プッシュ通知",
+	"customerSupport": "カスタマーサポート",
+	"serviceNews": "サービスニュース",
+	"termsPrivacy": "プライバシーポリシーおよび利用規約",
+
+	"terms": {
+		"title": "アプリ利用に関するポリシーおよび個人情報収集のご案内",
+		"subTitle": "当アプリは、安全で快適にサービスをご利用いただけるよう、以下のコンテンツポリシーおよびプライバシー使用規則を遵守します。",
+		"policy": "1. コンテンツポリシー 当アプリは、侮辱的、嫌な、または憎悪を引き起こすコンテンツを厳格に禁止します。",
+		"policyContent": "したがって、以下のようなコンテンツは一切許可されません：差別的または悪意のあるコンテンツ、宗教、民族、性別、性的指向、民族/人種、またはその他の特定のグループに対する名誉毀損や差別的な言及や説明。個人やグループが侮辱されたり、脅迫されたり、被害を受ける可能性があるコンテンツ。暴力的で残酷なコンテンツ、殺害、肢体障害、拷問、虐待を現実的に描写したり暴力を助長するコンテンツ。特定の人種、文化、政府、企業などを対象とした暴力的な表現。武器や危険物の違法な助長、武器や危険物の違法または無分別な使用を助長するコンテンツ、銃や弾薬の購入を誘導するコンテンツ。性的コンテンツ、性器や性行為の露骨な描写や表現を含む公然とした性的またはポルノ的な資料。宗教的煽動および誤解を招くコンテンツ、煽動的な宗教的解釈や不正確または誤解を招く聖典の引用。虚偽の情報および詐欺、虚偽の情報や機能、例えば不正確なデバイスデータ、偽の位置追跡など。最近の事件や時事問題の有害な利用、暴力的な衝突、テロ攻撃、流行病などの最近の事件や時事問題を利用して利益を得ようとするコンテンツ。",
+		"privacy": "2. 個人情報の収集と使用 当アプリは、以下の目的で個人情報を収集し使用します。",
+		"privacyContent": "収集および使用目的：ユーザーにパーソナライズされたマッチングサービスを提供し、アプリ機能を最適化するために個人情報を収集および使用します。収集項目：プロフィール情報、活動データ、位置情報など。非公開設定：会員がプロフィールを非公開に設定した場合、そのプロフィールは他の人に表示されません。これはユーザーのプライバシー保護のための機能です。プッシュ通知：重要な通知や更新、パーソナライズされた推奨情報を提供するためにプッシュ通知を使用することがあります。ユーザー活動の追跡：サービスの品質向上とパーソナライズされた推奨の提供のために、ユーザーの活動データを追跡することがあります。",
+		"accountDeletion": "3. 会員退会および情報削除 会員退会のリクエストがあった場合、リクエスト日から1週間以内にすべての会員情報が完全に削除されます。",
+		"accountDeletionContent": "削除された情報は復元できないため、退会前に必要なデータをバックアップしてください。注意：チャットルームに残したチャット、投稿に残したコメント、および作成した投稿は、他のユーザーがブックマークした場合、そのユーザーのブックマークを通じて表示され続ける可能性があります。これにご注意ください。"
+	},
+
+	"blocked": "ブロック済み",
+
+	"accept": "受け入れる",
+	"reject": "拒否する",
+	"pending": "保留中",
+
+	"removeBlock": "ブロック解除",
+
+	"blockAlertMessage": "'{{name}}'\nこのユーザーをブロックしますか？",
+	"blockSuccessMessage": "'{{name}}'\nユーザーがブロックされました。",
+	"connectCancelAlertMessage": "'{{name}}'\nコネクトリクエストをキャンセルしますか？",
+	"connectCancelSuccessMessage": "'{{name}}'\nコネクトリクエストがキャンセルされました。"
 }
