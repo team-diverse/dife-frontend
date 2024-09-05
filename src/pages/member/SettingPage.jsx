@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
 	SafeAreaView,
 	View,
@@ -9,11 +9,13 @@ import {
 	Linking,
 	AppState,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as Notifications from "expo-notifications";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import SettingStyles from "@pages/member/SettingStyles";
+import { getMyProfile } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ArrowRight from "@components/common/ArrowRight";
@@ -33,6 +35,7 @@ const SettingPage = () => {
 	const navigation = useNavigation();
 
 	const [switchOn, setSwitchOn] = useState(false);
+	const [defaultLanguage, setDefaultLanguage] = useState();
 
 	const checkNotificationPermissions = async () => {
 		const { status } = await Notifications.getPermissionsAsync();
@@ -117,6 +120,25 @@ const SettingPage = () => {
 		}
 	};
 
+	useFocusEffect(
+		useCallback(() => {
+			const handleProfile = async () => {
+				try {
+					const response = await getMyProfile();
+					setDefaultLanguage(response.data.settingLanguage);
+				} catch (error) {
+					Sentry.captureException(error);
+					console.error(
+						"마이페이지 조회 오류:",
+						error.response ? error.response.data : error.message,
+					);
+				}
+			};
+
+			handleProfile();
+		}, [defaultLanguage]),
+	);
+
 	return (
 		<SafeAreaView style={SettingStyles.container}>
 			<TopBar topBar={t("settings")} color="#000" />
@@ -182,7 +204,11 @@ const SettingPage = () => {
 				<View style={SettingStyles.line} />
 				<TouchableOpacity
 					style={SettingStyles.containerContent}
-					onPress={() => navigation.navigate("DefaultLanguagePage")}
+					onPress={() =>
+						navigation.navigate("DefaultLanguagePage", {
+							defaultLanguage: defaultLanguage,
+						})
+					}
 				>
 					<View style={SettingStyles.containerIconText}>
 						<IconSettingLanguage />
