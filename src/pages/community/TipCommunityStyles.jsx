@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontHead20, fontSub16 } = CustomTheme;
+const { fontHead20, fontSub16, fontCaption } = CustomTheme;
 
 const TipCommunityStyles = StyleSheet.create({
 	container: {
@@ -23,10 +23,6 @@ const TipCommunityStyles = StyleSheet.create({
 		shadowOpacity: 0.4,
 		shadowRadius: 2,
 		zIndex: 2,
-	},
-	safeAreaView: {
-		flex: 1,
-		backgroundColor: CustomTheme.bgBasic,
 	},
 	connectTop: {
 		marginTop: -47,
@@ -76,9 +72,22 @@ const TipCommunityStyles = StyleSheet.create({
 		borderRadius: 24,
 		paddingLeft: 20,
 	},
+	iconArrowRightSearch: {
+		position: "absolute",
+		left: 8,
+	},
 	searchIcon: {
 		position: "absolute",
 		right: 12,
+	},
+	containerFail: {
+		alignItems: "center",
+		marginTop: 78,
+	},
+	textFail: {
+		...fontCaption,
+		color: CustomTheme.textSecondary,
+		marginTop: 13,
 	},
 	itemCommunity: {
 		alignItems: "center",

@@ -8,6 +8,7 @@ import {
 	Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import FindPasswordStyles from "@pages/login/FindPasswordStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
@@ -16,10 +17,13 @@ import { debounce } from "util/debounce";
 
 import InfoCircle from "@components/common/InfoCircle";
 import ApplyButton from "@components/common/ApplyButton";
-import ConnectRequest from "@components/ConnectRequest";
+import ModalRequest from "@components/common/ModalRequest";
 import GoBack from "@components/common/GoBack";
+import * as Sentry from "@sentry/react-native";
 
 const FindPasswordPage = () => {
+	const { t } = useTranslation();
+
 	const [valueID, onChangeID] = useState("");
 	const [validID, setValidID] = useState(null);
 	const [errorMessage, setErrorMessage] = useState("");
@@ -37,7 +41,7 @@ const FindPasswordPage = () => {
 		if (isValid) {
 			handleEmail(email);
 		} else {
-			setErrorMessage("유효한 이메일 형식을 입력해주세요.");
+			setErrorMessage(t("emailInvalidError"));
 		}
 		onChangeID(email);
 	};
@@ -47,7 +51,7 @@ const FindPasswordPage = () => {
 			try {
 				await checkEmail(email);
 				setValidID(false);
-				setErrorMessage("존재하지 않는 이메일입니다.");
+				setErrorMessage(t("emailNotFoundError"));
 			} catch (error) {
 				setValidID(true);
 			}
@@ -62,13 +66,14 @@ const FindPasswordPage = () => {
 			setValidID(true);
 			navigation.navigate("FindPasswordVerifying");
 		} catch (error) {
+			Sentry.captureException(error);
 			setModalConnectVisible(false);
 			console.error(
 				"비밀번호 재발급 실패:",
 				error.response ? error.response.data : error.message,
 			);
 			setValidID(false);
-			setErrorMessage("등록된 회원정보가 없습니다.");
+			setErrorMessage(t("registeredMemberInfoError"));
 		} finally {
 			setModalConnectVisible(false);
 		}
@@ -81,17 +86,17 @@ const FindPasswordPage = () => {
 			<SafeAreaView style={[FindPasswordStyles.container]}>
 				<GoBack />
 				<Text style={FindPasswordStyles.textTitle}>
-					비밀번호 재발급
+					{t("findPasswordTitle")}
 				</Text>
 				<Text style={FindPasswordStyles.textSubTitle}>
-					회원가입 시 사용한 이메일을 입력해주세요
+					{t("findPasswordSubtitle")}
 				</Text>
 				<Text style={FindPasswordStyles.textId}>
 					ID (Email Address)
 				</Text>
 				<View style={FindPasswordStyles.textInputId}>
 					<TextInput
-						placeholder="이메일을 입력해주세요"
+						placeholder={t("emailPlaceholder")}
 						onChangeText={handleEmailFormat}
 						value={valueID}
 					/>
@@ -105,15 +110,15 @@ const FindPasswordPage = () => {
 					</View>
 				)}
 				<ApplyButton
-					text="비밀번호 재발급받기"
+					text={t("passwordResetButton")}
 					disabled={!validID}
 					onPress={handleFindPassword}
 				/>
-				<ConnectRequest
+				<ModalRequest
 					modalVisible={modalConnectVisible}
 					setModalVisible={setModalConnectVisible}
-					textLoading="이메일 전송중"
-					textComplete="이메일 전송 완료!"
+					textLoading={t("emailSendingText")}
+					textComplete={t("emailSentText")}
 				/>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>

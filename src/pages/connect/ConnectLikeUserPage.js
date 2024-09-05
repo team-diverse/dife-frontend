@@ -1,17 +1,21 @@
 import React from "react";
 import { View, StyleSheet, SafeAreaView } from "react-native";
+import { useTranslation } from "react-i18next";
+
+import { CustomTheme } from "@styles/CustomTheme";
+
 import TopBar from "@components/common/TopBar";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import LikeUserOneToOne from "@pages/connect/LikeUserOneToOne";
 import LikeUserGroup from "@pages/connect/LikeUserGroup";
-import { CustomTheme } from "@styles/CustomTheme";
 
 const ConnectLikeUserPage = () => {
+	const { t } = useTranslation();
 	const Tab = createMaterialTopTabNavigator();
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopBar topBar="좋아요 목록" />
+			<TopBar topBar={t("likeListTitle")} />
 			<View style={styles.tabContainer}>
 				<Tab.Navigator
 					initialRouteName="LikeUserOneToOne"
@@ -28,12 +32,12 @@ const ConnectLikeUserPage = () => {
 					<Tab.Screen
 						name="1:1"
 						component={LikeUserOneToOne}
-						options={{ tabBarLabel: "1:1" }}
+						options={{ tabBarLabel: t("oneToOne") }}
 					/>
 					<Tab.Screen
 						name="그룹"
 						component={LikeUserGroup}
-						options={{ tabBarLabel: "그룹" }}
+						options={{ tabBarLabel: t("group") }}
 					/>
 				</Tab.Navigator>
 			</View>

@@ -1,11 +1,29 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontHead20, fontHead18, fontSub16, fontCaption } = CustomTheme;
+const { fontHead20, fontHead18, fontSub16, fontCaption, fontNaviBold } =
+	CustomTheme;
 
 const ConnectStyles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: CustomTheme.bgBasic,
+	},
+	containerImageNumber: {
+		position: "absolute",
+		right: 0,
+		bottom: 0,
+		justifyContent: "center",
+		alignItems: "center",
+		zIndex: 10,
+	},
+	iconCircleNumber: {
+		position: "absolute",
+	},
+	textImageNumber: {
+		...fontNaviBold,
+		color: CustomTheme.textPrimary,
+		zIndex: 11,
 	},
 	backgroundBlue: {
 		position: "absolute",
@@ -79,13 +97,8 @@ const ConnectStyles = StyleSheet.create({
 		marginTop: -47,
 		zIndex: 1,
 	},
-	safeAreaView: {
-		flex: 1,
-		backgroundColor: CustomTheme.bgBasic,
-	},
 	midContainer: {
-		flexDirection: "row",
-		alignItems: "center",
+		alignItems: "flex-end",
 		marginTop: 20,
 		marginBottom: 12,
 	},

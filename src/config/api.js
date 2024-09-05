@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as SecureStore from "expo-secure-store";
-import { API_URL } from "@env";
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export const api = axios.create({
 	baseURL: API_URL,
@@ -20,7 +20,23 @@ api.interceptors.request.use(async (config) => {
 export const getChatroomsByType = (type) => {
 	return api.get("/chatrooms", {
 		params: {
-			chatroomType: type,
+			type,
+		},
+	});
+};
+
+export const getChatsByChatroomId = (chatroomId) => {
+	return api.get("/chats", {
+		params: {
+			chatroomId,
+		},
+	});
+};
+
+export const getChatroomsByCount = (count) => {
+	return api.get("/chatrooms/random", {
+		params: {
+			count,
 		},
 	});
 };
@@ -37,11 +53,27 @@ export const createSingleChatroom = (toMemberId, name) => {
 	return api.post("/chatrooms", formData, { headers });
 };
 
-export const createGroupChatroom = (profileImg, name, description) => {
+export const createGroupChatroom = (
+	profileImg,
+	name,
+	description,
+	hobbies,
+	maxCount,
+	purposes,
+	languages,
+	isPublic,
+	password,
+) => {
 	const formData = new FormData();
 	formData.append("chatroomType", "GROUP");
 	formData.append("name", name);
 	formData.append("description", description);
+	formData.append("hobbies", hobbies);
+	formData.append("maxCount", maxCount);
+	formData.append("purposes", purposes);
+	formData.append("languages", languages);
+	formData.append("isPublic", isPublic);
+	formData.append("password", password);
 
 	if (profileImg) {
 		const file = {
@@ -58,10 +90,10 @@ export const createGroupChatroom = (profileImg, name, description) => {
 	return api.post("/chatrooms", formData, { headers });
 };
 
-export const getGroups = () => {
-	return api.get("/chatrooms", {
+export const checkGroupName = (name) => {
+	return api.head("/chatrooms/check", {
 		params: {
-			chatroomType: "GROUP",
+			name,
 		},
 	});
 };
@@ -108,6 +140,16 @@ export const getMyPendingConnects = () => {
 	});
 };
 
+export const acceptedConnectByMemberId = (memberId) => {
+	return api.patch("/connects/", {
+		member_id: memberId,
+	});
+};
+
+export const rejectedConnectByConnectId = (connectId) => {
+	return api.delete(`/connects/${connectId}`);
+};
+
 export const getMyProfile = () => {
 	return api.get("/members/profile");
 };
@@ -149,13 +191,39 @@ export const getRandomMembersByCount = (count) => {
 export const getPostsByType = (type) => {
 	return api.get("/posts", {
 		params: {
-			boardCategory: type,
+			type,
 		},
 	});
 };
 
 export const getPostById = (id) => {
 	return api.get(`/posts/${id}`);
+};
+
+export const getCommunitySearch = (keyword) => {
+	return api.get("/posts/search", {
+		params: {
+			keyword,
+		},
+	});
+};
+
+export const getFreeCommunitySearch = (keyword) => {
+	return api.get("/posts/search", {
+		params: {
+			type: "FREE",
+			keyword,
+		},
+	});
+};
+
+export const getTipCommunitySearch = (keyword) => {
+	return api.get("/posts/search", {
+		params: {
+			type: "TIP",
+			keyword,
+		},
+	});
 };
 
 export const deletePost = (id) => {
@@ -168,13 +236,16 @@ export const createPost = (title, content, isPublic, boardType, postFile) => {
 	formData.append("content", content);
 	formData.append("isPublic", isPublic);
 	formData.append("boardType", boardType);
-	if (postFile) {
-		const file = {
-			uri: postFile,
-			type: "image/jpeg",
-			name: `image_${postFile}.jpg`,
-		};
-		formData.append("profileImg", file);
+
+	if (postFile && Array.isArray(postFile)) {
+		postFile.forEach((uri, index) => {
+			const fileExtension = uri.split(".").pop();
+			formData.append("postFiles", {
+				uri: uri,
+				type: `image/${fileExtension}`,
+				name: `${title}_image_${index}.${fileExtension}`,
+			});
+		});
 	}
 
 	const headers = {
@@ -237,7 +308,11 @@ export const createReplyComment = (
 };
 
 export const getCommentByPostId = (postId) => {
-	return api.get(`/comments/${postId}`);
+	return api.get(`/posts/${postId}/comments`);
+};
+
+export const deleteCommentByCommentId = (commentId) => {
+	return api.delete(`/comments/${commentId}`);
 };
 
 export const createLikePost = (postId) => {
@@ -256,6 +331,14 @@ export const createLikeComment = (commentId) => {
 
 export const getLikeChatroom = () => {
 	return api.get("/chatrooms/likes");
+};
+
+export const updateGroupProfile = (groupId, formData) => {
+	return api.put(`/chatrooms/${groupId}`, formData, {
+		headers: {
+			"Content-Type": "multipart/form-data",
+		},
+	});
 };
 
 export const createLikeChatroom = (chatroomId) => {
@@ -319,6 +402,30 @@ export const getConnectFilter = (mbtis, hobbies, languages) => {
 	});
 };
 
+export const getGroupConnectSearch = (keyword) => {
+	return api.get("/chatrooms/search", {
+		params: {
+			keyword,
+		},
+	});
+};
+
+export const getGroupConnectFilter = (
+	hobbies,
+	languages,
+	purposes,
+	maxCount,
+) => {
+	return api.get("/chatrooms/filter", {
+		params: {
+			hobbies,
+			languages,
+			purposes,
+			maxCount,
+		},
+	});
+};
+
 export const getConnectById = (memberId) => {
 	return api.get(`/connects/`, {
 		params: {
@@ -344,13 +451,9 @@ export const getConnectList = () => {
 export const getProfileImageByFileName = (fileName) => {
 	return api.get(`/files`, {
 		params: {
-			fileName: fileName,
+			name: fileName,
 		},
 	});
-};
-
-export const deleteConnectById = (connectId) => {
-	return api.delete(`/connects/${connectId}`);
 };
 
 export const deleteBookmarkByPostId = (postId) => {
@@ -404,6 +507,10 @@ export const createNotificationToken = (pushToken, deviceId) => {
 	});
 };
 
+export const getNotifications = () => {
+	return api.get("/notifications");
+};
+
 export const reportPost = (type, postId) => {
 	return api.post("/reports", {
 		type,
@@ -425,10 +532,21 @@ export const reportMember = (type, receiverId) => {
 	});
 };
 
-export const blockMember = (blockMemberId) => {
-	return api.post("/blocks", {
-		blockMemberId,
+export const reportGroup = (type, chatroomId) => {
+	return api.post("/reports", {
+		type,
+		chatroomId,
 	});
+};
+
+export const createBlockMemberByMemberId = (blockMemberId) => {
+	return api.post("/blocks", {
+		memberId: blockMemberId,
+	});
+};
+
+export const createBlockPostByPostId = (blockPostId) => {
+	return api.post(`/posts/${blockPostId}/blocks`);
 };
 
 export const getBlockMember = () => {
@@ -445,4 +563,16 @@ export const deleteBlockMember = (memberId) => {
 
 export const deleteMember = () => {
 	return api.delete("/members");
+};
+
+export const translationByPostId = (postId) => {
+	return api.post("/translations", {
+		postId,
+	});
+};
+
+export const translationByCommentId = (commentId) => {
+	return api.post("/translations", {
+		commentId,
+	});
 };

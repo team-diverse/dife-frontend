@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { deleteBlockMember } from "config/api";
@@ -10,12 +11,14 @@ const { fontBody14 } = CustomTheme;
 const ModalKebabMenuBlock = ({
 	modalVisible,
 	setModalVisible,
-	memberId,
+	blacklistedMemberId,
 	position,
 }) => {
+	const { t } = useTranslation();
+
 	const handleBlock = async () => {
 		try {
-			await deleteBlockMember(memberId);
+			await deleteBlockMember(blacklistedMemberId);
 			setModalVisible(false);
 		} catch (error) {
 			console.error(
@@ -28,13 +31,23 @@ const ModalKebabMenuBlock = ({
 	return (
 		<Modal
 			isVisible={modalVisible}
-			style={[styles.modal, { top: position.top, right: position.width }]}
+			style={[
+				styles.modal,
+				{
+					top: position.y - (position.height + 38) / 2,
+					left: position.x - (position.width + 100),
+				},
+			]}
 			onBackdropPress={() => setModalVisible(false)}
 			backdropColor="rgba(0, 0, 0, 0.3)"
+			animationIn="fadeIn"
+			animationOut="fadeOut"
 		>
 			<View style={styles.rectangle}>
 				<TouchableOpacity onPress={handleBlock}>
-					<Text style={styles.textDeleteBlock}>차단 해제하기</Text>
+					<Text style={styles.textDeleteBlock}>
+						{t("removeBlock")}
+					</Text>
 				</TouchableOpacity>
 			</View>
 		</Modal>
@@ -44,7 +57,7 @@ const ModalKebabMenuBlock = ({
 const styles = StyleSheet.create({
 	modal: {
 		justifyContent: "flex-start",
-		alignItems: "flex-end",
+		alignItems: "flex-start",
 	},
 	rectangle: {
 		width: 95,
