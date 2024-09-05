@@ -182,6 +182,7 @@
 	"bookmarkCancelConfirmation": "Are you sure you want to cancel the bookmark?",
 	"cancelButton": "Cancel",
 	"translateButton": "Translate",
+	"viewOriginalButton": "View Original",
 	"replyPrompt": "Please enter your reply",
 	"commentPrompt": "Please enter your comment",
 
@@ -288,11 +289,11 @@
 	"connectRequest": "Connect Request",
 
 	"defaultLanguageSettings": "Default Language Settings",
-	"english": "English",
-	"chinese": "Chinese",
-	"japanese": "Japanese",
-	"spanish": "Spanish",
-	"korean": "Korean",
+	"english": "English / English",
+	"chinese": "中文 / Chinese",
+	"japanese": "日本語 / Japanese",
+	"spanish": "Español / Spanish",
+	"korean": "한국어 / Korean",
 
 	"deleteMember": "Delete Member",
 	"confirmDeleteMember": "Are you sure you want to delete your account?\nWe will miss you.",
@@ -387,5 +388,8 @@
 	"blockAlertMessage": "'{{name}}'\nDo you want to block this user?",
 	"blockSuccessMessage": "'{{name}}'\nUser has been blocked.",
 	"connectCancelAlertMessage": "'{{name}}'\nDo you want to cancel the connect request?",
-	"connectCancelSuccessMessage": "'{{name}}'\nConnect request has been canceled."
+	"connectCancelSuccessMessage": "'{{name}}'\nConnect request has been canceled.",
+
+	"changeLanguageConfirmation": "Do you want to change the default language?",
+	"languageChangedSuccess": "The default language has been changed."
 }

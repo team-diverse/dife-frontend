@@ -31,6 +31,7 @@ import {
 	createPostBookmark,
 	deleteBookmarkByPostId,
 	getProfileImageByFileName,
+	translationByPostId,
 } from "config/api";
 import { formatDate } from "util/formatDate";
 
@@ -72,6 +73,7 @@ const PostPage = ({ route }) => {
 	const [isChecked, setIsChecked] = useState(false);
 	const [isReplying, setIsReplying] = useState(false);
 	const [parentCommentId, setParentCommentId] = useState(null);
+	const [isTranslation, setIsTranslation] = useState(false);
 
 	const commentRef = useRef(null);
 
@@ -94,50 +96,64 @@ const PostPage = ({ route }) => {
 
 	const difeLinesCount = Math.max(1, Math.floor(comments.length / 1.5));
 
+	const getPost = async () => {
+		try {
+			const myMemberId = await getMyMemberId();
+
+			const postByIdResponse = await getPostById(postId);
+			setTitle(postByIdResponse.data.title);
+			setContext(postByIdResponse.data.content);
+			setCreated(formatDate(postByIdResponse.data.created));
+			setIsPublic(postByIdResponse.data.isPublic);
+			setMemberId(postByIdResponse.data.writer.id);
+			const fileNames = postByIdResponse.data.files.map(
+				(file) => file.originalName,
+			);
+			const responses = await Promise.all(
+				fileNames.map((fileName) =>
+					getProfileImageByFileName(fileName),
+				),
+			);
+			const responseImages = responses.map((response) => response.data);
+			setImages(responseImages);
+
+			if (postByIdResponse.data.isPublic === false) {
+				setWriterName(postByIdResponse.data.writer.username);
+			} else if (postByIdResponse.data.isPublic === true) {
+				setWriterName(t("anonymousCheckboxLabel"));
+			}
+
+			if (myMemberId === postByIdResponse.data.writer.id) {
+				setIsMe(true);
+				updatePostModifyData({
+					memberId: myMemberId,
+					id: postId,
+					title: postByIdResponse.data.title,
+					context: postByIdResponse.data.content,
+					boardType: postByIdResponse.data.boardType,
+					isPublic: postByIdResponse.data.isPublic,
+				});
+			}
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"게시글 제목 및 내용 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useEffect(() => {
+		getPost();
+	}, []);
+
 	useFocusEffect(
 		useCallback(() => {
-			const postComment = async () => {
+			const getHeartBookmakrComment = async () => {
 				try {
-					const myMemberId = await getMyMemberId();
-
 					const postByIdResponse = await getPostById(postId);
-					setTitle(postByIdResponse.data.title);
-					setContext(postByIdResponse.data.content);
 					setHeart(postByIdResponse.data.likesCount);
 					setBookmark(postByIdResponse.data.bookmarkCount);
-					setCreated(formatDate(postByIdResponse.data.created));
-					setIsPublic(postByIdResponse.data.isPublic);
-					setMemberId(postByIdResponse.data.writer.id);
-					const fileNames = postByIdResponse.data.files.map(
-						(file) => file.originalName,
-					);
-					const responses = await Promise.all(
-						fileNames.map((fileName) =>
-							getProfileImageByFileName(fileName),
-						),
-					);
-					const responseImages = responses.map(
-						(response) => response.data,
-					);
-					setImages(responseImages);
-
-					if (postByIdResponse.data.isPublic === false) {
-						setWriterName(postByIdResponse.data.writer.username);
-					} else if (postByIdResponse.data.isPublic === true) {
-						setWriterName(t("anonymousCheckboxLabel"));
-					}
-
-					if (myMemberId === postByIdResponse.data.writer.id) {
-						setIsMe(true);
-						updatePostModifyData({
-							memberId: myMemberId,
-							id: postId,
-							title: postByIdResponse.data.title,
-							context: postByIdResponse.data.content,
-							boardType: postByIdResponse.data.boardType,
-							isPublic: postByIdResponse.data.isPublic,
-						});
-					}
 
 					const commentByIdResponse =
 						await getCommentByPostId(postId);
@@ -145,7 +161,7 @@ const PostPage = ({ route }) => {
 				} catch (error) {
 					Sentry.captureException(error);
 					console.error(
-						"게시글 조회 오류:",
+						"게시글 좋아요 및 북마크 조회 오류:",
 						error.response ? error.response.data : error.message,
 					);
 					console.error(
@@ -154,8 +170,7 @@ const PostPage = ({ route }) => {
 					);
 				}
 			};
-
-			postComment();
+			getHeartBookmakrComment();
 		}, [pressHeart, pressBookmark, comments]),
 	);
 
@@ -360,6 +375,26 @@ const PostPage = ({ route }) => {
 		getLikedAndBookmarkedStatus();
 	}, [pressHeart, pressBookmark]);
 
+	const handleTranslations = async () => {
+		try {
+			if (isTranslation) {
+				setIsTranslation(false);
+				getPost();
+			} else {
+				setIsTranslation(true);
+				const response = await translationByPostId(postId);
+				setTitle(response.data.translations[0].text);
+				setContext(response.data.translations[1].text);
+			}
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"게시글 번역 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	return (
 		<SafeAreaView style={PostStyles.container}>
 			<View onLayout={handleTopBarLayout}>
@@ -474,9 +509,14 @@ const PostPage = ({ route }) => {
 							<IconBookmark active={pressBookmark} />
 							<Text style={PostStyles.textIcon}>{bookmark}</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={PostStyles.textTranslation}>
+						<TouchableOpacity
+							style={PostStyles.textTranslation}
+							onPress={handleTranslations}
+						>
 							<Text style={PostStyles.textTranslation}>
-								{t("translateButton")}
+								{isTranslation
+									? t("viewOriginalButton")
+									: t("translateButton")}
 							</Text>
 						</TouchableOpacity>
 					</View>

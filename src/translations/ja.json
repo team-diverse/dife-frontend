@@ -182,6 +182,7 @@
 	"bookmarkCancelConfirmation": "ブックマークをキャンセルしますか？",
 	"cancelButton": "キャンセル",
 	"translateButton": "翻訳する",
+	"viewOriginalButton": "原文を見る",
 	"replyPrompt": "返信を入力してください",
 	"commentPrompt": "コメントを入力してください",
 
@@ -288,11 +289,11 @@
 	"connectRequest": "コネクトリクエスト",
 
 	"defaultLanguageSettings": "デフォルト言語設定",
-	"english": "英語 / English",
-	"chinese": "中国語 / Chinese",
+	"english": "English / English",
+	"chinese": "中文 / Chinese",
 	"japanese": "日本語 / Japanese",
-	"spanish": "スペイン語 / Spanish",
-	"korean": "韓国語 / Korean",
+	"spanish": "Español / Spanish",
+	"korean": "한국어 / Korean",
 
 	"deleteMember": "会員退会",
 	"confirmDeleteMember": "本当に会員退会しますか？\nお別れするのは寂しいです。",
@@ -388,5 +389,8 @@
 	"blockAlertMessage": "'{{name}}'\nこのユーザーをブロックしますか？",
 	"blockSuccessMessage": "'{{name}}'\nユーザーがブロックされました。",
 	"connectCancelAlertMessage": "'{{name}}'\nコネクトリクエストをキャンセルしますか？",
-	"connectCancelSuccessMessage": "'{{name}}'\nコネクトリクエストがキャンセルされました。"
+	"connectCancelSuccessMessage": "'{{name}}'\nコネクトリクエストがキャンセルされました。",
+
+	"changeLanguageConfirmation": "デフォルト言語を変更しますか？",
+	"languageChangedSuccess": "デフォルトの言語が変更されました。"
 }

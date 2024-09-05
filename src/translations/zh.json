@@ -182,6 +182,7 @@
 	"bookmarkCancelConfirmation": "确定要取消书签吗？",
 	"cancelButton": "取消",
 	"translateButton": "翻译",
+	"viewOriginalButton": "查看原文",
 	"replyPrompt": "请输入回复",
 	"commentPrompt": "请输入评论",
 
@@ -288,11 +289,11 @@
 	"connectRequest": "连接请求",
 
 	"defaultLanguageSettings": "默认语言设置",
-	"english": "英语 / English",
+	"english": "English / English",
 	"chinese": "中文 / Chinese",
-	"japanese": "日语 / Japanese",
-	"spanish": "西班牙语 / Spanish",
-	"korean": "韩语 / Korean",
+	"japanese": "日本語 / Japanese",
+	"spanish": "Español / Spanish",
+	"korean": "한국어 / Korean",
 
 	"deleteMember": "删除会员",
 	"confirmDeleteMember": "您确定要删除账户吗？\n我们会很想念您。",
@@ -388,5 +389,8 @@
 	"blockAlertMessage": "'{{name}}'\n您确定要阻止此用户吗？",
 	"blockSuccessMessage": "'{{name}}'\n用户已被阻止。",
 	"connectCancelAlertMessage": "'{{name}}'\n您确定要取消连接请求吗？",
-	"connectCancelSuccessMessage": "'{{name}}'\n连接请求已被取消。"
+	"connectCancelSuccessMessage": "'{{name}}'\n连接请求已被取消。",
+
+	"changeLanguageConfirmation": "您要更改默认语言吗？",
+	"languageChangedSuccess": "默认语言已更改。"
 }
