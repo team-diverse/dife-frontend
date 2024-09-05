@@ -562,3 +562,9 @@ export const translationByPostId = (postId) => {
 		postId,
 	});
 };
+
+export const translationByCommentId = (commentId) => {
+	return api.post("/translations", {
+		commentId,
+	});
+};
