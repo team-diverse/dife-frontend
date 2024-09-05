@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import LikedPostStyles from "@pages/member/LikedPostStyles";
 import { getLikedPost } from "config/api";
@@ -11,6 +12,7 @@ import ItemCommunity from "@components/community/ItemCommunity";
 import * as Sentry from "@sentry/react-native";
 
 const LikedPostPage = () => {
+	const { t } = useTranslation();
 	const [likedPostList, setLikedPostList] = useState([]);
 
 	useEffect(() => {
@@ -34,7 +36,7 @@ const LikedPostPage = () => {
 
 	return (
 		<SafeAreaView style={LikedPostStyles.container}>
-			<TopBar topBar="좋아요 누른 게시글" color="#000" />
+			<TopBar topBar={t("likedPosts")} color="#000" />
 
 			<View style={LikedPostStyles.itemCommunity}>
 				<ItemCommunity

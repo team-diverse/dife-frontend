@@ -9,6 +9,7 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -28,6 +29,7 @@ import IconCircleNumber from "@components/community/IconCircleNumber";
 import * as Sentry from "@sentry/react-native";
 
 const ConnectPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [profileDataList, setProfileDataList] = useState([]);
@@ -126,7 +128,9 @@ const ConnectPage = () => {
 					<ConnectTop />
 				</View>
 				<View style={ConnectStyles.textIconContainer}>
-					<Text style={ConnectStyles.connectTitle}>Connect</Text>
+					<Text style={ConnectStyles.connectTitle}>
+						{t("connectTitle")}
+					</Text>
 					<ConnectLikeUser
 						style={ConnectStyles.addUserIcon}
 						onPress={() => navigation.navigate("LikeUserOneToOne")}
@@ -158,7 +162,7 @@ const ConnectPage = () => {
 					<View style={ConnectStyles.searchIconContainer}>
 						<TextInput
 							style={ConnectStyles.search}
-							placeholder="검색"
+							placeholder={t("searchPlaceholder")}
 							value={searchTerm}
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}

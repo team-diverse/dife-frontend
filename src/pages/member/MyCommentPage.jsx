@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { SafeAreaView, View, ScrollView } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import MyPostStyles from "@pages/member/MyPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -11,6 +12,7 @@ import ItemCommunity from "@components/community/ItemCommunity";
 import * as Sentry from "@sentry/react-native";
 
 const MyCommentPage = () => {
+	const { t } = useTranslation();
 	const [myCommentList, setMyCommentList] = useState();
 
 	const getMyCommentList = async () => {
@@ -35,7 +37,7 @@ const MyCommentPage = () => {
 	return (
 		<SafeAreaView style={MyPostStyles.container}>
 			<TopBar
-				topBar="내가 단 댓글"
+				topBar={t("myComments")}
 				color="#000"
 				backgroundColor={CustomTheme.primaryBg}
 			/>

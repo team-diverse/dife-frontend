@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { deleteBlockMember } from "config/api";
@@ -13,6 +14,8 @@ const ModalKebabMenuBlock = ({
 	blacklistedMemberId,
 	position,
 }) => {
+	const { t } = useTranslation();
+
 	const handleBlock = async () => {
 		try {
 			await deleteBlockMember(blacklistedMemberId);
@@ -42,7 +45,9 @@ const ModalKebabMenuBlock = ({
 		>
 			<View style={styles.rectangle}>
 				<TouchableOpacity onPress={handleBlock}>
-					<Text style={styles.textDeleteBlock}>차단 해제하기</Text>
+					<Text style={styles.textDeleteBlock}>
+						{t("removeBlock")}
+					</Text>
 				</TouchableOpacity>
 			</View>
 		</Modal>

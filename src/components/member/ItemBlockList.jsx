@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { formatDate } from "util/formatDate";
@@ -11,6 +12,7 @@ import IconMenu from "@components/chat/IconMenu";
 import ModalKebabMenuBlock from "@components/member/ModalKebabMenuBlock";
 
 const ItemBlockList = ({ blacklistedMemberId, date }) => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const iconRef = useRef();
@@ -71,7 +73,7 @@ const ItemBlockList = ({ blacklistedMemberId, date }) => {
 					</TouchableOpacity>
 					<View style={styles.iconTextContainer}>
 						<Text style={styles.textBlockDate}>
-							{formatDate(date)} 차단함
+							{formatDate(date)} {t("blocked")}
 						</Text>
 						<TouchableOpacity
 							style={styles.iconMenu}

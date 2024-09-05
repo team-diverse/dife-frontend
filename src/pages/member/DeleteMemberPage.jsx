@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
+import { useTranslation } from "react-i18next";
 
 import DeleteMemberStyles from "@pages/member/DeleteMemberStyles";
 import { deleteMember } from "config/api";
@@ -20,10 +21,11 @@ import ApplyButton from "@components/common/ApplyButton";
 import ArrowRight from "@components/common/ArrowRight";
 
 const DeleteMemberPage = () => {
+	const { t } = useTranslation();
 	const { setIsLoggedIn } = useAuth();
 
 	const [isDeleteMemberClick, setIsDeleteMemberClick] = useState(false);
-	const [reason, setReason] = useState("선택해주세요");
+	const [reason, setReason] = useState(t("reasonOptions.pleaseSelect"));
 
 	const handleReasonTitle = () => {
 		setIsDeleteMemberClick(!isDeleteMemberClick);
@@ -48,12 +50,12 @@ const DeleteMemberPage = () => {
 
 	const handleAlertDeleteMember = () => {
 		Alert.alert(
-			"회원 탈퇴",
-			"정말 회원 탈퇴를 하시겠습니까?\n소중한 회원님을 잃게 되어 아쉽습니다.",
+			t("deleteMember"),
+			t("confirmDeleteMember"),
 			[
-				{ text: "취소", style: "cancel" },
+				{ text: t("cancelButton"), style: "cancel" },
 				{
-					text: "확인",
+					text: t("confirmButtonText"),
 					onPress: () => {
 						handleDeleteMember();
 					},
@@ -65,29 +67,27 @@ const DeleteMemberPage = () => {
 
 	return (
 		<SafeAreaView style={DeleteMemberStyles.container}>
-			<TopBar topBar="회원탈퇴" color="#000" />
+			<TopBar topBar={t("deleteMember")} color="#000" />
 
 			<IconDeleteMember style={DeleteMemberStyles.iconDeleteMember} />
 			<Text style={DeleteMemberStyles.textTitle}>
-				Dife님{"\n"}정말 탈퇴하시겠어요?
+				Dife님{"\n"}
+				{t("deleteMemberConfirmation")}
 			</Text>
 			<View style={DeleteMemberStyles.containerNotice}>
 				<InfoCircle color="#B0D0FF" />
 				<Text style={DeleteMemberStyles.textNotice}>
-					탈퇴 시 작성한 게시글은 익명처리가 되며 , 댓글, 북마크,
-					좋아요 등의 모든 활동 정보가 삭제됩니다.
+					{t("postDeletionNotice")}
 				</Text>
 			</View>
 			<View style={DeleteMemberStyles.containerNotice}>
 				<InfoCircle color="#B0D0FF" />
 				<Text style={DeleteMemberStyles.textNotice}>
-					회원의 상세 정보를 포함한 계정 삭제는 일주일 이내에
-					완료되며, 삭제가 완료되기 전까지는 동일한 이메일로 재가입이
-					불가능합니다.
+					{t("accountDeletionNotice")}
 				</Text>
 			</View>
 			<Text style={DeleteMemberStyles.textReasonTitle}>
-				dife를 떠나시는 이유에 대해 알려주세요
+				{t("reasonTitle")}
 			</Text>
 
 			<View style={{ alignItems: "center" }}>
@@ -115,7 +115,7 @@ const DeleteMemberPage = () => {
 						>
 							<Text
 								style={[
-									reason === "선택해주세요"
+									reason === t("reasonOptions.pleaseSelect")
 										? DeleteMemberStyles.textReason
 										: DeleteMemberStyles.textReasonBold,
 								]}
@@ -132,38 +132,44 @@ const DeleteMemberPage = () => {
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={DeleteMemberStyles.containerReasonItem}
-							onPress={() => handleReason("불쾌한 사용자 대면")}
+							onPress={() =>
+								handleReason(t("reasonOptions.unpleasantUser"))
+							}
 						>
 							<Text style={DeleteMemberStyles.textReason}>
-								불쾌한 사용자 대면
-							</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							style={DeleteMemberStyles.containerReasonItem}
-							onPress={() => handleReason("서비스 필요성 감소")}
-						>
-							<Text style={DeleteMemberStyles.textReason}>
-								서비스 필요성 감소
+								{t("reasonOptions.unpleasantUser")}
 							</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={DeleteMemberStyles.containerReasonItem}
 							onPress={() =>
-								handleReason("안전 및 프라이버시 우려")
+								handleReason(
+									t("reasonOptions.serviceNeedDecrease"),
+								)
 							}
 						>
 							<Text style={DeleteMemberStyles.textReason}>
-								안전 및 프라이버시 우려
+								{t("reasonOptions.serviceNeedDecrease")}
 							</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={DeleteMemberStyles.containerReasonItem}
 							onPress={() =>
-								handleReason("기대에 미치지 못한 서비스 품질")
+								handleReason(t("reasonOptions.privacyConcerns"))
 							}
 						>
 							<Text style={DeleteMemberStyles.textReason}>
-								기대에 미치지 못한 서비스 품질
+								{t("reasonOptions.privacyConcerns")}
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={DeleteMemberStyles.containerReasonItem}
+							onPress={() =>
+								handleReason(t("reasonOptions.serviceQuality"))
+							}
+						>
+							<Text style={DeleteMemberStyles.textReason}>
+								{t("reasonOptions.serviceQuality")}
 							</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
@@ -171,10 +177,12 @@ const DeleteMemberPage = () => {
 								DeleteMemberStyles.containerReasonItem,
 								{ borderBottomColor: "transparent" },
 							]}
-							onPress={() => handleReason("기타")}
+							onPress={() =>
+								handleReason(t("reasonOptions.other"))
+							}
 						>
 							<Text style={DeleteMemberStyles.textReason}>
-								기타
+								{t("reasonOptions.other")}
 							</Text>
 						</TouchableOpacity>
 					</View>
@@ -193,7 +201,7 @@ const DeleteMemberPage = () => {
 					>
 						<Text
 							style={[
-								reason === "선택해주세요"
+								reason === t("reasonOptions.pleaseSelect")
 									? DeleteMemberStyles.textReason
 									: DeleteMemberStyles.textReasonBold,
 							]}
@@ -210,9 +218,9 @@ const DeleteMemberPage = () => {
 
 			<View style={DeleteMemberStyles.applyButton}>
 				<ApplyButton
-					text="회원탈퇴"
+					text={t("deleteMember")}
 					onPress={handleAlertDeleteMember}
-					disabled={reason === "선택해주세요"}
+					disabled={reason === t("reasonOptions.pleaseSelect")}
 				/>
 			</View>
 		</SafeAreaView>

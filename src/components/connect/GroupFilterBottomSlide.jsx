@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import Collapsible from "react-native-collapsible";
 import Slider from "@react-native-community/slider";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { getGroupConnectFilter } from "config/api";
@@ -35,6 +36,7 @@ const GroupFilterBottomSlide = (props) => {
 		onTotalSelection,
 		isReset,
 	} = props;
+	const { t } = useTranslation();
 	const screenHeight = Dimensions.get("screen").height;
 	const panY = useRef(new Animated.Value(screenHeight)).current;
 
@@ -97,40 +99,9 @@ const GroupFilterBottomSlide = (props) => {
 	const [selectedCategory, setSelectedCategory] = useState([]);
 	const [sliderValue, setSliderValue] = useState(null);
 
-	const hobby = [
-		"SNS",
-		"OTT",
-		"캠핑",
-		"쇼핑",
-		"드라이브",
-		"산책",
-		"반려동물",
-		"스포츠",
-		"K-POP",
-		"사진",
-		"음악",
-		"드라마",
-		"독서",
-		"그림",
-		"요리",
-		"만화",
-		"언어공부",
-		"여행",
-		"악기연주",
-		"영화",
-		"맛집",
-	];
-
-	const languages = [
-		"English / English",
-		"中文 / Chinese",
-		"日本語 / Japanese",
-		"Español / Spanish",
-		"한국어 / Korean",
-		"기타",
-	];
-
-	const categories = ["소통/친구 사귀기", "언어교환", "자유"];
+	const hobby = t("hobbyOptions", { returnObjects: true });
+	const languages = t("languages", { returnObjects: true });
+	const categories = t("categories", { returnObjects: true });
 
 	const [isCheckedList, setIsCheckedList] = useState(
 		new Array(languages.length).fill(false),
@@ -276,7 +247,8 @@ const GroupFilterBottomSlide = (props) => {
 									},
 								]}
 							>
-								주제{"  "}
+								{t("topic")}
+								{"  "}
 								{selectedHobby.length >= 1 && (
 									<Text style={styles.textSelectedNumber}>
 										{selectedHobby.length}
@@ -293,7 +265,7 @@ const GroupFilterBottomSlide = (props) => {
 							<View style={styles.infoTextContainer}>
 								<InfoCircle />
 								<Text style={styles.infoText}>
-									최대 3개까지 선택 가능
+									{t("max3Selection")}
 								</Text>
 							</View>
 							<View>
@@ -331,7 +303,8 @@ const GroupFilterBottomSlide = (props) => {
 									},
 								]}
 							>
-								언어{"  "}
+								{t("language")}
+								{"  "}
 								{selectedLanguage.length >= 1 && (
 									<Text style={styles.textSelectedNumber}>
 										{selectedLanguage.length}
@@ -348,7 +321,7 @@ const GroupFilterBottomSlide = (props) => {
 							<View style={styles.infoTextContainer}>
 								<InfoCircle />
 								<Text style={styles.infoText}>
-									중복 선택 가능
+									{t("duplicateSelection")}
 								</Text>
 							</View>
 							{languages.map((language, index) => (
@@ -373,7 +346,8 @@ const GroupFilterBottomSlide = (props) => {
 									},
 								]}
 							>
-								그룹 인원/유형{"  "}
+								{t("groupCategoryTitle")}
+								{"  "}
 								{selectedCategory.length >= 1 && (
 									<Text style={styles.textSelectedNumber}>
 										{selectedCategory.length}
@@ -389,7 +363,7 @@ const GroupFilterBottomSlide = (props) => {
 						<Collapsible collapsed={collapsedStates[0]}>
 							<View>
 								<Text style={styles.textHeadcountCategory}>
-									인원수
+									{t("headcount")}
 								</Text>
 								<View style={styles.containerSlider}>
 									<Slider
@@ -412,13 +386,14 @@ const GroupFilterBottomSlide = (props) => {
 										}
 									/>
 									<Text style={styles.textHeadcount}>
-										{sliderValue}명
+										{sliderValue}
+										{t("people")}
 									</Text>
 								</View>
 							</View>
 							<View>
 								<Text style={styles.textHeadcountCategory}>
-									유형
+									{t("category")}
 								</Text>
 								{categories.map((category, index) => (
 									<Checkbox
@@ -437,11 +412,11 @@ const GroupFilterBottomSlide = (props) => {
 					<FilterBottomTwoButtons>
 						<View
 							totalSelection={totalSelection}
-							text="전체 선택 해제"
+							text={t("clearAll")}
 							onPress={() => reset()}
 							disabled={totalSelection === 0}
 						/>
-						<View text="적용하기" onPress={handleGroupFilter} />
+						<View text={t("apply")} onPress={handleGroupFilter} />
 					</FilterBottomTwoButtons>
 				</Animated.View>
 			</View>

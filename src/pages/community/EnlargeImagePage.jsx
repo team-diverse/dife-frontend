@@ -12,6 +12,7 @@ import {
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
+import { useTranslation } from "react-i18next";
 
 import EnlargeImageStyles from "@pages/community/EnlargeImageStyles";
 
@@ -20,6 +21,7 @@ import IconImageDownload from "@components/common/IconImageDownload";
 
 const EnlargeImagePage = ({ route }) => {
 	const { images, initialIndex } = route.params;
+	const { t } = useTranslation();
 
 	const [selectedImageIndex, setSelectedImageIndex] = useState(initialIndex);
 
@@ -55,7 +57,10 @@ const EnlargeImagePage = ({ route }) => {
 		const { status } =
 			await ImagePicker.requestMediaLibraryPermissionsAsync();
 		if (status !== "granted") {
-			Alert.alert("알림", "설정에서 이미지 권한을 허용해주세요.");
+			Alert.alert(
+				t("imagePermissionAlertTitle"),
+				t("imagePermissionAlertMessage"),
+			);
 			return;
 		}
 
@@ -68,13 +73,13 @@ const EnlargeImagePage = ({ route }) => {
 			const asset = await MediaLibrary.createAssetAsync(fileUri);
 			await MediaLibrary.createAlbumAsync("Download", asset, false);
 
-			Alert.alert("", "이미지가 성공적으로 저장되었습니다.");
+			Alert.alert("", t("saveImageSuccess"));
 		} catch (error) {
 			console.error(
 				"이미지 저장 실패:",
 				error.response ? error.response.data : error.message,
 			);
-			Alert.alert("", "이미지 저장에 실패하였습니다.");
+			Alert.alert("", t("saveImageFailure"));
 		}
 	};
 
@@ -137,7 +142,7 @@ const EnlargeImagePage = ({ route }) => {
 				>
 					<IconImageDownload />
 					<Text style={EnlargeImageStyles.textDownload}>
-						이미지 저장하기
+						{t("saveImageButton")}
 					</Text>
 				</TouchableOpacity>
 			</View>

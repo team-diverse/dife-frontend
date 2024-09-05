@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import {
@@ -22,6 +23,7 @@ const ItemRequestConnectList = ({
 	imageName,
 	received = false,
 }) => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const iconRef = useRef();
@@ -103,7 +105,7 @@ const ItemRequestConnectList = ({
 										{ color: CustomTheme.primaryMedium },
 									]}
 								>
-									수락
+									{t("accept")}
 								</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
@@ -119,13 +121,15 @@ const ItemRequestConnectList = ({
 										{ color: CustomTheme.warningRed },
 									]}
 								>
-									거절
+									{t("reject")}
 								</Text>
 							</TouchableOpacity>
 						</>
 					) : (
 						<>
-							<Text style={styles.textPending}>수락 대기중</Text>
+							<Text style={styles.textPending}>
+								{t("pending")}
+							</Text>
 							<TouchableOpacity>
 								<View style={styles.rectangleChat}>
 									<IconSend />

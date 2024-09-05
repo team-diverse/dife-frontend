@@ -3,6 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useTranslation } from "react-i18next";
 
 import MemberStyles from "@pages/member/MemberStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -24,6 +25,7 @@ import IconBookmark from "@components/member/IconBookmark";
 import * as Sentry from "@sentry/react-native";
 
 const MemberPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 	const Tab = createMaterialTopTabNavigator();
 
@@ -106,7 +108,7 @@ const MemberPage = () => {
 						>
 							<IconFriendList />
 							<Text style={MemberStyles.textIcon}>
-								커넥트 목록
+								{t("connectList")}
 							</Text>
 						</TouchableOpacity>
 						<View style={MemberStyles.line} />
@@ -115,7 +117,9 @@ const MemberPage = () => {
 							onPress={() => navigation.navigate("MyPostPage")}
 						>
 							<IconMyPost />
-							<Text style={MemberStyles.textIcon}>나의 글</Text>
+							<Text style={MemberStyles.textIcon}>
+								{t("myPosts")}
+							</Text>
 						</TouchableOpacity>
 					</View>
 				</SafeAreaView>

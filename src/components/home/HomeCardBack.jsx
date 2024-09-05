@@ -14,7 +14,7 @@ import { getMyMemberId } from "util/secureStoreUtils";
 import HomecardDifeB from "@components/home/HomecardDifeB";
 import HomeProfile from "@components/home/HomeProfile";
 import HomecardBackBtn from "@components/home/HomecardBackBtn.js";
-import ConnectRequest from "@components/ConnectRequest";
+import ModalRequest from "@components/common/ModalRequest";
 import * as Sentry from "@sentry/react-native";
 
 const { fontCaption } = CustomTheme;
@@ -131,11 +131,11 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 					onPress={pressButton}
 				/>
 			</View>
-			<ConnectRequest
+			<ModalRequest
 				modalVisible={modalVisible}
 				setModalVisible={setModalVisible}
-				textLoading={t("emailSendingText")}
-				textComplete={t("emailSentText")}
+				textLoading={t("connectRequestInProgress")}
+				textComplete={t("connectRequestComplete")}
 			/>
 		</View>
 	);

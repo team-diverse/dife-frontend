@@ -15,6 +15,7 @@ import {
 	Image,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import PostStyles from "@pages/community/PostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -46,6 +47,7 @@ import ModalKebabMenu from "@components/community/ModalKebabMenu";
 import * as Sentry from "@sentry/react-native";
 
 const PostPage = ({ route }) => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [modalVisible, setModalVisible] = useState(false);
@@ -122,7 +124,7 @@ const PostPage = ({ route }) => {
 					if (postByIdResponse.data.isPublic === false) {
 						setWriterName(postByIdResponse.data.writer.username);
 					} else if (postByIdResponse.data.isPublic === true) {
-						setWriterName("익명");
+						setWriterName(t("anonymousCheckboxLabel"));
 					}
 
 					if (myMemberId === postByIdResponse.data.writer.id) {
@@ -321,14 +323,14 @@ const PostPage = ({ route }) => {
 	const bookmarkDeleteAlert = () => {
 		Alert.alert(
 			"",
-			"북마크를 취소하시겠습니까?",
+			t("bookmarkCancelConfirmation"),
 			[
 				{
-					text: "취소",
+					text: t("cancelButton"),
 					style: "cancel",
 				},
 				{
-					text: "확인",
+					text: t("confirmButtonText"),
 					onPress: () => {
 						setBookmark((prevBookmark) => prevBookmark - 1);
 						setPressBookmark(false);
@@ -361,7 +363,7 @@ const PostPage = ({ route }) => {
 	return (
 		<SafeAreaView style={PostStyles.container}>
 			<View onLayout={handleTopBarLayout}>
-				<TopBar topBar="게시판" color="#000" />
+				<TopBar topBar={t("boardTitle")} color="#000" />
 			</View>
 			<ScrollView onScroll={handleScroll}>
 				<View style={PostStyles.containerWhite}>
@@ -474,7 +476,7 @@ const PostPage = ({ route }) => {
 						</TouchableOpacity>
 						<TouchableOpacity style={PostStyles.textTranslation}>
 							<Text style={PostStyles.textTranslation}>
-								번역하기
+								{t("translateButton")}
 							</Text>
 						</TouchableOpacity>
 					</View>
@@ -517,7 +519,7 @@ const PostPage = ({ route }) => {
 							onPress={() => {
 								handlePress();
 							}}
-							text="익명"
+							text={t("anonymousCheckboxLabel")}
 							basic="true"
 						/>
 					</View>
@@ -525,9 +527,7 @@ const PostPage = ({ route }) => {
 						style={PostStyles.textInputComment}
 						ref={commentRef}
 						placeholder={
-							isReplying
-								? "대댓글을 입력해주세요"
-								: "댓글을 입력해주세요"
+							isReplying ? t("replyPrompt") : t("commentPrompt")
 						}
 						onChangeText={(text) => onChangeComment(text)}
 						value={valueComment}

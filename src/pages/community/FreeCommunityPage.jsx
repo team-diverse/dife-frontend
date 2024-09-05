@@ -9,6 +9,7 @@ import {
 	ScrollView,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import FreeCommunityStyles from "@pages/community/FreeCommunityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -26,6 +27,7 @@ import IconSearchFail from "@components/common/IconSearchFail";
 import * as Sentry from "@sentry/react-native";
 
 const FreeCommunityPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const handleGoBack = () => {
@@ -99,7 +101,7 @@ const FreeCommunityPage = () => {
 				style={FreeCommunityStyles.iconPostPlus}
 				onPress={() =>
 					navigation.navigate("WritePage", {
-						noticeboard: "자유게시판",
+						noticeboard: t("freeBoard"),
 					})
 				}
 			>
@@ -117,7 +119,7 @@ const FreeCommunityPage = () => {
 						<ArrowRight color={CustomTheme.bgBasic} />
 					</TouchableOpacity>
 					<Text style={FreeCommunityStyles.textChattingTitle}>
-						자유게시판
+						{t("freeBoard")}
 					</Text>
 					<IconBookmark style={FreeCommunityStyles.iconBookmark} />
 				</View>
@@ -131,7 +133,7 @@ const FreeCommunityPage = () => {
 									paddingLeft: 40,
 								},
 							]}
-							placeholder="검색"
+							placeholder={t("searchPlaceholder")}
 							value={searchTerm}
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}
@@ -166,7 +168,7 @@ const FreeCommunityPage = () => {
 						<View style={FreeCommunityStyles.containerFail}>
 							<IconSearchFail />
 							<Text style={FreeCommunityStyles.textFail}>
-								일치하는 검색 결과가 없습니다
+								{t("searchNoResults")}
 							</Text>
 						</View>
 					) : (

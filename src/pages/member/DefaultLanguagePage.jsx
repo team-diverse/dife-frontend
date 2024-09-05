@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { SafeAreaView, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import DefaultLanguageStyles from "@pages/member/DefaultLanguageStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
@@ -8,6 +9,7 @@ import TopBar from "@components/common/TopBar";
 import RadioButtonGroup from "@components/RadioButton/RadioButtonGroup";
 
 const DefaultLanguagePage = () => {
+	const { t } = useTranslation();
 	const [selected, setSelected] = useState("");
 
 	const handleRadioButtonSelect = (value) => {
@@ -16,16 +18,16 @@ const DefaultLanguagePage = () => {
 
 	return (
 		<SafeAreaView style={DefaultLanguageStyles.container}>
-			<TopBar topBar="기본 언어 설정" color="#000" />
+			<TopBar topBar={t("defaultLanguageSettings")} color="#000" />
 
 			<View style={DefaultLanguageStyles.radioButtonGroup}>
 				<RadioButtonGroup
 					values={[
-						"English / English",
-						"中文 / Chinese",
-						"日本語 / Japanese",
-						"Español / Spanish",
-						"한국어 / Korean",
+						t("english"),
+						t("chinese"),
+						t("japanese"),
+						t("spanish"),
+						t("korean"),
 					]}
 					value={selected}
 					onValueChange={handleRadioButtonSelect}

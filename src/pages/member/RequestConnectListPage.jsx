@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, View, Text, FlatList } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import RequestConnectListStyles from "@pages/member/RequestConnectListStyles";
 import { getMyPendingConnects } from "config/api";
@@ -8,6 +9,7 @@ import { getMyMemberId } from "util/secureStoreUtils";
 import ItemRequestConnectList from "@components/member/ItemRequestConnectList";
 
 const RequestConnectListPage = () => {
+	const { t } = useTranslation();
 	const [sentConnects, setSentConnects] = useState([]);
 	const [receivedConnects, setReceivedConnects] = useState([]);
 
@@ -44,7 +46,8 @@ const RequestConnectListPage = () => {
 		<SafeAreaView style={RequestConnectListStyles.container}>
 			<View style={RequestConnectListStyles.containerList}>
 				<Text style={RequestConnectListStyles.textRequest}>
-					받은 요청{"   "}
+					{t("receivedRequests")}
+					{"   "}
 					<Text style={RequestConnectListStyles.textRequestNumber}>
 						{receivedConnects.length}
 					</Text>
@@ -67,7 +70,8 @@ const RequestConnectListPage = () => {
 			<View style={RequestConnectListStyles.line} />
 			<View style={RequestConnectListStyles.containerList}>
 				<Text style={RequestConnectListStyles.textRequest}>
-					보낸 요청{"   "}
+					{t("sentRequests")}
+					{"   "}
 					<Text style={RequestConnectListStyles.textRequestNumber}>
 						{sentConnects.length}
 					</Text>

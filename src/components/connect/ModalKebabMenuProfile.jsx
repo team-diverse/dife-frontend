@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import Modal from "react-native-modal";
 import * as Sharing from "expo-sharing";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { createBlockMemberByMemberId } from "config/api";
@@ -18,6 +19,7 @@ const ModalKebabMenuProfile = ({
 	groupId,
 	position,
 }) => {
+	const { t } = useTranslation();
 	const [modalReportVisible, setModalReportVisible] = useState(false);
 
 	const handleReport = () => {
@@ -28,14 +30,14 @@ const ModalKebabMenuProfile = ({
 		setModalVisible(false);
 		Alert.alert(
 			"",
-			"사용자를 차단하겠습니까?",
+			t("blockUserConfirmation"),
 			[
 				{
-					text: "취소",
+					text: t("cancelButton"),
 					style: "cancel",
 				},
 				{
-					text: "확인",
+					text: t("confirmButtonText"),
 					onPress: () => {
 						handleBlock();
 					},
@@ -50,10 +52,10 @@ const ModalKebabMenuProfile = ({
 			await createBlockMemberByMemberId(memberId);
 			Alert.alert(
 				"",
-				"사용자를 차단하였습니다.",
+				t("userBlocked"),
 				[
 					{
-						text: "확인",
+						text: t("confirmButtonText"),
 					},
 				],
 				{ cancelable: false },
@@ -72,9 +74,7 @@ const ModalKebabMenuProfile = ({
 
 	const handleShare = async (id, type) => {
 		if (!(await Sharing.isAvailableAsync())) {
-			Alert.alert(
-				"해당 기종에서 프로필 공유 기능을 사용하기 어렵습니다.",
-			);
+			Alert.alert(t("shareError"));
 			return;
 		}
 
@@ -104,7 +104,7 @@ const ModalKebabMenuProfile = ({
 			{groupId ? (
 				<View style={styles.rectangleIsGroup}>
 					<TouchableOpacity onPress={handleShareProfile}>
-						<Text style={styles.textIsMe}>프로필 공유</Text>
+						<Text style={styles.textIsMe}>{t("profileShare")}</Text>
 					</TouchableOpacity>
 					<View style={styles.line} />
 					<TouchableOpacity
@@ -117,25 +117,25 @@ const ModalKebabMenuProfile = ({
 								{ color: CustomTheme.warningRed },
 							]}
 						>
-							신고
+							{t("report")}
 						</Text>
 						<InfoCircle color={CustomTheme.warningRed} />
 					</TouchableOpacity>
 					<Report
 						modalVisible={modalReportVisible}
 						setModalVisible={setModalReportVisible}
-						reportTitle="그룹 프로필 신고"
+						reportTitle={t("reportGroupProfile")}
 						groupId={groupId}
 					/>
 				</View>
 			) : (
 				<View style={styles.rectangle}>
 					<TouchableOpacity onPress={handleShareProfile}>
-						<Text style={styles.textIsMe}>프로필 공유</Text>
+						<Text style={styles.textIsMe}>{t("profileShare")}</Text>
 					</TouchableOpacity>
 					<View style={styles.line} />
 					<TouchableOpacity onPress={handleBlockAlert}>
-						<Text style={styles.textIsMe}>차단</Text>
+						<Text style={styles.textIsMe}>{t("block")}</Text>
 					</TouchableOpacity>
 					<View style={styles.line} />
 					<TouchableOpacity
@@ -148,14 +148,14 @@ const ModalKebabMenuProfile = ({
 								{ color: CustomTheme.warningRed },
 							]}
 						>
-							신고
+							{t("report")}
 						</Text>
 						<InfoCircle color={CustomTheme.warningRed} />
 					</TouchableOpacity>
 					<Report
 						modalVisible={modalReportVisible}
 						setModalVisible={setModalReportVisible}
-						reportTitle="개인 프로필 신고"
+						reportTitle={t("reportIndividualProfile")}
 						memberId={memberId}
 					/>
 				</View>

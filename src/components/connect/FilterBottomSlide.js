@@ -11,6 +11,7 @@ import {
 	TouchableOpacity,
 	ScrollView,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { getConnectFilter } from "config/api";
@@ -34,6 +35,8 @@ const FilterBottomSlide = ({
 	onTotalSelection,
 	isReset,
 }) => {
+	const { t } = useTranslation();
+
 	const screenHeight = Dimensions.get("screen").height;
 	const panY = useRef(new Animated.Value(screenHeight)).current;
 
@@ -95,57 +98,9 @@ const FilterBottomSlide = ({
 	const [selectedHobby, setSelectedHobby] = useState([]);
 	const [selectedLanguage, setSelectedLanguage] = useState([]);
 
-	const mbti = [
-		"ISTP",
-		"ISFP",
-		"ENTP",
-		"ISFJ",
-		"INFJ",
-		"ENTJ",
-		"INFP",
-		"INTP",
-		"ESFP",
-		"ESTP",
-		"ESFJ",
-		"INTJ",
-		"ESTJ",
-		"ENFP",
-		"ISTJ",
-		"ENFJ",
-	];
-
-	const hobby = [
-		"SNS",
-		"OTT",
-		"캠핑",
-		"쇼핑",
-		"드라이브",
-		"산책",
-		"반려동물",
-		"스포츠",
-		"K-POP",
-		"사진",
-		"음악",
-		"드라마",
-		"독서",
-		"그림",
-		"요리",
-		"만화",
-		"언어공부",
-		"여행",
-		"악기연주",
-		"영화",
-		"맛집",
-	];
-
-	const languages = [
-		"English / English",
-		"中文 / Chinese",
-		"日本語 / Japanese",
-		"Español / Spanish",
-		"한국어 / Korean",
-		"기타",
-	];
+	const mbti = t("mbtiOptions", { returnObjects: true });
+	const hobby = t("hobbyOptions", { returnObjects: true });
+	const languages = t("languages", { returnObjects: true });
 
 	const [isCheckedList, setIsCheckedList] = useState(
 		new Array(languages.length).fill(false),
@@ -279,7 +234,8 @@ const FilterBottomSlide = ({
 									},
 								]}
 							>
-								MBTI{"  "}
+								{t("mbti")}
+								{"  "}
 								{selectedMBTI.length >= 1 && (
 									<Text style={styles.textSelectedNumber}>
 										{selectedMBTI.length}
@@ -296,7 +252,7 @@ const FilterBottomSlide = ({
 							<View style={styles.infoTextContainer}>
 								<InfoCircle />
 								<Text style={styles.infoText}>
-									최대 3개까지 선택 가능
+									{t("max3Selection")}
 								</Text>
 							</View>
 							<View style={styles.containerMbti}>
@@ -337,7 +293,8 @@ const FilterBottomSlide = ({
 									},
 								]}
 							>
-								취미/관심사{"  "}
+								{t("hobby")}
+								{"  "}
 								{selectedHobby.length >= 1 && (
 									<Text style={styles.textSelectedNumber}>
 										{selectedHobby.length}
@@ -354,7 +311,7 @@ const FilterBottomSlide = ({
 							<View style={styles.infoTextContainer}>
 								<InfoCircle />
 								<Text style={styles.infoText}>
-									최대 3개까지 선택 가능
+									{t("max3Selection")}
 								</Text>
 							</View>
 							<View>
@@ -395,7 +352,8 @@ const FilterBottomSlide = ({
 									},
 								]}
 							>
-								언어{"  "}
+								{t("language")}
+								{"  "}
 								{selectedLanguage.length >= 1 && (
 									<Text style={styles.textSelectedNumber}>
 										{selectedLanguage.length}
@@ -412,7 +370,7 @@ const FilterBottomSlide = ({
 							<View style={styles.infoTextContainer}>
 								<InfoCircle />
 								<Text style={styles.infoText}>
-									중복 선택 가능
+									{t("duplicateSelection")}
 								</Text>
 							</View>
 							{languages.map((language, index) => (
@@ -429,11 +387,11 @@ const FilterBottomSlide = ({
 					<FilterBottomTwoButtons>
 						<View
 							totalSelection={totalSelection}
-							text="전체 선택 해제"
+							text={t("clearAll")}
 							onPress={() => reset()}
 							disabled={totalSelection === 0}
 						/>
-						<View text="적용하기" onPress={handleFilter} />
+						<View text={t("apply")} onPress={handleFilter} />
 					</FilterBottomTwoButtons>
 				</Animated.View>
 			</View>

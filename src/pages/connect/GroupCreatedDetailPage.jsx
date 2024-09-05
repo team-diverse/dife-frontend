@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Slider from "@react-native-community/slider";
+import { useTranslation } from "react-i18next";
 
 import GroupCreatedDetailStyles from "@pages/connect/GroupCreatedDetailStyles";
 import { useCreateGroup } from "src/states/CreateGroupDataContext.js";
@@ -25,6 +26,7 @@ import RadioButtonGroup from "@components/RadioButton/RadioButtonGroup";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 
 const GroupCreatedDetailPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const handleKeyboard = () => {
@@ -36,40 +38,9 @@ const GroupCreatedDetailPage = () => {
 	const [selectedCategory, setSelectedCategory] = useState([]);
 	const [sliderValue, setSliderValue] = useState(3);
 
-	const hobby = [
-		"SNS",
-		"OTT",
-		"캠핑",
-		"쇼핑",
-		"드라이브",
-		"산책",
-		"반려동물",
-		"스포츠",
-		"K-POP",
-		"사진",
-		"음악",
-		"드라마",
-		"독서",
-		"그림",
-		"요리",
-		"만화",
-		"언어공부",
-		"여행",
-		"악기연주",
-		"영화",
-		"맛집",
-	];
-
-	const languages = [
-		"English / English",
-		"中文 / Chinese",
-		"日本語 / Japanese",
-		"Español / Spanish",
-		"한국어 / Korean",
-		"기타",
-	];
-
-	const categories = ["소통/친구 사귀기", "언어교환", "자유"];
+	const hobby = t("hobbyOptions", { returnObjects: true });
+	const languages = t("languages", { returnObjects: true });
+	const categories = t("categories", { returnObjects: true });
 
 	const [isCheckedList, setIsCheckedList] = useState(
 		new Array(languages.length).fill(false),
@@ -133,7 +104,7 @@ const GroupCreatedDetailPage = () => {
 		}
 	};
 
-	const reportTypes = ["공개", "비공개"];
+	const reportTypes = [t("public"), t("private")];
 	const [selected, setSelected] = useState("");
 	const handleRadioButtonSelect = (value) => {
 		setSelected(value);
@@ -148,7 +119,7 @@ const GroupCreatedDetailPage = () => {
 			languages: selectedLanguage,
 			purposes: selectedCategory,
 			maxCount: sliderValue,
-			isPublic: selected === "공개" ? true : false,
+			isPublic: selected === t("public") ? true : false,
 			groupPassword: passwordInput || null,
 		});
 		navigation.navigate("GroupProfilePreviewPage");
@@ -161,7 +132,7 @@ const GroupCreatedDetailPage = () => {
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					style={GroupCreatedDetailStyles.container}
 				>
-					<TopBar topBar="그룹 채팅방 만들기" color="#000" />
+					<TopBar topBar={t("createGroup")} color="#000" />
 					<ScrollView>
 						<View style={{ marginTop: 26 }}>
 							<Text
@@ -169,13 +140,13 @@ const GroupCreatedDetailPage = () => {
 									GroupCreatedDetailStyles.textGroupChatSetting
 								}
 							>
-								채팅방 설정
+								{t("chatRoomSettings")}
 							</Text>
 						</View>
 
 						<View style={GroupCreatedDetailStyles.containerItem}>
 							<Text style={GroupCreatedDetailStyles.textTitle}>
-								주제
+								{t("topics")}
 							</Text>
 							<View
 								style={
@@ -184,7 +155,7 @@ const GroupCreatedDetailPage = () => {
 							>
 								<InfoCircle />
 								<Text style={GroupCreatedDetailStyles.infoText}>
-									최대 4개까지 선택 가능
+									{t("max4Selection")}
 								</Text>
 							</View>
 							<View>
@@ -214,7 +185,7 @@ const GroupCreatedDetailPage = () => {
 
 						<View style={GroupCreatedDetailStyles.containerItem}>
 							<Text style={GroupCreatedDetailStyles.textTitle}>
-								언어
+								{t("language")}
 							</Text>
 							<View
 								style={
@@ -223,7 +194,7 @@ const GroupCreatedDetailPage = () => {
 							>
 								<InfoCircle />
 								<Text style={GroupCreatedDetailStyles.infoText}>
-									최대 2개까지 선택 가능
+									{t("max2Selection")}
 								</Text>
 							</View>
 							{languages.map((language, index) => (
@@ -238,7 +209,7 @@ const GroupCreatedDetailPage = () => {
 
 						<View style={GroupCreatedDetailStyles.containerItem}>
 							<Text style={GroupCreatedDetailStyles.textTitle}>
-								유형
+								{t("category")}
 							</Text>
 							<View
 								style={
@@ -247,7 +218,7 @@ const GroupCreatedDetailPage = () => {
 							>
 								<InfoCircle />
 								<Text style={GroupCreatedDetailStyles.infoText}>
-									최대 2개까지 선택 가능
+									{t("max2Selection")}
 								</Text>
 							</View>
 							{categories.map((category, index) => (
@@ -262,7 +233,7 @@ const GroupCreatedDetailPage = () => {
 
 						<View style={GroupCreatedDetailStyles.containerItem}>
 							<Text style={GroupCreatedDetailStyles.textTitle}>
-								그룹 멤버 수 제한
+								{t("memberLimitTitle")}
 							</Text>
 							<View
 								style={GroupCreatedDetailStyles.containerSlider}
@@ -314,14 +285,15 @@ const GroupCreatedDetailPage = () => {
 										GroupCreatedDetailStyles.textHeadcount
 									}
 								>
-									{sliderValue}명 제한
+									{sliderValue}
+									{t("membersLimit")}
 								</Text>
 							</View>
 						</View>
 
 						<View style={GroupCreatedDetailStyles.containerItem}>
 							<Text style={GroupCreatedDetailStyles.textTitle}>
-								공개 유무
+								{t("visibility")}
 							</Text>
 							<View
 								style={
@@ -333,12 +305,14 @@ const GroupCreatedDetailPage = () => {
 									selected={selected}
 									onValueChange={handleRadioButtonSelect}
 								/>
-								{selected === "비공개" && (
+								{selected === t("private") && (
 									<TextInput
 										style={
 											GroupCreatedDetailStyles.textInputPassword
 										}
-										placeholder="숫자 5자리 비밀번호를 입력해주세요"
+										placeholder={t(
+											"groupPasswordPlaceholder",
+										)}
 										value={passwordInput}
 										onChangeText={setPasswordInput}
 										maxLength={5}
@@ -353,18 +327,18 @@ const GroupCreatedDetailPage = () => {
 				<View style={GroupCreatedDetailStyles.bottomTwoButtons}>
 					<BottomTwoButtons shadow="true">
 						<View
-							text="뒤로가기"
+							text={t("backButton")}
 							onPress={() => navigation.goBack()}
 						/>
 						<View
-							text="다음"
+							text={t("nextButton")}
 							onPress={handleGroupInfo}
 							disabled={
 								selectedHobby.length === 0 ||
 								selectedLanguage.length === 0 ||
 								selectedCategory.length === 0 ||
 								selected === "" ||
-								(selected === "비공개" &&
+								(selected === t("private") &&
 									passwordInput.length !== 5)
 							}
 						/>

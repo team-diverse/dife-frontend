@@ -2,11 +2,13 @@ import React, { useState, useCallback, useEffect } from "react";
 import { SafeAreaView, View, Text, TextInput, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Slider from "@react-native-community/slider";
+import { useTranslation } from "react-i18next";
 
 import ModifyGroupProfileInputStyles from "@pages/member/ModifyGroupProfileInputStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { checkUsername, updateGroupProfile } from "config/api";
 import { debounce } from "util/debounce";
+import i18n from "i18next";
 
 import ModifyProfileTopBar from "@components/common/ModifyProfileTopBar";
 import FilterCategory from "@components/connect/FilterCategory";
@@ -16,6 +18,7 @@ import * as Sentry from "@sentry/react-native";
 import RadioButtonGroup from "@components/RadioButton/RadioButtonGroup";
 
 const ModifyGroupProfileInputPage = ({ route }) => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 	const {
 		profileData,
@@ -42,21 +45,15 @@ const ModifyGroupProfileInputPage = ({ route }) => {
 
 		const categoryEnumToKorean = (enumValue) => {
 			const enumMap = {
-				[CategoryEnum.COMMUNICATION]: "소통/친구 사귀기",
-				[CategoryEnum.EXCHANGE]: "언어교환",
-				[CategoryEnum.FREE]: "자유",
+				[CategoryEnum.COMMUNICATION]: [i18n.t("communication")],
+				[CategoryEnum.EXCHANGE]: [i18n.t("exchange")],
+				[CategoryEnum.FREE]: [i18n.t("free")],
 			};
 			return enumMap[enumValue] || enumValue;
 		};
 
 		setSelectedCategory(categoryEnumToKorean(filteredPurpose));
 		setSelectedHobby(filteredHobby);
-
-		console.log(hobbiesContent);
-		console.log(purposesContent);
-		console.log(languageContent);
-		console.log(isPublicContent);
-		console.log(maxCountContent);
 	}, []);
 
 	const [originalProfile] = useState(profileData);
@@ -67,46 +64,16 @@ const ModifyGroupProfileInputPage = ({ route }) => {
 	const [selectedLanguage, setSelectedLanguage] = useState(languageContent);
 	const [selectedCategory, setSelectedCategory] = useState([]);
 	const [selected, setSelected] = useState(
-		isPublicContent ? "공개" : "비공개",
+		isPublicContent ? t("public") : t("private"),
 	);
 	const [passwordInput, setPasswordInput] = useState("");
 	const [maxCount, setMaxCount] = useState(maxCountContent);
 
-	const reportTypes = ["공개", "비공개"];
+	const reportTypes = [t("public"), t("private")];
 
-	const hobby = [
-		"SNS",
-		"OTT",
-		"캠핑",
-		"쇼핑",
-		"드라이브",
-		"산책",
-		"반려동물",
-		"스포츠",
-		"K-POP",
-		"사진",
-		"음악",
-		"드라마",
-		"독서",
-		"그림",
-		"요리",
-		"만화",
-		"언어공부",
-		"여행",
-		"악기연주",
-		"영화",
-		"맛집",
-	];
-	const languages = [
-		"English / English",
-		"中文 / Chinese",
-		"日本語 / Japanese",
-		"Español / Spanish",
-		"한국어 / Korean",
-		"기타",
-	];
-
-	const categories = ["소통/친구 사귀기", "언어교환", "자유"];
+	const hobby = t("hobbyOptions", { returnObjects: true });
+	const languages = t("languages", { returnObjects: true });
+	const categories = t("categories", { returnObjects: true });
 
 	const defaultLanguages =
 		languageContent.length === 0 ? ["", "", "", "", ""] : languageContent;
@@ -233,11 +200,14 @@ const ModifyGroupProfileInputPage = ({ route }) => {
 				formData.append("languages", selectedLanguage);
 			}
 			if (
-				(selected === "공개" ? true : false) !==
+				(selected === t("public") ? true : false) !==
 				originalProfile.isPublic
 			) {
-				formData.append("isPublic", selected === "공개" ? true : false);
-				if (selected === "비공개") {
+				formData.append(
+					"isPublic",
+					selected === t("public") ? true : false,
+				);
+				if (selected === t("private")) {
 					formData.append("password", passwordInput);
 				}
 			}
@@ -323,7 +293,7 @@ const ModifyGroupProfileInputPage = ({ route }) => {
 							ModifyGroupProfileInputStyles.textAvailableNickname
 						}
 					>
-						사용 가능한 닉네임이에요.
+						{t("nicknameAvailable")}
 					</Text>
 				) : (
 					<Text
@@ -331,14 +301,14 @@ const ModifyGroupProfileInputPage = ({ route }) => {
 							ModifyGroupProfileInputStyles.textUnavailableNickname
 						}
 					>
-						이미 사용 중인 닉네임이에요.
+						{t("nicknameUnavailable")}
 					</Text>
 				))}
 
 			{hobbiesContent.length > 0 && purposesContent.length > 0 && (
 				<ScrollView>
 					<Text style={ModifyGroupProfileInputStyles.textTagTitle}>
-						주제
+						{t("subject")}
 					</Text>
 					<View style={ModifyGroupProfileInputStyles.line} />
 					<View
@@ -346,7 +316,7 @@ const ModifyGroupProfileInputPage = ({ route }) => {
 					>
 						<InfoCircle />
 						<Text style={ModifyGroupProfileInputStyles.infoText}>
-							최대 3개까지 선택 가능
+							{t("maxSelectionInfo")}
 						</Text>
 					</View>
 					<View>
@@ -371,7 +341,7 @@ const ModifyGroupProfileInputPage = ({ route }) => {
 					</View>
 
 					<Text style={ModifyGroupProfileInputStyles.textTagTitle}>
-						유형
+						{t("category")}
 					</Text>
 					<View style={ModifyGroupProfileInputStyles.line} />
 					{categories.map((category, index) => (
@@ -409,12 +379,12 @@ const ModifyGroupProfileInputPage = ({ route }) => {
 						value={selected}
 						onValueChange={handleRadioButtonSelect}
 					/>
-					{selected === "비공개" && (
+					{selected === t("private") && (
 						<TextInput
 							style={
 								ModifyGroupProfileInputStyles.textInputPassword
 							}
-							placeholder="숫자 5자리 비밀번호를 입력해주세요"
+							placeholder={t("passwordPlaceholder")}
 							value={passwordInput}
 							onChangeText={setPasswordInput}
 							maxLength={5}
@@ -464,7 +434,8 @@ const ModifyGroupProfileInputPage = ({ route }) => {
 						</View>
 					</View>
 					<Text style={ModifyGroupProfileInputStyles.textHeadcount}>
-						{maxCount}명 제한
+						{maxCount}
+						{t("memberLimit")}
 					</Text>
 				</View>
 			)}

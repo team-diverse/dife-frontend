@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, SafeAreaView, FlatList } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import GroupListStyles from "@pages/member/GroupListStyles";
 import { getChatroomsByType } from "config/api";
@@ -8,6 +9,7 @@ import TopBar from "@components/common/TopBar";
 import GroupList from "@components/member/GroupList";
 
 const GroupListPage = () => {
+	const { t } = useTranslation();
 	const [chiefChatRoomList, setChiefChatRoomList] = useState([]);
 	const [belongToChatRoomList, setBelongToChatRoomList] = useState([]);
 
@@ -36,9 +38,10 @@ const GroupListPage = () => {
 
 	return (
 		<SafeAreaView style={GroupListStyles.container}>
-			<TopBar topBar="그룹 목록" color="#000" />
+			<TopBar topBar={t("groupList")} color="#000" />
 			<Text style={[GroupListStyles.textFriend, { marginTop: 22 }]}>
-				내가 만든 그룹{"   "}
+				{t("myGroups")}
+				{"   "}
 				<Text style={GroupListStyles.textNumber}>
 					{chiefChatRoomList.length}
 				</Text>
@@ -51,7 +54,8 @@ const GroupListPage = () => {
 			/>
 			<View style={GroupListStyles.line} />
 			<Text style={GroupListStyles.textFriend}>
-				내가 가입한 그룹{"   "}
+				{t("joinedGroups")}
+				{"   "}
 				<Text style={GroupListStyles.textNumber}>
 					{belongToChatRoomList.length}
 				</Text>
