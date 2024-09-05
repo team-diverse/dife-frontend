@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { SafeAreaView, View, ScrollView } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
 
 import MyPostStyles from "@pages/member/MyPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -9,10 +8,8 @@ import { getMyComments } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ItemCommunity from "@components/community/ItemCommunity";
-import * as Sentry from "@sentry/react-native";
 
 const MyCommentPage = () => {
-	const { t } = useTranslation();
 	const [myCommentList, setMyCommentList] = useState();
 
 	const getMyCommentList = async () => {
@@ -20,7 +17,6 @@ const MyCommentPage = () => {
 			const response = await getMyComments();
 			setMyCommentList(response.data);
 		} catch (error) {
-			Sentry.captureException(error);
 			console.error(
 				"내가 쓴 글 조회 오류:",
 				error.response ? error.response.data : error.message,
@@ -37,7 +33,7 @@ const MyCommentPage = () => {
 	return (
 		<SafeAreaView style={MyPostStyles.container}>
 			<TopBar
-				topBar={t("myComments")}
+				topBar="내가 단 댓글"
 				color="#000"
 				backgroundColor={CustomTheme.primaryBg}
 			/>

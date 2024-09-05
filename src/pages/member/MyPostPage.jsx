@@ -1,20 +1,16 @@
 import React, { useState, useCallback } from "react";
 import { SafeAreaView, View, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
 
 import MyPostStyles from "@pages/member/MyPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { getMyPosts, getMyComments } from "config/api";
-import { communityPresignUrl } from "util/communityPresignUrl";
 
 import TopBar from "@components/common/TopBar";
 import ArrowRight from "@components/common/ArrowRight";
 import ItemCommunity from "@components/community/ItemCommunity";
-import * as Sentry from "@sentry/react-native";
 
 const MyPostPage = () => {
-	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [myPostList, setMyPostList] = useState();
@@ -23,13 +19,11 @@ const MyPostPage = () => {
 	const getMyPostList = async () => {
 		try {
 			const myPost = await getMyPosts();
-			const presignUrl = await communityPresignUrl(myPost.data);
-			setMyPostList(presignUrl.slice(0, 3));
+			setMyPostList(myPost.data.slice(0, 3));
 
 			const myComment = await getMyComments();
 			setMyCommentList(myComment.data.slice(0, 3));
 		} catch (error) {
-			Sentry.captureException(error);
 			console.error(
 				"내가 쓴 글 및 쓴 댓글 조회 오류:",
 				error.response ? error.response.data : error.message,
@@ -46,23 +40,19 @@ const MyPostPage = () => {
 	return (
 		<SafeAreaView style={MyPostStyles.container}>
 			<TopBar
-				topBar={t("myPosts")}
+				topBar="나의 글"
 				color="#000"
 				backgroundColor={CustomTheme.primaryBg}
 			/>
 
 			<View style={{ marginTop: 14 }}>
 				<View style={MyPostStyles.containerTitle}>
-					<Text style={MyPostStyles.textTitle}>
-						{t("myWritePosts")}
-					</Text>
+					<Text style={MyPostStyles.textTitle}>내가 쓴 글</Text>
 					<TouchableOpacity
 						style={MyPostStyles.containerMore}
 						onPress={() => navigation.navigate("MyWrotePage")}
 					>
-						<Text style={MyPostStyles.textMore}>
-							{t("moreButton")}
-						</Text>
+						<Text style={MyPostStyles.textMore}>더보기</Text>
 						<ArrowRight
 							style={MyPostStyles.arrowRight}
 							color={CustomTheme.textSecondary}
@@ -78,16 +68,12 @@ const MyPostPage = () => {
 				<View style={MyPostStyles.line} />
 
 				<View style={MyPostStyles.containerTitle}>
-					<Text style={MyPostStyles.textTitle}>
-						{t("myComments")}
-					</Text>
+					<Text style={MyPostStyles.textTitle}>내가 단 댓글</Text>
 					<TouchableOpacity
 						style={MyPostStyles.containerMore}
 						onPress={() => navigation.navigate("MyCommentPage")}
 					>
-						<Text style={MyPostStyles.textMore}>
-							{t("moreButton")}
-						</Text>
+						<Text style={MyPostStyles.textMore}>더보기</Text>
 						<ArrowRight
 							style={MyPostStyles.arrowRight}
 							color={CustomTheme.textSecondary}

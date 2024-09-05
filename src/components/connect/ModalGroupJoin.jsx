@@ -7,7 +7,6 @@ import {
 	StyleSheet,
 } from "react-native";
 import Modal from "react-native-modal";
-import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
@@ -19,13 +18,7 @@ import InfoCircle from "@components/common/InfoCircle";
 
 const { fontCaption, fontSub14, fontSub16 } = CustomTheme;
 
-const ModalGroupJoin = ({
-	modalVisible,
-	setModalVisible,
-	isPublic,
-	length = 5,
-}) => {
-	const { t } = useTranslation();
+const ModalGroupJoin = ({ modalVisible, setModalVisible, length = 5 }) => {
 	const [showComplete, setShowComplete] = useState(false);
 	const [password, setPassword] = useState(Array(length).fill(""));
 	const [incorrectPassword, setIncorrectPassword] = useState(false);
@@ -70,17 +63,17 @@ const ModalGroupJoin = ({
 				>
 					<IconCancelX />
 				</TouchableOpacity>
-				{isPublic || showComplete ? (
+				{showComplete ? (
 					<>
 						<View style={styles.reportCompleteContainer}>
 							<CompleteIcon isConnect={true} />
 							<Text style={styles.reportCompleteText}>
-								{t("joinComplete")}
+								가입 완료
 							</Text>
 						</View>
 						<TouchableOpacity style={styles.rectangleBlue}>
 							<Text style={styles.textRectangleBlue}>
-								{t("goToChatRoom")}
+								채팅방으로 바로 이동하기
 							</Text>
 						</TouchableOpacity>
 					</>
@@ -115,20 +108,18 @@ const ModalGroupJoin = ({
 							<View style={styles.containerError}>
 								<InfoCircle color={CustomTheme.warningRed} />
 								<Text style={styles.textError}>
-									{t("incorrectPassword")}
+									잘못된 비밀번호입니다
 								</Text>
 							</View>
 						)}
 						<Text style={styles.textPassword}>
-							{t("placeholderPassword")}
+							비밀번호를 입력해주세요
 						</Text>
 						<TouchableOpacity
 							style={styles.rectangleBlue}
 							onPress={() => setShowComplete(true)}
 						>
-							<Text style={styles.textRectangleBlue}>
-								{t("confirmButtonText")}
-							</Text>
+							<Text style={styles.textRectangleBlue}>확인</Text>
 						</TouchableOpacity>
 					</>
 				)}

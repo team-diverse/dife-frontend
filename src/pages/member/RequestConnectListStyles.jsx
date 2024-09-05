@@ -8,9 +8,6 @@ const RequestConnectListStyles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
 	},
-	containerList: {
-		flex: 1,
-	},
 	textRequest: {
 		...fontBody14,
 		color: CustomTheme.textPrimary,

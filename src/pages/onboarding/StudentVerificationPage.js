@@ -7,11 +7,9 @@ import {
 	TouchableOpacity,
 	Modal,
 	Alert,
-	Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import { useTranslation } from "react-i18next";
 
 import StudentVerificationStyles from "@pages/onboarding/StudentVerificationStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
@@ -23,11 +21,8 @@ import ArrowRight from "@components/common/ArrowRight";
 import BackgroundOnkookminUpload from "@components/onboarding/BackgroundOnkookminUpload";
 import IconOnkookminUpload from "@components/onboarding/IconOnkookminUpload";
 import ApplyButton from "@components/common/ApplyButton";
-import * as Sentry from "@sentry/react-native";
 
 const StudentVerificationPage = () => {
-	const { t } = useTranslation();
-
 	const [isModalVisible, setModalVisible] = useState(true);
 	const navigation = useNavigation();
 	const [image, setImage] = useState(null);
@@ -40,14 +35,14 @@ const StudentVerificationPage = () => {
 		setModalVisible(!isModalVisible);
 	};
 
+	const StudentVerificationData = ["재학생 인증"];
+
+	// 권한 부분으로 옮기기
 	const pickImage = async () => {
 		const { status } =
 			await ImagePicker.requestMediaLibraryPermissionsAsync();
 		if (status !== "granted") {
-			Alert.alert(
-				t("imagePermissionAlertTitle"),
-				t("imagePermissionAlertMessage"),
-			);
+			Alert.alert("알림", "설정에서 이미지 권한을 허용해주세요.");
 			return;
 		}
 
@@ -96,7 +91,6 @@ const StudentVerificationPage = () => {
 			await updateMyProfile(formData);
 			navigation.navigate("CompleteProfile");
 		} catch (error) {
-			Sentry.captureException(error);
 			console.error(
 				"온보딩 저장 실패:",
 				error.response ? error.response.data : error.message,
@@ -104,11 +98,8 @@ const StudentVerificationPage = () => {
 		}
 	};
 
-	const { height: screenHeight } = Dimensions.get("window");
-	const isSmallScreen = screenHeight < 700;
-
 	return (
-		<SafeAreaView style={StudentVerificationStyles.container}>
+		<SafeAreaView style={[StudentVerificationStyles.container]}>
 			<Modal
 				transparent={true}
 				visible={isModalVisible}
@@ -126,18 +117,14 @@ const StudentVerificationPage = () => {
 								source={require("@assets/images/onboardingExample.png")}
 							/>
 							<Text style={StudentVerificationStyles.textModal}>
-								{t("uploadInstructions")}
+								온국민 캡쳐 화면을 업로드 해주세요.{"\n"}
+								(학번/이름 포함, 재학생 인증 용도)
 							</Text>
 						</View>
 						<View
 							style={StudentVerificationStyles.buttonModalCheck}
 						>
-							<View style={StudentVerificationStyles.applyButton}>
-								<ApplyButton
-									text={t("completeButtonText")}
-									onPress={toggleModal}
-								/>
-							</View>
+							<ApplyButton text="확인" onPress={toggleModal} />
 						</View>
 					</View>
 				</View>
@@ -153,7 +140,7 @@ const StudentVerificationPage = () => {
 				<Progress6 />
 			</View>
 			<Text style={StudentVerificationStyles.textTitle}>
-				{t("studentVerificationTitle")}
+				{StudentVerificationData[0]}
 			</Text>
 			{image ? (
 				<TouchableOpacity
@@ -168,7 +155,7 @@ const StudentVerificationPage = () => {
 						style={StudentVerificationStyles.iconUploadOnkookmin}
 					/>
 					<Text style={StudentVerificationStyles.textUploadOnkookmin}>
-						{t("reuploadButtonText")}
+						다시 업로드하기
 					</Text>
 					<BackgroundOnkookminUpload />
 				</TouchableOpacity>
@@ -181,19 +168,14 @@ const StudentVerificationPage = () => {
 						style={StudentVerificationStyles.iconUploadOnkookmin}
 					/>
 					<Text style={StudentVerificationStyles.textUploadOnkookmin}>
-						{t("uploadButtonText")}
+						사진 업로드하기
 					</Text>
 					<BackgroundOnkookminUpload />
 				</TouchableOpacity>
 			)}
-			<View
-				style={[
-					StudentVerificationStyles.buttonCheck,
-					isSmallScreen && { bottom: 30 },
-				]}
-			>
+			<View style={StudentVerificationStyles.buttonCheck}>
 				<ApplyButton
-					text={t("completeButtonText")}
+					text="완료"
 					onPress={handleOnboarding}
 					disabled={!image}
 				/>

@@ -6,7 +6,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemLikeBookmark = ({ likedAndBookmarkPostList }) => {
+const ItemLikeBookmark = ({ likedAndBookmarkPostList, type = "like" }) => {
 	const navigation = useNavigation();
 
 	return (
@@ -16,9 +16,7 @@ const ItemLikeBookmark = ({ likedAndBookmarkPostList }) => {
 					key={index}
 					style={styles.ItemCommunity}
 					onPress={() =>
-						navigation.navigate("PostPage", {
-							postId: post.post.id,
-						})
+						navigation.navigate("PostPage", { postId: post.id })
 					}
 				>
 					<View style={styles.containerRow}>
@@ -26,30 +24,28 @@ const ItemLikeBookmark = ({ likedAndBookmarkPostList }) => {
 							<Text
 								style={[
 									styles.textPostTitle,
-									post.post.image ? { width: 196 } : {},
+									post.image ? { width: 196 } : {},
 								]}
 							>
-								{post.post.title}
+								{type === "like" ? post.title : post.post.title}
 							</Text>
 							<Text
 								style={[
 									styles.textPostContext,
-									post.post.image ? { width: 196 } : {},
+									post.image ? { width: 196 } : {},
 								]}
 							>
-								{post.post.content}
+								{type === "like"
+									? post.content
+									: post.post.content}
 							</Text>
 						</View>
 
-						{post.post.profilePresignUrl && (
-							<View style={styles.containerImage}>
-								<Image
-									source={{
-										uri: post.post.profilePresignUrl,
-									}}
-									style={styles.imagePost}
-								/>
-							</View>
+						{post.image && (
+							<Image
+								source={post.image}
+								style={styles.imagePost}
+							/>
 						)}
 					</View>
 				</TouchableOpacity>
@@ -61,7 +57,7 @@ const ItemLikeBookmark = ({ likedAndBookmarkPostList }) => {
 const styles = StyleSheet.create({
 	ItemCommunity: {
 		width: "100%",
-		height: 62,
+		height: 78,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
 		borderWidth: 2,
@@ -89,6 +85,11 @@ const styles = StyleSheet.create({
 		height: 17,
 		marginTop: 3,
 	},
+	imagePost: {
+		width: 48,
+		height: 48,
+		borderRadius: 10,
+	},
 	containerTextRow: {
 		flexDirection: "row",
 		marginTop: 3,
@@ -102,16 +103,6 @@ const styles = StyleSheet.create({
 		...fontNavi,
 		color: "#8C8D91",
 		marginLeft: 1,
-	},
-	containerImage: {
-		position: "absolute",
-		alignItems: "center",
-		right: -3,
-	},
-	imagePost: {
-		width: 48,
-		height: 48,
-		borderRadius: 10,
 	},
 });
 

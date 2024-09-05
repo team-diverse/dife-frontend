@@ -1,5 +1,4 @@
 import * as SecureStore from "expo-secure-store";
-import * as Sentry from "@sentry/react-native";
 
 export const getMyMemberId = async () => {
 	try {
@@ -7,7 +6,6 @@ export const getMyMemberId = async () => {
 		return myMemberId ? parseInt(myMemberId) : null;
 	} catch (error) {
 		console.error("본인 memberId를 로컬에서 가져올 수 없습니다.", error);
-		Sentry.captureException(error);
 		return null;
 	}
 };

@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text, SafeAreaView, Dimensions } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
 
 import CompleteProfileStyles from "@pages/onboarding/CompleteProfileStyles";
 
@@ -9,32 +8,27 @@ import IconLoading from "@components/onboarding/IconLoading";
 import ApplyButton from "@components/common/ApplyButton";
 
 const CompleteProfilePage = () => {
-	const { t } = useTranslation();
-
 	const navigation = useNavigation();
 
-	const { height: screenHeight } = Dimensions.get("window");
-	const isSmallScreen = screenHeight < 700;
+	const CompleteProfileData = [
+		"프로필 생성 완료!",
+		"재학생 인증 확인까지 잠시만 기다려주세요",
+	];
 
 	return (
 		<SafeAreaView style={[CompleteProfileStyles.container]}>
 			<Text style={CompleteProfileStyles.textTitle}>
-				{t("profileCompletionTitle")}
+				{CompleteProfileData[0]}
 			</Text>
 			<Text style={CompleteProfileStyles.textSubTitle}>
-				{t("profileCompletionDescription")}
+				{CompleteProfileData[1]}
 			</Text>
 			<View style={CompleteProfileStyles.iconLoading}>
 				<IconLoading />
 			</View>
-			<View
-				style={[
-					CompleteProfileStyles.buttonCheck,
-					isSmallScreen && { bottom: 30 },
-				]}
-			>
+			<View style={CompleteProfileStyles.buttonCheck}>
 				<ApplyButton
-					text={t("confirmButtonText")}
+					text="확인"
 					onPress={() => navigation.navigate("LoadingVerification")}
 				/>
 			</View>

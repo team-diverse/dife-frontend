@@ -1,10 +1,8 @@
 import React from "react";
 import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { formatDate } from "util/formatDate";
 
 import IconHeart from "@components/community/IconHeart";
 import IconBookmark from "@components/community/IconBookmark";
@@ -12,21 +10,20 @@ import IconComment from "@components/community/IconComment";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemCommunity = ({
-	postList = [],
-	comment = false,
-	apiPost = false,
-	likedPostBlue = false,
-	bookmarkedPostBlue = false,
-}) => {
-	const { t } = useTranslation();
+const ItemCommunity = ({ postList = [], comment = false }) => {
 	const navigation = useNavigation();
+
+	const date = (date) => {
+		const datePart = date.split("T")[0];
+		const monthDay = datePart.slice(5);
+		return monthDay.replace("-", "/");
+	};
 
 	return (
 		<>
 			{postList.map((post, index) => {
 				const commentText = comment
-					? `'${post.post.title}' ${t("commentOnPost")}`
+					? `'${post.title}' 글에 댓글`
 					: post.title;
 
 				return (
@@ -35,8 +32,7 @@ const ItemCommunity = ({
 						style={styles.ItemCommunity}
 						onPress={() =>
 							navigation.navigate("PostPage", {
-								postId:
-									apiPost || comment ? post.post.id : post.id,
+								postId: post.id,
 							})
 						}
 					>
@@ -45,55 +41,35 @@ const ItemCommunity = ({
 								<Text
 									style={[
 										styles.textPostTitle,
-										(apiPost ? post.post.image : post.image)
-											? { width: 196 }
-											: {},
+										post.image ? { width: 196 } : {},
 									]}
 								>
-									{apiPost ? post.post.title : commentText}
+									{commentText}
 								</Text>
 								<Text
 									style={[
 										styles.textPostContext,
-										(apiPost ? post.post.image : post.image)
-											? { width: 196 }
-											: {},
+										post.image ? { width: 196 } : {},
 									]}
 								>
-									{apiPost ? post.post.content : post.content}
+									{post.content}
 								</Text>
 
 								<View style={styles.containerTextRow}>
 									<View style={styles.containerText}>
-										<IconHeart
-											likedPostBlue={likedPostBlue}
-											active={
-												apiPost
-													? post.post.isLiked
-													: post.isLiked
-											}
-										/>
+										<IconHeart />
 										<Text style={styles.text}>
-											{apiPost
-												? post.post.likesCount
+											{post.likesCount == null
+												? 0
 												: post.likesCount}
 										</Text>
 									</View>
 									{comment == false && (
 										<View style={styles.containerText}>
-											<IconBookmark
-												bookmarkedPostBlue={
-													bookmarkedPostBlue
-												}
-												active={
-													apiPost
-														? post.post.isBookmarked
-														: post.isBookmarked
-												}
-											/>
+											<IconBookmark />
 											<Text style={styles.text}>
-												{apiPost
-													? post.post.bookmarkCount
+												{post.bookmarkCount == null
+													? 0
 													: post.bookmarkCount}
 											</Text>
 										</View>
@@ -101,36 +77,22 @@ const ItemCommunity = ({
 									<View style={styles.containerText}>
 										<IconComment />
 										<Text style={styles.text}>
-											{apiPost || comment
-												? post.post.commentCount
-												: post.commentCount}
+											{post.commentCount}
 										</Text>
 									</View>
 									<View style={styles.containerText}>
 										<Text style={styles.text}>
-											{formatDate(
-												apiPost
-													? post.post.created
-													: post.created,
-											)}
+											{date(post.created)}
 										</Text>
 									</View>
 								</View>
 							</View>
 
-							{(apiPost
-								? post.post.profilePresignUrl
-								: post.profilePresignUrl) && (
-								<View style={styles.containerImage}>
-									<Image
-										source={{
-											uri: apiPost
-												? post.post.profilePresignUrl
-												: post.profilePresignUrl,
-										}}
-										style={styles.imagePost}
-									/>
-								</View>
+							{post.image && (
+								<Image
+									source={post.image}
+									style={styles.imagePost}
+								/>
 							)}
 						</View>
 					</TouchableOpacity>
@@ -170,11 +132,6 @@ const styles = StyleSheet.create({
 		width: 272,
 		height: 17,
 		marginTop: 3,
-	},
-	containerImage: {
-		position: "absolute",
-		alignItems: "center",
-		right: -3,
 	},
 	imagePost: {
 		width: 48,

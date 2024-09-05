@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
-import { useTranslation } from "react-i18next";
 
 import WriteStyles from "@pages/community/WriteStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -23,25 +22,23 @@ import Checkbox from "@components/common/Checkbox";
 import { createPost } from "config/api";
 import IconDelete from "@components/onboarding/IconDelete";
 import IconCircleNumber from "@components/community/IconCircleNumber";
-import * as Sentry from "@sentry/react-native";
 
 const WritePage = ({ route }) => {
 	const { noticeboard } = route.params;
-	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [isChecked, setIsChecked] = useState(false);
 	const [valueTitle, onChangeTitle] = useState("");
 	const [valueContext, onChangeContext] = useState("");
 	const [isBoardType, setIsBoardType] = useState("");
-	const [images, setImages] = useState("");
+	const [images, setImages] = useState(null);
 
 	const handlePress = () => {
 		setIsChecked(!isChecked);
 	};
 
 	useEffect(() => {
-		if (noticeboard === t("freeBoard")) {
+		if (noticeboard === "자유게시판") {
 			setIsBoardType("FREE");
 		} else {
 			setIsBoardType("TIP");
@@ -50,29 +47,15 @@ const WritePage = ({ route }) => {
 
 	const handleWrite = async () => {
 		try {
-			if (valueTitle.trim().length !== 0) {
-				await createPost(
-					valueTitle,
-					valueContext,
-					isChecked,
-					isBoardType,
-					images,
-				);
-				navigation.goBack();
-			} else {
-				Alert.alert(
-					"",
-					t("titlePlaceholder"),
-					[
-						{
-							text: t("confirmButtonText"),
-						},
-					],
-					{ cancelable: false },
-				);
-			}
+			await createPost(
+				valueTitle,
+				valueContext,
+				isChecked,
+				isBoardType,
+				images || null,
+			);
+			navigation.goBack();
 		} catch (error) {
-			Sentry.captureException(error);
 			console.error(
 				"게시글 작성 실패:",
 				error.response ? error.response.data : error.message,
@@ -84,15 +67,13 @@ const WritePage = ({ route }) => {
 		const { status } =
 			await ImagePicker.requestMediaLibraryPermissionsAsync();
 		if (status !== "granted") {
-			Alert.alert(
-				t("imagePermissionAlertTitle"),
-				t("imagePermissionAlertMessage"),
-			);
+			Alert.alert("알림", "설정에서 이미지 권한을 허용해주세요.");
 			return;
 		}
 
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			aspect: [4, 3],
 			quality: 1,
 			allowsMultipleSelection: true,
 		});
@@ -100,10 +81,7 @@ const WritePage = ({ route }) => {
 		if (!result.canceled) {
 			const selectedImages = result.assets.map((asset) => asset.uri);
 			if (selectedImages.length > 9) {
-				Alert.alert(
-					t("imagePermissionAlertTitle"),
-					t("imagePermissionAlertMessage"),
-				);
+				Alert.alert("알림", `최대 9장까지만 선택할 수 있습니다.`);
 				return;
 			}
 			setImages(selectedImages);
@@ -116,7 +94,7 @@ const WritePage = ({ route }) => {
 
 	return (
 		<SafeAreaView style={WriteStyles.container}>
-			<TopBar topBar={t("writePageTitle")} color="#000" />
+			<TopBar topBar="글쓰기" color="#000" />
 			<ScrollView>
 				<View style={WriteStyles.containerWhite}>
 					<View style={WriteStyles.containerNoticeboard}>
@@ -130,20 +108,20 @@ const WritePage = ({ route }) => {
 						</Text>
 						<TouchableOpacity onPress={handleWrite}>
 							<Text style={WriteStyles.textNoticeboard}>
-								{t("completeWriteButton")}
+								작성 완료
 							</Text>
 						</TouchableOpacity>
 					</View>
 					<TextInput
 						style={WriteStyles.textInputTitle}
-						placeholder={t("titlePlaceholder")}
+						placeholder="제목"
 						onChangeText={(text) => onChangeTitle(text)}
 						value={valueTitle}
 					/>
 					<View style={WriteStyles.line} />
 					<TextInput
 						style={WriteStyles.textInputContext}
-						placeholder={t("contentPlaceholder")}
+						placeholder="내용"
 						multiline={true}
 						onChangeText={(text) => onChangeContext(text)}
 						value={valueContext}
@@ -192,16 +170,42 @@ const WritePage = ({ route }) => {
 							onPress={() => {
 								handlePress();
 							}}
-							text={t("anonymousCheckboxLabel")}
+							text="익명"
 							basic="true"
 						/>
 					</View>
 				</View>
 				<View style={WriteStyles.containerRule}>
 					<Text style={WriteStyles.textRule}>
-						{t("ruleTitle")}
+						Dife 커뮤니티 이용 규칙{"\n"}
+						Dife는 국민대 학생들이 함께 만들어 가는 글로벌
+						커뮤니티예요. 모든 회원이 즐겁게 참여할 수 있는 환경을
+						조성하기 위해 아래의 규칙을 지켜 주세요.
+						{"\n"}- 존중과 포용: 다양한 배경을 가진 우리 모두는,
+						인종, 종교, 성별, 지역 등 특정 집단에 대한 비난이나
+						비하하는 발언을 하지 않아요.
+						{"\n"}- 개인정보 보호: 다른 사용자의 개인 정보를
+						유출하거나 공유하지 않아요.
+						{"\n"}- 적절한 콘텐츠: 음란물이나 성적 수치심을 유발하는
+						내용을 게시하지 않아요.
+						{"\n"}- 정확한 정보: 홍보성 글, 금전 요구, 허위사실을
+						포함한 게시물을 올리지 않아요.
 						{"\n"}
-						{t("ruleContent")}
+						{"\n"}규칙 위반 시 처리 절차
+						{"\n"}- 게시판: 신고된 게시글은 관리자의 위반 확인 후
+						삭제돼요. 3회 이상 위반하신 경우, 30일 동안 회원 자격이
+						중지되고, 이 기간 내에 difeemail@kookmin.ac.kr로 소명해
+						주셔야 해요. 소명이 없을 경우 회원 자격이 박탈돼요.
+						{"\n"}- 불법 촬영물: 불법 촬영물을 게시할 경우,
+						전기통신사업법에 따라 즉각적인 삭제 및 서비스 이용 제한,
+						법적 처벌이 진행돼요.
+						{"\n"}- 매칭/채팅: 3회 이상 신고를 받으신 분은 30일 동안
+						회원 자격이 중지돼요. 이 기간 동안
+						difeemail@kookmin.ac.kr로 소명하시거나 적절한 조치를
+						취해 주세요. 이행하지 않을 경우 회원 자격이 박탈돼요.
+						{"\n"}
+						{"\n"}모든 구성원이 안전하고 쾌적한 커뮤니티 환경을
+						유지할 수 있도록 함께 노력해 주세요.
 					</Text>
 				</View>
 			</ScrollView>

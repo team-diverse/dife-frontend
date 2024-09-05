@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
-import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
@@ -16,7 +15,6 @@ const ModalGroupCreationComplete = ({
 	modalVisible,
 	setModalVisible,
 }) => {
-	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const handleMoveGroupProfile = () => {
@@ -43,7 +41,7 @@ const ModalGroupCreationComplete = ({
 				<View style={styles.reportCompleteContainer}>
 					<CompleteIcon isConnect={true} />
 					<Text style={styles.reportCompleteText}>
-						{t("groupCreationComplete")}
+						그룹 생성 완료
 					</Text>
 				</View>
 				<TouchableOpacity
@@ -51,7 +49,7 @@ const ModalGroupCreationComplete = ({
 					onPress={handleMoveGroupProfile}
 				>
 					<Text style={styles.textRectangleBlue}>
-						{t("moveToGroupProfile")}
+						그룹 프로필로 바로 이동하기
 					</Text>
 				</TouchableOpacity>
 			</View>

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontSub14, fontBody14, fontCaption } = CustomTheme;
+const { fontSub14, fontCaption } = CustomTheme;
 
 const GroupCreatedStyles = StyleSheet.create({
 	container: {
@@ -66,18 +66,6 @@ const GroupCreatedStyles = StyleSheet.create({
 		bottom: 12,
 		right: 12,
 		color: "#666",
-	},
-	textAvailableNickname: {
-		...fontBody14,
-		color: CustomTheme.primaryMedium,
-		marginTop: 8,
-		marginLeft: 27,
-	},
-	textUnavailableNickname: {
-		...fontBody14,
-		color: CustomTheme.warningRed,
-		marginTop: 8,
-		marginLeft: 27,
 	},
 	bottomTwoButtons: {
 		position: "absolute",

@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import {
 	getConnectById,
 	requestConnectById,
-	rejectedConnectByConnectId,
+	deleteConnectById,
 } from "config/api";
 import { getMyMemberId } from "util/secureStoreUtils";
 
 import HomecardDifeB from "@components/home/HomecardDifeB";
 import HomeProfile from "@components/home/HomeProfile";
 import HomecardBackBtn from "@components/home/HomecardBackBtn.js";
-import ModalRequest from "@components/common/ModalRequest";
-import * as Sentry from "@sentry/react-native";
+import ConnectRequest from "@components/ConnectRequest";
 
 const { fontCaption } = CustomTheme;
 
 const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
-	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [modalVisible, setModalVisible] = useState(false);
@@ -37,7 +34,6 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 			const myMebmberId = await getMyMemberId();
 			setRequestSent(response.data.from_member.id == myMebmberId);
 		} catch (error) {
-			Sentry.captureException(error);
 			console.error(
 				"커넥트 상태 조회 오류:",
 				error.response ? error.response.data : error.message,
@@ -50,7 +46,6 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 			const response = await requestConnectById(memberId);
 			setConnectStatus(response.data.status);
 		} catch (error) {
-			Sentry.captureException(error);
 			console.error(
 				"커넥트 요청 오류:",
 				error.response ? error.response.data : error.message,
@@ -64,10 +59,9 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 
 	const deleteConnect = async () => {
 		try {
-			await rejectedConnectByConnectId(connectId);
+			await deleteConnectById(connectId);
 			setConnectStatus(undefined);
 		} catch (error) {
-			Sentry.captureException(error);
 			console.error(
 				"커넥트 삭제 오류:",
 				error.response ? error.response.data : error.message,
@@ -84,9 +78,6 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 		}
 	};
 
-	const translation = t("connectRequestConfirmation", { username: name });
-
-	const [beforeUsername, afterUsername] = translation.split(name);
 	return (
 		<View style={styles.rectangle}>
 			<View style={styles.homecardDifeB}>
@@ -101,41 +92,33 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 						})
 					}
 				>
-					<Text style={styles.viewProfile}>
-						{t("viewProfileText")}
-					</Text>
+					<Text style={styles.viewProfile}>프로필 상세보기</Text>
 				</TouchableOpacity>
 				<View style={styles.addFriendOk}>
 					<Text style={styles.textConnect}>
-						<Text>{beforeUsername}</Text>
-						<Text style={styles.textNameBold}>{name}</Text>
-						<Text>{afterUsername}</Text>
+						<Text style={styles.textNameBold}>{name}</Text>에게
+						{"\n"}커넥트 요청하시겠습니까?
 					</Text>
 				</View>
 			</View>
 			<View style={styles.homecardBackBtn}>
-				<HomecardBackBtn
-					btnText={t("noButtonText")}
-					onPress={onPress}
-				/>
+				<HomecardBackBtn btnText="아니오" onPress={onPress} />
 				<HomecardBackBtn
 					btnText={
 						connectStatus === undefined
-							? t("requestButtonText")
+							? "커넥트 요청"
 							: connectStatus === "PENDING"
 								? requestSent
-									? t("cancelRequestButtonText")
-									: t("acceptRequestButtonText")
-								: t("cancelConnectButtonText")
+									? "요청 취소"
+									: "요청 수락"
+								: "커넥트 취소"
 					}
 					onPress={pressButton}
 				/>
 			</View>
-			<ModalRequest
+			<ConnectRequest
 				modalVisible={modalVisible}
 				setModalVisible={setModalVisible}
-				textLoading={t("connectRequestInProgress")}
-				textComplete={t("connectRequestComplete")}
 			/>
 		</View>
 	);
@@ -174,7 +157,6 @@ const styles = StyleSheet.create({
 		lineHeight: 16,
 		fontFamily: "NotoSansCJKkr-Regular",
 		textAlign: "center",
-		marginHorizontal: 30,
 	},
 	textNameBold: {
 		fontFamily: "NotoSansCJKkr-Bold",

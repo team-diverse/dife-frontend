@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useTranslation } from "react-i18next";
-
 import { CustomTheme } from "@styles/CustomTheme";
-
-import ModalRequest from "@components/common/ModalRequest";
+import ConnectRequest from "@components/connect/ConnectRequest";
 
 const { fontSub16 } = CustomTheme;
 
 const ConnectProfileChatRequest = () => {
-	const { t } = useTranslation();
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const pressButton = () => {
@@ -19,16 +15,14 @@ const ConnectProfileChatRequest = () => {
 	return (
 		<View style={styles.rectangle}>
 			<TouchableOpacity style={styles.chat}>
-				<Text style={styles.textChat}>{t("chat")}</Text>
+				<Text style={styles.textChat}>채팅하기</Text>
 			</TouchableOpacity>
 			<TouchableOpacity style={styles.request} onPress={pressButton}>
-				<Text style={styles.textRequest}>{t("requestButtonText")}</Text>
+				<Text style={styles.textRequest}>커넥트 요청</Text>
 			</TouchableOpacity>
-			<ModalRequest
+			<ConnectRequest
 				modalVisible={modalVisible}
 				setModalVisible={setModalVisible}
-				textLoading={t("connectRequestInProgress")}
-				textComplete={t("connectRequestComplete")}
 			/>
 		</View>
 	);

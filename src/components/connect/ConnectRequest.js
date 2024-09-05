@@ -1,56 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import Modal from "react-native-modal";
-
 import { CustomTheme } from "@styles/CustomTheme";
-
+import Modal from "react-native-modal";
 import CompleteIcon from "@components/common/CompleteIcon";
 import ConnectRequestIcon from "@components/common/ConnectRequestIcon";
 
-const ModalRequest = ({
-	modalVisible,
-	setModalVisible,
-	textLoading,
-	textComplete,
-}) => {
+const ConnectRequest = ({ modalVisible }) => {
 	const [showConnectRequest, setShowConnectRequest] = useState(true);
 	const [showConnectComplete, setShowConnectComplete] = useState(false);
 
 	useEffect(() => {
-		let timeoutRequest, timeoutComplete;
-
 		if (modalVisible) {
 			setShowConnectRequest(true);
 			setShowConnectComplete(false);
-
-			timeoutRequest = setTimeout(() => {
-				setShowConnectRequest(false);
-				setShowConnectComplete(true);
-			}, 2500);
-
-			timeoutComplete = setTimeout(() => {
-				setModalVisible(false);
-			}, 4500);
 		}
-
-		return () => {
-			clearTimeout(timeoutRequest);
-			clearTimeout(timeoutComplete);
-		};
 	}, [modalVisible]);
 
-	const handleBackdropPress = () => {
-		if (!showConnectRequest) {
-			setModalVisible(false);
-		}
-	};
-
 	return (
-		<Modal
-			isVisible={modalVisible}
-			style={styles.modal}
-			onBackdropPress={handleBackdropPress}
-		>
+		<Modal isVisible={modalVisible} style={styles.modal}>
 			<View style={styles.rectangle}>
 				{showConnectRequest && (
 					<View style={styles.connectContainer}>
@@ -59,7 +26,7 @@ const ModalRequest = ({
 						</View>
 						<View style={styles.connectTextView}>
 							<Text style={styles.connectText}>
-								{textLoading}
+								커넥트 요청중
 							</Text>
 						</View>
 					</View>
@@ -70,7 +37,7 @@ const ModalRequest = ({
 						<CompleteIcon isConnect={true} />
 						<View style={styles.connectTextView}>
 							<Text style={styles.connectText}>
-								{textComplete}
+								커넥트 요청 완료!
 							</Text>
 						</View>
 					</View>
@@ -113,4 +80,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ModalRequest;
+export default ConnectRequest;
