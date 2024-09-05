@@ -7,6 +7,7 @@ import {
 	FlatList,
 	Keyboard,
 	TouchableOpacity,
+	Dimensions,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
@@ -120,115 +121,126 @@ const ConnectPage = () => {
 		setIsReset(!isReset);
 	};
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
 	return (
-		<View style={ConnectStyles.container}>
+		<SafeAreaView style={ConnectStyles.container}>
 			<View style={ConnectStyles.backgroundBlue} />
-			<SafeAreaView style={ConnectStyles.safeAreaView}>
-				<View style={ConnectStyles.connectTop}>
-					<ConnectTop />
-				</View>
-				<View style={ConnectStyles.textIconContainer}>
-					<Text style={ConnectStyles.connectTitle}>
-						{t("connectTitle")}
-					</Text>
-					<ConnectLikeUser
-						style={ConnectStyles.addUserIcon}
-						onPress={() => navigation.navigate("LikeUserOneToOne")}
-					/>
-				</View>
-				<View style={ConnectStyles.searchContainer}>
-					<TouchableOpacity onPress={pressButton}>
-						<FilterIcon style={ConnectStyles.searchFilter} />
-						{totalSelection > 0 && (
-							<View style={ConnectStyles.containerImageNumber}>
-								<IconCircleNumber
-									style={ConnectStyles.iconCircleNumber}
-									color={CustomTheme.bgBasic}
-								/>
-								<Text style={ConnectStyles.textImageNumber}>
-									{totalSelection}
-								</Text>
-							</View>
-						)}
-					</TouchableOpacity>
-					<FilterBottomSlide
-						modalVisible={modalVisible}
-						setModalVisible={setModalVisible}
-						onFilterResponse={handleFilterResponse}
-						onSearchResponse={handleFilterSearchFail}
-						onTotalSelection={handleTotalSelection}
-						isReset={isReset}
-					/>
-					<View style={ConnectStyles.searchIconContainer}>
-						<TextInput
-							style={ConnectStyles.search}
-							placeholder={t("searchPlaceholder")}
-							value={searchTerm}
-							onChangeText={setSearchTerm}
-							onFocus={handleFocus}
-							onBlur={handleBlur}
-							onSubmitEditing={handleSearch}
-						/>
-						{isSearching ? (
-							<ConnectSearchCancel
-								style={ConnectStyles.searchIcon}
-								onPress={handleCancel}
+			<View style={ConnectStyles.connectTop}>
+				<ConnectTop />
+			</View>
+			<View
+				style={[
+					ConnectStyles.textIconContainer,
+					isSmallScreen && { top: -25 },
+				]}
+			>
+				<Text style={ConnectStyles.connectTitle}>
+					{t("connectTitle")}
+				</Text>
+				<ConnectLikeUser
+					style={ConnectStyles.addUserIcon}
+					onPress={() => navigation.navigate("LikeUserOneToOne")}
+				/>
+			</View>
+			<View
+				style={[
+					ConnectStyles.searchContainer,
+					isSmallScreen && { top: -25 },
+				]}
+			>
+				<TouchableOpacity onPress={pressButton}>
+					<FilterIcon style={ConnectStyles.searchFilter} />
+					{totalSelection > 0 && (
+						<View style={ConnectStyles.containerImageNumber}>
+							<IconCircleNumber
+								style={ConnectStyles.iconCircleNumber}
+								color={CustomTheme.bgBasic}
 							/>
-						) : (
-							<ConnectSearchIcon
-								style={ConnectStyles.searchIcon}
-								onPress={handleSearch}
-							/>
-						)}
-					</View>
-				</View>
-
-				<View style={ConnectStyles.containerDife}>
-					<View style={ConnectStyles.connectDife}>
-						<ConnectDife />
-					</View>
-				</View>
-				<View style={ConnectStyles.midContainer}>
-					<TouchableOpacity
-						style={ConnectStyles.resetContainer}
-						onPress={handleReset}
-					>
-						<Text style={ConnectStyles.textReset}>Reset</Text>
-						<ConnectReset />
-					</TouchableOpacity>
-				</View>
-
-				{searchFail ? (
-					<View
-						style={[
-							ConnectStyles.cardContainer,
-							{ marginHorizontal: 25 },
-						]}
-					>
-						<ConnectCard fail="true" />
-					</View>
-				) : (
-					<View style={ConnectStyles.cardContainer}>
-						<View style={ConnectStyles.flatlist}>
-							<FlatList
-								contentContainerStyle={
-									ConnectStyles.flatlistContent
-								}
-								data={
-									searchData === null
-										? profileDataList
-										: searchData
-								}
-								renderItem={({ item }) => (
-									<ConnectCard {...item} tags={item.tags} />
-								)}
-								keyExtractor={(item) => item.id}
-							/>
+							<Text style={ConnectStyles.textImageNumber}>
+								{totalSelection}
+							</Text>
 						</View>
+					)}
+				</TouchableOpacity>
+				<FilterBottomSlide
+					modalVisible={modalVisible}
+					setModalVisible={setModalVisible}
+					onFilterResponse={handleFilterResponse}
+					onSearchResponse={handleFilterSearchFail}
+					onTotalSelection={handleTotalSelection}
+					isReset={isReset}
+				/>
+				<View style={ConnectStyles.searchIconContainer}>
+					<TextInput
+						style={ConnectStyles.search}
+						placeholder={t("searchPlaceholder")}
+						value={searchTerm}
+						onChangeText={setSearchTerm}
+						onFocus={handleFocus}
+						onBlur={handleBlur}
+						onSubmitEditing={handleSearch}
+					/>
+					{isSearching ? (
+						<ConnectSearchCancel
+							style={ConnectStyles.searchIcon}
+							onPress={handleCancel}
+						/>
+					) : (
+						<ConnectSearchIcon
+							style={ConnectStyles.searchIcon}
+							onPress={handleSearch}
+						/>
+					)}
+				</View>
+			</View>
+
+			<View style={ConnectStyles.containerDife}>
+				<View style={ConnectStyles.connectDife}>
+					<ConnectDife />
+				</View>
+			</View>
+			<View style={ConnectStyles.midContainer}>
+				<TouchableOpacity
+					style={ConnectStyles.resetContainer}
+					onPress={handleReset}
+				>
+					<Text style={ConnectStyles.textReset}>Reset</Text>
+					<ConnectReset />
+				</TouchableOpacity>
+			</View>
+
+			{searchFail ? (
+				<View
+					style={[
+						ConnectStyles.cardContainer,
+						{ marginHorizontal: 25 },
+					]}
+				>
+					<ConnectCard fail="true" />
+				</View>
+			) : (
+				<View style={ConnectStyles.cardContainer}>
+					<View style={ConnectStyles.flatlist}>
+						<FlatList
+							contentContainerStyle={
+								ConnectStyles.flatlistContent
+							}
+							data={
+								searchData === null
+									? profileDataList
+									: searchData
+							}
+							renderItem={({ item }) => (
+								<ConnectCard {...item} tags={item.tags} />
+							)}
+							keyExtractor={(item) => item.id}
+						/>
 					</View>
-				)}
-			</SafeAreaView>
-		</View>
+				</View>
+			)}
+		</SafeAreaView>
 	);
 };
 

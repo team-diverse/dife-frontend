@@ -24,9 +24,8 @@ const CompleteProfileStyles = StyleSheet.create({
 		marginTop: 156,
 	},
 	buttonCheck: {
-		marginTop: 187,
-		marginHorizontal: 10,
-		marginBottom: 83,
+		position: "absolute",
+		bottom: 104,
 	},
 });
 

@@ -8,11 +8,15 @@ const ChattingStyles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
 	},
-	connectTop: {
+	backgroundBlue: {
 		position: "absolute",
-		top: 0,
-		left: 0,
-		right: 0,
+		width: "100%",
+		height: 100,
+		backgroundColor: CustomTheme.primaryMedium,
+	},
+	connectTop: {
+		marginTop: -47,
+		// zIndex: 1,
 	},
 	iconChatPlus: {
 		position: "absolute",
@@ -23,13 +27,6 @@ const ChattingStyles = StyleSheet.create({
 		shadowOpacity: 0.4,
 		shadowRadius: 2,
 		zIndex: 2,
-	},
-	safeAreaView: {
-		flex: 1,
-		position: "absolute",
-		top: 0,
-		left: 0,
-		right: 0,
 	},
 	containerTextIcon: {
 		flexDirection: "row",

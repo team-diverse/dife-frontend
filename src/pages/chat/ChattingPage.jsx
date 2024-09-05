@@ -7,6 +7,7 @@ import {
 	FlatList,
 	Keyboard,
 	TouchableOpacity,
+	Dimensions,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import axios from "axios";
@@ -69,86 +70,94 @@ const ChattingPage = () => {
 		}, []),
 	);
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
 	return (
-		<View style={ChattingStyles.container}>
+		<SafeAreaView style={ChattingStyles.container}>
 			<View style={ChattingStyles.backgroundBlue} />
+			<View style={ChattingStyles.connectTop}>
+				<ConnectTop />
+			</View>
+			<View
+				style={[
+					ChattingStyles.containerTextIcon,
+					isSmallScreen && { top: -25 },
+				]}
+			>
+				<Text style={ChattingStyles.textChattingTitle}>Chatting</Text>
+				<IconBookmark
+					style={ChattingStyles.iconBookmark}
+					onPress={() => navigation.navigate("BookmarkPage")}
+				/>
+			</View>
+			<View
+				style={[
+					ChattingStyles.containerSearch,
+					isSmallScreen && { top: -25 },
+				]}
+			>
+				<View style={ChattingStyles.containerSearchIcon}>
+					<TextInput
+						style={ChattingStyles.search}
+						placeholder="검색"
+						value={searchTerm}
+						onChangeText={setSearchTerm}
+						onFocus={handleFocus}
+						onBlur={handleBlur}
+					/>
+					{isSearching ? (
+						<ConnectSearchCancel
+							style={ChattingStyles.searchIcon}
+							onPress={handleCancel}
+						/>
+					) : (
+						<ConnectSearchIcon
+							style={ChattingStyles.searchIcon}
+							onPress={handleSearch}
+						/>
+					)}
+				</View>
+			</View>
 			<TouchableOpacity
 				style={ChattingStyles.iconChatPlus}
 				onPress={() => navigation.navigate("FriendListPage")}
 			>
 				<IconChatPlus />
 			</TouchableOpacity>
-			<SafeAreaView style={ChattingStyles.safeAreaView}>
-				<View style={ChattingStyles.connectTop}>
-					<ConnectTop />
-				</View>
-				<View style={ChattingStyles.containerTextIcon}>
-					<Text style={ChattingStyles.textChattingTitle}>
-						Chatting
-					</Text>
-					<IconBookmark
-						style={ChattingStyles.iconBookmark}
-						onPress={() => navigation.navigate("BookmarkPage")}
-					/>
-				</View>
-				<View style={ChattingStyles.containerSearch}>
-					<View style={ChattingStyles.containerSearchIcon}>
-						<TextInput
-							style={ChattingStyles.search}
-							placeholder="검색"
-							value={searchTerm}
-							onChangeText={setSearchTerm}
-							onFocus={handleFocus}
-							onBlur={handleBlur}
-						/>
-						{isSearching ? (
-							<ConnectSearchCancel
-								style={ChattingStyles.searchIcon}
-								onPress={handleCancel}
-							/>
-						) : (
-							<ConnectSearchIcon
-								style={ChattingStyles.searchIcon}
-								onPress={handleSearch}
-							/>
-						)}
-					</View>
-				</View>
 
-				{isIndividualTab ? (
-					<></>
-				) : chatrooms.length ? (
-					<View style={ChattingStyles.containerChatItems}>
-						<View style={ChattingStyles.flatlist}>
-							<FlatList
-								contentContainerStyle={
-									ChattingStyles.flatlistContent
-								}
-								data={chatrooms}
-								renderItem={({ item }) => (
-									<ChatroomItem
-										chatroomInfo={item}
-										name={item.name}
-										context={getLatestChatByChatroomId(
-											item.id,
-										)}
-										time={formatKoreanTime(item.created)}
-									/>
-								)}
-								keyExtractor={(item) => item.id}
-							/>
-						</View>
+			{isIndividualTab ? (
+				<></>
+			) : chatrooms.length ? (
+				<View style={ChattingStyles.containerChatItems}>
+					<View style={ChattingStyles.flatlist}>
+						<FlatList
+							contentContainerStyle={
+								ChattingStyles.flatlistContent
+							}
+							data={chatrooms}
+							renderItem={({ item }) => (
+								<ChatroomItem
+									chatroomInfo={item}
+									name={item.name}
+									context={getLatestChatByChatroomId(item.id)}
+									time={formatKoreanTime(item.created)}
+								/>
+							)}
+							keyExtractor={(item) => item.id}
+						/>
 					</View>
-				) : (
-					<View style={ChattingStyles.containerTextNoChat}>
-						<Text style={ChattingStyles.textNoChat}>
-							아직 채팅방이 없습니다.{"\n"}친구와 새로운 채팅을
-							시작해보세요!
-						</Text>
-					</View>
-				)}
-			</SafeAreaView>
-		</View>
+				</View>
+			) : (
+				<View style={ChattingStyles.containerTextNoChat}>
+					<Text style={ChattingStyles.textNoChat}>
+						아직 채팅방이 없습니다.{"\n"}친구와 새로운 채팅을
+						시작해보세요!
+					</Text>
+				</View>
+			)}
+		</SafeAreaView>
+		// </SafeAreaView>
 	);
 };
 

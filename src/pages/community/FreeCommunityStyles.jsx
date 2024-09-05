@@ -24,10 +24,6 @@ const FreeCommunityStyles = StyleSheet.create({
 		shadowRadius: 2,
 		zIndex: 2,
 	},
-	safeAreaView: {
-		flex: 1,
-		backgroundColor: CustomTheme.bgBasic,
-	},
 	connectTop: {
 		marginTop: -47,
 		zIndex: 1,
