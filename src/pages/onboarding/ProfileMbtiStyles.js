@@ -38,8 +38,8 @@ const ProfileMbtiStyles = StyleSheet.create({
 		flexDirection: "row",
 	},
 	buttonCheck: {
-		marginTop: 134,
-		marginHorizontal: 10,
+		position: "absolute",
+		bottom: 104,
 	},
 });
 

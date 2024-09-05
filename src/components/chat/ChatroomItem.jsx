@@ -7,8 +7,13 @@ import { useNavigation } from "@react-navigation/native";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ChatroomItem = ({ chatroomInfo, context, name, time }) => {
+const ChatroomItem = ({ chatroomInfo, context, name, time, myMemberId }) => {
 	const navigation = useNavigation("");
+	const otherMember = chatroomInfo.members.find(
+		(member) => member.id !== myMemberId,
+	);
+	const otherMemberProfileImageName = otherMember.profileImg.originalName;
+
 	return (
 		<TouchableOpacity
 			style={styles.rectangle}
@@ -21,7 +26,9 @@ const ChatroomItem = ({ chatroomInfo, context, name, time }) => {
 			<View style={styles.notify}>
 				<View style={styles.iconTextContainer}>
 					<View style={styles.icon}>
-						<IconChatProfile />
+						<IconChatProfile
+							imageName={otherMemberProfileImageName}
+						/>
 					</View>
 					<View style={styles.textContainer}>
 						<Text style={styles.textName}>{name}</Text>

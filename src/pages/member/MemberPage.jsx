@@ -3,28 +3,29 @@ import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { useTranslation } from "react-i18next";
 
 import MemberStyles from "@pages/member/MemberStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { getMyProfile } from "config/api";
 
 import DifeLogo from "@components/member/DifeLogo";
-import CircleBackground from "@components/member/CircleBackground";
 import DifeLine from "@components/member/DifeLine";
+import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";
 import IconSetting from "@components/member/IconSetting";
 import ProfileKBackground from "@components/member/ProfileKBackground";
 import ProfileK from "@components/member/ProfileK";
 import IconFriendList from "@components/member/IconFriendList";
-import IconGroup from "@components/member/IconGroup";
 import IconMyPost from "@components/member/IconMyPost";
-import LikedPostPage from "@pages/member/LikedPostPage";
-import BookmarkPostPage from "@pages/member/BookmarkPostPage";
+import TabLikedPostPage from "@pages/member/TabLikedPostPage";
+import TabBookmarkPostPage from "@pages/member/TabBookmarkPostPage";
 import IconProfileEdit from "@components/member/IconProfileEdit";
 import IconLike from "@components/member/IconLike";
 import IconBookmark from "@components/member/IconBookmark";
 import * as Sentry from "@sentry/react-native";
 
 const MemberPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 	const Tab = createMaterialTopTabNavigator();
 
@@ -64,7 +65,7 @@ const MemberPage = () => {
 						<DifeLine />
 					</View>
 					<View style={MemberStyles.circleBackground}>
-						<CircleBackground />
+						<ConnectProfileBackground />
 					</View>
 
 					<View style={MemberStyles.topContainer}>
@@ -107,16 +108,8 @@ const MemberPage = () => {
 						>
 							<IconFriendList />
 							<Text style={MemberStyles.textIcon}>
-								커넥트 목록
+								{t("connectList")}
 							</Text>
-						</TouchableOpacity>
-						<View style={MemberStyles.line} />
-						<TouchableOpacity
-							style={MemberStyles.icon}
-							onPress={() => navigation.navigate("GroupListPage")}
-						>
-							<IconGroup />
-							<Text style={MemberStyles.textIcon}>그룹</Text>
 						</TouchableOpacity>
 						<View style={MemberStyles.line} />
 						<TouchableOpacity
@@ -124,7 +117,9 @@ const MemberPage = () => {
 							onPress={() => navigation.navigate("MyPostPage")}
 						>
 							<IconMyPost />
-							<Text style={MemberStyles.textIcon}>나의 글</Text>
+							<Text style={MemberStyles.textIcon}>
+								{t("myPosts")}
+							</Text>
 						</TouchableOpacity>
 					</View>
 				</SafeAreaView>
@@ -132,7 +127,7 @@ const MemberPage = () => {
 
 			<View style={MemberStyles.tabContainer}>
 				<Tab.Navigator
-					initialRouteName="LikedPostPage"
+					initialRouteName="TabLikedPostPage"
 					screenOptions={{
 						tabBarIndicatorStyle: {
 							backgroundColor: "#B0D0FF",
@@ -141,7 +136,7 @@ const MemberPage = () => {
 				>
 					<Tab.Screen
 						name="좋아요"
-						component={LikedPostPage}
+						component={TabLikedPostPage}
 						options={{
 							tabBarIcon: ({ focused }) => (
 								<IconLike
@@ -157,7 +152,7 @@ const MemberPage = () => {
 					/>
 					<Tab.Screen
 						name="북마크"
-						component={BookmarkPostPage}
+						component={TabBookmarkPostPage}
 						options={{
 							tabBarIcon: ({ focused }) => (
 								<IconBookmark

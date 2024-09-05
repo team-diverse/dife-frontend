@@ -26,6 +26,8 @@ const PreparingStyles = StyleSheet.create({
 	textSubTitle: {
 		...fontHead20,
 		color: CustomTheme.primaryMedium,
+		marginHorizontal: 20,
+		textAlign: "center",
 	},
 });
 

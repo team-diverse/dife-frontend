@@ -6,7 +6,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemLikeBookmark = ({ likedAndBookmarkPostList, type = "like" }) => {
+const ItemLikeBookmark = ({ likedAndBookmarkPostList }) => {
 	const navigation = useNavigation();
 
 	return (
@@ -16,7 +16,9 @@ const ItemLikeBookmark = ({ likedAndBookmarkPostList, type = "like" }) => {
 					key={index}
 					style={styles.ItemCommunity}
 					onPress={() =>
-						navigation.navigate("PostPage", { postId: post.id })
+						navigation.navigate("PostPage", {
+							postId: post.post.id,
+						})
 					}
 				>
 					<View style={styles.containerRow}>
@@ -24,27 +26,27 @@ const ItemLikeBookmark = ({ likedAndBookmarkPostList, type = "like" }) => {
 							<Text
 								style={[
 									styles.textPostTitle,
-									post.image ? { width: 196 } : {},
+									post.post.image ? { width: 196 } : {},
 								]}
 							>
-								{type === "like" ? post.title : post.post.title}
+								{post.post.title}
 							</Text>
 							<Text
 								style={[
 									styles.textPostContext,
-									post.image ? { width: 196 } : {},
+									post.post.image ? { width: 196 } : {},
 								]}
 							>
-								{type === "like"
-									? post.content
-									: post.post.content}
+								{post.post.content}
 							</Text>
 						</View>
 
-						{post.profilePresignUrl && (
+						{post.post.profilePresignUrl && (
 							<View style={styles.containerImage}>
 								<Image
-									source={{ uri: post.profilePresignUrl }}
+									source={{
+										uri: post.post.profilePresignUrl,
+									}}
 									style={styles.imagePost}
 								/>
 							</View>
@@ -59,7 +61,7 @@ const ItemLikeBookmark = ({ likedAndBookmarkPostList, type = "like" }) => {
 const styles = StyleSheet.create({
 	ItemCommunity: {
 		width: "100%",
-		height: 78,
+		height: 62,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
 		borderWidth: 2,

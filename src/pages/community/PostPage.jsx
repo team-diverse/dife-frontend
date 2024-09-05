@@ -15,6 +15,7 @@ import {
 	Image,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import PostStyles from "@pages/community/PostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -28,10 +29,9 @@ import {
 	createLikePost,
 	deleteLikeByPostId,
 	createPostBookmark,
-	getLikedPost,
-	getBookmarkedPost,
 	deleteBookmarkByPostId,
 	getProfileImageByFileName,
+	translationByPostId,
 } from "config/api";
 import { formatDate } from "util/formatDate";
 
@@ -48,6 +48,7 @@ import ModalKebabMenu from "@components/community/ModalKebabMenu";
 import * as Sentry from "@sentry/react-native";
 
 const PostPage = ({ route }) => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [modalVisible, setModalVisible] = useState(false);
@@ -59,7 +60,9 @@ const PostPage = ({ route }) => {
 	const [title, setTitle] = useState("");
 	const [context, setContext] = useState("");
 	const [heart, setHeart] = useState();
+	const [pressHeart, setPressHeart] = useState();
 	const [bookmark, setBookmark] = useState();
+	const [pressBookmark, setPressBookmark] = useState();
 	const [writerName, setWriterName] = useState("");
 	const [isPublic, setIsPublic] = useState();
 	const [created, setCreated] = useState("");
@@ -70,6 +73,7 @@ const PostPage = ({ route }) => {
 	const [isChecked, setIsChecked] = useState(false);
 	const [isReplying, setIsReplying] = useState(false);
 	const [parentCommentId, setParentCommentId] = useState(null);
+	const [isTranslation, setIsTranslation] = useState(false);
 
 	const commentRef = useRef(null);
 
@@ -90,53 +94,66 @@ const PostPage = ({ route }) => {
 		setIsChecked(!isChecked);
 	};
 
-	const difeLinesCount =
-		comments.length === 0 ? 1 : Math.floor(comments.length / 1.5);
+	const difeLinesCount = Math.max(1, Math.floor(comments.length / 1.5));
+
+	const getPost = async () => {
+		try {
+			const myMemberId = await getMyMemberId();
+
+			const postByIdResponse = await getPostById(postId);
+			setTitle(postByIdResponse.data.title);
+			setContext(postByIdResponse.data.content);
+			setCreated(formatDate(postByIdResponse.data.created));
+			setIsPublic(postByIdResponse.data.isPublic);
+			setMemberId(postByIdResponse.data.writer.id);
+			const fileNames = postByIdResponse.data.files.map(
+				(file) => file.originalName,
+			);
+			const responses = await Promise.all(
+				fileNames.map((fileName) =>
+					getProfileImageByFileName(fileName),
+				),
+			);
+			const responseImages = responses.map((response) => response.data);
+			setImages(responseImages);
+
+			if (postByIdResponse.data.isPublic === false) {
+				setWriterName(postByIdResponse.data.writer.username);
+			} else if (postByIdResponse.data.isPublic === true) {
+				setWriterName(t("anonymousCheckboxLabel"));
+			}
+
+			if (myMemberId === postByIdResponse.data.writer.id) {
+				setIsMe(true);
+				updatePostModifyData({
+					memberId: myMemberId,
+					id: postId,
+					title: postByIdResponse.data.title,
+					context: postByIdResponse.data.content,
+					boardType: postByIdResponse.data.boardType,
+					isPublic: postByIdResponse.data.isPublic,
+				});
+			}
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"게시글 제목 및 내용 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useEffect(() => {
+		getPost();
+	}, []);
 
 	useFocusEffect(
 		useCallback(() => {
-			const postComment = async () => {
+			const getHeartBookmakrComment = async () => {
 				try {
-					const myMemberId = await getMyMemberId();
-
 					const postByIdResponse = await getPostById(postId);
-					setTitle(postByIdResponse.data.title);
-					setContext(postByIdResponse.data.content);
 					setHeart(postByIdResponse.data.likesCount);
 					setBookmark(postByIdResponse.data.bookmarkCount);
-					setCreated(formatDate(postByIdResponse.data.created));
-					setIsPublic(postByIdResponse.data.isPublic);
-					setMemberId(postByIdResponse.data.writer.id);
-					const fileNames = postByIdResponse.data.files.map(
-						(file) => file.originalName,
-					);
-					const responses = await Promise.all(
-						fileNames.map((fileName) =>
-							getProfileImageByFileName(fileName),
-						),
-					);
-					const responseImages = responses.map(
-						(response) => response.data,
-					);
-					setImages(responseImages);
-
-					if (postByIdResponse.data.isPublic === false) {
-						setWriterName(postByIdResponse.data.writer.username);
-					} else if (postByIdResponse.data.isPublic === true) {
-						setWriterName("익명");
-					}
-
-					if (myMemberId === postByIdResponse.data.writer.id) {
-						setIsMe(true);
-						updatePostModifyData({
-							memberId: myMemberId,
-							id: postId,
-							title: postByIdResponse.data.title,
-							context: postByIdResponse.data.content,
-							boardType: postByIdResponse.data.boardType,
-							isPublic: postByIdResponse.data.isPublic,
-						});
-					}
 
 					const commentByIdResponse =
 						await getCommentByPostId(postId);
@@ -144,7 +161,7 @@ const PostPage = ({ route }) => {
 				} catch (error) {
 					Sentry.captureException(error);
 					console.error(
-						"게시글 조회 오류:",
+						"게시글 좋아요 및 북마크 조회 오류:",
 						error.response ? error.response.data : error.message,
 					);
 					console.error(
@@ -153,8 +170,7 @@ const PostPage = ({ route }) => {
 					);
 				}
 			};
-
-			postComment();
+			getHeartBookmakrComment();
 		}, [pressHeart, pressBookmark, comments]),
 	);
 
@@ -182,8 +198,12 @@ const PostPage = ({ route }) => {
 	};
 
 	const modalPosition = {
-		top: topBarPosition.height + topBarPosition.y - scrollY,
-		width: iconPosition.width + 5,
+		top:
+			topBarPosition.height +
+			topBarPosition.y +
+			iconPosition.height -
+			scrollY,
+		width: iconPosition.width,
 	};
 
 	const windowHeight = Dimensions.get("window").height;
@@ -253,8 +273,6 @@ const PostPage = ({ route }) => {
 		};
 	}, []);
 
-	const [pressHeart, setPressHeart] = useState();
-
 	const handleHeart = async () => {
 		try {
 			await createLikePost(postId);
@@ -286,22 +304,6 @@ const PostPage = ({ route }) => {
 			setHeart((prevHeart) => prevHeart + 1);
 		}
 	};
-
-	const likedPosts = async () => {
-		try {
-			const response = await getLikedPost();
-			const likedPostIdList = response.data.map((item) => item.id);
-			setPressHeart(likedPostIdList.includes(postId));
-		} catch (error) {
-			Sentry.captureException(error);
-			console.error(
-				"좋아요 상태 조회 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
-	const [pressBookmark, setPressBookmark] = useState();
 
 	const handleBookmark = async () => {
 		try {
@@ -336,14 +338,14 @@ const PostPage = ({ route }) => {
 	const bookmarkDeleteAlert = () => {
 		Alert.alert(
 			"",
-			"북마크를 취소하시겠습니까?",
+			t("bookmarkCancelConfirmation"),
 			[
 				{
-					text: "취소",
+					text: t("cancelButton"),
 					style: "cancel",
 				},
 				{
-					text: "확인",
+					text: t("confirmButtonText"),
 					onPress: () => {
 						setBookmark((prevBookmark) => prevBookmark - 1);
 						setPressBookmark(false);
@@ -355,31 +357,48 @@ const PostPage = ({ route }) => {
 		);
 	};
 
-	const bookmarkedPosts = async () => {
+	const getLikedAndBookmarkedStatus = async () => {
 		try {
-			const response = await getBookmarkedPost();
-			const bookmarkedPostIdList = response.data.map(
-				(item) => item.post.id,
-			);
-			setPressBookmark(bookmarkedPostIdList.includes(postId));
+			const response = await getPostById(postId);
+			setPressHeart(response.data.isLiked);
+			setPressBookmark(response.data.isBookmarked);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
-				"북마크 상태 조회 실패:",
+				"좋아요 및 북마크 상태 조회 실패:",
 				error.response ? error.response.data : error.message,
 			);
 		}
 	};
 
 	useEffect(() => {
-		likedPosts();
-		bookmarkedPosts();
+		getLikedAndBookmarkedStatus();
 	}, [pressHeart, pressBookmark]);
+
+	const handleTranslations = async () => {
+		try {
+			if (isTranslation) {
+				setIsTranslation(false);
+				getPost();
+			} else {
+				setIsTranslation(true);
+				const response = await translationByPostId(postId);
+				setTitle(response.data.translations[0].text);
+				setContext(response.data.translations[1].text);
+			}
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"게시글 번역 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
 
 	return (
 		<SafeAreaView style={PostStyles.container}>
 			<View onLayout={handleTopBarLayout}>
-				<TopBar topBar="게시판" color="#000" />
+				<TopBar topBar={t("boardTitle")} color="#000" />
 			</View>
 			<ScrollView onScroll={handleScroll}>
 				<View style={PostStyles.containerWhite}>
@@ -409,6 +428,7 @@ const PostPage = ({ route }) => {
 							isPublic={isPublic}
 							isMe={isMe}
 							position={modalPosition}
+							onNavigation={navigation}
 						/>
 					</View>
 					<Text style={PostStyles.textTitle}>{title}</Text>
@@ -489,9 +509,14 @@ const PostPage = ({ route }) => {
 							<IconBookmark active={pressBookmark} />
 							<Text style={PostStyles.textIcon}>{bookmark}</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={PostStyles.textTranslation}>
+						<TouchableOpacity
+							style={PostStyles.textTranslation}
+							onPress={handleTranslations}
+						>
 							<Text style={PostStyles.textTranslation}>
-								번역하기
+								{isTranslation
+									? t("viewOriginalButton")
+									: t("translateButton")}
 							</Text>
 						</TouchableOpacity>
 					</View>
@@ -534,7 +559,7 @@ const PostPage = ({ route }) => {
 							onPress={() => {
 								handlePress();
 							}}
-							text="익명"
+							text={t("anonymousCheckboxLabel")}
 							basic="true"
 						/>
 					</View>
@@ -542,9 +567,7 @@ const PostPage = ({ route }) => {
 						style={PostStyles.textInputComment}
 						ref={commentRef}
 						placeholder={
-							isReplying
-								? "대댓글을 입력해주세요"
-								: "댓글을 입력해주세요"
+							isReplying ? t("replyPrompt") : t("commentPrompt")
 						}
 						onChangeText={(text) => onChangeComment(text)}
 						value={valueComment}
