@@ -82,7 +82,7 @@
 		"ENFP",
 		"ISTJ",
 		"ENFJ",
-		"Not Applicable"
+		"Unselected"
 	],
 
 	"hobbySubtitle": "Please select {{username}}'s hobbies/interests!",
@@ -103,9 +103,9 @@
 		"Drawing",
 		"Cooking",
 		"Manga",
-		"Language Study",
+		"Language",
 		"Travel",
-		"Playing Instruments",
+		"Instruments",
 		"Movies",
 		"Restaurants"
 	],
