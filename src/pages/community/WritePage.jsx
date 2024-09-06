@@ -30,7 +30,7 @@ const WritePage = ({ route }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
-	const [isChecked, setIsChecked] = useState(false);
+	const [isChecked, setIsChecked] = useState(true);
 	const [valueTitle, onChangeTitle] = useState("");
 	const [valueContext, onChangeContext] = useState("");
 	const [isBoardType, setIsBoardType] = useState("");

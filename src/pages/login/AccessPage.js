@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text, SafeAreaView, Alert } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
 import * as Notifications from "expo-notifications";
-import * as Linking from "expo-linking";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
@@ -22,24 +21,12 @@ const AccessPage = () => {
 	const requestPermissions = async () => {
 		const { status: existingStatus } =
 			await Notifications.getPermissionsAsync();
-		let finalStatus = existingStatus;
 
 		if (existingStatus !== "granted") {
-			const { status } = await Notifications.requestPermissionsAsync();
-			finalStatus = status;
+			await Notifications.requestPermissionsAsync();
 		}
 
-		if (finalStatus !== "granted") {
-			Alert.alert("알림", "설정에서 알림 권한을 허용해주세요.", [
-				{ text: "취소", style: "cancel" },
-				{
-					text: "설정으로 이동",
-					onPress: () => Linking.openSettings(),
-				},
-			]);
-		} else {
-			navigation.navigate("Login");
-		}
+		navigation.navigate("Login");
 	};
 
 	const handlePress = () => {
