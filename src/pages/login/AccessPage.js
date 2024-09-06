@@ -3,6 +3,7 @@ import { View, Text, SafeAreaView } from "react-native";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import * as SecureStore from "expo-secure-store";
 
 import AccessStyles from "@pages/login/AccessStyles";
 
@@ -15,7 +16,6 @@ import GoBack from "@components/common/GoBack";
 
 const AccessPage = () => {
 	const { t } = useTranslation();
-
 	const navigation = useNavigation();
 
 	const requestPermissions = async () => {
@@ -26,11 +26,14 @@ const AccessPage = () => {
 			await Notifications.requestPermissionsAsync();
 		}
 
-		navigation.navigate("Login");
-	};
+		const firstLaunch = await SecureStore.getItem("hasLaunched");
 
-	const handlePress = () => {
-		requestPermissions();
+		if (firstLaunch === null) {
+			navigation.navigate("LandingPage");
+			await SecureStore.setItem("hasLaunched", "true");
+		} else {
+			navigation.navigate("Login");
+		}
 	};
 
 	return (
@@ -85,7 +88,11 @@ const AccessPage = () => {
 				<Text style={AccessStyles.textGuide}>{t("guideText")}</Text>
 			</View>
 			<View style={AccessStyles.applyButton}>
-				<ApplyButton text="확인" access="true" onPress={handlePress} />
+				<ApplyButton
+					text={t("confirmButtonText")}
+					access="true"
+					onPress={requestPermissions}
+				/>
 			</View>
 		</SafeAreaView>
 	);

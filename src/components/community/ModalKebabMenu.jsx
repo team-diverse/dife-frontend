@@ -197,6 +197,10 @@ const ModalKebabMenu = ({
 				[
 					{
 						text: t("confirmButtonText"),
+						onPress: () => {
+							setModalVisible(false);
+							onNavigation.goBack();
+						},
 					},
 				],
 				{ cancelable: false },
