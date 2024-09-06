@@ -392,5 +392,21 @@
 	"connectCancelSuccessMessage": "'{{name}}'\nLa solicitud de conexión ha sido cancelada.",
 
 	"changeLanguageConfirmation": "¿Desea cambiar el idioma predeterminado?",
-	"languageChangedSuccess": "El idioma predeterminado ha sido cambiado."
+	"languageChangedSuccess": "El idioma predeterminado ha sido cambiado.",
+
+	"chatTitle": "Chat",
+	"connectContent": "Conéctate con amigos de todo el mundo\nComparte diversas culturas y crece juntos",
+	"chatContent": "Comunicación sin límites con funciones de traducción\nAprende idiomas al mismo tiempo",
+	"communityContent": "Comparte información necesaria para vivir en el extranjero\n",
+	"startButton": "Comenzar Dife",
+
+	"translationFeatureTitle": "Guía de Función de Traducción",
+	"translationFeatureContent1": "Dife ofrece ",
+	"translationFeatureContent2": "15 traducciones gratuitas\n",
+	"translationFeatureContent3": "¡servicios de traducción!",
+	"translationServicePages": "Páginas donde se pueden usar los servicios de traducción: \nChat, Comunidad, Marcadores",
+	"supportedLanguages": "Idiomas soportados: \nInglés, Coreano, Chino, Japonés, Español",
+	"translationExhaustedTitle": "Límite de Traducción Agotado",
+	"translationExhaustedContent": "El límite de servicios de traducción gratuitos de Dife ha sido\ncompletamente agotado :(",
+	"betaTestInfo": "No se ofrecen servicios de suscripción de pago durante el período de prueba beta."
 }

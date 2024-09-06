@@ -392,5 +392,21 @@
 	"connectCancelSuccessMessage": "'{{name}}'\nコネクトリクエストがキャンセルされました。",
 
 	"changeLanguageConfirmation": "デフォルト言語を変更しますか？",
-	"languageChangedSuccess": "デフォルトの言語が変更されました。"
+	"languageChangedSuccess": "デフォルトの言語が変更されました。",
+
+	"chatTitle": "チャット",
+	"connectContent": "世界中の友達とつながり\nさまざまな文化を共有し、一緒に成長",
+	"chatContent": "翻訳機能で限界のないコミュニケーション\n同時に言語を学ぶ",
+	"communityContent": "海外生活に必要な情報を共有\n",
+	"startButton": "Difeを始める",
+
+	"translationFeatureTitle": "翻訳機能ガイド",
+	"translationFeatureContent1": "Difeは ",
+	"translationFeatureContent2": "15回の無料\n",
+	"translationFeatureContent3": "翻訳サービスを提供します!",
+	"translationServicePages": "翻訳サービスが利用できるページ: \nチャット、コミュニティ、ブックマーク",
+	"supportedLanguages": "提供言語: \n英語、韓国語、中国語、日本語、スペイン語",
+	"translationExhaustedTitle": "翻訳回数の使い切り通知",
+	"translationExhaustedContent": "Difeの無料翻訳サービスの回数が\nすべて使い切られました :(",
+	"betaTestInfo": "ベータテスト期間中は有料購読サービスは提供していません。"
 }

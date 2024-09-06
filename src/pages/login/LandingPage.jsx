@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
+import { useTranslation } from "react-i18next";
 
 import LandingStyles from "@pages/login/LandingStyles";
 
@@ -21,6 +22,7 @@ import IconLandingCommunity from "@components/landing/IconLandingCommunity";
 import IconLandingConnect from "@components/landing/IconLandingConnect";
 
 const LandingPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -30,21 +32,20 @@ const LandingPage = () => {
 	const pages = [
 		{
 			id: "1",
-			title: "커넥트",
-			content:
-				"세계 각국의 친구들과 연결\n다양한 문화를 나누고 함께 성장",
+			title: t("connectTitle"),
+			content: t("connectContent"),
 			image: require("src/assets/images/landing/landing_connect.png"),
 		},
 		{
 			id: "2",
-			title: "채팅",
-			content: "번역기능으로 한계없는 소통\n언어공부를 동시에",
+			title: t("chatTitle"),
+			content: t("chatContent"),
 			image: require("src/assets/images/landing/landing_chat.png"),
 		},
 		{
 			id: "3",
-			title: "게시판",
-			content: "타지 생활에 필요한 정보를 공유\n",
+			title: t("boardTitle"),
+			content: t("communityContent"),
 			image: require("src/assets/images/landing/landing_community.png"),
 		},
 	];
@@ -128,7 +129,7 @@ const LandingPage = () => {
 					disabled={currentIndex !== pages.length - 1}
 				>
 					<Text style={LandingStyles.textButton}>
-						{"Dife 시작하기"}
+						{t("startButton")}
 					</Text>
 				</TouchableOpacity>
 			</View>
