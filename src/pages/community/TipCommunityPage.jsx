@@ -107,7 +107,7 @@ const TipCommunityPage = () => {
 					style={TipCommunityStyles.iconPostPlus}
 					onPress={() =>
 						navigation.navigate("WritePage", {
-							noticeboard: "꿀팁게시판",
+							noticeboard: t("tipBoard"),
 						})
 					}
 				>
