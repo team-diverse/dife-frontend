@@ -24,7 +24,6 @@ import IconSettingSecurity from "@components/member/IconSettingSecurity";
 import IconSettingBlocks from "@components/member/IconSettingBlocks";
 import IconSettingNotify from "@components/member/IconSettingNotify";
 import IconSettingInquiry from "@components/member/IconSettingInquiry";
-import IconSettingSeviceNews from "@components/member/IconSettingSeviceNews";
 import IconSettingTrems from "@components/member/IconSettingTrems";
 import IconSwitchOn from "@components/member/IconSwitchOn";
 import IconSwitchOff from "@components/member/IconSwitchOff";
@@ -256,20 +255,6 @@ const SettingPage = () => {
 						style={{ transform: [{ scaleX: -1 }] }}
 					/>
 				</TouchableOpacity>
-				<View style={SettingStyles.line} />
-				<View style={SettingStyles.containerContent}>
-					<View style={SettingStyles.containerIconText}>
-						<IconSettingSeviceNews />
-						<Text style={SettingStyles.textContent}>
-							{t("serviceNews")}
-						</Text>
-					</View>
-					<ArrowRight
-						color="#B0D0FF"
-						size={24}
-						style={{ transform: [{ scaleX: -1 }] }}
-					/>
-				</View>
 				<View style={SettingStyles.line} />
 				<TouchableOpacity
 					style={SettingStyles.containerContent}
