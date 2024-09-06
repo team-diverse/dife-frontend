@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
-import IconTranslation from "@components/common//IconTranslation";
+import IconTranslation from "@components/common/IconTranslation";
 import ProfileK from "@components/member/ProfileK";
 
 const { fontSub16, fontSub14 } = CustomTheme;
@@ -14,6 +15,8 @@ const ModalTranslationsCount = ({
 	setModalVisible,
 	translationCount,
 }) => {
+	const { t } = useTranslation();
+
 	const handleClose = () => {
 		setModalVisible(false);
 	};
@@ -26,42 +29,45 @@ const ModalTranslationsCount = ({
 		>
 			<View style={styles.rectangle}>
 				{translationCount === 0 ? (
-					<View style={styles.container}>
+					<>
 						<IconTranslation style={styles.iconTranslation} />
-						<Text style={styles.textTitle}>번역 기능 안내</Text>
-						<View>
-							<Text style={styles.textSubTitle}>
-								Dife는{" "}
-								<Text style={styles.textSubTitleBlue}>
-									15회
+						<View style={styles.container}>
+							<Text style={styles.textTitle}>
+								{t("translationFeatureTitle")}
+							</Text>
+							<View>
+								<Text style={styles.textSubTitle}>
+									{t("translationFeatureContent1")}
+									<Text style={styles.textSubTitleBlue}>
+										{t("translationFeatureContent2")}
+									</Text>
+									{t("translationFeatureContent3")}
 								</Text>
-								{"\n"}무료 번역 서비스를 제공합니다!
-							</Text>
-							<Text style={styles.textContent}>
-								번역 서비스 사용 페이지: {"\n"}채팅, 커뮤니티,
-								북마크
-							</Text>
-							<Text style={styles.textContent}>
-								제공 언어: {"\n"}영어, 한국어, 중국어, 일본어,
-								스페인어
-							</Text>
+								<Text style={styles.textContent}>
+									{t("translationServicePages")}
+								</Text>
+								<Text style={styles.textContent}>
+									{t("supportedLanguages")}
+								</Text>
+							</View>
+							<TouchableOpacity
+								style={styles.rectangleBlue}
+								onPress={handleClose}
+							>
+								<Text style={styles.textRectangleBlue}>
+									{t("confirmButtonText")}
+								</Text>
+							</TouchableOpacity>
 						</View>
-						<TouchableOpacity
-							style={styles.rectangleBlue}
-							onPress={handleClose}
-						>
-							<Text style={styles.textRectangleBlue}>확인</Text>
-						</TouchableOpacity>
-					</View>
+					</>
 				) : (
 					<View style={styles.container}>
 						<Text style={styles.textTitle}>
-							번역 횟수 소진 안내
+							{t("translationExhaustedTitle")}
 						</Text>
 						<View>
 							<Text style={styles.textSubTitle}>
-								Dife는 무료 번역 서비스 횟수가{"\n"}모두
-								소진되었습니다 :(
+								{t("translationExhaustedContent")}
 							</Text>
 							<Text
 								style={[
@@ -78,8 +84,7 @@ const ModalTranslationsCount = ({
 							<View style={styles.containerIconText}>
 								<ProfileK />
 								<Text style={styles.textBetaTest}>
-									베타테스트 기간에는{"\n"}유료구독 서비스를
-									제공하지 않습니다.
+									{t("betaTestInfo")}
 								</Text>
 							</View>
 						</View>
@@ -87,7 +92,9 @@ const ModalTranslationsCount = ({
 							style={styles.rectangleBlue}
 							onPress={handleClose}
 						>
-							<Text style={styles.textRectangleBlue}>확인</Text>
+							<Text style={styles.textRectangleBlue}>
+								{t("confirmButtonText")}
+							</Text>
 						</TouchableOpacity>
 					</View>
 				)}
@@ -107,6 +114,7 @@ const styles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
 		position: "relative",
+		paddingHorizontal: 20,
 	},
 	container: {
 		flex: 1,
@@ -146,6 +154,7 @@ const styles = StyleSheet.create({
 		marginTop: 47,
 	},
 	textBetaTest: {
+		width: 157,
 		fontSize: 10,
 		lineHeight: 12,
 		fontFamily: "NotoSansCJKkr-Medium",
