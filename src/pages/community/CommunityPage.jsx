@@ -8,9 +8,11 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	Dimensions,
+	TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import CommunityStyles from "@pages/community/CommunityStyles";
 import { getPostsByType, getCommunitySearch } from "config/api";
@@ -24,7 +26,6 @@ import ArrowRight from "@components/common/ArrowRight";
 import ItemCommunityPreview from "@components/community/ItemCommunityPreview";
 import IconSearchFail from "@components/common/IconSearchFail";
 import ItemCommunity from "@components/community/ItemCommunity";
-import * as Sentry from "@sentry/react-native";
 
 const CommunityPage = () => {
 	const { t } = useTranslation();
@@ -165,7 +166,7 @@ const CommunityPage = () => {
 	);
 
 	return (
-		<View style={CommunityStyles.container}>
+		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 			<SafeAreaView style={CommunityStyles.container}>
 				<View style={CommunityStyles.backgroundBlue} />
 				<View style={CommunityStyles.connectTop}>
@@ -178,7 +179,7 @@ const CommunityPage = () => {
 					]}
 				>
 					<Text style={CommunityStyles.textChattingTitle}>
-						게시판
+						{t("boardTitle")}
 					</Text>
 					<TouchableOpacity
 						onPress={() =>
@@ -203,7 +204,7 @@ const CommunityPage = () => {
 									paddingLeft: 40,
 								},
 							]}
-							placeholder="검색"
+							placeholder={t("searchPlaceholder")}
 							value={searchTerm}
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}
@@ -245,7 +246,7 @@ const CommunityPage = () => {
 					<>{renderCommunity()}</>
 				)}
 			</SafeAreaView>
-		</View>
+		</TouchableWithoutFeedback>
 	);
 };
 

@@ -18,7 +18,7 @@ import LoginStyles from "@pages/login/LoginStyles";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import IconNotSeePw from "@components/login/IconNotSeePw";
 import IconSeePw from "@components/login/IconSeePw";
-import LoginBackground from "@components/login/LoginBackground";
+import DifeLine from "@components/common/DifeLine";
 import { useOnboarding } from "src/states/OnboardingContext.js";
 import { useAuth } from "src/states/AuthContext";
 import InfoCircle from "@components/common/InfoCircle";
@@ -144,7 +144,7 @@ const LoginPage = () => {
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
 			<SafeAreaView style={LoginStyles.container}>
-				<LoginBackground style={LoginStyles.backgroundLogin} />
+				<DifeLine style={LoginStyles.backgroundLogin} />
 				<Text style={LoginStyles.textTitle}>{t("loginTitle")}</Text>
 				<Text style={LoginStyles.textSubTitle}>
 					{t("loginSubtitle")}
@@ -212,13 +212,13 @@ const LoginPage = () => {
 						/>
 						<View text={t("login")} onPress={handleLogin} />
 					</BottomTwoButtons>
-					<TouchableOpacity
+					{/* <TouchableOpacity
 						onPress={() => navigation.navigate("FindPassword")}
 					>
 						<Text style={LoginStyles.textReport}>
 							{t("loginForgotPassword")}
 						</Text>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 				</View>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>
