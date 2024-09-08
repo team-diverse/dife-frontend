@@ -4,7 +4,7 @@
 
 We follow Conventional Commits
 
-Reference
+Reference (참조)
 
 -   [A Simplified Convention for Naming Branches and Commits in Git](https://dev.to/varbsan/a-simplified-convention-for-naming-branches-and-commits-in-git-il4)
 
