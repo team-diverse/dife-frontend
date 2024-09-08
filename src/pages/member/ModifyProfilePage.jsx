@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState } from "react";
 import {
 	SafeAreaView,
 	View,
@@ -14,7 +14,8 @@ import { useTranslation } from "react-i18next";
 import ModifyProfileStyles from "@pages/member/ModifyProfileStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { formatProfileData } from "util/formatProfileData";
-import { getMyMemberId, getMyProfile, updateMyProfile } from "config/api";
+import { getMyMemberId } from "util/secureStoreUtils";
+import { getMyProfile, updateMyProfile } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ModifyKBackground from "@components/member/ModifyKBackground";
@@ -30,15 +31,6 @@ const ModifyProfilePage = () => {
 	const [profile, setProfile] = useState();
 	const [, setProfileImage] = useState(null);
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
-	const [myMemberId, setMyMemberId] = useState(null);
-
-	useEffect(() => {
-		const getMyId = async () => {
-			const memberId = await getMyMemberId();
-			setMyMemberId(memberId);
-		};
-		getMyId();
-	}, []);
 
 	const getMyProfileInfo = async () => {
 		try {
@@ -87,11 +79,13 @@ const ModifyProfilePage = () => {
 
 	const handleProfileImage = async (imageUri) => {
 		try {
+			const memberId = await getMyMemberId();
+
 			const formData = new FormData();
 			const file = {
 				uri: imageUri,
 				type: "image/jpeg",
-				name: `${myMemberId}_profile.jpg`,
+				name: `${memberId}_profile.jpg`,
 			};
 			formData.append("profileImg", file);
 
