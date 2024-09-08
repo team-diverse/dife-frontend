@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { createLikeComment, deleteLikeByCommentId } from "config/api";
+import {
+	createLikeComment,
+	deleteLikeByCommentId,
+	translationByCommentId,
+	getMyProfile,
+} from "config/api";
 import { getMyMemberId } from "util/secureStoreUtils";
 import { formatDate } from "util/formatDate";
 
@@ -11,18 +18,25 @@ import IconKebabMenu from "@components/community/IconKebabMenu";
 import IconComment from "@components/community/IconComment";
 import IconReply from "@components/community/IconReply";
 import ModalKebabMenu from "@components/community/ModalKebabMenu";
-
-import * as Sentry from "@sentry/react-native";
+import ModalTranslationsCount from "@components/common/ModalTranslationsCount";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
 const ItemComment = ({ commentList = [], onReply }) => {
+	const { t } = useTranslation();
 	const initialHeartStates = commentList.map((post) => ({
 		id: post.id,
 		likesCount: post.likesCount,
 		isLiked: post.isLiked,
 	}));
 	const [heartStates, setHeartStates] = useState(initialHeartStates);
+	const [translations, setTranslations] = useState({});
+	const [showTranslations, setShowTranslations] = useState({});
+	const [replyTranslations, setReplyTranslations] = useState({});
+	const [replyShowTranslations, setReplyShowTranslations] = useState({});
+	const [modalTranslationVisible, setModalTranslationVisible] =
+		useState(false);
+	const [translationCount, setTranslationCount] = useState();
 
 	useEffect(() => {
 		const newHeartStates = commentList.map((post) => ({
@@ -34,7 +48,88 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		if (JSON.stringify(newHeartStates) !== JSON.stringify(heartStates)) {
 			setHeartStates(newHeartStates);
 		}
+
+		const newCommentTranslations = {};
+		const newReplyTranslations = {};
+
+		commentList.forEach((comment) => {
+			if (comment.translatedText) {
+				newCommentTranslations[comment.id] = comment.translatedText;
+			}
+			if (comment.parentComment) {
+				if (comment.translatedText) {
+					newReplyTranslations[comment.id] = comment.translatedText;
+				}
+			}
+		});
+
+		setTranslations((prev) => ({
+			...prev,
+			...newCommentTranslations,
+		}));
+		setReplyTranslations((prev) => ({
+			...prev,
+			...newReplyTranslations,
+		}));
 	}, [commentList]);
+
+	const handleTranslate = async (commentId, isComment) => {
+		if (isComment && translations[commentId]) return;
+		if (!isComment && replyTranslations[commentId]) return;
+
+		try {
+			const responseCount = await getMyProfile();
+			const count =
+				responseCount.data.translationCount === 0
+					? 0
+					: responseCount.data.translationCount + 1;
+			setTranslationCount(count);
+
+			const setTranslationsForType = isComment
+				? setTranslations
+				: setReplyTranslations;
+			if (count === 0) {
+				setModalTranslationVisible(true);
+				const response = await translationByCommentId(commentId);
+				const translationText = response.data.translations[0]?.text;
+				setTranslationsForType((prev) => ({
+					...prev,
+					[commentId]: translationText,
+				}));
+			} else if (count <= 15) {
+				setModalTranslationVisible(false);
+				const response = await translationByCommentId(commentId);
+				const translationText = response.data.translations[0]?.text;
+				setTranslationsForType((prev) => ({
+					...prev,
+					[commentId]: translationText,
+				}));
+			} else if (count > 15) {
+				handleToggleTranslation(commentId, isComment);
+				setModalTranslationVisible(true);
+			}
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"댓글 번역 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	const handleToggleTranslation = (commentId, isComment) => {
+		if (isComment) {
+			setShowTranslations((prevState) => ({
+				...prevState,
+				[commentId]: !prevState[commentId],
+			}));
+		} else {
+			setReplyShowTranslations((prevState) => ({
+				...prevState,
+				[commentId]: !prevState[commentId],
+			}));
+		}
+	};
 
 	const handleCommentHeart = async (commentId, isLiked) => {
 		try {
@@ -86,23 +181,22 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		commentIsMe: false,
 	});
 
+	const iconRefs = useRef({});
+
 	const [modalPosition, setModalPosition] = useState({
-		top: 0,
-		left: 0,
+		x: 0,
+		y: 0,
+		width: 0,
+		height: 0,
 	});
 
-	const handleIconPress = (
-		event,
-		commentId,
-		commentWriterId,
-		isPublic,
-		isMe,
-	) => {
-		const { pageX, pageY } = event.nativeEvent;
-		setModalPosition({
-			top: Math.floor(pageY / 10) * 10,
-			left: Math.floor(pageX / 10) * 10,
-		});
+	const handleIconPress = (commentId, commentWriterId, isPublic, isMe) => {
+		const iconRef = iconRefs.current[commentId];
+		if (iconRef) {
+			iconRef.measureInWindow((x, y, width, height) => {
+				setModalPosition({ x, y, width, height });
+			});
+		}
 		handleCommentKebabMenu(commentId, commentWriterId, isPublic, isMe);
 	};
 
@@ -112,6 +206,12 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		isPublic,
 		isMe,
 	) => {
+		const iconRef = iconRefs.current[commentId];
+		if (iconRef) {
+			iconRef.measureInWindow((x, y, width, height) => {
+				setModalPosition({ x, y, width, height });
+			});
+		}
 		setModalData({
 			modalVisible: true,
 			commentId,
@@ -144,6 +244,10 @@ const ItemComment = ({ commentList = [], onReply }) => {
 				reply.parentComment && reply.parentComment.id === comment.id,
 		);
 
+		const commentText = showTranslations[comment.id]
+			? translations[comment.id] || comment.content
+			: comment.content;
+
 		return (
 			<View key={comment.id}>
 				<View style={styles.ItemCommunity}>
@@ -151,11 +255,11 @@ const ItemComment = ({ commentList = [], onReply }) => {
 						<View>
 							<Text style={styles.textPostTitle}>
 								{comment.isPublic
-									? "익명"
+									? t("anonymousCheckboxLabel")
 									: comment.writer.username}
 							</Text>
 							<Text style={styles.textPostContext}>
-								{comment.content}
+								{commentText}
 							</Text>
 
 							<View style={styles.containerTextRow}>
@@ -203,9 +307,8 @@ const ItemComment = ({ commentList = [], onReply }) => {
 
 						<TouchableOpacity
 							style={styles.iconKebabMenu}
-							onPress={(event) =>
+							onPress={() =>
 								handleIconPress(
-									event,
 									comment.id,
 									comment.writer.id,
 									comment.isPublic,
@@ -213,23 +316,46 @@ const ItemComment = ({ commentList = [], onReply }) => {
 								)
 							}
 						>
-							<IconKebabMenu />
+							<View
+								ref={(ref) =>
+									(iconRefs.current[comment.id] = ref)
+								}
+							>
+								<IconKebabMenu />
+							</View>
 						</TouchableOpacity>
-						<ModalKebabMenu
-							modalVisible={
-								modalData.modalVisible &&
-								modalData.commentId === comment.id
-							}
-							setModalVisible={closeModal}
-							memberId={modalData.commentWriterId}
-							commentId={modalData.commentId}
-							isPublic={modalData.commentIsPublic}
-							isMe={modalData.commentIsMe}
-							position={modalPosition}
+						{modalPosition && (
+							<ModalKebabMenu
+								modalVisible={
+									modalData.modalVisible &&
+									modalData.commentId === comment.id
+								}
+								setModalVisible={closeModal}
+								memberId={modalData.commentWriterId}
+								commentId={modalData.commentId}
+								isPublic={modalData.commentIsPublic}
+								isMe={modalData.commentIsMe}
+								position={modalPosition}
+							/>
+						)}
+						<TouchableOpacity
+							style={styles.textTranslation}
+							onPress={() => {
+								handleTranslate(comment.id, true);
+								handleToggleTranslation(comment.id, true);
+							}}
+						>
+							<Text style={styles.textTranslation}>
+								{showTranslations[comment.id]
+									? t("viewOriginalButton")
+									: t("translateButton")}
+							</Text>
+						</TouchableOpacity>
+						<ModalTranslationsCount
+							modalVisible={modalTranslationVisible}
+							setModalVisible={setModalTranslationVisible}
+							translationCount={translationCount}
 						/>
-						<TouchableOpacity style={styles.textTranslation}>
-							<Text style={styles.textTranslation}>번역하기</Text>
-						</TouchableOpacity>
 					</View>
 				</View>
 
@@ -241,11 +367,14 @@ const ItemComment = ({ commentList = [], onReply }) => {
 								<View>
 									<Text style={styles.textPostTitle}>
 										{reply.isPublic
-											? "익명"
+											? t("anonymousCheckboxLabel")
 											: reply.writer.username}
 									</Text>
 									<Text style={styles.textPostContext}>
-										{reply.content}
+										{replyShowTranslations[reply.id]
+											? replyTranslations[reply.id] ||
+												reply.content
+											: reply.content}
 									</Text>
 
 									<View style={styles.containerTextRow}>
@@ -293,27 +422,49 @@ const ItemComment = ({ commentList = [], onReply }) => {
 										)
 									}
 								>
-									<IconKebabMenu />
+									<View
+										ref={(ref) =>
+											(iconRefs.current[reply.id] = ref)
+										}
+									>
+										<IconKebabMenu />
+									</View>
 								</TouchableOpacity>
-								<ModalKebabMenu
-									modalVisible={
-										modalData.modalVisible &&
-										modalData.commentId === reply.id
-									}
-									setModalVisible={closeModal}
-									memberId={modalData.commentWriterId}
-									commentId={modalData.commentId}
-									isPublic={modalData.commentIsPublic}
-									isMe={modalData.commentIsMe}
-									position={modalPosition}
-								/>
+								{modalPosition && (
+									<ModalKebabMenu
+										modalVisible={
+											modalData.modalVisible &&
+											modalData.commentId === reply.id
+										}
+										setModalVisible={closeModal}
+										memberId={modalData.commentWriterId}
+										commentId={modalData.commentId}
+										isPublic={modalData.commentIsPublic}
+										isMe={modalData.commentIsMe}
+										position={modalPosition}
+									/>
+								)}
 								<TouchableOpacity
 									style={styles.textTranslation}
+									onPress={() => {
+										handleTranslate(reply.id, false);
+										handleToggleTranslation(
+											reply.id,
+											false,
+										);
+									}}
 								>
 									<Text style={styles.textTranslation}>
-										번역하기
+										{replyShowTranslations[reply.id]
+											? t("viewOriginalButton")
+											: t("translateButton")}
 									</Text>
 								</TouchableOpacity>
+								<ModalTranslationsCount
+									modalVisible={modalTranslationVisible}
+									setModalVisible={setModalTranslationVisible}
+									translationCount={translationCount}
+								/>
 							</View>
 						</View>
 					</View>
@@ -364,8 +515,6 @@ const styles = StyleSheet.create({
 	},
 	iconKebabMenu: {
 		position: "absolute",
-		width: 13,
-		height: 13,
 		top: 0,
 		right: -11,
 	},

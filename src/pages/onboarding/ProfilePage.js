@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
+import { useTranslation } from "react-i18next";
 
 import ProfileStyles from "@pages/onboarding/ProfileStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
@@ -28,6 +29,8 @@ import IconProfileChange from "@components/onboarding/IconProfileChange";
 import IconProfileBorder from "@components/onboarding/IconProfileBorder";
 
 const ProfilePage = ({ route }) => {
+	const { t } = useTranslation();
+
 	const { selectedCountry, selectedCountryCode } = route.params || {};
 
 	const navigation = useNavigation();
@@ -36,7 +39,6 @@ const ProfilePage = ({ route }) => {
 		navigation.goBack();
 	};
 
-	const ProfileData = ["프로필 생성하기", "프로필 사진"];
 	const [image, setImage] = useState(null);
 	const [text, setText] = useState("");
 	const [nation, setNation] = useState("");
@@ -49,7 +51,10 @@ const ProfilePage = ({ route }) => {
 		const { status } =
 			await ImagePicker.requestMediaLibraryPermissionsAsync();
 		if (status !== "granted") {
-			Alert.alert("알림", "설정에서 이미지 권한을 허용해주세요.");
+			Alert.alert(
+				t("imagePermissionAlertTitle"),
+				t("imagePermissionAlertMessage"),
+			);
 			return;
 		}
 
@@ -99,10 +104,10 @@ const ProfilePage = ({ route }) => {
 							<Progress2 />
 						</View>
 						<Text style={ProfileStyles.textTitle}>
-							{ProfileData[0]}
+							{t("profileCreationTitle")}
 						</Text>
 						<Text style={ProfileStyles.textSubTitle}>
-							{ProfileData[1]}
+							{t("profilePictureSubtitle")}
 						</Text>
 						{image ? (
 							<View style={ProfileStyles.containerImage}>
@@ -132,7 +137,7 @@ const ProfilePage = ({ route }) => {
 									{ marginLeft: 0 },
 								]}
 							>
-								국적
+								{t("nationality")}
 							</Text>
 							<TouchableOpacity
 								style={ProfileStyles.containerNationInput}
@@ -153,18 +158,18 @@ const ProfilePage = ({ route }) => {
 											},
 										]}
 									>
-										국적을 선택해주세요
+										{t("selectNationality")}
 									</Text>
 								)}
 							</TouchableOpacity>
 						</View>
 						<Text style={ProfileStyles.textNationIntroduction}>
-							한줄소개
+							{t("bio")}
 						</Text>
 						<View style={ProfileStyles.containerTextInput}>
 							<TextInput
 								style={ProfileStyles.textInputIntroduction}
-								placeholder="간단한 자기소개를 입력해주세요"
+								placeholder={t("bioPlaceholder")}
 								onChangeText={setText}
 								value={text}
 								multiline={true}
@@ -176,7 +181,7 @@ const ProfilePage = ({ route }) => {
 						</View>
 						<View style={ProfileStyles.buttonCheck}>
 							<ApplyButton
-								text="다음"
+								text={t("nextButton")}
 								onPress={handleDataSave}
 								disabled={!nation}
 							/>

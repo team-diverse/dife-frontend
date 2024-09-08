@@ -7,8 +7,11 @@ import {
 	Keyboard,
 	TouchableOpacity,
 	ScrollView,
+	Dimensions,
+	TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import TipCommunityStyles from "@pages/community/TipCommunityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -26,6 +29,7 @@ import IconSearchFail from "@components/common/IconSearchFail";
 import * as Sentry from "@sentry/react-native";
 
 const TipCommunityPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const handleGoBack = () => {
@@ -92,24 +96,32 @@ const TipCommunityPage = () => {
 		}, []),
 	);
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
 	return (
-		<View style={TipCommunityStyles.container}>
-			<View style={TipCommunityStyles.backgroundBlue} />
-			<TouchableOpacity
-				style={TipCommunityStyles.iconPostPlus}
-				onPress={() =>
-					navigation.navigate("WritePage", {
-						noticeboard: "꿀팁게시판",
-					})
-				}
-			>
-				<IconPostPlus />
-			</TouchableOpacity>
-			<SafeAreaView style={TipCommunityStyles.safeAreaView}>
+		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+			<SafeAreaView style={TipCommunityStyles.container}>
+				<View style={TipCommunityStyles.backgroundBlue} />
+				<TouchableOpacity
+					style={TipCommunityStyles.iconPostPlus}
+					onPress={() =>
+						navigation.navigate("WritePage", {
+							noticeboard: t("tipBoard"),
+						})
+					}
+				>
+					<IconPostPlus />
+				</TouchableOpacity>
 				<View style={TipCommunityStyles.connectTop}>
 					<ConnectTop />
 				</View>
-				<View style={TipCommunityStyles.containerTextIcon}>
+				<View
+					style={[
+						TipCommunityStyles.containerTextIcon,
+						isSmallScreen && { top: -25 },
+					]}
+				>
 					<TouchableOpacity
 						style={TipCommunityStyles.iconArrowRight}
 						onPress={handleGoBack}
@@ -117,12 +129,17 @@ const TipCommunityPage = () => {
 						<ArrowRight color={CustomTheme.bgBasic} />
 					</TouchableOpacity>
 					<Text style={TipCommunityStyles.textChattingTitle}>
-						꿀팁게시판
+						{t("tipsBoard")}
 					</Text>
 					<IconBookmark style={TipCommunityStyles.iconBookmark} />
 				</View>
 				<View style={TipCommunityStyles.containerSearch}>
-					<View style={TipCommunityStyles.containerSearchIcon}>
+					<View
+						style={[
+							TipCommunityStyles.containerSearchIcon,
+							isSmallScreen && { top: -25 },
+						]}
+					>
 						<TextInput
 							style={[
 								TipCommunityStyles.search,
@@ -131,7 +148,7 @@ const TipCommunityPage = () => {
 									paddingLeft: 40,
 								},
 							]}
-							placeholder="검색"
+							placeholder={t("searchPlaceholder")}
 							value={searchTerm}
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}
@@ -166,7 +183,7 @@ const TipCommunityPage = () => {
 						<View style={TipCommunityStyles.containerFail}>
 							<IconSearchFail />
 							<Text style={TipCommunityStyles.textFail}>
-								일치하는 검색 결과가 없습니다
+								{t("searchNoResults")}
 							</Text>
 						</View>
 					) : (
@@ -180,7 +197,7 @@ const TipCommunityPage = () => {
 					)}
 				</ScrollView>
 			</SafeAreaView>
-		</View>
+		</TouchableWithoutFeedback>
 	);
 };
 

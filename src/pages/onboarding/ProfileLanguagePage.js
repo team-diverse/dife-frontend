@@ -1,10 +1,19 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	SafeAreaView,
+	TouchableOpacity,
+	Dimensions,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import ProfileLanguageStyles from "@pages/onboarding/ProfileLanguageStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
 import { useOnboarding } from "src/states/OnboardingContext.js";
+import { updateMyProfile } from "config/api";
 
 import ArrowRight from "@components/common/ArrowRight";
 import Progress5 from "@components/onboarding/Progress5";
@@ -12,6 +21,8 @@ import Checkbox from "@components/common/Checkbox";
 import ApplyButton from "@components/common/ApplyButton";
 
 const ProfileLanguagePage = () => {
+	const { t } = useTranslation();
+
 	const navigation = useNavigation();
 
 	const handleGoBack = () => {
@@ -20,18 +31,7 @@ const ProfileLanguagePage = () => {
 
 	const { onboardingData, updateOnboardingData } = useOnboarding();
 
-	const ProfileData = [
-		"프로필 생성하기",
-		`${onboardingData.username}님의 사용언어를 알려주세요!`,
-	];
-	const languages = [
-		"English / English",
-		"中文 / Chinese",
-		"日本語 / Japanese",
-		"Español / Spanish",
-		"한국어 / Korean",
-		"기타",
-	];
+	const languages = t("languages", { returnObjects: true });
 	const [isCheckedList, setIsCheckedList] = useState(
 		new Array(languages.length).fill(false),
 	);
@@ -44,7 +44,7 @@ const ProfileLanguagePage = () => {
 		});
 	};
 
-	const handleDataSave = () => {
+	const handleDataSave = async () => {
 		const selectedLanguages = isCheckedList.reduce(
 			(selected, isChecked, index) => {
 				if (isChecked) {
@@ -56,8 +56,41 @@ const ProfileLanguagePage = () => {
 		);
 
 		updateOnboardingData({ languages: selectedLanguages });
-		navigation.navigate("StudentVerification");
+
+		const formData = new FormData();
+		formData.append("username", onboardingData.username);
+		formData.append("country", onboardingData.country);
+		formData.append("bio", onboardingData.bio);
+		formData.append("mbti", onboardingData.mbti);
+		formData.append("hobbies", JSON.stringify(onboardingData.hobbies));
+		formData.append("languages", selectedLanguages);
+		const memberId = onboardingData.id;
+
+		if (onboardingData.profileImg) {
+			const file = {
+				uri: onboardingData.profileImg,
+				type: "image/jpeg",
+				name: `${memberId}_profile.jpg`,
+			};
+			formData.append("profileImg", file);
+		}
+
+		try {
+			await updateMyProfile(formData);
+			navigation.navigate("CompleteProfile");
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"온보딩 저장 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+
+		// navigation.navigate("StudentVerification");
 	};
+
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
 
 	return (
 		<SafeAreaView style={[ProfileLanguageStyles.container]}>
@@ -71,10 +104,10 @@ const ProfileLanguagePage = () => {
 				<Progress5 />
 			</View>
 			<Text style={ProfileLanguageStyles.textTitle}>
-				{ProfileData[0]}
+				{t("profileCreationTitle")}
 			</Text>
 			<Text style={ProfileLanguageStyles.textSubTitle}>
-				{ProfileData[1]}
+				{t("languageSubtitle", { username: onboardingData.username })}
 			</Text>
 			<View style={ProfileLanguageStyles.containerCheckbox}>
 				{languages.map((language, index) => (
@@ -86,9 +119,14 @@ const ProfileLanguagePage = () => {
 					/>
 				))}
 			</View>
-			<View style={ProfileLanguageStyles.buttonCheck}>
+			<View
+				style={[
+					ProfileLanguageStyles.buttonCheck,
+					isSmallScreen && { bottom: 30 },
+				]}
+			>
 				<ApplyButton
-					text="다음"
+					text={t("nextButton")}
 					onPress={handleDataSave}
 					disabled={!isCheckedList.some((isChecked) => isChecked)}
 				/>

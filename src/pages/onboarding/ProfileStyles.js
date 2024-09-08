@@ -97,6 +97,9 @@ const ProfileStyles = StyleSheet.create({
 		fontSize: 12,
 		color: "#666",
 	},
+	buttonCheck: {
+		marginTop: 28,
+	},
 });
 
 export default ProfileStyles;

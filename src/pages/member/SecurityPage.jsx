@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
+import { useTranslation } from "react-i18next";
 
 import SecurityStyles from "@pages/member/SecurityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -20,6 +21,7 @@ import IconSwitchOn from "@components/member/IconSwitchOn";
 import IconSwitchOff from "@components/member/IconSwitchOff";
 
 const SecurityPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const { setIsLoggedIn } = useAuth();
@@ -70,11 +72,11 @@ const SecurityPage = () => {
 	const handleAlertLogout = () => {
 		Alert.alert(
 			"",
-			"로그아웃하시겠습니까?",
+			t("logoutConfirmation"),
 			[
-				{ text: "취소", style: "cancel" },
+				{ text: t("cancelButton"), style: "cancel" },
 				{
-					text: "확인",
+					text: t("confirmButtonText"),
 					onPress: () => {
 						handleLogout();
 					},
@@ -87,7 +89,7 @@ const SecurityPage = () => {
 	return (
 		<SafeAreaView style={SecurityStyles.container}>
 			<TopBar
-				topBar="보안"
+				topBar={t("security")}
 				color="#000"
 				backgroundColor={CustomTheme.primaryBg}
 			/>
@@ -96,20 +98,20 @@ const SecurityPage = () => {
 				<View style={SecurityStyles.backgroundWhite}>
 					<View style={SecurityStyles.containerRow}>
 						<Text style={SecurityStyles.textContent}>
-							프로필 비공개
+							{t("profilePrivacy")}
 						</Text>
 						<TouchableOpacity onPress={handleSwitch}>
 							{switchOn ? <IconSwitchOn /> : <IconSwitchOff />}
 						</TouchableOpacity>
 					</View>
 				</View>
-				<TouchableOpacity
+				{/* <TouchableOpacity
 					style={SecurityStyles.backgroundWhite}
 					onPress={() => navigation.navigate("FindPasswordPage")}
 				>
 					<View style={SecurityStyles.containerRow}>
 						<Text style={SecurityStyles.textContent}>
-							비밀번호 재발급
+							{t("findPasswordTitle")}
 						</Text>
 						<ArrowRight
 							color="#B0D0FF"
@@ -117,7 +119,7 @@ const SecurityPage = () => {
 							style={{ transform: [{ scaleX: -1 }] }}
 						/>
 					</View>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>
 
 			<View style={SecurityStyles.line} />
@@ -128,7 +130,9 @@ const SecurityPage = () => {
 					onPress={handleAlertLogout}
 				>
 					<View style={SecurityStyles.containerRow}>
-						<Text style={SecurityStyles.textContent}>로그아웃</Text>
+						<Text style={SecurityStyles.textContent}>
+							{t("logout")}
+						</Text>
 						<ArrowRight
 							color="#B0D0FF"
 							size={24}
@@ -142,7 +146,7 @@ const SecurityPage = () => {
 				>
 					<View style={SecurityStyles.containerRow}>
 						<Text style={SecurityStyles.textContent}>
-							회원 탈퇴
+							{t("deleteAccount")}
 						</Text>
 						<ArrowRight
 							color="#B0D0FF"

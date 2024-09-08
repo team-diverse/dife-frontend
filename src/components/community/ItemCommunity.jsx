@@ -1,6 +1,7 @@
 import React from "react";
 import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { formatDate } from "util/formatDate";
@@ -11,14 +12,21 @@ import IconComment from "@components/community/IconComment";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const ItemCommunity = ({ postList = [], comment = false }) => {
+const ItemCommunity = ({
+	postList = [],
+	comment = false,
+	apiPost = false,
+	likedPostBlue = false,
+	bookmarkedPostBlue = false,
+}) => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	return (
 		<>
 			{postList.map((post, index) => {
 				const commentText = comment
-					? `'${post.post.title}' 글에 댓글`
+					? `'${post.post.title}' ${t("commentOnPost")}`
 					: post.title;
 
 				return (
@@ -27,7 +35,8 @@ const ItemCommunity = ({ postList = [], comment = false }) => {
 						style={styles.ItemCommunity}
 						onPress={() =>
 							navigation.navigate("PostPage", {
-								postId: comment ? post.post.id : post.id,
+								postId:
+									apiPost || comment ? post.post.id : post.id,
 							})
 						}
 					>
@@ -36,35 +45,55 @@ const ItemCommunity = ({ postList = [], comment = false }) => {
 								<Text
 									style={[
 										styles.textPostTitle,
-										post.image ? { width: 196 } : {},
+										(apiPost ? post.post.image : post.image)
+											? { width: 196 }
+											: {},
 									]}
 								>
-									{commentText}
+									{apiPost ? post.post.title : commentText}
 								</Text>
 								<Text
 									style={[
 										styles.textPostContext,
-										post.image ? { width: 196 } : {},
+										(apiPost ? post.post.image : post.image)
+											? { width: 196 }
+											: {},
 									]}
 								>
-									{post.content}
+									{apiPost ? post.post.content : post.content}
 								</Text>
 
 								<View style={styles.containerTextRow}>
 									<View style={styles.containerText}>
-										<IconHeart active={post.isLiked} />
+										<IconHeart
+											likedPostBlue={likedPostBlue}
+											active={
+												apiPost
+													? post.post.isLiked
+													: post.isLiked
+											}
+										/>
 										<Text style={styles.text}>
-											{post.likesCount == null
-												? 0
+											{apiPost
+												? post.post.likesCount
 												: post.likesCount}
 										</Text>
 									</View>
 									{comment == false && (
 										<View style={styles.containerText}>
-											<IconBookmark />
+											<IconBookmark
+												bookmarkedPostBlue={
+													bookmarkedPostBlue
+												}
+												active={
+													apiPost
+														? post.post.isBookmarked
+														: post.isBookmarked
+												}
+											/>
 											<Text style={styles.text}>
-												{post.bookmarkCount == null
-													? 0
+												{apiPost
+													? post.post.bookmarkCount
 													: post.bookmarkCount}
 											</Text>
 										</View>
@@ -72,23 +101,33 @@ const ItemCommunity = ({ postList = [], comment = false }) => {
 									<View style={styles.containerText}>
 										<IconComment />
 										<Text style={styles.text}>
-											{post.commentsCount == null
-												? 0
-												: post.commentsCount}
+											{apiPost || comment
+												? post.post.commentCount
+												: post.commentCount}
 										</Text>
 									</View>
 									<View style={styles.containerText}>
 										<Text style={styles.text}>
-											{formatDate(post.created)}
+											{formatDate(
+												apiPost
+													? post.post.created
+													: post.created,
+											)}
 										</Text>
 									</View>
 								</View>
 							</View>
 
-							{post.profilePresignUrl && (
+							{(apiPost
+								? post.post.profilePresignUrl
+								: post.profilePresignUrl) && (
 								<View style={styles.containerImage}>
 									<Image
-										source={{ uri: post.profilePresignUrl }}
+										source={{
+											uri: apiPost
+												? post.post.profilePresignUrl
+												: post.profilePresignUrl,
+										}}
 										style={styles.imagePost}
 									/>
 								</View>

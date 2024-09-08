@@ -7,6 +7,7 @@ const { fontHead20, fontHead18, fontSub16, fontCaption, fontNaviBold } =
 const ConnectStyles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: CustomTheme.bgBasic,
 	},
 	containerImageNumber: {
 		position: "absolute",
@@ -80,11 +81,14 @@ const ConnectStyles = StyleSheet.create({
 		borderRadius: 24,
 		paddingLeft: 20,
 	},
+	iconArrowRightSearch: {
+		position: "absolute",
+		left: 8,
+	},
 	searchIcon: {
 		position: "absolute",
 		right: 12,
 	},
-
 	containerDife: {
 		alignItems: "center",
 	},
@@ -96,13 +100,8 @@ const ConnectStyles = StyleSheet.create({
 		marginTop: -47,
 		zIndex: 1,
 	},
-	safeAreaView: {
-		flex: 1,
-		backgroundColor: CustomTheme.bgBasic,
-	},
 	midContainer: {
-		flexDirection: "row",
-		alignItems: "center",
+		alignItems: "flex-end",
 		marginTop: 20,
 		marginBottom: 12,
 	},

@@ -2,15 +2,22 @@ import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const IconBookmark = ({ active, ...props }) => {
-	const color = active ? CustomTheme.pointYellow : CustomTheme.borderColor;
+const IconBookmark = (props) => {
+	const { active, bookmarkedPostBlue, ...restProps } = props;
+
+	const color = bookmarkedPostBlue
+		? CustomTheme.primaryMedium
+		: active
+			? CustomTheme.pointYellow
+			: CustomTheme.borderColor;
+
 	return (
 		<Svg
 			xmlns="http://www.w3.org/2000/svg"
 			width={16}
 			height={17}
 			fill="none"
-			{...props}
+			{...restProps}
 		>
 			<Path
 				fill={color}

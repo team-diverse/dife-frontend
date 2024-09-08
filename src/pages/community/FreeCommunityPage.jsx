@@ -7,8 +7,11 @@ import {
 	Keyboard,
 	TouchableOpacity,
 	ScrollView,
+	Dimensions,
+	TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 import FreeCommunityStyles from "@pages/community/FreeCommunityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -26,6 +29,7 @@ import IconSearchFail from "@components/common/IconSearchFail";
 import * as Sentry from "@sentry/react-native";
 
 const FreeCommunityPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const handleGoBack = () => {
@@ -92,24 +96,32 @@ const FreeCommunityPage = () => {
 		}, []),
 	);
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
 	return (
-		<View style={FreeCommunityStyles.container}>
-			<View style={FreeCommunityStyles.backgroundBlue} />
-			<TouchableOpacity
-				style={FreeCommunityStyles.iconPostPlus}
-				onPress={() =>
-					navigation.navigate("WritePage", {
-						noticeboard: "자유게시판",
-					})
-				}
-			>
-				<IconPostPlus />
-			</TouchableOpacity>
-			<SafeAreaView style={FreeCommunityStyles.safeAreaView}>
+		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+			<SafeAreaView style={FreeCommunityStyles.container}>
+				<View style={FreeCommunityStyles.backgroundBlue} />
+				<TouchableOpacity
+					style={FreeCommunityStyles.iconPostPlus}
+					onPress={() =>
+						navigation.navigate("WritePage", {
+							noticeboard: t("freeBoard"),
+						})
+					}
+				>
+					<IconPostPlus />
+				</TouchableOpacity>
 				<View style={FreeCommunityStyles.connectTop}>
 					<ConnectTop />
 				</View>
-				<View style={FreeCommunityStyles.containerTextIcon}>
+				<View
+					style={[
+						FreeCommunityStyles.containerTextIcon,
+						isSmallScreen && { top: -25 },
+					]}
+				>
 					<TouchableOpacity
 						style={FreeCommunityStyles.iconArrowRight}
 						onPress={handleGoBack}
@@ -117,11 +129,16 @@ const FreeCommunityPage = () => {
 						<ArrowRight color={CustomTheme.bgBasic} />
 					</TouchableOpacity>
 					<Text style={FreeCommunityStyles.textChattingTitle}>
-						자유게시판
+						{t("freeBoard")}
 					</Text>
 					<IconBookmark style={FreeCommunityStyles.iconBookmark} />
 				</View>
-				<View style={FreeCommunityStyles.containerSearch}>
+				<View
+					style={[
+						FreeCommunityStyles.containerSearch,
+						isSmallScreen && { top: -25 },
+					]}
+				>
 					<View style={FreeCommunityStyles.containerSearchIcon}>
 						<TextInput
 							style={[
@@ -131,7 +148,7 @@ const FreeCommunityPage = () => {
 									paddingLeft: 40,
 								},
 							]}
-							placeholder="검색"
+							placeholder={t("searchPlaceholder")}
 							value={searchTerm}
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}
@@ -166,7 +183,7 @@ const FreeCommunityPage = () => {
 						<View style={FreeCommunityStyles.containerFail}>
 							<IconSearchFail />
 							<Text style={FreeCommunityStyles.textFail}>
-								일치하는 검색 결과가 없습니다
+								{t("searchNoResults")}
 							</Text>
 						</View>
 					) : (
@@ -180,7 +197,7 @@ const FreeCommunityPage = () => {
 					)}
 				</ScrollView>
 			</SafeAreaView>
-		</View>
+		</TouchableWithoutFeedback>
 	);
 };
 

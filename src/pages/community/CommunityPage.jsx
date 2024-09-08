@@ -6,8 +6,13 @@ import {
 	SafeAreaView,
 	Keyboard,
 	TouchableOpacity,
+	ScrollView,
+	Dimensions,
+	TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import CommunityStyles from "@pages/community/CommunityStyles";
 import { getPostsByType, getCommunitySearch } from "config/api";
@@ -21,9 +26,9 @@ import ArrowRight from "@components/common/ArrowRight";
 import ItemCommunityPreview from "@components/community/ItemCommunityPreview";
 import IconSearchFail from "@components/common/IconSearchFail";
 import ItemCommunity from "@components/community/ItemCommunity";
-import * as Sentry from "@sentry/react-native";
 
 const CommunityPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [tipPostList, setTipPostList] = useState([]);
@@ -88,17 +93,108 @@ const CommunityPage = () => {
 		}, []),
 	);
 
-	return (
-		<View style={CommunityStyles.container}>
-			<ConnectTop style={CommunityStyles.connectTop} />
-			<SafeAreaView style={CommunityStyles.safeAreaView}>
-				<View style={CommunityStyles.containerTextIcon}>
-					<Text style={CommunityStyles.textChattingTitle}>
-						게시판
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
+	const renderCommunity = () => (
+		<>
+			{searchFail ? (
+				<View style={CommunityStyles.containerFail}>
+					<IconSearchFail />
+					<Text style={CommunityStyles.textFail}>
+						{t("searchNoResults")}
 					</Text>
-					<IconBookmark style={CommunityStyles.iconBookmark} />
 				</View>
-				<View style={CommunityStyles.containerSearch}>
+			) : searchData && searchData.length > 0 ? (
+				<View style={CommunityStyles.itemCommunity}>
+					<ItemCommunity postList={searchData} />
+				</View>
+			) : (
+				<>
+					<View style={CommunityStyles.containerCommunityTop}>
+						<View style={CommunityStyles.containerTitle}>
+							<IconCommunityTitle
+								style={CommunityStyles.iconCommunity}
+							/>
+							<Text style={CommunityStyles.textCommunityTitle}>
+								{t("tipsBoard")}
+							</Text>
+						</View>
+						<TouchableOpacity
+							style={CommunityStyles.containerMore}
+							onPress={() =>
+								navigation.navigate("TipCommunityPage")
+							}
+						>
+							<Text style={CommunityStyles.textCommunityMore}>
+								{t("moreButton")}
+							</Text>
+							<ArrowRight style={CommunityStyles.iconArrow} />
+						</TouchableOpacity>
+					</View>
+					<View style={CommunityStyles.itemCommunityPreview}>
+						<ItemCommunityPreview postList={tipPostList} />
+					</View>
+
+					<View style={CommunityStyles.containerCommunityTop}>
+						<View style={CommunityStyles.containerTitle}>
+							<IconCommunityTitle
+								style={CommunityStyles.iconCommunity}
+							/>
+							<Text style={CommunityStyles.textCommunityTitle}>
+								{t("freeBoard")}
+							</Text>
+						</View>
+						<TouchableOpacity
+							style={CommunityStyles.containerMore}
+							onPress={() =>
+								navigation.navigate("FreeCommunityPage")
+							}
+						>
+							<Text style={CommunityStyles.textCommunityMore}>
+								{t("moreButton")}
+							</Text>
+							<ArrowRight style={CommunityStyles.iconArrow} />
+						</TouchableOpacity>
+					</View>
+					<View style={CommunityStyles.itemCommunityPreview}>
+						<ItemCommunityPreview postList={freePostList} />
+					</View>
+				</>
+			)}
+		</>
+	);
+
+	return (
+		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+			<SafeAreaView style={CommunityStyles.container}>
+				<View style={CommunityStyles.backgroundBlue} />
+				<View style={CommunityStyles.connectTop}>
+					<ConnectTop />
+				</View>
+				<View
+					style={[
+						CommunityStyles.containerTextIcon,
+						isSmallScreen && { top: -25 },
+					]}
+				>
+					<Text style={CommunityStyles.textChattingTitle}>
+						{t("boardTitle")}
+					</Text>
+					<TouchableOpacity
+						onPress={() =>
+							navigation.navigate("BookmarkedPostPage")
+						}
+					>
+						<IconBookmark style={CommunityStyles.iconBookmark} />
+					</TouchableOpacity>
+				</View>
+				<View
+					style={[
+						CommunityStyles.containerSearch,
+						isSmallScreen && { top: -25 },
+					]}
+				>
 					<View style={CommunityStyles.containerSearchIcon}>
 						<TextInput
 							style={[
@@ -108,7 +204,7 @@ const CommunityPage = () => {
 									paddingLeft: 40,
 								},
 							]}
-							placeholder="검색"
+							placeholder={t("searchPlaceholder")}
 							value={searchTerm}
 							onChangeText={setSearchTerm}
 							onFocus={handleFocus}
@@ -137,95 +233,20 @@ const CommunityPage = () => {
 						)}
 					</View>
 				</View>
-
-				<View style={{ marginTop: 130 }}>
-					{searchFail ? (
-						<View style={CommunityStyles.containerFail}>
-							<IconSearchFail />
-							<Text style={CommunityStyles.textFail}>
-								일치하는 검색 결과가 없습니다
-							</Text>
-						</View>
-					) : searchData && searchData.length > 0 ? (
-						<View style={CommunityStyles.itemCommunity}>
-							<ItemCommunity postList={searchData} />
-						</View>
-					) : (
-						<>
-							<View style={CommunityStyles.containerCommunityTop}>
-								<View style={CommunityStyles.containerTitle}>
-									<IconCommunityTitle
-										style={CommunityStyles.iconCommunity}
-									/>
-									<Text
-										style={
-											CommunityStyles.textCommunityTitle
-										}
-									>
-										꿀팁게시판
-									</Text>
-								</View>
-								<TouchableOpacity
-									style={CommunityStyles.containerMore}
-									onPress={() =>
-										navigation.navigate("TipCommunityPage")
-									}
-								>
-									<Text
-										style={
-											CommunityStyles.textCommunityMore
-										}
-									>
-										더보기
-									</Text>
-									<ArrowRight
-										style={CommunityStyles.iconArrow}
-									/>
-								</TouchableOpacity>
-							</View>
-							<View style={CommunityStyles.itemCommunityPreview}>
-								<ItemCommunityPreview postList={tipPostList} />
-							</View>
-
-							<View style={CommunityStyles.containerCommunityTop}>
-								<View style={CommunityStyles.containerTitle}>
-									<IconCommunityTitle
-										style={CommunityStyles.iconCommunity}
-									/>
-									<Text
-										style={
-											CommunityStyles.textCommunityTitle
-										}
-									>
-										자유게시판
-									</Text>
-								</View>
-								<TouchableOpacity
-									style={CommunityStyles.containerMore}
-									onPress={() =>
-										navigation.navigate("FreeCommunityPage")
-									}
-								>
-									<Text
-										style={
-											CommunityStyles.textCommunityMore
-										}
-									>
-										더보기
-									</Text>
-									<ArrowRight
-										style={CommunityStyles.iconArrow}
-									/>
-								</TouchableOpacity>
-							</View>
-							<View style={CommunityStyles.itemCommunityPreview}>
-								<ItemCommunityPreview postList={freePostList} />
-							</View>
-						</>
-					)}
-				</View>
+				{isSmallScreen ? (
+					<ScrollView
+						contentContainerStyle={{
+							flexGrow: 1,
+							paddingBottom: 25,
+						}}
+					>
+						{renderCommunity()}
+					</ScrollView>
+				) : (
+					<>{renderCommunity()}</>
+				)}
 			</SafeAreaView>
-		</View>
+		</TouchableWithoutFeedback>
 	);
 };
 

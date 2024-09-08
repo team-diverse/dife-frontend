@@ -12,7 +12,8 @@ import ModalKebabMenuProfile from "@components/connect/ModalKebabMenuProfile";
 const { fontHead20 } = CustomTheme;
 
 const ConnectProfileTopBar = (props) => {
-	const { topBar, active, onPressHeart, memberId, ...restProps } = props;
+	const { topBar, active, onPressHeart, memberId, groupId, ...restProps } =
+		props;
 
 	const navigation = useNavigation();
 
@@ -77,7 +78,9 @@ const ConnectProfileTopBar = (props) => {
 					modalVisible={modalVisible}
 					setModalVisible={setModalVisible}
 					memberId={memberId}
+					groupId={groupId}
 					position={modalPosition}
+					onNavigation={navigation}
 				/>
 			</View>
 		</View>
