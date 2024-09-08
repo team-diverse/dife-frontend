@@ -17,7 +17,7 @@ const FriendList = ({ connectId, memberId, name, imageName }) => {
 	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
 
 	const isRelevantSingleChatroom = (chatroom, myMemberId, otherMemberId) => {
-		if (chatroom.chatroomType !== "SINGLE") {
+		if (chatroom.chatroom_type !== "SINGLE") {
 			return false;
 		}
 		const members = chatroom.members;
