@@ -392,5 +392,21 @@
 	"connectCancelSuccessMessage": "'{{name}}'\n连接请求已被取消。",
 
 	"changeLanguageConfirmation": "您要更改默认语言吗？",
-	"languageChangedSuccess": "默认语言已更改。"
+	"languageChangedSuccess": "默认语言已更改。",
+
+	"chatTitle": "聊天",
+	"connectContent": "与来自世界各地的朋友连接\n分享多样文化，共同成长",
+	"chatContent": "通过翻译功能实现无限沟通\n同时学习语言",
+	"communityContent": "分享在国外生活所需的信息\n",
+	"startButton": "开始 Dife",
+
+	"translationFeatureTitle": "翻译功能指南",
+	"translationFeatureContent1": "Dife 提供 ",
+	"translationFeatureContent2": "15 次免费\n",
+	"translationFeatureContent3": "翻译服务!",
+	"translationServicePages": "翻译服务可用的页面: \n聊天、社区、书签",
+	"supportedLanguages": "支持的语言: \n英语、韩语、中文、日语、西班牙语",
+	"translationExhaustedTitle": "翻译次数耗尽通知",
+	"translationExhaustedContent": "Dife 的免费翻译服务次数已\n全部耗尽 :(",
+	"betaTestInfo": "在测试期间不提供付费订阅服务。"
 }

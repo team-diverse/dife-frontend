@@ -81,11 +81,14 @@ const ConnectStyles = StyleSheet.create({
 		borderRadius: 24,
 		paddingLeft: 20,
 	},
+	iconArrowRightSearch: {
+		position: "absolute",
+		left: 8,
+	},
 	searchIcon: {
 		position: "absolute",
 		right: 12,
 	},
-
 	containerDife: {
 		alignItems: "center",
 	},

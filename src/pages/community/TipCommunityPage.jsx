@@ -8,6 +8,7 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	Dimensions,
+	TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
@@ -99,101 +100,104 @@ const TipCommunityPage = () => {
 	const isSmallScreen = screenHeight < 700;
 
 	return (
-		<SafeAreaView style={TipCommunityStyles.container}>
-			<View style={TipCommunityStyles.backgroundBlue} />
-			<TouchableOpacity
-				style={TipCommunityStyles.iconPostPlus}
-				onPress={() =>
-					navigation.navigate("WritePage", {
-						noticeboard: "꿀팁게시판",
-					})
-				}
-			>
-				<IconPostPlus />
-			</TouchableOpacity>
-			<View style={TipCommunityStyles.connectTop}>
-				<ConnectTop />
-			</View>
-			<View
-				style={[
-					TipCommunityStyles.containerTextIcon,
-					isSmallScreen && { top: -25 },
-				]}
-			>
+		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+			<SafeAreaView style={TipCommunityStyles.container}>
+				<View style={TipCommunityStyles.backgroundBlue} />
 				<TouchableOpacity
-					style={TipCommunityStyles.iconArrowRight}
-					onPress={handleGoBack}
+					style={TipCommunityStyles.iconPostPlus}
+					onPress={() =>
+						navigation.navigate("WritePage", {
+							noticeboard: t("tipBoard"),
+						})
+					}
 				>
-					<ArrowRight color={CustomTheme.bgBasic} />
+					<IconPostPlus />
 				</TouchableOpacity>
-				<Text style={TipCommunityStyles.textChattingTitle}>
-					{t("tipsBoard")}
-				</Text>
-				<IconBookmark style={TipCommunityStyles.iconBookmark} />
-			</View>
-			<View style={TipCommunityStyles.containerSearch}>
+				<View style={TipCommunityStyles.connectTop}>
+					<ConnectTop />
+				</View>
 				<View
 					style={[
-						TipCommunityStyles.containerSearchIcon,
+						TipCommunityStyles.containerTextIcon,
 						isSmallScreen && { top: -25 },
 					]}
 				>
-					<TextInput
-						style={[
-							TipCommunityStyles.search,
-							(searchFail ||
-								(searchData && searchData.length > 0)) && {
-								paddingLeft: 40,
-							},
-						]}
-						placeholder={t("searchPlaceholder")}
-						value={searchTerm}
-						onChangeText={setSearchTerm}
-						onFocus={handleFocus}
-						onBlur={handleBlur}
-						onSubmitEditing={handleSearch}
-					/>
-					{(searchFail || (searchData && searchData.length > 0)) && (
-						<TouchableOpacity
-							style={TipCommunityStyles.iconArrowRightSearch}
-							onPress={handleSearchBack}
-						>
-							<ArrowRight color="#B0D0FF" />
-						</TouchableOpacity>
-					)}
-					{isSearching ? (
-						<ConnectSearchCancel
-							style={TipCommunityStyles.searchIcon}
-							onPress={handleCancel}
-						/>
-					) : (
-						<ConnectSearchIcon
-							style={TipCommunityStyles.searchIcon}
-							onPress={handleSearch}
-						/>
-					)}
+					<TouchableOpacity
+						style={TipCommunityStyles.iconArrowRight}
+						onPress={handleGoBack}
+					>
+						<ArrowRight color={CustomTheme.bgBasic} />
+					</TouchableOpacity>
+					<Text style={TipCommunityStyles.textChattingTitle}>
+						{t("tipsBoard")}
+					</Text>
+					<IconBookmark style={TipCommunityStyles.iconBookmark} />
 				</View>
-			</View>
-
-			<ScrollView>
-				{searchFail ? (
-					<View style={TipCommunityStyles.containerFail}>
-						<IconSearchFail />
-						<Text style={TipCommunityStyles.textFail}>
-							{t("searchNoResults")}
-						</Text>
-					</View>
-				) : (
-					<View style={TipCommunityStyles.itemCommunity}>
-						<ItemCommunity
-							postList={
-								searchData === null ? postList : searchData
-							}
+				<View style={TipCommunityStyles.containerSearch}>
+					<View
+						style={[
+							TipCommunityStyles.containerSearchIcon,
+							isSmallScreen && { top: -25 },
+						]}
+					>
+						<TextInput
+							style={[
+								TipCommunityStyles.search,
+								(searchFail ||
+									(searchData && searchData.length > 0)) && {
+									paddingLeft: 40,
+								},
+							]}
+							placeholder={t("searchPlaceholder")}
+							value={searchTerm}
+							onChangeText={setSearchTerm}
+							onFocus={handleFocus}
+							onBlur={handleBlur}
+							onSubmitEditing={handleSearch}
 						/>
+						{(searchFail ||
+							(searchData && searchData.length > 0)) && (
+							<TouchableOpacity
+								style={TipCommunityStyles.iconArrowRightSearch}
+								onPress={handleSearchBack}
+							>
+								<ArrowRight color="#B0D0FF" />
+							</TouchableOpacity>
+						)}
+						{isSearching ? (
+							<ConnectSearchCancel
+								style={TipCommunityStyles.searchIcon}
+								onPress={handleCancel}
+							/>
+						) : (
+							<ConnectSearchIcon
+								style={TipCommunityStyles.searchIcon}
+								onPress={handleSearch}
+							/>
+						)}
 					</View>
-				)}
-			</ScrollView>
-		</SafeAreaView>
+				</View>
+
+				<ScrollView>
+					{searchFail ? (
+						<View style={TipCommunityStyles.containerFail}>
+							<IconSearchFail />
+							<Text style={TipCommunityStyles.textFail}>
+								{t("searchNoResults")}
+							</Text>
+						</View>
+					) : (
+						<View style={TipCommunityStyles.itemCommunity}>
+							<ItemCommunity
+								postList={
+									searchData === null ? postList : searchData
+								}
+							/>
+						</View>
+					)}
+				</ScrollView>
+			</SafeAreaView>
+		</TouchableWithoutFeedback>
 	);
 };
 

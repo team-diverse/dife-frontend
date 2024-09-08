@@ -105,7 +105,7 @@ const SecurityPage = () => {
 						</TouchableOpacity>
 					</View>
 				</View>
-				<TouchableOpacity
+				{/* <TouchableOpacity
 					style={SecurityStyles.backgroundWhite}
 					onPress={() => navigation.navigate("FindPasswordPage")}
 				>
@@ -119,7 +119,7 @@ const SecurityPage = () => {
 							style={{ transform: [{ scaleX: -1 }] }}
 						/>
 					</View>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>
 
 			<View style={SecurityStyles.line} />

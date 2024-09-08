@@ -8,6 +8,7 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	Dimensions,
+	TouchableWithoutFeedback,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
@@ -99,101 +100,104 @@ const FreeCommunityPage = () => {
 	const isSmallScreen = screenHeight < 700;
 
 	return (
-		<SafeAreaView style={FreeCommunityStyles.container}>
-			<View style={FreeCommunityStyles.backgroundBlue} />
-			<TouchableOpacity
-				style={FreeCommunityStyles.iconPostPlus}
-				onPress={() =>
-					navigation.navigate("WritePage", {
-						noticeboard: "자유게시판",
-					})
-				}
-			>
-				<IconPostPlus />
-			</TouchableOpacity>
-			<View style={FreeCommunityStyles.connectTop}>
-				<ConnectTop />
-			</View>
-			<View
-				style={[
-					FreeCommunityStyles.containerTextIcon,
-					isSmallScreen && { top: -25 },
-				]}
-			>
+		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+			<SafeAreaView style={FreeCommunityStyles.container}>
+				<View style={FreeCommunityStyles.backgroundBlue} />
 				<TouchableOpacity
-					style={FreeCommunityStyles.iconArrowRight}
-					onPress={handleGoBack}
+					style={FreeCommunityStyles.iconPostPlus}
+					onPress={() =>
+						navigation.navigate("WritePage", {
+							noticeboard: t("freeBoard"),
+						})
+					}
 				>
-					<ArrowRight color={CustomTheme.bgBasic} />
+					<IconPostPlus />
 				</TouchableOpacity>
-				<Text style={FreeCommunityStyles.textChattingTitle}>
-					{t("freeBoard")}
-				</Text>
-				<IconBookmark style={FreeCommunityStyles.iconBookmark} />
-			</View>
-			<View
-				style={[
-					FreeCommunityStyles.containerSearch,
-					isSmallScreen && { top: -25 },
-				]}
-			>
-				<View style={FreeCommunityStyles.containerSearchIcon}>
-					<TextInput
-						style={[
-							FreeCommunityStyles.search,
-							(searchFail ||
-								(searchData && searchData.length > 0)) && {
-								paddingLeft: 40,
-							},
-						]}
-						placeholder={t("searchPlaceholder")}
-						value={searchTerm}
-						onChangeText={setSearchTerm}
-						onFocus={handleFocus}
-						onBlur={handleBlur}
-						onSubmitEditing={handleSearch}
-					/>
-					{(searchFail || (searchData && searchData.length > 0)) && (
-						<TouchableOpacity
-							style={FreeCommunityStyles.iconArrowRightSearch}
-							onPress={handleSearchBack}
-						>
-							<ArrowRight color="#B0D0FF" />
-						</TouchableOpacity>
-					)}
-					{isSearching ? (
-						<ConnectSearchCancel
-							style={FreeCommunityStyles.searchIcon}
-							onPress={handleCancel}
-						/>
-					) : (
-						<ConnectSearchIcon
-							style={FreeCommunityStyles.searchIcon}
-							onPress={handleSearch}
-						/>
-					)}
+				<View style={FreeCommunityStyles.connectTop}>
+					<ConnectTop />
 				</View>
-			</View>
-
-			<ScrollView>
-				{searchFail ? (
-					<View style={FreeCommunityStyles.containerFail}>
-						<IconSearchFail />
-						<Text style={FreeCommunityStyles.textFail}>
-							{t("searchNoResults")}
-						</Text>
-					</View>
-				) : (
-					<View style={FreeCommunityStyles.itemCommunity}>
-						<ItemCommunity
-							postList={
-								searchData === null ? postList : searchData
-							}
+				<View
+					style={[
+						FreeCommunityStyles.containerTextIcon,
+						isSmallScreen && { top: -25 },
+					]}
+				>
+					<TouchableOpacity
+						style={FreeCommunityStyles.iconArrowRight}
+						onPress={handleGoBack}
+					>
+						<ArrowRight color={CustomTheme.bgBasic} />
+					</TouchableOpacity>
+					<Text style={FreeCommunityStyles.textChattingTitle}>
+						{t("freeBoard")}
+					</Text>
+					<IconBookmark style={FreeCommunityStyles.iconBookmark} />
+				</View>
+				<View
+					style={[
+						FreeCommunityStyles.containerSearch,
+						isSmallScreen && { top: -25 },
+					]}
+				>
+					<View style={FreeCommunityStyles.containerSearchIcon}>
+						<TextInput
+							style={[
+								FreeCommunityStyles.search,
+								(searchFail ||
+									(searchData && searchData.length > 0)) && {
+									paddingLeft: 40,
+								},
+							]}
+							placeholder={t("searchPlaceholder")}
+							value={searchTerm}
+							onChangeText={setSearchTerm}
+							onFocus={handleFocus}
+							onBlur={handleBlur}
+							onSubmitEditing={handleSearch}
 						/>
+						{(searchFail ||
+							(searchData && searchData.length > 0)) && (
+							<TouchableOpacity
+								style={FreeCommunityStyles.iconArrowRightSearch}
+								onPress={handleSearchBack}
+							>
+								<ArrowRight color="#B0D0FF" />
+							</TouchableOpacity>
+						)}
+						{isSearching ? (
+							<ConnectSearchCancel
+								style={FreeCommunityStyles.searchIcon}
+								onPress={handleCancel}
+							/>
+						) : (
+							<ConnectSearchIcon
+								style={FreeCommunityStyles.searchIcon}
+								onPress={handleSearch}
+							/>
+						)}
 					</View>
-				)}
-			</ScrollView>
-		</SafeAreaView>
+				</View>
+
+				<ScrollView>
+					{searchFail ? (
+						<View style={FreeCommunityStyles.containerFail}>
+							<IconSearchFail />
+							<Text style={FreeCommunityStyles.textFail}>
+								{t("searchNoResults")}
+							</Text>
+						</View>
+					) : (
+						<View style={FreeCommunityStyles.itemCommunity}>
+							<ItemCommunity
+								postList={
+									searchData === null ? postList : searchData
+								}
+							/>
+						</View>
+					)}
+				</ScrollView>
+			</SafeAreaView>
+		</TouchableWithoutFeedback>
 	);
 };
 

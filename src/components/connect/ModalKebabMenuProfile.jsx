@@ -18,6 +18,7 @@ const ModalKebabMenuProfile = ({
 	memberId,
 	groupId,
 	position,
+	onNavigation,
 }) => {
 	const { t } = useTranslation();
 	const [modalReportVisible, setModalReportVisible] = useState(false);
@@ -56,6 +57,10 @@ const ModalKebabMenuProfile = ({
 				[
 					{
 						text: t("confirmButtonText"),
+						onPress: () => {
+							setModalVisible(false);
+							onNavigation.goBack();
+						},
 					},
 				],
 				{ cancelable: false },

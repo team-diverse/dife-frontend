@@ -137,7 +137,7 @@ const ChatRoomPage = ({ route }) => {
 									<ChatBubble
 										key={msg.id}
 										profileImageName={
-											otherMember.profileImg.originalName
+											otherMember.profileImg?.originalName
 										}
 										username={msg.member.username}
 										message={msg.message}
@@ -192,7 +192,7 @@ const ChatRoomPage = ({ route }) => {
 							style={ChatRoomStyles.containerChatPeople}
 						>
 							<IconChatProfile
-								imageName={member.profileImg.originalName}
+								imageName={member.profileImg?.originalName}
 							/>
 							<Text style={ChatRoomStyles.textChatPeople}>
 								{member.username}

@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import {
 	createLikeComment,
 	deleteLikeByCommentId,
 	translationByCommentId,
+	getMyProfile,
 } from "config/api";
 import { getMyMemberId } from "util/secureStoreUtils";
 import { formatDate } from "util/formatDate";
@@ -16,8 +18,7 @@ import IconKebabMenu from "@components/community/IconKebabMenu";
 import IconComment from "@components/community/IconComment";
 import IconReply from "@components/community/IconReply";
 import ModalKebabMenu from "@components/community/ModalKebabMenu";
-
-import * as Sentry from "@sentry/react-native";
+import ModalTranslationsCount from "@components/common/ModalTranslationsCount";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
@@ -33,6 +34,9 @@ const ItemComment = ({ commentList = [], onReply }) => {
 	const [showTranslations, setShowTranslations] = useState({});
 	const [replyTranslations, setReplyTranslations] = useState({});
 	const [replyShowTranslations, setReplyShowTranslations] = useState({});
+	const [modalTranslationVisible, setModalTranslationVisible] =
+		useState(false);
+	const [translationCount, setTranslationCount] = useState();
 
 	useEffect(() => {
 		const newHeartStates = commentList.map((post) => ({
@@ -74,19 +78,35 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		if (!isComment && replyTranslations[commentId]) return;
 
 		try {
-			const response = await translationByCommentId(commentId);
-			const translationText = response.data.translations[0]?.text;
+			const responseCount = await getMyProfile();
+			const count =
+				responseCount.data.translationCount === 0
+					? 0
+					: responseCount.data.translationCount + 1;
+			setTranslationCount(count);
 
-			if (isComment) {
-				setTranslations((prev) => ({
+			const setTranslationsForType = isComment
+				? setTranslations
+				: setReplyTranslations;
+			if (count === 0) {
+				setModalTranslationVisible(true);
+				const response = await translationByCommentId(commentId);
+				const translationText = response.data.translations[0]?.text;
+				setTranslationsForType((prev) => ({
 					...prev,
 					[commentId]: translationText,
 				}));
-			} else {
-				setReplyTranslations((prev) => ({
+			} else if (count <= 15) {
+				setModalTranslationVisible(false);
+				const response = await translationByCommentId(commentId);
+				const translationText = response.data.translations[0]?.text;
+				setTranslationsForType((prev) => ({
 					...prev,
 					[commentId]: translationText,
 				}));
+			} else if (count > 15) {
+				handleToggleTranslation(commentId, isComment);
+				setModalTranslationVisible(true);
 			}
 		} catch (error) {
 			Sentry.captureException(error);
@@ -331,6 +351,11 @@ const ItemComment = ({ commentList = [], onReply }) => {
 									: t("translateButton")}
 							</Text>
 						</TouchableOpacity>
+						<ModalTranslationsCount
+							modalVisible={modalTranslationVisible}
+							setModalVisible={setModalTranslationVisible}
+							translationCount={translationCount}
+						/>
 					</View>
 				</View>
 
@@ -435,6 +460,11 @@ const ItemComment = ({ commentList = [], onReply }) => {
 											: t("translateButton")}
 									</Text>
 								</TouchableOpacity>
+								<ModalTranslationsCount
+									modalVisible={modalTranslationVisible}
+									setModalVisible={setModalTranslationVisible}
+									translationCount={translationCount}
+								/>
 							</View>
 						</View>
 					</View>

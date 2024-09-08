@@ -12,7 +12,7 @@ const ChatroomItem = ({ chatroomInfo, context, name, time, myMemberId }) => {
 	const otherMember = chatroomInfo.members.find(
 		(member) => member.id !== myMemberId,
 	);
-	const otherMemberProfileImageName = otherMember.profileImg.originalName;
+	const otherMemberProfileImageName = otherMember.profileImg?.originalName;
 
 	return (
 		<TouchableOpacity

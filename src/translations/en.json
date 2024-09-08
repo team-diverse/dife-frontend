@@ -82,7 +82,7 @@
 		"ENFP",
 		"ISTJ",
 		"ENFJ",
-		"Not Applicable"
+		"Unselected"
 	],
 
 	"hobbySubtitle": "Please select {{username}}'s hobbies/interests!",
@@ -103,9 +103,9 @@
 		"Drawing",
 		"Cooking",
 		"Manga",
-		"Language Study",
+		"Language",
 		"Travel",
-		"Playing Instruments",
+		"Instruments",
 		"Movies",
 		"Restaurants"
 	],
@@ -391,5 +391,21 @@
 	"connectCancelSuccessMessage": "'{{name}}'\nConnect request has been canceled.",
 
 	"changeLanguageConfirmation": "Do you want to change the default language?",
-	"languageChangedSuccess": "The default language has been changed."
+	"languageChangedSuccess": "The default language has been changed.",
+
+	"chatTitle": "Chat",
+	"connectContent": "Connect with friends from around the world\nShare diverse cultures and grow together",
+	"chatContent": "Limitless communication with translation features\nLearn languages simultaneously",
+	"communityContent": "Share information necessary for living abroad\n",
+	"startButton": "Start Dife",
+
+	"translationFeatureTitle": "Translation Feature Guide",
+	"translationFeatureContent1": "Dife offers ",
+	"translationFeatureContent2": "15 free\n",
+	"translationFeatureContent3": "translation services!",
+	"translationServicePages": "Pages where translation services are available: \nChat, Community, Bookmark",
+	"supportedLanguages": "Supported languages: \nEnglish, Korean, Chinese, Japanese, Spanish",
+	"translationExhaustedTitle": "Translation Limit Exhausted",
+	"translationExhaustedContent": "Dife's free translation service limit has been\ncompletely exhausted :(",
+	"betaTestInfo": "No paid subscription services are offered during the beta testing period."
 }

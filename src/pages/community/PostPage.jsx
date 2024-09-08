@@ -16,6 +16,7 @@ import {
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import PostStyles from "@pages/community/PostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -32,6 +33,7 @@ import {
 	deleteBookmarkByPostId,
 	getProfileImageByFileName,
 	translationByPostId,
+	getMyProfile,
 } from "config/api";
 import { formatDate } from "util/formatDate";
 
@@ -45,13 +47,15 @@ import Checkbox from "@components/common/Checkbox";
 import IconChatSend from "@components/chat/IconChatSend";
 import ItemComment from "@components/community/ItemComment";
 import ModalKebabMenu from "@components/community/ModalKebabMenu";
-import * as Sentry from "@sentry/react-native";
+import ModalTranslationsCount from "@components/common/ModalTranslationsCount";
 
 const PostPage = ({ route }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [modalVisible, setModalVisible] = useState(false);
+	const [modalTranslationVisible, setModalTranslationVisible] =
+		useState(false);
 
 	const { postId } = route.params;
 	const { updatePostModifyData } = usePostModify();
@@ -74,6 +78,7 @@ const PostPage = ({ route }) => {
 	const [isReplying, setIsReplying] = useState(false);
 	const [parentCommentId, setParentCommentId] = useState(null);
 	const [isTranslation, setIsTranslation] = useState(false);
+	const [translationCount, setTranslationCount] = useState();
 
 	const commentRef = useRef(null);
 
@@ -377,14 +382,32 @@ const PostPage = ({ route }) => {
 
 	const handleTranslations = async () => {
 		try {
-			if (isTranslation) {
+			const responseCount = await getMyProfile();
+			const count =
+				responseCount.data.translationCount === 0
+					? 0
+					: responseCount.data.translationCount + 1;
+			setTranslationCount(count);
+
+			if (!isTranslation) {
+				if (translationCount === 0) {
+					setModalTranslationVisible(true);
+					setIsTranslation(true);
+					const response = await translationByPostId(postId);
+					setTitle(response.data.translations[0].text);
+					setContext(response.data.translations[1].text);
+				} else if (translationCount <= 15) {
+					setModalTranslationVisible(false);
+					setIsTranslation(true);
+					const response = await translationByPostId(postId);
+					setTitle(response.data.translations[0].text);
+					setContext(response.data.translations[1].text);
+				} else if (translationCount > 15) {
+					setModalTranslationVisible(true);
+				}
+			} else {
 				setIsTranslation(false);
 				getPost();
-			} else {
-				setIsTranslation(true);
-				const response = await translationByPostId(postId);
-				setTitle(response.data.translations[0].text);
-				setContext(response.data.translations[1].text);
 			}
 		} catch (error) {
 			Sentry.captureException(error);
@@ -519,6 +542,11 @@ const PostPage = ({ route }) => {
 									: t("translateButton")}
 							</Text>
 						</TouchableOpacity>
+						<ModalTranslationsCount
+							modalVisible={modalTranslationVisible}
+							setModalVisible={setModalTranslationVisible}
+							translationCount={translationCount}
+						/>
 					</View>
 				</View>
 
