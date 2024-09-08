@@ -92,6 +92,7 @@ import DeleteMemberPage from "@pages/member/DeleteMemberPage";
 import LikedPostPage from "@pages/member/LikedPostPage";
 import BookmarkedPostPage from "@pages/member/BookmarkedPostPage";
 import LikeUserOneToOne from "@pages/connect/LikeUserOneToOne";
+import LandingPage from "@pages/login/LandingPage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -362,6 +363,7 @@ function AuthNavigator({ initialRoute }) {
 			screenOptions={{ headerShown: false }}
 		>
 			<Stack.Screen name="Access" component={AccessPage} />
+			<Stack.Screen name="LandingPage" component={LandingPage} />
 			<Stack.Screen name="Login" component={LoginPage} />
 			<Stack.Screen name="SignUp" component={SignUpPage} />
 			<Stack.Screen name="FindPassword" component={FindPasswordPage} />

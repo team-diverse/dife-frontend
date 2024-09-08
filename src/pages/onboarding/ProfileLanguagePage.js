@@ -8,10 +8,12 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import ProfileLanguageStyles from "@pages/onboarding/ProfileLanguageStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
 import { useOnboarding } from "src/states/OnboardingContext.js";
+import { updateMyProfile } from "config/api";
 
 import ArrowRight from "@components/common/ArrowRight";
 import Progress5 from "@components/onboarding/Progress5";
@@ -42,7 +44,7 @@ const ProfileLanguagePage = () => {
 		});
 	};
 
-	const handleDataSave = () => {
+	const handleDataSave = async () => {
 		const selectedLanguages = isCheckedList.reduce(
 			(selected, isChecked, index) => {
 				if (isChecked) {
@@ -54,7 +56,37 @@ const ProfileLanguagePage = () => {
 		);
 
 		updateOnboardingData({ languages: selectedLanguages });
-		navigation.navigate("StudentVerification");
+
+		const formData = new FormData();
+		formData.append("username", onboardingData.username);
+		formData.append("country", onboardingData.country);
+		formData.append("bio", onboardingData.bio);
+		formData.append("mbti", onboardingData.mbti);
+		formData.append("hobbies", JSON.stringify(onboardingData.hobbies));
+		formData.append("languages", selectedLanguages);
+		const memberId = onboardingData.id;
+
+		if (onboardingData.profileImg) {
+			const file = {
+				uri: onboardingData.profileImg,
+				type: "image/jpeg",
+				name: `${memberId}_profile.jpg`,
+			};
+			formData.append("profileImg", file);
+		}
+
+		try {
+			await updateMyProfile(formData);
+			navigation.navigate("CompleteProfile");
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"온보딩 저장 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+
+		// navigation.navigate("StudentVerification");
 	};
 
 	const { height: screenHeight } = Dimensions.get("window");

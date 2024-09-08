@@ -80,6 +80,7 @@ const ConnectProfileTopBar = (props) => {
 					memberId={memberId}
 					groupId={groupId}
 					position={modalPosition}
+					onNavigation={navigation}
 				/>
 			</View>
 		</View>
