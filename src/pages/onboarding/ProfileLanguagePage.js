@@ -54,7 +54,8 @@ const ProfileLanguagePage = () => {
 		);
 
 		updateOnboardingData({ languages: selectedLanguages });
-		navigation.navigate("StudentVerification");
+		// navigation.navigate("StudentVerification");
+		navigation.navigate("CompleteProfile");
 	};
 
 	const { height: screenHeight } = Dimensions.get("window");

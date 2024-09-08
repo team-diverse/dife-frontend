@@ -212,13 +212,13 @@ const LoginPage = () => {
 						/>
 						<View text={t("login")} onPress={handleLogin} />
 					</BottomTwoButtons>
-					<TouchableOpacity
+					{/* <TouchableOpacity
 						onPress={() => navigation.navigate("FindPassword")}
 					>
 						<Text style={LoginStyles.textReport}>
 							{t("loginForgotPassword")}
 						</Text>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 				</View>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>

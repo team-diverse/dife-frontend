@@ -107,7 +107,7 @@ const FreeCommunityPage = () => {
 					style={FreeCommunityStyles.iconPostPlus}
 					onPress={() =>
 						navigation.navigate("WritePage", {
-							noticeboard: "자유게시판",
+							noticeboard: t("freeBoard"),
 						})
 					}
 				>
