@@ -24,6 +24,15 @@ const ChattingStyles = StyleSheet.create({
 		shadowRadius: 2,
 		zIndex: 2,
 	},
+	containerFail: {
+		alignItems: "center",
+		marginTop: 78,
+	},
+	textFail: {
+		...fontCaption,
+		color: CustomTheme.textSecondary,
+		marginTop: 13,
+	},
 	connectTop: {
 		marginTop: -47,
 		zIndex: 1,
@@ -68,6 +77,10 @@ const ChattingStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 24,
 		paddingLeft: 20,
+	},
+	iconArrowRightSearch: {
+		position: "absolute",
+		left: 8,
 	},
 	searchIcon: {
 		position: "absolute",

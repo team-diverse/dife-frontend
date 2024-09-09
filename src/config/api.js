@@ -226,6 +226,14 @@ export const getTipCommunitySearch = (keyword) => {
 	});
 };
 
+export const getChatroomSearch = (keyword) => {
+	return api.get("/chatrooms/search", {
+		params: {
+			keyword,
+		},
+	});
+};
+
 export const deletePost = (id) => {
 	return api.delete(`/posts/${id}`);
 };
