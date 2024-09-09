@@ -10,6 +10,7 @@ import {
 	Dimensions,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
 
 import ChattingStyles from "@pages/chat/ChattingStyles";
@@ -28,10 +29,11 @@ import ArrowRight from "@components/common/ArrowRight";
 import IconSearchFail from "@components/common/IconSearchFail";
 
 const ChattingPage = () => {
+	const { t } = useTranslation();
 	const navigation = useNavigation();
+
 	const [myMemberId, setMyMemberId] = useState(null);
 	const { chatrooms, messages, updateChatroomsAndMessages } = useWebSocket();
-
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
@@ -130,7 +132,9 @@ const ChattingPage = () => {
 					isSmallScreen && { top: -25 },
 				]}
 			>
-				<Text style={ChattingStyles.textChattingTitle}>Chatting</Text>
+				<Text style={ChattingStyles.textChattingTitle}>
+					{t("chatTitle")}
+				</Text>
 				<IconBookmark
 					style={ChattingStyles.iconBookmark}
 					onPress={() => navigation.navigate("BookmarkPage")}
@@ -151,7 +155,7 @@ const ChattingPage = () => {
 								paddingLeft: 40,
 							},
 						]}
-						placeholder="검색"
+						placeholder={t("searchPlaceholder")}
 						value={searchTerm}
 						onChangeText={setSearchTerm}
 						onFocus={handleFocus}
@@ -193,7 +197,7 @@ const ChattingPage = () => {
 					<View style={ChattingStyles.containerFail}>
 						<IconSearchFail />
 						<Text style={ChattingStyles.textFail}>
-							일치하는 검색 결과가 없습니다.
+							{t("searchNoResults")}
 						</Text>
 					</View>
 				) : searchData && searchData.length > 0 ? (
@@ -204,8 +208,7 @@ const ChattingPage = () => {
 			) : (
 				<View style={ChattingStyles.containerTextNoChat}>
 					<Text style={ChattingStyles.textNoChat}>
-						아직 채팅방이 없습니다.{"\n"}친구와 새로운 채팅을
-						시작해보세요!
+						{t("noChatrooms")}
 					</Text>
 				</View>
 			)}

@@ -1,22 +1,18 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
+
 import { CustomTheme } from "@styles/CustomTheme";
 
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconBookmark from "@components/chat/IconBookmark";
-
 import ModalNoBookmark from "@components/chat/ModalNoBookmark";
 import DashedLine from "@components/chat/DashedLine";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const Bookmark = ({
-	name = "name",
-	context = "context",
-	date = "date",
-	time = "time",
-	translation = "translation",
-}) => {
+const Bookmark = ({ name, context, date, time, translation }) => {
+	const { t } = useTranslation();
 	const [expanded, setExpanded] = useState(false);
 	const [isTranslation, setIsTranslation] = useState(false);
 
@@ -84,7 +80,7 @@ const Bookmark = ({
 						<View style={styles.containerOriginalTranslation}>
 							<View style={styles.containerTextExpanded}>
 								<Text style={styles.textExpandedTitle}>
-									원문:
+									{t("originalText")}
 								</Text>
 								<Text style={styles.textExpandedContext}>
 									{context}
@@ -92,14 +88,16 @@ const Bookmark = ({
 							</View>
 							<TouchableOpacity onPress={handleTranslation}>
 								<Text style={styles.textTranslation}>
-									{isTranslation ? "원문만 보기" : "번역하기"}
+									{isTranslation
+										? t("viewOriginalOnlyButton")
+										: t("translateButton")}
 								</Text>
 							</TouchableOpacity>
 						</View>
 						{isTranslation && (
 							<View style={styles.containerTextExpanded}>
 								<Text style={styles.textExpandedTitle}>
-									번역:
+									{t("translationText")}
 								</Text>
 								<Text style={styles.textExpandedContext}>
 									{translation}

@@ -1,5 +1,6 @@
 import React from "react";
 import { SafeAreaView, FlatList } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import BookmarkStyles from "@pages/chat/BookmarkStyles";
 
@@ -7,6 +8,8 @@ import TopBar from "@components/common/TopBar";
 import Bookmark from "@components/chat/Bookmark";
 
 const BookmarkPage = () => {
+	const { t } = useTranslation();
+
 	const notificationData = [
 		{
 			id: "1",
@@ -48,7 +51,7 @@ const BookmarkPage = () => {
 		<SafeAreaView
 			style={[BookmarkStyles.container, { alignItems: "center" }]}
 		>
-			<TopBar topBar="북마크" color="#000" />
+			<TopBar topBar={t("bookmarkTitle")} color="#000" />
 			<FlatList
 				style={BookmarkStyles.flatlist}
 				data={notificationData}

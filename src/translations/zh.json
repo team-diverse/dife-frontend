@@ -408,5 +408,19 @@
 	"supportedLanguages": "支持的语言: \n英语、韩语、中文、日语、西班牙语",
 	"translationExhaustedTitle": "翻译次数耗尽通知",
 	"translationExhaustedContent": "Dife 的免费翻译服务次数已\n全部耗尽 :(",
-	"betaTestInfo": "在测试期间不提供付费订阅服务。"
+	"betaTestInfo": "在测试期间不提供付费订阅服务。",
+
+	"noChatrooms": "暂时没有聊天房间。\n与朋友开始新的聊天吧！",
+	"bookmarkTitle": "书签",
+	"friendListTitle": "好友列表",
+	"myFriend": "我的好友",
+	"chatParticipant": "参与者",
+	"chatScrapStorage": "收藏夹",
+	"chatAlbum": "相册",
+	"bookmarkUnsetPrompt": "您确定要取消书签吗？",
+	"removeButtonText": "取消",
+	"gallery": "画廊",
+	"originalText": "原文: ",
+	"translationText": "翻译: ",
+	"viewOriginalOnlyButton": "仅查看原文"
 }
