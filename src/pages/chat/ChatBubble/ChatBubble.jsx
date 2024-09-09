@@ -51,7 +51,12 @@ const ChatBubble = ({
 							<Text style={styles.profileName}>{username}</Text>
 						</View>
 					)}
-					<View style={frameParentStyles}>
+					<View
+						style={[
+							frameParentStyles,
+							!isHeadMessage && { marginLeft: 50 },
+						]}
+					>
 						<View style={styles.timeWrapper}>
 							<Text style={styles.time}>{time}</Text>
 						</View>
