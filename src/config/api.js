@@ -392,6 +392,14 @@ export const createPostBookmark = (postId) => {
 	});
 };
 
+export const createChatBookmark = (chatroomId, chatId) => {
+	return api.post("/bookmarks", {
+		type: "CHAT",
+		chatroomId: chatroomId,
+		chatId: chatId,
+	});
+};
+
 export const getConnectSearch = (keyword) => {
 	return api.get("/members/search", {
 		params: {

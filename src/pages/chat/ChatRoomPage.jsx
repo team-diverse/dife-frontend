@@ -146,6 +146,8 @@ const ChatRoomPage = ({ route }) => {
 										time={formatKoreanTime(msg.created)}
 										isMine={msg.member.id === memberId}
 										isHeadMessage={idx === 0}
+										chatroomId={msg.singleChatroom.id}
+										chatId={msg.id}
 									/>
 								);
 							})}

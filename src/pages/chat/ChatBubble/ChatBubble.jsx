@@ -1,8 +1,10 @@
-import * as React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import React, { useState, useRef } from "react";
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+
 import ChatBubbleRightTrailSVG from "./ChatBubbleRightTrailSVG";
 import ChatBubbleLeftTrailSVG from "./ChatBubbleLeftTrailSVG";
 import IconChatProfile from "@components/chat/IconChatProfile";
+import ModalMenuChat from "@components/chat/ModalMenuChat";
 
 const ChatBubble = ({
 	profileImageName,
@@ -11,7 +13,23 @@ const ChatBubble = ({
 	time,
 	isMine,
 	isHeadMessage,
+	chatroomId,
+	chatId,
 }) => {
+	const bubbleRef = useRef();
+
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalPosition, setModalPosition] = useState(null);
+
+	const handleLongPress = () => {
+		setModalVisible(true);
+		if (bubbleRef.current) {
+			bubbleRef.current.measureInWindow((x, y, width, height) => {
+				setModalPosition({ x, y, width, height });
+			});
+		}
+	};
+
 	const rowStyles = [styles.row, isMine ? styles.myRow : styles.otherRow];
 	const bubbleStyles = [
 		styles.bubble,
@@ -51,20 +69,34 @@ const ChatBubble = ({
 							<Text style={styles.profileName}>{username}</Text>
 						</View>
 					)}
-					<View
-						style={[
-							frameParentStyles,
-							!isHeadMessage && { marginLeft: 50 },
-						]}
-					>
-						<View style={styles.timeWrapper}>
-							<Text style={styles.time}>{time}</Text>
+					<TouchableOpacity onLongPress={handleLongPress}>
+						<View
+							style={[
+								frameParentStyles,
+								!isHeadMessage && { marginLeft: 50 },
+							]}
+							ref={bubbleRef}
+						>
+							<View style={styles.timeWrapper}>
+								<Text style={styles.time}>{time}</Text>
+							</View>
+							<View style={bubbleStyles}>
+								<Text style={messageStyles}>{message}</Text>
+							</View>
+							<View>{TrailSVG}</View>
 						</View>
-						<View style={bubbleStyles}>
-							<Text style={messageStyles}>{message}</Text>
-						</View>
-						<View>{TrailSVG}</View>
-					</View>
+					</TouchableOpacity>
+					{modalVisible && modalPosition && (
+						<ModalMenuChat
+							modalVisible={modalVisible}
+							setModalVisible={setModalVisible}
+							position={modalPosition}
+							isMine={isMine}
+							chatroomId={chatroomId}
+							chatId={chatId}
+							clipboardContent={message}
+						/>
+					)}
 				</View>
 			</View>
 		</View>
