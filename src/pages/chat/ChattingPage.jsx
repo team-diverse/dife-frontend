@@ -8,6 +8,7 @@ import {
 	Keyboard,
 	TouchableOpacity,
 	Dimensions,
+	TouchableWithoutFeedback,
 } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
@@ -109,7 +110,6 @@ const ChattingPage = () => {
 						<ChatroomItem
 							chatroomInfo={item}
 							myMemberId={myMemberId}
-							name={item.name}
 							context={getLatestChatByChatroomId(item.id)}
 							time={formatKoreanTime(item.created)}
 						/>
@@ -121,98 +121,101 @@ const ChattingPage = () => {
 	);
 
 	return (
-		<SafeAreaView style={ChattingStyles.container}>
-			<View style={ChattingStyles.backgroundBlue} />
-			<View style={ChattingStyles.connectTop}>
-				<ConnectTop />
-			</View>
-			<View
-				style={[
-					ChattingStyles.containerTextIcon,
-					isSmallScreen && { top: -25 },
-				]}
-			>
-				<Text style={ChattingStyles.textChattingTitle}>
-					{t("chatTitle")}
-				</Text>
-				<IconBookmark
-					style={ChattingStyles.iconBookmark}
-					onPress={() => navigation.navigate("BookmarkPage")}
-				/>
-			</View>
-			<View
-				style={[
-					ChattingStyles.containerSearch,
-					isSmallScreen && { top: -25 },
-				]}
-			>
-				<View style={ChattingStyles.containerSearchIcon}>
-					<TextInput
-						style={[
-							ChattingStyles.search,
-							(searchFail ||
-								(searchData && searchData.length > 0)) && {
-								paddingLeft: 40,
-							},
-						]}
-						placeholder={t("searchPlaceholder")}
-						value={searchTerm}
-						onChangeText={setSearchTerm}
-						onFocus={handleFocus}
-						onBlur={handleBlur}
-						onSubmitEditing={handleSearch}
-					/>
-					{(searchFail || (searchData && searchData.length > 0)) && (
-						<TouchableOpacity
-							style={ChattingStyles.iconArrowRightSearch}
-							onPress={handleSearchBack}
-						>
-							<ArrowRight color="#B0D0FF" />
-						</TouchableOpacity>
-					)}
-					{isSearching ? (
-						<ConnectSearchCancel
-							style={ChattingStyles.searchIcon}
-							onPress={handleCancel}
-						/>
-					) : (
-						<ConnectSearchIcon
-							style={ChattingStyles.searchIcon}
-							onPress={handleSearch}
-						/>
-					)}
+		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+			<SafeAreaView style={ChattingStyles.container}>
+				<View style={ChattingStyles.backgroundBlue} />
+				<View style={ChattingStyles.connectTop}>
+					<ConnectTop />
 				</View>
-			</View>
-			<TouchableOpacity
-				style={ChattingStyles.iconChatPlus}
-				onPress={() => navigation.navigate("FriendListPage")}
-			>
-				<IconChatPlus />
-			</TouchableOpacity>
+				<View
+					style={[
+						ChattingStyles.containerTextIcon,
+						isSmallScreen && { top: -25 },
+					]}
+				>
+					<Text style={ChattingStyles.textChattingTitle}>
+						{t("chatTitle")}
+					</Text>
+					<IconBookmark
+						style={ChattingStyles.iconBookmark}
+						onPress={() => navigation.navigate("BookmarkPage")}
+					/>
+				</View>
+				<View
+					style={[
+						ChattingStyles.containerSearch,
+						isSmallScreen && { top: -25 },
+					]}
+				>
+					<View style={ChattingStyles.containerSearchIcon}>
+						<TextInput
+							style={[
+								ChattingStyles.search,
+								(searchFail ||
+									(searchData && searchData.length > 0)) && {
+									paddingLeft: 40,
+								},
+							]}
+							placeholder={t("searchPlaceholder")}
+							value={searchTerm}
+							onChangeText={setSearchTerm}
+							onFocus={handleFocus}
+							onBlur={handleBlur}
+							onSubmitEditing={handleSearch}
+						/>
+						{(searchFail ||
+							(searchData && searchData.length > 0)) && (
+							<TouchableOpacity
+								style={ChattingStyles.iconArrowRightSearch}
+								onPress={handleSearchBack}
+							>
+								<ArrowRight color="#B0D0FF" />
+							</TouchableOpacity>
+						)}
+						{isSearching ? (
+							<ConnectSearchCancel
+								style={ChattingStyles.searchIcon}
+								onPress={handleCancel}
+							/>
+						) : (
+							<ConnectSearchIcon
+								style={ChattingStyles.searchIcon}
+								onPress={handleSearch}
+							/>
+						)}
+					</View>
+				</View>
+				<TouchableOpacity
+					style={ChattingStyles.iconChatPlus}
+					onPress={() => navigation.navigate("FriendListPage")}
+				>
+					<IconChatPlus />
+				</TouchableOpacity>
 
-			{isIndividualTab ? (
-				<></>
-			) : chatrooms.length ? (
-				searchFail ? (
-					<View style={ChattingStyles.containerFail}>
-						<IconSearchFail />
-						<Text style={ChattingStyles.textFail}>
-							{t("searchNoResults")}
+				{isIndividualTab ? (
+					<></>
+				) : chatrooms.length ? (
+					searchFail ? (
+						<View style={ChattingStyles.containerFail}>
+							<IconSearchFail />
+							<Text style={ChattingStyles.textFail}>
+								{t("searchNoResults")}
+							</Text>
+						</View>
+					) : searchData && searchData.length > 0 ? (
+						<>{renderCommunity()}</>
+					) : (
+						<>{renderCommunity()}</>
+					)
+				) : (
+					<View style={ChattingStyles.containerTextNoChat}>
+						<Text style={ChattingStyles.textNoChat}>
+							{t("noChatrooms")}
 						</Text>
 					</View>
-				) : searchData && searchData.length > 0 ? (
-					<>{renderCommunity()}</>
-				) : (
-					<>{renderCommunity()}</>
-				)
-			) : (
-				<View style={ChattingStyles.containerTextNoChat}>
-					<Text style={ChattingStyles.textNoChat}>
-						{t("noChatrooms")}
-					</Text>
-				</View>
-			)}
-		</SafeAreaView>
+				)}
+			</SafeAreaView>
+		</TouchableWithoutFeedback>
 	);
 };
 
