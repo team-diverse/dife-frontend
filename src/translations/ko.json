@@ -407,5 +407,21 @@
 	"supportedLanguages": "제공 언어: \n영어, 한국어, 중국어, 일본어, 스페인어",
 	"translationExhaustedTitle": "번역 횟수 소진 안내",
 	"translationExhaustedContent": "Dife는 무료 번역 서비스 횟수가\n모두 소진되었습니다 :(",
-	"betaTestInfo": "베타테스트 기간에는\n유료구독 서비스를 제공하지 않습니다."
+	"betaTestInfo": "베타테스트 기간에는\n유료구독 서비스를 제공하지 않습니다.",
+
+	"noChatrooms": "아직 채팅방이 없습니다.\n친구와 새로운 채팅을 시작해보세요!",
+	"bookmarkTitle": "북마크",
+	"friendListTitle": "친구 목록",
+	"myFriend": "내 친구",
+	"chatParticipant": "참가자",
+	"chatScrapStorage": "스크랩 보관함",
+	"chatAlbum": "앨범",
+	"bookmarkUnsetPrompt": "북마크를 해제하시겠어요?",
+	"removeButtonText": "해제하기",
+	"gallery": "갤러리",
+	"originalText": "원문: ",
+	"translationText": "번역: ",
+	"viewOriginalOnlyButton": "원문만 보기",
+
+	"connectRequestSuccess": "{{username}}에게\n커넥트 요청하였습니다."
 }

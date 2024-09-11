@@ -407,5 +407,21 @@
 	"supportedLanguages": "Supported languages: \nEnglish, Korean, Chinese, Japanese, Spanish",
 	"translationExhaustedTitle": "Translation Limit Exhausted",
 	"translationExhaustedContent": "Dife's free translation service limit has been\ncompletely exhausted :(",
-	"betaTestInfo": "No paid subscription services are offered during the beta testing period."
+	"betaTestInfo": "No paid subscription services are offered during the beta testing period.",
+
+	"noChatrooms": "There are no chat rooms yet.\nStart a new chat with a friend!",
+	"bookmarkTitle": "Bookmark",
+	"friendListTitle": "Friend List",
+	"myFriend": "My Friend",
+	"chatParticipant": "Participant",
+	"chatScrapStorage": "Scrap Storage",
+	"chatAlbum": "Album",
+	"bookmarkUnsetPrompt": "Are you sure you want to unset the bookmark?",
+	"removeButtonText": "Remove",
+	"gallery": "Gallery",
+	"originalText": "Original Text: ",
+	"translationText": "Translation: ",
+	"viewOriginalOnlyButton": "View Original Only",
+
+	"connectRequestSuccess": "You have sent a connect request to {{username}}."
 }
