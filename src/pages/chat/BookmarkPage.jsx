@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView, FlatList } from "react-native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import BookmarkStyles from "@pages/chat/BookmarkStyles";
+import { getBookmarkedPostChat } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import Bookmark from "@components/chat/Bookmark";
@@ -10,42 +12,26 @@ import Bookmark from "@components/chat/Bookmark";
 const BookmarkPage = () => {
 	const { t } = useTranslation();
 
-	const notificationData = [
-		{
-			id: "1",
-			name: "Dann",
-			context: "“Hello!”",
-			date: "2024.05.04",
-			time: "09 : 25",
-			translation: "안녕!",
-		},
-		{
-			id: "2",
-			name: "Dann",
-			context: "test",
-			date: "2024.05.04",
-			time: "09 : 25",
-			translation: "테스트",
-		},
-		{
-			id: "3",
-			name: "Dann",
-			context:
-				"“The warm spring weather makes taking a walk in the park very enjoyable.”",
-			date: "2024.05.04",
-			time: "09 : 25",
-			translation:
-				"“봄 날씨가 따뜻해서 공원에서 산책하는 것이 너무 좋습니다.”",
-		},
-		{
-			id: "4",
-			name: "Dann",
-			context: "Oh, my?!",
-			date: "2024.05.04",
-			time: "09 : 25",
-			translation: "으이?!",
-		},
-	];
+	const [bookmarkedList, setBookmarkPostList] = useState();
+
+	useEffect(() => {
+		const handleBookmarkPost = async () => {
+			try {
+				const response = await getBookmarkedPostChat();
+				const filterdBookmark = response.data.filter(
+					(item) => item.post === null,
+				);
+				setBookmarkPostList(filterdBookmark);
+			} catch (error) {
+				Sentry.captureException(error);
+				console.error(
+					"북마크한 채팅 조회 오류:",
+					error.response ? error.response.data : error.message,
+				);
+			}
+		};
+		handleBookmarkPost();
+	}, []);
 
 	return (
 		<SafeAreaView
@@ -54,14 +40,14 @@ const BookmarkPage = () => {
 			<TopBar topBar={t("bookmarkTitle")} color="#000" />
 			<FlatList
 				style={BookmarkStyles.flatlist}
-				data={notificationData}
+				data={bookmarkedList}
 				renderItem={({ item }) => (
 					<Bookmark
-						name={item.name}
-						context={item.context}
-						date={item.date}
-						time={item.time}
-						translation={item.translation}
+						bookmarkedId={item.id}
+						username={"Dann"}
+						context={item.message}
+						created={item.created}
+						translations={item.translations || []}
 					/>
 				)}
 				keyExtractor={(item) => item.id}

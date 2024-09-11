@@ -1,37 +1,94 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
+import { getMyProfile, translationByBookmarkedId } from "config/api";
 
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconBookmark from "@components/chat/IconBookmark";
 import ModalNoBookmark from "@components/chat/ModalNoBookmark";
 import DashedLine from "@components/chat/DashedLine";
+import ModalTranslationsCount from "@components/common/ModalTranslationsCount";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const Bookmark = ({ name, context, date, time, translation }) => {
+const Bookmark = ({
+	bookmarkedId,
+	username,
+	context,
+	created,
+	translations,
+}) => {
 	const { t } = useTranslation();
 	const [expanded, setExpanded] = useState(false);
+	const [content, setContent] = useState();
+	const [date, setDate] = useState("");
+	const [time, setTime] = useState("");
 	const [isTranslation, setIsTranslation] = useState(false);
+	const [translationCount, setTranslationCount] = useState();
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalTranslationVisible, setModalTranslationVisible] =
+		useState(false);
+
+	const rectangleStyle = () =>
+		expanded ? styles.rectangleExpanded : styles.rectangle;
 
 	const handleExpanded = () => {
 		setExpanded(!expanded);
 	};
 
-	const [modalVisible, setModalVisible] = useState(false);
-
 	const pressButton = () => {
 		setModalVisible(!modalVisible);
 	};
 
-	const rectangleStyle = () =>
-		expanded ? styles.rectangleExpanded : styles.rectangle;
+	const handleTranslations = async () => {
+		try {
+			const responseCount = await getMyProfile();
+			const count =
+				responseCount.data.translationCount === 0
+					? 0
+					: responseCount.data.translationCount + 1;
+			setTranslationCount(count);
 
-	const handleTranslation = () => {
-		setIsTranslation(!isTranslation);
+			if (!isTranslation) {
+				if (translations.length > 0) {
+					setIsTranslation(true);
+					setContent(translations[0].text);
+				} else {
+					if (translationCount === 0) {
+						setModalTranslationVisible(true);
+						setIsTranslation(true);
+						const response =
+							await translationByBookmarkedId(bookmarkedId);
+						setContent(response.data.translations[0].text);
+					} else if (translationCount <= 15) {
+						setModalTranslationVisible(false);
+						setIsTranslation(true);
+						const response =
+							await translationByBookmarkedId(bookmarkedId);
+						setContent(response.data.translations[0].text);
+					} else if (translationCount > 15) {
+						setModalTranslationVisible(true);
+					}
+				}
+			} else {
+				setIsTranslation(false);
+			}
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"채팅 북마크 번역 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
+
+	useEffect(() => {
+		setDate(created.split("T")[0].replace("-", "."));
+		setTime(created.split("T")[1].substring(0, 5));
+	}, [created]);
 
 	return (
 		<>
@@ -42,7 +99,7 @@ const Bookmark = ({ name, context, date, time, translation }) => {
 							<IconChatProfile size="32" />
 						</View>
 						<View style={styles.textContainer}>
-							<Text style={styles.textName}>{name}</Text>
+							<Text style={styles.textName}>{username}</Text>
 							<Text style={styles.textContext}>{context}</Text>
 						</View>
 					</View>
@@ -61,7 +118,7 @@ const Bookmark = ({ name, context, date, time, translation }) => {
 						<ModalNoBookmark
 							modalVisible={modalVisible}
 							setModalVisible={setModalVisible}
-							name={name}
+							name={username}
 							context={context}
 							date={date}
 							time={time}
@@ -86,13 +143,18 @@ const Bookmark = ({ name, context, date, time, translation }) => {
 									{context}
 								</Text>
 							</View>
-							<TouchableOpacity onPress={handleTranslation}>
+							<TouchableOpacity onPress={handleTranslations}>
 								<Text style={styles.textTranslation}>
 									{isTranslation
 										? t("viewOriginalOnlyButton")
 										: t("translateButton")}
 								</Text>
 							</TouchableOpacity>
+							<ModalTranslationsCount
+								modalVisible={modalTranslationVisible}
+								setModalVisible={setModalTranslationVisible}
+								translationCount={translationCount}
+							/>
 						</View>
 						{isTranslation && (
 							<View style={styles.containerTextExpanded}>
@@ -100,7 +162,7 @@ const Bookmark = ({ name, context, date, time, translation }) => {
 									{t("translationText")}
 								</Text>
 								<Text style={styles.textExpandedContext}>
-									{translation}
+									{content}
 								</Text>
 							</View>
 						)}

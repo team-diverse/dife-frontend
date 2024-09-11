@@ -289,7 +289,7 @@ export const getLikedPost = () => {
 	return api.get("/likes");
 };
 
-export const getBookmarkedPost = () => {
+export const getBookmarkedPostChat = () => {
 	return api.get("/bookmarks");
 };
 
@@ -590,5 +590,11 @@ export const translationByPostId = (postId) => {
 export const translationByCommentId = (commentId) => {
 	return api.post("/translations", {
 		commentId,
+	});
+};
+
+export const translationByBookmarkedId = (bookmarkId) => {
+	return api.post("/translations", {
+		bookmarkId,
 	});
 };
