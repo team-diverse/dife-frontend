@@ -593,6 +593,12 @@ export const translationByCommentId = (commentId) => {
 	});
 };
 
+export const translationByChatId = (chatId) => {
+	return api.post("/translations", {
+		chatId,
+	});
+};
+
 export const translationByBookmarkedId = (bookmarkId) => {
 	return api.post("/translations", {
 		bookmarkId,

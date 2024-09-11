@@ -81,12 +81,16 @@ const ModalMenuChat = ({
 			isVisible={modalVisible}
 			style={[
 				styles.modal,
-				{
-					top: position.y + 15,
-					left: isMine
-						? position.x - position.width / 2
-						: position.x + position.width / 2 + 15,
-				},
+				isMine
+					? {
+							top: position.y + 15,
+							right: position.width,
+							alignItems: "flex-end",
+						}
+					: {
+							top: position.y + 15,
+							left: position.x,
+						},
 			]}
 			onBackdropPress={() => setModalVisible(false)}
 			backdropColor="rgba(0, 0, 0, 0.3)"

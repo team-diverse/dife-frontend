@@ -78,7 +78,8 @@
 		"text-encoding": "^0.7.0",
 		"typescript": "~5.3.3",
 		"uuid": "^9.0.1",
-		"expo-clipboard": "~6.0.3"
+		"expo-clipboard": "~6.0.3",
+		"expo-haptics": "~13.0.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.24.0",
