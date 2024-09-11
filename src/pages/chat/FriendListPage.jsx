@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { Text, View, SafeAreaView, FlatList } from "react-native";
+import { useTranslation } from "react-i18next";
+import { useFocusEffect } from "@react-navigation/native";
 
 import FriendListStyles from "@pages/chat/FriendListStyles";
 import { getMyAcceptedConnects } from "config/api";
@@ -20,16 +22,18 @@ const FriendListPage = ({ route }) => {
 			: connect.from_member;
 	};
 
-	useEffect(() => {
-		const fetchMyMemberIDAndConnects = async () => {
-			const myMemberId = await getMyMemberId();
-			setMyMemberId(myMemberId);
+	useFocusEffect(
+		useCallback(() => {
+			const fetchMyMemberIDAndConnects = async () => {
+				const myMemberId = await getMyMemberId();
+				setMyMemberId(myMemberId);
 
-			const response = await getMyAcceptedConnects();
-			setConnects(response.data);
-		};
-		fetchMyMemberIDAndConnects();
-	}, [connects]);
+				const response = await getMyAcceptedConnects();
+				setConnects(response.data);
+			};
+			fetchMyMemberIDAndConnects();
+		}, []),
+	);
 
 	return (
 		<SafeAreaView style={FriendListStyles.container}>
