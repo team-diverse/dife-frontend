@@ -116,9 +116,19 @@ export const login = (email, password) => {
 	});
 };
 
-export const changePassword = (email) => {
+export const getVerifyCode = (email) => {
 	return api.get("/members/change-password", {
 		params: {
+			email,
+		},
+	});
+};
+
+export const changePassword = (verifyCode, newPassword, email) => {
+	return api.patch("/members/change-password", null, {
+		params: {
+			verifyCode,
+			newPassword,
 			email,
 		},
 	});

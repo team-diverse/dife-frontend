@@ -93,6 +93,7 @@ import LikedPostPage from "@pages/member/LikedPostPage";
 import BookmarkedPostPage from "@pages/member/BookmarkedPostPage";
 import LikeUserOneToOne from "@pages/connect/LikeUserOneToOne";
 import LandingPage from "@pages/login/LandingPage";
+import SetPasswordPage from "@pages/login/SetPasswordPage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -400,6 +401,7 @@ function AuthNavigator({ initialRoute }) {
 				name="StudentVerificationErrorPage"
 				component={StudentVerificationErrorPage}
 			/>
+			<Stack.Screen name="SetPasswordPage" component={SetPasswordPage} />
 		</Stack.Navigator>
 	);
 }
