@@ -117,7 +117,7 @@ const CommunityPage = () => {
 								style={CommunityStyles.iconCommunity}
 							/>
 							<Text style={CommunityStyles.textCommunityTitle}>
-								{t("tipsBoard")}
+								{t("tipBoard")}
 							</Text>
 						</View>
 						<TouchableOpacity
