@@ -399,9 +399,9 @@
 	"languageChangedSuccess": "The default language has been changed.",
 
 	"chatTitle": "Chat",
-	"connectContent": "Connect with friends from around the world\nShare diverse cultures and grow together",
-	"chatContent": "Limitless communication with translation features\nLearn languages simultaneously",
-	"communityContent": "Share information necessary for living abroad\n",
+	"connectContent": "Connect with friends from\naround the world",
+	"chatContent": "Limitless communication\n",
+	"communityContent": "Sharing information\n",
 	"startButton": "Start Dife",
 
 	"translationFeatureTitle": "Translation Feature Guide",
