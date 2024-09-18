@@ -222,6 +222,7 @@ const HomePage = () => {
 					<View style={HomeStyles.homecardContainer}>
 						<View style={HomeStyles.homecard}>
 							<HomeCardFront
+								memberId={id}
 								profileImg={profilePresignUrl}
 								tags={tags}
 								introduction={bio}
