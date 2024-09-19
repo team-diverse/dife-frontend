@@ -422,5 +422,7 @@
 	"gallery": "Galería",
 	"originalText": "Texto Original: ",
 	"translationText": "Traducción: ",
-	"viewOriginalOnlyButton": "Ver Solo Original"
+	"viewOriginalOnlyButton": "Ver Solo Original",
+
+	"connectRequestSuccess": "Has enviado una solicitud de conexión a {{username}}."
 }

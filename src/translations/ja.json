@@ -422,5 +422,7 @@
 	"gallery": "ギャラリー",
 	"originalText": "原文: ",
 	"translationText": "翻訳: ",
-	"viewOriginalOnlyButton": "原文のみ表示"
+	"viewOriginalOnlyButton": "原文のみ表示",
+
+	"connectRequestSuccess": "{{username}}にコネクトリクエストを送りました。"
 }

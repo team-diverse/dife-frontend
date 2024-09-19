@@ -422,5 +422,7 @@
 	"gallery": "画廊",
 	"originalText": "原文: ",
 	"translationText": "翻译: ",
-	"viewOriginalOnlyButton": "仅查看原文"
+	"viewOriginalOnlyButton": "仅查看原文",
+
+	"connectRequestSuccess": "您已向{{username}}发送连接请求。"
 }

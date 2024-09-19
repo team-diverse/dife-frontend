@@ -35,6 +35,7 @@ const ChattingPage = () => {
 
 	const [myMemberId, setMyMemberId] = useState(null);
 	const { chatrooms, messages, updateChatroomsAndMessages } = useWebSocket();
+
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
@@ -110,6 +111,7 @@ const ChattingPage = () => {
 						<ChatroomItem
 							chatroomInfo={item}
 							myMemberId={myMemberId}
+							name={item.name}
 							context={getLatestChatByChatroomId(item.id)}
 							time={formatKoreanTime(item.created)}
 						/>

@@ -421,5 +421,7 @@
 	"gallery": "Gallery",
 	"originalText": "Original Text: ",
 	"translationText": "Translation: ",
-	"viewOriginalOnlyButton": "View Original Only"
+	"viewOriginalOnlyButton": "View Original Only",
+
+	"connectRequestSuccess": "You have sent a connect request to {{username}}."
 }
