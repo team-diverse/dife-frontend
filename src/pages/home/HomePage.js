@@ -197,7 +197,16 @@ const HomePage = () => {
 					alignItems: "center",
 				}}
 			>
-				<TouchableOpacity onPress={handlePrevProfile}>
+				<TouchableOpacity
+					onPress={
+						currentProfileIndex !== 0 ? handlePrevProfile : null
+					}
+					style={{
+						opacity: currentProfileIndex !== 0 ? 1 : 0,
+						pointerEvents:
+							currentProfileIndex !== 0 ? "auto" : "none",
+					}}
+				>
 					<HomeArrow style={{ transform: [{ scaleX: -1 }] }} />
 				</TouchableOpacity>
 
@@ -254,7 +263,13 @@ const HomePage = () => {
 					<HomeCard />
 				</View>
 
-				<TouchableOpacity onPress={handleNextProfile}>
+				<TouchableOpacity
+					onPress={!showMoreProfiles ? handleNextProfile : null}
+					style={{
+						opacity: !showMoreProfiles ? 1 : 0,
+						pointerEvents: !showMoreProfiles ? "auto" : "none",
+					}}
+				>
 					<HomeArrow />
 				</TouchableOpacity>
 			</View>
