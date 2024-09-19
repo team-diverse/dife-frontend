@@ -1,13 +1,22 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useTranslation } from "react-i18next";
+
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontCaption } = CustomTheme;
 
 const HomecardBackBtn = ({ btnText, onPress }) => {
-	const btnStyle = btnText === "아니오" ? styles.btnCancel : styles.btnApply;
+	const { t } = useTranslation();
+
+	const btnStyle =
+		btnText === t("noButtonText") || btnText === t("backButton")
+			? styles.btnCancel
+			: styles.btnApply;
 	const btnTextStyle =
-		btnText === "아니오" ? styles.btnTextC : styles.btnTextA;
+		btnText === t("noButtonText") || btnText === t("backButton")
+			? styles.btnTextC
+			: styles.btnTextA;
 
 	return (
 		<TouchableOpacity onPress={onPress}>

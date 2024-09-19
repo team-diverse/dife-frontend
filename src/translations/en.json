@@ -24,9 +24,14 @@
 	"findPasswordSubtitle": "Enter the email used during registration",
 	"emailInvalidError": "Please enter a valid email format",
 	"emailNotFoundError": "Email not found",
-	"passwordResetButton": "Request Password Reset",
+	"passwordResetButton": "Send verification code",
 	"emailSendingText": "Sending email",
 	"emailSentText": "Email sent successfully",
+	"setPasswordTitle": "Reset Password",
+	"verificationCode": "Verification Code",
+	"errorRetry": "An error occurred. Please try again.",
+	"verifyCodePrompt": "Please check the verification code.",
+	"setPasswordButton": "Reset Password",
 
 	"emailVerificationTitle": "Email Verification",
 	"emailVerificationSubtitle": "An email for password reset has been sent",
@@ -160,7 +165,7 @@
 	"searchPlaceholder": "Search",
 	"searchNoResults": "No matching results found",
 	"moreButton": "More",
-	"tipsBoard": "Tips Board",
+	"tipBoard": "Tips Board",
 	"freeBoard": "Free Board",
 	"cancelSearch": "Cancel Search",
 
@@ -394,9 +399,9 @@
 	"languageChangedSuccess": "The default language has been changed.",
 
 	"chatTitle": "Chat",
-	"connectContent": "Connect with friends from around the world\nShare diverse cultures and grow together",
-	"chatContent": "Limitless communication with translation features\nLearn languages simultaneously",
-	"communityContent": "Share information necessary for living abroad\n",
+	"connectContent": "Connect with friends from\naround the world",
+	"chatContent": "Limitless communication\n",
+	"communityContent": "Sharing information\n",
 	"startButton": "Start Dife",
 
 	"translationFeatureTitle": "Translation Feature Guide",
@@ -407,5 +412,21 @@
 	"supportedLanguages": "Supported languages: \nEnglish, Korean, Chinese, Japanese, Spanish",
 	"translationExhaustedTitle": "Translation Limit Exhausted",
 	"translationExhaustedContent": "Dife's free translation service limit has been\ncompletely exhausted :(",
-	"betaTestInfo": "No paid subscription services are offered during the beta testing period."
+	"betaTestInfo": "No paid subscription services are offered during the beta testing period.",
+
+	"noChatrooms": "There are no chat rooms yet.\nStart a new chat with a friend!",
+	"bookmarkTitle": "Bookmark",
+	"friendListTitle": "Friend List",
+	"myFriend": "My Friend",
+	"chatParticipant": "Participant",
+	"chatScrapStorage": "Scrap Storage",
+	"chatAlbum": "Album",
+	"bookmarkUnsetPrompt": "Are you sure you want to unset the bookmark?",
+	"removeButtonText": "Remove",
+	"gallery": "Gallery",
+	"originalText": "Original Text: ",
+	"translationText": "Translation: ",
+	"viewOriginalOnlyButton": "View Original Only",
+
+	"connectRequestSuccess": "You have sent a connect request to {{username}}."
 }

@@ -24,9 +24,14 @@
 	"findPasswordSubtitle": "회원가입 시 사용한 이메일을 입력해주세요",
 	"emailInvalidError": "유효한 이메일 형식을 입력해주세요.",
 	"emailNotFoundError": "존재하지 않는 이메일입니다.",
-	"passwordResetButton": "비밀번호 재발급받기",
+	"passwordResetButton": "인증번호 전송하기",
 	"emailSendingText": "이메일 전송중",
 	"emailSentText": "이메일 전송 완료!",
+	"setPasswordTitle": "비밀번호 재설정",
+	"verificationCode": "인증번호",
+	"errorRetry": "오류가 발생했습니다. 다시 한 번 시도해주세요.",
+	"verifyCodePrompt": "인증번호를 확인해주세요.",
+	"setPasswordButton": "비밀번호 재설정하기",
 
 	"emailVerificationTitle": "이메일 확인",
 	"emailVerificationSubtitle": "비밀번호 재발급을 위한 이메일을 전송했습니다",
@@ -158,7 +163,7 @@
 	"searchPlaceholder": "검색",
 	"searchNoResults": "일치하는 검색 결과가 없습니다",
 	"moreButton": "더보기",
-	"tipsBoard": "꿀팁게시판",
+	"tipBoard": "꿀팁게시판",
 	"freeBoard": "자유게시판",
 	"cancelSearch": "검색 취소",
 
@@ -407,5 +412,21 @@
 	"supportedLanguages": "제공 언어: \n영어, 한국어, 중국어, 일본어, 스페인어",
 	"translationExhaustedTitle": "번역 횟수 소진 안내",
 	"translationExhaustedContent": "Dife는 무료 번역 서비스 횟수가\n모두 소진되었습니다 :(",
-	"betaTestInfo": "베타테스트 기간에는\n유료구독 서비스를 제공하지 않습니다."
+	"betaTestInfo": "베타테스트 기간에는\n유료구독 서비스를 제공하지 않습니다.",
+
+	"noChatrooms": "아직 채팅방이 없습니다.\n친구와 새로운 채팅을 시작해보세요!",
+	"bookmarkTitle": "북마크",
+	"friendListTitle": "친구 목록",
+	"myFriend": "내 친구",
+	"chatParticipant": "참가자",
+	"chatScrapStorage": "스크랩 보관함",
+	"chatAlbum": "앨범",
+	"bookmarkUnsetPrompt": "북마크를 해제하시겠어요?",
+	"removeButtonText": "해제하기",
+	"gallery": "갤러리",
+	"originalText": "원문: ",
+	"translationText": "번역: ",
+	"viewOriginalOnlyButton": "원문만 보기",
+
+	"connectRequestSuccess": "{{username}}에게\n커넥트 요청하였습니다."
 }

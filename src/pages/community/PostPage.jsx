@@ -74,7 +74,7 @@ const PostPage = ({ route }) => {
 	const [images, setImages] = useState([]);
 	const [comments, setComments] = useState([]);
 	const [valueComment, onChangeComment] = useState("");
-	const [isChecked, setIsChecked] = useState(false);
+	const [isChecked, setIsChecked] = useState(true);
 	const [isReplying, setIsReplying] = useState(false);
 	const [parentCommentId, setParentCommentId] = useState(null);
 	const [isTranslation, setIsTranslation] = useState(false);
@@ -111,6 +111,8 @@ const PostPage = ({ route }) => {
 			setCreated(formatDate(postByIdResponse.data.created));
 			setIsPublic(postByIdResponse.data.isPublic);
 			setMemberId(postByIdResponse.data.writer.id);
+			setHeart(postByIdResponse.data.likesCount);
+			setBookmark(postByIdResponse.data.bookmarkCount);
 			const fileNames = postByIdResponse.data.files.map(
 				(file) => file.originalName,
 			);
@@ -154,29 +156,21 @@ const PostPage = ({ route }) => {
 
 	useFocusEffect(
 		useCallback(() => {
-			const getHeartBookmakrComment = async () => {
+			const getComment = async () => {
 				try {
-					const postByIdResponse = await getPostById(postId);
-					setHeart(postByIdResponse.data.likesCount);
-					setBookmark(postByIdResponse.data.bookmarkCount);
-
 					const commentByIdResponse =
 						await getCommentByPostId(postId);
 					setComments(commentByIdResponse.data);
 				} catch (error) {
 					Sentry.captureException(error);
 					console.error(
-						"게시글 좋아요 및 북마크 조회 오류:",
-						error.response ? error.response.data : error.message,
-					);
-					console.error(
 						"댓글 조회 오류:",
 						error.response ? error.response.data : error.message,
 					);
 				}
 			};
-			getHeartBookmakrComment();
-		}, [pressHeart, pressBookmark, comments]),
+			getComment();
+		}, [comments]),
 	);
 
 	const [scrollY, setScrollY] = useState(0);
@@ -279,64 +273,58 @@ const PostPage = ({ route }) => {
 	}, []);
 
 	const handleHeart = async () => {
-		try {
-			await createLikePost(postId);
-			setHeart((prevHeart) => prevHeart + 1);
-			setPressHeart(true);
-		} catch (error) {
-			Sentry.captureException(error);
-			console.error(
-				"게시글 좋아요 실패:",
-				error.response ? error.response.data : error.message,
-			);
-			setPressHeart(false);
-			setHeart(heart !== 0 ? (prevHeart) => prevHeart - 1 : 0);
-		}
-	};
+		const previousHeartCount = heart;
+		const newHeartState = !pressHeart;
 
-	const handleHeartDelete = async () => {
+		setPressHeart(newHeartState);
+		setHeart(
+			newHeartState ? previousHeartCount + 1 : previousHeartCount - 1,
+		);
+
 		try {
-			await deleteLikeByPostId(postId);
-			setPressHeart(false);
-			setHeart(heart !== 0 ? (prevHeart) => prevHeart - 1 : 0);
+			if (newHeartState) {
+				await createLikePost(postId);
+			} else {
+				await deleteLikeByPostId(postId);
+			}
 		} catch (error) {
+			setPressHeart(!newHeartState);
+			setHeart(previousHeartCount);
 			Sentry.captureException(error);
 			console.error(
-				"게시글 좋아요 취소 실패:",
+				newHeartState ? "좋아요 생성 실패:" : "좋아요 취소 실패:",
 				error.response ? error.response.data : error.message,
 			);
-			setPressHeart(true);
-			setHeart((prevHeart) => prevHeart + 1);
 		}
 	};
 
 	const handleBookmark = async () => {
-		try {
-			await createPostBookmark(postId);
-			setBookmark((prevBookmark) => prevBookmark + 1);
-			setPressBookmark(true);
-		} catch (error) {
-			Sentry.captureException(error);
-			console.error(
-				"게시글 북마크 실패:",
-				error.response ? error.response.data : error.message,
-			);
-			setBookmark((prevBookmark) => prevBookmark - 1);
-			setPressBookmark(false);
-		}
-	};
+		const previousBookmarkCount = bookmark;
+		const newBookmarkState = !pressBookmark;
 
-	const handleDeleteBookmark = async () => {
+		setPressBookmark(newBookmarkState);
+		setBookmark(
+			newBookmarkState
+				? previousBookmarkCount + 1
+				: previousBookmarkCount - 1,
+		);
+
 		try {
-			await deleteBookmarkByPostId(postId);
+			if (newBookmarkState) {
+				await createPostBookmark(postId);
+			} else {
+				await deleteBookmarkByPostId(postId);
+			}
 		} catch (error) {
+			setPressBookmark(!newBookmarkState);
+			setBookmark(previousBookmarkCount);
 			Sentry.captureException(error);
 			console.error(
-				"게시글 북마크 삭제 실패:",
+				newBookmarkState
+					? "게시글 북마크 처리 실패:"
+					: "게시글 북마크 삭제 실패:",
 				error.response ? error.response.data : error.message,
 			);
-			setPressBookmark(true);
-			setBookmark((prevBookmark) => prevBookmark + 1);
 		}
 	};
 
@@ -352,9 +340,7 @@ const PostPage = ({ route }) => {
 				{
 					text: t("confirmButtonText"),
 					onPress: () => {
-						setBookmark((prevBookmark) => prevBookmark - 1);
-						setPressBookmark(false);
-						handleDeleteBookmark();
+						handleBookmark();
 					},
 				},
 			],
@@ -514,9 +500,7 @@ const PostPage = ({ route }) => {
 					<View style={PostStyles.containerIconRow}>
 						<TouchableOpacity
 							style={PostStyles.iconRow}
-							onPress={
-								pressHeart ? handleHeartDelete : handleHeart
-							}
+							onPress={handleHeart}
 						>
 							<IconHeart active={pressHeart} />
 							<Text style={PostStyles.textIcon}>{heart}</Text>

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import {
 	View,
 	Text,
@@ -12,8 +12,7 @@ import { useTranslation } from "react-i18next";
 
 import FindPasswordStyles from "@pages/login/FindPasswordStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
-import { changePassword, checkEmail } from "config/api";
-import { debounce } from "util/debounce";
+import { getVerifyCode, changePassword } from "config/api";
 
 import InfoCircle from "@components/common/InfoCircle";
 import ApplyButton from "@components/common/ApplyButton";
@@ -23,12 +22,16 @@ import * as Sentry from "@sentry/react-native";
 
 const FindPasswordPage = () => {
 	const { t } = useTranslation();
+	const navigation = useNavigation();
 
 	const [valueID, onChangeID] = useState("");
 	const [validID, setValidID] = useState(null);
 	const [errorMessage, setErrorMessage] = useState("");
-
-	const navigation = useNavigation();
+	const [isNext, setIsNext] = useState(false);
+	const [invalidVerificationCode, setInvalidVerificationCode] =
+		useState(false);
+	const [verificationCode, setVerificationCode] = useState();
+	const [modalConnectVisible, setModalConnectVisible] = useState(false);
 
 	const handleKeyboard = () => {
 		Keyboard.dismiss();
@@ -39,32 +42,19 @@ const FindPasswordPage = () => {
 		const isValid = emailRegex.test(email);
 		setValidID(isValid);
 		if (isValid) {
-			handleEmail(email);
+			setValidID(true);
 		} else {
 			setErrorMessage(t("emailInvalidError"));
 		}
 		onChangeID(email);
 	};
 
-	const handleEmail = useCallback(
-		debounce(async (email) => {
-			try {
-				await checkEmail(email);
-				setValidID(false);
-				setErrorMessage(t("emailNotFoundError"));
-			} catch (error) {
-				setValidID(true);
-			}
-		}, 300),
-		[validID],
-	);
-
 	const handleFindPassword = async () => {
 		setModalConnectVisible(true);
 		try {
-			await changePassword(valueID);
+			await getVerifyCode(valueID);
 			setValidID(true);
-			navigation.navigate("FindPasswordVerifying");
+			setIsNext(true);
 		} catch (error) {
 			Sentry.captureException(error);
 			setModalConnectVisible(false);
@@ -73,13 +63,38 @@ const FindPasswordPage = () => {
 				error.response ? error.response.data : error.message,
 			);
 			setValidID(false);
-			setErrorMessage(t("registeredMemberInfoError"));
+			setErrorMessage(t("errorRetry"));
 		} finally {
 			setModalConnectVisible(false);
 		}
 	};
 
-	const [modalConnectVisible, setModalConnectVisible] = useState(false);
+	const handleSetPassword = async () => {
+		try {
+			const response = await changePassword(
+				verificationCode,
+				null,
+				valueID,
+			);
+			if (response.status === 200) {
+				navigation.navigate("SetPasswordPage", {
+					verificationCode: verificationCode,
+					valueID: valueID,
+				});
+			} else {
+				setInvalidVerificationCode(true);
+				setErrorMessage(t("verifyCodePrompt"));
+			}
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"인증번호 매치 실패: ",
+				error.response ? error.response.data : error.message,
+			);
+			setInvalidVerificationCode(true);
+			setErrorMessage(t("verifyCodePrompt"));
+		}
+	};
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
@@ -99,6 +114,7 @@ const FindPasswordPage = () => {
 						placeholder={t("emailPlaceholder")}
 						onChangeText={handleEmailFormat}
 						value={valueID}
+						editable={isNext ? false : true}
 					/>
 				</View>
 				{validID == false && (
@@ -109,17 +125,57 @@ const FindPasswordPage = () => {
 						</Text>
 					</View>
 				)}
-				<ApplyButton
-					text={t("passwordResetButton")}
-					disabled={!validID}
-					onPress={handleFindPassword}
-				/>
-				<ModalRequest
-					modalVisible={modalConnectVisible}
-					setModalVisible={setModalConnectVisible}
-					textLoading={t("emailSendingText")}
-					textComplete={t("emailSentText")}
-				/>
+				{isNext ? (
+					<>
+						<Text
+							style={[
+								FindPasswordStyles.textId,
+								{ marginTop: 36 },
+							]}
+						>
+							{t("verificationCode")}
+						</Text>
+						<View style={FindPasswordStyles.textInputId}>
+							<TextInput
+								onChangeText={(text) =>
+									setVerificationCode(text)
+								}
+								value={verificationCode}
+							/>
+						</View>
+						{invalidVerificationCode && (
+							<View style={FindPasswordStyles.containerNotMember}>
+								<InfoCircle color={CustomTheme.warningRed} />
+								<Text style={FindPasswordStyles.textNotMember}>
+									{errorMessage}
+								</Text>
+							</View>
+						)}
+						<View style={FindPasswordStyles.applyButton}>
+							<ApplyButton
+								text={t("setPasswordButton")}
+								disabled={!verificationCode}
+								onPress={handleSetPassword}
+							/>
+						</View>
+					</>
+				) : (
+					<>
+						<View style={{ marginTop: 37 }}>
+							<ApplyButton
+								text={t("passwordResetButton")}
+								disabled={!validID}
+								onPress={handleFindPassword}
+							/>
+						</View>
+						<ModalRequest
+							modalVisible={modalConnectVisible}
+							setModalVisible={setModalConnectVisible}
+							textLoading={t("emailSendingText")}
+							textComplete={t("emailSentText")}
+						/>
+					</>
+				)}
 			</SafeAreaView>
 		</TouchableWithoutFeedback>
 	);

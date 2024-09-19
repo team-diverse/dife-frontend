@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import {
 	View,
 	Text,
-	Image,
 	SafeAreaView,
 	TouchableOpacity,
 	Modal,
 	Alert,
 	Dimensions,
 } from "react-native";
+import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { useTranslation } from "react-i18next";

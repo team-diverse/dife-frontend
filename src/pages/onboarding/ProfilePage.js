@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
 	View,
-	Image,
 	Text,
 	TextInput,
 	SafeAreaView,
@@ -13,6 +12,7 @@ import {
 	Keyboard,
 	Alert,
 } from "react-native";
+import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { useTranslation } from "react-i18next";
