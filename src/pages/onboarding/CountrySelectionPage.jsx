@@ -3,11 +3,11 @@ import {
 	View,
 	SafeAreaView,
 	TextInput,
-	Image,
 	SectionList,
 	Text,
 	TouchableOpacity,
 } from "react-native";
+import { Image } from "expo-image";
 import CountrySelectionStyles from "@pages/onboarding/CountrySelectionStyles";
 import {
 	searchIcon,
