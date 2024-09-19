@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { Image } from "expo-image";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const HomeProfile = ({ profile = null, back = false }) => {

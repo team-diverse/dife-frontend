@@ -212,7 +212,7 @@ const ModifyProfileInputPage = ({ route }) => {
 							</>
 						)}
 
-						{bioContent && (
+						{bioContent !== undefined && (
 							<>
 								<TextInput
 									style={ModifyProfileInputStyles.textInput}

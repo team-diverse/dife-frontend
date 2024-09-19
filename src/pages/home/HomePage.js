@@ -12,7 +12,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import { useTranslation } from "react-i18next";
 
-import HomeStyles from "@pages/home/HomeStyles.js";
+import HomeStyles from "@pages/home/HomeStyles";
 import {
 	getRandomMembersByCount,
 	createLikeMember,
@@ -65,7 +65,8 @@ const HomePage = () => {
 
 	const getNotificationNumber = async () => {
 		try {
-			const notificationResponse = await getNotifications();
+			const deviceId = await SecureStore.getItemAsync("deviceId");
+			const notificationResponse = await getNotifications(deviceId);
 			const count = await SecureStore.getItemAsync(
 				"readNotificationCount",
 			);
@@ -197,7 +198,16 @@ const HomePage = () => {
 					alignItems: "center",
 				}}
 			>
-				<TouchableOpacity onPress={handlePrevProfile}>
+				<TouchableOpacity
+					onPress={
+						currentProfileIndex !== 0 ? handlePrevProfile : null
+					}
+					style={{
+						opacity: currentProfileIndex !== 0 ? 1 : 0,
+						pointerEvents:
+							currentProfileIndex !== 0 ? "auto" : "none",
+					}}
+				>
 					<HomeArrow style={{ transform: [{ scaleX: -1 }] }} />
 				</TouchableOpacity>
 
@@ -222,6 +232,7 @@ const HomePage = () => {
 					<View style={HomeStyles.homecardContainer}>
 						<View style={HomeStyles.homecard}>
 							<HomeCardFront
+								memberId={id}
 								profileImg={profilePresignUrl}
 								tags={tags}
 								introduction={bio}
@@ -254,7 +265,13 @@ const HomePage = () => {
 					<HomeCard />
 				</View>
 
-				<TouchableOpacity onPress={handleNextProfile}>
+				<TouchableOpacity
+					onPress={!showMoreProfiles ? handleNextProfile : null}
+					style={{
+						opacity: !showMoreProfiles ? 1 : 0,
+						pointerEvents: !showMoreProfiles ? "auto" : "none",
+					}}
+				>
 					<HomeArrow />
 				</TouchableOpacity>
 			</View>

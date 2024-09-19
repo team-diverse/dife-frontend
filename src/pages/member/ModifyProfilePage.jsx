@@ -5,8 +5,8 @@ import {
 	Text,
 	TouchableOpacity,
 	Alert,
-	Image,
 } from "react-native";
+import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
@@ -123,7 +123,7 @@ const ModifyProfilePage = () => {
 							<Image
 								style={ModifyProfileStyles.modifyKBackground}
 								source={{ uri: profilePresignUrl }}
-								resizeMode="cover"
+								contentFit="cover"
 							/>
 						) : (
 							<ModifyKBackground />

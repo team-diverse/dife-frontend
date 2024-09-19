@@ -11,20 +11,20 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import * as Device from "expo-device";
 import { useTranslation } from "react-i18next";
+import * as SecureStore from "expo-secure-store";
+import * as Sentry from "@sentry/react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import LoginStyles from "@pages/login/LoginStyles";
+import { useOnboarding } from "src/states/OnboardingContext.js";
+import { useAuth } from "src/states/AuthContext";
+import { getMyProfile, login, createNotificationToken } from "config/api";
 
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import IconNotSeePw from "@components/login/IconNotSeePw";
 import IconSeePw from "@components/login/IconSeePw";
 import DifeLine from "@components/common/DifeLine";
-import { useOnboarding } from "src/states/OnboardingContext.js";
-import { useAuth } from "src/states/AuthContext";
 import InfoCircle from "@components/common/InfoCircle";
-import { getMyProfile, login, createNotificationToken } from "config/api";
-import * as SecureStore from "expo-secure-store";
-import * as Sentry from "@sentry/react-native";
 
 const isMockLoginEnabled = process.env.EXPO_PUBLIC_MOCK_LOGIN === "true";
 const mockEmail = process.env.EXPO_PUBLIC_MOCK_EMAIL || "";
@@ -45,7 +45,7 @@ const LoginPage = () => {
 
 	useEffect(() => {
 		const getDeviceId = async () => {
-			const id = await Device.modelId;
+			const id = Device.modelId;
 			setDeviceId(id);
 		};
 
@@ -80,6 +80,7 @@ const LoginPage = () => {
 			await SecureStore.setItemAsync("memberId", JSON.stringify(id));
 			await SecureStore.setItemAsync("accessToken", accessToken);
 			await SecureStore.setItemAsync("refreshToken", refreshToken);
+			await SecureStore.setItemAsync("deviceId", deviceId);
 
 			console.log(accessToken);
 			updateOnboardingData({ id, accessToken, refreshToken });
@@ -212,13 +213,13 @@ const LoginPage = () => {
 						/>
 						<View text={t("login")} onPress={handleLogin} />
 					</BottomTwoButtons>
-					{/* <TouchableOpacity
+					<TouchableOpacity
 						onPress={() => navigation.navigate("FindPassword")}
 					>
 						<Text style={LoginStyles.textReport}>
 							{t("loginForgotPassword")}
 						</Text>
-					</TouchableOpacity> */}
+					</TouchableOpacity>
 				</View>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>

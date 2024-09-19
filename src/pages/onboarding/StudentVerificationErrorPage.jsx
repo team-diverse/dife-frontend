@@ -1,11 +1,6 @@
 import React from "react";
-import {
-	View,
-	Text,
-	SafeAreaView,
-	Image,
-	TouchableOpacity,
-} from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 

@@ -34,8 +34,8 @@ const PostModifyPage = () => {
 	};
 
 	useEffect(() => {
-		if (postModifyData.boardType === t("tipsBoard")) {
-			setBoardType(t("tipsBoard"));
+		if (postModifyData.boardType === t("tipBoard")) {
+			setBoardType(t("tipBoard"));
 		} else {
 			setBoardType(t("freeBoard"));
 		}

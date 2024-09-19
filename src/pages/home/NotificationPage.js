@@ -17,7 +17,8 @@ const NotificationPage = () => {
 
 	const handleNotification = async () => {
 		try {
-			const response = await getNotifications();
+			const deviceId = await SecureStore.getItemAsync("deviceId");
+			const response = await getNotifications(deviceId);
 			setNotificationData(response.data.reverse());
 			await SecureStore.setItemAsync(
 				"readNotificationCount",

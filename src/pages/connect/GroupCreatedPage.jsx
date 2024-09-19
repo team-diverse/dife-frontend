@@ -4,12 +4,12 @@ import {
 	View,
 	Text,
 	TextInput,
-	Image,
 	TouchableOpacity,
 	Keyboard,
 	TouchableWithoutFeedback,
 	Alert,
 } from "react-native";
+import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { useTranslation } from "react-i18next";

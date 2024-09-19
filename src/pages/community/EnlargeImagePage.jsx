@@ -3,12 +3,12 @@ import {
 	View,
 	Text,
 	SafeAreaView,
-	Image,
 	FlatList,
 	TouchableOpacity,
 	Dimensions,
 	Alert,
 } from "react-native";
+import { Image } from "expo-image";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 import * as ImagePicker from "expo-image-picker";
@@ -124,7 +124,7 @@ const EnlargeImagePage = ({ route }) => {
 									index === selectedImageIndex &&
 										EnlargeImageStyles.imageSelectedSmall,
 								]}
-								resizeMode="cover"
+								contentFit="cover"
 							/>
 						</TouchableOpacity>
 					)}

@@ -1,5 +1,6 @@
 import React from "react";
-import { TouchableOpacity, View, Text, Image, StyleSheet } from "react-native";
+import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
+import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 
 import { CustomTheme } from "@styles/CustomTheme";

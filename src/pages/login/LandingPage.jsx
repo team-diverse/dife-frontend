@@ -3,11 +3,11 @@ import {
 	View,
 	Text,
 	SafeAreaView,
-	Image,
 	FlatList,
 	TouchableOpacity,
 	Dimensions,
 } from "react-native";
+import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useTranslation } from "react-i18next";
@@ -88,16 +88,24 @@ const LandingPage = () => {
 				</View>
 				{icon[currentIndex]}
 			</View>
-			<View style={[LandingStyles.center, { bottom: -85 }]}>
-				<Image source={item.image} resizeMode="cover" />
+			<View style={[LandingStyles.center, { marginTop: 30 }]}>
+				<Image
+					style={{
+						width: screenWidth - 60,
+						height: "100%",
+					}}
+					source={item.image}
+					contentFit="contain"
+				/>
 				<LinearGradient
 					colors={[
+						"rgba(255, 255, 255, 1)",
 						"rgba(255, 255, 255, 1)",
 						"rgba(255, 255, 255, 0)",
 					]}
 					style={LandingStyles.gradient}
 					start={{ x: 0, y: 1 }}
-					end={{ x: 0, y: 0.5 }}
+					end={{ x: 0, y: 0 }}
 				/>
 			</View>
 		</View>
