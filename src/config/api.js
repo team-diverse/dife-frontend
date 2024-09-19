@@ -226,6 +226,14 @@ export const getTipCommunitySearch = (keyword) => {
 	});
 };
 
+export const getChatroomSearch = (keyword) => {
+	return api.get("/chatrooms/search", {
+		params: {
+			keyword,
+		},
+	});
+};
+
 export const deletePost = (id) => {
 	return api.delete(`/posts/${id}`);
 };
@@ -281,7 +289,7 @@ export const getLikedPost = () => {
 	return api.get("/likes");
 };
 
-export const getBookmarkedPost = () => {
+export const getBookmarkedPostChat = () => {
 	return api.get("/bookmarks");
 };
 
@@ -381,6 +389,14 @@ export const createPostBookmark = (postId) => {
 	return api.post("/bookmarks", {
 		type: "POST",
 		postId: postId,
+	});
+};
+
+export const createChatBookmark = (chatroomId, chatId) => {
+	return api.post("/bookmarks", {
+		type: "CHAT",
+		chatroomId: chatroomId,
+		chatId: chatId,
 	});
 };
 
@@ -574,5 +590,17 @@ export const translationByPostId = (postId) => {
 export const translationByCommentId = (commentId) => {
 	return api.post("/translations", {
 		commentId,
+	});
+};
+
+export const translationByChatId = (chatId) => {
+	return api.post("/translations", {
+		chatId,
+	});
+};
+
+export const translationByBookmarkedId = (bookmarkId) => {
+	return api.post("/translations", {
+		bookmarkId,
 	});
 };

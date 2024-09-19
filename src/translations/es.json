@@ -408,5 +408,19 @@
 	"supportedLanguages": "Idiomas soportados: \nInglés, Coreano, Chino, Japonés, Español",
 	"translationExhaustedTitle": "Límite de Traducción Agotado",
 	"translationExhaustedContent": "El límite de servicios de traducción gratuitos de Dife ha sido\ncompletamente agotado :(",
-	"betaTestInfo": "No se ofrecen servicios de suscripción de pago durante el período de prueba beta."
+	"betaTestInfo": "No se ofrecen servicios de suscripción de pago durante el período de prueba beta.",
+
+	"noChatrooms": "No hay salas de chat aún.\n¡Inicia un nuevo chat con un amigo!",
+	"bookmarkTitle": "Marcador",
+	"friendListTitle": "Lista de Amigos",
+	"myFriend": "Mi Amigo",
+	"chatParticipant": "Participante",
+	"chatScrapStorage": "Almacenamiento de Recortes",
+	"chatAlbum": "Álbum",
+	"bookmarkUnsetPrompt": "¿Estás seguro de que quieres desmarcar el marcador?",
+	"removeButtonText": "Eliminar",
+	"gallery": "Galería",
+	"originalText": "Texto Original: ",
+	"translationText": "Traducción: ",
+	"viewOriginalOnlyButton": "Ver Solo Original"
 }

@@ -2,16 +2,15 @@ import React, { useState, useCallback } from "react";
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import TabBookmarkPostStyles from "@pages/member/TabBookmarkPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { getBookmarkedPost } from "config/api";
+import { getBookmarkedPostChat } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
 
 import ItemLikeBookmark from "@components/member/ItemLikeBookmark";
 import ArrowRight from "@components/common/ArrowRight";
-
-import * as Sentry from "@sentry/react-native";
 
 const TabBookmarkPostPage = () => {
 	const { t } = useTranslation();
@@ -23,7 +22,7 @@ const TabBookmarkPostPage = () => {
 		useCallback(() => {
 			const handleBookmarkPost = async () => {
 				try {
-					const bookmarkPostResponse = await getBookmarkedPost();
+					const bookmarkPostResponse = await getBookmarkedPostChat();
 					const presignUrl = await communityPresignUrl(
 						bookmarkPostResponse.data,
 					);
