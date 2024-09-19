@@ -533,8 +533,8 @@ export const createNotificationToken = (pushToken, deviceId) => {
 	});
 };
 
-export const getNotifications = () => {
-	return api.get("/notifications");
+export const getNotifications = (deviceId) => {
+	return api.get(`/notifications/${deviceId}`);
 };
 
 export const reportPost = (type, postId) => {

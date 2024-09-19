@@ -2,6 +2,11 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
+import { createSingleChatroom } from "config/api";
+import { useNavigation } from "@react-navigation/native";
+import { useWebSocket } from "context/WebSocketContext";
+import { getMyMemberId } from "util/secureStoreUtils";
+import * as Sentry from "@sentry/react-native";
 
 import Tag from "@components/common/Tag";
 import HomeProfile from "@components/home/HomeProfile";
@@ -14,6 +19,7 @@ import HomecardDifeF from "@components/home/HomecardDifeF";
 const { fontCaption } = CustomTheme;
 
 const HomeCardFront = ({
+	memberId,
 	profileImg,
 	tags,
 	introduction,
@@ -23,8 +29,22 @@ const HomeCardFront = ({
 	isLikedOnPress,
 	isLikedActive,
 }) => {
+	const navigation = useNavigation();
+	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
+
 	const [tagHeight, setTagHeight] = useState(0);
 	const [introductionLines, setIntroductionLines] = useState(1);
+
+	const isRelevantSingleChatroom = (chatroom, myMemberId, otherMemberId) => {
+		if (chatroom.chatroom_type !== "SINGLE") {
+			return false;
+		}
+		const members = chatroom.members;
+		const memberIds = members.map((member) => member.id);
+		return (
+			memberIds.includes(myMemberId) && memberIds.includes(otherMemberId)
+		);
+	};
 
 	useEffect(() => {
 		if (tagHeight > 40) {
@@ -37,6 +57,27 @@ const HomeCardFront = ({
 	const handleTagLayout = (event) => {
 		const { height } = event.nativeEvent.layout;
 		setTagHeight(height);
+	};
+
+	const handleCreateSingleChatroom = async () => {
+		try {
+			const myMemberId = await getMyMemberId();
+			let chatroomInfo = chatrooms.find((chatroom) =>
+				isRelevantSingleChatroom(chatroom, myMemberId, memberId),
+			);
+
+			if (!chatroomInfo) {
+				const response = await createSingleChatroom(memberId, name);
+				chatroomInfo = response.data;
+				subscribeToNewChatroom(chatroomInfo.id);
+			}
+			navigation.navigate("ChatRoomPage", {
+				chatroomInfo,
+			});
+		} catch (error) {
+			Sentry.captureException(error);
+			console.log("채팅방 생성 에러:", error);
+		}
 	};
 
 	return (
@@ -84,7 +125,10 @@ const HomeCardFront = ({
 					<IconAddFriend24 style={styles.connectIcon} active="true" />
 				</TouchableOpacity>
 				<HomeLine style={styles.connectIcon} />
-				<TouchableOpacity style={styles.iconTouchable}>
+				<TouchableOpacity
+					style={styles.iconTouchable}
+					onPress={handleCreateSingleChatroom}
+				>
 					<IconChat24 style={styles.connectIcon} active="true" />
 				</TouchableOpacity>
 			</View>
