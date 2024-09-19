@@ -23,9 +23,11 @@ const TabBookmarkPostPage = () => {
 			const handleBookmarkPost = async () => {
 				try {
 					const bookmarkPostResponse = await getBookmarkedPostChat();
-					const presignUrl = await communityPresignUrl(
-						bookmarkPostResponse.data,
+					const filterdBookmark = bookmarkPostResponse.data.filter(
+						(item) => item.post !== null,
 					);
+					const presignUrl =
+						await communityPresignUrl(filterdBookmark);
 					setBookmarkPostList(presignUrl);
 				} catch (error) {
 					Sentry.captureException(error);

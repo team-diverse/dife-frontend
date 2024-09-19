@@ -44,7 +44,6 @@ const BookmarkPage = () => {
 				renderItem={({ item }) => (
 					<Bookmark
 						bookmarkedId={item.id}
-						username={"Dann"}
 						context={item.message}
 						created={item.created}
 						translations={item.translations || []}

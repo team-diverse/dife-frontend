@@ -14,13 +14,7 @@ import ModalTranslationsCount from "@components/common/ModalTranslationsCount";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const Bookmark = ({
-	bookmarkedId,
-	username,
-	context,
-	created,
-	translations,
-}) => {
+const Bookmark = ({ bookmarkedId, context, created, translations }) => {
 	const { t } = useTranslation();
 	const [expanded, setExpanded] = useState(false);
 	const [content, setContent] = useState();
@@ -98,10 +92,7 @@ const Bookmark = ({
 						<View style={styles.icon}>
 							<IconChatProfile size="32" />
 						</View>
-						<View style={styles.textContainer}>
-							<Text style={styles.textName}>{username}</Text>
-							<Text style={styles.textContext}>{context}</Text>
-						</View>
+						<Text style={styles.textContext}>{context}</Text>
 					</View>
 					<View style={styles.containerTextIcon}>
 						<View style={styles.containerDateTime}>
@@ -118,7 +109,6 @@ const Bookmark = ({
 						<ModalNoBookmark
 							modalVisible={modalVisible}
 							setModalVisible={setModalVisible}
-							name={username}
 							context={context}
 							date={date}
 							time={time}
@@ -204,20 +194,12 @@ const styles = StyleSheet.create({
 	icon: {
 		marginLeft: 15,
 	},
-	textContainer: {
-		justifyContent: "center",
-		marginLeft: 9,
-	},
-	textName: {
-		fontSize: 14,
-		lineHeight: 17,
-		fontFamily: "NotoSansCJKkr-Bold",
-	},
 	textContext: {
 		...fontCaption,
 		width: 136,
 		height: 17,
 		marginTop: 4,
+		marginLeft: 9,
 	},
 	containerTextIcon: {
 		flexDirection: "row",

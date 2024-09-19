@@ -3,11 +3,11 @@ import {
 	View,
 	Text,
 	SafeAreaView,
-	Image,
 	FlatList,
 	TouchableOpacity,
 	Dimensions,
 } from "react-native";
+import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useTranslation } from "react-i18next";
@@ -95,7 +95,7 @@ const LandingPage = () => {
 						height: "100%",
 					}}
 					source={item.image}
-					resizeMode="contain"
+					contentFit="contain"
 				/>
 				<LinearGradient
 					colors={[

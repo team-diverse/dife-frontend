@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, Image } from "react-native";
+import { View, Text, SafeAreaView } from "react-native";
+import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
