@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 import TabBookmarkPostStyles from "@pages/member/TabBookmarkPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { getBookmarkedPost } from "config/api";
+import { getBookmarkedPostChat } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
 
 import ItemLikeBookmark from "@components/member/ItemLikeBookmark";
