@@ -12,7 +12,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import { useTranslation } from "react-i18next";
 
-import HomeStyles from "@pages/home/HomeStyles.js";
+import HomeStyles from "@pages/home/HomeStyles";
 import {
 	getRandomMembersByCount,
 	createLikeMember,
@@ -65,7 +65,8 @@ const HomePage = () => {
 
 	const getNotificationNumber = async () => {
 		try {
-			const notificationResponse = await getNotifications();
+			const deviceId = await SecureStore.getItemAsync("deviceId");
+			const notificationResponse = await getNotifications(deviceId);
 			const count = await SecureStore.getItemAsync(
 				"readNotificationCount",
 			);
