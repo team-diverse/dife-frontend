@@ -132,42 +132,39 @@ const ItemComment = ({ commentList = [], onReply }) => {
 	};
 
 	const handleCommentHeart = async (commentId, isLiked) => {
+		const previousHeartState = heartStates.find(
+			(item) => item.id === commentId,
+		);
+
+		const updatedHeartState = {
+			...previousHeartState,
+			isLiked: !isLiked,
+			likesCount: isLiked
+				? previousHeartState.likesCount - 1
+				: previousHeartState.likesCount + 1,
+		};
+
+		setHeartStates((prevHeartStates) =>
+			prevHeartStates.map((item) =>
+				item.id === commentId ? updatedHeartState : item,
+			),
+		);
+
 		try {
 			if (isLiked) {
 				await deleteLikeByCommentId(commentId);
-				setHeartStates((prevHeartStates) =>
-					prevHeartStates.map((item) =>
-						item.id === commentId
-							? {
-									...item,
-									isLiked: !item.isLiked,
-									likesCount: item.isLiked
-										? item.likesCount - 1
-										: item.likesCount + 1,
-								}
-							: item,
-					),
-				);
 			} else {
 				await createLikeComment(commentId);
-				setHeartStates((prevHeartStates) =>
-					prevHeartStates.map((item) =>
-						item.id === commentId
-							? {
-									...item,
-									isLiked: !item.isLiked,
-									likesCount: !item.isLiked
-										? item.likesCount + 1
-										: item.likesCount - 1,
-								}
-							: item,
-					),
-				);
 			}
 		} catch (error) {
+			setHeartStates((prevHeartStates) =>
+				prevHeartStates.map((item) =>
+					item.id === commentId ? previousHeartState : item,
+				),
+			);
 			Sentry.captureException(error);
 			console.error(
-				"좋아요 처리 실패:",
+				"댓글 좋아요 처리 실패:",
 				error.response ? error.response.data : error.message,
 			);
 		}
