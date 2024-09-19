@@ -100,11 +100,12 @@ const LandingPage = () => {
 				<LinearGradient
 					colors={[
 						"rgba(255, 255, 255, 1)",
+						"rgba(255, 255, 255, 1)",
 						"rgba(255, 255, 255, 0)",
 					]}
 					style={LandingStyles.gradient}
 					start={{ x: 0, y: 1 }}
-					end={{ x: 0, y: 0.5 }}
+					end={{ x: 0, y: 0 }}
 				/>
 			</View>
 		</View>

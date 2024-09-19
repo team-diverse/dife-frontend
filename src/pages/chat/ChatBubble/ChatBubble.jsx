@@ -1,8 +1,19 @@
-import * as React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import React, { useState, useRef } from "react";
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import { useTranslation } from "react-i18next";
+import * as Haptics from "expo-haptics";
+import * as Sentry from "@sentry/react-native";
+
+import { CustomTheme } from "@styles/CustomTheme";
+import { getMyProfile, translationByChatId } from "config/api";
+
 import ChatBubbleRightTrailSVG from "./ChatBubbleRightTrailSVG";
 import ChatBubbleLeftTrailSVG from "./ChatBubbleLeftTrailSVG";
 import IconChatProfile from "@components/chat/IconChatProfile";
+import ModalMenuChat from "@components/chat/ModalMenuChat";
+import ModalTranslationsCount from "@components/common/ModalTranslationsCount";
+
+const { fontNavi } = CustomTheme;
 
 const ChatBubble = ({
 	profileImageName,
@@ -11,7 +22,66 @@ const ChatBubble = ({
 	time,
 	isMine,
 	isHeadMessage,
+	chatroomId,
+	chatId,
 }) => {
+	const { t } = useTranslation();
+
+	const bubbleRef = useRef();
+
+	const [modalVisible, setModalVisible] = useState(false);
+	const [modalPosition, setModalPosition] = useState(null);
+	const [isTranslation, setIsTranslation] = useState(false);
+	const [translationCount, setTranslationCount] = useState();
+	const [modalTranslationVisible, setModalTranslationVisible] =
+		useState(false);
+	const [chatMessage, setChatMessage] = useState(message);
+
+	const handleLongPress = () => {
+		Haptics.selectionAsync();
+		setModalVisible(true);
+		if (bubbleRef.current) {
+			bubbleRef.current.measureInWindow((x, y, width, height) => {
+				setModalPosition({ x, y, width, height });
+			});
+		}
+	};
+
+	const handleTranslations = async () => {
+		try {
+			const responseCount = await getMyProfile();
+			const count =
+				responseCount.data.translationCount === 0
+					? 0
+					: responseCount.data.translationCount + 1;
+			setTranslationCount(count);
+
+			if (!isTranslation) {
+				if (translationCount === 0) {
+					setModalTranslationVisible(true);
+					setIsTranslation(true);
+					const response = await translationByChatId(chatId);
+					setChatMessage(response.data.translations[0].text);
+				} else if (translationCount <= 15) {
+					setModalTranslationVisible(false);
+					setIsTranslation(true);
+					const response = await translationByChatId(chatId);
+					setChatMessage(response.data.translations[0].text);
+				} else if (translationCount > 15) {
+					setModalTranslationVisible(true);
+				}
+			} else {
+				setIsTranslation(false);
+			}
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"채팅 번역 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	const rowStyles = [styles.row, isMine ? styles.myRow : styles.otherRow];
 	const bubbleStyles = [
 		styles.bubble,
@@ -51,15 +121,51 @@ const ChatBubble = ({
 							<Text style={styles.profileName}>{username}</Text>
 						</View>
 					)}
-					<View style={frameParentStyles}>
+					<View
+						style={[
+							frameParentStyles,
+							!isHeadMessage && { marginLeft: 50 },
+						]}
+					>
 						<View style={styles.timeWrapper}>
 							<Text style={styles.time}>{time}</Text>
+							{!isMine && (
+								<TouchableOpacity onPress={handleTranslations}>
+									<Text style={styles.textTranslation}>
+										{isTranslation
+											? t("viewOriginalButton")
+											: t("translateButton")}
+									</Text>
+								</TouchableOpacity>
+							)}
 						</View>
-						<View style={bubbleStyles}>
-							<Text style={messageStyles}>{message}</Text>
-						</View>
+						<TouchableOpacity
+							activeOpacity={1}
+							style={bubbleStyles}
+							onLongPress={handleLongPress}
+						>
+							<Text style={messageStyles} ref={bubbleRef}>
+								{isTranslation ? chatMessage : message}
+							</Text>
+						</TouchableOpacity>
 						<View>{TrailSVG}</View>
 					</View>
+					<ModalTranslationsCount
+						modalVisible={modalTranslationVisible}
+						setModalVisible={setModalTranslationVisible}
+						translationCount={translationCount}
+					/>
+					{modalVisible && modalPosition && (
+						<ModalMenuChat
+							modalVisible={modalVisible}
+							setModalVisible={setModalVisible}
+							position={modalPosition}
+							isMine={isMine}
+							chatroomId={chatroomId}
+							chatId={chatId}
+							clipboardContent={message}
+						/>
+					)}
 				</View>
 			</View>
 		</View>
@@ -82,7 +188,13 @@ const styles = StyleSheet.create({
 		lineHeight: 16,
 		marginBottom: 5,
 	},
+	textTranslation: {
+		...fontNavi,
+		color: CustomTheme.primaryMedium,
+		textDecorationLine: "underline",
+	},
 	timeWrapper: {
+		flexDirection: "row",
 		marginTop: "auto",
 	},
 	time: {

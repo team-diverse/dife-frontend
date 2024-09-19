@@ -24,9 +24,14 @@
 	"findPasswordSubtitle": "登録時に使用したメールアドレスを入力してください",
 	"emailInvalidError": "有効なメール形式を入力してください",
 	"emailNotFoundError": "存在しないメールアドレスです",
-	"passwordResetButton": "パスワード再発行のリクエスト",
+	"passwordResetButton": "認証コードを送信する",
 	"emailSendingText": "メール送信中",
 	"emailSentText": "メール送信完了",
+	"setPasswordTitle": "パスワードのリセット",
+	"verificationCode": "認証コード",
+	"errorRetry": "エラーが発生しました。再試行してください。",
+	"verifyCodePrompt": "認証コードを確認してください。",
+	"setPasswordButton": "パスワードをリセット",
 
 	"emailVerificationTitle": "メール確認",
 	"emailVerificationSubtitle": "パスワード再発行のためのメールを送信しました",
@@ -160,7 +165,7 @@
 	"searchPlaceholder": "検索",
 	"searchNoResults": "一致する検索結果がありません",
 	"moreButton": "もっと見る",
-	"tipsBoard": "ヒント掲示板",
+	"tipBoard": "ヒント掲示板",
 	"freeBoard": "自由掲示板",
 	"cancelSearch": "検索をキャンセル",
 
@@ -408,5 +413,21 @@
 	"supportedLanguages": "提供言語: \n英語、韓国語、中国語、日本語、スペイン語",
 	"translationExhaustedTitle": "翻訳回数の使い切り通知",
 	"translationExhaustedContent": "Difeの無料翻訳サービスの回数が\nすべて使い切られました :(",
-	"betaTestInfo": "ベータテスト期間中は有料購読サービスは提供していません。"
+	"betaTestInfo": "ベータテスト期間中は有料購読サービスは提供していません。",
+
+	"noChatrooms": "まだチャットルームがありません。\n友達と新しいチャットを始めてみましょう！",
+	"bookmarkTitle": "ブックマーク",
+	"friendListTitle": "友達リスト",
+	"myFriend": "私の友達",
+	"chatParticipant": "参加者",
+	"chatScrapStorage": "スクラップボックス",
+	"chatAlbum": "アルバム",
+	"bookmarkUnsetPrompt": "ブックマークを解除しますか？",
+	"removeButtonText": "解除する",
+	"gallery": "ギャラリー",
+	"originalText": "原文: ",
+	"translationText": "翻訳: ",
+	"viewOriginalOnlyButton": "原文のみ表示",
+
+	"connectRequestSuccess": "{{username}}にコネクトリクエストを送りました。"
 }

@@ -129,7 +129,7 @@ const TipCommunityPage = () => {
 						<ArrowRight color={CustomTheme.bgBasic} />
 					</TouchableOpacity>
 					<Text style={TipCommunityStyles.textChattingTitle}>
-						{t("tipsBoard")}
+						{t("tipBoard")}
 					</Text>
 					<IconBookmark style={TipCommunityStyles.iconBookmark} />
 				</View>

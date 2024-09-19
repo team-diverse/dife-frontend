@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { View, ScrollView, Text, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import TabBookmarkPostStyles from "@pages/member/TabBookmarkPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -10,8 +11,6 @@ import { communityPresignUrl } from "util/communityPresignUrl";
 
 import ItemLikeBookmark from "@components/member/ItemLikeBookmark";
 import ArrowRight from "@components/common/ArrowRight";
-
-import * as Sentry from "@sentry/react-native";
 
 const TabBookmarkPostPage = () => {
 	const { t } = useTranslation();

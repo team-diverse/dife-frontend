@@ -74,7 +74,7 @@ const PostPage = ({ route }) => {
 	const [images, setImages] = useState([]);
 	const [comments, setComments] = useState([]);
 	const [valueComment, onChangeComment] = useState("");
-	const [isChecked, setIsChecked] = useState(false);
+	const [isChecked, setIsChecked] = useState(true);
 	const [isReplying, setIsReplying] = useState(false);
 	const [parentCommentId, setParentCommentId] = useState(null);
 	const [isTranslation, setIsTranslation] = useState(false);

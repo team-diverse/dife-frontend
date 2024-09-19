@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
@@ -15,6 +16,8 @@ const ModalNoBookmark = ({
 	date,
 	time,
 }) => {
+	const { t } = useTranslation();
+
 	const handleNoButtonPress = () => {
 		setModalVisible(false);
 	};
@@ -40,7 +43,7 @@ const ModalNoBookmark = ({
 					</View>
 					<View style={styles.containerNoBookmark}>
 						<Text style={styles.textNoBookmark}>
-							북마크를 해제하시겠어요?
+							{t("bookmarkUnsetPrompt")}
 						</Text>
 					</View>
 				</View>
@@ -49,10 +52,12 @@ const ModalNoBookmark = ({
 						style={styles.buttonNo}
 						onPress={handleNoButtonPress}
 					>
-						<Text style={styles.textNo}>아니오</Text>
+						<Text style={styles.textNo}>{t("noButtonText")}</Text>
 					</TouchableOpacity>
 					<TouchableOpacity style={styles.buttonReport}>
-						<Text style={styles.textReport}>해제하기</Text>
+						<Text style={styles.textReport}>
+							{t("removeButtonText")}
+						</Text>
 					</TouchableOpacity>
 				</View>
 			</View>
