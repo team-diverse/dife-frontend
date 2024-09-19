@@ -24,9 +24,14 @@
 	"findPasswordSubtitle": "Enter the email used during registration",
 	"emailInvalidError": "Please enter a valid email format",
 	"emailNotFoundError": "Email not found",
-	"passwordResetButton": "Request Password Reset",
+	"passwordResetButton": "Send verification code",
 	"emailSendingText": "Sending email",
 	"emailSentText": "Email sent successfully",
+	"setPasswordTitle": "Reset Password",
+	"verificationCode": "Verification Code",
+	"errorRetry": "An error occurred. Please try again.",
+	"verifyCodePrompt": "Please check the verification code.",
+	"setPasswordButton": "Reset Password",
 
 	"emailVerificationTitle": "Email Verification",
 	"emailVerificationSubtitle": "An email for password reset has been sent",
@@ -394,9 +399,9 @@
 	"languageChangedSuccess": "The default language has been changed.",
 
 	"chatTitle": "Chat",
-	"connectContent": "Connect with friends from around the world\nShare diverse cultures and grow together",
-	"chatContent": "Limitless communication with translation features\nLearn languages simultaneously",
-	"communityContent": "Share information necessary for living abroad\n",
+	"connectContent": "Connect with friends from\naround the world",
+	"chatContent": "Limitless communication\n",
+	"communityContent": "Sharing information\n",
 	"startButton": "Start Dife",
 
 	"translationFeatureTitle": "Translation Feature Guide",
