@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontHead24, fontSub16, fontSub14, fontCaption } = CustomTheme;
+const { fontHead24, fontSub14, fontCaption } = CustomTheme;
 
-const FindPasswordStyles = StyleSheet.create({
+const SetPasswordStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
@@ -13,35 +13,38 @@ const FindPasswordStyles = StyleSheet.create({
 		marginTop: 28,
 		marginLeft: 24,
 	},
-	textSubTitle: {
-		...fontSub16,
-		color: CustomTheme.textSecondary,
-		marginTop: 12,
-		marginLeft: 22,
+	containerPw: {
+		marginHorizontal: 24,
 	},
-	textId: {
+	textPw: {
 		...fontSub14,
 		color: CustomTheme.textPrimary,
 		marginTop: 120,
-		marginLeft: 24,
 	},
-	textInputId: {
+	textInputPw: {
+		width: "100%",
 		height: 44,
 		padding: 12,
 		borderWidth: 1,
 		borderColor: CustomTheme.borderColor,
 		borderRadius: 6,
 		marginTop: 8,
-		marginHorizontal: 25,
-		justifyContent: "center",
+		alignItems: "center",
 	},
-
-	containerNotMember: {
+	textInputPwContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	iconSee: {
+		position: "absolute",
+		top: 17,
+		right: 12,
+	},
+	containerError: {
 		flexDirection: "row",
 		marginTop: 8,
-		marginLeft: 25,
 	},
-	textNotMember: {
+	textError: {
 		...fontCaption,
 		color: CustomTheme.warningRed,
 		marginLeft: 3,
@@ -52,4 +55,4 @@ const FindPasswordStyles = StyleSheet.create({
 	},
 });
 
-export default FindPasswordStyles;
+export default SetPasswordStyles;

@@ -10,6 +10,7 @@ import {
 	KeyboardAvoidingView,
 	Platform,
 } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
@@ -23,6 +24,7 @@ import { useWebSocket } from "context/WebSocketContext";
 const { fontBody14 } = CustomTheme;
 
 const ChatInputSend = ({ chatroomId, memberId }) => {
+	const { t } = useTranslation();
 	const [chatInput, setChatInput] = useState("");
 	const [plusClick, setPlusClick] = useState(false);
 	const { publishMessage } = useWebSocket();
@@ -85,13 +87,13 @@ const ChatInputSend = ({ chatroomId, memberId }) => {
 							<TouchableOpacity style={styles.iconCircleCamera}>
 								<IconCircleCamera />
 								<Text style={styles.textIconCircle}>
-									카메라
+									{t("accessCameraSubtitle")}
 								</Text>
 							</TouchableOpacity>
 							<TouchableOpacity style={styles.iconCircleGallery}>
 								<IconCircleGallery />
 								<Text style={styles.textIconCircle}>
-									갤러리
+									{t("gallery")}
 								</Text>
 							</TouchableOpacity>
 						</View>

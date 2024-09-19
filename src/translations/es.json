@@ -24,9 +24,14 @@
 	"findPasswordSubtitle": "Introduce el correo electrónico usado durante el registro",
 	"emailInvalidError": "Por favor, introduce un formato de correo electrónico válido",
 	"emailNotFoundError": "Correo electrónico no encontrado",
-	"passwordResetButton": "Solicitar restablecimiento de contraseña",
+	"passwordResetButton": "Enviar código de verificación",
 	"emailSendingText": "Enviando correo electrónico",
 	"emailSentText": "Correo electrónico enviado con éxito",
+	"setPasswordTitle": "Restablecer Contraseña",
+	"verificationCode": "Código de Verificación",
+	"errorRetry": "Ocurrió un error. Por favor, inténtelo de nuevo.",
+	"verifyCodePrompt": "Por favor, revise el código de verificación.",
+	"setPasswordButton": "Restablecer Contraseña",
 
 	"emailVerificationTitle": "Verificación de correo electrónico",
 	"emailVerificationSubtitle": "Se ha enviado un correo electrónico para el restablecimiento de la contraseña",
@@ -395,9 +400,9 @@
 	"languageChangedSuccess": "El idioma predeterminado ha sido cambiado.",
 
 	"chatTitle": "Chat",
-	"connectContent": "Conéctate con amigos de todo el mundo\nComparte diversas culturas y crece juntos",
-	"chatContent": "Comunicación sin límites con funciones de traducción\nAprende idiomas al mismo tiempo",
-	"communityContent": "Comparte información necesaria para vivir en el extranjero\n",
+	"connectContent": "Conéctate con amigos\nde todo el mundo",
+	"chatContent": "Comunicación ilimitada\n",
+	"communityContent": "Compartiendo información\n",
 	"startButton": "Comenzar Dife",
 
 	"translationFeatureTitle": "Guía de Función de Traducción",
@@ -408,5 +413,21 @@
 	"supportedLanguages": "Idiomas soportados: \nInglés, Coreano, Chino, Japonés, Español",
 	"translationExhaustedTitle": "Límite de Traducción Agotado",
 	"translationExhaustedContent": "El límite de servicios de traducción gratuitos de Dife ha sido\ncompletamente agotado :(",
-	"betaTestInfo": "No se ofrecen servicios de suscripción de pago durante el período de prueba beta."
+	"betaTestInfo": "No se ofrecen servicios de suscripción de pago durante el período de prueba beta.",
+
+	"noChatrooms": "No hay salas de chat aún.\n¡Inicia un nuevo chat con un amigo!",
+	"bookmarkTitle": "Marcador",
+	"friendListTitle": "Lista de Amigos",
+	"myFriend": "Mi Amigo",
+	"chatParticipant": "Participante",
+	"chatScrapStorage": "Almacenamiento de Recortes",
+	"chatAlbum": "Álbum",
+	"bookmarkUnsetPrompt": "¿Estás seguro de que quieres desmarcar el marcador?",
+	"removeButtonText": "Eliminar",
+	"gallery": "Galería",
+	"originalText": "Texto Original: ",
+	"translationText": "Traducción: ",
+	"viewOriginalOnlyButton": "Ver Solo Original",
+
+	"connectRequestSuccess": "Has enviado una solicitud de conexión a {{username}}."
 }

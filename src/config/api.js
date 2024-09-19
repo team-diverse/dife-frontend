@@ -116,9 +116,19 @@ export const login = (email, password) => {
 	});
 };
 
-export const changePassword = (email) => {
+export const getVerifyCode = (email) => {
 	return api.get("/members/change-password", {
 		params: {
+			email,
+		},
+	});
+};
+
+export const changePassword = (verifyCode, newPassword, email) => {
+	return api.patch("/members/change-password", null, {
+		params: {
+			verifyCode,
+			newPassword,
 			email,
 		},
 	});
@@ -289,7 +299,7 @@ export const getLikedPost = () => {
 	return api.get("/likes");
 };
 
-export const getBookmarkedPost = () => {
+export const getBookmarkedPostChat = () => {
 	return api.get("/bookmarks");
 };
 
@@ -389,6 +399,14 @@ export const createPostBookmark = (postId) => {
 	return api.post("/bookmarks", {
 		type: "POST",
 		postId: postId,
+	});
+};
+
+export const createChatBookmark = (chatroomId, chatId) => {
+	return api.post("/bookmarks", {
+		type: "CHAT",
+		chatroomId: chatroomId,
+		chatId: chatId,
 	});
 };
 
@@ -582,5 +600,17 @@ export const translationByPostId = (postId) => {
 export const translationByCommentId = (commentId) => {
 	return api.post("/translations", {
 		commentId,
+	});
+};
+
+export const translationByChatId = (chatId) => {
+	return api.post("/translations", {
+		chatId,
+	});
+};
+
+export const translationByBookmarkedId = (bookmarkId) => {
+	return api.post("/translations", {
+		bookmarkId,
 	});
 };
