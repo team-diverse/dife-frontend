@@ -413,5 +413,21 @@
 	"supportedLanguages": "提供言語: \n英語、韓国語、中国語、日本語、スペイン語",
 	"translationExhaustedTitle": "翻訳回数の使い切り通知",
 	"translationExhaustedContent": "Difeの無料翻訳サービスの回数が\nすべて使い切られました :(",
-	"betaTestInfo": "ベータテスト期間中は有料購読サービスは提供していません。"
+	"betaTestInfo": "ベータテスト期間中は有料購読サービスは提供していません。",
+
+	"noChatrooms": "まだチャットルームがありません。\n友達と新しいチャットを始めてみましょう！",
+	"bookmarkTitle": "ブックマーク",
+	"friendListTitle": "友達リスト",
+	"myFriend": "私の友達",
+	"chatParticipant": "参加者",
+	"chatScrapStorage": "スクラップボックス",
+	"chatAlbum": "アルバム",
+	"bookmarkUnsetPrompt": "ブックマークを解除しますか？",
+	"removeButtonText": "解除する",
+	"gallery": "ギャラリー",
+	"originalText": "原文: ",
+	"translationText": "翻訳: ",
+	"viewOriginalOnlyButton": "原文のみ表示",
+
+	"connectRequestSuccess": "{{username}}にコネクトリクエストを送りました。"
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import {
@@ -15,7 +16,6 @@ import HomecardDifeB from "@components/home/HomecardDifeB";
 import HomeProfile from "@components/home/HomeProfile";
 import HomecardBackBtn from "@components/home/HomecardBackBtn.js";
 import ModalRequest from "@components/common/ModalRequest";
-import * as Sentry from "@sentry/react-native";
 
 const { fontCaption } = CustomTheme;
 
@@ -85,8 +85,10 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 	};
 
 	const translation = t("connectRequestConfirmation", { username: name });
-
 	const [beforeUsername, afterUsername] = translation.split(name);
+
+	const translation2 = t("connectRequestSuccess", { username: name });
+	const [beforeUsername2, afterUsername2] = translation2.split(name);
 	return (
 		<View style={styles.rectangle}>
 			<View style={styles.homecardDifeB}>
@@ -107,15 +109,29 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 				</TouchableOpacity>
 				<View style={styles.addFriendOk}>
 					<Text style={styles.textConnect}>
-						<Text>{beforeUsername}</Text>
-						<Text style={styles.textNameBold}>{name}</Text>
-						<Text>{afterUsername}</Text>
+						{connectStatus === undefined ? (
+							<>
+								<Text>{beforeUsername}</Text>
+								<Text style={styles.textNameBold}>{name}</Text>
+								<Text>{afterUsername}</Text>
+							</>
+						) : (
+							<>
+								<Text>{beforeUsername2}</Text>
+								<Text style={styles.textNameBold}>{name}</Text>
+								<Text>{afterUsername2}</Text>
+							</>
+						)}
 					</Text>
 				</View>
 			</View>
 			<View style={styles.homecardBackBtn}>
 				<HomecardBackBtn
-					btnText={t("noButtonText")}
+					btnText={
+						connectStatus === undefined
+							? t("noButtonText")
+							: t("backButton")
+					}
 					onPress={onPress}
 				/>
 				<HomecardBackBtn

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SafeAreaView, View } from "react-native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import BookmarkedPostStyles from "@pages/member/BookmarkedPostStyles";
 import { getBookmarkedPost } from "config/api";
@@ -8,8 +9,6 @@ import { communityPresignUrl } from "util/communityPresignUrl";
 
 import TopBar from "@components/common/TopBar";
 import ItemCommunity from "@components/community/ItemCommunity";
-
-import * as Sentry from "@sentry/react-native";
 
 const BookmarkedPostPage = () => {
 	const { t } = useTranslation();

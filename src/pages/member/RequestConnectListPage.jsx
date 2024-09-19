@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { SafeAreaView, View, Text, FlatList } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useFocusEffect } from "@react-navigation/native";
 
 import RequestConnectListStyles from "@pages/member/RequestConnectListStyles";
 import { getMyPendingConnects } from "config/api";
@@ -24,23 +25,26 @@ const RequestConnectListPage = () => {
 		return { sent, received };
 	};
 
-	const getPenddingConnects = async () => {
-		try {
-			const response = await getMyPendingConnects();
-			const { sent, received } = await filterConnects(response.data);
-			setSentConnects(sent);
-			setReceivedConnects(received);
-		} catch (error) {
-			console.error(
-				"PENNDING 커넥트 조회 오류:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
-	useEffect(() => {
-		getPenddingConnects();
-	}, [receivedConnects]);
+	useFocusEffect(
+		useCallback(() => {
+			const getPenddingConnects = async () => {
+				try {
+					const response = await getMyPendingConnects();
+					const { sent, received } = await filterConnects(
+						response.data,
+					);
+					setSentConnects(sent);
+					setReceivedConnects(received);
+				} catch (error) {
+					console.error(
+						"PENNDING 커넥트 조회 오류:",
+						error.response ? error.response.data : error.message,
+					);
+				}
+			};
+			getPenddingConnects();
+		}, []),
+	);
 
 	return (
 		<SafeAreaView style={RequestConnectListStyles.container}>
