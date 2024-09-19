@@ -13,6 +13,9 @@ import FriendList from "@components/chat/FriendList";
 
 const FriendListPage = ({ route }) => {
 	const { member } = route.params || {};
+
+	const { t } = useTranslation();
+
 	const [connects, setConnects] = useState([]);
 	const [myMemberId, setMyMemberId] = useState(null);
 
@@ -40,10 +43,10 @@ const FriendListPage = ({ route }) => {
 			{member ? (
 				<View style={{ marginTop: 7 }} />
 			) : (
-				<TopBar topBar="친구 목록" />
+				<TopBar topBar={t("friendListTitle")} />
 			)}
 			<View style={FriendListStyles.containerFriendNumber}>
-				<Text style={FriendListStyles.textFriend}>내 친구</Text>
+				<Text style={FriendListStyles.textFriend}>{t("myFriend")}</Text>
 				<IconFriendNumber />
 				<Text style={FriendListStyles.textNumber}>
 					{connects.length}
