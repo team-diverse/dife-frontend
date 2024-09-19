@@ -11,10 +11,9 @@ const { fontSub14, fontCaption } = CustomTheme;
 const ModalNoBookmark = ({
 	modalVisible,
 	setModalVisible,
-	name = "name",
-	context = "context",
-	date = "date",
-	time = "time",
+	context,
+	date,
+	time,
 }) => {
 	const handleNoButtonPress = () => {
 		setModalVisible(false);
@@ -32,7 +31,6 @@ const ModalNoBookmark = ({
 				<View style={styles.containerContext}>
 					<View style={styles.textBackgroundRectangle}>
 						<View style={styles.containerNameContext}>
-							<Text style={styles.textName}>{name}</Text>
 							<Text style={styles.textContext}>{context}</Text>
 						</View>
 						<View style={styles.containerDateTime}>
@@ -94,11 +92,6 @@ const styles = StyleSheet.create({
 	containerNameContext: {
 		marginLeft: 12,
 		justifyContent: "center",
-	},
-	textName: {
-		fontSize: 12,
-		lineHeight: 17,
-		fontFamily: "NotoSansCJKkr-Bold",
 	},
 	textContext: {
 		...fontCaption,

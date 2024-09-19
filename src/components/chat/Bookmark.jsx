@@ -10,13 +10,8 @@ import DashedLine from "@components/chat/DashedLine";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
-const Bookmark = ({
-	name = "name",
-	context = "context",
-	date = "date",
-	time = "time",
-	translation = "translation",
-}) => {
+const Bookmark = ({ bookmarkedId, context, created, translations }) => {
+	const { t } = useTranslation();
 	const [expanded, setExpanded] = useState(false);
 	const [isTranslation, setIsTranslation] = useState(false);
 
@@ -45,10 +40,7 @@ const Bookmark = ({
 						<View style={styles.icon}>
 							<IconChatProfile size="32" />
 						</View>
-						<View style={styles.textContainer}>
-							<Text style={styles.textName}>{name}</Text>
-							<Text style={styles.textContext}>{context}</Text>
-						</View>
+						<Text style={styles.textContext}>{context}</Text>
 					</View>
 					<View style={styles.containerTextIcon}>
 						<View style={styles.containerDateTime}>
@@ -65,7 +57,6 @@ const Bookmark = ({
 						<ModalNoBookmark
 							modalVisible={modalVisible}
 							setModalVisible={setModalVisible}
-							name={name}
 							context={context}
 							date={date}
 							time={time}
@@ -144,20 +135,12 @@ const styles = StyleSheet.create({
 	icon: {
 		marginLeft: 15,
 	},
-	textContainer: {
-		justifyContent: "center",
-		marginLeft: 9,
-	},
-	textName: {
-		fontSize: 14,
-		lineHeight: 17,
-		fontFamily: "NotoSansCJKkr-Bold",
-	},
 	textContext: {
 		...fontCaption,
 		width: 136,
 		height: 17,
 		marginTop: 4,
+		marginLeft: 9,
 	},
 	containerTextIcon: {
 		flexDirection: "row",

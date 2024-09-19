@@ -3,7 +3,7 @@ import { SafeAreaView, View } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import BookmarkedPostStyles from "@pages/member/BookmarkedPostStyles";
-import { getBookmarkedPost } from "config/api";
+import { getBookmarkedPostChat } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
 
 import TopBar from "@components/common/TopBar";
@@ -18,10 +18,11 @@ const BookmarkedPostPage = () => {
 	useEffect(() => {
 		const handleBookmarkPost = async () => {
 			try {
-				const bookmarkPostResponse = await getBookmarkedPost();
-				const presignUrl = await communityPresignUrl(
-					bookmarkPostResponse.data,
+				const bookmarkPostResponse = await getBookmarkedPostChat();
+				const filterdBookmark = bookmarkPostResponse.data.filter(
+					(item) => item.post !== null,
 				);
+				const presignUrl = await communityPresignUrl(filterdBookmark);
 				setBookmarkPostList(presignUrl);
 			} catch (error) {
 				Sentry.captureException(error);

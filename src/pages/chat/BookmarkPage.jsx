@@ -54,11 +54,10 @@ const BookmarkPage = () => {
 				data={notificationData}
 				renderItem={({ item }) => (
 					<Bookmark
-						name={item.name}
-						context={item.context}
-						date={item.date}
-						time={item.time}
-						translation={item.translation}
+						bookmarkedId={item.id}
+						context={item.message}
+						created={item.created}
+						translations={item.translations || []}
 					/>
 				)}
 				keyExtractor={(item) => item.id}
