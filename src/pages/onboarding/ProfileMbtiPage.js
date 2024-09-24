@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
 import ProfileMbtiStyles from "@pages/onboarding/ProfileMbtiStyles";
-import { CustomTheme } from "@styles/CustomTheme.js";
+import { CustomTheme } from "@styles/CustomTheme";
 import { useOnboarding } from "src/states/OnboardingContext.js";
 
 import ArrowRight from "@components/common/ArrowRight";
@@ -20,15 +20,20 @@ import ApplyButton from "@components/common/ApplyButton";
 
 const ProfileMBTIPage = () => {
 	const { t } = useTranslation();
-
 	const navigation = useNavigation();
+	const { onboardingData, updateOnboardingData } = useOnboarding();
+
 	const [selectedMBTI, setSelectedMBTI] = useState("");
+
+	useEffect(() => {
+		if (onboardingData.mbti) {
+			setSelectedMBTI(onboardingData.mbti);
+		}
+	}, [onboardingData.mbti]);
 
 	const handleGoBack = () => {
 		navigation.goBack();
 	};
-
-	const { onboardingData, updateOnboardingData } = useOnboarding();
 
 	const mbti = t("mbtiOptions", { returnObjects: true });
 	const size = 3;
@@ -45,10 +50,13 @@ const ProfileMBTIPage = () => {
 		}
 	};
 
-	const handleDataSave = () => {
+	useEffect(() => {
 		updateOnboardingData({
 			mbti: selectedMBTI !== t("mbtiOptions")[15] ? selectedMBTI : "",
 		});
+	}, [selectedMBTI]);
+
+	const handleDataSave = () => {
 		navigation.navigate("ProfileHobby");
 	};
 
@@ -83,6 +91,7 @@ const ProfileMBTIPage = () => {
 									mbtiCount={selectedMBTI.length}
 									onPress={() => handleSelectMBTI(type)}
 									onBoardingMBTI="true"
+									selected={selectedMBTI === type}
 								/>
 							))}
 						</View>

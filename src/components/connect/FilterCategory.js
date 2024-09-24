@@ -13,6 +13,10 @@ const FilterCategory = ({
 	onBoardingMBTI = false,
 	selected = false,
 }) => {
+	useEffect(() => {
+		setIsActive(selected);
+	}, [selected]);
+
 	const [isActive, setIsActive] = useState(selected);
 	const [isPressed, setIsPressed] = useState(false);
 
