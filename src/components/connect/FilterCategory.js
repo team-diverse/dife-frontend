@@ -28,7 +28,7 @@ const FilterCategory = ({
 		if (mbtiCount !== null) {
 			if (onBoardingMBTI) {
 				if (!isActive && mbtiCount >= 1) {
-					return;
+					onPress(text);
 				}
 				setIsActive((prev) => !prev);
 				onPress(text);
