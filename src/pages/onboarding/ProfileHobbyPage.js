@@ -54,10 +54,6 @@ const ProfileHobbyPage = () => {
 		updateOnboardingData({ hobbies: selectedHobby });
 	}, [selectedHobby]);
 
-	const handleDataSave = () => {
-		navigation.navigate("ProfileLanguage");
-	};
-
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
 
@@ -101,7 +97,7 @@ const ProfileHobbyPage = () => {
 			>
 				<ApplyButton
 					text={t("nextButton")}
-					onPress={handleDataSave}
+					onPress={() => navigation.navigate("ProfileLanguage")}
 					disabled={selectedHobby.length === 0}
 				/>
 			</View>

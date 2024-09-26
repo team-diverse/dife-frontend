@@ -80,10 +80,6 @@ const ProfilePage = ({ route }) => {
 		});
 	}, [image, nation, selectedCountryCode, text]);
 
-	const handleDataSave = () => {
-		navigation.navigate("ProfileMbti");
-	};
-
 	useEffect(() => {
 		setNation(selectedCountry || onboardingData.country || "");
 	}, [selectedCountry, onboardingData.country]);
@@ -184,7 +180,9 @@ const ProfilePage = ({ route }) => {
 						<View style={ProfileStyles.buttonCheck}>
 							<ApplyButton
 								text={t("nextButton")}
-								onPress={handleDataSave}
+								onPress={() =>
+									navigation.navigate("ProfileMbti")
+								}
 								disabled={!nation}
 							/>
 						</View>

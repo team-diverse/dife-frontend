@@ -56,10 +56,6 @@ const ProfileMBTIPage = () => {
 		});
 	}, [selectedMBTI]);
 
-	const handleDataSave = () => {
-		navigation.navigate("ProfileHobby");
-	};
-
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
 
@@ -106,7 +102,7 @@ const ProfileMBTIPage = () => {
 			>
 				<ApplyButton
 					text={t("nextButton")}
-					onPress={handleDataSave}
+					onPress={() => navigation.navigate("ProfileHobby")}
 					disabled={selectedMBTI.length === 0}
 				/>
 			</View>
