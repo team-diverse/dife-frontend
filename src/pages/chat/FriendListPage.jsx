@@ -62,7 +62,7 @@ const FriendListPage = ({ route }) => {
 							connectId={item.id}
 							memberId={otherMember.id}
 							name={otherMember.username}
-							imageName={otherMember.profileImg?.originalName}
+							fileId={otherMember.profileImg?.id}
 						/>
 					);
 				}}

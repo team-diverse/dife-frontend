@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import GroupProfileStyles from "@pages/connect/GroupProfileStyles";
 import {
 	getGroupByGroupId,
-	getProfileImageByFileName,
+	getProfileImageByFileId,
 	createLikeChatroom,
 	deleteLikeChatroom,
 } from "config/api";
@@ -48,12 +48,9 @@ const GroupProfilePage = ({ route }) => {
 			const profile = formatProfileData([response.data]);
 			setGroupProfileData(profile[0]);
 
-			if (
-				response.data.profileImg &&
-				response.data.profileImg.originalName
-			) {
-				const image = await getProfileImageByFileName(
-					response.data.profileImg.originalName,
+			if (response.data.profileImg && response.data.profileImg.id) {
+				const image = await getProfileImageByFileId(
+					response.data.profileImg.id,
 				);
 				setProfilePresignUrl(image.data);
 			} else {

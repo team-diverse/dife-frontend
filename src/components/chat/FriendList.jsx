@@ -12,7 +12,7 @@ import { getMyMemberId } from "util/secureStoreUtils";
 import * as Sentry from "@sentry/react-native";
 import ModalKebabMenuConnectList from "@components/member/ModalKebabMenuConnectList";
 
-const FriendList = ({ connectId, memberId, name, imageName }) => {
+const FriendList = ({ connectId, memberId, name, fileId }) => {
 	const navigation = useNavigation("");
 	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
 
@@ -79,7 +79,7 @@ const FriendList = ({ connectId, memberId, name, imageName }) => {
 						}
 					>
 						<View style={styles.icon}>
-							<IconChatProfile imageName={imageName} />
+							<IconChatProfile fileId={fileId} />
 						</View>
 						<Text
 							style={styles.textName}
