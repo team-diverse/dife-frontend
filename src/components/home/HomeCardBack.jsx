@@ -19,7 +19,7 @@ import ModalRequest from "@components/common/ModalRequest";
 
 const { fontCaption } = CustomTheme;
 
-const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
+const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
@@ -95,7 +95,7 @@ const HomeCardBack = ({ memberId, profileImg, name, onPress }) => {
 				<HomecardDifeB />
 			</View>
 			<View style={styles.homecardBack}>
-				<HomeProfile profile={profileImg} back={true} />
+				<HomeProfile fileId={fileId} back={true} />
 				<TouchableOpacity
 					onPress={() =>
 						navigation.navigate("ConnectProfilePage", {
