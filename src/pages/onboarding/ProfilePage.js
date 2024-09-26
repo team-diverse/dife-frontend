@@ -18,7 +18,7 @@ import * as ImagePicker from "expo-image-picker";
 import { useTranslation } from "react-i18next";
 
 import ProfileStyles from "@pages/onboarding/ProfileStyles";
-import { CustomTheme } from "@styles/CustomTheme.js";
+import { CustomTheme } from "@styles/CustomTheme";
 import { useOnboarding } from "src/states/OnboardingContext.js";
 
 import ArrowRight from "@components/common/ArrowRight";
@@ -32,6 +32,7 @@ const ProfilePage = ({ route }) => {
 	const { t } = useTranslation();
 
 	const { selectedCountry, selectedCountryCode } = route.params || {};
+	const { onboardingData, updateOnboardingData } = useOnboarding();
 
 	const navigation = useNavigation();
 
@@ -39,9 +40,9 @@ const ProfilePage = ({ route }) => {
 		navigation.goBack();
 	};
 
-	const [image, setImage] = useState(null);
-	const [text, setText] = useState("");
-	const [nation, setNation] = useState("");
+	const [image, setImage] = useState(onboardingData.profileImg || null);
+	const [text, setText] = useState(onboardingData.bio || "");
+	const [nation, setNation] = useState(onboardingData.country || "");
 
 	const handleKeyboard = () => {
 		Keyboard.dismiss();
@@ -70,21 +71,18 @@ const ProfilePage = ({ route }) => {
 		}
 	};
 
-	const { updateOnboardingData } = useOnboarding();
-
-	const handleDataSave = () => {
+	useEffect(() => {
 		updateOnboardingData({
 			profileImg: image,
 			country: nation,
 			countryCode: selectedCountryCode,
 			bio: text,
 		});
-		navigation.navigate("ProfileMbti");
-	};
+	}, [image, nation, selectedCountryCode, text]);
 
 	useEffect(() => {
-		setNation(selectedCountry);
-	}, [selectedCountry]);
+		setNation(selectedCountry || onboardingData.country || "");
+	}, [selectedCountry, onboardingData.country]);
 
 	return (
 		<KeyboardAvoidingView
@@ -182,7 +180,9 @@ const ProfilePage = ({ route }) => {
 						<View style={ProfileStyles.buttonCheck}>
 							<ApplyButton
 								text={t("nextButton")}
-								onPress={handleDataSave}
+								onPress={() =>
+									navigation.navigate("ProfileMbti")
+								}
 								disabled={!nation}
 							/>
 						</View>
