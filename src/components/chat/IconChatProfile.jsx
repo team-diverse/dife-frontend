@@ -8,6 +8,9 @@ const IconChatProfile = ({ size = 48, fileId, ...props }) => {
 
 	const getProfileImage = async () => {
 		try {
+			if (fileId === undefined) {
+				return;
+			}
 			const response = await getProfileImageByFileId(fileId);
 			setProfilePresignUrl(response.data);
 		} catch (error) {
