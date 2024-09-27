@@ -11,6 +11,7 @@ import {
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import { useTranslation } from "react-i18next";
+import GestureRecognizer from "react-native-swipe-gestures";
 
 import HomeStyles from "@pages/home/HomeStyles";
 import {
@@ -211,44 +212,54 @@ const HomePage = () => {
 					<HomeArrow style={{ transform: [{ scaleX: -1 }] }} />
 				</TouchableOpacity>
 
-				{showNewCard ? (
-					<View style={HomeStyles.homecardContainer}>
-						<View style={HomeStyles.homecard}>
-							<HomeCardBack
-								memberId={id}
-								profileImg={profilePresignUrl}
-								name={username}
-								onPress={() => setShowNewCard(false)}
-							/>
+				<GestureRecognizer
+					onSwipeLeft={!showMoreProfiles ? handleNextProfile : null}
+					onSwipeRight={
+						currentProfileIndex !== 0 ? handlePrevProfile : null
+					}
+					style={{
+						zIndex: 10,
+					}}
+				>
+					{showNewCard ? (
+						<View style={HomeStyles.homecardContainer}>
+							<View style={HomeStyles.homecard}>
+								<HomeCardBack
+									memberId={id}
+									fileId={profileImg?.id}
+									name={username}
+									onPress={() => setShowNewCard(false)}
+								/>
+							</View>
 						</View>
-					</View>
-				) : showMoreProfiles ? (
-					<View style={HomeStyles.homecardContainer}>
-						<View style={HomeStyles.homecard}>
-							<HomeCardLast />
+					) : showMoreProfiles ? (
+						<View style={HomeStyles.homecardContainer}>
+							<View style={HomeStyles.homecard}>
+								<HomeCardLast />
+							</View>
 						</View>
-					</View>
-				) : (
-					<View style={HomeStyles.homecardContainer}>
-						<View style={HomeStyles.homecard}>
-							<HomeCardFront
-								memberId={id}
-								profileImg={profilePresignUrl}
-								tags={tags}
-								introduction={bio}
-								name={username}
-								country={country}
-								onPress={() => setShowNewCard(true)}
-								isLikedOnPress={() => {
-									heart[id]
-										? handleDeleteHeart()
-										: handleCreateHeart();
-								}}
-								isLikedActive={heart[id]}
-							/>
+					) : (
+						<View style={HomeStyles.homecardContainer}>
+							<View style={HomeStyles.homecard}>
+								<HomeCardFront
+									memberId={id}
+									fileId={profileImg?.id}
+									tags={tags}
+									introduction={bio}
+									name={username}
+									country={country}
+									onPress={() => setShowNewCard(true)}
+									isLikedOnPress={() => {
+										heart[id]
+											? handleDeleteHeart()
+											: handleCreateHeart();
+									}}
+									isLikedActive={heart[id]}
+								/>
+							</View>
 						</View>
-					</View>
-				)}
+					)}
+				</GestureRecognizer>
 				<View style={HomeStyles.backgroundHomecard}>
 					<HomeCard />
 				</View>
