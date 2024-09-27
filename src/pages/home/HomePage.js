@@ -114,11 +114,11 @@ const HomePage = () => {
 	};
 
 	const profileData = profileDataList[currentProfileIndex];
-	const { id, profilePresignUrl, tags, bio, username, country } = profileData
+	const { id, profileImg, tags, bio, username, country } = profileData
 		? profileData
 		: {
 				id: null,
-				profilePresignUrl: null,
+				profileImg: null,
 				tags: ["tag"],
 				bio: "bio",
 				username: "username",
