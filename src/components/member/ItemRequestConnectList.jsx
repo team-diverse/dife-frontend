@@ -20,7 +20,7 @@ const ItemRequestConnectList = ({
 	connectId,
 	memberId,
 	name,
-	imageName,
+	fileId,
 	received = false,
 }) => {
 	const { t } = useTranslation();
@@ -79,7 +79,7 @@ const ItemRequestConnectList = ({
 					}
 				>
 					<View style={styles.icon}>
-						<IconChatProfile imageName={imageName} />
+						<IconChatProfile fileId={fileId} />
 					</View>
 					<Text
 						style={styles.textName}

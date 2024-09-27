@@ -13,6 +13,7 @@ import * as Device from "expo-device";
 import { useTranslation } from "react-i18next";
 import * as SecureStore from "expo-secure-store";
 import * as Sentry from "@sentry/react-native";
+import * as Notifications from "expo-notifications";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import LoginStyles from "@pages/login/LoginStyles";
@@ -92,7 +93,8 @@ const LoginPage = () => {
 				navigation.navigate("Nickname");
 			}
 
-			await createNotificationToken(accessToken, deviceId);
+			const token = (await Notifications.getExpoPushTokenAsync()).data;
+			await createNotificationToken(token, deviceId);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(

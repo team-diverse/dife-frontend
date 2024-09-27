@@ -19,7 +19,10 @@ const NotificationPage = () => {
 		try {
 			const deviceId = await SecureStore.getItemAsync("deviceId");
 			const response = await getNotifications(deviceId);
-			setNotificationData(response.data.reverse());
+			const filteredData = response.data.filter(
+				(item) => item.type !== "CHATROOM",
+			);
+			setNotificationData(filteredData.reverse());
 			await SecureStore.setItemAsync(
 				"readNotificationCount",
 				response.data.length.toString(),

@@ -26,8 +26,11 @@ const LandingPage = () => {
 	const navigation = useNavigation();
 
 	const [currentIndex, setCurrentIndex] = useState(0);
+	const [imageWidth, setImageWidth] = useState(null);
 
 	const screenWidth = Dimensions.get("window").width;
+	const screenHeight = Dimensions.get("window").height;
+	const isSmallScreen = screenHeight < 700;
 
 	const pages = [
 		{
@@ -35,12 +38,15 @@ const LandingPage = () => {
 			title: t("connectTitle"),
 			content: t("connectContent"),
 			image: require("src/assets/images/landing/landing_connect.png"),
+			imagePlus: require("src/assets/images/landing/profile.png"),
 		},
 		{
 			id: "2",
 			title: t("chatTitle"),
 			content: t("chatContent"),
 			image: require("src/assets/images/landing/landing_chat.png"),
+			imagePlus: require("src/assets/images/landing/chat_bubble.png"),
+			chat: true,
 		},
 		{
 			id: "3",
@@ -72,6 +78,23 @@ const LandingPage = () => {
 		2: <IconLandingCommunity />,
 	};
 
+	const getImageStyle = (item) => {
+		let style = { height: imageWidth - 38 };
+
+		if (isSmallScreen) {
+			style = { ...style, top: 100, height: imageWidth - 50 };
+		}
+
+		if (item.chat) {
+			style = { ...style, top: 210 };
+			if (isSmallScreen) {
+				style = { ...style, top: 150 };
+			}
+		}
+
+		return style;
+	};
+
 	const renderItem = ({ item }) => (
 		<View
 			style={[
@@ -88,7 +111,14 @@ const LandingPage = () => {
 				</View>
 				{icon[currentIndex]}
 			</View>
-			<View style={[LandingStyles.center, { marginTop: 30 }]}>
+
+			<View
+				style={[LandingStyles.center, { marginTop: 30 }]}
+				onLayout={(event) => {
+					const { width } = event.nativeEvent.layout;
+					setImageWidth(width);
+				}}
+			>
 				<Image
 					style={{
 						width: screenWidth - 60,
@@ -107,6 +137,13 @@ const LandingPage = () => {
 					start={{ x: 0, y: 1 }}
 					end={{ x: 0, y: 0 }}
 				/>
+				{item.imagePlus && imageWidth && (
+					<Image
+						style={[LandingStyles.imagePlus, getImageStyle(item)]}
+						source={item.imagePlus}
+						contentFit="contain"
+					/>
+				)}
 			</View>
 		</View>
 	);

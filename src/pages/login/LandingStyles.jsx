@@ -27,6 +27,11 @@ const LandingStyles = StyleSheet.create({
 	textContent: {
 		...fontSub16,
 	},
+	imagePlus: {
+		position: "absolute",
+		width: "100%",
+		top: 124,
+	},
 	gradient: {
 		position: "absolute",
 		bottom: 0,

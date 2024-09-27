@@ -42,11 +42,11 @@ const ItemLikeBookmark = ({ likedAndBookmarkPostList }) => {
 							</Text>
 						</View>
 
-						{post.post.profilePresignUrl && (
+						{post.profilePresignUrl && (
 							<View style={styles.containerImage}>
 								<Image
 									source={{
-										uri: post.post.profilePresignUrl,
+										uri: post.profilePresignUrl,
 									}}
 									style={styles.imagePost}
 								/>

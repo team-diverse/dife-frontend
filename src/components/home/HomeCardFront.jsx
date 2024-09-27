@@ -20,7 +20,7 @@ const { fontCaption } = CustomTheme;
 
 const HomeCardFront = ({
 	memberId,
-	profileImg,
+	fileId,
 	tags,
 	introduction,
 	name,
@@ -86,7 +86,7 @@ const HomeCardFront = ({
 				<HomecardDifeF />
 			</View>
 			<View style={styles.homeProfile}>
-				<HomeProfile profile={profileImg} />
+				<HomeProfile fileId={fileId} />
 				<View style={styles.tagContainer} onLayout={handleTagLayout}>
 					<Tag tag={tags} />
 				</View>

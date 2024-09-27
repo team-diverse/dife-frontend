@@ -16,7 +16,7 @@ import ModalTranslationsCount from "@components/common/ModalTranslationsCount";
 const { fontNavi } = CustomTheme;
 
 const ChatBubble = ({
-	profileImageName,
+	fileId,
 	username,
 	message,
 	time,
@@ -108,10 +108,7 @@ const ChatBubble = ({
 				{showProfile && (
 					<View style={styles.profileWrapper}>
 						<View style={styles.iconChatProfileWrapper}>
-							<IconChatProfile
-								size={36}
-								imageName={profileImageName}
-							/>
+							<IconChatProfile size={36} fileId={fileId} />
 						</View>
 					</View>
 				)}

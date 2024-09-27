@@ -35,13 +35,13 @@ const ItemBlockList = ({ blacklistedMemberId, date }) => {
 	};
 
 	const [name, setName] = useState();
-	const [imageName, setImageName] = useState(null);
+	const [fileId, setFileId] = useState(null);
 
 	const getConnectProfile = async () => {
 		try {
 			const response = await getProfileById(blacklistedMemberId);
 			setName(response.data.username);
-			setImageName(response.data.profileImg?.originalName || null);
+			setFileId(response.data.profileImg?.id || null);
 		} catch (error) {
 			console.error(
 				"디테일 프로필 조회 오류:",
@@ -67,7 +67,7 @@ const ItemBlockList = ({ blacklistedMemberId, date }) => {
 						}
 					>
 						<View style={styles.icon}>
-							<IconChatProfile imageName={imageName} />
+							<IconChatProfile fileId={fileId} />
 						</View>
 						<Text style={styles.textName}>{name}</Text>
 					</TouchableOpacity>

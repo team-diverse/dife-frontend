@@ -4,7 +4,6 @@ import * as SecureStore from "expo-secure-store";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
-import IconChat24 from "@components/Icon24/IconChat24";
 import IconAddFriend24 from "@components/Icon24/IconAddFriend24";
 import IconHeart24 from "@components/Icon24/IconHeart24";
 import { useNavigation } from "@react-navigation/native";
@@ -22,9 +21,7 @@ const NotificationCard = ({
 	const [isRead, setIsRead] = useState(false);
 
 	let iconSvg;
-	if (type === "CHATROOM") {
-		iconSvg = <IconChat24 />;
-	} else if (type === "CONNECT") {
+	if (type === "CONNECT") {
 		iconSvg = <IconAddFriend24 />;
 	} else if (type === "POST") {
 		iconSvg = <IconHeart24 />;

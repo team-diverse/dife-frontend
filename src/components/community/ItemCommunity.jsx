@@ -30,6 +30,8 @@ const ItemCommunity = ({
 					? `'${post.post.title}' ${t("commentOnPost")}`
 					: post.title;
 
+				console.log(post.profilePresignUrl);
+
 				return (
 					<TouchableOpacity
 						key={index}
@@ -119,15 +121,11 @@ const ItemCommunity = ({
 								</View>
 							</View>
 
-							{(apiPost
-								? post.post.profilePresignUrl
-								: post.profilePresignUrl) && (
+							{post.profilePresignUrl && (
 								<View style={styles.containerImage}>
 									<Image
 										source={{
-											uri: apiPost
-												? post.post.profilePresignUrl
-												: post.profilePresignUrl,
+											uri: post.profilePresignUrl,
 										}}
 										style={styles.imagePost}
 									/>

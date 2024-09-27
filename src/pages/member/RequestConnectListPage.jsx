@@ -65,7 +65,7 @@ const RequestConnectListPage = () => {
 							connectId={item.id}
 							memberId={item.from_member.id}
 							name={item.from_member.username}
-							imageName={item.from_member.profileImg}
+							fileId={item.from_member.profileImg?.id}
 						/>
 					)}
 					keyExtractor={(item, index) => index.toString()}
@@ -88,7 +88,7 @@ const RequestConnectListPage = () => {
 							connectId={item.id}
 							memberId={item.to_member.id}
 							name={item.to_member.username}
-							imageName={item.to_member.profileImg}
+							fileId={item.to_member.profileImg?.id}
 						/>
 					)}
 					keyExtractor={(item, index) => index.toString()}

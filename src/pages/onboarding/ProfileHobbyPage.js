@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -10,7 +10,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
 import ProfileHobbyStyles from "@pages/onboarding/ProfileHobbyStyles";
-import { CustomTheme } from "@styles/CustomTheme.js";
+import { CustomTheme } from "@styles/CustomTheme";
 import { useOnboarding } from "src/states/OnboardingContext.js";
 
 import ArrowRight from "@components/common/ArrowRight";
@@ -20,15 +20,20 @@ import ApplyButton from "@components/common/ApplyButton";
 
 const ProfileHobbyPage = () => {
 	const { t } = useTranslation();
-
 	const navigation = useNavigation();
+	const { onboardingData, updateOnboardingData } = useOnboarding();
+
 	const [selectedHobby, setSelectedHobby] = useState([]);
+
+	useEffect(() => {
+		if (onboardingData.hobbies && selectedHobby.length === 0) {
+			setSelectedHobby(onboardingData.hobbies);
+		}
+	}, [onboardingData.hobbies]);
 
 	const handleGoBack = () => {
 		navigation.goBack();
 	};
-
-	const { onboardingData, updateOnboardingData } = useOnboarding();
 
 	const hobby = t("hobbyOptions", { returnObjects: true });
 	const size = 3;
@@ -45,10 +50,9 @@ const ProfileHobbyPage = () => {
 		}
 	};
 
-	const handleDataSave = () => {
+	useEffect(() => {
 		updateOnboardingData({ hobbies: selectedHobby });
-		navigation.navigate("ProfileLanguage");
-	};
+	}, [selectedHobby]);
 
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
@@ -79,6 +83,7 @@ const ProfileHobbyPage = () => {
 								text={type}
 								hobbyCount={selectedHobby.length}
 								onPress={() => handleSelectHobby(type)}
+								selected={selectedHobby.includes(type)}
 							/>
 						))}
 					</View>
@@ -92,7 +97,7 @@ const ProfileHobbyPage = () => {
 			>
 				<ApplyButton
 					text={t("nextButton")}
-					onPress={handleDataSave}
+					onPress={() => navigation.navigate("ProfileLanguage")}
 					disabled={selectedHobby.length === 0}
 				/>
 			</View>
