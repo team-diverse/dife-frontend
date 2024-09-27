@@ -12,7 +12,7 @@ const ChatroomItem = ({ chatroomInfo, context, time, myMemberId }) => {
 	const otherMember = chatroomInfo.members.find(
 		(member) => member.id !== myMemberId,
 	);
-	const otherMemberProfileImageName = otherMember.profileImg?.originalName;
+	const otherMemberProfileImageId = otherMember.profileImg?.id;
 	const username = otherMember.username;
 
 	return (
@@ -27,9 +27,7 @@ const ChatroomItem = ({ chatroomInfo, context, time, myMemberId }) => {
 			<View style={styles.notify}>
 				<View style={styles.iconTextContainer}>
 					<View style={styles.icon}>
-						<IconChatProfile
-							imageName={otherMemberProfileImageName}
-						/>
+						<IconChatProfile fileId={otherMemberProfileImageId} />
 					</View>
 					<View style={styles.textContainer}>
 						<Text style={styles.textName}>{username}</Text>

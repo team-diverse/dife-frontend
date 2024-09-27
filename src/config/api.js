@@ -474,12 +474,8 @@ export const getConnectList = () => {
 	return api.get(`/connects`);
 };
 
-export const getProfileImageByFileName = (fileName) => {
-	return api.get(`/files`, {
-		params: {
-			name: fileName,
-		},
-	});
+export const getProfileImageByFileId = (fileId) => {
+	return api.get(`/files/${fileId}`);
 };
 
 export const deleteBookmarkByPostId = (postId) => {

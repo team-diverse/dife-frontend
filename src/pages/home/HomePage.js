@@ -113,7 +113,8 @@ const HomePage = () => {
 	};
 
 	const profileData = profileDataList[currentProfileIndex];
-	const { id, profilePresignUrl, tags, bio, username, country } = profileData
+	// console.log(profileData.profileImg?.id);
+	const { id, profileImg, tags, bio, username, country } = profileData
 		? profileData
 		: {
 				id: null,
@@ -216,7 +217,7 @@ const HomePage = () => {
 						<View style={HomeStyles.homecard}>
 							<HomeCardBack
 								memberId={id}
-								profileImg={profilePresignUrl}
+								fileId={profileImg?.id}
 								name={username}
 								onPress={() => setShowNewCard(false)}
 							/>
@@ -233,7 +234,7 @@ const HomePage = () => {
 						<View style={HomeStyles.homecard}>
 							<HomeCardFront
 								memberId={id}
-								profileImg={profilePresignUrl}
+								fileId={profileImg?.id}
 								tags={tags}
 								introduction={bio}
 								name={username}
