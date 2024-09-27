@@ -15,6 +15,7 @@ export const OnboardingProvider = ({ children }) => {
 		mbti: "",
 		hobbies: "",
 		languages: "",
+		checkLanguages: "",
 		id: "",
 		profileImg: null,
 		verificationFile: "",

@@ -31,7 +31,7 @@ import {
 	deleteLikeByPostId,
 	createPostBookmark,
 	deleteBookmarkByPostId,
-	getProfileImageByFileName,
+	getProfileImageByFileId,
 	translationByPostId,
 	getMyProfile,
 } from "config/api";
@@ -113,14 +113,11 @@ const PostPage = ({ route }) => {
 			setMemberId(postByIdResponse.data.writer.id);
 			setHeart(postByIdResponse.data.likesCount);
 			setBookmark(postByIdResponse.data.bookmarkCount);
-			const fileNames = postByIdResponse.data.files.map(
-				(file) => file.originalName,
-			);
+			const fileIds = postByIdResponse.data.files.map((file) => file.id);
 			const responses = await Promise.all(
-				fileNames.map((fileName) =>
-					getProfileImageByFileName(fileName),
-				),
+				fileIds.map((fileId) => getProfileImageByFileId(fileId)),
 			);
+
 			const responseImages = responses.map((response) => response.data);
 			setImages(responseImages);
 
