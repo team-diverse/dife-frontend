@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 import MemberStyles from "@pages/member/MemberStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { getMyProfile } from "config/api";
+import { getMyProfile, getProfileImageByFileId } from "config/api";
 
 import DifeLogo from "@components/member/DifeLogo";
 import DifeLine from "@components/member/DifeLine";
@@ -36,7 +36,10 @@ const MemberPage = () => {
 		try {
 			const response = await getMyProfile();
 			setName(response.data.username);
-			setProfileImage(response.data.profilePresignUrl);
+			const presignUrl = await getProfileImageByFileId(
+				response.data.profileImg.id,
+			);
+			setProfileImage(presignUrl.data);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(

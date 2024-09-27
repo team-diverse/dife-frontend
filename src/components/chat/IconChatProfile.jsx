@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Svg, { Path, Defs, ClipPath, Image as SvgImage } from "react-native-svg";
-import { getProfileImageByFileName } from "config/api";
+import { getProfileImageByFileId } from "config/api";
 import * as Sentry from "@sentry/react-native";
 
-const IconChatProfile = ({ size = 48, imageName, ...props }) => {
+const IconChatProfile = ({ size = 48, fileId, ...props }) => {
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
 
 	const getProfileImage = async () => {
 		try {
-			const response = await getProfileImageByFileName(imageName);
+			if (fileId === undefined) {
+				return;
+			}
+			const response = await getProfileImageByFileId(fileId);
 			setProfilePresignUrl(response.data);
 		} catch (error) {
 			Sentry.captureException(error);
@@ -21,7 +24,8 @@ const IconChatProfile = ({ size = 48, imageName, ...props }) => {
 
 	useEffect(() => {
 		getProfileImage();
-	}, [imageName]);
+	}, [fileId]);
+
 	const pathData = `
 		M0 ${size * 0.2083}C0 ${size * 0.0933} ${size * 0.0933} 0 ${size * 0.2083} 0H${size * 0.5}
 		C${size * 0.7761} 0 ${size} ${size * 0.2182} ${size} ${size * 0.5}

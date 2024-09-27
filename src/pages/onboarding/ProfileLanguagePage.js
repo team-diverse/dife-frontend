@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
 
 import ProfileLanguageStyles from "@pages/onboarding/ProfileLanguageStyles";
-import { CustomTheme } from "@styles/CustomTheme.js";
+import { CustomTheme } from "@styles/CustomTheme";
 import { useOnboarding } from "src/states/OnboardingContext.js";
 import { updateMyProfile } from "config/api";
 
@@ -22,19 +22,26 @@ import ApplyButton from "@components/common/ApplyButton";
 
 const ProfileLanguagePage = () => {
 	const { t } = useTranslation();
-
 	const navigation = useNavigation();
+
+	const { onboardingData, updateOnboardingData } = useOnboarding();
+
+	const [selectedLanguages, setSelectedLanguages] = useState("");
+	const languages = t("languages", { returnObjects: true });
+	const [isCheckedList, setIsCheckedList] = useState(
+		new Array(languages.length).fill(false),
+	);
 
 	const handleGoBack = () => {
 		navigation.goBack();
 	};
 
-	const { onboardingData, updateOnboardingData } = useOnboarding();
-
-	const languages = t("languages", { returnObjects: true });
-	const [isCheckedList, setIsCheckedList] = useState(
-		new Array(languages.length).fill(false),
-	);
+	useEffect(() => {
+		if (onboardingData.languages && selectedLanguages.length === 0) {
+			setSelectedLanguages(onboardingData.languages);
+			setIsCheckedList(onboardingData.checkLanguages);
+		}
+	}, [onboardingData.languages]);
 
 	const handlePress = (index) => {
 		setIsCheckedList((prevState) => {
@@ -44,19 +51,21 @@ const ProfileLanguagePage = () => {
 		});
 	};
 
+	useEffect(() => {
+		const tmp = isCheckedList.reduce((selected, isChecked, index) => {
+			if (isChecked) {
+				selected.push(languages[index]);
+			}
+			return selected;
+		}, []);
+
+		updateOnboardingData({
+			languages: tmp,
+			checkLanguages: isCheckedList,
+		});
+	}, [isCheckedList]);
+
 	const handleDataSave = async () => {
-		const selectedLanguages = isCheckedList.reduce(
-			(selected, isChecked, index) => {
-				if (isChecked) {
-					selected.push(languages[index]);
-				}
-				return selected;
-			},
-			[],
-		);
-
-		updateOnboardingData({ languages: selectedLanguages });
-
 		const formData = new FormData();
 		formData.append("username", onboardingData.username);
 		formData.append("country", onboardingData.country);
