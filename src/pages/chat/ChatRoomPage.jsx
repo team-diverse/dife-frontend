@@ -204,23 +204,7 @@ const ChatRoomPage = ({ route }) => {
 				<TouchableOpacity style={ChatRoomStyles.containerDrawer}>
 					<View style={ChatRoomStyles.containerDrawerTextCount}>
 						<Text style={ChatRoomStyles.textDrawer}>
-							{t("chatScrapStorage")}
-						</Text>
-						<View style={ChatRoomStyles.containerDrawerCount}>
-							<Text style={ChatRoomStyles.textDrawerCount}>
-								3
-							</Text>
-						</View>
-					</View>
-					<View style={ChatRoomStyles.iconReverseArrow}>
-						<ArrowRight color="#000" />
-					</View>
-				</TouchableOpacity>
-				<View style={ChatRoomStyles.line} />
-				<TouchableOpacity style={ChatRoomStyles.containerDrawer}>
-					<View style={ChatRoomStyles.containerDrawerTextCount}>
-						<Text style={ChatRoomStyles.textDrawer}>
-							{t("chatAlbum")}
+							{t("chatBookmark")}
 						</Text>
 						<View style={ChatRoomStyles.containerDrawerCount}>
 							<Text style={ChatRoomStyles.textDrawerCount}>
