@@ -7,6 +7,7 @@ import {
 	Animated,
 	Dimensions,
 	FlatList,
+	Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -43,6 +44,7 @@ const ChatRoomPage = ({ route }) => {
 	const otherMember = members.find((member) => member.id !== memberId);
 	const flatListRef = useRef(null);
 	const [bookmarkedCount, setBookmarkedCount] = useState(0);
+	const { publishMessage } = useWebSocket();
 
 	useEffect(() => {
 		const fetchMyMemberId = async () => {
@@ -107,6 +109,31 @@ const ChatRoomPage = ({ route }) => {
 
 		const response = await getBookmarkedByChatroomId(chatroomInfo.id);
 		setBookmarkedCount(response.data.length);
+	};
+
+	const exitChatroomAlert = (chatroomId) => {
+		Alert.alert(
+			"",
+			"해당 채팅방을 나가시겠어요?",
+			[
+				{
+					text: t("cancelButton"),
+					style: "cancel",
+				},
+				{
+					text: "나가기",
+					onPress: () => {
+						publishMessage({
+							chatType: "EXIT",
+							chatroomId: chatroomId,
+							memberId: memberId,
+						});
+						navigation.navigate("Chat");
+					},
+				},
+			],
+			{ cancelable: false },
+		);
 	};
 
 	return (
@@ -176,7 +203,12 @@ const ChatRoomPage = ({ route }) => {
 				]}
 			>
 				<View style={ChatRoomStyles.containerGray}>
-					<IconChatOut />
+					<TouchableOpacity
+						onPress={() => exitChatroomAlert(chatroomInfo.id)}
+					>
+						<IconChatOut />
+					</TouchableOpacity>
+
 					<View style={ChatRoomStyles.containerIcon}>
 						<View style={{ marginRight: 7 }}>
 							<IconChatNotification />
