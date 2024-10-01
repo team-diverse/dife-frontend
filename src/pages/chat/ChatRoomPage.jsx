@@ -17,6 +17,7 @@ import { useWebSocket } from "context/WebSocketContext";
 import formatKoreanTime from "util/formatTime";
 import { getMyMemberId } from "util/secureStoreUtils";
 import { sortByIds } from "util/util";
+import { getBookmarkedByChatroomId } from "config/api";
 
 import ArrowRight from "@components/common/ArrowRight";
 import ChatInputSend from "@components/chat/ChatInputSend";
@@ -41,6 +42,7 @@ const ChatRoomPage = ({ route }) => {
 	const members = sortByIds(chatroomInfo.members);
 	const otherMember = members.find((member) => member.id !== memberId);
 	const flatListRef = useRef(null);
+	const [bookmarkedCount, setBookmarkedCount] = useState(0);
 
 	useEffect(() => {
 		const fetchMyMemberId = async () => {
@@ -87,7 +89,7 @@ const ChatRoomPage = ({ route }) => {
 		navigation.goBack();
 	};
 
-	const toggleMenu = () => {
+	const toggleMenu = async () => {
 		if (menuOpen) {
 			Animated.timing(menuAnim, {
 				toValue: screenWidth,
@@ -102,6 +104,9 @@ const ChatRoomPage = ({ route }) => {
 			}).start();
 		}
 		setMenuOpen(!menuOpen);
+
+		const response = await getBookmarkedByChatroomId(chatroomInfo.id);
+		setBookmarkedCount(response.data.length);
 	};
 
 	return (
@@ -201,14 +206,22 @@ const ChatRoomPage = ({ route }) => {
 					))}
 				</View>
 				<View style={ChatRoomStyles.line} />
-				<TouchableOpacity style={ChatRoomStyles.containerDrawer}>
+				<TouchableOpacity
+					style={ChatRoomStyles.containerDrawer}
+					onPress={() =>
+						navigation.navigate("ChatBookmarkPage", {
+							chatroomId: chatroomInfo.id,
+							userName: chatroomInfo.members[0].username,
+						})
+					}
+				>
 					<View style={ChatRoomStyles.containerDrawerTextCount}>
 						<Text style={ChatRoomStyles.textDrawer}>
 							{t("chatBookmark")}
 						</Text>
 						<View style={ChatRoomStyles.containerDrawerCount}>
 							<Text style={ChatRoomStyles.textDrawerCount}>
-								3
+								{bookmarkedCount}
 							</Text>
 						</View>
 					</View>
