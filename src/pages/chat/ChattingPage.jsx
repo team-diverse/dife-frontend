@@ -101,6 +101,10 @@ const ChattingPage = () => {
 
 	const data = searchData ? searchData : chatrooms;
 
+	const onCompleteExit = () => {
+		updateChatroomsAndMessages();
+	};
+
 	const renderCommunity = () => (
 		<View style={ChattingStyles.containerChatItems}>
 			<View style={ChattingStyles.flatlist}>
@@ -114,6 +118,7 @@ const ChattingPage = () => {
 							name={item.name}
 							context={getLatestChatByChatroomId(item.id)}
 							time={formatKoreanTime(item.created)}
+							onCompleteExit={onCompleteExit}
 						/>
 					)}
 					keyExtractor={(item) => item.id}

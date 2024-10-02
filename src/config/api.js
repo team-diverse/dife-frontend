@@ -303,6 +303,14 @@ export const getBookmarkedPostChat = () => {
 	return api.get("/bookmarks");
 };
 
+export const getBookmarkedByChatroomId = (chatroomId) => {
+	return api.get("/bookmarks/", {
+		params: {
+			chatroomId,
+		},
+	});
+};
+
 export const createComment = (postId, valueComment, isChecked) => {
 	return api.post("/comments", {
 		content: valueComment,

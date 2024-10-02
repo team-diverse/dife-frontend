@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	View,
 	Text,
@@ -36,7 +36,7 @@ const LoginPage = () => {
 
 	const navigation = useNavigation();
 
-	const [valueID, setEmail] = useState("");
+	const emailRef = useRef("");
 	const [valuePW, setPassword] = useState("");
 	const [showPW, setShowPW] = useState(false);
 	const { updateOnboardingData } = useOnboarding();
@@ -62,7 +62,7 @@ const LoginPage = () => {
 	};
 
 	const handleEmail = (text) => {
-		setEmail(text);
+		emailRef.val = text;
 		setLoginFailed(false);
 	};
 
@@ -73,7 +73,7 @@ const LoginPage = () => {
 
 	const handleLogin = async () => {
 		try {
-			const loginResponse = await login(valueID, valuePW);
+			const loginResponse = await login(emailRef.val, valuePW);
 			const id = loginResponse.data.member_id;
 			const accessToken = loginResponse.data.accessToken;
 			const refreshToken = loginResponse.data.refreshToken;
@@ -133,16 +133,16 @@ const LoginPage = () => {
 
 	useEffect(() => {
 		if (isMockLoginEnabled) {
-			setEmail(mockEmail);
+			emailRef.val = mockEmail;
 			setPassword(mockPassword);
 		}
 	}, []);
 
 	useEffect(() => {
-		if (isMockLoginEnabled && valueID && valuePW) {
+		if (isMockLoginEnabled && emailRef.val && valuePW) {
 			handleLogin();
 		}
-	}, [valueID, valuePW]);
+	}, [valuePW]);
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
@@ -155,6 +155,7 @@ const LoginPage = () => {
 				<View style={LoginStyles.containerIdPw}>
 					<Text style={LoginStyles.textIdPw}>ID (Email Address)</Text>
 					<TextInput
+						ref={emailRef}
 						style={
 							loginFailed
 								? [
@@ -164,8 +165,8 @@ const LoginPage = () => {
 								: LoginStyles.textInputIdPw
 						}
 						placeholder={t("placeholderEmail")}
+						autoCorrect={false}
 						onChangeText={(text) => handleEmail(text)}
-						value={valueID}
 					/>
 					<Text style={LoginStyles.textIdPw}>Password</Text>
 					<View style={LoginStyles.textInputPwContainer}>
