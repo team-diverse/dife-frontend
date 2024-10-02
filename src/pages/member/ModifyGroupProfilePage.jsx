@@ -35,7 +35,6 @@ const ModifyGroupProfilePage = () => {
 	const getGroupProfileInfo = async () => {
 		try {
 			const response = await getGroupByGroupId(2);
-			console.log(response.data);
 			const updatedData = formatProfileData([response.data]);
 			setProfile(updatedData[0]);
 			setProfilePresignUrl(updatedData[0].profilePresignUrl);

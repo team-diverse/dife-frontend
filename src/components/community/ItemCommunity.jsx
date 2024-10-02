@@ -30,8 +30,6 @@ const ItemCommunity = ({
 					? `'${post.post.title}' ${t("commentOnPost")}`
 					: post.title;
 
-				console.log(post.profilePresignUrl);
-
 				return (
 					<TouchableOpacity
 						key={index}
