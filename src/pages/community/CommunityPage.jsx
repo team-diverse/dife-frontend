@@ -13,7 +13,6 @@ import {
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
-
 import CommunityStyles from "@pages/community/CommunityStyles";
 import { getPostsByType, getCommunitySearch } from "config/api";
 
@@ -21,11 +20,10 @@ import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
 import ConnectSearchCancel from "@components/connect/ConnectSearchCancel";
 import IconBookmark from "@components/chat/IconBookmark";
-import IconCommunityTitle from "@components/community/IconCommunityTitle";
 import ArrowRight from "@components/common/ArrowRight";
-import ItemCommunityPreview from "@components/community/ItemCommunityPreview";
 import IconSearchFail from "@components/common/IconSearchFail";
 import ItemCommunity from "@components/community/ItemCommunity";
+import CommunitySection from "./CommunitySection";
 
 const CommunityPage = () => {
 	const { t } = useTranslation();
@@ -74,10 +72,12 @@ const CommunityPage = () => {
 
 	useFocusEffect(
 		useCallback(() => {
-			const community = async () => {
+			const fetchPosts = async () => {
 				try {
-					const responseTip = await getPostsByType("TIP");
-					const responseFree = await getPostsByType("FREE");
+					const [responseTip, responseFree] = await Promise.all([
+						getPostsByType("TIP"),
+						getPostsByType("FREE"),
+					]);
 					setTipPostList(responseTip.data.slice(0, 3));
 					setFreePostList(responseFree.data.slice(0, 3));
 				} catch (error) {
@@ -89,81 +89,48 @@ const CommunityPage = () => {
 				}
 			};
 
-			community();
+			fetchPosts();
 		}, []),
 	);
 
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
 
-	const renderCommunity = () => (
-		<>
-			{searchFail ? (
+	const renderCommunity = () => {
+		if (searchFail) {
+			return (
 				<View style={CommunityStyles.containerFail}>
 					<IconSearchFail />
 					<Text style={CommunityStyles.textFail}>
 						{t("searchNoResults")}
 					</Text>
 				</View>
-			) : searchData && searchData.length > 0 ? (
+			);
+		}
+
+		if (searchData && searchData.length > 0) {
+			return (
 				<View style={CommunityStyles.itemCommunity}>
 					<ItemCommunity postList={searchData} />
 				</View>
-			) : (
-				<>
-					<View style={CommunityStyles.containerCommunityTop}>
-						<View style={CommunityStyles.containerTitle}>
-							<IconCommunityTitle
-								style={CommunityStyles.iconCommunity}
-							/>
-							<Text style={CommunityStyles.textCommunityTitle}>
-								{t("tipBoard")}
-							</Text>
-						</View>
-						<TouchableOpacity
-							style={CommunityStyles.containerMore}
-							onPress={() =>
-								navigation.navigate("TipCommunityPage")
-							}
-						>
-							<Text style={CommunityStyles.textCommunityMore}>
-								{t("moreButton")}
-							</Text>
-							<ArrowRight style={CommunityStyles.iconArrow} />
-						</TouchableOpacity>
-					</View>
-					<View style={CommunityStyles.itemCommunityPreview}>
-						<ItemCommunityPreview postList={tipPostList} />
-					</View>
+			);
+		}
 
-					<View style={CommunityStyles.containerCommunityTop}>
-						<View style={CommunityStyles.containerTitle}>
-							<IconCommunityTitle
-								style={CommunityStyles.iconCommunity}
-							/>
-							<Text style={CommunityStyles.textCommunityTitle}>
-								{t("freeBoard")}
-							</Text>
-						</View>
-						<TouchableOpacity
-							style={CommunityStyles.containerMore}
-							onPress={() =>
-								navigation.navigate("FreeCommunityPage")
-							}
-						>
-							<Text style={CommunityStyles.textCommunityMore}>
-								{t("moreButton")}
-							</Text>
-							<ArrowRight style={CommunityStyles.iconArrow} />
-						</TouchableOpacity>
-					</View>
-					<View style={CommunityStyles.itemCommunityPreview}>
-						<ItemCommunityPreview postList={freePostList} />
-					</View>
-				</>
-			)}
-		</>
-	);
+		return (
+			<>
+				<CommunitySection
+					title="tipBoard"
+					postList={tipPostList}
+					onMorePress={() => navigation.navigate("TipCommunityPage")}
+				/>
+				<CommunitySection
+					title="freeBoard"
+					postList={freePostList}
+					onMorePress={() => navigation.navigate("FreeCommunityPage")}
+				/>
+			</>
+		);
+	};
 
 	return (
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
