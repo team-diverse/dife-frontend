@@ -94,6 +94,7 @@ import BookmarkedPostPage from "@pages/member/BookmarkedPostPage";
 import LikeUserOneToOne from "@pages/connect/LikeUserOneToOne";
 import LandingPage from "@pages/login/LandingPage";
 import SetPasswordPage from "@pages/login/SetPasswordPage";
+import ChatBookmarkPage from "@pages/chat/ChatBookmarkPage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -352,6 +353,10 @@ function MainNavigator() {
 			<Stack.Screen
 				name="LikeUserOneToOne"
 				component={LikeUserOneToOne}
+			/>
+			<Stack.Screen
+				name="ChatBookmarkPage"
+				component={ChatBookmarkPage}
 			/>
 		</Stack.Navigator>
 	);
