@@ -1,42 +1,24 @@
 import React, { useState } from "react";
 import {
 	View,
-	Text,
 	TextInput,
 	StyleSheet,
 	TouchableOpacity,
-	TouchableWithoutFeedback,
-	Keyboard,
 	KeyboardAvoidingView,
 	Platform,
 } from "react-native";
-import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
-import IconImagePlus from "@components/chat/IconImagePlus";
-import IconImageExit from "@components/chat/IconImageExit";
 import IconChatSend from "@components/chat/IconChatSend";
-import IconCircleCamera from "@components/chat/IconCircleCamera";
-import IconCircleGallery from "@components/chat/IconCircleGallery";
 import { useWebSocket } from "context/WebSocketContext";
 
 const { fontBody14 } = CustomTheme;
 
 const ChatInputSend = ({ chatroomId, memberId }) => {
-	const { t } = useTranslation();
 	const [chatInput, setChatInput] = useState("");
 	const [plusClick, setPlusClick] = useState(false);
 	const { publishMessage } = useWebSocket();
-
-	const handleClick = () => {
-		setPlusClick(!plusClick);
-		Keyboard.dismiss();
-	};
-
-	const handleKeyboard = () => {
-		Keyboard.dismiss();
-	};
 
 	const handleInputFocus = () => {
 		if (plusClick) {
@@ -62,44 +44,19 @@ const ChatInputSend = ({ chatroomId, memberId }) => {
 			behavior={Platform.OS === "ios" ? "padding" : "height"}
 		>
 			<View style={styles.rectangle}>
-				<TouchableOpacity
-					style={styles.iconImage}
-					onPress={handleClick}
-				>
-					{plusClick ? <IconImageExit /> : <IconImagePlus />}
-				</TouchableOpacity>
 				<TextInput
-					style={styles.input}
+					style={[styles.input, { paddingLeft: 17 }]}
 					value={chatInput}
 					onChangeText={setChatInput}
 					onFocus={handleInputFocus}
 				/>
-				<View style={styles.rectangleBlue}>
-					<TouchableOpacity onPress={handleSend}>
-						<IconChatSend />
-					</TouchableOpacity>
-				</View>
+				<TouchableOpacity
+					style={styles.rectangleBlue}
+					onPress={handleSend}
+				>
+					<IconChatSend />
+				</TouchableOpacity>
 			</View>
-			{plusClick && (
-				<TouchableWithoutFeedback onPress={handleKeyboard}>
-					<View style={styles.rectangleImage}>
-						<View style={styles.containerIconCircle}>
-							<TouchableOpacity style={styles.iconCircleCamera}>
-								<IconCircleCamera />
-								<Text style={styles.textIconCircle}>
-									{t("accessCameraSubtitle")}
-								</Text>
-							</TouchableOpacity>
-							<TouchableOpacity style={styles.iconCircleGallery}>
-								<IconCircleGallery />
-								<Text style={styles.textIconCircle}>
-									{t("gallery")}
-								</Text>
-							</TouchableOpacity>
-						</View>
-					</View>
-				</TouchableWithoutFeedback>
-			)}
 		</KeyboardAvoidingView>
 	);
 };
@@ -143,12 +100,14 @@ const styles = StyleSheet.create({
 		marginLeft: 64,
 	},
 	input: {
+		flex: 7,
 		...fontBody14,
 		alignItems: "center",
-		width: 262,
+		width: "100%",
 		height: 36,
 	},
 	rectangleBlue: {
+		flex: 1,
 		width: 47.65,
 		height: 48,
 		alignItems: "center",
