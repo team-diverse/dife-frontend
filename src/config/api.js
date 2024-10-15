@@ -10,9 +10,10 @@ export const api = axios.create({
 });
 
 api.interceptors.request.use(async (config) => {
-	const token = await SecureStore.getItemAsync("accessToken");
+	const token = await SecureStore.getItemAsync("refreshToken");
 	if (token) {
 		config.headers["Authorization"] = `Bearer ${token}`;
+		console.log("refreshToken : " + token)
 	}
 	return config;
 });
