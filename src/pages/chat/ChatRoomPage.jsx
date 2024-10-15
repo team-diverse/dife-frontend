@@ -167,20 +167,19 @@ const ChatRoomPage = ({ route }) => {
 					renderItem={({ item }) => (
 						<>
 							{item.map((msg, idx) => {
-                    		return (
-								<ChatBubble
-								fileId={otherMember.profileImg?.id}
-								username={msg.member.username}
-								message={msg.message}
-								time={formatKoreanTime(msg.created)}
-								isMine={msg.member.id === memberId}
-								isHeadMessage={idx === 0}
-								chatroomId={msg.singleChatroom.id}
-								chatId={msg.id}
-							/>);
-								
-                            
-                		})}
+								return (
+									<ChatBubble
+										fileId={otherMember.profileImg?.id}
+										username={msg.member.username}
+										message={msg.message}
+										time={formatKoreanTime(msg.created)}
+										isMine={msg.member.id === memberId}
+										isHeadMessage={idx === 0}
+										chatroomId={msg.singleChatroom.id}
+										chatId={msg.id}
+									/>
+								);
+							})}
 						</>
 					)}
 				/>

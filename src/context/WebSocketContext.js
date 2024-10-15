@@ -18,7 +18,7 @@ export const WebSocketProvider = ({ children }) => {
 	const [chatrooms, setChatrooms] = useState([]);
 	const [messages, setMessages] = useState({});
 	const [isConnected, setIsConnected] = useState(false);
-	const [token, setToken] = useState(null); 
+	const [token, setToken] = useState(null);
 	const WS_URL = process.env.EXPO_PUBLIC_WS_URL;
 
 	useEffect(() => {
@@ -26,9 +26,9 @@ export const WebSocketProvider = ({ children }) => {
 			try {
 				const token = await SecureStore.getItemAsync("refreshToken");
 				setToken(token);
-			  } catch (error) {
+			} catch (error) {
 				console.error("Failed to retrieve the refresh token:", error);
-			  }
+			}
 
 			ws.current = new Client({
 				brokerURL: WS_URL,
@@ -37,7 +37,7 @@ export const WebSocketProvider = ({ children }) => {
 				},
 				reconnectDelay: 0,
 				connectHeaders: {
-					'authorization': `Bearer ${token}`
+					authorization: `Bearer ${token}`,
 				},
 				onConnect: async () => {
 					const { allChatrooms } = await updateChatroomsAndMessages();
@@ -45,7 +45,9 @@ export const WebSocketProvider = ({ children }) => {
 					setIsConnected(true);
 				},
 				onStompError: (frame) => {
-					console.log("Broker reported error: " + frame.headers["message"]);
+					console.log(
+						"Broker reported error: " + frame.headers["message"],
+					);
 					console.log("Additional details: " + frame.body);
 				},
 				onWebSocketError: (error) => {
@@ -84,12 +86,12 @@ export const WebSocketProvider = ({ children }) => {
 					handleIncomingMessage(id, message.body);
 				},
 				{
-					'authorization': `Bearer ${token}`
-				}
+					authorization: `Bearer ${token}`,
+				},
 			);
 		});
 	};
-	
+
 	const subscribeToNewChatroom = (chatroomId, token) => {
 		ws.current.subscribe(
 			`/sub/chatroom/${chatroomId}`,
@@ -97,8 +99,8 @@ export const WebSocketProvider = ({ children }) => {
 				handleIncomingMessage(chatroomId, message.body);
 			},
 			{
-				'authorization': `Bearer ${token}`
-			}
+				authorization: `Bearer ${token}`,
+			},
 		);
 	};
 
@@ -135,22 +137,21 @@ export const WebSocketProvider = ({ children }) => {
 
 	const publishMessage = (message) => {
 		if (ws.current && ws.current.connected) {
-			const { token, ...messageWithoutToken } = message; 
-	
+			const { token, ...messageWithoutToken } = message;
+
 			ws.current.publish({
 				destination: `/pub/chatroom/chat`,
 				headers: {
 					"content-type": "application/json",
-					'authorization' : `Bearer ${token}`
+					authorization: `Bearer ${token}`,
 				},
-				body: JSON.stringify(messageWithoutToken), 
+				body: JSON.stringify(messageWithoutToken),
 			});
 			console.log(messageWithoutToken);
 		} else {
 			console.log("Client is not connected");
 		}
 	};
-	
 
 	const disconnectWebSocket = () => {
 		ws.current.deactivate();

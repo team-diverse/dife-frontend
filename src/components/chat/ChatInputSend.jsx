@@ -20,11 +20,12 @@ const ChatInputSend = ({ chatroomId, memberId }) => {
 	const [chatInput, setChatInput] = useState("");
 	const [plusClick, setPlusClick] = useState(false);
 	const { publishMessage } = useWebSocket();
-	const [token, setToken] = useState(null); 
+	const [token, setToken] = useState(null);
 
 	useEffect(() => {
 		const fetchToken = async () => {
-			const retrievedToken = await SecureStore.getItemAsync("refreshToken");
+			const retrievedToken =
+				await SecureStore.getItemAsync("refreshToken");
 			setToken(retrievedToken);
 		};
 
@@ -44,7 +45,7 @@ const ChatInputSend = ({ chatroomId, memberId }) => {
 				chatType: "CHAT",
 				chatroomId,
 				message: trimmedChatInput,
-				token, 
+				token,
 			});
 			setChatInput("");
 		} else {

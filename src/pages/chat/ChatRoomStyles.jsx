@@ -20,7 +20,7 @@ const ChatRoomStyles = StyleSheet.create({
 		flex: 1,
 		paddingRight: -10,
 		paddingLeft: 15,
-	},	
+	},
 	containerBackName: {
 		flexDirection: "row",
 		alignItems: "center",

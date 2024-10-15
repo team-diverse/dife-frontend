@@ -17,7 +17,7 @@ export const connectWebSocket = async (onMessage) => {
 			},
 			reconnectDelay: 0,
 			connectHeaders: {
-				'authorization': `Bearer ${token}`, 
+				authorization: `Bearer ${token}`,
 			},
 			onConnect: () => {
 				onMessage("Connected to WebSocket");
@@ -26,7 +26,7 @@ export const connectWebSocket = async (onMessage) => {
 					destination: "/pub/chatroom/chat",
 					headers: {
 						"content-type": "application/json",
-						'authorization': `Bearer ${token}`,
+						authorization: `Bearer ${token}`,
 					},
 					body: JSON.stringify({
 						message: "Hello, this is a test message.",
@@ -34,7 +34,9 @@ export const connectWebSocket = async (onMessage) => {
 				});
 			},
 			onStompError: (frame) => {
-				console.log("Broker reported error: " + frame.headers["message"]);
+				console.log(
+					"Broker reported error: " + frame.headers["message"],
+				);
 				console.log("Additional details: " + frame.body);
 			},
 			onWebSocketError: (error) => {
@@ -47,6 +49,5 @@ export const connectWebSocket = async (onMessage) => {
 		client.activate();
 	} catch (error) {
 		console.error("Failed to retrieve the token:", error);
-
 	}
 };

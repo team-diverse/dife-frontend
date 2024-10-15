@@ -141,17 +141,19 @@ const ChatBubble = ({
 							style={bubbleStyles}
 							onLongPress={handleLongPress}
 						>
-							<Text style={[messageStyles, styles.absoluteText]} ref={bubbleRef}>
-							{isTranslation ? chatMessage : message}
+							<Text
+								style={[messageStyles, styles.absoluteText]}
+								ref={bubbleRef}
+							>
+								{isTranslation ? chatMessage : message}
 							</Text>
 						</TouchableOpacity>
 						<View
 							style={[
 								styles.trailContainer,
 								styles.underlay,
-								!isMine && styles.otherUserTrail, 
+								!isMine && styles.otherUserTrail,
 								!isMine && styles.trailOtherContainer,
-								
 							]}
 						>
 							{TrailSVG}
@@ -193,7 +195,7 @@ const styles = StyleSheet.create({
 	profileName: {
 		fontSize: 12,
 		lineHeight: 16,
-		marginLeft:-5,
+		marginLeft: -5,
 		marginBottom: 5,
 	},
 	textTranslation: {
@@ -222,7 +224,7 @@ const styles = StyleSheet.create({
 		lineHeight: 20,
 		textAlign: "left",
 		fontFamily: "Noto Sans CJK KR",
-		flexWrap: 'wrap', 
+		flexWrap: "wrap",
 		maxWidth: "100%",
 	},
 	myMessage: {
@@ -232,52 +234,52 @@ const styles = StyleSheet.create({
 		color: "#1B1C1E",
 	},
 	absoluteText: {
-		position: 'realative', 
-		zIndex: 1, 
+		position: "realative",
+		zIndex: 1,
 	},
 
 	underlay: {
-		zIndex: 0, 
-		position: 'relative', 
-		bottom: 0, 
-		left:-10
+		zIndex: 0,
+		position: "relative",
+		bottom: 0,
+		left: -10,
 	},
 
 	otherUserTrail: {
 		zIndex: 0,
-		position: 'absolute',
-		top:0,
-		left: -7, 
+		position: "absolute",
+		top: 0,
+		left: -7,
 	},
 
 	trailOtherContainer: {
 		zIndex: 0,
-		position: 'absolute', 
-        alignItems: 'auto',
+		position: "absolute",
+		alignItems: "auto",
 		marginLeft: 4,
-        marginRight: 2, 
-        paddingVertical: 0, 
-		paddingBottom: 2
-    },
+		marginRight: 2,
+		paddingVertical: 0,
+		paddingBottom: 2,
+	},
 
 	trailContainer: {
 		zIndex: 0,
-		position: 'relative', 
-        marginTop: "auto",
-        alignItems: 'flex-end',
+		position: "relative",
+		marginTop: "auto",
+		alignItems: "flex-end",
 		marginLeft: -2,
-        marginRight: -2, 
-        paddingVertical: 0,
-		paddingBottom: 2
-    },
+		marginRight: -2,
+		paddingVertical: 0,
+		paddingBottom: 2,
+	},
 	bubble: {
 		zIndex: 1,
 		paddingTop: 7,
 		paddingBottom: 8,
-		paddingRight: 8, 
+		paddingRight: 8,
 		paddingLeft: 8,
 		maxWidth: 200,
-		backgroundColor: "#EDEEF2", 
+		backgroundColor: "#EDEEF2",
 		marginBottom: 2,
 	},
 	myBubble: {
@@ -285,17 +287,16 @@ const styles = StyleSheet.create({
 		backgroundColor: "#2964e0",
 		borderTopLeftRadius: 12,
 		borderTopRightRadius: 12,
-		borderBottomLeftRadius: 12, 
-		borderBottomRightRadius: 12, 
-		
+		borderBottomLeftRadius: 12,
+		borderBottomRightRadius: 12,
 	},
 	otherBubble: {
 		borderTopLeftRadius: 12,
 		borderTopRightRadius: 12,
-		borderBottomLeftRadius: 12, 
-		borderBottomRightRadius: 12, 
+		borderBottomLeftRadius: 12,
+		borderBottomRightRadius: 12,
 		backgroundColor: "#EDEEF2",
-		marginLeft:-4
+		marginLeft: -4,
 	},
 	unionIcon: {
 		width: 12,
