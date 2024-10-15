@@ -126,7 +126,6 @@ const ChatRoomPage = ({ route }) => {
 						publishMessage({
 							chatType: "EXIT",
 							chatroomId: chatroomId,
-							memberId: memberId,
 						});
 						navigation.navigate("Chat");
 					},
@@ -169,6 +168,7 @@ const ChatRoomPage = ({ route }) => {
 							{item.map((msg, idx) => {
 								return (
 									<ChatBubble
+										key={msg.id}
 										fileId={otherMember.profileImg?.id}
 										username={msg.member.username}
 										message={msg.message}
@@ -184,7 +184,7 @@ const ChatRoomPage = ({ route }) => {
 					)}
 				/>
 			</View>
-			<ChatInputSend chatroomId={chatroomInfo.id} memberId={memberId} />
+			<ChatInputSend chatroomId={chatroomInfo.id} />
 			{menuOpen && (
 				<TouchableOpacity
 					onPress={toggleMenu}

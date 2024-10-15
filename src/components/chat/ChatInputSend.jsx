@@ -16,7 +16,7 @@ import * as SecureStore from "expo-secure-store";
 
 const { fontBody14 } = CustomTheme;
 
-const ChatInputSend = ({ chatroomId, memberId }) => {
+const ChatInputSend = ({ chatroomId }) => {
 	const [chatInput, setChatInput] = useState("");
 	const [plusClick, setPlusClick] = useState(false);
 	const { publishMessage } = useWebSocket();
