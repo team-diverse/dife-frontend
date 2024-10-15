@@ -9,6 +9,7 @@ import { Client } from "@stomp/stompjs";
 import { getChatroomsByType, getChatsByChatroomId } from "../config/api";
 import Loading from "@components/common/loading/Loading";
 import { sortByIds } from "util/util";
+import * as SecureStore from "expo-secure-store";
 
 const WebSocketContext = createContext(null);
 
@@ -17,42 +18,55 @@ export const WebSocketProvider = ({ children }) => {
 	const [chatrooms, setChatrooms] = useState([]);
 	const [messages, setMessages] = useState({});
 	const [isConnected, setIsConnected] = useState(false);
+	const [token, setToken] = useState(null); 
 	const WS_URL = process.env.EXPO_PUBLIC_WS_URL;
 
 	useEffect(() => {
-		ws.current = new Client({
-			brokerURL: WS_URL,
-			debug: (str) => {
-				console.log(str);
-			},
-			reconnectDelay: 0,
-			onConnect: async () => {
-				const { allChatrooms } = await updateChatroomsAndMessages();
-				subscribeToChatrooms(allChatrooms);
-				setIsConnected(true);
-			},
-			onStompError: (frame) => {
-				console.log(
-					"Broker reported error: " + frame.headers["message"],
-				);
-				console.log("Additional details: " + frame.body);
-			},
-			onWebSocketError: (error) => {
-				console.log("WebSocket error: " + error);
-			},
-			onWebSocketClose: () => {
-				console.log("WebSocket connection closed");
-			},
-		});
+		const connectWebSocket = async () => {
+			try {
+				const token = await SecureStore.getItemAsync("refreshToken");
+				setToken(token);
+			  } catch (error) {
+				console.error("Failed to retrieve the refresh token:", error);
+			  }
 
-		ws.current.activate();
+			ws.current = new Client({
+				brokerURL: WS_URL,
+				debug: (str) => {
+					console.log(str);
+				},
+				reconnectDelay: 0,
+				connectHeaders: {
+					'authorization': `Bearer ${token}`
+				},
+				onConnect: async () => {
+					const { allChatrooms } = await updateChatroomsAndMessages();
+					subscribeToChatrooms(allChatrooms, token);
+					setIsConnected(true);
+				},
+				onStompError: (frame) => {
+					console.log("Broker reported error: " + frame.headers["message"]);
+					console.log("Additional details: " + frame.body);
+				},
+				onWebSocketError: (error) => {
+					console.log("WebSocket error: " + error);
+				},
+				onWebSocketClose: () => {
+					console.log("WebSocket connection closed");
+				},
+			});
+
+			ws.current.activate();
+		};
+
+		connectWebSocket();
 
 		return () => {
 			if (ws.current) {
 				disconnectWebSocket();
 			}
 		};
-	}, []);
+	}, [token]);
 
 	const updateChatroomsAndMessages = async () => {
 		const { allChatrooms, initialMessages } =
@@ -62,18 +76,30 @@ export const WebSocketProvider = ({ children }) => {
 		return { allChatrooms, initialMessages };
 	};
 
-	const subscribeToChatrooms = (chatrooms) => {
+	const subscribeToChatrooms = (chatrooms, token) => {
 		chatrooms.forEach(({ id }) => {
-			ws.current.subscribe(`/sub/chatroom/${id}`, (message) => {
-				handleIncomingMessage(id, message.body);
-			});
+			ws.current.subscribe(
+				`/sub/chatroom/${id}`,
+				(message) => {
+					handleIncomingMessage(id, message.body);
+				},
+				{
+					'authorization': `Bearer ${token}`
+				}
+			);
 		});
 	};
-
-	const subscribeToNewChatroom = (chatroomId) => {
-		ws.current.subscribe(`/sub/chatroom/${chatroomId}`, (message) => {
-			handleIncomingMessage(chatroomId, message.body);
-		});
+	
+	const subscribeToNewChatroom = (chatroomId, token) => {
+		ws.current.subscribe(
+			`/sub/chatroom/${chatroomId}`,
+			(message) => {
+				handleIncomingMessage(chatroomId, message.body);
+			},
+			{
+				'authorization': `Bearer ${token}`
+			}
+		);
 	};
 
 	const handleIncomingMessage = (chatroomId, message) => {
@@ -109,14 +135,22 @@ export const WebSocketProvider = ({ children }) => {
 
 	const publishMessage = (message) => {
 		if (ws.current && ws.current.connected) {
+			const { token, ...messageWithoutToken } = message; 
+	
 			ws.current.publish({
 				destination: `/pub/chatroom/chat`,
-				body: JSON.stringify(message),
+				headers: {
+					"content-type": "application/json",
+					'authorization' : `Bearer ${token}`
+				},
+				body: JSON.stringify(messageWithoutToken), 
 			});
+			console.log(messageWithoutToken);
 		} else {
 			console.log("Client is not connected");
 		}
 	};
+	
 
 	const disconnectWebSocket = () => {
 		ws.current.deactivate();

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	TextInput,
@@ -12,6 +12,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 import IconChatSend from "@components/chat/IconChatSend";
 import { useWebSocket } from "context/WebSocketContext";
+import * as SecureStore from "expo-secure-store";
 
 const { fontBody14 } = CustomTheme;
 
@@ -19,6 +20,16 @@ const ChatInputSend = ({ chatroomId, memberId }) => {
 	const [chatInput, setChatInput] = useState("");
 	const [plusClick, setPlusClick] = useState(false);
 	const { publishMessage } = useWebSocket();
+	const [token, setToken] = useState(null); 
+
+	useEffect(() => {
+		const fetchToken = async () => {
+			const retrievedToken = await SecureStore.getItemAsync("refreshToken");
+			setToken(retrievedToken);
+		};
+
+		fetchToken();
+	}, []);
 
 	const handleInputFocus = () => {
 		if (plusClick) {
@@ -28,14 +39,16 @@ const ChatInputSend = ({ chatroomId, memberId }) => {
 
 	const handleSend = () => {
 		const trimmedChatInput = chatInput.trim();
-		if (trimmedChatInput) {
+		if (trimmedChatInput && token) {
 			publishMessage({
 				chatType: "CHAT",
 				chatroomId,
-				memberId,
 				message: trimmedChatInput,
+				token, 
 			});
 			setChatInput("");
+		} else {
+			console.log("Token is missing or input is empty");
 		}
 	};
 
