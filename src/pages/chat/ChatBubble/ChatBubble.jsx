@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
 		fontFamily: "Noto Sans CJK KR",
 	},
 	message: {
-		fontSize: 14,
+		fontSize: 15,
 		lineHeight: 20,
 		textAlign: "left",
 		fontFamily: "Noto Sans CJK KR",
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
 		marginTop: "auto",
 		alignItems: "flex-end",
 		marginLeft: -2,
-		marginRight: -2,
+		marginRight: 2,
 		paddingVertical: 0,
 		paddingBottom: 2,
 	},
