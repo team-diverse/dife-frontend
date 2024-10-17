@@ -8,6 +8,9 @@ import {
 	Dimensions,
 	FlatList,
 	Alert,
+	Platform,
+	NativeModules,
+	KeyboardAvoidingView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -45,6 +48,9 @@ const ChatRoomPage = ({ route }) => {
 	const flatListRef = useRef(null);
 	const [bookmarkedCount, setBookmarkedCount] = useState(0);
 	const { publishMessage } = useWebSocket();
+	const { StatusBarManager } = NativeModules;
+	const isAtBottomRef = useRef(true);
+	const scrollOffsetRef = useRef(0);
 
 	useEffect(() => {
 		const fetchMyMemberId = async () => {
@@ -55,11 +61,28 @@ const ChatRoomPage = ({ route }) => {
 	}, []);
 
 	useEffect(() => {
-		if (flatListRef.current) {
-			flatListRef.current.scrollToEnd({ animated: true });
+		Platform.OS == "ios"
+			? StatusBarManager.getHeight((statusBarFrameData) => {
+					setStatusBarHeight(statusBarFrameData.height);
+				})
+			: null;
+	}, []);
+
+	useEffect(() => {
+		if (isAtBottomRef.current && flatListRef.current) {
+			setTimeout(() => {
+				flatListRef.current.scrollToEnd({ animated: true });
+			}, 100);
 		}
 	}, [messages]);
 
+	const [statusBarHeight, setStatusBarHeight] = useState(0);
+
+	const handleContentSizeChange = () => {
+		if (flatListRef.current) {
+			flatListRef.current.scrollToEnd({ animated: true });
+		}
+	};
 	const groupMessages = (messages) => {
 		const groupedMessages = [];
 		let currentGroup = [];
@@ -135,6 +158,24 @@ const ChatRoomPage = ({ route }) => {
 		);
 	};
 
+	const handleScroll = (event) => {
+		const { contentOffset, contentSize, layoutMeasurement } =
+			event.nativeEvent;
+		scrollOffsetRef.current = contentOffset.y;
+		const isNearBottom =
+			contentOffset.y + layoutMeasurement.height >=
+			contentSize.height - 20;
+		isAtBottomRef.current = isNearBottom;
+	};
+
+	const handleInputFocus = () => {
+		if (flatListRef.current) {
+			setTimeout(() => {
+				flatListRef.current.scrollToEnd({ animated: true });
+			}, 100);
+		}
+	};
+
 	return (
 		<SafeAreaView style={ChatRoomStyles.container}>
 			<View style={ChatRoomStyles.containerTopBar}>
@@ -162,7 +203,6 @@ const ChatRoomPage = ({ route }) => {
 					ref={flatListRef}
 					data={groupMessages(messages[chatroomInfo.id] || [])}
 					keyExtractor={(item, index) => index.toString()}
-					showsVerticalScrollIndicator={false}
 					renderItem={({ item }) => (
 						<>
 							{item.map((msg, idx) => {
@@ -182,9 +222,21 @@ const ChatRoomPage = ({ route }) => {
 							})}
 						</>
 					)}
+					onContentSizeChange={handleContentSizeChange}
+					onScroll={handleScroll}
 				/>
 			</View>
-			<ChatInputSend chatroomId={chatroomInfo.id} />
+			<KeyboardAvoidingView
+				behavior="padding"
+				keyboardVerticalOffset={statusBarHeight - 50}
+				onContentSizeChange={handleContentSizeChange}
+			>
+				<ChatInputSend
+					chatroomId={chatroomInfo.id}
+					onFocus={handleInputFocus}
+				/>
+			</KeyboardAvoidingView>
+
 			{menuOpen && (
 				<TouchableOpacity
 					onPress={toggleMenu}
