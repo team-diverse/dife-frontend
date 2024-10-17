@@ -126,7 +126,6 @@ const ChatRoomPage = ({ route }) => {
 						publishMessage({
 							chatType: "EXIT",
 							chatroomId: chatroomId,
-							memberId: memberId,
 						});
 						navigation.navigate("Chat");
 					},
@@ -185,7 +184,7 @@ const ChatRoomPage = ({ route }) => {
 					)}
 				/>
 			</View>
-			<ChatInputSend chatroomId={chatroomInfo.id} memberId={memberId} />
+			<ChatInputSend chatroomId={chatroomInfo.id} />
 			{menuOpen && (
 				<TouchableOpacity
 					onPress={toggleMenu}
