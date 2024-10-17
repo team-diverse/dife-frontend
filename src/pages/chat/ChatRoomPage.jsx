@@ -31,6 +31,7 @@ import IconChatOut from "@components/chat/IconChatOut";
 import IconChatNotification from "@components/chat/IconChatNotification";
 import IconChatSetting from "@components/chat/IconChatSetting";
 import ChatBubble from "@pages/chat/ChatBubble/ChatBubble";
+import { getRefreshToken } from "util/secureStoreUtils";
 
 const ChatRoomPage = ({ route }) => {
 	const { t } = useTranslation();
@@ -51,6 +52,7 @@ const ChatRoomPage = ({ route }) => {
 	const { StatusBarManager } = NativeModules;
 	const isAtBottomRef = useRef(true);
 	const scrollOffsetRef = useRef(0);
+	const [token, setToken] = useState(null);
 
 	useEffect(() => {
 		const fetchMyMemberId = async () => {
@@ -58,6 +60,13 @@ const ChatRoomPage = ({ route }) => {
 			setMemberId(myMemberId);
 		};
 		fetchMyMemberId();
+
+		const fetchToken = async () => {
+			const token = await getRefreshToken();
+			setToken(token);
+		};
+
+		fetchToken();
 	}, []);
 
 	useEffect(() => {

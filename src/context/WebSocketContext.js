@@ -64,7 +64,7 @@ export const WebSocketProvider = ({ children }) => {
 				disconnectWebSocket();
 			}
 		};
-	}, [token]);
+	}, []);
 
 	const updateChatroomsAndMessages = async () => {
 		const { allChatrooms, initialMessages } =
