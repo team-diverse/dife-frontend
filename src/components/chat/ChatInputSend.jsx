@@ -4,8 +4,7 @@ import {
 	TextInput,
 	StyleSheet,
 	TouchableOpacity,
-	KeyboardAvoidingView,
-	Platform,
+	Keyboard,
 } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
@@ -16,9 +15,8 @@ import { getRefreshToken } from "util/secureStoreUtils";
 
 const { fontBody14 } = CustomTheme;
 
-const ChatInputSend = ({ chatroomId }) => {
+const ChatInputSend = ({ chatroomId, onFocus }) => {
 	const [chatInput, setChatInput] = useState("");
-	const [plusClick, setPlusClick] = useState(false);
 	const { publishMessage } = useWebSocket();
 	const [token, setToken] = useState(null);
 
@@ -30,12 +28,6 @@ const ChatInputSend = ({ chatroomId }) => {
 
 		fetchToken();
 	}, []);
-
-	const handleInputFocus = () => {
-		if (plusClick) {
-			setPlusClick(false);
-		}
-	};
 
 	const handleSend = () => {
 		const trimmedChatInput = chatInput.trim();
@@ -53,24 +45,20 @@ const ChatInputSend = ({ chatroomId }) => {
 	};
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
-		>
-			<View style={styles.rectangle}>
-				<TextInput
-					style={[styles.input, { paddingLeft: 17 }]}
-					value={chatInput}
-					onChangeText={setChatInput}
-					onFocus={handleInputFocus}
-				/>
-				<TouchableOpacity
-					style={styles.rectangleBlue}
-					onPress={handleSend}
-				>
-					<IconChatSend />
-				</TouchableOpacity>
-			</View>
-		</KeyboardAvoidingView>
+		<View style={styles.rectangle}>
+			<TextInput
+				style={[styles.input, { paddingLeft: 17 }]}
+				value={chatInput}
+				onChangeText={setChatInput}
+				onFocus={onFocus}
+				onBlur={Keyboard.dismiss}
+				placeholder="Type a message..."
+			/>
+
+			<TouchableOpacity style={styles.rectangleBlue} onPress={handleSend}>
+				<IconChatSend />
+			</TouchableOpacity>
+		</View>
 	);
 };
 

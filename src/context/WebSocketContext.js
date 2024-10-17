@@ -18,13 +18,11 @@ export const WebSocketProvider = ({ children }) => {
 	const [chatrooms, setChatrooms] = useState([]);
 	const [messages, setMessages] = useState({});
 	const [isConnected, setIsConnected] = useState(false);
-	const [token, setToken] = useState(null);
 	const WS_URL = process.env.EXPO_PUBLIC_WS_URL;
 
 	useEffect(() => {
 		const connectWebSocket = async () => {
 			const token = await getRefreshToken();
-			setToken(token);
 
 			ws.current = new Client({
 				brokerURL: WS_URL,
@@ -64,7 +62,7 @@ export const WebSocketProvider = ({ children }) => {
 				disconnectWebSocket();
 			}
 		};
-	}, [token]);
+	}, []);
 
 	const updateChatroomsAndMessages = async () => {
 		const { allChatrooms, initialMessages } =
