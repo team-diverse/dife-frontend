@@ -1,10 +1,10 @@
 import { Client } from "@stomp/stompjs";
 import { WS_URL } from "@env";
-import * as SecureStore from "expo-secure-store";
+import { getRefreshToken } from "util/secureStoreUtils";
 
 export const connectWebSocket = async (onMessage) => {
 	try {
-		const token = await SecureStore.getItemAsync("refreshToken");
+		const token = await getRefreshToken();
 		if (!token) {
 			console.error("Failed to retrieve token");
 			return;

@@ -12,7 +12,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 import IconChatSend from "@components/chat/IconChatSend";
 import { useWebSocket } from "context/WebSocketContext";
-import * as SecureStore from "expo-secure-store";
+import { getRefreshToken } from "util/secureStoreUtils";
 
 const { fontBody14 } = CustomTheme;
 
@@ -24,9 +24,8 @@ const ChatInputSend = ({ chatroomId }) => {
 
 	useEffect(() => {
 		const fetchToken = async () => {
-			const retrievedToken =
-				await SecureStore.getItemAsync("refreshToken");
-			setToken(retrievedToken);
+			const token = await getRefreshToken();
+			setToken(token);
 		};
 
 		fetchToken();

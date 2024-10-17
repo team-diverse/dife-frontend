@@ -11,3 +11,12 @@ export const getMyMemberId = async () => {
 		return null;
 	}
 };
+
+export const getRefreshToken = async () => {
+	try {
+		const token = await SecureStore.getItemAsync("refreshToken");
+		return token;
+	} catch (error) {
+		console.error("Failed to retrieve the refresh token:", error);
+	}
+};

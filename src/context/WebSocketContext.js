@@ -9,7 +9,7 @@ import { Client } from "@stomp/stompjs";
 import { getChatroomsByType, getChatsByChatroomId } from "../config/api";
 import Loading from "@components/common/loading/Loading";
 import { sortByIds } from "util/util";
-import * as SecureStore from "expo-secure-store";
+import { getRefreshToken } from "util/secureStoreUtils";
 
 const WebSocketContext = createContext(null);
 
@@ -23,12 +23,8 @@ export const WebSocketProvider = ({ children }) => {
 
 	useEffect(() => {
 		const connectWebSocket = async () => {
-			try {
-				const token = await SecureStore.getItemAsync("refreshToken");
-				setToken(token);
-			} catch (error) {
-				console.error("Failed to retrieve the refresh token:", error);
-			}
+			const token = await getRefreshToken();
+			setToken(token);
 
 			ws.current = new Client({
 				brokerURL: WS_URL,
