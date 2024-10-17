@@ -8,12 +8,9 @@ import {
 	Dimensions,
 	FlatList,
 	Alert,
-<<<<<<< HEAD
 	Platform,
 	NativeModules,
 	KeyboardAvoidingView,
-=======
->>>>>>> db51006 (Dev (#148))
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
