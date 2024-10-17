@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
+	KeyboardAvoidingView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Device from "expo-device";
@@ -148,29 +149,22 @@ const LoginPage = () => {
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
 			<SafeAreaView style={LoginStyles.container}>
 				<DifeLine style={LoginStyles.backgroundLogin} />
+
 				<Text style={LoginStyles.textTitle}>{t("loginTitle")}</Text>
 				<Text style={LoginStyles.textSubTitle}>
 					{t("loginSubtitle")}
 				</Text>
-				<View style={LoginStyles.containerIdPw}>
-					<Text style={LoginStyles.textIdPw}>ID (Email Address)</Text>
-					<TextInput
-						ref={emailRef}
-						style={
-							loginFailed
-								? [
-										LoginStyles.textInputIdPw,
-										{ borderColor: CustomTheme.warningRed },
-									]
-								: LoginStyles.textInputIdPw
-						}
-						placeholder={t("placeholderEmail")}
-						autoCorrect={false}
-						onChangeText={(text) => handleEmail(text)}
-					/>
-					<Text style={LoginStyles.textIdPw}>Password</Text>
-					<View style={LoginStyles.textInputPwContainer}>
+
+				<KeyboardAvoidingView
+					behavior={"position"}
+					keyboardVerticalOffset={20}
+				>
+					<View style={LoginStyles.containerIdPw}>
+						<Text style={LoginStyles.textIdPw}>
+							ID (Email Address)
+						</Text>
 						<TextInput
+							ref={emailRef}
 							style={
 								loginFailed
 									? [
@@ -182,31 +176,52 @@ const LoginPage = () => {
 										]
 									: LoginStyles.textInputIdPw
 							}
-							placeholder={t("placeholderPassword")}
-							onChangeText={(text) => handlePassword(text)}
-							value={valuePW}
-							secureTextEntry={!showPW}
+							placeholder={t("placeholderEmail")}
+							autoCorrect={false}
+							onChangeText={(text) => handleEmail(text)}
 						/>
-						<TouchableOpacity
-							style={LoginStyles.iconSee}
-							onPress={handleShowPW}
-						>
-							{valuePW == "" ? null : showPW ? (
-								<IconSeePw />
-							) : (
-								<IconNotSeePw />
-							)}
-						</TouchableOpacity>
-					</View>
-					{loginFailed && (
-						<View style={LoginStyles.containerError}>
-							<InfoCircle color={CustomTheme.warningRed} />
-							<Text style={LoginStyles.textError}>
-								{t("loginError")}
-							</Text>
+
+						<Text style={LoginStyles.textIdPw}>Password</Text>
+						<View style={LoginStyles.textInputPwContainer}>
+							<TextInput
+								style={
+									loginFailed
+										? [
+												LoginStyles.textInputIdPw,
+												{
+													borderColor:
+														CustomTheme.warningRed,
+												},
+											]
+										: LoginStyles.textInputIdPw
+								}
+								placeholder={t("placeholderPassword")}
+								onChangeText={(text) => handlePassword(text)}
+								value={valuePW}
+								secureTextEntry={!showPW}
+							/>
+
+							<TouchableOpacity
+								style={LoginStyles.iconSee}
+								onPress={handleShowPW}
+							>
+								{valuePW == "" ? null : showPW ? (
+									<IconSeePw />
+								) : (
+									<IconNotSeePw />
+								)}
+							</TouchableOpacity>
 						</View>
-					)}
-				</View>
+						{loginFailed && (
+							<View style={LoginStyles.containerError}>
+								<InfoCircle color={CustomTheme.warningRed} />
+								<Text style={LoginStyles.textError}>
+									{t("loginError")}
+								</Text>
+							</View>
+						)}
+					</View>
+				</KeyboardAvoidingView>
 
 				<View style={LoginStyles.containerButtonSignupLogin}>
 					<BottomTwoButtons>
