@@ -1,63 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	TextInput,
 	StyleSheet,
 	TouchableOpacity,
-	KeyboardAvoidingView,
-	Platform,
+	Keyboard,
 } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
 import IconChatSend from "@components/chat/IconChatSend";
 import { useWebSocket } from "context/WebSocketContext";
+import { getRefreshToken } from "util/secureStoreUtils";
 
 const { fontBody14 } = CustomTheme;
 
-const ChatInputSend = ({ chatroomId, memberId }) => {
+const ChatInputSend = ({ chatroomId, onFocus }) => {
 	const [chatInput, setChatInput] = useState("");
-	const [plusClick, setPlusClick] = useState(false);
 	const { publishMessage } = useWebSocket();
+	const [token, setToken] = useState(null);
 
-	const handleInputFocus = () => {
-		if (plusClick) {
-			setPlusClick(false);
-		}
-	};
+	useEffect(() => {
+		const fetchToken = async () => {
+			const token = await getRefreshToken();
+			setToken(token);
+		};
+
+		fetchToken();
+	}, []);
 
 	const handleSend = () => {
 		const trimmedChatInput = chatInput.trim();
-		if (trimmedChatInput) {
+		if (trimmedChatInput && token) {
 			publishMessage({
 				chatType: "CHAT",
 				chatroomId,
-				memberId,
 				message: trimmedChatInput,
+				token,
 			});
 			setChatInput("");
+		} else {
+			console.log("Token is missing or input is empty");
 		}
 	};
 
 	return (
-		<KeyboardAvoidingView
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
-		>
-			<View style={styles.rectangle}>
-				<TextInput
-					style={[styles.input, { paddingLeft: 17 }]}
-					value={chatInput}
-					onChangeText={setChatInput}
-					onFocus={handleInputFocus}
-				/>
-				<TouchableOpacity
-					style={styles.rectangleBlue}
-					onPress={handleSend}
-				>
-					<IconChatSend />
-				</TouchableOpacity>
-			</View>
-		</KeyboardAvoidingView>
+		<View style={styles.rectangle}>
+			<TextInput
+				style={[styles.input, { paddingLeft: 17 }]}
+				value={chatInput}
+				onChangeText={setChatInput}
+				onFocus={onFocus}
+				onBlur={Keyboard.dismiss}
+				placeholder="Type a message..."
+			/>
+
+			<TouchableOpacity style={styles.rectangleBlue} onPress={handleSend}>
+				<IconChatSend />
+			</TouchableOpacity>
+		</View>
 	);
 };
 
