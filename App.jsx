@@ -184,8 +184,10 @@ function AppContent() {
 				const memberId = await SecureStore.getItemAsync("memberId");
 				const accessToken =
 					await SecureStore.getItemAsync("accessToken");
+				const refreshToken =
+					await SecureStore.getItemAsync("refreshToken");
 
-				if (memberId && accessToken) {
+				if (memberId && (accessToken || refreshToken)) {
 					try {
 						const profileResponse = await getMyProfile();
 						if (profileResponse.data.isVerified) {
