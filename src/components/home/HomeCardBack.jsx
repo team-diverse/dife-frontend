@@ -15,7 +15,6 @@ import { getMyMemberId } from "util/secureStoreUtils";
 import HomecardDifeB from "@components/home/HomecardDifeB";
 import HomeProfile from "@components/home/HomeProfile";
 import HomecardBackBtn from "@components/home/HomecardBackBtn.js";
-import ModalRequest from "@components/common/ModalRequest";
 
 const { fontCaption } = CustomTheme;
 
@@ -23,7 +22,6 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
-	const [modalVisible, setModalVisible] = useState(false);
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
 	const [requestSent, setRequestSent] = useState(false);
@@ -77,7 +75,6 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 
 	const pressButton = () => {
 		if (connectStatus === undefined) {
-			setModalVisible(true);
 			requestConnect();
 		} else {
 			deleteConnect();
@@ -147,12 +144,6 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 					onPress={pressButton}
 				/>
 			</View>
-			<ModalRequest
-				modalVisible={modalVisible}
-				setModalVisible={setModalVisible}
-				textLoading={t("connectRequestInProgress")}
-				textComplete={t("connectRequestComplete")}
-			/>
 		</View>
 	);
 };
