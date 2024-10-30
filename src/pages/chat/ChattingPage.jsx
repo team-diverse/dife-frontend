@@ -28,6 +28,7 @@ import IconChatPlus from "@components/chat/IconChatPlus";
 import ChatroomItem from "@components/chat/ChatroomItem";
 import ArrowRight from "@components/common/ArrowRight";
 import IconSearchFail from "@components/common/IconSearchFail";
+import { useWebSocket } from "context/WebSocketContext";
 
 const ChattingPage = () => {
 	const { t } = useTranslation();
@@ -40,6 +41,7 @@ const ChattingPage = () => {
 	const [searchData, setSearchData] = useState("");
 	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
+	const { messages } = useWebSocket();
 
 	const [isIndividualTab, setIsIndividualTab] = useState(true);
 
@@ -112,6 +114,12 @@ const ChattingPage = () => {
 
 	const data = searchData ? searchData : singleChatRoomList;
 
+	const getLatestMessage = (chatroomId) => {
+		return (
+			messages[chatroomId][messages[chatroomId].length - 1].message || ""
+		);
+	};
+
 	const renderCommunity = () => (
 		<View style={ChattingStyles.containerChatItems}>
 			<View style={ChattingStyles.flatlist}>
@@ -124,7 +132,7 @@ const ChattingPage = () => {
 							chatroomInfo={item}
 							myMemberId={myMemberId}
 							name={item.name || "Unknown"}
-							context={item.lastChat || ""}
+							context={getLatestMessage(item.id)}
 							time={formatKoreanTime(item.created)}
 						/>
 					)}
