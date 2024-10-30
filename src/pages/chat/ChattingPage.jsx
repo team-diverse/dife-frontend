@@ -15,10 +15,10 @@ import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
 
 import ChattingStyles from "@pages/chat/ChattingStyles";
-import { useWebSocket } from "context/WebSocketContext";
 import { getMyMemberId } from "util/secureStoreUtils";
 import formatKoreanTime from "util/formatTime";
 import { getChatroomSearch } from "config/api";
+import { getChatroomsByType } from "config/api";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -34,24 +34,20 @@ const ChattingPage = () => {
 	const navigation = useNavigation();
 
 	const [myMemberId, setMyMemberId] = useState(null);
-	const { chatrooms, messages, updateChatroomsAndMessages } = useWebSocket();
-
+	const [searchChatRoomList, setSearchChatroomList] = useState([]);
+	const [singleChatRoomList, setSingleChatRoomList] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
-	const [searchData, setSearchData] = useState(null);
+	const [searchData, setSearchData] = useState("");
 	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
 
-	const getLatestChatByChatroomId = (id) => {
-		const chats = messages[id] || [];
-		return chats.length ? chats[chats.length - 1].message : "";
-	};
-
-	const [isIndividualTab] = useState(false);
+	const [isIndividualTab, setIsIndividualTab] = useState(true);
 
 	const handleSearch = async () => {
 		try {
 			const response = await getChatroomSearch(searchTerm);
 			setSearchData(response.data);
+			setSearchChatroomList(response.data);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -90,38 +86,49 @@ const ChattingPage = () => {
 		fetchMyMemberId();
 	}, []);
 
+	const fetchSingleChatroomList = async () => {
+		try {
+			const response = await getChatroomsByType("SINGLE");
+			setSingleChatRoomList(response.data);
+
+			if (response.data.length === 0) {
+				setIsIndividualTab(false);
+			} else {
+				setIsIndividualTab(true);
+			}
+		} catch (error) {
+			console.error("Failed to fetch single chatrooms:", error);
+		}
+	};
+
 	useFocusEffect(
 		useCallback(() => {
-			updateChatroomsAndMessages();
+			fetchSingleChatroomList();
 		}, []),
 	);
 
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
 
-	const data = searchData ? searchData : chatrooms;
-
-	const onCompleteExit = () => {
-		updateChatroomsAndMessages();
-	};
+	const data = searchData ? searchData : singleChatRoomList;
 
 	const renderCommunity = () => (
 		<View style={ChattingStyles.containerChatItems}>
 			<View style={ChattingStyles.flatlist}>
 				<FlatList
 					contentContainerStyle={ChattingStyles.flatlistContent}
+					keyExtractor={(item) => item.id}
 					data={data}
 					renderItem={({ item }) => (
 						<ChatroomItem
 							chatroomInfo={item}
 							myMemberId={myMemberId}
-							name={item.name}
-							context={getLatestChatByChatroomId(item.id)}
+							name={item.name || "Unknown"}
+							context={item.lastChat || ""}
 							time={formatKoreanTime(item.created)}
-							onCompleteExit={onCompleteExit}
 						/>
 					)}
-					keyExtractor={(item) => item.id}
+					onEndReachedThreshold={0.1}
 				/>
 			</View>
 		</View>
@@ -198,10 +205,9 @@ const ChattingPage = () => {
 				>
 					<IconChatPlus />
 				</TouchableOpacity>
-
 				{isIndividualTab ? (
-					<></>
-				) : chatrooms.length ? (
+					<>{renderCommunity()}</>
+				) : searchChatRoomList.length ? (
 					searchFail ? (
 						<View style={ChattingStyles.containerFail}>
 							<IconSearchFail />
