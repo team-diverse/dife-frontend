@@ -29,6 +29,7 @@ import ChatroomItem from "@components/chat/ChatroomItem";
 import ArrowRight from "@components/common/ArrowRight";
 import IconSearchFail from "@components/common/IconSearchFail";
 import { useWebSocket } from "context/WebSocketContext";
+import { getRefreshToken } from "util/secureStoreUtils";
 
 const ChattingPage = () => {
 	const { t } = useTranslation();
@@ -41,9 +42,9 @@ const ChattingPage = () => {
 	const [searchData, setSearchData] = useState("");
 	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
-	const { messages } = useWebSocket();
-
+	const { messages, subscribeToNewChatroom } = useWebSocket();
 	const [isIndividualTab, setIsIndividualTab] = useState(true);
+	const [token, setToken] = useState(null);
 
 	const handleSearch = async () => {
 		try {
@@ -84,11 +85,14 @@ const ChattingPage = () => {
 		const fetchMyMemberId = async () => {
 			const myMemberId = await getMyMemberId();
 			setMyMemberId(myMemberId);
+
+			const token = await getRefreshToken();
+			setToken(token);
 		};
 		fetchMyMemberId();
 	}, []);
 
-	const fetchSingleChatroomList = async () => {
+	const fetchSingleChatroomList = useCallback(async () => {
 		try {
 			const response = await getChatroomsByType("SINGLE");
 			setSingleChatRoomList(response.data);
@@ -101,12 +105,12 @@ const ChattingPage = () => {
 		} catch (error) {
 			console.error("Failed to fetch single chatrooms:", error);
 		}
-	};
+	}, []);
 
 	useFocusEffect(
 		useCallback(() => {
 			fetchSingleChatroomList();
-		}, []),
+		}, [fetchSingleChatroomList]),
 	);
 
 	const { height: screenHeight } = Dimensions.get("window");
@@ -114,12 +118,15 @@ const ChattingPage = () => {
 
 	const data = searchData ? searchData : singleChatRoomList;
 
-	const getLatestMessage = (chatroomId) => {
+	const getLatestMessage = (chatroomId, content) => {
+		if (!messages[chatroomId] || messages[chatroomId]?.length == 0) {
+			subscribeToNewChatroom(chatroomId, token);
+			return content;
+		}
 		return (
 			messages[chatroomId][messages[chatroomId].length - 1].message || ""
 		);
 	};
-
 	const renderCommunity = () => (
 		<View style={ChattingStyles.containerChatItems}>
 			<View style={ChattingStyles.flatlist}>
@@ -132,7 +139,7 @@ const ChattingPage = () => {
 							chatroomInfo={item}
 							myMemberId={myMemberId}
 							name={item.name || "Unknown"}
-							context={getLatestMessage(item.id)}
+							context={getLatestMessage(item.id, item.lastChat)}
 							time={formatKoreanTime(item.created)}
 						/>
 					)}

@@ -21,7 +21,7 @@ import { useWebSocket } from "context/WebSocketContext";
 import formatKoreanTime from "util/formatTime";
 import { getMyMemberId } from "util/secureStoreUtils";
 import { sortByIds } from "util/util";
-import { getBookmarkedByChatroomId } from "config/api";
+import { getBookmarkedByChatroomId, getChatsByChatroomId } from "config/api";
 
 import ArrowRight from "@components/common/ArrowRight";
 import ChatInputSend from "@components/chat/ChatInputSend";
@@ -41,6 +41,7 @@ const ChatRoomPage = ({ route }) => {
 	const screenWidth = Dimensions.get("window").width;
 	const menuAnim = useRef(new Animated.Value(screenWidth)).current;
 	const { messages } = useWebSocket();
+	const [initialMessages, setInitialMessages] = useState([]);
 	const { chatroomInfo } = route.params;
 	const [memberId, setMemberId] = useState(null);
 	const members = sortByIds(chatroomInfo.members);
@@ -83,11 +84,31 @@ const ChatRoomPage = ({ route }) => {
 			flatListRef.current.scrollToEnd({ animated: true });
 		}
 	};
+
+	useEffect(() => {
+		const fetchChatroomMessages = async () => {
+			try {
+				const response = await getChatsByChatroomId(chatroomInfo.id);
+				const messages = response.data;
+				console.log(messages);
+				setInitialMessages(messages);
+			} catch (error) {
+				console.error("Failed to fetch chatroom messages:", error);
+				setInitialMessages([]);
+			}
+		};
+		fetchChatroomMessages();
+	}, []);
+
 	const groupMessages = (messages) => {
 		const groupedMessages = [];
 		let currentGroup = [];
+		const messageIds = new Set();
 
 		messages.forEach((message, index) => {
+			if (messageIds.has(message.id)) return;
+			messageIds.add(message.id);
+
 			const isFirstMessage = index === 0;
 			const isDifferentUser =
 				!isFirstMessage &&
@@ -176,6 +197,13 @@ const ChatRoomPage = ({ route }) => {
 		}
 	};
 
+	const data = groupMessages([
+		...(initialMessages || []),
+		...(messages && messages[chatroomInfo.id]
+			? messages[chatroomInfo.id]
+			: []),
+	]);
+
 	return (
 		<SafeAreaView style={ChatRoomStyles.container}>
 			<View style={ChatRoomStyles.containerTopBar}>
@@ -201,7 +229,7 @@ const ChatRoomPage = ({ route }) => {
 			<View style={ChatRoomStyles.containerChat}>
 				<FlatList
 					ref={flatListRef}
-					data={groupMessages(messages[chatroomInfo.id] || [])}
+					data={data}
 					keyExtractor={(item, index) => index.toString()}
 					renderItem={({ item }) => (
 						<>
