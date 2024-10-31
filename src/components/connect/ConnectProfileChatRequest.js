@@ -1,35 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
-import ModalRequest from "@components/common/ModalRequest";
-
 const { fontSub16 } = CustomTheme;
 
 const ConnectProfileChatRequest = () => {
 	const { t } = useTranslation();
-	const [modalVisible, setModalVisible] = useState(false);
-
-	const pressButton = () => {
-		setModalVisible(true);
-	};
 
 	return (
 		<View style={styles.rectangle}>
 			<TouchableOpacity style={styles.chat}>
 				<Text style={styles.textChat}>{t("chat")}</Text>
 			</TouchableOpacity>
-			<TouchableOpacity style={styles.request} onPress={pressButton}>
+			<TouchableOpacity style={styles.request}>
 				<Text style={styles.textRequest}>{t("requestButtonText")}</Text>
 			</TouchableOpacity>
-			<ModalRequest
-				modalVisible={modalVisible}
-				setModalVisible={setModalVisible}
-				textLoading={t("connectRequestInProgress")}
-				textComplete={t("connectRequestComplete")}
-			/>
 		</View>
 	);
 };
