@@ -93,8 +93,22 @@ const ChattingPage = () => {
 	const fetchSingleChatroomList = useCallback(async () => {
 		try {
 			const response = await getChatroomsByType("SINGLE");
-			setSingleChatRoomList(response.data);
-			console.log("Fetched chatrooms:", response.data);
+			const sortedChatrooms = response.data.sort((a, b) => {
+				const latestMessageA =
+					messages[a.id]?.[messages[a.id].length - 1];
+				const latestMessageB =
+					messages[b.id]?.[messages[b.id].length - 1];
+
+				const timeA = latestMessageA
+					? new Date(latestMessageA.created)
+					: new Date(a.created);
+				const timeB = latestMessageB
+					? new Date(latestMessageB.created)
+					: new Date(b.created);
+
+				return timeB - timeA;
+			});
+			setSingleChatRoomList(sortedChatrooms);
 
 			if (response.data.length === 0) {
 				setIsIndividualTab(false);
@@ -104,7 +118,7 @@ const ChattingPage = () => {
 		} catch (error) {
 			console.error("Failed to fetch single chatrooms:", error);
 		}
-	}, []);
+	}, [messages]);
 
 	useFocusEffect(
 		useCallback(() => {
