@@ -21,40 +21,6 @@ export const WebSocketProvider = ({ children }) => {
 	const WS_URL = process.env.EXPO_PUBLIC_WS_URL;
 
 	useEffect(() => {
-		const connectWebSocket = async () => {
-			const token = await getRefreshToken();
-
-			ws.current = new Client({
-				brokerURL: WS_URL,
-				debug: (str) => {
-					console.log(str);
-				},
-				reconnectDelay: 0,
-				connectHeaders: {
-					authorization: `Bearer ${token}`,
-				},
-				onConnect: async () => {
-					const { allChatrooms } = await updateChatroomsAndMessages();
-					subscribeToChatrooms(allChatrooms, token);
-					setIsConnected(true);
-				},
-				onStompError: (frame) => {
-					console.log(
-						"Broker reported error: " + frame.headers["message"],
-					);
-					console.log("Additional details: " + frame.body);
-				},
-				onWebSocketError: (error) => {
-					console.log("WebSocket error: " + error);
-				},
-				onWebSocketClose: () => {
-					console.log("WebSocket connection closed");
-				},
-			});
-
-			ws.current.activate();
-		};
-
 		connectWebSocket();
 
 		return () => {
@@ -64,6 +30,38 @@ export const WebSocketProvider = ({ children }) => {
 		};
 	}, []);
 
+	const connectWebSocket = async () => {
+		if (ws.current && ws.current.connected) return;
+
+		const token = await getRefreshToken();
+		ws.current = new Client({
+			brokerURL: WS_URL,
+			debug: (str) => console.log(str),
+			reconnectDelay: 0,
+			connectHeaders: {
+				authorization: `Bearer ${token}`,
+			},
+			onConnect: async () => {
+				const { allChatrooms } = await updateChatroomsAndMessages();
+				subscribeToChatrooms(allChatrooms, token);
+				setIsConnected(true);
+			},
+			onStompError: (frame) =>
+				console.error(
+					"Broker reported error:",
+					frame.headers["message"],
+				),
+			onWebSocketError: (error) =>
+				console.error("WebSocket error:", error),
+			onWebSocketClose: () => {
+				console.log("WebSocket connection closed");
+				setIsConnected(false);
+			},
+		});
+
+		ws.current.activate();
+	};
+
 	const updateChatroomsAndMessages = async () => {
 		const { allChatrooms, initialMessages } =
 			await getAuthorizedChatrooms();
@@ -72,29 +70,23 @@ export const WebSocketProvider = ({ children }) => {
 		return { allChatrooms, initialMessages };
 	};
 
-	const subscribeToChatrooms = (chatrooms, token) => {
+	const subscribeToChatrooms = async (chatrooms, token) => {
+		await connectWebSocket();
 		chatrooms.forEach(({ id }) => {
 			ws.current.subscribe(
 				`/sub/chatroom/${id}`,
-				(message) => {
-					handleIncomingMessage(id, message.body);
-				},
-				{
-					authorization: `Bearer ${token}`,
-				},
+				(message) => handleIncomingMessage(id, message.body),
+				{ authorization: `Bearer ${token}` },
 			);
 		});
 	};
 
-	const subscribeToNewChatroom = (chatroomId, token) => {
+	const subscribeToNewChatroom = async (chatroomId, token) => {
+		await connectWebSocket();
 		ws.current.subscribe(
 			`/sub/chatroom/${chatroomId}`,
-			(message) => {
-				handleIncomingMessage(chatroomId, message.body);
-			},
-			{
-				authorization: `Bearer ${token}`,
-			},
+			(message) => handleIncomingMessage(chatroomId, message.body),
+			{ authorization: `Bearer ${token}` },
 		);
 	};
 
@@ -129,10 +121,11 @@ export const WebSocketProvider = ({ children }) => {
 		return { allChatrooms, initialMessages };
 	};
 
-	const publishMessage = (message) => {
+	const publishMessage = async (message) => {
+		await connectWebSocket();
+
 		if (ws.current && ws.current.connected) {
 			const { token, ...messageWithoutToken } = message;
-
 			ws.current.publish({
 				destination: `/pub/chatroom/chat`,
 				headers: {
