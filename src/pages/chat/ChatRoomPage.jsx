@@ -236,7 +236,7 @@ const ChatRoomPage = ({ route }) => {
 								return (
 									<ChatBubble
 										key={msg.id}
-										fileId={otherMember.profileImg?.id}
+										fileId={otherMember?.profileImg?.id}
 										username={msg.member.username}
 										message={msg.message}
 										time={formatKoreanTime(msg.created)}

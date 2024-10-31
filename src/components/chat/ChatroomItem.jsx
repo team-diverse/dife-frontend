@@ -35,7 +35,7 @@ const ChatroomItem = ({
 		(member) => member.id !== myMemberId,
 	);
 	const otherMemberProfileImageId = otherMember?.profileImg?.id;
-	const username = otherMember.username;
+	const username = otherMember?.username ?? "UNKNOWN";
 	const screenWidth = Dimensions.get("window").width;
 	const { publishMessage } = useWebSocket();
 	const [isSwiping, setIsSwiping] = useState(false);
