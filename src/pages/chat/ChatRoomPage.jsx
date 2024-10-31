@@ -175,13 +175,15 @@ const ChatRoomPage = ({ route }) => {
 				},
 				{
 					text: t("exitChatroomButton"),
-					onPress: () => {
-						publishMessage({
+					onPress: async () => {
+						await publishMessage({
 							chatType: "EXIT",
 							chatroomId: chatroomId,
 							token,
 						});
-						navigation.navigate("Chat");
+						setTimeout(() => {
+							navigation.navigate("Chat");
+						}, 500);
 					},
 				},
 			],
