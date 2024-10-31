@@ -258,9 +258,6 @@
 	"checkInfo": "入力した情報が正しいか確認してください",
 	"createGroupButton": "グループ作成",
 
-	"connectRequestInProgress": "接続リクエスト中",
-	"connectRequestComplete": "接続リクエスト完了！",
-
 	"max3Selection": "最大3つまで選択可能",
 	"mbti": "MBTI",
 	"hobby": "趣味/関心",
