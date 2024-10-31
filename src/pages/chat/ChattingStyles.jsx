@@ -110,7 +110,7 @@ const ChattingStyles = StyleSheet.create({
 		width: "100%",
 	},
 	flatlistContent: {
-		alignItems: "center",
+		// alignItems: "center",
 	},
 	containerChatItems: {
 		flex: 1,
