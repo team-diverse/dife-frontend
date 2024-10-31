@@ -19,7 +19,7 @@ import { useTranslation } from "react-i18next";
 import ChatRoomStyles from "@pages/chat/ChatRoomStyles";
 import { useWebSocket } from "context/WebSocketContext";
 import formatKoreanTime from "util/formatTime";
-import { getMyMemberId } from "util/secureStoreUtils";
+import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 import { sortByIds } from "util/util";
 import { getBookmarkedByChatroomId, getChatsByChatroomId } from "config/api";
 
@@ -52,6 +52,16 @@ const ChatRoomPage = ({ route }) => {
 	const { StatusBarManager } = NativeModules;
 	const isAtBottomRef = useRef(true);
 	const scrollOffsetRef = useRef(0);
+	const [token, setToken] = useState(null);
+
+	useEffect(() => {
+		const fetchToken = async () => {
+			const token = await getRefreshToken();
+			setToken(token);
+		};
+
+		fetchToken();
+	}, []);
 
 	useEffect(() => {
 		const fetchMyMemberId = async () => {
@@ -164,11 +174,12 @@ const ChatRoomPage = ({ route }) => {
 					style: "cancel",
 				},
 				{
-					text: "나가기",
+					text: t("exitChatroomButton"),
 					onPress: () => {
 						publishMessage({
 							chatType: "EXIT",
 							chatroomId: chatroomId,
+							token,
 						});
 						navigation.navigate("Chat");
 					},

@@ -15,10 +15,9 @@ import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
 
 import ChattingStyles from "@pages/chat/ChattingStyles";
-import { getMyMemberId } from "util/secureStoreUtils";
+import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 import formatKoreanTime from "util/formatTime";
-import { getChatroomSearch } from "config/api";
-import { getChatroomsByType } from "config/api";
+import { getChatroomSearch, getChatroomsByType } from "config/api";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -29,7 +28,6 @@ import ChatroomItem from "@components/chat/ChatroomItem";
 import ArrowRight from "@components/common/ArrowRight";
 import IconSearchFail from "@components/common/IconSearchFail";
 import { useWebSocket } from "context/WebSocketContext";
-import { getRefreshToken } from "util/secureStoreUtils";
 
 const ChattingPage = () => {
 	const { t } = useTranslation();
@@ -96,6 +94,7 @@ const ChattingPage = () => {
 		try {
 			const response = await getChatroomsByType("SINGLE");
 			setSingleChatRoomList(response.data);
+			console.log("Fetched chatrooms:", response.data);
 
 			if (response.data.length === 0) {
 				setIsIndividualTab(false);
@@ -110,8 +109,14 @@ const ChattingPage = () => {
 	useFocusEffect(
 		useCallback(() => {
 			fetchSingleChatroomList();
-		}, [fetchSingleChatroomList]),
+		}, []),
 	);
+
+	const onCompleteExit = () => {
+		setTimeout(() => {
+			fetchSingleChatroomList();
+		}, 500);
+	};
 
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
@@ -127,11 +132,11 @@ const ChattingPage = () => {
 			messages[chatroomId][messages[chatroomId].length - 1].message || ""
 		);
 	};
+
 	const renderCommunity = () => (
 		<View style={ChattingStyles.containerChatItems}>
 			<View style={ChattingStyles.flatlist}>
 				<FlatList
-					contentContainerStyle={ChattingStyles.flatlistContent}
 					keyExtractor={(item) => item.id}
 					data={data}
 					renderItem={({ item }) => (
@@ -141,6 +146,7 @@ const ChattingPage = () => {
 							name={item.name || "Unknown"}
 							context={getLatestMessage(item.id, item.lastChat)}
 							time={formatKoreanTime(item.created)}
+							onCompleteExit={onCompleteExit}
 						/>
 					)}
 					onEndReachedThreshold={0.1}
