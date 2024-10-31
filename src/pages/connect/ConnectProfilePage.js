@@ -71,12 +71,13 @@ const ConnectProfilePage = ({ route }) => {
 
 	useEffect(() => {
 		getConnectStatus();
-	}, [connectStatus]);
+	}, []);
 
 	const requestConnect = async () => {
 		try {
 			const response = await requestConnectById(memberId);
 			setConnectStatus(response.data.status);
+			getConnectStatus();
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -89,6 +90,7 @@ const ConnectProfilePage = ({ route }) => {
 	const handleAcceptedConnect = async () => {
 		try {
 			await acceptedConnectByMemberId(memberId);
+			getConnectStatus();
 		} catch (error) {
 			console.error(
 				"커넥트 수락 오류:",
@@ -101,6 +103,7 @@ const ConnectProfilePage = ({ route }) => {
 		try {
 			await rejectedConnectByConnectId(connectId);
 			setConnectStatus(undefined);
+			getConnectStatus();
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -122,7 +125,6 @@ const ConnectProfilePage = ({ route }) => {
 		} else {
 			handleConnectAlert();
 		}
-		getConnectStatus();
 	};
 
 	const handleConnectAlert = () => {

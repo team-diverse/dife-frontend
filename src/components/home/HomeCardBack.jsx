@@ -14,7 +14,7 @@ import { getMyMemberId } from "util/secureStoreUtils";
 
 import HomecardDifeB from "@components/home/HomecardDifeB";
 import HomeProfile from "@components/home/HomeProfile";
-import HomecardBackBtn from "@components/home/HomecardBackBtn.js";
+import HomecardBackBtn from "@components/home/HomecardBackBtn";
 
 const { fontCaption } = CustomTheme;
 
@@ -33,7 +33,7 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 			setConnectId(response.data.id);
 
 			const myMebmberId = await getMyMemberId();
-			setRequestSent(response.data.from_member.id == myMebmberId);
+			setRequestSent(response.data.from_member.id === myMebmberId);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -43,10 +43,15 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 		}
 	};
 
+	useEffect(() => {
+		getConnectStatus();
+	}, []);
+
 	const requestConnect = async () => {
 		try {
 			const response = await requestConnectById(memberId);
 			setConnectStatus(response.data.status);
+			getConnectStatus();
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -56,14 +61,11 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 		}
 	};
 
-	useEffect(() => {
-		getConnectStatus();
-	}, [connectStatus]);
-
 	const deleteConnect = async () => {
 		try {
 			await rejectedConnectByConnectId(connectId);
 			setConnectStatus(undefined);
+			getConnectStatus();
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
