@@ -1,13 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import {
 	acceptedConnectByMemberId,
 	rejectedConnectByConnectId,
+	createSingleChatroom,
 } from "config/api";
+import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
+import { useWebSocket } from "context/WebSocketContext";
 
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconSend from "@components/common/IconSend";
@@ -25,8 +29,8 @@ const ItemRequestConnectList = ({
 }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
-
 	const iconRef = useRef();
+	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
 
 	const [modalVisible, setModalVisible] = useState(false);
 	const [modalPosition, setModalPosition] = useState({
@@ -35,6 +39,16 @@ const ItemRequestConnectList = ({
 		width: 0,
 		height: 0,
 	});
+	const [token, setToken] = useState(null);
+
+	useEffect(() => {
+		const fetchToken = async () => {
+			const token = await getRefreshToken();
+			setToken(token);
+		};
+
+		fetchToken();
+	}, []);
 
 	const handleIconPress = () => {
 		setModalVisible(true);
@@ -64,6 +78,39 @@ const ItemRequestConnectList = ({
 				"커넥트 거절 오류:",
 				error.response ? error.response.data : error.message,
 			);
+		}
+	};
+
+	const isRelevantSingleChatroom = (chatroom, myMemberId, otherMemberId) => {
+		if (chatroom.chatroom_type !== "SINGLE") {
+			return false;
+		}
+		const members = chatroom.members;
+		const memberIds = members.map((member) => member.id);
+		console.log(memberIds.includes(otherMemberId));
+		return (
+			memberIds.includes(myMemberId) && memberIds.includes(otherMemberId)
+		);
+	};
+
+	const handleCreateSingleChatroom = async () => {
+		try {
+			const myMemberId = await getMyMemberId();
+			let chatroomInfo = chatrooms.find((chatroom) =>
+				isRelevantSingleChatroom(chatroom, myMemberId, memberId),
+			);
+
+			if (!chatroomInfo) {
+				const response = await createSingleChatroom(memberId, name);
+				chatroomInfo = response.data;
+				subscribeToNewChatroom(chatroomInfo.id, token);
+			}
+			navigation.navigate("ChatRoomPage", {
+				chatroomInfo,
+			});
+		} catch (error) {
+			Sentry.captureException(error);
+			console.log("채팅방 생성 에러:", error);
 		}
 	};
 
@@ -130,10 +177,11 @@ const ItemRequestConnectList = ({
 							<Text style={styles.textPending}>
 								{t("pending")}
 							</Text>
-							<TouchableOpacity>
-								<View style={styles.rectangleChat}>
-									<IconSend />
-								</View>
+							<TouchableOpacity
+								style={styles.rectangleChat}
+								onPress={handleCreateSingleChatroom}
+							>
+								<IconSend />
 							</TouchableOpacity>
 							<TouchableOpacity
 								style={styles.iconMenu}
