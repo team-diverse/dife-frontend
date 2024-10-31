@@ -258,9 +258,6 @@
 	"checkInfo": "请检查信息是否正确",
 	"createGroupButton": "创建群组",
 
-	"connectRequestInProgress": "连接请求处理中",
-	"connectRequestComplete": "连接请求完成！",
-
 	"max3Selection": "最多选择3个",
 	"mbti": "MBTI",
 	"hobby": "爱好/兴趣",

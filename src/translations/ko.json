@@ -257,9 +257,6 @@
 	"checkInfo": "입력한 정보가 맞는지 확인해주세요",
 	"createGroupButton": "그룹 생성하기",
 
-	"connectRequestInProgress": "커넥트 요청중",
-	"connectRequestComplete": "커넥트 요청 완료!",
-
 	"max3Selection": "최대 3개까지 선택 가능",
 	"mbti": "MBTI",
 	"hobby": "취미/관심사",

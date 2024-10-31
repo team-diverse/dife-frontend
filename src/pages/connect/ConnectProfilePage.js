@@ -22,7 +22,6 @@ import ConnectProfileIntroduction from "@components/connect/ConnectProfileIntrod
 import ConnectProfileTag from "@components/connect/ConnectProfileTag";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
-import ModalRequest from "@components/common/ModalRequest";
 import * as Sentry from "@sentry/react-native";
 
 const ConnectProfilePage = ({ route }) => {
@@ -32,7 +31,6 @@ const ConnectProfilePage = ({ route }) => {
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
 	const [requestSent, setRequestSent] = useState(false);
-	const [modalConnectVisible, setModalConnectVisible] = useState(false);
 	const [heart, setHeart] = useState(false);
 
 	const getConnectProfile = async () => {
@@ -73,12 +71,13 @@ const ConnectProfilePage = ({ route }) => {
 
 	useEffect(() => {
 		getConnectStatus();
-	}, [connectStatus]);
+	}, []);
 
 	const requestConnect = async () => {
 		try {
 			const response = await requestConnectById(memberId);
 			setConnectStatus(response.data.status);
+			getConnectStatus();
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -91,6 +90,7 @@ const ConnectProfilePage = ({ route }) => {
 	const handleAcceptedConnect = async () => {
 		try {
 			await acceptedConnectByMemberId(memberId);
+			getConnectStatus();
 		} catch (error) {
 			console.error(
 				"커넥트 수락 오류:",
@@ -103,6 +103,7 @@ const ConnectProfilePage = ({ route }) => {
 		try {
 			await rejectedConnectByConnectId(connectId);
 			setConnectStatus(undefined);
+			getConnectStatus();
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -114,7 +115,6 @@ const ConnectProfilePage = ({ route }) => {
 
 	const handleConnect = () => {
 		if (connectStatus === undefined) {
-			setModalConnectVisible(true);
 			requestConnect();
 		} else if (connectStatus === "PENDING") {
 			if (requestSent) {
@@ -125,7 +125,6 @@ const ConnectProfilePage = ({ route }) => {
 		} else {
 			handleConnectAlert();
 		}
-		getConnectStatus();
 	};
 
 	const handleConnectAlert = () => {
@@ -250,12 +249,6 @@ const ConnectProfilePage = ({ route }) => {
 					/>
 				</BottomTwoButtons>
 			</View>
-			<ModalRequest
-				modalVisible={modalConnectVisible}
-				setModalVisible={setModalConnectVisible}
-				textLoading={t("connectRequestInProgress")}
-				textComplete={t("connectRequestComplete")}
-			/>
 		</SafeAreaView>
 	);
 };
