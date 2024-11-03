@@ -25,6 +25,8 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
 	const [requestSent, setRequestSent] = useState(false);
+	const [buttonText1, setButtonText1] = useState(t("noButtonText"));
+	const [buttonText2, setButtonText2] = useState(t("requestButtonText"));
 
 	const getConnectStatus = async () => {
 		try {
@@ -88,6 +90,29 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 
 	const translation2 = t("connectRequestSuccess", { username: name });
 	const [beforeUsername2, afterUsername2] = translation2.split(name);
+
+	useEffect(() => {
+		if (requestSent) {
+			const timer = setTimeout(() => {
+				setButtonText1(
+					connectStatus === undefined
+						? t("noButtonText")
+						: t("backButton"),
+				);
+				setButtonText2(
+					connectStatus === undefined
+						? t("requestButtonText")
+						: connectStatus === "PENDING"
+							? requestSent
+								? t("cancelRequestButtonText")
+								: t("acceptRequestButtonText")
+							: t("cancelConnectButtonText"),
+				);
+			}, 100);
+			return () => clearTimeout(timer);
+		}
+	}, [requestSent, connectStatus, t]);
+
 	return (
 		<View style={styles.rectangle}>
 			<View style={styles.homecardDifeB}>
@@ -125,26 +150,8 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 				</View>
 			</View>
 			<View style={styles.homecardBackBtn}>
-				<HomecardBackBtn
-					btnText={
-						connectStatus === undefined
-							? t("noButtonText")
-							: t("backButton")
-					}
-					onPress={onPress}
-				/>
-				<HomecardBackBtn
-					btnText={
-						connectStatus === undefined
-							? t("requestButtonText")
-							: connectStatus === "PENDING"
-								? requestSent
-									? t("cancelRequestButtonText")
-									: t("acceptRequestButtonText")
-								: t("cancelConnectButtonText")
-					}
-					onPress={pressButton}
-				/>
+				<HomecardBackBtn btnText={buttonText1} onPress={onPress} />
+				<HomecardBackBtn btnText={buttonText2} onPress={pressButton} />
 			</View>
 		</View>
 	);

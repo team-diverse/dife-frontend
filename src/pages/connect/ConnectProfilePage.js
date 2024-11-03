@@ -32,6 +32,18 @@ const ConnectProfilePage = ({ route }) => {
 	const [connectId, setConnectId] = useState();
 	const [requestSent, setRequestSent] = useState(false);
 	const [heart, setHeart] = useState(false);
+	const [name, setName] = useState();
+	const [token, setToken] = useState(null);
+	const [buttonText, setButtonText] = useState(t("requestButtonText"));
+
+	useEffect(() => {
+		const fetchToken = async () => {
+			const token = await getRefreshToken();
+			setToken(token);
+		};
+
+		fetchToken();
+	}, []);
 
 	const getConnectProfile = async () => {
 		try {
@@ -175,6 +187,23 @@ const ConnectProfilePage = ({ route }) => {
 		}
 	};
 
+	useEffect(() => {
+		if (requestSent) {
+			const timer = setTimeout(() => {
+				setButtonText(
+					connectStatus === undefined
+						? t("requestButtonText")
+						: connectStatus === "PENDING"
+							? requestSent
+								? t("cancelRequestButtonText")
+								: t("acceptRequestButtonText")
+							: t("cancelConnectButtonText"),
+				);
+			}, 100);
+			return () => clearTimeout(timer);
+		}
+	}, [requestSent, connectStatus, t]);
+
 	return (
 		<SafeAreaView
 			style={[ConnectProfileStyles.container, { alignItems: "center" }]}
@@ -234,19 +263,11 @@ const ConnectProfilePage = ({ route }) => {
 			</View>
 			<View style={ConnectProfileStyles.bottomTwoButtons}>
 				<BottomTwoButtons shadow="true">
-					<View text={t("chat")} onPress={handleChat} />
 					<View
-						text={
-							connectStatus === undefined
-								? t("requestButtonText")
-								: connectStatus === "PENDING"
-									? requestSent
-										? t("cancelRequestButtonText")
-										: t("acceptRequestButtonText")
-									: t("cancelConnectButtonText")
-						}
-						onPress={handleConnect}
+						text={t("chat")}
+						onPress={handleCreateSingleChatroom}
 					/>
+					<View text={buttonText} onPress={handleConnect} />
 				</BottomTwoButtons>
 			</View>
 		</SafeAreaView>
