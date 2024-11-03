@@ -13,8 +13,8 @@ import * as Sentry from "@sentry/react-native";
 import ModalKebabMenuConnectList from "@components/member/ModalKebabMenuConnectList";
 import { getRefreshToken } from "util/secureStoreUtils";
 
-const FriendList = ({ connectId, memberId, name, fileId }) => {
-	const navigation = useNavigation("");
+const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
+	const navigation = useNavigation();
 	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
 	const [token, setToken] = useState(null);
 
@@ -122,6 +122,7 @@ const FriendList = ({ connectId, memberId, name, fileId }) => {
 								connectId={connectId}
 								memberId={memberId}
 								position={modalPosition}
+								onStatusChange={onStatusChange}
 							/>
 						)}
 					</View>
