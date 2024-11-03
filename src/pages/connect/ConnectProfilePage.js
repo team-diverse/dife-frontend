@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { SafeAreaView, ScrollView, View, Text, Alert } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import * as Sentry from "@sentry/react-native";
 
 import {
 	getProfileById,
@@ -77,9 +79,11 @@ const ConnectProfilePage = ({ route }) => {
 		}
 	};
 
-	useEffect(() => {
-		getConnectProfile();
-	}, []);
+	useFocusEffect(
+		useCallback(() => {
+			getConnectProfile();
+		}, []),
+	);
 
 	useEffect(() => {
 		getConnectStatus();
@@ -220,9 +224,7 @@ const ConnectProfilePage = ({ route }) => {
 						<ConnectProfileBackground />
 					</View>
 					<View style={ConnectProfileStyles.simpleProfileContainer}>
-						<ConnectProfile
-							profile={profileData.profilePresignUrl}
-						/>
+						<ConnectProfile fileId={profileData.profileImg?.id} />
 						<Text style={ConnectProfileStyles.username}>
 							{profileData.username}
 						</Text>
