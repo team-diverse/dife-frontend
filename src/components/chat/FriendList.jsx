@@ -1,17 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import * as Sentry from "@sentry/react-native";
+
 import { CustomTheme } from "@styles/CustomTheme";
+import { useWebSocket } from "context/WebSocketContext";
+import { getRefreshToken } from "util/secureStoreUtils";
+import { createChatroom } from "util/createChatroom";
 
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconSend from "@components/common/IconSend";
 import IconMenu from "@components/chat/IconMenu";
-import { createSingleChatroom } from "config/api";
-import { useNavigation } from "@react-navigation/native";
-import { useWebSocket } from "context/WebSocketContext";
-import { getMyMemberId } from "util/secureStoreUtils";
-import * as Sentry from "@sentry/react-native";
 import ModalKebabMenuConnectList from "@components/member/ModalKebabMenuConnectList";
-import { getRefreshToken } from "util/secureStoreUtils";
 
 const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
 	const navigation = useNavigation();
@@ -27,35 +27,20 @@ const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
 		fetchToken();
 	}, []);
 
-	const isRelevantSingleChatroom = (chatroom, myMemberId, otherMemberId) => {
-		if (chatroom.chatroom_type !== "SINGLE") {
-			return false;
-		}
-		const members = chatroom.members;
-		const memberIds = members.map((member) => member.id);
-		return (
-			memberIds.includes(myMemberId) && memberIds.includes(otherMemberId)
-		);
-	};
-
 	const handleCreateSingleChatroom = async () => {
 		try {
-			const myMemberId = await getMyMemberId();
-			let chatroomInfo = chatrooms.find((chatroom) =>
-				isRelevantSingleChatroom(chatroom, myMemberId, memberId),
+			const chatroomInfo = await createChatroom(
+				memberId,
+				name,
+				chatrooms,
+				subscribeToNewChatroom,
+				token,
 			);
-
-			if (!chatroomInfo) {
-				const response = await createSingleChatroom(memberId, name);
-				chatroomInfo = response.data;
-				subscribeToNewChatroom(chatroomInfo.id, token);
-			}
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,
 			});
 		} catch (error) {
 			Sentry.captureException(error);
-			console.log("채팅방 생성 에러:", error);
 		}
 	};
 
