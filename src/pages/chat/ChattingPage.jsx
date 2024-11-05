@@ -15,10 +15,9 @@ import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
 
 import ChattingStyles from "@pages/chat/ChattingStyles";
-import { getMyMemberId } from "util/secureStoreUtils";
+import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 import formatKoreanTime from "util/formatTime";
-import { getChatroomSearch } from "config/api";
-import { getChatroomsByType } from "config/api";
+import { getChatroomSearch, getChatroomsByType } from "config/api";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -29,7 +28,6 @@ import ChatroomItem from "@components/chat/ChatroomItem";
 import ArrowRight from "@components/common/ArrowRight";
 import IconSearchFail from "@components/common/IconSearchFail";
 import { useWebSocket } from "context/WebSocketContext";
-import { getRefreshToken } from "util/secureStoreUtils";
 
 const ChattingPage = () => {
 	const { t } = useTranslation();
@@ -95,7 +93,22 @@ const ChattingPage = () => {
 	const fetchSingleChatroomList = useCallback(async () => {
 		try {
 			const response = await getChatroomsByType("SINGLE");
-			setSingleChatRoomList(response.data);
+			const sortedChatrooms = response.data.sort((a, b) => {
+				const latestMessageA =
+					messages[a.id]?.[messages[a.id].length - 1];
+				const latestMessageB =
+					messages[b.id]?.[messages[b.id].length - 1];
+
+				const timeA = latestMessageA
+					? new Date(latestMessageA.created)
+					: new Date(a.created);
+				const timeB = latestMessageB
+					? new Date(latestMessageB.created)
+					: new Date(b.created);
+
+				return timeB - timeA;
+			});
+			setSingleChatRoomList(sortedChatrooms);
 
 			if (response.data.length === 0) {
 				setIsIndividualTab(false);
@@ -105,13 +118,19 @@ const ChattingPage = () => {
 		} catch (error) {
 			console.error("Failed to fetch single chatrooms:", error);
 		}
-	}, []);
+	}, [messages]);
 
 	useFocusEffect(
 		useCallback(() => {
 			fetchSingleChatroomList();
-		}, [fetchSingleChatroomList]),
+		}, []),
 	);
+
+	const onCompleteExit = () => {
+		setTimeout(() => {
+			fetchSingleChatroomList();
+		}, 500);
+	};
 
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
@@ -127,11 +146,11 @@ const ChattingPage = () => {
 			messages[chatroomId][messages[chatroomId].length - 1].message || ""
 		);
 	};
+
 	const renderCommunity = () => (
 		<View style={ChattingStyles.containerChatItems}>
 			<View style={ChattingStyles.flatlist}>
 				<FlatList
-					contentContainerStyle={ChattingStyles.flatlistContent}
 					keyExtractor={(item) => item.id}
 					data={data}
 					renderItem={({ item }) => (
@@ -141,6 +160,7 @@ const ChattingPage = () => {
 							name={item.name || "Unknown"}
 							context={getLatestMessage(item.id, item.lastChat)}
 							time={formatKoreanTime(item.created)}
+							onCompleteExit={onCompleteExit}
 						/>
 					)}
 					onEndReachedThreshold={0.1}

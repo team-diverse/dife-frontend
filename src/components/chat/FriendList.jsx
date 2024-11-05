@@ -50,7 +50,7 @@ const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
 				chatroomInfo = response.data;
 				subscribeToNewChatroom(chatroomInfo.id, token);
 			}
-			navigation.replace("ChatRoomPage", {
+			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,
 			});
 		} catch (error) {
@@ -101,10 +101,11 @@ const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
 						</Text>
 					</TouchableOpacity>
 					<View style={styles.containerIcon}>
-						<TouchableOpacity onPress={handleCreateSingleChatroom}>
-							<View style={styles.rectangleChat}>
-								<IconSend />
-							</View>
+						<TouchableOpacity
+							style={styles.rectangleChat}
+							onPress={handleCreateSingleChatroom}
+						>
+							<IconSend />
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={styles.iconMenu}

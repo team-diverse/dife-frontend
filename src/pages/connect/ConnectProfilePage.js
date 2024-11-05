@@ -14,7 +14,9 @@ import {
 	deleteLikeMember,
 } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
-import { getMyMemberId } from "util/secureStoreUtils";
+import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
+import { useWebSocket } from "context/WebSocketContext";
+import { createSingleChatroom } from "config/api";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
 import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";
@@ -24,11 +26,12 @@ import ConnectProfileIntroduction from "@components/connect/ConnectProfileIntrod
 import ConnectProfileTag from "@components/connect/ConnectProfileTag";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
-import * as Sentry from "@sentry/react-native";
 
 const ConnectProfilePage = ({ route }) => {
 	const { memberId } = route.params;
 	const { t } = useTranslation();
+	const navigation = useNavigation();
+	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
 	const [profileData, setProfileData] = useState([]);
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
@@ -52,6 +55,7 @@ const ConnectProfilePage = ({ route }) => {
 			const response = await getProfileById(memberId);
 			const updatedData = formatProfileData([response.data]);
 			setProfileData(updatedData[0]);
+			setName(response.data.username);
 			setHeart(response.data.isLiked);
 		} catch (error) {
 			Sentry.captureException(error);
@@ -163,8 +167,36 @@ const ConnectProfilePage = ({ route }) => {
 		);
 	};
 
-	const handleChat = () => {
-		null;
+	const isRelevantSingleChatroom = (chatroom, myMemberId, otherMemberId) => {
+		if (chatroom.chatroom_type !== "SINGLE") {
+			return false;
+		}
+		const members = chatroom.members;
+		const memberIds = members.map((member) => member.id);
+		return (
+			memberIds.includes(myMemberId) && memberIds.includes(otherMemberId)
+		);
+	};
+
+	const handleCreateSingleChatroom = async () => {
+		try {
+			const myMemberId = await getMyMemberId();
+			let chatroomInfo = chatrooms.find((chatroom) =>
+				isRelevantSingleChatroom(chatroom, myMemberId, memberId),
+			);
+
+			if (!chatroomInfo) {
+				const response = await createSingleChatroom(memberId, name);
+				chatroomInfo = response.data;
+				subscribeToNewChatroom(chatroomInfo.id, token);
+			}
+			navigation.navigate("ChatRoomPage", {
+				chatroomInfo,
+			});
+		} catch (error) {
+			Sentry.captureException(error);
+			console.log("채팅방 생성 에러:", error);
+		}
 	};
 
 	const handleCreateHeart = async () => {
