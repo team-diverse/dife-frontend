@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
 	SafeAreaView,
 	View,
@@ -226,12 +226,20 @@ const ChatRoomPage = ({ route }) => {
 		}
 	};
 
-	const data = groupMessages([
-		...(initialMessages || []),
-		...(messages && messages[chatroomInfo.id]
-			? messages[chatroomInfo.id]
-			: []),
-	]);
+	const data = useMemo(() => {
+		const allMessages = [
+			...(initialMessages || []),
+			...(messages && messages[chatroomInfo.id]
+				? messages[chatroomInfo.id]
+				: []),
+		];
+
+		const uniqueMessages = Array.from(
+			new Map(allMessages.map((msg) => [msg.id, msg])).values(),
+		).sort((a, b) => new Date(a.created) - new Date(b.created));
+
+		return groupMessages(uniqueMessages);
+	}, [initialMessages, messages, chatroomInfo.id]);
 
 	return (
 		<SafeAreaView style={ChatRoomStyles.container}>
@@ -259,7 +267,7 @@ const ChatRoomPage = ({ route }) => {
 				<FlatList
 					ref={flatListRef}
 					data={data}
-					keyExtractor={(item, index) => index.toString()}
+					keyExtractor={(item) => item.id}
 					renderItem={({ item }) => (
 						<>
 							{item.map((msg, idx) => {
