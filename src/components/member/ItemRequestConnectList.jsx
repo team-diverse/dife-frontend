@@ -26,6 +26,7 @@ const ItemRequestConnectList = ({
 	name,
 	fileId,
 	received = false,
+	onStatusChange,
 }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
@@ -62,6 +63,7 @@ const ItemRequestConnectList = ({
 	const handleAcceptedConnect = async () => {
 		try {
 			await acceptedConnectByMemberId(memberId);
+			onStatusChange();
 		} catch (error) {
 			console.error(
 				"커넥트 수락 오류:",
@@ -73,6 +75,7 @@ const ItemRequestConnectList = ({
 	const handleRejectedConnect = async () => {
 		try {
 			await rejectedConnectByConnectId(connectId);
+			onStatusChange();
 		} catch (error) {
 			console.error(
 				"커넥트 거절 오류:",
@@ -200,6 +203,7 @@ const ItemRequestConnectList = ({
 									memberId={memberId}
 									pending={true}
 									position={modalPosition}
+									onStatusChange={onStatusChange}
 								/>
 							)}
 						</>

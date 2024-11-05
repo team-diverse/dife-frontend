@@ -21,6 +21,7 @@ const ModalKebabMenuConnectList = ({
 	memberId,
 	pending = false,
 	position,
+	onStatusChange,
 }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
@@ -49,6 +50,7 @@ const ModalKebabMenuConnectList = ({
 	const handleBlock = async () => {
 		try {
 			await createBlockMemberByMemberId(memberId);
+			onStatusChange();
 			Alert.alert(
 				"",
 				t("blockSuccessMessage", { name }),
@@ -99,6 +101,7 @@ const ModalKebabMenuConnectList = ({
 	const handleDeleteConnect = async () => {
 		try {
 			await rejectedConnectByConnectId(connectId);
+			onStatusChange();
 			Alert.alert(
 				"",
 				t("connectCancelSuccessMessage", { name }),

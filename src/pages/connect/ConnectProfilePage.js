@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { SafeAreaView, ScrollView, View, Text, Alert } from "react-native";
 import { useTranslation } from "react-i18next";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as Sentry from "@sentry/react-native";
 
 import {
@@ -39,6 +39,7 @@ const ConnectProfilePage = ({ route }) => {
 	const [heart, setHeart] = useState(false);
 	const [name, setName] = useState();
 	const [token, setToken] = useState(null);
+	const [buttonText, setButtonText] = useState(t("requestButtonText"));
 
 	useEffect(() => {
 		const fetchToken = async () => {
@@ -82,9 +83,11 @@ const ConnectProfilePage = ({ route }) => {
 		}
 	};
 
-	useEffect(() => {
-		getConnectProfile();
-	}, []);
+	useFocusEffect(
+		useCallback(() => {
+			getConnectProfile();
+		}, []),
+	);
 
 	useEffect(() => {
 		getConnectStatus();
@@ -220,6 +223,23 @@ const ConnectProfilePage = ({ route }) => {
 		}
 	};
 
+	useEffect(() => {
+		if (requestSent) {
+			const timer = setTimeout(() => {
+				setButtonText(
+					connectStatus === undefined
+						? t("requestButtonText")
+						: connectStatus === "PENDING"
+							? requestSent
+								? t("cancelRequestButtonText")
+								: t("acceptRequestButtonText")
+							: t("cancelConnectButtonText"),
+				);
+			}, 100);
+			return () => clearTimeout(timer);
+		}
+	}, [requestSent, connectStatus, t]);
+
 	return (
 		<SafeAreaView
 			style={[ConnectProfileStyles.container, { alignItems: "center" }]}
@@ -236,9 +256,7 @@ const ConnectProfilePage = ({ route }) => {
 						<ConnectProfileBackground />
 					</View>
 					<View style={ConnectProfileStyles.simpleProfileContainer}>
-						<ConnectProfile
-							profile={profileData.profilePresignUrl}
-						/>
+						<ConnectProfile fileId={profileData.profileImg?.id} />
 						<Text style={ConnectProfileStyles.username}>
 							{profileData.username}
 						</Text>
@@ -283,18 +301,7 @@ const ConnectProfilePage = ({ route }) => {
 						text={t("chat")}
 						onPress={handleCreateSingleChatroom}
 					/>
-					<View
-						text={
-							connectStatus === undefined
-								? t("requestButtonText")
-								: connectStatus === "PENDING"
-									? requestSent
-										? t("cancelRequestButtonText")
-										: t("acceptRequestButtonText")
-									: t("cancelConnectButtonText")
-						}
-						onPress={handleConnect}
-					/>
+					<View text={buttonText} onPress={handleConnect} />
 				</BottomTwoButtons>
 			</View>
 		</SafeAreaView>
