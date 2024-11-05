@@ -10,19 +10,23 @@ import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import ModifyProfileStyles from "@pages/member/ModifyProfileStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { formatProfileData } from "util/formatProfileData";
 import { getMyMemberId } from "util/secureStoreUtils";
-import { getMyProfile, updateMyProfile } from "config/api";
+import {
+	getMyProfile,
+	updateMyProfile,
+	getProfileImageByFileId,
+} from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ModifyKBackground from "@components/member/ModifyKBackground";
 import IconLock from "@components/member/IconLock";
 import IconCamera from "@components/member/IconCamera";
 import Loading from "@components/common/loading/Loading";
-import * as Sentry from "@sentry/react-native";
 
 const ModifyProfilePage = () => {
 	const { t } = useTranslation();
@@ -37,7 +41,12 @@ const ModifyProfilePage = () => {
 			const response = await getMyProfile();
 			const updatedData = formatProfileData([response.data]);
 			setProfile(updatedData[0]);
-			setProfilePresignUrl(updatedData[0].profilePresignUrl);
+			if (response.data.profileImg?.id) {
+				const presignUrl = await getProfileImageByFileId(
+					response.data.profileImg.id,
+				);
+				setProfilePresignUrl(presignUrl.data);
+			}
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(

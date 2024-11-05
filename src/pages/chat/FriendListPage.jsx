@@ -25,15 +25,16 @@ const FriendListPage = ({ route }) => {
 			: connect.from_member;
 	};
 
+	const fetchMyMemberIDAndConnects = async () => {
+		const myMemberId = await getMyMemberId();
+		setMyMemberId(myMemberId);
+
+		const response = await getMyAcceptedConnects();
+		setConnects(response.data);
+	};
+
 	useFocusEffect(
 		useCallback(() => {
-			const fetchMyMemberIDAndConnects = async () => {
-				const myMemberId = await getMyMemberId();
-				setMyMemberId(myMemberId);
-
-				const response = await getMyAcceptedConnects();
-				setConnects(response.data);
-			};
 			fetchMyMemberIDAndConnects();
 		}, []),
 	);
@@ -63,6 +64,7 @@ const FriendListPage = ({ route }) => {
 							memberId={otherMember.id}
 							name={otherMember.username}
 							fileId={otherMember.profileImg?.id}
+							onStatusChange={fetchMyMemberIDAndConnects}
 						/>
 					);
 				}}

@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import {
+	getProfileImageByFileId,
 	createLikeMember,
 	deleteLikeMember,
 	createLikeChatroom,
@@ -23,7 +25,7 @@ const { fontSub14, fontCaption } = CustomTheme;
 const ConnectCard = ({
 	id,
 	isLiked = false,
-	profilePresignUrl = null,
+	fileId = null,
 	username,
 	country,
 	major,
@@ -38,6 +40,26 @@ const ConnectCard = ({
 	const navigation = useNavigation();
 	const [heart, setHeart] = useState(isLiked);
 	const [groupHeart, setGroupHeart] = useState(isLiked);
+	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
+
+	const getProfilePresignUrl = async () => {
+		try {
+			const presignUrl = await getProfileImageByFileId(fileId);
+			setProfilePresignUrl(presignUrl.data);
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"커넥트 프로필 url 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useEffect(() => {
+		if (fileId) {
+			getProfilePresignUrl();
+		}
+	}, []);
 
 	const handleCreateHeart = async () => {
 		try {

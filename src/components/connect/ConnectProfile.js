@@ -1,12 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { Image } from "expo-image";
+import * as Sentry from "@sentry/react-native";
+
 import { CustomTheme } from "@styles/CustomTheme";
 
-const ConnectProfile = ({ profile = null }) => {
+import { getProfileImageByFileId } from "config/api";
+
+const ConnectProfile = ({ fileId = null }) => {
+	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
+
+	const getProfilePresignUrl = async () => {
+		try {
+			const presignUrl = await getProfileImageByFileId(fileId);
+			setProfilePresignUrl(presignUrl.data);
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"상세 프로필 이미지 url 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
+	useEffect(() => {
+		if (fileId) {
+			getProfilePresignUrl();
+		}
+	}, [fileId]);
+
 	return (
 		<View style={[styles.rectangle]}>
-			<Image source={{ uri: profile }} style={styles.image} />
+			<Image
+				source={{ uri: profilePresignUrl }}
+				style={styles.image}
+				contentFit="cover"
+			/>
 		</View>
 	);
 };
