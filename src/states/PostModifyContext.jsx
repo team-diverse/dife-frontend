@@ -16,7 +16,6 @@ export const PostModifyProvider = ({ children }) => {
 	const updatePostModifyData = (newData) => {
 		setPostModifyData((prev) => {
 			const updatedData = { ...prev, ...newData };
-			// console.log("게시글 수정용 데이터:", updatedData);
 			return updatedData;
 		});
 	};

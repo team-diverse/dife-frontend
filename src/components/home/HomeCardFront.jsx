@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import * as Sentry from "@sentry/react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { createSingleChatroom } from "config/api";
 import { useNavigation } from "@react-navigation/native";
 import { useWebSocket } from "context/WebSocketContext";
-import { getMyMemberId } from "util/secureStoreUtils";
-import * as Sentry from "@sentry/react-native";
+import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 
 import Tag from "@components/common/Tag";
 import HomeProfile from "@components/home/HomeProfile";
@@ -34,6 +34,16 @@ const HomeCardFront = ({
 
 	const [tagHeight, setTagHeight] = useState(0);
 	const [introductionLines, setIntroductionLines] = useState(1);
+	const [token, setToken] = useState(null);
+
+	useEffect(() => {
+		const fetchToken = async () => {
+			const token = await getRefreshToken();
+			setToken(token);
+		};
+
+		fetchToken();
+	}, []);
 
 	const isRelevantSingleChatroom = (chatroom, myMemberId, otherMemberId) => {
 		if (chatroom.chatroom_type !== "SINGLE") {
@@ -69,7 +79,7 @@ const HomeCardFront = ({
 			if (!chatroomInfo) {
 				const response = await createSingleChatroom(memberId, name);
 				chatroomInfo = response.data;
-				subscribeToNewChatroom(chatroomInfo.id);
+				subscribeToNewChatroom(chatroomInfo.id, token);
 			}
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,

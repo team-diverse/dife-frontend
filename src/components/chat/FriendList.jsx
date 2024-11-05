@@ -14,7 +14,7 @@ import ModalKebabMenuConnectList from "@components/member/ModalKebabMenuConnectL
 import { getRefreshToken } from "util/secureStoreUtils";
 
 const FriendList = ({ connectId, memberId, name, fileId }) => {
-	const navigation = useNavigation("");
+	const navigation = useNavigation();
 	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
 	const [token, setToken] = useState(null);
 
@@ -50,7 +50,7 @@ const FriendList = ({ connectId, memberId, name, fileId }) => {
 				chatroomInfo = response.data;
 				subscribeToNewChatroom(chatroomInfo.id, token);
 			}
-			navigation.replace("ChatRoomPage", {
+			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,
 			});
 		} catch (error) {
@@ -101,10 +101,11 @@ const FriendList = ({ connectId, memberId, name, fileId }) => {
 						</Text>
 					</TouchableOpacity>
 					<View style={styles.containerIcon}>
-						<TouchableOpacity onPress={handleCreateSingleChatroom}>
-							<View style={styles.rectangleChat}>
-								<IconSend />
-							</View>
+						<TouchableOpacity
+							style={styles.rectangleChat}
+							onPress={handleCreateSingleChatroom}
+						>
+							<IconSend />
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={styles.iconMenu}

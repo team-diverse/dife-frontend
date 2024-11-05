@@ -426,5 +426,8 @@
 	"translationText": "翻訳: ",
 	"viewOriginalOnlyButton": "原文のみ表示",
 
-	"connectRequestSuccess": "{{username}}にコネクトリクエストを送りました。"
+	"connectRequestSuccess": "{{username}}にコネクトリクエストを送りました。",
+
+	"exitChatroomButton": "退出",
+	"exitChatroom": "チャットを離れる"
 }
