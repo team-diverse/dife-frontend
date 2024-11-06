@@ -8,10 +8,10 @@ import { CustomTheme } from "@styles/CustomTheme";
 import {
 	acceptedConnectByMemberId,
 	rejectedConnectByConnectId,
-	createSingleChatroom,
 } from "config/api";
-import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
+import { getRefreshToken } from "util/secureStoreUtils";
 import { useWebSocket } from "context/WebSocketContext";
+import { createChatroom } from "util/createChatroom";
 
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconSend from "@components/common/IconSend";
@@ -84,36 +84,20 @@ const ItemRequestConnectList = ({
 		}
 	};
 
-	const isRelevantSingleChatroom = (chatroom, myMemberId, otherMemberId) => {
-		if (chatroom.chatroom_type !== "SINGLE") {
-			return false;
-		}
-		const members = chatroom.members;
-		const memberIds = members.map((member) => member.id);
-		console.log(memberIds.includes(otherMemberId));
-		return (
-			memberIds.includes(myMemberId) && memberIds.includes(otherMemberId)
-		);
-	};
-
 	const handleCreateSingleChatroom = async () => {
 		try {
-			const myMemberId = await getMyMemberId();
-			let chatroomInfo = chatrooms.find((chatroom) =>
-				isRelevantSingleChatroom(chatroom, myMemberId, memberId),
+			const chatroomInfo = await createChatroom(
+				memberId,
+				name,
+				chatrooms,
+				subscribeToNewChatroom,
+				token,
 			);
-
-			if (!chatroomInfo) {
-				const response = await createSingleChatroom(memberId, name);
-				chatroomInfo = response.data;
-				subscribeToNewChatroom(chatroomInfo.id, token);
-			}
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,
 			});
 		} catch (error) {
 			Sentry.captureException(error);
-			console.log("채팅방 생성 에러:", error);
 		}
 	};
 

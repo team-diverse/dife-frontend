@@ -3,10 +3,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import * as Sentry from "@sentry/react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { createSingleChatroom } from "config/api";
 import { useNavigation } from "@react-navigation/native";
 import { useWebSocket } from "context/WebSocketContext";
-import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
+import { getRefreshToken } from "util/secureStoreUtils";
+import { createChatroom } from "util/createChatroom";
 
 import Tag from "@components/common/Tag";
 import HomeProfile from "@components/home/HomeProfile";
@@ -45,17 +45,6 @@ const HomeCardFront = ({
 		fetchToken();
 	}, []);
 
-	const isRelevantSingleChatroom = (chatroom, myMemberId, otherMemberId) => {
-		if (chatroom.chatroom_type !== "SINGLE") {
-			return false;
-		}
-		const members = chatroom.members;
-		const memberIds = members.map((member) => member.id);
-		return (
-			memberIds.includes(myMemberId) && memberIds.includes(otherMemberId)
-		);
-	};
-
 	useEffect(() => {
 		if (tagHeight > 40) {
 			setIntroductionLines(2);
@@ -71,22 +60,18 @@ const HomeCardFront = ({
 
 	const handleCreateSingleChatroom = async () => {
 		try {
-			const myMemberId = await getMyMemberId();
-			let chatroomInfo = chatrooms.find((chatroom) =>
-				isRelevantSingleChatroom(chatroom, myMemberId, memberId),
+			const chatroomInfo = await createChatroom(
+				memberId,
+				name,
+				chatrooms,
+				subscribeToNewChatroom,
+				token,
 			);
-
-			if (!chatroomInfo) {
-				const response = await createSingleChatroom(memberId, name);
-				chatroomInfo = response.data;
-				subscribeToNewChatroom(chatroomInfo.id, token);
-			}
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,
 			});
 		} catch (error) {
 			Sentry.captureException(error);
-			console.log("채팅방 생성 에러:", error);
 		}
 	};
 

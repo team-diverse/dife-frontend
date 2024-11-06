@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
 	SafeAreaView,
 	View,
@@ -110,34 +110,51 @@ const ChatRoomPage = ({ route }) => {
 	}, []);
 
 	const groupMessages = (messages) => {
-		const groupedMessages = [];
+		const grouped = [];
 		let currentGroup = [];
-		const messageIds = new Set();
 
-		messages.forEach((message, index) => {
-			if (messageIds.has(message.id)) return;
-			messageIds.add(message.id);
+		messages.forEach((msg, index) => {
+			if (index === 0) {
+				currentGroup.push(msg);
+				return;
+			}
 
-			const isFirstMessage = index === 0;
-			const isDifferentUser =
-				!isFirstMessage &&
-				message.member.id !== messages[index - 1].member.id;
-
-			if (isFirstMessage || isDifferentUser) {
-				if (currentGroup.length > 0) {
-					groupedMessages.push(currentGroup);
-				}
-				currentGroup = [message];
+			const prevMsg = messages[index - 1];
+			if (isSameMinute(msg.created, prevMsg.created)) {
+				currentGroup.push(msg);
 			} else {
-				currentGroup.push(message);
+				const lastMsg = {
+					...currentGroup[currentGroup.length - 1],
+					showTime: true,
+				};
+				grouped.push([...currentGroup.slice(0, -1), lastMsg]);
+				currentGroup = [msg];
 			}
 		});
 
-		if (currentGroup.length > 0) {
-			groupedMessages.push(currentGroup);
+		if (currentGroup.length) {
+			const lastMsg = {
+				...currentGroup[currentGroup.length - 1],
+				showTime: true,
+			};
+			grouped.push([...currentGroup.slice(0, -1), lastMsg]);
 		}
 
-		return groupedMessages;
+		return grouped;
+	};
+
+	const isSameMinute = (date1, date2) => {
+		if (!(date1 instanceof Date) || !(date2 instanceof Date)) {
+			date1 = new Date(date1);
+			date2 = new Date(date2);
+		}
+
+		return (
+			date1.getUTCFullYear() === date2.getUTCFullYear() &&
+			date1.getUTCMonth() === date2.getUTCMonth() &&
+			date1.getUTCDate() === date2.getUTCDate() &&
+			date1.getUTCMinutes() === date2.getUTCMinutes()
+		);
 	};
 
 	const handleGoBack = () => {
@@ -209,12 +226,20 @@ const ChatRoomPage = ({ route }) => {
 		}
 	};
 
-	const data = groupMessages([
-		...(initialMessages || []),
-		...(messages && messages[chatroomInfo.id]
-			? messages[chatroomInfo.id]
-			: []),
-	]);
+	const data = useMemo(() => {
+		const allMessages = [
+			...(initialMessages || []),
+			...(messages && messages[chatroomInfo.id]
+				? messages[chatroomInfo.id]
+				: []),
+		];
+
+		const uniqueMessages = Array.from(
+			new Map(allMessages.map((msg) => [msg.id, msg])).values(),
+		).sort((a, b) => new Date(a.created) - new Date(b.created));
+
+		return groupMessages(uniqueMessages);
+	}, [initialMessages, messages, chatroomInfo.id]);
 
 	return (
 		<SafeAreaView style={ChatRoomStyles.container}>
@@ -242,7 +267,7 @@ const ChatRoomPage = ({ route }) => {
 				<FlatList
 					ref={flatListRef}
 					data={data}
-					keyExtractor={(item, index) => index.toString()}
+					keyExtractor={(item) => item.id}
 					renderItem={({ item }) => (
 						<>
 							{item.map((msg, idx) => {
@@ -252,7 +277,11 @@ const ChatRoomPage = ({ route }) => {
 										fileId={otherMember?.profileImg?.id}
 										username={msg.member.username}
 										message={msg.message}
-										time={formatKoreanTime(msg.created)}
+										time={
+											msg.showTime
+												? formatKoreanTime(msg.created)
+												: ""
+										}
 										isMine={msg.member.id === memberId}
 										isHeadMessage={idx === 0}
 										chatroomId={msg.singleChatroom.id}
