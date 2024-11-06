@@ -146,7 +146,6 @@ const ChattingPage = () => {
 			messages[chatroomId][messages[chatroomId].length - 1].message || ""
 		);
 	};
-
 	const renderCommunity = () => (
 		<View style={ChattingStyles.containerChatItems}>
 			<View style={ChattingStyles.flatlist}>
@@ -160,7 +159,6 @@ const ChattingPage = () => {
 							name={item.name || "Unknown"}
 							context={getLatestMessage(item.id, item.lastChat)}
 							time={formatKoreanTime(item.created)}
-							onCompleteExit={onCompleteExit}
 						/>
 					)}
 					onEndReachedThreshold={0.1}
