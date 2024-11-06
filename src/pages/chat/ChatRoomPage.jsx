@@ -112,6 +112,7 @@ const ChatRoomPage = ({ route }) => {
 	const groupMessages = (messages) => {
 		const grouped = [];
 		let currentGroup = [];
+		const messageIds = new Set();
 
 		messages.forEach((msg, index) => {
 			if (index === 0) {
