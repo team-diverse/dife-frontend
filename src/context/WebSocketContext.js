@@ -37,7 +37,7 @@ export const WebSocketProvider = ({ children }) => {
 		ws.current = new Client({
 			brokerURL: WS_URL,
 			debug: (str) => console.log(str),
-			reconnectDelay: 0,
+			reconnectDelay: 3000,
 			connectHeaders: {
 				authorization: `Bearer ${token}`,
 			},
