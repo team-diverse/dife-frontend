@@ -30,16 +30,18 @@ const MemberPage = () => {
 	const Tab = createMaterialTopTabNavigator();
 
 	const [name, setName] = useState("");
-	const [profileImage, setProfileImage] = useState(null);
+	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
 
 	const handleProfile = async () => {
 		try {
 			const response = await getMyProfile();
 			setName(response.data.username);
-			const presignUrl = await getProfileImageByFileId(
-				response.data.profileImg.id,
-			);
-			setProfileImage(presignUrl.data);
+			if (response.data.profileImg?.id) {
+				const presignUrl = await getProfileImageByFileId(
+					response.data.profileImg.id,
+				);
+				setProfilePresignUrl(presignUrl.data);
+			}
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -52,7 +54,7 @@ const MemberPage = () => {
 	useFocusEffect(
 		useCallback(() => {
 			handleProfile();
-		}, [profileImage]),
+		}, [profilePresignUrl]),
 	);
 
 	return (
@@ -84,8 +86,8 @@ const MemberPage = () => {
 					</View>
 
 					<View style={MemberStyles.containerProfile}>
-						<ProfileKBackground profileImage={profileImage} />
-						{profileImage ? null : (
+						<ProfileKBackground profileImage={profilePresignUrl} />
+						{profilePresignUrl ? null : (
 							<View style={MemberStyles.profileK}>
 								<ProfileK />
 							</View>

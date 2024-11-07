@@ -1,13 +1,17 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import {
 	acceptedConnectByMemberId,
 	rejectedConnectByConnectId,
 } from "config/api";
+import { getRefreshToken } from "util/secureStoreUtils";
+import { useWebSocket } from "context/WebSocketContext";
+import { createChatroom } from "util/createChatroom";
 
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconSend from "@components/common/IconSend";
@@ -22,11 +26,12 @@ const ItemRequestConnectList = ({
 	name,
 	fileId,
 	received = false,
+	onStatusChange,
 }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
-
 	const iconRef = useRef();
+	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
 
 	const [modalVisible, setModalVisible] = useState(false);
 	const [modalPosition, setModalPosition] = useState({
@@ -35,6 +40,16 @@ const ItemRequestConnectList = ({
 		width: 0,
 		height: 0,
 	});
+	const [token, setToken] = useState(null);
+
+	useEffect(() => {
+		const fetchToken = async () => {
+			const token = await getRefreshToken();
+			setToken(token);
+		};
+
+		fetchToken();
+	}, []);
 
 	const handleIconPress = () => {
 		setModalVisible(true);
@@ -48,6 +63,7 @@ const ItemRequestConnectList = ({
 	const handleAcceptedConnect = async () => {
 		try {
 			await acceptedConnectByMemberId(memberId);
+			onStatusChange();
 		} catch (error) {
 			console.error(
 				"커넥트 수락 오류:",
@@ -59,11 +75,29 @@ const ItemRequestConnectList = ({
 	const handleRejectedConnect = async () => {
 		try {
 			await rejectedConnectByConnectId(connectId);
+			onStatusChange();
 		} catch (error) {
 			console.error(
 				"커넥트 거절 오류:",
 				error.response ? error.response.data : error.message,
 			);
+		}
+	};
+
+	const handleCreateSingleChatroom = async () => {
+		try {
+			const chatroomInfo = await createChatroom(
+				memberId,
+				name,
+				chatrooms,
+				subscribeToNewChatroom,
+				token,
+			);
+			navigation.navigate("ChatRoomPage", {
+				chatroomInfo,
+			});
+		} catch (error) {
+			Sentry.captureException(error);
 		}
 	};
 
@@ -130,10 +164,11 @@ const ItemRequestConnectList = ({
 							<Text style={styles.textPending}>
 								{t("pending")}
 							</Text>
-							<TouchableOpacity>
-								<View style={styles.rectangleChat}>
-									<IconSend />
-								</View>
+							<TouchableOpacity
+								style={styles.rectangleChat}
+								onPress={handleCreateSingleChatroom}
+							>
+								<IconSend />
 							</TouchableOpacity>
 							<TouchableOpacity
 								style={styles.iconMenu}
@@ -152,6 +187,7 @@ const ItemRequestConnectList = ({
 									memberId={memberId}
 									pending={true}
 									position={modalPosition}
+									onStatusChange={onStatusChange}
 								/>
 							)}
 						</>

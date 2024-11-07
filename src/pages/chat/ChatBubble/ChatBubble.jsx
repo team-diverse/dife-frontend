@@ -125,7 +125,9 @@ const ChatBubble = ({
 						]}
 					>
 						<View style={styles.timeWrapper}>
-							<Text style={styles.time}>{time}</Text>
+							{time ? (
+								<Text style={styles.time}>{time}</Text>
+							) : null}
 							{!isMine && (
 								<TouchableOpacity onPress={handleTranslations}>
 									<Text style={styles.textTranslation}>
@@ -202,6 +204,7 @@ const styles = StyleSheet.create({
 		...fontNavi,
 		color: CustomTheme.primaryMedium,
 		textDecorationLine: "underline",
+		marginLeft: 6,
 	},
 	timeWrapper: {
 		flexDirection: "row",

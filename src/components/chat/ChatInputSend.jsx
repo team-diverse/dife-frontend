@@ -52,7 +52,6 @@ const ChatInputSend = ({ chatroomId, onFocus }) => {
 				onChangeText={setChatInput}
 				onFocus={onFocus}
 				onBlur={Keyboard.dismiss}
-				placeholder="Type a message..."
 			/>
 
 			<TouchableOpacity style={styles.rectangleBlue} onPress={handleSend}>

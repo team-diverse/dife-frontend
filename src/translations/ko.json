@@ -425,5 +425,8 @@
 	"translationText": "번역: ",
 	"viewOriginalOnlyButton": "원문만 보기",
 
-	"connectRequestSuccess": "{{username}}에게\n커넥트 요청하였습니다."
+	"connectRequestSuccess": "{{username}}에게\n커넥트 요청하였습니다.",
+
+	"exitChatroomButton": "나가기",
+	"exitChatroom": "채팅 나가기"
 }
