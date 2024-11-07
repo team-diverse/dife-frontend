@@ -60,6 +60,7 @@ const ConnectPage = () => {
 			cardProfiles();
 		}, []),
 	);
+
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
@@ -257,7 +258,11 @@ const ConnectPage = () => {
 										: searchData
 								}
 								renderItem={({ item }) => (
-									<ConnectCard {...item} tags={item.tags} />
+									<ConnectCard
+										{...item}
+										tags={item.tags}
+										fileId={item.profileImg?.id}
+									/>
 								)}
 								keyExtractor={(item) => item.id}
 							/>

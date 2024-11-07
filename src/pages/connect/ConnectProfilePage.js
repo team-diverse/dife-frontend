@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { SafeAreaView, ScrollView, View, Text, Alert } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import * as Sentry from "@sentry/react-native";
 
 import {
 	getProfileById,
@@ -12,7 +14,9 @@ import {
 	deleteLikeMember,
 } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
-import { getMyMemberId } from "util/secureStoreUtils";
+import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
+import { useWebSocket } from "context/WebSocketContext";
+import { createChatroom } from "util/createChatroom";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
 import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";
@@ -22,22 +26,36 @@ import ConnectProfileIntroduction from "@components/connect/ConnectProfileIntrod
 import ConnectProfileTag from "@components/connect/ConnectProfileTag";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
-import * as Sentry from "@sentry/react-native";
 
 const ConnectProfilePage = ({ route }) => {
 	const { memberId } = route.params;
 	const { t } = useTranslation();
+	const navigation = useNavigation();
+	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
 	const [profileData, setProfileData] = useState([]);
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
 	const [requestSent, setRequestSent] = useState(false);
 	const [heart, setHeart] = useState(false);
+	const [name, setName] = useState();
+	const [token, setToken] = useState(null);
+	const [buttonText, setButtonText] = useState(t("requestButtonText"));
+
+	useEffect(() => {
+		const fetchToken = async () => {
+			const token = await getRefreshToken();
+			setToken(token);
+		};
+
+		fetchToken();
+	}, []);
 
 	const getConnectProfile = async () => {
 		try {
 			const response = await getProfileById(memberId);
 			const updatedData = formatProfileData([response.data]);
 			setProfileData(updatedData[0]);
+			setName(response.data.username);
 			setHeart(response.data.isLiked);
 		} catch (error) {
 			Sentry.captureException(error);
@@ -65,9 +83,11 @@ const ConnectProfilePage = ({ route }) => {
 		}
 	};
 
-	useEffect(() => {
-		getConnectProfile();
-	}, []);
+	useFocusEffect(
+		useCallback(() => {
+			getConnectProfile();
+		}, []),
+	);
 
 	useEffect(() => {
 		getConnectStatus();
@@ -147,8 +167,21 @@ const ConnectProfilePage = ({ route }) => {
 		);
 	};
 
-	const handleChat = () => {
-		null;
+	const handleCreateSingleChatroom = async () => {
+		try {
+			const chatroomInfo = await createChatroom(
+				memberId,
+				name,
+				chatrooms,
+				subscribeToNewChatroom,
+				token,
+			);
+			navigation.navigate("ChatRoomPage", {
+				chatroomInfo,
+			});
+		} catch (error) {
+			Sentry.captureException(error);
+		}
 	};
 
 	const handleCreateHeart = async () => {
@@ -175,6 +208,23 @@ const ConnectProfilePage = ({ route }) => {
 		}
 	};
 
+	useEffect(() => {
+		if (requestSent) {
+			const timer = setTimeout(() => {
+				setButtonText(
+					connectStatus === undefined
+						? t("requestButtonText")
+						: connectStatus === "PENDING"
+							? requestSent
+								? t("cancelRequestButtonText")
+								: t("acceptRequestButtonText")
+							: t("cancelConnectButtonText"),
+				);
+			}, 100);
+			return () => clearTimeout(timer);
+		}
+	}, [requestSent, connectStatus, t]);
+
 	return (
 		<SafeAreaView
 			style={[ConnectProfileStyles.container, { alignItems: "center" }]}
@@ -191,9 +241,7 @@ const ConnectProfilePage = ({ route }) => {
 						<ConnectProfileBackground />
 					</View>
 					<View style={ConnectProfileStyles.simpleProfileContainer}>
-						<ConnectProfile
-							profile={profileData.profilePresignUrl}
-						/>
+						<ConnectProfile fileId={profileData.profileImg?.id} />
 						<Text style={ConnectProfileStyles.username}>
 							{profileData.username}
 						</Text>
@@ -234,19 +282,11 @@ const ConnectProfilePage = ({ route }) => {
 			</View>
 			<View style={ConnectProfileStyles.bottomTwoButtons}>
 				<BottomTwoButtons shadow="true">
-					<View text={t("chat")} onPress={handleChat} />
 					<View
-						text={
-							connectStatus === undefined
-								? t("requestButtonText")
-								: connectStatus === "PENDING"
-									? requestSent
-										? t("cancelRequestButtonText")
-										: t("acceptRequestButtonText")
-									: t("cancelConnectButtonText")
-						}
-						onPress={handleConnect}
+						text={t("chat")}
+						onPress={handleCreateSingleChatroom}
 					/>
+					<View text={buttonText} onPress={handleConnect} />
 				</BottomTwoButtons>
 			</View>
 		</SafeAreaView>

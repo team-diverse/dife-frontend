@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	View,
 	Text,
@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { useWebSocket } from "context/WebSocketContext";
+import { getRefreshToken } from "util/secureStoreUtils";
 
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconChatroomExit from "@components/chat/IconChatroomExit";
@@ -31,14 +32,25 @@ const ChatroomItem = ({
 }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
+	const swipeableRef = useRef(null);
 	const otherMember = chatroomInfo.members.find(
 		(member) => member.id !== myMemberId,
 	);
 	const otherMemberProfileImageId = otherMember?.profileImg?.id;
-	const username = otherMember?.username ?? "UNKNOWN";
+	const username = otherMember?.username ?? "Unknown";
 	const screenWidth = Dimensions.get("window").width;
 	const { publishMessage } = useWebSocket();
 	const [isSwiping, setIsSwiping] = useState(false);
+	const [token, setToken] = useState(null);
+
+	useEffect(() => {
+		const fetchToken = async () => {
+			const token = await getRefreshToken();
+			setToken(token);
+		};
+
+		fetchToken();
+	}, []);
 
 	const exitChatroomAlert = (chatroomId) => {
 		Alert.alert(
@@ -50,13 +62,14 @@ const ChatroomItem = ({
 					style: "cancel",
 				},
 				{
-					text: "나가기",
-					onPress: () => {
-						publishMessage({
+					text: t("exitChatroomButton"),
+					onPress: async () => {
+						await publishMessage({
 							chatType: "EXIT",
 							chatroomId: chatroomId,
-							memberId: myMemberId,
+							token,
 						});
+						swipeableRef.current?.close();
 						onCompleteExit();
 					},
 				},
@@ -72,7 +85,7 @@ const ChatroomItem = ({
 				onPress={() => exitChatroomAlert(chatroomId)}
 			>
 				<IconChatroomExit />
-				<Text style={styles.textExitChat}>채팅 나가기</Text>
+				<Text style={styles.textExitChat}>{t("exitChatroom")}</Text>
 			</TouchableOpacity>
 		);
 	};
@@ -80,7 +93,8 @@ const ChatroomItem = ({
 	return (
 		<GestureHandlerRootView style={styles.container}>
 			<Swipeable
-				renderRightActions={renderRightActions}
+				ref={swipeableRef}
+				renderRightActions={() => renderRightActions(chatroomInfo.id)}
 				onSwipeableOpen={() => setIsSwiping(true)}
 				onSwipeableClose={() => setIsSwiping(false)}
 				friction={2}

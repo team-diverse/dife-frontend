@@ -426,5 +426,8 @@
 	"translationText": "翻译: ",
 	"viewOriginalOnlyButton": "仅查看原文",
 
-	"connectRequestSuccess": "您已向{{username}}发送连接请求。"
+	"connectRequestSuccess": "您已向{{username}}发送连接请求。",
+
+	"exitChatroomButton": "离开",
+	"exitChatroom": "离开聊天"
 }

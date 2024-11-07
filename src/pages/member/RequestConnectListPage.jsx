@@ -25,23 +25,22 @@ const RequestConnectListPage = () => {
 		return { sent, received };
 	};
 
+	const getPenddingConnects = async () => {
+		try {
+			const response = await getMyPendingConnects();
+			const { sent, received } = await filterConnects(response.data);
+			setSentConnects(sent);
+			setReceivedConnects(received);
+		} catch (error) {
+			console.error(
+				"PENNDING 커넥트 조회 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	useFocusEffect(
 		useCallback(() => {
-			const getPenddingConnects = async () => {
-				try {
-					const response = await getMyPendingConnects();
-					const { sent, received } = await filterConnects(
-						response.data,
-					);
-					setSentConnects(sent);
-					setReceivedConnects(received);
-				} catch (error) {
-					console.error(
-						"PENNDING 커넥트 조회 오류:",
-						error.response ? error.response.data : error.message,
-					);
-				}
-			};
 			getPenddingConnects();
 		}, []),
 	);
@@ -66,6 +65,7 @@ const RequestConnectListPage = () => {
 							memberId={item.from_member.id}
 							name={item.from_member.username}
 							fileId={item.from_member.profileImg?.id}
+							onStatusChange={getPenddingConnects}
 						/>
 					)}
 					keyExtractor={(item, index) => index.toString()}
@@ -89,6 +89,7 @@ const RequestConnectListPage = () => {
 							memberId={item.to_member.id}
 							name={item.to_member.username}
 							fileId={item.to_member.profileImg?.id}
+							onStatusChange={getPenddingConnects}
 						/>
 					)}
 					keyExtractor={(item, index) => index.toString()}

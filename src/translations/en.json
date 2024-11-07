@@ -425,5 +425,8 @@
 	"translationText": "Translation: ",
 	"viewOriginalOnlyButton": "View Original Only",
 
-	"connectRequestSuccess": "You have sent a connect request to {{username}}."
+	"connectRequestSuccess": "You have sent a connect request to {{username}}.",
+
+	"exitChatroomButton": "Leave",
+	"exitChatroom": "Leave Chat"
 }

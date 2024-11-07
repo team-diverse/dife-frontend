@@ -49,6 +49,7 @@ const LikeUserOneToOne = () => {
 										{...item}
 										isLiked={true}
 										tag={item.tags}
+										fileId={item.profileImg?.id}
 									/>
 								</View>
 							)}
