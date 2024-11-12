@@ -6,7 +6,7 @@ const { fontHead18, fontCaption } = CustomTheme;
 const ChatRoomStyles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: CustomTheme.bgBasic,
+		backgroundColor: "#D9EAFF",
 		justifyContent: "space-between",
 	},
 	containerTopBar: {
@@ -108,6 +108,10 @@ const ChatRoomStyles = StyleSheet.create({
 	iconReverseArrow: {
 		transform: [{ scaleX: -1 }],
 		marginRight: 11,
+	},
+	chatInput: {
+		height: 34,
+		backgroundColor: CustomTheme.bgBasic,
 	},
 });
 

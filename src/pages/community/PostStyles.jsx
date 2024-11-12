@@ -21,6 +21,13 @@ const PostStyles = StyleSheet.create({
 		justifyContent: "space-between",
 		marginTop: 8,
 	},
+	containerProfile: {
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	iconProfileUser24: {
+		position: "absolute",
+	},
 	containerWriterText: {
 		marginLeft: 8,
 	},

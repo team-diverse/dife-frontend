@@ -32,7 +32,7 @@ const MemberStyles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 	},
-	profileK: {
+	containerProfileUser: {
 		position: "absolute",
 	},
 	iconProfileEdit: {
