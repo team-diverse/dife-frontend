@@ -11,6 +11,7 @@ import * as Sentry from "@sentry/react-native";
 import { getProfileImageByFileId } from "config/api";
 
 import IconProfileUser32 from "@components/common/IconProfileUser32";
+import IconProfileUser24 from "@components/common/IconProfileUser24";
 
 const IconChatProfile = ({ size = 48, fileId, ...props }) => {
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
@@ -72,9 +73,9 @@ const IconChatProfile = ({ size = 48, fileId, ...props }) => {
 			) : (
 				<G
 					clipPath="url(#clipPath)"
-					transform={`translate(${size / 9}, ${size / 6})`}
+					transform={`translate(${size / 8}, ${size / 6})`}
 				>
-					<IconProfileUser32 />
+					{size <= 36 ? <IconProfileUser24 /> : <IconProfileUser32 />}
 				</G>
 			)}
 		</Svg>
