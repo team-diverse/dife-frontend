@@ -15,13 +15,18 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import ChatRoomStyles from "@pages/chat/ChatRoomStyles";
 import { useWebSocket } from "context/WebSocketContext";
 import formatKoreanTime from "util/formatTime";
 import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 import { sortByIds } from "util/util";
-import { getBookmarkedByChatroomId, getChatsByChatroomId } from "config/api";
+import {
+	getBookmarkedByChatroomId,
+	getChatsByChatroomId,
+	holdChatroom,
+} from "config/api";
 
 import ArrowRight from "@components/common/ArrowRight";
 import ChatInputSend from "@components/chat/ChatInputSend";
@@ -157,8 +162,17 @@ const ChatRoomPage = ({ route }) => {
 		);
 	};
 
-	const handleGoBack = () => {
-		navigation.goBack();
+	const handleGoBack = async () => {
+		try {
+			await holdChatroom(chatroomInfo.id);
+			navigation.navigate("Chat");
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"채팅 Hold 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
 
 	const toggleMenu = async () => {

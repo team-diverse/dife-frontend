@@ -618,3 +618,7 @@ export const translationByBookmarkedId = (bookmarkId) => {
 		bookmarkId,
 	});
 };
+
+export const holdChatroom = (chatroomId) => {
+	return api.put(`/chatrooms/${chatroomId}/hold`);
+};

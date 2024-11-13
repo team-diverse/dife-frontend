@@ -161,6 +161,7 @@ const ChattingPage = () => {
 							context={getLatestMessage(item.id, item.lastChat)}
 							time={formatKoreanTime(item.created)}
 							onCompleteExit={onCompleteExit}
+							unreadChatsCount={item.unreadChatsCount}
 						/>
 					)}
 					onEndReachedThreshold={0.1}
