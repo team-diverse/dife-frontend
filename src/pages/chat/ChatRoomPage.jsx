@@ -48,7 +48,7 @@ const ChatRoomPage = ({ route }) => {
 	const otherMember = members.find((member) => member.id !== memberId);
 	const flatListRef = useRef(null);
 	const [bookmarkedCount, setBookmarkedCount] = useState(0);
-	const { publishMessage } = useWebSocket();
+	const { publishMessage, unsubscribeToChatroom } = useWebSocket();
 	const { StatusBarManager } = NativeModules;
 	const isAtBottomRef = useRef(true);
 	const scrollOffsetRef = useRef(0);
@@ -198,6 +198,7 @@ const ChatRoomPage = ({ route }) => {
 							chatroomId: chatroomId,
 							token,
 						});
+						await unsubscribeToChatroom(chatroomId, token);
 						setTimeout(() => {
 							navigation.navigate("Chat");
 						}, 500);
