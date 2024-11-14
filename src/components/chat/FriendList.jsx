@@ -38,7 +38,6 @@ const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
 			);
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,
-				isExited,
 			});
 		} catch (error) {
 			Sentry.captureException(error);
