@@ -151,11 +151,11 @@ const ModifyProfileInputPage = ({ route }) => {
 			if (bioInput !== originalProfile.bio) {
 				formData.append("bio", bioInput);
 			}
-			if (
-				selectedMBTI.length > 0 &&
-				selectedMBTI !== originalProfile.mbti
-			) {
-				formData.append("mbti", selectedMBTI);
+			if (selectedMBTI && selectedMBTI !== originalProfile.mbti) {
+				formData.append(
+					"mbti",
+					selectedMBTI === t("mbtiNoneOption") ? null : selectedMBTI,
+				);
 			}
 			if (
 				selectedHobby.length > 0 &&

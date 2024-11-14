@@ -53,7 +53,7 @@ const ProfileMBTIPage = () => {
 
 	useEffect(() => {
 		updateOnboardingData({
-			mbti: selectedMBTI !== t("mbtiOptions")[15] ? selectedMBTI : "",
+			mbti: selectedMBTI !== t("mbtiNoneOption") ? selectedMBTI : "",
 		});
 	}, [selectedMBTI]);
 
