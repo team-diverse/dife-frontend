@@ -70,25 +70,7 @@
 	"imagePermissionAlertMessage": "请在设置中允许图片权限。",
 
 	"mbtiSubtitle": "{{username}}的MBTI类型！",
-	"mbtiOptions": [
-		"ISTP",
-		"ISFP",
-		"ENTP",
-		"ISFJ",
-		"INFJ",
-		"ENTJ",
-		"INFP",
-		"INTP",
-		"ESFP",
-		"ESTP",
-		"ESFJ",
-		"INTJ",
-		"ESTJ",
-		"ENFP",
-		"ISTJ",
-		"ENFJ",
-		"未选择"
-	],
+	"mbtiNoneOption": "未选择",
 
 	"hobbySubtitle": "请选择{{username}}的兴趣/爱好！",
 	"hobbyOptions": [

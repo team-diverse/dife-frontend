@@ -70,7 +70,9 @@ const ProfileLanguagePage = () => {
 		formData.append("username", onboardingData.username);
 		formData.append("country", onboardingData.country);
 		formData.append("bio", onboardingData.bio);
-		formData.append("mbti", onboardingData.mbti);
+		if (onboardingData.mbti !== t("mbtiNoneOption")) {
+			formData.append("mbti", onboardingData.mbti);
+		}
 		formData.append("hobbies", JSON.stringify(onboardingData.hobbies));
 		formData.append("languages", selectedLanguages);
 		const memberId = onboardingData.id;

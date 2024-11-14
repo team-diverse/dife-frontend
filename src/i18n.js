@@ -7,18 +7,19 @@ import ja from "src/translations/ja.json";
 import zh from "src/translations/zh.json";
 import es from "src/translations/es.json";
 
-const resources = {
-	en: { translation: en },
-	ko: { translation: ko },
-	ja: { translation: ja },
-	zh: { translation: zh },
-	es: { translation: es },
-};
+const translations = { en, ko, ja, zh, es };
+
+const resources = Object.keys(translations).reduce((acc, code) => {
+	acc[code] = { translation: translations[code] };
+	return acc;
+}, {});
+
+const deviceLocale = getLocales()[0].languageCode;
 
 i18n.use(initReactI18next).init({
 	compatibilityJSON: "v3",
 	resources,
-	lng: getLocales()[0].languageCode,
+	lng: deviceLocale,
 	fallbackLng: "en",
 	interpolation: {
 		escapeValue: false,
