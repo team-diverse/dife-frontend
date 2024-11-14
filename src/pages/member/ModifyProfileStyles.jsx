@@ -13,10 +13,10 @@ const ModifyProfileStyles = StyleSheet.create({
 		marginLeft: 23,
 		marginBottom: 30,
 	},
-	modifyKBackground: {
+	profileBackground: {
 		width: 85,
 		height: 85,
-		backgroundColor: CustomTheme.bgBasic,
+		backgroundColor: "#B0D0FF",
 		borderWidth: 2,
 		borderColor: CustomTheme.bgBasic,
 		borderRadius: 20,

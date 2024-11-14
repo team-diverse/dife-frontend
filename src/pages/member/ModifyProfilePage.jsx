@@ -23,10 +23,10 @@ import {
 } from "config/api";
 
 import TopBar from "@components/common/TopBar";
-import ModifyKBackground from "@components/member/ModifyKBackground";
 import IconLock from "@components/member/IconLock";
 import IconCamera from "@components/member/IconCamera";
 import Loading from "@components/common/loading/Loading";
+import IconProfileUser48 from "@components/common/IconProfileUser48";
 
 const ModifyProfilePage = () => {
 	const { t } = useTranslation();
@@ -127,15 +127,15 @@ const ModifyProfilePage = () => {
 					{t("profilePictureSubtitle")}
 				</Text>
 				<View style={ModifyProfileStyles.containerProfileImage}>
-					<View style={ModifyProfileStyles.modifyKBackground}>
+					<View style={ModifyProfileStyles.profileBackground}>
 						{profilePresignUrl ? (
 							<Image
-								style={ModifyProfileStyles.modifyKBackground}
+								style={ModifyProfileStyles.profileBackground}
 								source={{ uri: profilePresignUrl }}
 								contentFit="cover"
 							/>
 						) : (
-							<ModifyKBackground />
+							<IconProfileUser48 />
 						)}
 					</View>
 					<TouchableOpacity

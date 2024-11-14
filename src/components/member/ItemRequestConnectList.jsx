@@ -86,7 +86,7 @@ const ItemRequestConnectList = ({
 
 	const handleCreateSingleChatroom = async () => {
 		try {
-			const chatroomInfo = await createChatroom(
+			const { chatroomInfo, isExited } = await createChatroom(
 				memberId,
 				name,
 				chatrooms,
@@ -95,6 +95,7 @@ const ItemRequestConnectList = ({
 			);
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,
+				isExited,
 			});
 		} catch (error) {
 			Sentry.captureException(error);

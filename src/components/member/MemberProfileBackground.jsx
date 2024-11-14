@@ -8,7 +8,7 @@ import Svg, {
 	ClipPath,
 } from "react-native-svg";
 
-const ProfileKBackground = ({ profileImage, ...props }) => (
+const MemberProfileBackground = ({ profileImage, ...props }) => (
 	<Svg
 		xmlns="http://www.w3.org/2000/svg"
 		width={116}
@@ -37,8 +37,7 @@ const ProfileKBackground = ({ profileImage, ...props }) => (
 				y2={-44}
 				gradientUnits="userSpaceOnUse"
 			>
-				<Stop offset={0.046} stopColor="#D9EAFF" />
-				<Stop offset={1} stopColor="#fff" />
+				<Stop stopColor="#B0D0FF" />
 			</LinearGradient>
 			<ClipPath id="clip">
 				<Circle cx={58} cy={58} r={58} />
@@ -47,4 +46,4 @@ const ProfileKBackground = ({ profileImage, ...props }) => (
 	</Svg>
 );
 
-export default ProfileKBackground;
+export default MemberProfileBackground;
