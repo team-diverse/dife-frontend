@@ -13,6 +13,7 @@ import FilterCategory from "@components/connect/FilterCategory";
 import InfoCircle from "@components/common/InfoCircle";
 import Checkbox from "@components/common/Checkbox";
 import * as Sentry from "@sentry/react-native";
+import { MBTI_OPTIONS } from "constants";
 
 const ModifyProfileInputPage = ({ route }) => {
 	const { t } = useTranslation();
@@ -55,7 +56,7 @@ const ModifyProfileInputPage = ({ route }) => {
 	const [selectedHobby, setSelectedHobby] = useState([]);
 	const [selectedLanguage, setSelectedLanguage] = useState(languageContent);
 
-	const mbti = t("mbtiOptions", { returnObjects: true });
+	const mbti = [...MBTI_OPTIONS, t("mbtiNoneOption")];
 	const hobby = t("hobbyOptions", { returnObjects: true });
 	const languages = t("languages", { returnObjects: true });
 
@@ -150,11 +151,11 @@ const ModifyProfileInputPage = ({ route }) => {
 			if (bioInput !== originalProfile.bio) {
 				formData.append("bio", bioInput);
 			}
-			if (
-				selectedMBTI.length > 0 &&
-				selectedMBTI !== originalProfile.mbti
-			) {
-				formData.append("mbti", selectedMBTI);
+			if (selectedMBTI && selectedMBTI !== originalProfile.mbti) {
+				formData.append(
+					"mbti",
+					selectedMBTI === t("mbtiNoneOption") ? null : selectedMBTI,
+				);
 			}
 			if (
 				selectedHobby.length > 0 &&

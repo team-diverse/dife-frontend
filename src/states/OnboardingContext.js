@@ -24,7 +24,6 @@ export const OnboardingProvider = ({ children }) => {
 	const updateOnboardingData = (newData) => {
 		setOnboardingData((prev) => {
 			const updatedData = { ...prev, ...newData };
-			// console.log("온보딩 데이터:", updatedData);
 			return updatedData;
 		});
 	};

@@ -17,6 +17,7 @@ import ArrowRight from "@components/common/ArrowRight";
 import Progress3 from "@components/onboarding/Progress3";
 import FilterCategory from "@components/connect/FilterCategory";
 import ApplyButton from "@components/common/ApplyButton";
+import { MBTI_OPTIONS } from "constants";
 
 const ProfileMBTIPage = () => {
 	const { t } = useTranslation();
@@ -35,7 +36,7 @@ const ProfileMBTIPage = () => {
 		navigation.goBack();
 	};
 
-	const mbti = t("mbtiOptions", { returnObjects: true });
+	const mbti = [...MBTI_OPTIONS, t("mbtiNoneOption")];
 	const size = 3;
 	const mbtiRows = [];
 	for (let i = 0; i < mbti.length; i += size) {
@@ -52,7 +53,7 @@ const ProfileMBTIPage = () => {
 
 	useEffect(() => {
 		updateOnboardingData({
-			mbti: selectedMBTI !== t("mbtiOptions")[15] ? selectedMBTI : "",
+			mbti: selectedMBTI !== t("mbtiNoneOption") ? selectedMBTI : "",
 		});
 	}, [selectedMBTI]);
 
