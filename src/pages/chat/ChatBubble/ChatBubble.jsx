@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
 		paddingRight: 8,
 		paddingLeft: 8,
 		maxWidth: 200,
-		backgroundColor: "#EDEEF2",
+		backgroundColor: "#FBFBFB",
 		marginBottom: 2,
 	},
 	myBubble: {
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 12,
 		borderBottomLeftRadius: 12,
 		borderBottomRightRadius: 12,
-		backgroundColor: "#EDEEF2",
+		backgroundColor: "#FBFBFB",
 		marginLeft: -4,
 	},
 	unionIcon: {

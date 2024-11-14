@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import { Client } from "@stomp/stompjs";
 import { getChatroomsByType, getChatsByChatroomId } from "../config/api";
-import Loading from "@components/common/loading/Loading";
 import { sortByIds } from "util/util";
 import { getRefreshToken } from "util/secureStoreUtils";
 
@@ -46,13 +45,17 @@ export const WebSocketProvider = ({ children }) => {
 				subscribeToChatrooms(allChatrooms, token);
 				setIsConnected(true);
 			},
-			onStompError: (frame) =>
+			onStompError: (frame) => {
 				console.error(
 					"Broker reported error:",
 					frame.headers["message"],
 				),
-			onWebSocketError: (error) =>
-				console.error("WebSocket error:", error),
+					setIsConnected(false);
+			},
+			onWebSocketError: (error) => {
+				console.error("WebSocket error:", error);
+				setIsConnected(false);
+			},
 			onWebSocketClose: () => {
 				console.log("WebSocket connection closed");
 				setIsConnected(false);
@@ -158,6 +161,7 @@ export const WebSocketProvider = ({ children }) => {
 				ws,
 				chatrooms,
 				messages,
+				isConnected,
 				publishMessage,
 				updateChatroomsAndMessages,
 				subscribeToNewChatroom,
@@ -165,7 +169,7 @@ export const WebSocketProvider = ({ children }) => {
 				disconnectWebSocket,
 			}}
 		>
-			{isConnected ? children : <Loading />}
+			{children}
 		</WebSocketContext.Provider>
 	);
 };

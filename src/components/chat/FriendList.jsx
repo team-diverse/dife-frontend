@@ -29,7 +29,7 @@ const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
 
 	const handleCreateSingleChatroom = async () => {
 		try {
-			const chatroomInfo = await createChatroom(
+			const { chatroomInfo, isExited } = await createChatroom(
 				memberId,
 				name,
 				chatrooms,
@@ -38,6 +38,7 @@ const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
 			);
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,
+				isExited,
 			});
 		} catch (error) {
 			Sentry.captureException(error);

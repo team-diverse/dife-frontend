@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
-import Svg, { Path, Defs, ClipPath, Image as SvgImage } from "react-native-svg";
-import { getProfileImageByFileId } from "config/api";
+import Svg, {
+	Path,
+	Defs,
+	ClipPath,
+	Image as SvgImage,
+	G,
+} from "react-native-svg";
 import * as Sentry from "@sentry/react-native";
+
+import { getProfileImageByFileId } from "config/api";
+
+import IconProfileUser32 from "@components/common/IconProfileUser32";
+import IconProfileUser24 from "@components/common/IconProfileUser24";
 
 const IconChatProfile = ({ size = 48, fileId, ...props }) => {
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
@@ -44,9 +54,11 @@ const IconChatProfile = ({ size = 48, fileId, ...props }) => {
 		>
 			<Defs>
 				<ClipPath id="clipPath">
-					<Path fill="#D9EAFF" d={pathData} />
+					<Path fill="#B0D0FF" d={pathData} />
 				</ClipPath>
 			</Defs>
+
+			<Path fill="#B0D0FF" d={pathData} />
 
 			{profilePresignUrl ? (
 				<SvgImage
@@ -59,7 +71,12 @@ const IconChatProfile = ({ size = 48, fileId, ...props }) => {
 					clipPath="url(#clipPath)"
 				/>
 			) : (
-				<Path fill="#D9EAFF" d={pathData} />
+				<G
+					clipPath="url(#clipPath)"
+					transform={`translate(${size / 8}, ${size / 6})`}
+				>
+					{size <= 36 ? <IconProfileUser24 /> : <IconProfileUser32 />}
+				</G>
 			)}
 		</Svg>
 	);

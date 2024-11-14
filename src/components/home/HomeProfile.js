@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 
-import { CustomTheme } from "@styles/CustomTheme";
 import { getProfileImageByFileId } from "config/api";
+import IconProfileUser48 from "@components/common/IconProfileUser48";
 
 const HomeProfile = ({ fileId, back = false }) => {
 	const containerStyle = back ? { width: 100.647, height: 118 } : null;
@@ -31,8 +31,10 @@ const HomeProfile = ({ fileId, back = false }) => {
 	return (
 		<>
 			<View style={[styles.rectangle, containerStyle]}>
-				{fileId && (
+				{fileId ? (
 					<Image source={{ uri: presignUrl }} style={styles.image} />
+				) : (
+					<IconProfileUser48 />
 				)}
 			</View>
 		</>
@@ -43,7 +45,9 @@ const styles = StyleSheet.create({
 	rectangle: {
 		width: 116,
 		height: 136,
-		backgroundColor: CustomTheme.textDisable,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "#B0D0FF",
 		borderRadius: 16,
 		overflow: "hidden",
 	},

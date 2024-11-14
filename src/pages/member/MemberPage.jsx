@@ -4,6 +4,7 @@ import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import MemberStyles from "@pages/member/MemberStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -13,8 +14,7 @@ import DifeLogo from "@components/member/DifeLogo";
 import DifeLine from "@components/member/DifeLine";
 import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";
 import IconSetting from "@components/member/IconSetting";
-import ProfileKBackground from "@components/member/ProfileKBackground";
-import ProfileK from "@components/member/ProfileK";
+import MemberProfileBackground from "@components/member/MemberProfileBackground";
 import IconFriendList from "@components/member/IconFriendList";
 import IconMyPost from "@components/member/IconMyPost";
 import TabLikedPostPage from "@pages/member/TabLikedPostPage";
@@ -22,7 +22,7 @@ import TabBookmarkPostPage from "@pages/member/TabBookmarkPostPage";
 import IconProfileEdit from "@components/member/IconProfileEdit";
 import IconLike from "@components/member/IconLike";
 import IconBookmark from "@components/member/IconBookmark";
-import * as Sentry from "@sentry/react-native";
+import IconProfileUser64 from "@components/common/IconProfileUser64";
 
 const MemberPage = () => {
 	const { t } = useTranslation();
@@ -86,10 +86,12 @@ const MemberPage = () => {
 					</View>
 
 					<View style={MemberStyles.containerProfile}>
-						<ProfileKBackground profileImage={profilePresignUrl} />
+						<MemberProfileBackground
+							profileImage={profilePresignUrl}
+						/>
 						{profilePresignUrl ? null : (
-							<View style={MemberStyles.profileK}>
-								<ProfileK />
+							<View style={MemberStyles.containerProfileUser}>
+								<IconProfileUser64 />
 							</View>
 						)}
 						<TouchableOpacity

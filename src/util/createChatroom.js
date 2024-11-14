@@ -1,5 +1,9 @@
 import * as Sentry from "@sentry/react-native";
-import { createSingleChatroom } from "config/api";
+import {
+	createSingleChatroom,
+	getChatroomsByType,
+	changeChatroomStatus,
+} from "config/api";
 import { getMyMemberId } from "util/secureStoreUtils";
 
 export const createChatroom = async (
@@ -46,6 +50,6 @@ export const createChatroom = async (
 		return { chatroomInfo };
 	} catch (error) {
 		Sentry.captureException(error);
-		console.log("채팅방 생성 에러:", error);
+		console.error("채팅방 생성 에러:", error);
 	}
 };
