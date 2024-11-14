@@ -169,7 +169,7 @@ const ConnectProfilePage = ({ route }) => {
 
 	const handleCreateSingleChatroom = async () => {
 		try {
-			const chatroomInfo = await createChatroom(
+			const { chatroomInfo, isExited } = await createChatroom(
 				memberId,
 				name,
 				chatrooms,
@@ -178,6 +178,7 @@ const ConnectProfilePage = ({ route }) => {
 			);
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,
+				isExited,
 			});
 		} catch (error) {
 			Sentry.captureException(error);

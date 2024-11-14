@@ -1,7 +1,7 @@
 import * as React from "react";
 import Svg, { Path, Circle } from "react-native-svg";
 
-const IconProfileEdit = ({ color = "#B0D0FF", ...props }) => {
+const IconProfileEdit = ({ color = "#2964E0", ...props }) => {
 	return (
 		<Svg
 			xmlns="http://www.w3.org/2000/svg"

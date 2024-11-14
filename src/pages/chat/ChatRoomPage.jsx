@@ -15,13 +15,18 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import ChatRoomStyles from "@pages/chat/ChatRoomStyles";
 import { useWebSocket } from "context/WebSocketContext";
 import formatKoreanTime from "util/formatTime";
 import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 import { sortByIds } from "util/util";
-import { getBookmarkedByChatroomId, getChatsByChatroomId } from "config/api";
+import {
+	getBookmarkedByChatroomId,
+	getChatsByChatroomId,
+	holdChatroom,
+} from "config/api";
 
 import ArrowRight from "@components/common/ArrowRight";
 import ChatInputSend from "@components/chat/ChatInputSend";
@@ -42,7 +47,7 @@ const ChatRoomPage = ({ route }) => {
 	const menuAnim = useRef(new Animated.Value(screenWidth)).current;
 	const { messages } = useWebSocket();
 	const [initialMessages, setInitialMessages] = useState([]);
-	const { chatroomInfo } = route.params;
+	const { chatroomInfo, isExited } = route.params;
 	const [memberId, setMemberId] = useState(null);
 	const members = sortByIds(chatroomInfo.members);
 	const otherMember = members.find((member) => member.id !== memberId);
@@ -157,8 +162,17 @@ const ChatRoomPage = ({ route }) => {
 		);
 	};
 
-	const handleGoBack = () => {
-		navigation.goBack();
+	const handleGoBack = async () => {
+		try {
+			await holdChatroom(chatroomInfo.id);
+			navigation.navigate("Chat");
+		} catch (error) {
+			Sentry.captureException(error);
+			console.error(
+				"채팅 Hold 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
 	};
 
 	const toggleMenu = async () => {
@@ -242,148 +256,159 @@ const ChatRoomPage = ({ route }) => {
 	}, [initialMessages, messages, chatroomInfo.id]);
 
 	return (
-		<SafeAreaView style={ChatRoomStyles.container}>
-			<View style={ChatRoomStyles.containerTopBar}>
-				<View style={ChatRoomStyles.containerBackName}>
+		<>
+			<SafeAreaView style={ChatRoomStyles.container}>
+				<View style={ChatRoomStyles.containerTopBar}>
+					<View style={ChatRoomStyles.containerBackName}>
+						<TouchableOpacity
+							style={ChatRoomStyles.iconArrow}
+							onPress={handleGoBack}
+						>
+							<ArrowRight color="#000" />
+						</TouchableOpacity>
+						<Text style={ChatRoomStyles.textTopBar}>
+							{otherMember.username}
+						</Text>
+					</View>
 					<TouchableOpacity
-						style={ChatRoomStyles.iconArrow}
-						onPress={handleGoBack}
+						style={ChatRoomStyles.iconHamburgerMenu}
+						onPress={toggleMenu}
 					>
-						<ArrowRight color="#000" />
+						<IconHamburgerMenu />
 					</TouchableOpacity>
-					<Text style={ChatRoomStyles.textTopBar}>
-						{chatroomInfo.name}
-					</Text>
 				</View>
-				<TouchableOpacity
-					style={ChatRoomStyles.iconHamburgerMenu}
-					onPress={toggleMenu}
-				>
-					<IconHamburgerMenu />
-				</TouchableOpacity>
-			</View>
 
-			<View style={ChatRoomStyles.containerChat}>
-				<FlatList
-					ref={flatListRef}
-					data={data}
-					keyExtractor={(item) => item.id}
-					renderItem={({ item }) => (
-						<>
-							{item.map((msg, idx) => {
-								return (
-									<ChatBubble
-										key={msg.id}
-										fileId={otherMember?.profileImg?.id}
-										username={msg.member.username}
-										message={msg.message}
-										time={
-											msg.showTime
-												? formatKoreanTime(msg.created)
-												: ""
-										}
-										isMine={msg.member.id === memberId}
-										isHeadMessage={idx === 0}
-										chatroomId={msg.singleChatroom.id}
-										chatId={msg.id}
-									/>
-								);
-							})}
-						</>
-					)}
-					onContentSizeChange={handleContentSizeChange}
-					onScroll={handleScroll}
-				/>
-			</View>
+				<View style={ChatRoomStyles.containerChat}>
+					<FlatList
+						ref={flatListRef}
+						data={data}
+						keyExtractor={(item) => item.id}
+						renderItem={({ item }) => (
+							<>
+								{item.map((msg, idx) => {
+									return (
+										<ChatBubble
+											key={msg.id}
+											fileId={otherMember?.profileImg?.id}
+											username={msg.member.username}
+											message={msg.message}
+											time={
+												msg.showTime
+													? formatKoreanTime(
+															msg.created,
+														)
+													: ""
+											}
+											isMine={msg.member.id === memberId}
+											isHeadMessage={idx === 0}
+											chatroomId={msg.singleChatroom.id}
+											chatId={msg.id}
+										/>
+									);
+								})}
+							</>
+						)}
+						onContentSizeChange={handleContentSizeChange}
+						onScroll={handleScroll}
+					/>
+				</View>
+
+				{menuOpen && (
+					<TouchableOpacity
+						onPress={toggleMenu}
+						style={[
+							ChatRoomStyles.menuBackground,
+							{ top: insets.top },
+						]}
+					/>
+				)}
+				<Animated.View
+					style={[
+						ChatRoomStyles.menu,
+						{
+							top: insets.top,
+							width: menuWidth,
+							transform: [{ translateX: menuAnim }],
+						},
+					]}
+				>
+					<View style={ChatRoomStyles.containerGray}>
+						<TouchableOpacity
+							onPress={() => exitChatroomAlert(chatroomInfo.id)}
+						>
+							<IconChatOut />
+						</TouchableOpacity>
+
+						<View style={ChatRoomStyles.containerIcon}>
+							<View style={{ marginRight: 7 }}>
+								<IconChatNotification />
+							</View>
+							<IconChatSetting />
+						</View>
+					</View>
+					<View style={{ marginBottom: 4 }}>
+						<Text
+							style={[
+								ChatRoomStyles.textDrawer,
+								{ marginTop: 12, marginBottom: 8 },
+							]}
+						>
+							{t("chatParticipant")}
+						</Text>
+						{members.map((member) => (
+							<View
+								key={member.id}
+								style={ChatRoomStyles.containerChatPeople}
+							>
+								<IconChatProfile
+									fileId={member.profileImg?.id}
+								/>
+								<Text style={ChatRoomStyles.textChatPeople}>
+									{member.username}
+								</Text>
+							</View>
+						))}
+					</View>
+					<View style={ChatRoomStyles.line} />
+					<TouchableOpacity
+						style={ChatRoomStyles.containerDrawer}
+						onPress={() =>
+							navigation.navigate("ChatBookmarkPage", {
+								chatroomId: chatroomInfo.id,
+								userName: chatroomInfo.members[0].username,
+							})
+						}
+					>
+						<View style={ChatRoomStyles.containerDrawerTextCount}>
+							<Text style={ChatRoomStyles.textDrawer}>
+								{t("chatBookmark")}
+							</Text>
+							<View style={ChatRoomStyles.containerDrawerCount}>
+								<Text style={ChatRoomStyles.textDrawerCount}>
+									{bookmarkedCount}
+								</Text>
+							</View>
+						</View>
+						<View style={ChatRoomStyles.iconReverseArrow}>
+							<ArrowRight color="#000" />
+						</View>
+					</TouchableOpacity>
+					<View style={ChatRoomStyles.line} />
+				</Animated.View>
+			</SafeAreaView>
 			<KeyboardAvoidingView
 				behavior="padding"
-				keyboardVerticalOffset={statusBarHeight - 50}
+				keyboardVerticalOffset={statusBarHeight - 55}
 				onContentSizeChange={handleContentSizeChange}
 			>
 				<ChatInputSend
 					chatroomId={chatroomInfo.id}
+					isExited={isExited}
 					onFocus={handleInputFocus}
 				/>
 			</KeyboardAvoidingView>
-
-			{menuOpen && (
-				<TouchableOpacity
-					onPress={toggleMenu}
-					style={[ChatRoomStyles.menuBackground, { top: insets.top }]}
-				/>
-			)}
-			<Animated.View
-				style={[
-					ChatRoomStyles.menu,
-					{
-						top: insets.top,
-						width: menuWidth,
-						transform: [{ translateX: menuAnim }],
-					},
-				]}
-			>
-				<View style={ChatRoomStyles.containerGray}>
-					<TouchableOpacity
-						onPress={() => exitChatroomAlert(chatroomInfo.id)}
-					>
-						<IconChatOut />
-					</TouchableOpacity>
-
-					<View style={ChatRoomStyles.containerIcon}>
-						<View style={{ marginRight: 7 }}>
-							<IconChatNotification />
-						</View>
-						<IconChatSetting />
-					</View>
-				</View>
-				<View style={{ marginBottom: 4 }}>
-					<Text
-						style={[
-							ChatRoomStyles.textDrawer,
-							{ marginTop: 12, marginBottom: 8 },
-						]}
-					>
-						{t("chatParticipant")}
-					</Text>
-					{members.map((member) => (
-						<View
-							key={member.id}
-							style={ChatRoomStyles.containerChatPeople}
-						>
-							<IconChatProfile fileId={member.profileImg?.id} />
-							<Text style={ChatRoomStyles.textChatPeople}>
-								{member.username}
-							</Text>
-						</View>
-					))}
-				</View>
-				<View style={ChatRoomStyles.line} />
-				<TouchableOpacity
-					style={ChatRoomStyles.containerDrawer}
-					onPress={() =>
-						navigation.navigate("ChatBookmarkPage", {
-							chatroomId: chatroomInfo.id,
-							userName: chatroomInfo.members[0].username,
-						})
-					}
-				>
-					<View style={ChatRoomStyles.containerDrawerTextCount}>
-						<Text style={ChatRoomStyles.textDrawer}>
-							{t("chatBookmark")}
-						</Text>
-						<View style={ChatRoomStyles.containerDrawerCount}>
-							<Text style={ChatRoomStyles.textDrawerCount}>
-								{bookmarkedCount}
-							</Text>
-						</View>
-					</View>
-					<View style={ChatRoomStyles.iconReverseArrow}>
-						<ArrowRight color="#000" />
-					</View>
-				</TouchableOpacity>
-				<View style={ChatRoomStyles.line} />
-			</Animated.View>
-		</SafeAreaView>
+			<View style={ChatRoomStyles.chatInput} />
+		</>
 	);
 };
 

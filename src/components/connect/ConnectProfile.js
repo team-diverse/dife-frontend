@@ -3,9 +3,9 @@ import { View, StyleSheet } from "react-native";
 import { Image } from "expo-image";
 import * as Sentry from "@sentry/react-native";
 
-import { CustomTheme } from "@styles/CustomTheme";
-
 import { getProfileImageByFileId } from "config/api";
+
+import IconProfileUser82 from "@components/common/IconProfileUser82";
 
 const ConnectProfile = ({ fileId = null }) => {
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
@@ -30,12 +30,16 @@ const ConnectProfile = ({ fileId = null }) => {
 	}, [fileId]);
 
 	return (
-		<View style={[styles.rectangle]}>
-			<Image
-				source={{ uri: profilePresignUrl }}
-				style={styles.image}
-				contentFit="cover"
-			/>
+		<View style={styles.rectangle}>
+			{profilePresignUrl ? (
+				<Image
+					source={{ uri: profilePresignUrl }}
+					style={styles.image}
+					contentFit="cover"
+				/>
+			) : (
+				<IconProfileUser82 />
+			)}
 		</View>
 	);
 };
@@ -44,7 +48,9 @@ const styles = StyleSheet.create({
 	rectangle: {
 		width: 156,
 		height: 183,
-		backgroundColor: CustomTheme.textDisable,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "#B0D0FF",
 		borderRadius: 20,
 		overflow: "hidden",
 	},
