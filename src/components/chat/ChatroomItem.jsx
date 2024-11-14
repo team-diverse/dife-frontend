@@ -29,6 +29,7 @@ const ChatroomItem = ({
 	time,
 	myMemberId,
 	onCompleteExit,
+	unreadChatsCount,
 }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
@@ -39,7 +40,7 @@ const ChatroomItem = ({
 	const otherMemberProfileImageId = otherMember?.profileImg?.id;
 	const username = otherMember?.username ?? "Unknown";
 	const screenWidth = Dimensions.get("window").width;
-	const { publishMessage } = useWebSocket();
+	const { publishMessage, unsubscribeToChatroom } = useWebSocket();
 	const [isSwiping, setIsSwiping] = useState(false);
 	const [token, setToken] = useState(null);
 
@@ -69,6 +70,7 @@ const ChatroomItem = ({
 							chatroomId: chatroomId,
 							token,
 						});
+						await unsubscribeToChatroom(chatroomId, token);
 						swipeableRef.current?.close();
 						onCompleteExit();
 					},
@@ -120,12 +122,31 @@ const ChatroomItem = ({
 							</View>
 							<View style={styles.textContainer}>
 								<Text style={styles.textName}>{username}</Text>
-								<Text style={styles.textContext}>
+								<Text
+									style={[
+										styles.textContext,
+										unreadChatsCount > 0 && {
+											color: CustomTheme.primaryMedium,
+											fontFamily: "NotoSansCJKkr-Bold",
+										},
+									]}
+								>
 									{context}
 								</Text>
 							</View>
 						</View>
-						<Text style={styles.textTime}>{time}</Text>
+						<View
+							style={{ alignItems: "flex-end", marginRight: 25 }}
+						>
+							<Text style={styles.textTime}>{time}</Text>
+							{unreadChatsCount > 0 && (
+								<View style={styles.containerUnreadChatsCount}>
+									<Text style={styles.textUnreadChatsCount}>
+										{unreadChatsCount}
+									</Text>
+								</View>
+							)}
+						</View>
 					</View>
 				</TouchableOpacity>
 			</Swipeable>
@@ -187,7 +208,19 @@ const styles = StyleSheet.create({
 		...fontNavi,
 		color: CustomTheme.textDisable,
 		marginTop: 14,
-		marginRight: 25,
+		marginBottom: 13,
+	},
+	containerUnreadChatsCount: {
+		width: 21,
+		height: 21,
+		backgroundColor: CustomTheme.pointYellow,
+		borderRadius: 8,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	textUnreadChatsCount: {
+		...fontCaption,
+		color: CustomTheme.bgBasic,
 	},
 });
 

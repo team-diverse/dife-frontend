@@ -19,6 +19,7 @@ import ConnectPlusIcon from "@components/connect/ConnectPlusIcon";
 import Tag from "@components/common/Tag";
 import IconGroupHeadcount from "@components/connect/IconGroupHeadcount";
 import IconSearchFail from "@components/common/IconSearchFail";
+import IconProfileUser48 from "@components/common/IconProfileUser48";
 
 const { fontSub14, fontCaption } = CustomTheme;
 
@@ -127,10 +128,14 @@ const ConnectCard = ({
 			) : (
 				<>
 					<View style={styles.profile}>
-						<Image
-							source={{ uri: profilePresignUrl }}
-							style={styles.imgProfile}
-						/>
+						{profilePresignUrl ? (
+							<Image
+								source={{ uri: profilePresignUrl }}
+								style={styles.imgProfile}
+							/>
+						) : (
+							<IconProfileUser48 />
+						)}
 					</View>
 
 					<View style={styles.cardContainer}>
@@ -218,7 +223,9 @@ const styles = StyleSheet.create({
 	profile: {
 		width: 92,
 		height: 173,
-		backgroundColor: CustomTheme.textDisable,
+		backgroundColor: "#B0D0FF",
+		justifyContent: "center",
+		alignItems: "center",
 		overflow: "hidden",
 	},
 	imgProfile: {
