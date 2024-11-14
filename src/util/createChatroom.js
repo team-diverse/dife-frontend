@@ -38,7 +38,7 @@ export const createChatroom = async (
 		if (exitedChatroomInfo) {
 			await changeChatroomStatus(exitedChatroomInfo.id);
 			subscribeToNewChatroom(exitedChatroomInfo.id, token);
-			return { chatroomInfo: exitedChatroomInfo, isExited: true };
+			return { chatroomInfo: exitedChatroomInfo };
 		} else if (!chatroomInfo) {
 			const response = await createSingleChatroom(
 				otherMemberId,
@@ -47,7 +47,7 @@ export const createChatroom = async (
 			chatroomInfo = response.data;
 			subscribeToNewChatroom(chatroomInfo.id, token);
 		}
-		return { chatroomInfo, isExited: false };
+		return { chatroomInfo };
 	} catch (error) {
 		Sentry.captureException(error);
 		console.error("채팅방 생성 에러:", error);

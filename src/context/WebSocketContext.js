@@ -93,6 +93,13 @@ export const WebSocketProvider = ({ children }) => {
 		);
 	};
 
+	const unsubscribeToChatroom = async (chatroomId, token) => {
+		await connectWebSocket();
+		ws.current.subscribe(`/unsub/chatroom/${chatroomId}`, {
+			authorization: `Bearer ${token}`,
+		});
+	};
+
 	const handleIncomingMessage = (chatroomId, message) => {
 		setMessages((prevMessages) => {
 			const updatedMessages = { ...prevMessages };
@@ -158,6 +165,7 @@ export const WebSocketProvider = ({ children }) => {
 				publishMessage,
 				updateChatroomsAndMessages,
 				subscribeToNewChatroom,
+				unsubscribeToChatroom,
 				disconnectWebSocket,
 			}}
 		>

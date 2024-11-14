@@ -40,7 +40,7 @@ const ChatroomItem = ({
 	const otherMemberProfileImageId = otherMember?.profileImg?.id;
 	const username = otherMember?.username ?? "Unknown";
 	const screenWidth = Dimensions.get("window").width;
-	const { publishMessage } = useWebSocket();
+	const { publishMessage, unsubscribeToChatroom } = useWebSocket();
 	const [isSwiping, setIsSwiping] = useState(false);
 	const [token, setToken] = useState(null);
 
@@ -70,6 +70,7 @@ const ChatroomItem = ({
 							chatroomId: chatroomId,
 							token,
 						});
+						await unsubscribeToChatroom(chatroomId, token);
 						swipeableRef.current?.close();
 						onCompleteExit();
 					},
