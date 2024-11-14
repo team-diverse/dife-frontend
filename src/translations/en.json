@@ -70,25 +70,7 @@
 	"imagePermissionAlertMessage": "Please allow image permissions in settings.",
 
 	"mbtiSubtitle": "{{username}}'s MBTI!",
-	"mbtiOptions": [
-		"ISTP",
-		"ISFP",
-		"ENTP",
-		"ISFJ",
-		"INFJ",
-		"ENTJ",
-		"INFP",
-		"INTP",
-		"ESFP",
-		"ESTP",
-		"ESFJ",
-		"INTJ",
-		"ESTJ",
-		"ENFP",
-		"ISTJ",
-		"ENFJ",
-		"Unselected"
-	],
+	"mbtiNoneOption": "Unselected",
 
 	"hobbySubtitle": "Please select {{username}}'s hobbies/interests!",
 	"hobbyOptions": [
