@@ -69,7 +69,6 @@ const HomeCardFront = ({
 			);
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,
-				isExited,
 			});
 		} catch (error) {
 			Sentry.captureException(error);
