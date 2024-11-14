@@ -47,7 +47,7 @@ const ChatRoomPage = ({ route }) => {
 	const menuAnim = useRef(new Animated.Value(screenWidth)).current;
 	const { messages } = useWebSocket();
 	const [initialMessages, setInitialMessages] = useState([]);
-	const { chatroomInfo, isExited } = route.params;
+	const { chatroomInfo } = route.params;
 	const [memberId, setMemberId] = useState(null);
 	const members = sortByIds(chatroomInfo.members);
 	const otherMember = members.find((member) => member.id !== memberId);
@@ -404,7 +404,6 @@ const ChatRoomPage = ({ route }) => {
 			>
 				<ChatInputSend
 					chatroomId={chatroomInfo.id}
-					isExited={isExited}
 					onFocus={handleInputFocus}
 				/>
 			</KeyboardAvoidingView>

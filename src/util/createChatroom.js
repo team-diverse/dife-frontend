@@ -30,7 +30,8 @@ export const createChatroom = async (
 			isRelevantSingleChatroom(chatroom, myMemberId, otherMemberId),
 		);
 		const exitedChatrooms = await getChatroomsByType("EXITED");
-		const exitedChatroomInfo = exitedChatrooms.data.find((chatroom) => {
+		const exitedChatroomData = exitedChatrooms?.data;
+		const exitedChatroomInfo = exitedChatroomData.find((chatroom) => {
 			const memberIds = chatroom.members.map((member) => member.id);
 			return memberIds.includes(otherMemberId);
 		});
@@ -38,7 +39,7 @@ export const createChatroom = async (
 		if (exitedChatroomInfo) {
 			await changeChatroomStatus(exitedChatroomInfo.id);
 			subscribeToNewChatroom(exitedChatroomInfo.id, token);
-			return { chatroomInfo: exitedChatroomInfo };
+			return exitedChatroomInfo;
 		} else if (!chatroomInfo) {
 			const response = await createSingleChatroom(
 				otherMemberId,
@@ -47,7 +48,7 @@ export const createChatroom = async (
 			chatroomInfo = response.data;
 			subscribeToNewChatroom(chatroomInfo.id, token);
 		}
-		return { chatroomInfo };
+		return chatroomInfo;
 	} catch (error) {
 		Sentry.captureException(error);
 		console.error("채팅방 생성 에러:", error);
