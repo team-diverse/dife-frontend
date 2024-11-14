@@ -90,7 +90,7 @@ const Bookmark = ({ bookmarkedId, context, created, translations }) => {
 				<View style={styles.containerContext}>
 					<View style={styles.iconTextContainer}>
 						<View style={styles.icon}>
-							<IconChatProfile size="32" />
+							<IconChatProfile size="36" />
 						</View>
 						<Text style={styles.textContext}>{context}</Text>
 					</View>

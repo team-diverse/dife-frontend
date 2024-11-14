@@ -14,7 +14,8 @@
 				"EXPO_PUBLIC_WS_URL": "wss://difeapp.com/ws",
 				"EXPO_PUBLIC_MOCK_LOGIN": "true",
 				"EXPO_PUBLIC_MOCK_EMAIL": "EXAMPLE_EMAIL",
-				"EXPO_PUBLIC_MOCK_PASSWORD": "EXAMPLE_PASSWORD"
+				"EXPO_PUBLIC_MOCK_PASSWORD": "EXAMPLE_PASSWORD",
+				"EXPO_PUBLIC_SHOW_CHAT_STATUS": "true"
 			},
 			"channel": "development"
 		},

@@ -38,7 +38,6 @@ import {
 import { formatDate } from "util/formatDate";
 
 import TopBar from "@components/common/TopBar";
-import IconProfileK from "@components/community/IconProfileK";
 import IconKebabMenu from "@components/community/IconKebabMenu";
 import IconHeart from "@components/community/IconHeart";
 import IconBookmark from "@components/community/IconBookmark";
@@ -48,6 +47,8 @@ import IconChatSend from "@components/chat/IconChatSend";
 import ItemComment from "@components/community/ItemComment";
 import ModalKebabMenu from "@components/community/ModalKebabMenu";
 import ModalTranslationsCount from "@components/common/ModalTranslationsCount";
+import IconProfileBackground from "@components/community/IconProfileBackground";
+import IconProfileUser24 from "@components/common/IconProfileUser24";
 
 const PostPage = ({ route }) => {
 	const { t } = useTranslation();
@@ -410,7 +411,12 @@ const PostPage = ({ route }) => {
 				<View style={PostStyles.containerWhite}>
 					<View style={PostStyles.containerWriterRow}>
 						<View style={{ flexDirection: "row" }}>
-							<IconProfileK />
+							<View style={PostStyles.containerProfile}>
+								<IconProfileBackground />
+								<IconProfileUser24
+									style={PostStyles.iconProfileUser24}
+								/>
+							</View>
 							<View style={PostStyles.containerWriterText}>
 								<Text style={PostStyles.textWriter}>
 									{writerName}

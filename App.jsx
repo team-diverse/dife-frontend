@@ -153,11 +153,29 @@ function MainTabs() {
 				tabBarLabel: () => null,
 			})}
 		>
-			<Tab.Screen name="Chat" component={ChattingStack} />
+			<Tab.Screen
+				name="Chat"
+				component={ChattingStack}
+				options={{
+					unmountOnBlur: true,
+				}}
+			/>
 			<Tab.Screen name="Connect" component={ConnectStack} />
 			<Tab.Screen name="Home" component={HomeStack} />
-			<Tab.Screen name="Community" component={CommunityPage} />
-			<Tab.Screen name="Member" component={MemberPage} />
+			<Tab.Screen
+				name="Community"
+				component={CommunityPage}
+				options={{
+					unmountOnBlur: true,
+				}}
+			/>
+			<Tab.Screen
+				name="Member"
+				component={MemberPage}
+				options={{
+					unmountOnBlur: true,
+				}}
+			/>
 		</Tab.Navigator>
 	);
 }

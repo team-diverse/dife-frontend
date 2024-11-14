@@ -28,6 +28,7 @@ import ChatroomItem from "@components/chat/ChatroomItem";
 import ArrowRight from "@components/common/ArrowRight";
 import IconSearchFail from "@components/common/IconSearchFail";
 import { useWebSocket } from "context/WebSocketContext";
+import StatusIndicator from "./StatusIndicator";
 
 const ChattingPage = () => {
 	const { t } = useTranslation();
@@ -43,6 +44,8 @@ const ChattingPage = () => {
 	const { messages, subscribeToNewChatroom } = useWebSocket();
 	const [isIndividualTab, setIsIndividualTab] = useState(true);
 	const [token, setToken] = useState(null);
+
+	const showChatStatus = process.env.EXPO_PUBLIC_SHOW_CHAT_STATUS === "true";
 
 	const handleSearch = async () => {
 		try {
@@ -93,6 +96,7 @@ const ChattingPage = () => {
 	const fetchSingleChatroomList = useCallback(async () => {
 		try {
 			const response = await getChatroomsByType("SINGLE");
+
 			const sortedChatrooms = response.data.sort((a, b) => {
 				const latestMessageA =
 					messages[a.id]?.[messages[a.id].length - 1];
@@ -123,7 +127,7 @@ const ChattingPage = () => {
 	useFocusEffect(
 		useCallback(() => {
 			fetchSingleChatroomList();
-		}, []),
+		}, [messages]),
 	);
 
 	const onCompleteExit = () => {
@@ -161,6 +165,7 @@ const ChattingPage = () => {
 							context={getLatestMessage(item.id, item.lastChat)}
 							time={formatKoreanTime(item.created)}
 							onCompleteExit={onCompleteExit}
+							unreadChatsCount={item.unreadChatsCount}
 						/>
 					)}
 					onEndReachedThreshold={0.1}
@@ -176,6 +181,7 @@ const ChattingPage = () => {
 				<View style={ChattingStyles.connectTop}>
 					<ConnectTop />
 				</View>
+				{showChatStatus && <StatusIndicator />}
 				<View
 					style={[
 						ChattingStyles.containerTextIcon,

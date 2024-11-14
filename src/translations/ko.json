@@ -70,25 +70,7 @@
 	"imagePermissionAlertMessage": "설정에서 이미지 권한을 허용해주세요.",
 
 	"mbtiSubtitle": "{{username}}님의 MBTI를 알려주세요!",
-	"mbtiOptions": [
-		"ISTP",
-		"ISFP",
-		"ENTP",
-		"ISFJ",
-		"INFJ",
-		"ENTJ",
-		"INFP",
-		"INTP",
-		"ESFP",
-		"ESTP",
-		"ESFJ",
-		"INTJ",
-		"ESTJ",
-		"ENFP",
-		"ISTJ",
-		"ENFJ",
-		"선택안함"
-	],
+	"mbtiNoneOption": "선택안함",
 
 	"hobbySubtitle": "{{username}}님의 취미/관심사를 선택해주세요!",
 	"hobbyOptions": [

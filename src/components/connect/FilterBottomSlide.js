@@ -24,6 +24,7 @@ import FilterCategory from "@components/connect/FilterCategory";
 import Checkbox from "@components/common/Checkbox";
 import FilterBottomTwoButtons from "@components/connect/FilterBottomTwoButtons";
 import * as Sentry from "@sentry/react-native";
+import { MBTI_OPTIONS } from "constants";
 
 const { fontCaption, fontNaviBold } = CustomTheme;
 
@@ -98,7 +99,7 @@ const FilterBottomSlide = ({
 	const [selectedHobby, setSelectedHobby] = useState([]);
 	const [selectedLanguage, setSelectedLanguage] = useState([]);
 
-	const mbti = t("mbtiOptions", { returnObjects: true });
+	const mbti = [...MBTI_OPTIONS, t("mbtiNoneOption")];
 	const hobby = t("hobbyOptions", { returnObjects: true });
 	const languages = t("languages", { returnObjects: true });
 

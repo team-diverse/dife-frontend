@@ -70,25 +70,7 @@
 	"imagePermissionAlertMessage": "Por favor, permite los permisos de imagen en la configuración.",
 
 	"mbtiSubtitle": "¡Por favor, indícanos el MBTI de {{username}}!",
-	"mbtiOptions": [
-		"ISTP",
-		"ISFP",
-		"ENTP",
-		"ISFJ",
-		"INFJ",
-		"ENTJ",
-		"INFP",
-		"INTP",
-		"ESFP",
-		"ESTP",
-		"ESFJ",
-		"INTJ",
-		"ESTJ",
-		"ENFP",
-		"ISTJ",
-		"ENFJ",
-		"No Aplicable"
-	],
+	"mbtiNoneOption": "No Aplicable",
 
 	"hobbySubtitle": "¡Por favor, selecciona los pasatiempos/intereses de {{username}}!",
 	"hobbyOptions": [
