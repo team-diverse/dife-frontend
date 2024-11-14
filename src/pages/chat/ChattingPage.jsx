@@ -96,7 +96,7 @@ const ChattingPage = () => {
 	const fetchSingleChatroomList = useCallback(async () => {
 		try {
 			const response = await getChatroomsByType("SINGLE");
-
+      
 			const sortedChatrooms = response.data.sort((a, b) => {
 				const latestMessageA =
 					messages[a.id]?.[messages[a.id].length - 1];

@@ -29,7 +29,7 @@ const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
 
 	const handleCreateSingleChatroom = async () => {
 		try {
-			const { chatroomInfo, isExited } = await createChatroom(
+			const chatroomInfo = await createChatroom(
 				memberId,
 				name,
 				chatrooms,
