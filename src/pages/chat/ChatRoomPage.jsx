@@ -396,8 +396,9 @@ const ChatRoomPage = ({ route }) => {
 				</Animated.View>
 			</SafeAreaView>
 			<KeyboardAvoidingView
+				style={{ marginBottom: 20 }}
 				behavior="padding"
-				keyboardVerticalOffset={statusBarHeight - 55}
+				keyboardVerticalOffset={statusBarHeight - 50}
 				onContentSizeChange={handleContentSizeChange}
 			>
 				<ChatInputSend

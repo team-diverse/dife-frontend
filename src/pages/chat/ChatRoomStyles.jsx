@@ -110,7 +110,6 @@ const ChatRoomStyles = StyleSheet.create({
 		marginRight: 11,
 	},
 	chatInput: {
-		height: 34,
 		backgroundColor: CustomTheme.bgBasic,
 	},
 });
