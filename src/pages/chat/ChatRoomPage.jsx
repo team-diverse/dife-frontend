@@ -121,7 +121,10 @@ const ChatRoomPage = ({ route }) => {
 			}
 
 			const prevMsg = messages[index - 1];
-			if (isSameMinute(msg.created, prevMsg.created)) {
+			if (
+				isSameMinute(msg.created, prevMsg.created) &&
+				msg.member.id === prevMsg.member.id
+			) {
 				currentGroup.push(msg);
 			} else {
 				const lastMsg = {
