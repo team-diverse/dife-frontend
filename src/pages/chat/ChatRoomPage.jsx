@@ -101,7 +101,6 @@ const ChatRoomPage = ({ route }) => {
 			try {
 				const response = await getChatsByChatroomId(chatroomInfo.id);
 				const messages = response.data;
-				console.log(response.data);
 				setInitialMessages(messages);
 			} catch (error) {
 				console.error("Failed to fetch chatroom messages:", error);

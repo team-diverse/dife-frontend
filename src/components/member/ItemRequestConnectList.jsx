@@ -31,7 +31,8 @@ const ItemRequestConnectList = ({
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 	const iconRef = useRef();
-	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
+	const { chatrooms, subscribeToNewChatroom, fetchChatroomMessages } =
+		useWebSocket();
 
 	const [modalVisible, setModalVisible] = useState(false);
 	const [modalPosition, setModalPosition] = useState({
@@ -91,6 +92,7 @@ const ItemRequestConnectList = ({
 				name,
 				chatrooms,
 				subscribeToNewChatroom,
+				fetchChatroomMessages,
 				token,
 			);
 			navigation.navigate("ChatRoomPage", {

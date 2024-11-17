@@ -11,6 +11,7 @@ export const createChatroom = async (
 	otherMemberName,
 	chatrooms,
 	subscribeToNewChatroom,
+	fetchChatroomMessages,
 	token,
 ) => {
 	const isRelevantSingleChatroom = (chatroom, myMemberId, otherMemberId) => {
@@ -39,6 +40,7 @@ export const createChatroom = async (
 		if (exitedChatroomInfo) {
 			await changeChatroomStatus(exitedChatroomInfo.id);
 			subscribeToNewChatroom(exitedChatroomInfo.id, token);
+			fetchChatroomMessages(exitedChatroomInfo.id);
 			return exitedChatroomInfo;
 		} else if (!chatroomInfo) {
 			const response = await createSingleChatroom(
@@ -47,6 +49,7 @@ export const createChatroom = async (
 			);
 			chatroomInfo = response.data;
 			subscribeToNewChatroom(chatroomInfo.id, token);
+			fetchChatroomMessages(chatroomInfo.id);
 		}
 		return chatroomInfo;
 	} catch (error) {
