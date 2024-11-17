@@ -22,11 +22,7 @@ import { useWebSocket } from "context/WebSocketContext";
 import formatKoreanTime from "util/formatTime";
 import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 import { sortByIds } from "util/util";
-import {
-	getBookmarkedByChatroomId,
-	getChatsByChatroomId,
-	holdChatroom,
-} from "config/api";
+import { getBookmarkedByChatroomId, getChatsByChatroomId } from "config/api";
 
 import ArrowRight from "@components/common/ArrowRight";
 import ChatInputSend from "@components/chat/ChatInputSend";
@@ -105,6 +101,7 @@ const ChatRoomPage = ({ route }) => {
 			try {
 				const response = await getChatsByChatroomId(chatroomInfo.id);
 				const messages = response.data;
+				console.log(response.data);
 				setInitialMessages(messages);
 			} catch (error) {
 				console.error("Failed to fetch chatroom messages:", error);
@@ -164,8 +161,7 @@ const ChatRoomPage = ({ route }) => {
 
 	const handleGoBack = async () => {
 		try {
-			await holdChatroom(chatroomInfo.id);
-			navigation.navigate("Chat");
+			navigation.goBack("Chat");
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
