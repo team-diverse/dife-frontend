@@ -47,11 +47,19 @@ const ChatInputSend = ({ chatroomId, onFocus }) => {
 	return (
 		<View style={styles.rectangle}>
 			<TextInput
-				style={[styles.input, { paddingLeft: 17 }]}
+				style={[styles.input]}
 				value={chatInput}
 				onChangeText={setChatInput}
+				multiline
 				onFocus={onFocus}
 				onBlur={Keyboard.dismiss}
+				onContentSizeChange={(contentHeight) => {
+					if (contentHeight <= 6 * 17) {
+						contentHeight;
+					} else {
+						6 * 17;
+					}
+				}}
 			/>
 
 			<TouchableOpacity style={styles.rectangleBlue} onPress={handleSend}>
@@ -65,8 +73,7 @@ const styles = StyleSheet.create({
 	rectangle: {
 		flexDirection: "row",
 		width: "100%",
-		height: 48,
-		alignItems: "center",
+		alignItems: "flex-start",
 		justifyContent: "space-between",
 		backgroundColor: CustomTheme.bgBasic,
 		shadowColor: "#3C454E",
@@ -104,10 +111,17 @@ const styles = StyleSheet.create({
 		...fontBody14,
 		alignItems: "center",
 		width: "100%",
-		height: 36,
+		marginTop: 10,
+		marginBottom: 13,
+		marginRight: 55,
+		paddingLeft: 17,
+		paddingRight: 17,
+		maxHeight: 6 * 17,
 	},
 	rectangleBlue: {
-		flex: 1,
+		position: "absolute",
+		bottom: 0,
+		right: 0,
 		width: 47.65,
 		height: 48,
 		alignItems: "center",
