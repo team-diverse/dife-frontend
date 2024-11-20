@@ -15,11 +15,10 @@ import IconChatSend from "@components/chat/IconChatSend";
 
 const { fontBody14 } = CustomTheme;
 
-const ChatInputSend = ({ chatroomId, isExited: initialIsExited, onFocus }) => {
+const ChatInputSend = ({ chatroomId, onFocus }) => {
 	const [chatInput, setChatInput] = useState("");
 	const { publishMessage } = useWebSocket();
 	const [token, setToken] = useState(null);
-	const [isExited, setIsExited] = useState(initialIsExited);
 
 	useEffect(() => {
 		const fetchToken = async () => {
@@ -33,22 +32,12 @@ const ChatInputSend = ({ chatroomId, isExited: initialIsExited, onFocus }) => {
 	const handleSend = async () => {
 		const trimmedChatInput = chatInput.trim();
 		if (trimmedChatInput && token) {
-			if (isExited) {
-				publishMessage({
-					chatType: "ENTER",
-					chatroomId,
-					message: trimmedChatInput,
-					token,
-				});
-				setIsExited(false);
-			} else {
-				publishMessage({
-					chatType: "CHAT",
-					chatroomId,
-					message: trimmedChatInput,
-					token,
-				});
-			}
+			publishMessage({
+				chatType: "CHAT",
+				chatroomId,
+				message: trimmedChatInput,
+				token,
+			});
 			setChatInput("");
 		} else {
 			console.log("Token is missing or input is empty");
