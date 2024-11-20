@@ -97,7 +97,7 @@ const ChattingPage = () => {
 		try {
 			const response = await getChatroomsByType("SINGLE");
 
-			const sortedChatrooms = response.data.sort((a, b) => {
+			const sortedChatrooms = response?.data.sort((a, b) => {
 				const latestMessageA =
 					messages[a.id]?.[messages[a.id].length - 1];
 				const latestMessageB =
