@@ -91,7 +91,9 @@ const ChatRoomPage = ({ route }) => {
 
 	const handleContentSizeChange = () => {
 		if (flatListRef.current) {
-			flatListRef.current.scrollToEnd({ animated: true });
+			setTimeout(() => {
+				flatListRef.current.scrollToEnd({ animated: false });
+			}, 100);
 		}
 	};
 
