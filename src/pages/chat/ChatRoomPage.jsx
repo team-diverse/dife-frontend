@@ -15,13 +15,18 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
 
 import ChatRoomStyles from "@pages/chat/ChatRoomStyles";
 import { useWebSocket } from "context/WebSocketContext";
 import formatKoreanTime from "util/formatTime";
 import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 import { sortByIds } from "util/util";
-import { getBookmarkedByChatroomId, getChatsByChatroomId } from "config/api";
+import {
+	getBookmarkedByChatroomId,
+	getChatsByChatroomId,
+	holdChatroom,
+} from "config/api";
 
 import ArrowRight from "@components/common/ArrowRight";
 import ChatInputSend from "@components/chat/ChatInputSend";
@@ -42,7 +47,7 @@ const ChatRoomPage = ({ route }) => {
 	const menuAnim = useRef(new Animated.Value(screenWidth)).current;
 	const { messages } = useWebSocket();
 	const [initialMessages, setInitialMessages] = useState([]);
-	const { chatroomInfo } = route.params;
+	const { chatroomInfo, isExited } = route.params;
 	const [memberId, setMemberId] = useState(null);
 	const members = sortByIds(chatroomInfo.members);
 	const otherMember = members.find((member) => member.id !== memberId);
@@ -443,11 +448,12 @@ const ChatRoomPage = ({ route }) => {
 			<KeyboardAvoidingView
 				style={{ marginBottom: 0 }}
 				behavior="padding"
-				keyboardVerticalOffset={statusBarHeight - 50}
+				keyboardVerticalOffset={statusBarHeight - 55}
 				onContentSizeChange={handleContentSizeChange}
 			>
 				<ChatInputSend
 					chatroomId={chatroomInfo.id}
+					isExited={isExited}
 					onFocus={handleInputFocus}
 				/>
 			</KeyboardAvoidingView>
