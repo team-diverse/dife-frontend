@@ -31,7 +31,8 @@ const ConnectProfilePage = ({ route }) => {
 	const { memberId } = route.params;
 	const { t } = useTranslation();
 	const navigation = useNavigation();
-	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
+	const { chatrooms, subscribeToNewChatroom, fetchChatroomMessages } =
+		useWebSocket();
 	const [profileData, setProfileData] = useState([]);
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
@@ -174,6 +175,7 @@ const ConnectProfilePage = ({ route }) => {
 				name,
 				chatrooms,
 				subscribeToNewChatroom,
+				fetchChatroomMessages,
 				token,
 			);
 			navigation.navigate("ChatRoomPage", {

@@ -66,11 +66,9 @@ export const WebSocketProvider = ({ children }) => {
 	};
 
 	const updateChatroomsAndMessages = async () => {
-		const { allChatrooms, initialMessages } =
-			await getAuthorizedChatrooms();
+		const allChatrooms = await getAuthorizedChatrooms();
 		setChatrooms(allChatrooms);
-		setMessages(initialMessages);
-		return { allChatrooms, initialMessages };
+		return { allChatrooms };
 	};
 
 	const subscribeToChatrooms = async (chatrooms, token) => {
@@ -111,24 +109,19 @@ export const WebSocketProvider = ({ children }) => {
 		});
 	};
 
-	const fetchInitialMessages = async (allChatrooms) => {
-		const messages = {};
-		for (const chatroom of allChatrooms) {
-			const chats = await getChatsByChatroomId(chatroom.id);
-			messages[chatroom.id] = sortByIds(chats.data || []);
-		}
-		return messages;
+	const fetchChatroomMessages = async (chatroomId) => {
+		const chats = await getChatsByChatroomId(chatroomId);
+		setMessages((prev) => ({
+			...prev,
+			[chatroomId]: sortByIds(chats.data || []),
+		}));
+		return chats.data || [];
 	};
 
 	const getAuthorizedChatrooms = async () => {
 		const groupChatroomResult = await getChatroomsByType("GROUP");
 		const singleChatroomResult = await getChatroomsByType("SINGLE");
-		const allChatrooms = [
-			...groupChatroomResult.data,
-			...singleChatroomResult.data,
-		];
-		const initialMessages = await fetchInitialMessages(allChatrooms);
-		return { allChatrooms, initialMessages };
+		return [...groupChatroomResult.data, ...singleChatroomResult.data];
 	};
 
 	const publishMessage = async (message) => {
@@ -165,6 +158,7 @@ export const WebSocketProvider = ({ children }) => {
 				publishMessage,
 				updateChatroomsAndMessages,
 				subscribeToNewChatroom,
+				fetchChatroomMessages,
 				unsubscribeToChatroom,
 				disconnectWebSocket,
 			}}

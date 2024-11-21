@@ -30,7 +30,8 @@ const HomeCardFront = ({
 	isLikedActive,
 }) => {
 	const navigation = useNavigation();
-	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
+	const { chatrooms, subscribeToNewChatroom, fetchChatroomMessages } =
+		useWebSocket();
 
 	const [tagHeight, setTagHeight] = useState(0);
 	const [introductionLines, setIntroductionLines] = useState(1);
@@ -65,6 +66,7 @@ const HomeCardFront = ({
 				name,
 				chatrooms,
 				subscribeToNewChatroom,
+				fetchChatroomMessages,
 				token,
 			);
 			navigation.navigate("ChatRoomPage", {
