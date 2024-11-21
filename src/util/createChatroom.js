@@ -51,7 +51,7 @@ export const createChatroom = async (
 			subscribeToNewChatroom(chatroomInfo.id, token);
 			fetchChatroomMessages(chatroomInfo.id);
 		}
-		return chatroomInfo;
+		return { chatroomInfo };
 	} catch (error) {
 		Sentry.captureException(error);
 		console.error("채팅방 생성 에러:", error);
