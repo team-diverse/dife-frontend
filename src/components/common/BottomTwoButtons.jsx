@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 	rectangle: {
 		flexDirection: "row",
 		width: "100%",
-		height: 72,
+		height: 92,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.bgBasic,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 	rectangleShadow: {
 		flexDirection: "row",
 		width: "100%",
-		height: 72,
+		height: 92,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.bgBasic,
@@ -62,7 +62,8 @@ const styles = StyleSheet.create({
 		borderRadius: 27,
 		marginLeft: 24,
 		marginRight: 8,
-		marginVertical: 14,
+		marginVertical: 0,
+		marginBottom: 14,
 	},
 	button2: {
 		width: 156,
@@ -75,17 +76,17 @@ const styles = StyleSheet.create({
 		borderRadius: 27,
 		marginRight: 24,
 		marginLeft: 8,
-		marginVertical: 14,
+		marginBottom: 14,
 	},
 	text1: {
 		...fontSub16,
 		color: CustomTheme.primaryMedium,
-		paddingVertical: 10,
+		paddingVertical: 9,
 	},
 	text2: {
 		...fontSub16,
 		color: CustomTheme.bgBasic,
-		paddingVertical: 10,
+		paddingVertical: 9,
 	},
 	buttonDisabled: {
 		backgroundColor: CustomTheme.borderColor,

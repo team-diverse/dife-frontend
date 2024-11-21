@@ -134,12 +134,14 @@ const ConnectPage = () => {
 	const isSmallScreen = screenHeight < 700;
 
 	return (
-		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-			<SafeAreaView style={ConnectStyles.container}>
-				<View style={ConnectStyles.backgroundBlue} />
-				<View style={ConnectStyles.connectTop}>
-					<ConnectTop />
-				</View>
+		<SafeAreaView style={ConnectStyles.container}>
+			<View style={ConnectStyles.backgroundBlue} />
+
+			<View style={ConnectStyles.connectTop}>
+				<ConnectTop />
+			</View>
+
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View
 					style={[
 						ConnectStyles.textIconContainer,
@@ -154,123 +156,127 @@ const ConnectPage = () => {
 						onPress={() => navigation.navigate("LikeUserOneToOne")}
 					/>
 				</View>
-				<View
-					style={[
-						ConnectStyles.searchContainer,
-						isSmallScreen && { top: -25 },
-					]}
-				>
-					<TouchableOpacity onPress={pressButton}>
-						<FilterIcon style={ConnectStyles.searchFilter} />
-						{totalSelection > 0 && (
-							<View style={ConnectStyles.containerImageNumber}>
-								<IconCircleNumber
-									style={ConnectStyles.iconCircleNumber}
-									color={CustomTheme.bgBasic}
-								/>
-								<Text style={ConnectStyles.textImageNumber}>
-									{totalSelection}
-								</Text>
-							</View>
-						)}
-					</TouchableOpacity>
-					<FilterBottomSlide
-						modalVisible={modalVisible}
-						setModalVisible={setModalVisible}
-						onFilterResponse={handleFilterResponse}
-						onSearchResponse={handleFilterSearchFail}
-						onTotalSelection={handleTotalSelection}
-						isReset={isReset}
+			</TouchableWithoutFeedback>
+			<View
+				style={[
+					ConnectStyles.searchContainer,
+					isSmallScreen && { top: -25 },
+				]}
+			>
+				<TouchableOpacity onPress={pressButton}>
+					<FilterIcon style={ConnectStyles.searchFilter} />
+					{totalSelection > 0 && (
+						<View style={ConnectStyles.containerImageNumber}>
+							<IconCircleNumber
+								style={ConnectStyles.iconCircleNumber}
+								color={CustomTheme.bgBasic}
+							/>
+							<Text style={ConnectStyles.textImageNumber}>
+								{totalSelection}
+							</Text>
+						</View>
+					)}
+				</TouchableOpacity>
+				<FilterBottomSlide
+					modalVisible={modalVisible}
+					setModalVisible={setModalVisible}
+					onFilterResponse={handleFilterResponse}
+					onSearchResponse={handleFilterSearchFail}
+					onTotalSelection={handleTotalSelection}
+					isReset={isReset}
+				/>
+				<View style={ConnectStyles.searchIconContainer}>
+					<TextInput
+						style={[
+							ConnectStyles.search,
+							(searchFail ||
+								(searchData && searchData.length > 0)) && {
+								paddingLeft: 40,
+							},
+						]}
+						placeholder={t("searchPlaceholder")}
+						value={searchTerm}
+						onChangeText={setSearchTerm}
+						onFocus={handleFocus}
+						onBlur={handleBlur}
+						onSubmitEditing={handleSearch}
 					/>
-					<View style={ConnectStyles.searchIconContainer}>
-						<TextInput
-							style={[
-								ConnectStyles.search,
-								(searchFail ||
-									(searchData && searchData.length > 0)) && {
-									paddingLeft: 40,
-								},
-							]}
-							placeholder={t("searchPlaceholder")}
-							value={searchTerm}
-							onChangeText={setSearchTerm}
-							onFocus={handleFocus}
-							onBlur={handleBlur}
-							onSubmitEditing={handleSearch}
+					{(searchFail || (searchData && searchData.length > 0)) && (
+						<TouchableOpacity
+							style={ConnectStyles.iconArrowRightSearch}
+							onPress={handleSearchBack}
+						>
+							<ArrowRight color="#B0D0FF" />
+						</TouchableOpacity>
+					)}
+					{isSearching ? (
+						<ConnectSearchCancel
+							style={ConnectStyles.searchIcon}
+							onPress={handleCancel}
 						/>
-						{(searchFail ||
-							(searchData && searchData.length > 0)) && (
-							<TouchableOpacity
-								style={ConnectStyles.iconArrowRightSearch}
-								onPress={handleSearchBack}
-							>
-								<ArrowRight color="#B0D0FF" />
-							</TouchableOpacity>
-						)}
-						{isSearching ? (
-							<ConnectSearchCancel
-								style={ConnectStyles.searchIcon}
-								onPress={handleCancel}
-							/>
-						) : (
-							<ConnectSearchIcon
-								style={ConnectStyles.searchIcon}
-								onPress={handleSearch}
-							/>
-						)}
-					</View>
+					) : (
+						<ConnectSearchIcon
+							style={ConnectStyles.searchIcon}
+							onPress={handleSearch}
+						/>
+					)}
 				</View>
+			</View>
 
-				<View style={ConnectStyles.containerDife}>
-					<View style={ConnectStyles.connectDife}>
-						<ConnectDife />
-					</View>
+			<View style={ConnectStyles.containerDife}>
+				<View style={ConnectStyles.connectDife}>
+					<ConnectDife />
 				</View>
+			</View>
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View style={ConnectStyles.midContainer}>
 					<TouchableOpacity
 						style={ConnectStyles.resetContainer}
-						onPress={handleReset}
+						onPress={[handleReset]}
 					>
 						<Text style={ConnectStyles.textReset}>Reset</Text>
 						<ConnectReset />
 					</TouchableOpacity>
 				</View>
+			</TouchableWithoutFeedback>
 
-				{searchFail ? (
-					<View
-						style={[
-							ConnectStyles.cardContainer,
-							{ marginHorizontal: 25 },
-						]}
-					>
-						<ConnectCard fail="true" />
+			{searchFail ? (
+				<View
+					style={[
+						ConnectStyles.cardContainer,
+						{ marginHorizontal: 25 },
+					]}
+				>
+					<ConnectCard fail="true" />
+				</View>
+			) : (
+				<View style={ConnectStyles.cardContainer}>
+					<View style={ConnectStyles.flatlist}>
+						<FlatList
+							scrollEnabled={true}
+							keyboardShouldPersistTaps="handled"
+							contentContainerStyle={[
+								ConnectStyles.flatlistContent,
+								{ minHeight: "100%" },
+							]}
+							data={
+								searchData === null
+									? profileDataList
+									: searchData
+							}
+							renderItem={({ item }) => (
+								<ConnectCard
+									{...item}
+									tags={item.tags}
+									fileId={item.profileImg?.id}
+								/>
+							)}
+							keyExtractor={(item) => item.id}
+						/>
 					</View>
-				) : (
-					<View style={ConnectStyles.cardContainer}>
-						<View style={ConnectStyles.flatlist}>
-							<FlatList
-								contentContainerStyle={
-									ConnectStyles.flatlistContent
-								}
-								data={
-									searchData === null
-										? profileDataList
-										: searchData
-								}
-								renderItem={({ item }) => (
-									<ConnectCard
-										{...item}
-										tags={item.tags}
-										fileId={item.profileImg?.id}
-									/>
-								)}
-								keyExtractor={(item) => item.id}
-							/>
-						</View>
-					</View>
-				)}
-			</SafeAreaView>
-		</TouchableWithoutFeedback>
+				</View>
+			)}
+		</SafeAreaView>
 	);
 };
 

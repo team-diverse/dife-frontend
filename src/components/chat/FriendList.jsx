@@ -15,7 +15,8 @@ import ModalKebabMenuConnectList from "@components/member/ModalKebabMenuConnectL
 
 const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
 	const navigation = useNavigation();
-	const { chatrooms, subscribeToNewChatroom } = useWebSocket();
+	const { chatrooms, subscribeToNewChatroom, fetchChatroomMessages } =
+		useWebSocket();
 	const [token, setToken] = useState(null);
 
 	useEffect(() => {
@@ -34,6 +35,7 @@ const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
 				name,
 				chatrooms,
 				subscribeToNewChatroom,
+				fetchChatroomMessages,
 				token,
 			);
 			navigation.navigate("ChatRoomPage", {

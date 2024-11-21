@@ -15,18 +15,13 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
-import * as Sentry from "@sentry/react-native";
 
 import ChatRoomStyles from "@pages/chat/ChatRoomStyles";
 import { useWebSocket } from "context/WebSocketContext";
 import formatKoreanTime from "util/formatTime";
 import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 import { sortByIds } from "util/util";
-import {
-	getBookmarkedByChatroomId,
-	getChatsByChatroomId,
-	holdChatroom,
-} from "config/api";
+import { getBookmarkedByChatroomId, getChatsByChatroomId } from "config/api";
 
 import ArrowRight from "@components/common/ArrowRight";
 import ChatInputSend from "@components/chat/ChatInputSend";
@@ -96,7 +91,9 @@ const ChatRoomPage = ({ route }) => {
 
 	const handleContentSizeChange = () => {
 		if (flatListRef.current) {
-			flatListRef.current.scrollToEnd({ animated: true });
+			setTimeout(() => {
+				flatListRef.current.scrollToEnd({ animated: false });
+			}, 100);
 		}
 	};
 
@@ -117,23 +114,45 @@ const ChatRoomPage = ({ route }) => {
 	const groupMessages = (messages) => {
 		const grouped = [];
 		let currentGroup = [];
+		let currentDate = null;
 
 		messages.forEach((msg, index) => {
-			if (index === 0) {
-				currentGroup.push(msg);
-				return;
-			}
+			const messageDate = new Date(msg.created);
 
-			const prevMsg = messages[index - 1];
-			if (isSameMinute(msg.created, prevMsg.created)) {
-				currentGroup.push(msg);
-			} else {
-				const lastMsg = {
-					...currentGroup[currentGroup.length - 1],
-					showTime: true,
-				};
-				grouped.push([...currentGroup.slice(0, -1), lastMsg]);
+			if (!currentDate || !isSameDay(currentDate, messageDate)) {
+				if (currentGroup.length > 0) {
+					const lastMsg = {
+						...currentGroup[currentGroup.length - 1],
+						showTime: true,
+					};
+					grouped.push([...currentGroup.slice(0, -1), lastMsg]);
+				}
+
+				grouped.push([
+					{
+						id: `date-${messageDate.getTime()}`,
+						isDateHeader: true,
+						created: messageDate,
+					},
+				]);
+
 				currentGroup = [msg];
+				currentDate = messageDate;
+			} else {
+				const prevMsg = messages[index - 1];
+				if (
+					isSameMinute(msg.created, prevMsg.created) &&
+					msg.member.id === prevMsg.member.id
+				) {
+					currentGroup.push(msg);
+				} else {
+					const lastMsg = {
+						...currentGroup[currentGroup.length - 1],
+						showTime: true,
+					};
+					grouped.push([...currentGroup.slice(0, -1), lastMsg]);
+					currentGroup = [msg];
+				}
 			}
 		});
 
@@ -148,6 +167,27 @@ const ChatRoomPage = ({ route }) => {
 		return grouped;
 	};
 
+	const formatDateHeader = (date) => {
+		const messageDate = new Date(date);
+		const days = ["일", "월", "화", "수", "목", "금", "토"];
+		const dayOfWeek = days[messageDate.getDay()];
+
+		return `${messageDate.getFullYear()}.${String(messageDate.getMonth() + 1).padStart(2, "0")}.${String(messageDate.getDate()).padStart(2, "0")} ${dayOfWeek}요일`;
+	};
+
+	const isSameDay = (date1, date2) => {
+		if (!(date1 instanceof Date) || !(date2 instanceof Date)) {
+			date1 = new Date(date1);
+			date2 = new Date(date2);
+		}
+
+		return (
+			date1.getUTCFullYear() === date2.getUTCFullYear() &&
+			date1.getUTCMonth() === date2.getUTCMonth() &&
+			date1.getUTCDate() === date2.getUTCDate()
+		);
+	};
+
 	const isSameMinute = (date1, date2) => {
 		if (!(date1 instanceof Date) || !(date2 instanceof Date)) {
 			date1 = new Date(date1);
@@ -160,19 +200,6 @@ const ChatRoomPage = ({ route }) => {
 			date1.getUTCDate() === date2.getUTCDate() &&
 			date1.getUTCMinutes() === date2.getUTCMinutes()
 		);
-	};
-
-	const handleGoBack = async () => {
-		try {
-			await holdChatroom(chatroomInfo.id);
-			navigation.navigate("Chat");
-		} catch (error) {
-			Sentry.captureException(error);
-			console.error(
-				"채팅 Hold 오류:",
-				error.response ? error.response.data : error.message,
-			);
-		}
 	};
 
 	const toggleMenu = async () => {
@@ -263,7 +290,9 @@ const ChatRoomPage = ({ route }) => {
 					<View style={ChatRoomStyles.containerBackName}>
 						<TouchableOpacity
 							style={ChatRoomStyles.iconArrow}
-							onPress={handleGoBack}
+							onPress={() => {
+								navigation.goBack();
+							}}
 						>
 							<ArrowRight color="#000" />
 						</TouchableOpacity>
@@ -283,11 +312,25 @@ const ChatRoomPage = ({ route }) => {
 					<FlatList
 						ref={flatListRef}
 						data={data}
-						keyExtractor={(item) => item.id}
+						keyExtractor={(item) => item[0].id}
 						renderItem={({ item }) => (
 							<>
-								{item.map((msg, idx) => {
-									return (
+								{item[0].isDateHeader ? (
+									<View
+										style={
+											ChatRoomStyles.dateHeaderContainer
+										}
+									>
+										<Text
+											style={
+												ChatRoomStyles.dateHeaderText
+											}
+										>
+											{formatDateHeader(item[0].created)}
+										</Text>
+									</View>
+								) : (
+									item.map((msg, idx) => (
 										<ChatBubble
 											key={msg.id}
 											fileId={otherMember?.profileImg?.id}
@@ -305,8 +348,8 @@ const ChatRoomPage = ({ route }) => {
 											chatroomId={msg.singleChatroom.id}
 											chatId={msg.id}
 										/>
-									);
-								})}
+									))
+								)}
 							</>
 						)}
 						onContentSizeChange={handleContentSizeChange}
@@ -398,6 +441,7 @@ const ChatRoomPage = ({ route }) => {
 				</Animated.View>
 			</SafeAreaView>
 			<KeyboardAvoidingView
+				style={{ marginBottom: 0 }}
 				behavior="padding"
 				keyboardVerticalOffset={statusBarHeight - 55}
 				onContentSizeChange={handleContentSizeChange}
@@ -409,6 +453,7 @@ const ChatRoomPage = ({ route }) => {
 				/>
 			</KeyboardAvoidingView>
 			<View style={ChatRoomStyles.chatInput} />
+			<View style={ChatRoomStyles.chatInputBottom} />
 		</>
 	);
 };

@@ -13,13 +13,20 @@ const ChatRoomStyles = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
-		marginBottom: 30,
 		height: 56,
 	},
 	containerChat: {
 		flex: 1,
 		paddingRight: -10,
 		paddingLeft: 15,
+	},
+	dateHeaderContainer: {
+		alignItems: "center",
+		marginVertical: 16,
+	},
+	dateHeaderText: {
+		...fontCaption,
+		color: "#6F6D6C",
 	},
 	containerBackName: {
 		flexDirection: "row",
@@ -110,8 +117,11 @@ const ChatRoomStyles = StyleSheet.create({
 		marginRight: 11,
 	},
 	chatInput: {
-		height: 34,
 		backgroundColor: CustomTheme.bgBasic,
+	},
+	chatInputBottom: {
+		height: 34,
+		backgroundColor: "white",
 	},
 });
 
