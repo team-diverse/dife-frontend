@@ -73,9 +73,10 @@ const PostStyles = StyleSheet.create({
 	textIcon: {
 		...fontCaption,
 		marginLeft: 4,
+		color: "#8C8D91",
 	},
 	textTranslation: {
-		...fontNavi,
+		...fontCaption,
 		color: CustomTheme.primaryMedium,
 		textDecorationLine: "underline",
 		position: "absolute",

@@ -513,7 +513,7 @@ const PostPage = ({ route }) => {
 							style={PostStyles.iconRow}
 							onPress={handleHeart}
 						>
-							<IconHeart active={pressHeart} />
+							<IconHeart active={pressHeart} size="24" />
 							<Text style={PostStyles.textIcon}>{heart}</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
@@ -524,7 +524,7 @@ const PostPage = ({ route }) => {
 									: handleBookmark
 							}
 						>
-							<IconBookmark active={pressBookmark} />
+							<IconBookmark active={pressBookmark} size="24" />
 							<Text style={PostStyles.textIcon}>{bookmark}</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
