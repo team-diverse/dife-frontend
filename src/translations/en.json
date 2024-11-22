@@ -22,7 +22,7 @@
 
 	"findPasswordTitle": "Password Reset",
 	"findPasswordSubtitle": "Enter the email used during registration",
-	"emailInvalidError": "Please enter a valid email format",
+	"emailInvalidError": "Invalid email. Only gmail.com or kookmin.ac.kr addresses are allowed.",
 	"emailNotFoundError": "Email not found",
 	"passwordResetButton": "Send verification code",
 	"emailSendingText": "Sending email",

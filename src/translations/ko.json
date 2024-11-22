@@ -22,7 +22,7 @@
 
 	"findPasswordTitle": "비밀번호 재발급",
 	"findPasswordSubtitle": "회원가입 시 사용한 이메일을 입력해주세요",
-	"emailInvalidError": "유효한 이메일 형식을 입력해주세요.",
+	"emailInvalidError": "유효하지 않은 이메일입니다. 이메일은 gmail.com 또는 kookmin.ac.kr 주소만 허용됩니다.",
 	"emailNotFoundError": "존재하지 않는 이메일입니다.",
 	"passwordResetButton": "인증번호 전송하기",
 	"emailSendingText": "이메일 전송중",
