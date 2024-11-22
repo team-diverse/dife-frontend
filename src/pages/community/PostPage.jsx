@@ -211,6 +211,7 @@ const PostPage = ({ route }) => {
 				return;
 			}
 			if (isReplying && parentCommentId) {
+				Keyboard.dismiss();
 				onChangeComment("");
 				const commentSendResponse = await createReplyComment(
 					postId,
@@ -225,13 +226,13 @@ const PostPage = ({ route }) => {
 				setIsReplying(false);
 				setParentCommentId(null);
 			} else {
+				Keyboard.dismiss();
 				onChangeComment("");
 				const commentSendResponse = await createComment(
 					postId,
 					valueComment,
 					isChecked,
 				);
-				onChangeComment("");
 				setComments((prevComments) => [
 					...prevComments,
 					commentSendResponse.data,
