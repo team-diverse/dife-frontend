@@ -586,6 +586,7 @@ const PostPage = ({ route }) => {
 						}
 						onChangeText={(text) => onChangeComment(text)}
 						value={valueComment}
+						multiline
 					/>
 					<TouchableOpacity
 						style={PostStyles.iconChatSend}

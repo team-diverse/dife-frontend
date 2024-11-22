@@ -98,11 +98,12 @@ const PostStyles = StyleSheet.create({
 	},
 	containerInputComment: {
 		flexDirection: "row",
-		height: 51,
+		minHeight: 51,
 		backgroundColor: CustomTheme.bgBasic,
 		borderTopLeftRadius: 14,
 		borderTopRightRadius: 14,
 		justifyContent: "space-between",
+		alignItems: "center",
 		marginTop: -15,
 	},
 	checkbox: {
@@ -114,12 +115,13 @@ const PostStyles = StyleSheet.create({
 		...fontBody14,
 		flex: 1,
 		width: "100%",
+		marginBottom: 6,
+		maxHeight: 130,
 	},
 	iconChatSend: {
 		justifyContent: "center",
 		marginLeft: 12,
 		marginRight: 24,
-		marginVertical: 12,
 	},
 });
 
