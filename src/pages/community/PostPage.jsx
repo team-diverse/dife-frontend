@@ -80,10 +80,10 @@ const PostPage = ({ route }) => {
 	const [parentCommentId, setParentCommentId] = useState(null);
 	const [isTranslation, setIsTranslation] = useState(false);
 	const [translationCount, setTranslationCount] = useState();
+	const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
 
 	const commentRef = useRef(null);
-
-	const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+	const scrollViewRef = useRef(null);
 
 	useEffect(() => {
 		if (images.length === 1) {
@@ -407,7 +407,11 @@ const PostPage = ({ route }) => {
 			<View onLayout={handleTopBarLayout}>
 				<TopBar topBar={t("boardTitle")} color="#000" />
 			</View>
-			<ScrollView onScroll={handleScroll}>
+			<ScrollView
+				onScroll={handleScroll}
+				ref={scrollViewRef}
+				scrollEventThrottle={16}
+			>
 				<View style={PostStyles.containerWhite}>
 					<View style={PostStyles.containerWriterRow}>
 						<View style={{ flexDirection: "row" }}>
