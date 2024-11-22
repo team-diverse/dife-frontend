@@ -155,7 +155,9 @@
 	"searchCancelButton": "検索をキャンセル",
 
 	"writePageTitle": "投稿を書く",
+	"modifyPageTitle": "投稿を編集",
 	"completeWriteButton": "投稿完了",
+	"completeModifyButton": "編集を完了",
 	"titlePlaceholder": "タイトル",
 	"contentPlaceholder": "内容",
 	"deleteImageAlert": "最大9枚まで選択できます。",

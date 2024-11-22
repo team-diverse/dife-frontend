@@ -155,7 +155,9 @@
 	"searchCancelButton": "Cancel Search",
 
 	"writePageTitle": "Write Post",
+	"modifyPageTitle": "Edit Post",
 	"completeWriteButton": "Complete Writing",
+	"completeModifyButton": "Complete Edit",
 	"titlePlaceholder": "Title",
 	"contentPlaceholder": "Content",
 	"deleteImageAlert": "You can only select up to 9 images.",

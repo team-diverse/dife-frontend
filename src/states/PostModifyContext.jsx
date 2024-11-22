@@ -10,12 +10,15 @@ export const PostModifyProvider = ({ children }) => {
 		id: "",
 		title: "",
 		context: "",
+		images: [],
 		boardType: "",
+		isAnonymous: true,
 	});
 
 	const updatePostModifyData = (newData) => {
 		setPostModifyData((prev) => {
 			const updatedData = { ...prev, ...newData };
+			console.log(updatedData);
 			return updatedData;
 		});
 	};

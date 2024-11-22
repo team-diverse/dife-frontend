@@ -155,7 +155,9 @@
 	"searchCancelButton": "取消搜索",
 
 	"writePageTitle": "写帖子",
+	"modifyPageTitle": "编辑文章",
 	"completeWriteButton": "完成写作",
+	"completeModifyButton": "完成编辑",
 	"titlePlaceholder": "标题",
 	"contentPlaceholder": "内容",
 	"deleteImageAlert": "最多只能选择9张图片。",

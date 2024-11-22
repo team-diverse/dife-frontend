@@ -118,7 +118,6 @@ const PostPage = ({ route }) => {
 			const responses = await Promise.all(
 				fileIds.map((fileId) => getProfileImageByFileId(fileId)),
 			);
-
 			const responseImages = responses.map((response) => response.data);
 			setImages(responseImages);
 
@@ -137,6 +136,8 @@ const PostPage = ({ route }) => {
 					context: postByIdResponse.data.content,
 					boardType: postByIdResponse.data.boardType,
 					isPublic: postByIdResponse.data.isPublic,
+					images: responseImages,
+					isAnonymous: postByIdResponse.data.isPublic,
 				});
 			}
 		} catch (error) {
@@ -148,9 +149,11 @@ const PostPage = ({ route }) => {
 		}
 	};
 
-	useEffect(() => {
-		getPost();
-	}, []);
+	useFocusEffect(
+		useCallback(() => {
+			getPost();
+		}, []),
+	);
 
 	useFocusEffect(
 		useCallback(() => {

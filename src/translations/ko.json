@@ -153,7 +153,9 @@
 	"searchCancelButton": "검색 취소",
 
 	"writePageTitle": "글쓰기",
+	"modifyPageTitle": "글 수정하기",
 	"completeWriteButton": "작성 완료",
+	"completeModifyButton": "수정 완료",
 	"titlePlaceholder": "제목",
 	"contentPlaceholder": "내용",
 	"deleteImageAlert": "최대 9장까지만 선택할 수 있습니다.",
