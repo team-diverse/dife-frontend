@@ -563,7 +563,13 @@ const PostPage = ({ route }) => {
 							),
 						)}
 					</View>
-					<View style={{ marginTop: 48 }}>
+					<View
+						style={{
+							width: "100%",
+							marginTop: 48,
+							marginHorizontal: 24,
+						}}
+					>
 						<ItemComment
 							commentList={comments}
 							onReply={handleReply}

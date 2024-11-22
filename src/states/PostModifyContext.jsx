@@ -18,7 +18,6 @@ export const PostModifyProvider = ({ children }) => {
 	const updatePostModifyData = (newData) => {
 		setPostModifyData((prev) => {
 			const updatedData = { ...prev, ...newData };
-			console.log(updatedData);
 			return updatedData;
 		});
 	};

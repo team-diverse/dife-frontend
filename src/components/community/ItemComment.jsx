@@ -389,9 +389,12 @@ const ItemComment = ({ commentList = [], onReply }) => {
 				</View>
 
 				{replies.map((reply) => (
-					<View key={reply.id} style={{ flexDirection: "row" }}>
+					<View
+						key={reply.id}
+						style={{ flexDirection: "row", marginRight: 24 }}
+					>
 						<IconReply style={{ marginRight: 4 }} />
-						<View style={[styles.ItemCommunity, { width: 308 }]}>
+						<View style={styles.ItemCommunity}>
 							<View style={styles.containerRow}>
 								<View>
 									<Text style={styles.textPostTitle}>
@@ -522,8 +525,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		paddingVertical: 11,
 		justifyContent: "center",
-		marginTop: 4,
-		marginBottom: 4,
+		marginVertical: 4,
 	},
 	containerRow: {
 		flexDirection: "row",
@@ -534,7 +536,6 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		lineHeight: 16,
 		fontFamily: "NotoSansCJKkr-Bold",
-		width: 272,
 		height: 17,
 	},
 	textPostContext: {
