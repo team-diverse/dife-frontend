@@ -1,25 +1,41 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	Linking,
+} from "react-native";
 import { Image } from "expo-image";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontCaption } = CustomTheme;
 
-const EventCard = ({ title = "title", date = "date", eventImg = null }) => {
+const EventCard = ({ title, date, eventImg = null, url = null }) => {
+	const handleEventLinking = async () => {
+		try {
+			await Linking.openURL(url);
+		} catch (error) {
+			console.error(
+				"이벤트 페이지 url 열기 오류:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	return (
-		<View style={styles.rectangle}>
+		<TouchableOpacity style={styles.rectangle} onPress={handleEventLinking}>
 			<Image source={eventImg} style={styles.image} />
 			<View style={styles.eventTextContainer}>
 				<Text style={[styles.title, { opacity: 1 }]}>{title}</Text>
 				<Text style={styles.date}>{date}</Text>
 			</View>
-		</View>
+		</TouchableOpacity>
 	);
 };
 
 const styles = StyleSheet.create({
 	rectangle: {
-		position: "relative",
 		width: 326,
 		height: 159,
 		backgroundColor: CustomTheme.textDisable,
