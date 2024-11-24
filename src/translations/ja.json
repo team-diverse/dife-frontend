@@ -22,7 +22,7 @@
 
 	"findPasswordTitle": "パスワード再発行",
 	"findPasswordSubtitle": "登録時に使用したメールアドレスを入力してください",
-	"emailInvalidError": "有効なメール形式を入力してください",
+	"emailInvalidError": "無効なメールアドレスです。gmail.com または kookmin.ac.kr のアドレスのみ許可されます。",
 	"emailNotFoundError": "存在しないメールアドレスです",
 	"passwordResetButton": "認証コードを送信する",
 	"emailSendingText": "メール送信中",

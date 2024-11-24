@@ -13,31 +13,10 @@ const EventPage = () => {
 	const eventData = [
 		{
 			id: "1",
-			date: "2022.02.14 ~ 2022.02.15",
-		},
-		{
-			id: "2",
-			title: "[프로그램] 2022-1학기 해외파견교환학생 설명회 홍보",
-			date: "2022.02.14 ~ 2022.02.15",
-			eventImg: require("../../assets/images/test_img/test_event2.png"),
-		},
-		{
-			id: "3",
-			title: "[프로그램] 해담이 탐구회",
-			date: "2022.11.13 ~ 2022.11.13",
-			eventImg: require("../../assets/images/test_img/test_haedam.jpg"),
-		},
-		{
-			id: "4",
-			title: "[프로그램] 2022-1학기 해외파견교환학생 설명회 홍보",
-			date: "2022.02.14 ~ 2022.02.15",
-			eventImg: require("../../assets/images/test_img/test_event.png"),
-		},
-		{
-			id: "5",
-			title: "[프로그램] 2022-1학기 해외파견교환학생 설명회 홍보",
-			date: "2022.02.14 ~ 2022.02.15",
-			eventImg: require("../../assets/images/test_img/test_event2.png"),
+			title: "🤿 Dife 베타 테스트 설문 / Dife Beta Test Questions",
+			date: "2024.11.25 ~ 2024.12.01",
+			eventImg: require("src/assets/dife_header.png"),
+			url: "https://forms.gle/7kX3YJRKpnk51qvh9",
 		},
 	];
 

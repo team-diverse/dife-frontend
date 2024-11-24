@@ -50,21 +50,30 @@ const FilterCategory = ({
 
 	const getContainerStyle = () => {
 		if (isActive) {
-			return styles.categoryActive;
+			return [
+				styles.category,
+				{ borderColor: CustomTheme.primaryMedium },
+			];
 		} else if (isPressed) {
-			return styles.categoryPressed;
+			return [
+				styles.category,
+				{
+					backgroundColor: CustomTheme.primaryBg,
+					borderColor: CustomTheme.primaryBg,
+				},
+			];
 		} else {
-			return styles.categoryDefault;
+			return styles.category;
 		}
 	};
 
 	const getTextStyle = () => {
 		if (isActive) {
-			return styles.textActive;
+			return [styles.text, { color: CustomTheme.primaryMedium }];
 		} else if (isPressed) {
-			return styles.textPressed;
+			return [styles.text, { color: "#8C8D91" }];
 		} else {
-			return styles.textDefault;
+			return styles.text;
 		}
 	};
 
@@ -84,55 +93,20 @@ const FilterCategory = ({
 };
 
 const styles = StyleSheet.create({
-	categoryDefault: {
+	category: {
 		width: 102,
 		height: 40,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.bgBasic,
-		paddingVertical: 8,
 		marginHorizontal: 5.5,
 		marginVertical: 4,
 		borderWidth: 2,
 		borderColor: "#D9EAFF",
 		borderRadius: 43,
 	},
-	categoryActive: {
-		width: 102,
-		height: 40,
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: CustomTheme.bgBasic,
-		paddingVertical: 8,
-		marginHorizontal: 5.5,
-		marginVertical: 4,
-		borderWidth: 2,
-		borderColor: CustomTheme.primaryMedium,
-		borderRadius: 43,
-	},
-	categoryPressed: {
-		width: 102,
-		height: 40,
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: CustomTheme.primaryBg,
-		paddingVertical: 8,
-		marginHorizontal: 5.5,
-		marginVertical: 4,
-		borderWidth: 2,
-		borderColor: CustomTheme.primaryBg,
-		borderRadius: 43,
-	},
-	textDefault: {
+	text: {
 		...fontSub16,
-	},
-	textActive: {
-		...fontSub16,
-		color: CustomTheme.primaryMedium,
-	},
-	textPressed: {
-		...fontSub16,
-		color: "#8C8D91",
 	},
 });
 
