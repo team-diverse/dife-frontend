@@ -1,5 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	Keyboard,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
 
@@ -37,6 +43,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 	const [modalTranslationVisible, setModalTranslationVisible] =
 		useState(false);
 	const [translationCount, setTranslationCount] = useState();
+	const [focusParentComment, setFocusParentComment] = useState(null);
 
 	useEffect(() => {
 		const newHeartStates = commentList.map((post) => ({
@@ -235,6 +242,24 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		getMyId();
 	}, []);
 
+	useEffect(() => {
+		const keyboardHideListener = Keyboard.addListener(
+			"keyboardDidHide",
+			() => {
+				setFocusParentComment(null);
+			},
+		);
+
+		return () => {
+			keyboardHideListener.remove();
+		};
+	}, []);
+
+	const focusParent = (commentId) => {
+		onReply(commentId);
+		setFocusParentComment(commentId);
+	};
+
 	const renderComment = (comment) => {
 		const replies = commentList.filter(
 			(reply) =>
@@ -247,7 +272,14 @@ const ItemComment = ({ commentList = [], onReply }) => {
 
 		return (
 			<View key={comment.id}>
-				<View style={styles.ItemCommunity}>
+				<View
+					style={[
+						styles.ItemCommunity,
+						focusParentComment === comment.id && {
+							borderColor: CustomTheme.primaryMedium,
+						},
+					]}
+				>
 					<View style={styles.containerRow}>
 						<View>
 							<Text style={styles.textPostTitle}>
@@ -285,7 +317,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 								</TouchableOpacity>
 								<TouchableOpacity
 									style={styles.containerText}
-									onPress={() => onReply(comment.id)}
+									onPress={() => focusParent(comment.id)}
 								>
 									<IconComment
 										color={CustomTheme.borderColor}
@@ -357,9 +389,12 @@ const ItemComment = ({ commentList = [], onReply }) => {
 				</View>
 
 				{replies.map((reply) => (
-					<View key={reply.id} style={{ flexDirection: "row" }}>
+					<View
+						key={reply.id}
+						style={{ flexDirection: "row", marginRight: 24 }}
+					>
 						<IconReply style={{ marginRight: 4 }} />
-						<View style={[styles.ItemCommunity, { width: 308 }]}>
+						<View style={styles.ItemCommunity}>
 							<View style={styles.containerRow}>
 								<View>
 									<Text style={styles.textPostTitle}>
@@ -490,8 +525,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		paddingVertical: 11,
 		justifyContent: "center",
-		marginTop: 4,
-		marginBottom: 4,
+		marginVertical: 4,
 	},
 	containerRow: {
 		flexDirection: "row",
@@ -502,12 +536,11 @@ const styles = StyleSheet.create({
 		fontSize: 12,
 		lineHeight: 16,
 		fontFamily: "NotoSansCJKkr-Bold",
-		width: 272,
 		height: 17,
 	},
 	textPostContext: {
 		...fontCaption,
-		width: 288,
+		paddingRight: 8,
 		marginTop: 3,
 	},
 	iconKebabMenu: {

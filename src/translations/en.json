@@ -55,7 +55,6 @@
 	"nicknamePlaceholder": "Up to 12 characters",
 	"nicknameAvailable": "This nickname is available.",
 	"nicknameUnavailable": "This nickname is already taken.",
-	"clearTextButton": "Clear",
 
 	"profileCreationTitle": "Create Profile",
 	"profilePictureSubtitle": "Profile Picture",
@@ -155,7 +154,9 @@
 	"searchCancelButton": "Cancel Search",
 
 	"writePageTitle": "Write Post",
+	"modifyPageTitle": "Edit Post",
 	"completeWriteButton": "Complete Writing",
+	"completeModifyButton": "Complete Edit",
 	"titlePlaceholder": "Title",
 	"contentPlaceholder": "Content",
 	"deleteImageAlert": "You can only select up to 9 images.",

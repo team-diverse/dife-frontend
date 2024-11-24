@@ -49,7 +49,7 @@ const ModalKebabMenu = ({
 	const handleDelete = () => {
 		setModalVisible(false);
 		Alert.alert(
-			t("clearTextButton"),
+			"",
 			t("deletePostConfirmation"),
 			[
 				{ text: t("cancelButton"), style: "cancel" },
@@ -90,7 +90,7 @@ const ModalKebabMenu = ({
 	const handleDeleteCommentAlert = () => {
 		setModalVisible(false);
 		Alert.alert(
-			t("deleteTitle"),
+			"",
 			t("deleteCommentConfirmation"),
 			[
 				{ text: t("cancelButton"), style: "cancel" },

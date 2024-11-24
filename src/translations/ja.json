@@ -55,7 +55,6 @@
 	"nicknamePlaceholder": "最大12文字",
 	"nicknameAvailable": "このニックネームは使用可能です。",
 	"nicknameUnavailable": "このニックネームは既に使用されています。",
-	"clearTextButton": "削除",
 
 	"profileCreationTitle": "プロフィール作成",
 	"profilePictureSubtitle": "プロフィール写真",
@@ -155,7 +154,9 @@
 	"searchCancelButton": "検索をキャンセル",
 
 	"writePageTitle": "投稿を書く",
+	"modifyPageTitle": "投稿を編集",
 	"completeWriteButton": "投稿完了",
+	"completeModifyButton": "編集を完了",
 	"titlePlaceholder": "タイトル",
 	"contentPlaceholder": "内容",
 	"deleteImageAlert": "最大9枚まで選択できます。",
