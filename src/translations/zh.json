@@ -22,7 +22,7 @@
 
 	"findPasswordTitle": "密码重置",
 	"findPasswordSubtitle": "请输入注册时使用的邮箱",
-	"emailInvalidError": "请输入有效的邮箱格式",
+	"emailInvalidError": "无效的电子邮件。只允许使用 gmail.com 或 kookmin.ac.kr 地址。",
 	"emailNotFoundError": "邮箱未找到",
 	"passwordResetButton": "发送验证码",
 	"emailSendingText": "发送邮件中",

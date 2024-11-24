@@ -145,8 +145,7 @@ function MainTabs() {
 			screenOptions={({ route }) => ({
 				headerShown: false,
 				tabBarStyle: {
-					height: 90,
-					marginBottom: -10,
+					height: 84,
 				},
 				tabBarIcon: ({ focused, color, size }) =>
 					getTabBarIcon(route, focused, color, size),

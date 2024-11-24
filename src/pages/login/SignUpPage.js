@@ -54,7 +54,7 @@ const SignUpPage = () => {
 	};
 
 	const handleEmailFormat = (email) => {
-		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		const emailRegex = /^[^\s@]+@(gmail\.com|koomin\.ac\.kr)$/;
 		const isValid = emailRegex.test(email);
 		setValidID(isValid);
 		if (isValid) {
@@ -169,7 +169,7 @@ const SignUpPage = () => {
 							placeholder={t("confirmPasswordPlaceholder")}
 							onChangeText={handleCheckPassword}
 							value={valueCheckPW}
-							secureTextEntry={!showPW}
+							secureTextEntry={true}
 						/>
 					</View>
 					{!passwordMatch && (
