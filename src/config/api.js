@@ -279,14 +279,28 @@ export const updatePost = (
 	content,
 	isPublic,
 	boardType,
-	memberId,
+	postFile,
 ) => {
 	const formData = new FormData();
 	formData.append("title", title);
 	formData.append("content", content);
 	formData.append("isPublic", isPublic);
 	formData.append("boardType", boardType);
-	formData.append("memberId", memberId);
+
+	if (postFile && Array.isArray(postFile)) {
+		postFile.forEach((file, index) => {
+			if (file.startsWith("file://")) {
+				const fileExtension = file.split(".").pop();
+				formData.append("postFiles", {
+					uri: file,
+					type: `image/${fileExtension}`,
+					name: `${title}_image_${index}.${fileExtension}`,
+				});
+			} else {
+				formData.append("postFiles", file);
+			}
+		});
+	}
 
 	const headers = {
 		"Content-Type": "multipart/form-data",

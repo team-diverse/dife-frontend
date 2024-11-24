@@ -55,7 +55,6 @@
 	"nicknamePlaceholder": "Hasta 12 caracteres",
 	"nicknameAvailable": "Este apodo está disponible.",
 	"nicknameUnavailable": "Este apodo ya está en uso.",
-	"clearTextButton": "Borrar",
 
 	"profileCreationTitle": "Crear Perfil",
 	"profilePictureSubtitle": "Foto de Perfil",
@@ -155,7 +154,9 @@
 	"searchCancelButton": "Cancelar Búsqueda",
 
 	"writePageTitle": "Escribir Publicación",
+	"modifyPageTitle": "Editar publicación",
 	"completeWriteButton": "Completar Escritura",
+	"completeModifyButton": "Completar edición",
 	"titlePlaceholder": "Título",
 	"contentPlaceholder": "Contenido",
 	"deleteImageAlert": "Solo puedes seleccionar hasta 9 imágenes.",

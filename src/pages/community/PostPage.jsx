@@ -80,10 +80,10 @@ const PostPage = ({ route }) => {
 	const [parentCommentId, setParentCommentId] = useState(null);
 	const [isTranslation, setIsTranslation] = useState(false);
 	const [translationCount, setTranslationCount] = useState();
+	const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
 
 	const commentRef = useRef(null);
-
-	const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+	const scrollViewRef = useRef(null);
 
 	useEffect(() => {
 		if (images.length === 1) {
@@ -118,7 +118,6 @@ const PostPage = ({ route }) => {
 			const responses = await Promise.all(
 				fileIds.map((fileId) => getProfileImageByFileId(fileId)),
 			);
-
 			const responseImages = responses.map((response) => response.data);
 			setImages(responseImages);
 
@@ -137,6 +136,8 @@ const PostPage = ({ route }) => {
 					context: postByIdResponse.data.content,
 					boardType: postByIdResponse.data.boardType,
 					isPublic: postByIdResponse.data.isPublic,
+					images: responseImages,
+					isAnonymous: postByIdResponse.data.isPublic,
 				});
 			}
 		} catch (error) {
@@ -148,9 +149,11 @@ const PostPage = ({ route }) => {
 		}
 	};
 
-	useEffect(() => {
-		getPost();
-	}, []);
+	useFocusEffect(
+		useCallback(() => {
+			getPost();
+		}, []),
+	);
 
 	useFocusEffect(
 		useCallback(() => {
@@ -211,6 +214,7 @@ const PostPage = ({ route }) => {
 				return;
 			}
 			if (isReplying && parentCommentId) {
+				Keyboard.dismiss();
 				onChangeComment("");
 				const commentSendResponse = await createReplyComment(
 					postId,
@@ -225,13 +229,13 @@ const PostPage = ({ route }) => {
 				setIsReplying(false);
 				setParentCommentId(null);
 			} else {
+				Keyboard.dismiss();
 				onChangeComment("");
 				const commentSendResponse = await createComment(
 					postId,
 					valueComment,
 					isChecked,
 				);
-				onChangeComment("");
 				setComments((prevComments) => [
 					...prevComments,
 					commentSendResponse.data,
@@ -407,7 +411,11 @@ const PostPage = ({ route }) => {
 			<View onLayout={handleTopBarLayout}>
 				<TopBar topBar={t("boardTitle")} color="#000" />
 			</View>
-			<ScrollView onScroll={handleScroll}>
+			<ScrollView
+				onScroll={handleScroll}
+				ref={scrollViewRef}
+				scrollEventThrottle={16}
+			>
 				<View style={PostStyles.containerWhite}>
 					<View style={PostStyles.containerWriterRow}>
 						<View style={{ flexDirection: "row" }}>
@@ -505,7 +513,7 @@ const PostPage = ({ route }) => {
 							style={PostStyles.iconRow}
 							onPress={handleHeart}
 						>
-							<IconHeart active={pressHeart} />
+							<IconHeart active={pressHeart} size="24" />
 							<Text style={PostStyles.textIcon}>{heart}</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
@@ -516,7 +524,7 @@ const PostPage = ({ route }) => {
 									: handleBookmark
 							}
 						>
-							<IconBookmark active={pressBookmark} />
+							<IconBookmark active={pressBookmark} size="24" />
 							<Text style={PostStyles.textIcon}>{bookmark}</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
@@ -555,7 +563,13 @@ const PostPage = ({ route }) => {
 							),
 						)}
 					</View>
-					<View style={{ marginTop: 48 }}>
+					<View
+						style={{
+							width: "100%",
+							marginTop: 48,
+							marginHorizontal: 24,
+						}}
+					>
 						<ItemComment
 							commentList={comments}
 							onReply={handleReply}
@@ -586,6 +600,7 @@ const PostPage = ({ route }) => {
 						}
 						onChangeText={(text) => onChangeComment(text)}
 						value={valueComment}
+						multiline
 					/>
 					<TouchableOpacity
 						style={PostStyles.iconChatSend}
