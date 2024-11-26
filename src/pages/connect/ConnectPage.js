@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -10,7 +10,7 @@ import {
 	Dimensions,
 	TouchableWithoutFeedback,
 } from "react-native";
-import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
 
@@ -55,11 +55,9 @@ const ConnectPage = () => {
 		}
 	};
 
-	useFocusEffect(
-		useCallback(() => {
-			cardProfiles();
-		}, []),
-	);
+	useEffect(() => {
+		cardProfiles();
+	}, []);
 
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
@@ -232,7 +230,7 @@ const ConnectPage = () => {
 				<View style={ConnectStyles.midContainer}>
 					<TouchableOpacity
 						style={ConnectStyles.resetContainer}
-						onPress={[handleReset]}
+						onPress={handleReset}
 					>
 						<Text style={ConnectStyles.textReset}>Reset</Text>
 						<ConnectReset />
