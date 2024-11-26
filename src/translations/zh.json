@@ -22,7 +22,7 @@
 
 	"findPasswordTitle": "密码重置",
 	"findPasswordSubtitle": "请输入注册时使用的邮箱",
-	"emailInvalidError": "请输入有效的邮箱格式",
+	"emailInvalidError": "无效的电子邮件。只允许使用 gmail.com 或 kookmin.ac.kr 地址。",
 	"emailNotFoundError": "邮箱未找到",
 	"passwordResetButton": "发送验证码",
 	"emailSendingText": "发送邮件中",
@@ -55,7 +55,6 @@
 	"nicknamePlaceholder": "最多12个字符",
 	"nicknameAvailable": "该昵称可用。",
 	"nicknameUnavailable": "该昵称已被使用。",
-	"clearTextButton": "清除",
 
 	"profileCreationTitle": "创建个人资料",
 	"profilePictureSubtitle": "个人照片",
@@ -155,7 +154,9 @@
 	"searchCancelButton": "取消搜索",
 
 	"writePageTitle": "写帖子",
+	"modifyPageTitle": "编辑文章",
 	"completeWriteButton": "完成写作",
+	"completeModifyButton": "完成编辑",
 	"titlePlaceholder": "标题",
 	"contentPlaceholder": "内容",
 	"deleteImageAlert": "最多只能选择9张图片。",
