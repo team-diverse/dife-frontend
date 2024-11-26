@@ -10,6 +10,7 @@ import {
 	Alert,
 	Platform,
 	NativeModules,
+	Keyboard,
 	KeyboardAvoidingView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -203,6 +204,7 @@ const ChatRoomPage = ({ route }) => {
 	};
 
 	const toggleMenu = async () => {
+		Keyboard.dismiss();
 		if (menuOpen) {
 			Animated.timing(menuAnim, {
 				toValue: screenWidth,
@@ -356,89 +358,6 @@ const ChatRoomPage = ({ route }) => {
 						onScroll={handleScroll}
 					/>
 				</View>
-
-				{menuOpen && (
-					<TouchableOpacity
-						onPress={toggleMenu}
-						style={[
-							ChatRoomStyles.menuBackground,
-							{ top: insets.top },
-						]}
-					/>
-				)}
-				<Animated.View
-					style={[
-						ChatRoomStyles.menu,
-						{
-							top: insets.top,
-							width: menuWidth,
-							transform: [{ translateX: menuAnim }],
-						},
-					]}
-				>
-					<View style={ChatRoomStyles.containerGray}>
-						<TouchableOpacity
-							onPress={() => exitChatroomAlert(chatroomInfo.id)}
-						>
-							<IconChatOut />
-						</TouchableOpacity>
-
-						<View style={ChatRoomStyles.containerIcon}>
-							<View style={{ marginRight: 7 }}>
-								<IconChatNotification />
-							</View>
-							<IconChatSetting />
-						</View>
-					</View>
-					<View style={{ marginBottom: 4 }}>
-						<Text
-							style={[
-								ChatRoomStyles.textDrawer,
-								{ marginTop: 12, marginBottom: 8 },
-							]}
-						>
-							{t("chatParticipant")}
-						</Text>
-						{members.map((member) => (
-							<View
-								key={member.id}
-								style={ChatRoomStyles.containerChatPeople}
-							>
-								<IconChatProfile
-									fileId={member.profileImg?.id}
-								/>
-								<Text style={ChatRoomStyles.textChatPeople}>
-									{member.username}
-								</Text>
-							</View>
-						))}
-					</View>
-					<View style={ChatRoomStyles.line} />
-					<TouchableOpacity
-						style={ChatRoomStyles.containerDrawer}
-						onPress={() =>
-							navigation.navigate("ChatBookmarkPage", {
-								chatroomId: chatroomInfo.id,
-								userName: chatroomInfo.members[0].username,
-							})
-						}
-					>
-						<View style={ChatRoomStyles.containerDrawerTextCount}>
-							<Text style={ChatRoomStyles.textDrawer}>
-								{t("chatBookmark")}
-							</Text>
-							<View style={ChatRoomStyles.containerDrawerCount}>
-								<Text style={ChatRoomStyles.textDrawerCount}>
-									{bookmarkedCount}
-								</Text>
-							</View>
-						</View>
-						<View style={ChatRoomStyles.iconReverseArrow}>
-							<ArrowRight color="#000" />
-						</View>
-					</TouchableOpacity>
-					<View style={ChatRoomStyles.line} />
-				</Animated.View>
 			</SafeAreaView>
 			<KeyboardAvoidingView
 				style={{ marginBottom: 0 }}
@@ -454,6 +373,83 @@ const ChatRoomPage = ({ route }) => {
 			</KeyboardAvoidingView>
 			<View style={ChatRoomStyles.chatInput} />
 			<View style={ChatRoomStyles.chatInputBottom} />
+			{menuOpen && (
+				<TouchableOpacity
+					onPress={toggleMenu}
+					style={[ChatRoomStyles.menuBackground, { top: insets.top }]}
+				/>
+			)}
+			<Animated.View
+				style={[
+					ChatRoomStyles.menu,
+					{
+						top: insets.top,
+						width: menuWidth,
+						transform: [{ translateX: menuAnim }],
+					},
+				]}
+			>
+				<View style={ChatRoomStyles.containerGray}>
+					<TouchableOpacity
+						onPress={() => exitChatroomAlert(chatroomInfo.id)}
+					>
+						<IconChatOut />
+					</TouchableOpacity>
+
+					<View style={ChatRoomStyles.containerIcon}>
+						<View style={{ marginRight: 7 }}>
+							<IconChatNotification />
+						</View>
+						<IconChatSetting />
+					</View>
+				</View>
+				<View style={{ marginBottom: 4 }}>
+					<Text
+						style={[
+							ChatRoomStyles.textDrawer,
+							{ marginTop: 12, marginBottom: 8 },
+						]}
+					>
+						{t("chatParticipant")}
+					</Text>
+					{members.map((member) => (
+						<View
+							key={member.id}
+							style={ChatRoomStyles.containerChatPeople}
+						>
+							<IconChatProfile fileId={member.profileImg?.id} />
+							<Text style={ChatRoomStyles.textChatPeople}>
+								{member.username}
+							</Text>
+						</View>
+					))}
+				</View>
+				<View style={ChatRoomStyles.line} />
+				<TouchableOpacity
+					style={ChatRoomStyles.containerDrawer}
+					onPress={() =>
+						navigation.navigate("ChatBookmarkPage", {
+							chatroomId: chatroomInfo.id,
+							userName: chatroomInfo.members[0].username,
+						})
+					}
+				>
+					<View style={ChatRoomStyles.containerDrawerTextCount}>
+						<Text style={ChatRoomStyles.textDrawer}>
+							{t("chatBookmark")}
+						</Text>
+						<View style={ChatRoomStyles.containerDrawerCount}>
+							<Text style={ChatRoomStyles.textDrawerCount}>
+								{bookmarkedCount}
+							</Text>
+						</View>
+					</View>
+					<View style={ChatRoomStyles.iconReverseArrow}>
+						<ArrowRight color="#000" />
+					</View>
+				</TouchableOpacity>
+				<View style={ChatRoomStyles.line} />
+			</Animated.View>
 		</>
 	);
 };

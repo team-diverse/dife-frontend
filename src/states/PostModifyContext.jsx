@@ -10,7 +10,9 @@ export const PostModifyProvider = ({ children }) => {
 		id: "",
 		title: "",
 		context: "",
+		images: [],
 		boardType: "",
+		isAnonymous: true,
 	});
 
 	const updatePostModifyData = (newData) => {

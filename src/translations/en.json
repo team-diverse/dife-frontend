@@ -22,7 +22,7 @@
 
 	"findPasswordTitle": "Password Reset",
 	"findPasswordSubtitle": "Enter the email used during registration",
-	"emailInvalidError": "Please enter a valid email format",
+	"emailInvalidError": "Invalid email. Only gmail.com or kookmin.ac.kr addresses are allowed.",
 	"emailNotFoundError": "Email not found",
 	"passwordResetButton": "Send verification code",
 	"emailSendingText": "Sending email",
@@ -55,7 +55,6 @@
 	"nicknamePlaceholder": "Up to 12 characters",
 	"nicknameAvailable": "This nickname is available.",
 	"nicknameUnavailable": "This nickname is already taken.",
-	"clearTextButton": "Clear",
 
 	"profileCreationTitle": "Create Profile",
 	"profilePictureSubtitle": "Profile Picture",
@@ -155,7 +154,9 @@
 	"searchCancelButton": "Cancel Search",
 
 	"writePageTitle": "Write Post",
+	"modifyPageTitle": "Edit Post",
 	"completeWriteButton": "Complete Writing",
+	"completeModifyButton": "Complete Edit",
 	"titlePlaceholder": "Title",
 	"contentPlaceholder": "Content",
 	"deleteImageAlert": "You can only select up to 9 images.",

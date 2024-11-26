@@ -222,41 +222,35 @@ const HomePage = () => {
 					}}
 				>
 					{showNewCard ? (
-						<View style={HomeStyles.homecardContainer}>
-							<View style={HomeStyles.homecard}>
-								<HomeCardBack
-									memberId={id}
-									fileId={profileImg?.id}
-									name={username}
-									onPress={() => setShowNewCard(false)}
-								/>
-							</View>
+						<View style={HomeStyles.homecard}>
+							<HomeCardBack
+								memberId={id}
+								fileId={profileImg?.id}
+								name={username}
+								onPress={() => setShowNewCard(false)}
+							/>
 						</View>
 					) : showMoreProfiles ? (
-						<View style={HomeStyles.homecardContainer}>
-							<View style={HomeStyles.homecard}>
-								<HomeCardLast />
-							</View>
+						<View style={HomeStyles.homecard}>
+							<HomeCardLast />
 						</View>
 					) : (
-						<View style={HomeStyles.homecardContainer}>
-							<View style={HomeStyles.homecard}>
-								<HomeCardFront
-									memberId={id}
-									fileId={profileImg?.id}
-									tags={tags}
-									introduction={bio}
-									name={username}
-									country={country}
-									onPress={() => setShowNewCard(true)}
-									isLikedOnPress={() => {
-										heart[id]
-											? handleDeleteHeart()
-											: handleCreateHeart();
-									}}
-									isLikedActive={heart[id]}
-								/>
-							</View>
+						<View style={HomeStyles.homecard}>
+							<HomeCardFront
+								memberId={id}
+								fileId={profileImg?.id}
+								tags={tags}
+								introduction={bio}
+								name={username}
+								country={country}
+								onPress={() => setShowNewCard(true)}
+								isLikedOnPress={() => {
+									heart[id]
+										? handleDeleteHeart()
+										: handleCreateHeart();
+								}}
+								isLikedActive={heart[id]}
+							/>
 						</View>
 					)}
 				</GestureRecognizer>

@@ -6,9 +6,13 @@ import {
 	SafeAreaView,
 	ScrollView,
 	TouchableOpacity,
+	Alert,
+	Image,
+	FlatList,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import * as ImagePicker from "expo-image-picker";
 
 import WriteStyles from "@pages/community/WriteStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -19,14 +23,17 @@ import Checkbox from "@components/common/Checkbox";
 import { usePostModify } from "states/PostModifyContext";
 import { updatePost } from "config/api";
 import * as Sentry from "@sentry/react-native";
+import IconCircleNumber from "@components/community/IconCircleNumber";
+import IconDelete from "@components/onboarding/IconDelete";
 
 const PostModifyPage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 	const { postModifyData } = usePostModify();
-	const [isChecked, setIsChecked] = useState(false);
+	const [isChecked, setIsChecked] = useState(postModifyData.isAnonymous);
 	const [valueTitle, onChangeTitle] = useState(postModifyData.title);
 	const [valueContext, onChangeContext] = useState(postModifyData.context);
+	const [valueImage, onChangeImage] = useState(postModifyData.images || []);
 	const [boardType, setBoardType] = useState("");
 
 	const handlePress = () => {
@@ -49,9 +56,9 @@ const PostModifyPage = () => {
 				valueContext,
 				isChecked,
 				postModifyData.boardType,
-				postModifyData.memberId,
+				valueImage,
 			);
-			navigation.goBack();
+			navigation.navigate("PostPage", { postId: postModifyData.id });
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -61,9 +68,43 @@ const PostModifyPage = () => {
 		}
 	};
 
+	const pickImage = async () => {
+		const { status } =
+			await ImagePicker.requestMediaLibraryPermissionsAsync();
+		if (status !== "granted") {
+			Alert.alert(
+				t("imagePermissionAlertTitle"),
+				t("imagePermissionAlertMessage"),
+			);
+			return;
+		}
+
+		let result = await ImagePicker.launchImageLibraryAsync({
+			mediaTypes: ImagePicker.MediaTypeOptions.Images,
+			quality: 1,
+			allowsMultipleSelection: true,
+		});
+
+		if (!result.canceled) {
+			const selectedImages = result.assets.map((asset) => asset.uri);
+			if (selectedImages.length > 9) {
+				Alert.alert(
+					t("imagePermissionAlertTitle"),
+					t("imagePermissionAlertMessage"),
+				);
+				return;
+			}
+			onChangeImage((prevImages) => [...prevImages, ...selectedImages]);
+		}
+	};
+
+	const handleImageDelete = (uri) => {
+		onChangeImage(valueImage.filter((image) => image !== uri));
+	};
+
 	return (
 		<SafeAreaView style={WriteStyles.container}>
-			<TopBar topBar={t("writePageTitle")} color="#000" />
+			<TopBar topBar={t("modifyPageTitle")} color="#000" />
 			<ScrollView>
 				<View style={WriteStyles.containerWhite}>
 					<View style={WriteStyles.containerNoticeboard}>
@@ -77,7 +118,7 @@ const PostModifyPage = () => {
 						</Text>
 						<TouchableOpacity onPress={handleModify}>
 							<Text style={WriteStyles.textNoticeboard}>
-								{t("completeWriteButton")}
+								{t("completeModifyButton")}
 							</Text>
 						</TouchableOpacity>
 					</View>
@@ -95,8 +136,45 @@ const PostModifyPage = () => {
 						onChangeText={(text) => onChangeContext(text)}
 						value={valueContext}
 					/>
+					{valueImage && (
+						<View style={WriteStyles.containerImage}>
+							<FlatList
+								data={valueImage}
+								renderItem={({ item }) => (
+									<>
+										<TouchableOpacity
+											style={WriteStyles.iconDelete}
+											onPress={() =>
+												handleImageDelete(item)
+											}
+										>
+											<IconDelete />
+										</TouchableOpacity>
+										<Image
+											source={{ uri: item }}
+											style={WriteStyles.image}
+										/>
+									</>
+								)}
+								keyExtractor={(item, index) => index.toString()}
+								horizontal={true}
+							/>
+						</View>
+					)}
 					<View style={WriteStyles.containerIconCheckbox}>
-						<IconImage />
+						<TouchableOpacity onPress={pickImage}>
+							{valueImage && (
+								<View style={WriteStyles.containerImageNumber}>
+									<IconCircleNumber
+										style={WriteStyles.iconCircleNumber}
+									/>
+									<Text style={WriteStyles.textImageNumber}>
+										{valueImage.length}
+									</Text>
+								</View>
+							)}
+							<IconImage />
+						</TouchableOpacity>
 						<Checkbox
 							checked={isChecked}
 							onPress={() => {
