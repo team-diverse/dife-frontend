@@ -230,7 +230,7 @@ const ConnectPage = () => {
 				<View style={ConnectStyles.midContainer}>
 					<TouchableOpacity
 						style={ConnectStyles.resetContainer}
-						onPress={handleReset}
+						onPress={[handleReset]}
 					>
 						<Text style={ConnectStyles.textReset}>Reset</Text>
 						<ConnectReset />
