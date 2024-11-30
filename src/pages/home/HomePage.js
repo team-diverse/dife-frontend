@@ -100,6 +100,15 @@ const HomePage = () => {
 		}
 	}, [homeProfiles]);
 
+	useEffect(() => {
+		if (
+			currentProfileIndex >= homeProfiles.length &&
+			currentProfileIndex > 0
+		) {
+			setCurrentProfileIndex((prev) => prev - 1);
+		}
+	}, [homeProfiles.length, currentProfileIndex]);
+
 	const profileData = homeProfiles[currentProfileIndex];
 
 	const [showNewCard, setShowNewCard] = useState(false);

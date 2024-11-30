@@ -96,6 +96,14 @@ export const MatchQueueProvider = ({ children }) => {
 		return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 	};
 
+	const removeProfile = (memberId) => {
+		const removedProfiles = (profiles) =>
+			profiles.filter((profile) => profile.id !== memberId);
+
+		setHomeProfiles(removedProfiles);
+		setAllProfiles(removedProfiles);
+	};
+
 	return (
 		<MatchQueueContext.Provider
 			value={{
@@ -105,6 +113,7 @@ export const MatchQueueProvider = ({ children }) => {
 				formattedTimeRemaining: formatTime(timeRemaining),
 				canFetch: timeRemaining <= 0,
 				fetchAndDistributeProfiles: fetchNewQueue,
+				removeProfile,
 			}}
 		>
 			{children}
