@@ -95,6 +95,7 @@ import LikeUserOneToOne from "@pages/connect/LikeUserOneToOne";
 import LandingPage from "@pages/login/LandingPage";
 import SetPasswordPage from "@pages/login/SetPasswordPage";
 import ChatBookmarkPage from "@pages/chat/ChatBookmarkPage";
+import { MatchQueueProvider } from "context/MatchQueueContext";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -265,7 +266,9 @@ function AppContent() {
 	return isLoggedIn ? (
 		<WebSocketProvider>
 			<PostModifyProvider>
-				<MainNavigator />
+				<MatchQueueProvider>
+					<MainNavigator />
+				</MatchQueueProvider>
 			</PostModifyProvider>
 		</WebSocketProvider>
 	) : (
