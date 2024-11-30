@@ -72,9 +72,9 @@ const HomePage = () => {
 	const [showMoreProfiles, setShowMoreProfiles] = useState(false);
 
 	const handleNextProfile = () => {
+		setShowNewCard(false);
 		if (currentProfileIndex < homeProfiles.length - 1) {
 			setCurrentProfileIndex(currentProfileIndex + 1);
-			setShowNewCard(false);
 		} else if (currentProfileIndex === homeProfiles.length - 1) {
 			setShowMoreProfiles(true);
 		} else if (showMoreProfiles && canFetch) {
@@ -85,11 +85,11 @@ const HomePage = () => {
 	};
 
 	const handlePrevProfile = () => {
+		setShowNewCard(false);
 		if (showMoreProfiles) {
 			setShowMoreProfiles(false);
 		} else if (currentProfileIndex > 0) {
 			setCurrentProfileIndex(currentProfileIndex - 1);
-			setShowNewCard(false);
 		}
 	};
 
@@ -101,6 +101,7 @@ const HomePage = () => {
 	}, [homeProfiles]);
 
 	useEffect(() => {
+		setShowNewCard(false);
 		if (
 			currentProfileIndex >= homeProfiles.length &&
 			currentProfileIndex > 0
