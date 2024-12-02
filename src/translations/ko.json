@@ -129,7 +129,7 @@
 	"schoolInfo": "학교정보",
 	"events": "이벤트",
 	"notifications": "알림",
-	"moreProfilesText": "커넥트 페이지에서\n더 많은 프로필을 탐색할 수 있어요!",
+	"moreProfilesText": "커넥트 페이지에서 새로고침으로 \n더 많은 프로필을 탐색할 수 있어요!",
 	"exploreProfilesButton": "더 많은 프로필 탐색하기",
 	"viewProfileText": "프로필 상세보기",
 	"connectRequestConfirmation": "{{username}}에게\n커넥트 요청하시겠습니까?",
