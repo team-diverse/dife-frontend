@@ -157,6 +157,27 @@ const ConnectStyles = StyleSheet.create({
 		shadowRadius: 2,
 		zIndex: 2,
 	},
+	resetAndTimerContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "flex-end",
+		paddingRight: 20,
+		gap: 8,
+	},
+	timerContainer: {
+		backgroundColor: "rgba(176, 208, 255, 0.15)",
+		borderRadius: 12,
+		paddingVertical: 4,
+		paddingHorizontal: 8,
+		marginRight: "auto",
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	timerText: {
+		color: "#B0D0FF",
+		fontSize: 12,
+		fontWeight: "500",
+	},
 });
 
 export default ConnectStyles;

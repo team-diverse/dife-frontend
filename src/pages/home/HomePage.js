@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import {
 	View,
@@ -15,12 +15,10 @@ import GestureRecognizer from "react-native-swipe-gestures";
 
 import HomeStyles from "@pages/home/HomeStyles";
 import {
-	getRandomMembersByCount,
 	createLikeMember,
 	deleteLikeMember,
 	getNotifications,
 } from "config/api";
-import { formatProfileData } from "util/formatProfileData";
 
 import HomeBg from "@assets/images/svg_js/HomeBg.js";
 import LogoBr from "@components/Logo/LogoBr.js";
@@ -33,37 +31,15 @@ import HomeCardBack from "@components/home/HomeCardBack";
 import HomeCardFront from "@components/home/HomeCardFront";
 import HomeCard from "@components/home/HomeCard";
 import HomeCardLast from "@components/home/HomeCardLast";
-import * as Sentry from "@sentry/react-native";
+import { useMatchQueue } from "context/MatchQueueContext";
 
 const HomePage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
-	const isInitialMount = useRef(true);
-	const [profileDataList, setProfileDataList] = useState([]);
+	const { homeProfiles, canFetch, fetchAndDistributeProfiles } =
+		useMatchQueue();
 	const [notificationNumber, setNotificationNumber] = useState(0);
-
-	const RANDOM_MEMBER_COUNT = 10;
-
-	const fetchProfileQueue = async () => {
-		try {
-			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
-			const updatedData = formatProfileData(response.data);
-			setProfileDataList(updatedData);
-
-			const initialHeart = {};
-			updatedData.forEach((profile) => {
-				initialHeart[profile.id] = profile.isLiked;
-			});
-			setHeart(initialHeart);
-		} catch (error) {
-			Sentry.captureException(error);
-			console.error(
-				"홈 카드 조회 오류:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
 
 	const getNotificationNumber = async () => {
 		try {
@@ -88,10 +64,6 @@ const HomePage = () => {
 
 	useFocusEffect(
 		useCallback(() => {
-			if (isInitialMount.current) {
-				fetchProfileQueue();
-				isInitialMount.current = false;
-			}
 			getNotificationNumber();
 		}, []),
 	);
@@ -100,34 +72,45 @@ const HomePage = () => {
 	const [showMoreProfiles, setShowMoreProfiles] = useState(false);
 
 	const handleNextProfile = () => {
-		if (currentProfileIndex < profileDataList.length - 1) {
+		setShowNewCard(false);
+		if (currentProfileIndex < homeProfiles.length - 1) {
 			setCurrentProfileIndex(currentProfileIndex + 1);
-			setShowNewCard(false);
-		} else {
+		} else if (currentProfileIndex === homeProfiles.length - 1) {
 			setShowMoreProfiles(true);
+		} else if (showMoreProfiles && canFetch) {
+			fetchAndDistributeProfiles();
+			setShowMoreProfiles(false);
+			setCurrentProfileIndex(0);
 		}
 	};
 
 	const handlePrevProfile = () => {
+		setShowNewCard(false);
 		if (showMoreProfiles) {
 			setShowMoreProfiles(false);
 		} else if (currentProfileIndex > 0) {
 			setCurrentProfileIndex(currentProfileIndex - 1);
-			setShowNewCard(false);
 		}
 	};
 
-	const profileData = profileDataList[currentProfileIndex];
-	const { id, profileImg, tags, bio, username, country } = profileData
-		? profileData
-		: {
-				id: null,
-				profileImg: null,
-				tags: ["tag"],
-				bio: "bio",
-				username: "username",
-				country: "country",
-			};
+	useEffect(() => {
+		if (homeProfiles.length > 0 && showMoreProfiles) {
+			setShowMoreProfiles(false);
+			setCurrentProfileIndex(0);
+		}
+	}, [homeProfiles]);
+
+	useEffect(() => {
+		setShowNewCard(false);
+		if (
+			currentProfileIndex >= homeProfiles.length &&
+			currentProfileIndex > 0
+		) {
+			setCurrentProfileIndex((prev) => prev - 1);
+		}
+	}, [homeProfiles.length, currentProfileIndex]);
+
+	const profileData = homeProfiles[currentProfileIndex];
 
 	const [showNewCard, setShowNewCard] = useState(false);
 
@@ -135,10 +118,10 @@ const HomePage = () => {
 
 	const handleCreateHeart = async () => {
 		try {
-			await createLikeMember(id);
+			await createLikeMember(profileData.id);
 			setHeart((prev) => ({
 				...prev,
-				[id]: true,
+				[profileData.id]: true,
 			}));
 		} catch (error) {
 			console.error(
@@ -150,10 +133,10 @@ const HomePage = () => {
 
 	const handleDeleteHeart = async () => {
 		try {
-			await deleteLikeMember(id);
+			await deleteLikeMember(profileData.id);
 			setHeart((prev) => ({
 				...prev,
-				[id]: false,
+				[profileData.id]: false,
 			}));
 		} catch (error) {
 			console.error(
@@ -170,6 +153,19 @@ const HomePage = () => {
 
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
+
+	const canShowPrevArrow = () => {
+		return (
+			(homeProfiles.length > 0 && currentProfileIndex > 0) ||
+			showMoreProfiles
+		);
+	};
+
+	const canShowNextArrow = () => {
+		return (
+			!showMoreProfiles && currentProfileIndex <= homeProfiles.length - 1
+		);
+	};
 
 	const renderHome = () => (
 		<LinearGradient
@@ -204,60 +200,68 @@ const HomePage = () => {
 				}}
 			>
 				<TouchableOpacity
-					onPress={
-						currentProfileIndex !== 0 ? handlePrevProfile : null
-					}
+					onPress={handlePrevProfile}
 					style={{
-						opacity: currentProfileIndex !== 0 ? 1 : 0,
-						pointerEvents:
-							currentProfileIndex !== 0 ? "auto" : "none",
+						opacity: canShowPrevArrow() ? 1 : 0,
+						pointerEvents: canShowPrevArrow() ? "auto" : "none",
 					}}
 				>
 					<HomeArrow style={{ transform: [{ scaleX: -1 }] }} />
 				</TouchableOpacity>
 
-				<GestureRecognizer
-					onSwipeLeft={!showMoreProfiles ? handleNextProfile : null}
-					onSwipeRight={
-						currentProfileIndex !== 0 ? handlePrevProfile : null
-					}
-					style={{
-						zIndex: 10,
-					}}
-				>
-					{showNewCard ? (
-						<View style={HomeStyles.homecard}>
-							<HomeCardBack
-								memberId={id}
-								fileId={profileImg?.id}
-								name={username}
-								onPress={() => setShowNewCard(false)}
-							/>
-						</View>
-					) : showMoreProfiles ? (
+				{homeProfiles.length > 0 ? (
+					<GestureRecognizer
+						onSwipeLeft={handleNextProfile}
+						onSwipeRight={handlePrevProfile}
+						style={{ zIndex: 10 }}
+					>
+						{showNewCard ? (
+							<View style={HomeStyles.homecardContainer}>
+								<View style={HomeStyles.homecard}>
+									<HomeCardBack
+										memberId={profileData.id}
+										fileId={profileData.profileImg?.id}
+										name={profileData.username}
+										onPress={() => setShowNewCard(false)}
+									/>
+								</View>
+							</View>
+						) : showMoreProfiles ? (
+							<View style={HomeStyles.homecardContainer}>
+								<View style={HomeStyles.homecard}>
+									<HomeCardLast />
+								</View>
+							</View>
+						) : (
+							<View style={HomeStyles.homecardContainer}>
+								<View style={HomeStyles.homecard}>
+									<HomeCardFront
+										memberId={profileData.id}
+										fileId={profileData.profileImg?.id}
+										tags={profileData.tags}
+										introduction={profileData.bio}
+										name={profileData.username}
+										country={profileData.country}
+										onPress={() => setShowNewCard(true)}
+										isLikedOnPress={() => {
+											heart[profileData.id]
+												? handleDeleteHeart()
+												: handleCreateHeart();
+										}}
+										isLikedActive={heart[profileData.id]}
+									/>
+								</View>
+							</View>
+						)}
+					</GestureRecognizer>
+				) : (
+					<View style={HomeStyles.homecardContainer}>
 						<View style={HomeStyles.homecard}>
 							<HomeCardLast />
 						</View>
-					) : (
-						<View style={HomeStyles.homecard}>
-							<HomeCardFront
-								memberId={id}
-								fileId={profileImg?.id}
-								tags={tags}
-								introduction={bio}
-								name={username}
-								country={country}
-								onPress={() => setShowNewCard(true)}
-								isLikedOnPress={() => {
-									heart[id]
-										? handleDeleteHeart()
-										: handleCreateHeart();
-								}}
-								isLikedActive={heart[id]}
-							/>
-						</View>
-					)}
-				</GestureRecognizer>
+					</View>
+				)}
+
 				<View style={HomeStyles.backgroundHomecard}>
 					<HomeCard />
 				</View>
@@ -275,10 +279,10 @@ const HomePage = () => {
 				</View>
 
 				<TouchableOpacity
-					onPress={!showMoreProfiles ? handleNextProfile : null}
+					onPress={handleNextProfile}
 					style={{
-						opacity: !showMoreProfiles ? 1 : 0,
-						pointerEvents: !showMoreProfiles ? "auto" : "none",
+						opacity: canShowNextArrow() ? 1 : 0,
+						pointerEvents: canShowNextArrow() ? "auto" : "none",
 					}}
 				>
 					<HomeArrow />
