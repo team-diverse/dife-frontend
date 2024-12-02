@@ -35,7 +35,7 @@ const ConnectStyles = StyleSheet.create({
 		flexDirection: "row",
 		position: "absolute",
 		alignItems: "center",
-		marginTop: 55,
+		marginTop: 59,
 		zIndex: 2,
 	},
 	connectTitle: {
@@ -52,7 +52,7 @@ const ConnectStyles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		position: "absolute",
-		marginTop: 100,
+		marginTop: 105,
 		zIndex: 2,
 	},
 	searchFilter: {
@@ -94,10 +94,10 @@ const ConnectStyles = StyleSheet.create({
 	},
 	connectDife: {
 		position: "absolute",
-		top: -3,
+		top: -10,
 	},
 	connectTop: {
-		marginTop: -47,
+		marginTop: -52,
 		zIndex: 1,
 	},
 	midContainer: {
@@ -124,7 +124,7 @@ const ConnectStyles = StyleSheet.create({
 	},
 	resetContainer: {
 		flexDirection: "row",
-		marginRight: 30,
+		marginRight: 7,
 		alignItems: "center",
 	},
 	textReset: {

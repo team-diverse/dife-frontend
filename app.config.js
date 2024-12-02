@@ -29,7 +29,7 @@ export default {
 		userInterfaceStyle: "light",
 		splash: {
 			image: "src/assets/splash.png",
-			resizeMode: "contain",
+			resizeMode: "cover",
 			backgroundColor: "#ffffff",
 		},
 		assetBundlePatterns: ["**/*"],

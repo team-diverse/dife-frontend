@@ -107,6 +107,7 @@ const ConnectPage = () => {
 		setSearchFail(false);
 		setSearchData(null);
 		setSearchTerm(null);
+		handleReset();
 	};
 
 	const { height: screenHeight } = Dimensions.get("window");
