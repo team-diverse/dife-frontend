@@ -262,21 +262,33 @@ const HomePage = () => {
 					</View>
 				)}
 
-				<View style={HomeStyles.backgroundHomecard}>
-					<HomeCard />
-				</View>
-				<View
-					style={[
-						HomeStyles.backgroundHomecard,
-						{
-							transform: [{ scale: 0.8 }],
-							right: -5,
-							zIndex: -1,
-						},
-					]}
-				>
-					<HomeCard />
-				</View>
+				{homeProfiles.length > 0 && !showMoreProfiles && (
+					<>
+						{currentProfileIndex === homeProfiles.length - 1 ? (
+							<View style={HomeStyles.backgroundHomecard}>
+								<HomeCard />
+							</View>
+						) : currentProfileIndex < homeProfiles.length - 1 ? (
+							<>
+								<View style={HomeStyles.backgroundHomecard}>
+									<HomeCard />
+								</View>
+								<View
+									style={[
+										HomeStyles.backgroundHomecard,
+										{
+											transform: [{ scale: 0.8 }],
+											right: -5,
+											zIndex: -1,
+										},
+									]}
+								>
+									<HomeCard />
+								</View>
+							</>
+						) : null}
+					</>
+				)}
 
 				<TouchableOpacity
 					onPress={handleNextProfile}
