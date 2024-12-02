@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useFocusEffect } from "react";
 import {
 	View,
 	Text,
