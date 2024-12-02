@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import {
 	View,
@@ -39,12 +39,13 @@ const HomePage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
+	const isInitialMount = useRef(true);
 	const [profileDataList, setProfileDataList] = useState([]);
 	const [notificationNumber, setNotificationNumber] = useState(0);
 
 	const RANDOM_MEMBER_COUNT = 10;
 
-	const homeProfile = async () => {
+	const fetchProfileQueue = async () => {
 		try {
 			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
 			const updatedData = formatProfileData(response.data);
@@ -87,8 +88,11 @@ const HomePage = () => {
 
 	useFocusEffect(
 		useCallback(() => {
+			if (isInitialMount.current) {
+				fetchProfileQueue();
+				isInitialMount.current = false;
+			}
 			getNotificationNumber();
-			homeProfile();
 		}, []),
 	);
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback, useRef, useFocusEffect } from "react";
 import {
 	View,
 	Text,
@@ -35,10 +35,11 @@ const ConnectPage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
+	const isInitialMount = useRef(true);
 	const [profileDataList, setProfileDataList] = useState([]);
 	const RANDOM_MEMBER_COUNT = 10;
 
-	const cardProfiles = async () => {
+	const fetchCardProfiles = async () => {
 		try {
 			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
 			const updatedData = formatProfileData(response.data);
@@ -55,9 +56,14 @@ const ConnectPage = () => {
 		}
 	};
 
-	useEffect(() => {
-		cardProfiles();
-	}, []);
+	useFocusEffect(
+		useCallback(() => {
+			if (isInitialMount.current) {
+				fetchCardProfiles();
+				isInitialMount.current = false;
+			}
+		}, []),
+	);
 
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
@@ -117,7 +123,7 @@ const ConnectPage = () => {
 	const [isReset, setIsReset] = useState(false);
 
 	const handleReset = () => {
-		cardProfiles();
+		fetchCardProfiles();
 		setTotalSelection(null);
 		setIsReset(!isReset);
 	};
