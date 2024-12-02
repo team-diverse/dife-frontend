@@ -34,14 +34,14 @@ const ChattingStyles = StyleSheet.create({
 		marginTop: 13,
 	},
 	connectTop: {
-		marginTop: -47,
+		marginTop: -52,
 		zIndex: 1,
 	},
 	containerTextIcon: {
 		flexDirection: "row",
 		position: "absolute",
 		alignItems: "center",
-		marginTop: 55,
+		marginTop: 59,
 		zIndex: 2,
 	},
 	textChattingTitle: {
@@ -58,7 +58,7 @@ const ChattingStyles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		position: "absolute",
-		marginTop: 100,
+		marginTop: 105,
 		zIndex: 2,
 	},
 	containerSearchIcon: {
