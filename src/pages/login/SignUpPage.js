@@ -54,7 +54,7 @@ const SignUpPage = () => {
 	};
 
 	const handleEmailFormat = (email) => {
-		const emailRegex = /^[^\s@]+@(gmail\.com|koomin\.ac\.kr)$/;
+		const emailRegex = /^[^\s@]+@(gmail\.com|kookmin\.ac\.kr|naver\.com)$/;
 		const isValid = emailRegex.test(email);
 		setValidID(isValid);
 		if (isValid) {
