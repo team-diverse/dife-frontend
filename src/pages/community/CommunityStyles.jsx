@@ -15,8 +15,7 @@ const ChattingStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.primaryMedium,
 	},
 	connectTop: {
-		marginTop: -47,
-		// zIndex: 1,
+		marginTop: -52,
 	},
 	iconChatPlus: {
 		position: "absolute",
@@ -32,7 +31,7 @@ const ChattingStyles = StyleSheet.create({
 		flexDirection: "row",
 		position: "absolute",
 		alignItems: "center",
-		marginTop: 55,
+		marginTop: 59,
 	},
 	textChattingTitle: {
 		flex: 1,
@@ -48,7 +47,7 @@ const ChattingStyles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		position: "absolute",
-		marginTop: 100,
+		marginTop: 105,
 	},
 	containerSearchIcon: {
 		flexDirection: "row",

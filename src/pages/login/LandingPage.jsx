@@ -100,6 +100,7 @@ const LandingPage = () => {
 			style={[
 				LandingStyles.container,
 				{ width: screenWidth, height: "100%" },
+				isSmallScreen && { marginTop: -10 },
 			]}
 		>
 			<View style={LandingStyles.containerTextIcon}>
@@ -150,7 +151,14 @@ const LandingPage = () => {
 
 	return (
 		<SafeAreaView style={LandingStyles.container}>
-			<View style={LandingStyles.center}>{progress[currentIndex]}</View>
+			<View
+				style={[
+					LandingStyles.center,
+					isSmallScreen && { marginTop: 10 },
+				]}
+			>
+				{progress[currentIndex]}
+			</View>
 
 			<FlatList
 				data={pages}
