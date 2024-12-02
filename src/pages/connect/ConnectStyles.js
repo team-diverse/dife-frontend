@@ -35,7 +35,7 @@ const ConnectStyles = StyleSheet.create({
 		flexDirection: "row",
 		position: "absolute",
 		alignItems: "center",
-		marginTop: 55,
+		marginTop: 59,
 		zIndex: 2,
 	},
 	connectTitle: {
@@ -52,7 +52,7 @@ const ConnectStyles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		position: "absolute",
-		marginTop: 100,
+		marginTop: 105,
 		zIndex: 2,
 	},
 	searchFilter: {
@@ -94,10 +94,10 @@ const ConnectStyles = StyleSheet.create({
 	},
 	connectDife: {
 		position: "absolute",
-		top: -3,
+		top: -10,
 	},
 	connectTop: {
-		marginTop: -47,
+		marginTop: -52,
 		zIndex: 1,
 	},
 	midContainer: {
@@ -124,7 +124,7 @@ const ConnectStyles = StyleSheet.create({
 	},
 	resetContainer: {
 		flexDirection: "row",
-		marginRight: 30,
+		marginRight: 7,
 		alignItems: "center",
 	},
 	textReset: {
@@ -156,6 +156,27 @@ const ConnectStyles = StyleSheet.create({
 		shadowOpacity: 0.4,
 		shadowRadius: 2,
 		zIndex: 2,
+	},
+	resetAndTimerContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "flex-end",
+		paddingRight: 20,
+		gap: 8,
+	},
+	timerContainer: {
+		backgroundColor: "rgba(176, 208, 255, 0.15)",
+		borderRadius: 12,
+		paddingVertical: 4,
+		paddingHorizontal: 8,
+		marginRight: "auto",
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	timerText: {
+		color: "#B0D0FF",
+		fontSize: 12,
+		fontWeight: "500",
 	},
 });
 

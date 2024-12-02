@@ -26,6 +26,7 @@ import ConnectProfileIntroduction from "@components/connect/ConnectProfileIntrod
 import ConnectProfileTag from "@components/connect/ConnectProfileTag";
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import ConnectProfileLanguage from "@components/connect/ConnectProfileLanguage";
+import { useMatchQueue } from "context/MatchQueueContext";
 
 const ConnectProfilePage = ({ route }) => {
 	const { memberId } = route.params;
@@ -41,7 +42,7 @@ const ConnectProfilePage = ({ route }) => {
 	const [name, setName] = useState();
 	const [token, setToken] = useState(null);
 	const [buttonText, setButtonText] = useState(t("requestButtonText"));
-
+	const { removeProfile } = useMatchQueue();
 	useEffect(() => {
 		const fetchToken = async () => {
 			const token = await getRefreshToken();
@@ -99,6 +100,7 @@ const ConnectProfilePage = ({ route }) => {
 			const response = await requestConnectById(memberId);
 			setConnectStatus(response.data.status);
 			getConnectStatus();
+			removeProfile(memberId);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(

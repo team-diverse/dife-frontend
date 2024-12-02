@@ -104,12 +104,10 @@ const styles = StyleSheet.create({
 	text1: {
 		...fontSub16,
 		color: CustomTheme.primaryMedium,
-		paddingVertical: 10,
 	},
 	text2: {
 		...fontSub16,
 		color: CustomTheme.bgBasic,
-		paddingVertical: 10,
 	},
 	buttonDisabled: {
 		backgroundColor: CustomTheme.borderColor,

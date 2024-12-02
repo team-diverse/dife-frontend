@@ -410,11 +410,12 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	bottomSheetContainer: {
-		height: 576,
+		height: 650,
 		alignItems: "center",
 		backgroundColor: "white",
 		borderTopLeftRadius: 24,
 		borderTopRightRadius: 24,
+		paddingBottom: 75,
 	},
 	line: {
 		width: 47,
