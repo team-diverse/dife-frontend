@@ -11,6 +11,7 @@ import {
 	rejectedConnectByConnectId,
 } from "config/api";
 import { getMyMemberId } from "util/secureStoreUtils";
+import { useMatchQueue } from "context/MatchQueueContext";
 
 import HomecardDifeB from "@components/home/HomecardDifeB";
 import HomeProfile from "@components/home/HomeProfile";
@@ -21,6 +22,7 @@ const { fontCaption } = CustomTheme;
 const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
+	const { removeProfile } = useMatchQueue();
 
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
@@ -54,6 +56,7 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 			const response = await requestConnectById(memberId);
 			setConnectStatus(response.data.status);
 			getConnectStatus();
+			removeProfile(memberId);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(

@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 	rectangle: {
 		flexDirection: "row",
 		width: "100%",
-		height: 92,
+		height: 110,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.bgBasic,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 	rectangleShadow: {
 		flexDirection: "row",
 		width: "100%",
-		height: 92,
+		height: 110,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.bgBasic,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 		borderRadius: 27,
 		marginLeft: 24,
 		marginRight: 8,
-		marginVertical: 0,
+		marginVertical: 9,
 		marginBottom: 14,
 	},
 	button2: {
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
 		borderRadius: 27,
 		marginRight: 24,
 		marginLeft: 8,
+		marginVertical: 9,
 		marginBottom: 14,
 	},
 	text1: {

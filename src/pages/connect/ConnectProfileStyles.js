@@ -18,6 +18,7 @@ const ConnectProfileStyles = StyleSheet.create({
 	simpleProfileContainer: {
 		alignItems: "center",
 		marginTop: 9,
+		marginBottom: 30,
 	},
 	detailProfileContainer: {
 		marginLeft: 17,
