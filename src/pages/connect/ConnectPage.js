@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useFocusEffect } from "react";
+import React, { useState } from "react";
 import {
 	View,
 	Text,
@@ -16,7 +16,7 @@ import * as Sentry from "@sentry/react-native";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { getRandomMembersByCount, getConnectSearch } from "config/api";
+import { getConnectSearch } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
 
 import ConnectTop from "@components/connect/ConnectTop";
@@ -30,40 +30,15 @@ import ConnectDife from "@components/connect/ConnectDife";
 import ConnectReset from "@components/connect/ConnectReset";
 import IconCircleNumber from "@components/community/IconCircleNumber";
 import ArrowRight from "@components/common/ArrowRight";
+import { useMatchQueue } from "context/MatchQueueContext";
 
 const ConnectPage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
+	const showRefreshTimer = process.env.EXPO_PUBLIC_SHOW_REFRESH_TIMER;
 
-	const isInitialMount = useRef(true);
-	const [profileDataList, setProfileDataList] = useState([]);
-	const RANDOM_MEMBER_COUNT = 10;
-
-	const fetchCardProfiles = async () => {
-		try {
-			const response = await getRandomMembersByCount(RANDOM_MEMBER_COUNT);
-			const updatedData = formatProfileData(response.data);
-			setProfileDataList(updatedData);
-			setSearchData(null);
-			setSearchTerm("");
-			setSearchFail(false);
-		} catch (error) {
-			Sentry.captureException(error);
-			console.error(
-				"커넥트 카드 조회 오류:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
-	useFocusEffect(
-		useCallback(() => {
-			if (isInitialMount.current) {
-				fetchCardProfiles();
-				isInitialMount.current = false;
-			}
-		}, []),
-	);
+	const { allProfiles, formattedTimeRemaining, fetchAndDistributeProfiles } =
+		useMatchQueue();
 
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
@@ -123,9 +98,9 @@ const ConnectPage = () => {
 	const [isReset, setIsReset] = useState(false);
 
 	const handleReset = () => {
-		fetchCardProfiles();
 		setTotalSelection(null);
 		setIsReset(!isReset);
+		fetchAndDistributeProfiles();
 	};
 
 	const handleSearchBack = () => {
@@ -234,13 +209,22 @@ const ConnectPage = () => {
 			</View>
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<View style={ConnectStyles.midContainer}>
-					<TouchableOpacity
-						style={ConnectStyles.resetContainer}
-						onPress={[handleReset]}
-					>
-						<Text style={ConnectStyles.textReset}>Reset</Text>
-						<ConnectReset />
-					</TouchableOpacity>
+					<View style={ConnectStyles.resetAndTimerContainer}>
+						{showRefreshTimer && (
+							<View style={ConnectStyles.timerContainer}>
+								<Text style={ConnectStyles.timerText}>
+									{formattedTimeRemaining}
+								</Text>
+							</View>
+						)}
+						<TouchableOpacity
+							style={ConnectStyles.resetContainer}
+							onPress={handleReset}
+						>
+							<Text style={ConnectStyles.textReset}>Refresh</Text>
+							<ConnectReset />
+						</TouchableOpacity>
+					</View>
 				</View>
 			</TouchableWithoutFeedback>
 
@@ -264,9 +248,7 @@ const ConnectPage = () => {
 								{ minHeight: "100%" },
 							]}
 							data={
-								searchData === null
-									? profileDataList
-									: searchData
+								searchData === null ? allProfiles : searchData
 							}
 							renderItem={({ item }) => (
 								<ConnectCard
