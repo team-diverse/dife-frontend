@@ -207,7 +207,8 @@ function AppContent() {
 
 				if (memberId && (accessToken || refreshToken)) {
 					try {
-						const profileResponse = await getMyProfile();
+						const profileResponse =
+							await getMyProfile(refreshToken);
 						if (profileResponse.data.isVerified) {
 							setIsLoggedIn(true);
 						} else {
