@@ -74,11 +74,16 @@ const LoginPage = () => {
 
 	const handleLogin = async () => {
 		try {
+			
 			const loginResponse = await login(emailRef.val, valuePW);
+			const { status } = await Notifications.requestPermissionsAsync();
+			let token = ""; 
+			if (status === "granted") {
+				token = (await Notifications.getExpoPushTokenAsync()).data;
+			}
 			const id = loginResponse.data.member_id;
 			const accessToken = loginResponse.data.accessToken;
 			const refreshToken = loginResponse.data.refreshToken;
-
 			await SecureStore.setItemAsync("memberId", JSON.stringify(id));
 			await SecureStore.setItemAsync("accessToken", accessToken);
 			await SecureStore.setItemAsync("refreshToken", refreshToken);
@@ -94,7 +99,6 @@ const LoginPage = () => {
 				navigation.navigate("Nickname");
 			}
 
-			const token = (await Notifications.getExpoPushTokenAsync()).data;
 			await createNotificationToken(token, deviceId);
 		} catch (error) {
 			Sentry.captureException(error);
