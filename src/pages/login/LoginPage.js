@@ -14,7 +14,6 @@ import * as Device from "expo-device";
 import { useTranslation } from "react-i18next";
 import * as SecureStore from "expo-secure-store";
 import * as Sentry from "@sentry/react-native";
-import * as Notifications from "expo-notifications";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import LoginStyles from "@pages/login/LoginStyles";
@@ -27,6 +26,7 @@ import IconNotSeePw from "@components/login/IconNotSeePw";
 import IconSeePw from "@components/login/IconSeePw";
 import DifeLine from "@components/common/DifeLine";
 import InfoCircle from "@components/common/InfoCircle";
+import * as Notifications from "expo-notifications";
 
 const isMockLoginEnabled = process.env.EXPO_PUBLIC_MOCK_LOGIN === "true";
 const mockEmail = process.env.EXPO_PUBLIC_MOCK_EMAIL || "";
@@ -76,10 +76,14 @@ const LoginPage = () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
 			const { status } = await Notifications.requestPermissionsAsync();
+
 			let token = "";
 			if (status === "granted") {
-				token = (await Notifications.getExpoPushTokenAsync()).data;
+				token = (await Notifications.getDevicePushTokenAsync()).data;
+			} else {
+				console.log("Push notification permissions not granted");
 			}
+
 			const id = loginResponse.data.member_id;
 			const accessToken = loginResponse.data.accessToken;
 			const refreshToken = loginResponse.data.refreshToken;
@@ -92,13 +96,16 @@ const LoginPage = () => {
 			updateOnboardingData({ id, accessToken, refreshToken });
 
 			const profileResponse = await getMyProfile();
+
 			if (profileResponse.data.isVerified) {
 				setIsLoggedIn(true);
 			} else {
 				navigation.navigate("Nickname");
 			}
 
-			await createNotificationToken(token, deviceId);
+			if (token) {
+				await createNotificationToken(token, deviceId);
+			}
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
