@@ -131,6 +131,8 @@ const ConnectCard = ({
 						{profilePresignUrl ? (
 							<Image
 								source={{ uri: profilePresignUrl }}
+								cachePolicy="memory-disk"
+								transition={150}
 								style={styles.imgProfile}
 							/>
 						) : (

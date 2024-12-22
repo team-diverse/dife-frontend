@@ -46,7 +46,7 @@ const SetPasswordPage = ({ route }) => {
 	};
 
 	const handlePasswordError = (text) => {
-		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
 		setPasswordError(!passwordRegex.test(text));
 		onChangePW(text);
 	};

@@ -54,7 +54,7 @@ const SignUpPage = () => {
 	};
 
 	const handleEmailFormat = (email) => {
-		const emailRegex = /^[^\s@]+@(gmail\.com|kookmin\.ac\.kr|naver\.com)$/;
+		const emailRegex = /^[a-zA-Z0-9+-_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 		const isValid = emailRegex.test(email);
 		setValidID(isValid);
 		if (isValid) {
@@ -80,7 +80,7 @@ const SignUpPage = () => {
 	);
 
 	const handlePasswordError = (text) => {
-		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+		const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{8,}$/;
 		setPasswordError(!passwordRegex.test(text));
 		onChangePW(text);
 	};
@@ -111,7 +111,7 @@ const SignUpPage = () => {
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
-			<SafeAreaView style={[SignUpStyles.container]}>
+			<SafeAreaView style={SignUpStyles.container}>
 				<GoBack />
 				<Text style={SignUpStyles.textTitle}>{t("signUpTitle")}</Text>
 				<View style={SignUpStyles.containerIdPw}>

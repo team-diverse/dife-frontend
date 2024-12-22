@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Svg, {
-	Path,
-	Defs,
-	ClipPath,
-	Image as SvgImage,
-	G,
-} from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
+import { Image } from "expo-image";
+import { View, StyleSheet } from "react-native";
 import * as Sentry from "@sentry/react-native";
 
 import { getProfileImageByFileId } from "config/api";
-
 import IconProfileUser32 from "@components/common/IconProfileUser32";
 import IconProfileUser24 from "@components/common/IconProfileUser24";
 
@@ -44,42 +39,76 @@ const IconChatProfile = ({ size = 48, fileId, ...props }) => {
 	`;
 
 	return (
-		<Svg
-			xmlns="http://www.w3.org/2000/svg"
-			width={size}
-			height={size}
-			fill="none"
-			viewBox={`0 0 ${size} ${size}`}
-			{...props}
-		>
-			<Defs>
-				<ClipPath id="clipPath">
-					<Path fill="#B0D0FF" d={pathData} />
-				</ClipPath>
-			</Defs>
-
-			<Path fill="#B0D0FF" d={pathData} />
+		<View style={[styles.container, { width: size, height: size }]}>
+			<Svg width={size} height={size} style={styles.svg} {...props}>
+				<Path fill="#B0D0FF60" d={pathData} />
+			</Svg>
 
 			{profilePresignUrl ? (
-				<SvgImage
-					x={0}
-					y={0}
-					width={size}
-					height={size}
-					href={{ uri: profilePresignUrl }}
-					preserveAspectRatio="xMidYMid slice"
-					clipPath="url(#clipPath)"
-				/>
+				<View
+					style={[
+						styles.imageContainer,
+						{ width: size, height: size },
+					]}
+				>
+					<View
+						style={[
+							styles.maskContainer,
+							{ width: size, height: size },
+						]}
+					>
+						<Image
+							source={{ uri: profilePresignUrl }}
+							style={[
+								styles.image,
+								{ width: size, height: size },
+							]}
+							contentFit="cover"
+							cachePolicy="memory-disk"
+							transition={150}
+						/>
+					</View>
+				</View>
 			) : (
-				<G
-					clipPath="url(#clipPath)"
-					transform={`translate(${size / 8}, ${size / 6})`}
+				<View
+					style={[
+						styles.fallbackContainer,
+						{ top: size * 0.25, left: size * 0.125 },
+					]}
 				>
 					{size <= 36 ? <IconProfileUser24 /> : <IconProfileUser32 />}
-				</G>
+				</View>
 			)}
-		</Svg>
+		</View>
 	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		position: "relative",
+	},
+	svg: {
+		position: "absolute",
+	},
+	imageContainer: {
+		position: "absolute",
+		overflow: "hidden",
+	},
+	maskContainer: {
+		overflow: "hidden",
+		borderTopLeftRadius: 10,
+		borderTopRightRadius: 20,
+		borderBottomRightRadius: 20,
+		borderBottomLeftRadius: 10,
+	},
+	image: {
+		position: "absolute",
+	},
+	fallbackContainer: {
+		position: "absolute",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+});
 
 export default IconChatProfile;

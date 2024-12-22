@@ -1,25 +1,50 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
+
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontCaption } = CustomTheme;
 
-const Tag = ({ tag = ["tag"] }) => {
+const Tag = ({ tag }) => {
+	const { t, i18n } = useTranslation();
+
 	return (
 		<View style={styles.container}>
-			{tag.map((item, index) => (
-				<View
-					key={index}
-					style={[
-						styles.rectangle,
-						{
-							width: item.length >= 6 ? item.length * 10 : 68,
-						},
-					]}
-				>
-					<Text style={styles.text}>{item}</Text>
-				</View>
-			))}
+			{tag.map((item, index) => {
+				const resources = i18n.store.data;
+				let translatedHobby = item;
+
+				Object.values(resources).forEach((lang) => {
+					if (lang.translation?.hobbyOptions) {
+						const hobbyOptions = lang.translation.hobbyOptions;
+						const key = Object.keys(hobbyOptions).find(
+							(k) => hobbyOptions[k] === item,
+						);
+
+						if (key) {
+							translatedHobby = t(`hobbyOptions.${key}`);
+						}
+					}
+				});
+
+				return (
+					<View
+						key={index}
+						style={[
+							styles.rectangle,
+							{
+								width:
+									translatedHobby.length >= 6
+										? translatedHobby.length * 10
+										: 68,
+							},
+						]}
+					>
+						<Text style={styles.text}>{translatedHobby}</Text>
+					</View>
+				);
+			})}
 		</View>
 	);
 };

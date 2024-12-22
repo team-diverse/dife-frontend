@@ -15,12 +15,18 @@ import { useTranslation } from "react-i18next";
 import * as SecureStore from "expo-secure-store";
 import * as Sentry from "@sentry/react-native";
 import * as Notifications from "expo-notifications";
+import { getLocales } from "expo-localization";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import LoginStyles from "@pages/login/LoginStyles";
 import { useOnboarding } from "src/states/OnboardingContext.js";
 import { useAuth } from "src/states/AuthContext";
-import { getMyProfile, login, createNotificationToken } from "config/api";
+import {
+	getMyProfile,
+	login,
+	createNotificationToken,
+	updateMyProfile,
+} from "config/api";
 
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import IconNotSeePw from "@components/login/IconNotSeePw";
@@ -75,9 +81,19 @@ const LoginPage = () => {
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
+			const { status } = await Notifications.requestPermissionsAsync();
+
+			let token = "";
+			if (status === "granted") {
+				token = (await Notifications.getDevicePushTokenAsync()).data;
+			} else {
+				console.log("Push notification permissions not granted");
+			}
+
 			const id = loginResponse.data.member_id;
 			const accessToken = loginResponse.data.accessToken;
 			const refreshToken = loginResponse.data.refreshToken;
+			const isFirstLogin = loginResponse.data.isFirstLogin;
 
 			await SecureStore.setItemAsync("memberId", JSON.stringify(id));
 			await SecureStore.setItemAsync("accessToken", accessToken);
@@ -87,15 +103,21 @@ const LoginPage = () => {
 			console.log(accessToken);
 			updateOnboardingData({ id, accessToken, refreshToken });
 
+			if (isFirstLogin) {
+				await updateSettingLanguage();
+			}
+
 			const profileResponse = await getMyProfile();
+
 			if (profileResponse.data.isVerified) {
 				setIsLoggedIn(true);
 			} else {
 				navigation.navigate("Nickname");
 			}
 
-			const token = (await Notifications.getExpoPushTokenAsync()).data;
-			await createNotificationToken(token, deviceId);
+			if (token) {
+				await createNotificationToken(token, deviceId);
+			}
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -129,6 +151,19 @@ const LoginPage = () => {
 						error.response ? error.response.data : error.message,
 					);
 			}
+		}
+	};
+
+	const updateSettingLanguage = async () => {
+		try {
+			const formData = new FormData();
+			formData.append(
+				"settingLanguage",
+				getLocales()[0].languageCode.toUpperCase(),
+			);
+			await updateMyProfile(formData);
+		} catch (error) {
+			console.error("언어 설정 업데이트 오류:", error);
 		}
 	};
 
