@@ -22,7 +22,7 @@
 
 	"findPasswordTitle": "Restablecimiento de contraseña",
 	"findPasswordSubtitle": "Introduce el correo electrónico usado durante el registro",
-	"emailInvalidError": "Correo electrónico no válido. Solo se permiten direcciones de gmail.com o kookmin.ac.kr.",
+	"emailInvalidError": "Correo electrónico no válido.",
 	"emailNotFoundError": "Correo electrónico no encontrado",
 	"passwordResetButton": "Enviar código de verificación",
 	"emailSendingText": "Enviando correo electrónico",
@@ -103,7 +103,7 @@
 		"日本語 / Japanese",
 		"Español / Spanish",
 		"Coreano / Korean",
-		"Otros"
+		"Otros / Others"
 	],
 
 	"studentVerificationTitle": "Verificación de Estudiante",
@@ -159,6 +159,7 @@
 	"completeModifyButton": "Completar edición",
 	"titlePlaceholder": "Título",
 	"contentPlaceholder": "Contenido",
+	"titleAndContentRequired": "El título y el contenido son campos obligatorios.",
 	"deleteImageAlert": "Solo puedes seleccionar hasta 9 imágenes.",
 	"anonymousCheckboxLabel": "Anónimo",
 	"ruleTitle": "Reglas de la Comunidad Dife",
