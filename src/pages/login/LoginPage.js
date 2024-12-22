@@ -74,10 +74,9 @@ const LoginPage = () => {
 
 	const handleLogin = async () => {
 		try {
-			
 			const loginResponse = await login(emailRef.val, valuePW);
 			const { status } = await Notifications.requestPermissionsAsync();
-			let token = ""; 
+			let token = "";
 			if (status === "granted") {
 				token = (await Notifications.getExpoPushTokenAsync()).data;
 			}
