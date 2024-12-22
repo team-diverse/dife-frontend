@@ -159,6 +159,7 @@
 	"completeModifyButton": "Completar edición",
 	"titlePlaceholder": "Título",
 	"contentPlaceholder": "Contenido",
+	"titleAndContentRequired": "El título y el contenido son campos obligatorios.",
 	"deleteImageAlert": "Solo puedes seleccionar hasta 9 imágenes.",
 	"anonymousCheckboxLabel": "Anónimo",
 	"ruleTitle": "Reglas de la Comunidad Dife",

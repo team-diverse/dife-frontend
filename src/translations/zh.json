@@ -159,6 +159,7 @@
 	"completeModifyButton": "完成编辑",
 	"titlePlaceholder": "标题",
 	"contentPlaceholder": "内容",
+	"titleAndContentRequired": "标题和内容是必填项。",
 	"deleteImageAlert": "最多只能选择9张图片。",
 	"anonymousCheckboxLabel": "匿名",
 	"ruleTitle": "Dife 社区规则",

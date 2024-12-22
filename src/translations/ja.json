@@ -159,6 +159,7 @@
 	"completeModifyButton": "編集を完了",
 	"titlePlaceholder": "タイトル",
 	"contentPlaceholder": "内容",
+	"titleAndContentRequired": "タイトルと内容は必須項目です。",
 	"deleteImageAlert": "最大9枚まで選択できます。",
 	"anonymousCheckboxLabel": "匿名",
 	"ruleTitle": "Difeコミュニティ利用規則",

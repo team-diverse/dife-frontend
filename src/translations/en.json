@@ -159,6 +159,7 @@
 	"completeModifyButton": "Complete Edit",
 	"titlePlaceholder": "Title",
 	"contentPlaceholder": "Content",
+	"titleAndContentRequired": "Title and content are required fields.",
 	"deleteImageAlert": "You can only select up to 9 images.",
 	"anonymousCheckboxLabel": "Anonymous",
 	"ruleTitle": "Dife Community Rules",
