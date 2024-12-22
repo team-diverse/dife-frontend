@@ -98,11 +98,11 @@
 
 	"languageSubtitle": "Please let us know {{username}}'s languages!",
 	"languages": [
-		"English / English",
-		"中文 / Chinese",
-		"日本語 / Japanese",
-		"Español / Spanish",
-		"Korean / 한국어",
+		"English",
+		"Chinese",
+		"Japanese",
+		"Spanish",
+		"한국어",
 		"Others"
 	],
 
