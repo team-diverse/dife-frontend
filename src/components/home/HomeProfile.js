@@ -7,15 +7,19 @@ import IconProfileUser48 from "@components/common/IconProfileUser48";
 
 const HomeProfile = ({ fileId, back = false }) => {
 	const containerStyle = back ? { width: 100.647, height: 118 } : null;
-
 	const [presignUrl, setPresignUrl] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
 		const getPresignUrl = async () => {
 			try {
+				setPresignUrl(null);
+				setIsLoading(true);
+
 				if (fileId == null) {
 					return;
 				}
+
 				const response = await getProfileImageByFileId(fileId);
 				setPresignUrl(response.data);
 			} catch (error) {
@@ -23,6 +27,8 @@ const HomeProfile = ({ fileId, back = false }) => {
 					"홈 카드 프로필 이미지 조회 실패:",
 					error.response ? error.response.data : error.message,
 				);
+			} finally {
+				setIsLoading(false);
 			}
 		};
 		getPresignUrl();
@@ -31,11 +37,16 @@ const HomeProfile = ({ fileId, back = false }) => {
 	return (
 		<>
 			<View style={[styles.rectangle, containerStyle]}>
-				{fileId ? (
-					<Image source={{ uri: presignUrl }} style={styles.image} />
-				) : (
-					<IconProfileUser48 />
-				)}
+				{!isLoading ? (
+					presignUrl ? (
+						<Image
+							source={{ uri: presignUrl }}
+							style={styles.image}
+						/>
+					) : (
+						<IconProfileUser48 />
+					)
+				) : null}
 			</View>
 		</>
 	);
