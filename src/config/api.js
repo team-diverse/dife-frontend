@@ -544,9 +544,9 @@ export const getMyComments = () => {
 	return api.get("/members/comments");
 };
 
-export const createNotificationToken = (pushToken, deviceId) => {
+export const createNotificationToken = (apnsToken, deviceId) => {
 	return api.post("/notifications/push", {
-		pushToken,
+		apnsToken,
 		deviceId,
 	});
 };

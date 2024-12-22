@@ -1,10 +1,14 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
+
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontBody14 } = CustomTheme;
 
-const ConnectProfileTag = ({ tag = ["tag"] }) => {
+const ConnectProfileTag = ({ tag = [""] }) => {
+	const { t, i18n } = useTranslation();
+
 	const groupedTags = [];
 	for (let i = 0; i < tag.length; i += 3) {
 		groupedTags.push(tag.slice(i, i + 3));
@@ -14,8 +18,25 @@ const ConnectProfileTag = ({ tag = ["tag"] }) => {
 		<>
 			{groupedTags.map((groupItem, groupIndex) => (
 				<View key={groupIndex} style={styles.container}>
-					{groupItem.map(
-						(item, index) =>
+					{groupItem.map((item, index) => {
+						const resources = i18n.store.data;
+						let translatedHobby = item;
+
+						Object.values(resources).forEach((lang) => {
+							if (lang.translation?.hobbyOptions) {
+								const hobbyOptions =
+									lang.translation.hobbyOptions;
+								const key = Object.keys(hobbyOptions).find(
+									(k) => hobbyOptions[k] === item,
+								);
+
+								if (key) {
+									translatedHobby = t(`hobbyOptions.${key}`);
+								}
+							}
+						});
+
+						return (
 							item && (
 								<View
 									key={index}
@@ -23,16 +44,21 @@ const ConnectProfileTag = ({ tag = ["tag"] }) => {
 										styles.rectangle,
 										{
 											width:
-												item.length >= 6
-													? item.length * 10 + 30
+												translatedHobby.length >= 6
+													? translatedHobby.length *
+															10 +
+														30
 													: 80,
 										},
 									]}
 								>
-									<Text style={styles.text}>{item}</Text>
+									<Text style={styles.text}>
+										{translatedHobby}
+									</Text>
 								</View>
-							),
-					)}
+							)
+						);
+					})}
 				</View>
 			))}
 		</>

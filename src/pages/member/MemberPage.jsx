@@ -31,9 +31,11 @@ const MemberPage = () => {
 
 	const [name, setName] = useState("");
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handleProfile = async () => {
 		try {
+			setIsLoading(true);
 			const response = await getMyProfile();
 			setName(response.data.username);
 			if (response.data.profileImg?.id) {
@@ -48,6 +50,8 @@ const MemberPage = () => {
 				"마이페이지 조회 오류:",
 				error.response ? error.response.data : error.message,
 			);
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
@@ -89,7 +93,7 @@ const MemberPage = () => {
 						<MemberProfileBackground
 							profileImage={profilePresignUrl}
 						/>
-						{profilePresignUrl ? null : (
+						{!isLoading && !profilePresignUrl && (
 							<View style={MemberStyles.containerProfileUser}>
 								<IconProfileUser64 />
 							</View>
