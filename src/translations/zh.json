@@ -22,7 +22,7 @@
 
 	"findPasswordTitle": "密码重置",
 	"findPasswordSubtitle": "请输入注册时使用的邮箱",
-	"emailInvalidError": "无效的电子邮件。只允许使用 gmail.com 或 kookmin.ac.kr 地址。",
+	"emailInvalidError": "无效的电子邮件。",
 	"emailNotFoundError": "邮箱未找到",
 	"passwordResetButton": "发送验证码",
 	"emailSendingText": "发送邮件中",
@@ -103,7 +103,7 @@
 		"日语 / Japanese",
 		"西班牙语 / Spanish",
 		"韩语 / Korean",
-		"其他"
+		"其他 / Others"
 	],
 
 	"studentVerificationTitle": "学生认证",
@@ -159,6 +159,7 @@
 	"completeModifyButton": "完成编辑",
 	"titlePlaceholder": "标题",
 	"contentPlaceholder": "内容",
+	"titleAndContentRequired": "标题和内容是必填项。",
 	"deleteImageAlert": "最多只能选择9张图片。",
 	"anonymousCheckboxLabel": "匿名",
 	"ruleTitle": "Dife 社区规则",

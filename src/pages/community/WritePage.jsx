@@ -50,7 +50,10 @@ const WritePage = ({ route }) => {
 
 	const handleWrite = async () => {
 		try {
-			if (valueTitle.trim().length !== 0) {
+			if (
+				valueTitle.trim().length !== 0 &&
+				valueContext.trim().length !== 0
+			) {
 				await createPost(
 					valueTitle,
 					valueContext,
@@ -62,7 +65,7 @@ const WritePage = ({ route }) => {
 			} else {
 				Alert.alert(
 					"",
-					t("titlePlaceholder"),
+					t("titleAndContentRequired"),
 					[
 						{
 							text: t("confirmButtonText"),
