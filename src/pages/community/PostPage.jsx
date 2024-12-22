@@ -81,6 +81,7 @@ const PostPage = ({ route }) => {
 	const [isTranslation, setIsTranslation] = useState(false);
 	const [translationCount, setTranslationCount] = useState();
 	const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
 
 	const commentRef = useRef(null);
 	const scrollViewRef = useRef(null);
@@ -123,6 +124,12 @@ const PostPage = ({ route }) => {
 
 			if (postByIdResponse.data.isPublic === false) {
 				setWriterName(postByIdResponse.data.writer.username);
+				if (postByIdResponse.data.writer.profileImg.id) {
+					const presignUrl = await getProfileImageByFileId(
+						postByIdResponse.data.writer.profileImg.id,
+					);
+					setProfilePresignUrl(presignUrl.data);
+				}
 			} else if (postByIdResponse.data.isPublic === true) {
 				setWriterName(t("anonymousCheckboxLabel"));
 			}
@@ -420,10 +427,14 @@ const PostPage = ({ route }) => {
 					<View style={PostStyles.containerWriterRow}>
 						<View style={{ flexDirection: "row" }}>
 							<View style={PostStyles.containerProfile}>
-								<IconProfileBackground />
-								<IconProfileUser24
-									style={PostStyles.iconProfileUser24}
+								<IconProfileBackground
+									profileImage={profilePresignUrl}
 								/>
+								{profilePresignUrl ? null : (
+									<IconProfileUser24
+										style={PostStyles.iconProfileUser24}
+									/>
+								)}
 							</View>
 							<View style={PostStyles.containerWriterText}>
 								<Text style={PostStyles.textWriter}>
