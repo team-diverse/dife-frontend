@@ -42,6 +42,8 @@ const HomeProfile = ({ fileId, back = false }) => {
 						<Image
 							source={{ uri: presignUrl }}
 							style={styles.image}
+							cachePolicy="memory-disk"
+							transition={150}
 						/>
 					) : (
 						<IconProfileUser48 />
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
 		height: 136,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "#B0D0FF",
+		backgroundColor: "#B0D0FF60",
 		borderRadius: 16,
 		overflow: "hidden",
 	},
