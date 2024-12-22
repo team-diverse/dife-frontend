@@ -22,7 +22,7 @@
 
 	"findPasswordTitle": "Password Reset",
 	"findPasswordSubtitle": "Enter the email used during registration",
-	"emailInvalidError": "Invalid email. Only gmail.com or kookmin.ac.kr addresses are allowed.",
+	"emailInvalidError": "Invalid email.",
 	"emailNotFoundError": "Email not found",
 	"passwordResetButton": "Send verification code",
 	"emailSendingText": "Sending email",
@@ -98,11 +98,11 @@
 
 	"languageSubtitle": "Please let us know {{username}}'s languages!",
 	"languages": [
-		"English / English",
-		"中文 / Chinese",
-		"日本語 / Japanese",
-		"Español / Spanish",
-		"Korean / 한국어",
+		"English",
+		"Chinese",
+		"Japanese",
+		"Spanish",
+		"한국어",
 		"Others"
 	],
 
@@ -159,6 +159,7 @@
 	"completeModifyButton": "Complete Edit",
 	"titlePlaceholder": "Title",
 	"contentPlaceholder": "Content",
+	"titleAndContentRequired": "Title and content are required fields.",
 	"deleteImageAlert": "You can only select up to 9 images.",
 	"anonymousCheckboxLabel": "Anonymous",
 	"ruleTitle": "Dife Community Rules",

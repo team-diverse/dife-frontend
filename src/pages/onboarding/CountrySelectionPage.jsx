@@ -16,7 +16,7 @@ import {
 } from "@components/onboarding/Constants";
 
 const ItemView = ({ item, selected, action }) => {
-	let text = `${item.name} (+${item.callingCode})`;
+	let text = `${item.name}`;
 	let selectedIcon = null;
 
 	if (selected != null && selected.callingCode === item.callingCode) {
