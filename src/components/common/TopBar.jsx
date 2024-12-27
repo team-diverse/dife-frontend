@@ -7,18 +7,23 @@ import ArrowRight from "@components/common/ArrowRight";
 
 const { fontHead20 } = CustomTheme;
 
-const TopBar = ({ topBar = "TopBar", color, backgroundColor }) => {
+const TopBar = ({ topBar, color, backgroundColor }) => {
 	const navigation = useNavigation();
 
 	const handleGoBack = () => {
 		navigation.goBack();
 	};
 
+	const isLongText = topBar === "Configuración de Idioma Predeterminada";
+
 	return (
 		<View
 			style={[
 				styles.rectangle,
-				{ backgroundColor: backgroundColor || CustomTheme.bgBasic },
+				{
+					backgroundColor: backgroundColor || CustomTheme.bgBasic,
+					marginVertical: isLongText ? 13 : 0,
+				},
 			]}
 		>
 			<View style={styles.container}>

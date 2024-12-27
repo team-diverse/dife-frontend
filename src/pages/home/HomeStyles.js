@@ -6,12 +6,11 @@ const { fontHead18, fontSub16, fontCaption } = CustomTheme;
 const HomeStyles = StyleSheet.create({
 	container: {
 		flex: 1,
-		flexDirection: "row",
+		// flexDirection: "row",
 		backgroundColor: "#0029F4",
 	},
 	linearGradient: {
 		flex: 1,
-		alignItems: "center",
 	},
 	homebg: {
 		position: "absolute",
@@ -32,7 +31,7 @@ const HomeStyles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "flex-end",
 		marginTop: 25,
-		marginRight: 83,
+		marginLeft: 9,
 	},
 	textConnect: {
 		...fontHead18,
@@ -52,6 +51,7 @@ const HomeStyles = StyleSheet.create({
 	},
 	containerShoolInfoEvents: {
 		flexDirection: "row",
+		justifyContent: "center",
 		marginTop: 32,
 		shadowColor: "#3C454E4A",
 		shadowOffset: { width: 0, height: 3 },
@@ -79,7 +79,7 @@ const HomeStyles = StyleSheet.create({
 	},
 	backgroundHomecard: {
 		position: "absolute",
-		top: 10,
+		top: 60,
 		bottom: 10,
 		right: 30,
 		transform: [{ scale: 0.9 }],
