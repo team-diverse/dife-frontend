@@ -131,7 +131,17 @@ const FreeCommunityPage = () => {
 					<Text style={FreeCommunityStyles.textChattingTitle}>
 						{t("freeBoard")}
 					</Text>
-					<IconBookmark style={FreeCommunityStyles.iconBookmark} />
+					<TouchableOpacity
+						onPress={() =>
+							navigation.navigate("BookmarkedPostPage", {
+								category: t("freeBoard"),
+							})
+						}
+					>
+						<IconBookmark
+							style={FreeCommunityStyles.iconBookmark}
+						/>
+					</TouchableOpacity>
 				</View>
 				<View
 					style={[
