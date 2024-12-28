@@ -98,11 +98,11 @@
 
 	"languageSubtitle": "Please let us know {{username}}'s languages!",
 	"languages": [
-		"English",
-		"Chinese",
-		"Japanese",
-		"Spanish",
-		"한국어",
+		"English / English",
+		"中文 / Chinese",
+		"日本語 / Japanese",
+		"Español / Spanish",
+		"한국어 / Korean",
 		"Others"
 	],
 
@@ -148,7 +148,7 @@
 	"moreButton": "More",
 	"tipBoard": "Tips Board",
 	"freeBoard": "Free Board",
-	"cancelSearch": "Cancel Search",
+	"entire": "All",
 
 	"searchError": "An error occurred during the search",
 	"searchCancelButton": "Cancel Search",

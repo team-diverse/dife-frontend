@@ -98,12 +98,12 @@
 
 	"languageSubtitle": "¡Por favor, indícanos los idiomas de {{username}}!",
 	"languages": [
-		"Inglés / English",
+		"English / English",
 		"中文 / Chinese",
 		"日本語 / Japanese",
 		"Español / Spanish",
-		"Coreano / Korean",
-		"Otros / Others"
+		"한국어 / Korean",
+		"Otros"
 	],
 
 	"studentVerificationTitle": "Verificación de Estudiante",
@@ -125,7 +125,7 @@
 	"profileCompletionDescription": "Por favor, espera un momento para la confirmación de la verificación de estudiante",
 
 	"connect": "Conectar",
-	"newFriendText": "¡Únete con nuevos amigos!",
+	"newFriendText": "¡Con nuevos amigos!",
 	"schoolInfo": "Información Escolar",
 	"events": "Eventos",
 	"notifications": "Notificaciones",
@@ -148,7 +148,7 @@
 	"moreButton": "Más",
 	"tipBoard": "Tablero de Consejos",
 	"freeBoard": "Tablero Libre",
-	"cancelSearch": "Cancelar Búsqueda",
+	"entire": "Todo",
 
 	"searchError": "Se produjo un error durante la búsqueda",
 	"searchCancelButton": "Cancelar Búsqueda",
