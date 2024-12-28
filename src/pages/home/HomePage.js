@@ -186,13 +186,6 @@ const HomePage = () => {
 				</TouchableOpacity>
 			</View>
 
-			<View style={HomeStyles.textConnectWithContainer}>
-				<Text style={HomeStyles.textConnect}>{t("connect")}</Text>
-				<Text style={HomeStyles.textWithnewfriend}>
-					{t("newFriendText")}
-				</Text>
-			</View>
-
 			<View
 				style={{
 					flexDirection: "row",
@@ -215,50 +208,51 @@ const HomePage = () => {
 						onSwipeRight={handlePrevProfile}
 						style={{ zIndex: 10 }}
 					>
+						<View style={HomeStyles.textConnectWithContainer}>
+							<Text style={HomeStyles.textConnect}>
+								{t("connect")}
+							</Text>
+							<Text style={HomeStyles.textWithnewfriend}>
+								{t("newFriendText")}
+							</Text>
+						</View>
+
 						{showNewCard ? (
-							<View style={HomeStyles.homecardContainer}>
-								<View style={HomeStyles.homecard}>
-									<HomeCardBack
-										memberId={profileData.id}
-										fileId={profileData.profileImg?.id}
-										name={profileData.username}
-										onPress={() => setShowNewCard(false)}
-									/>
-								</View>
+							<View style={HomeStyles.homecard}>
+								<HomeCardBack
+									memberId={profileData.id}
+									fileId={profileData.profileImg?.id}
+									name={profileData.username}
+									onPress={() => setShowNewCard(false)}
+								/>
 							</View>
 						) : showMoreProfiles ? (
-							<View style={HomeStyles.homecardContainer}>
-								<View style={HomeStyles.homecard}>
-									<HomeCardLast />
-								</View>
+							<View style={HomeStyles.homecard}>
+								<HomeCardLast />
 							</View>
 						) : (
-							<View style={HomeStyles.homecardContainer}>
-								<View style={HomeStyles.homecard}>
-									<HomeCardFront
-										memberId={profileData.id}
-										fileId={profileData.profileImg?.id}
-										tags={profileData.tags}
-										introduction={profileData.bio}
-										name={profileData.username}
-										country={profileData.country}
-										onPress={() => setShowNewCard(true)}
-										isLikedOnPress={() => {
-											heart[profileData.id]
-												? handleDeleteHeart()
-												: handleCreateHeart();
-										}}
-										isLikedActive={heart[profileData.id]}
-									/>
-								</View>
+							<View style={HomeStyles.homecard}>
+								<HomeCardFront
+									memberId={profileData.id}
+									fileId={profileData.profileImg?.id}
+									tags={profileData.tags}
+									introduction={profileData.bio}
+									name={profileData.username}
+									country={profileData.country}
+									onPress={() => setShowNewCard(true)}
+									isLikedOnPress={() => {
+										heart[profileData.id]
+											? handleDeleteHeart()
+											: handleCreateHeart();
+									}}
+									isLikedActive={heart[profileData.id]}
+								/>
 							</View>
 						)}
 					</GestureRecognizer>
 				) : (
-					<View style={HomeStyles.homecardContainer}>
-						<View style={HomeStyles.homecard}>
-							<HomeCardLast />
-						</View>
+					<View style={HomeStyles.homecard}>
+						<HomeCardLast />
 					</View>
 				)}
 

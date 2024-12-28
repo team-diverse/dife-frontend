@@ -98,12 +98,12 @@
 
 	"languageSubtitle": "请告诉我们{{username}}的使用语言！",
 	"languages": [
-		"英语 / English",
+		"English / English",
 		"中文 / Chinese",
-		"日语 / Japanese",
-		"西班牙语 / Spanish",
-		"韩语 / Korean",
-		"其他 / Others"
+		"日本語 / Japanese",
+		"Español / Spanish",
+		"한국어 / Korean",
+		"其他"
 	],
 
 	"studentVerificationTitle": "学生认证",
@@ -148,7 +148,7 @@
 	"moreButton": "更多",
 	"tipBoard": "技巧论坛",
 	"freeBoard": "自由论坛",
-	"cancelSearch": "取消搜索",
+	"entire": "全部",
 
 	"searchError": "搜索时发生错误",
 	"searchCancelButton": "取消搜索",

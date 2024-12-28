@@ -131,7 +131,15 @@ const TipCommunityPage = () => {
 					<Text style={TipCommunityStyles.textChattingTitle}>
 						{t("tipBoard")}
 					</Text>
-					<IconBookmark style={TipCommunityStyles.iconBookmark} />
+					<TouchableOpacity
+						onPress={() =>
+							navigation.navigate("BookmarkedPostPage", {
+								category: t("tipBoard"),
+							})
+						}
+					>
+						<IconBookmark style={TipCommunityStyles.iconBookmark} />
+					</TouchableOpacity>
 				</View>
 				<View style={TipCommunityStyles.containerSearch}>
 					<View
