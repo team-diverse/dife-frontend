@@ -103,7 +103,7 @@
 		"日本語 / Japanese",
 		"Español / Spanish",
 		"한국어 / Korean",
-		"기타 / Others"
+		"기타"
 	],
 
 	"studentVerificationTitle": "재학생 인증",
@@ -146,7 +146,7 @@
 	"moreButton": "더보기",
 	"tipBoard": "꿀팁게시판",
 	"freeBoard": "자유게시판",
-	"cancelSearch": "검색 취소",
+	"entire": "전체",
 
 	"searchError": "검색 중 오류가 발생했습니다",
 	"searchCancelButton": "검색 취소",

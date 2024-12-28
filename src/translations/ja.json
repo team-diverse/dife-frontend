@@ -98,12 +98,12 @@
 
 	"languageSubtitle": "{{username}}さんの使用言語を教えてください！",
 	"languages": [
-		"英語 / English",
+		"English / English",
 		"中文 / Chinese",
 		"日本語 / Japanese",
-		"スペイン語 / Spanish",
-		"韓国語 / Korean",
-		"その他 / Others"
+		"Español / Spanish",
+		"한국어 / Korean",
+		"その他"
 	],
 
 	"studentVerificationTitle": "学生認証",
@@ -125,7 +125,7 @@
 	"profileCompletionDescription": "学生認証確認までしばらくお待ちください",
 
 	"connect": "コネクト",
-	"newFriendText": "新しい友達と一緒に参加しましょう！",
+	"newFriendText": "新しい友達と参加しよう！",
 	"schoolInfo": "学校情報",
 	"events": "イベント",
 	"notifications": "通知",
@@ -148,7 +148,7 @@
 	"moreButton": "もっと見る",
 	"tipBoard": "ヒント掲示板",
 	"freeBoard": "自由掲示板",
-	"cancelSearch": "検索をキャンセル",
+	"entire": "すべて",
 
 	"searchError": "検索中にエラーが発生しました",
 	"searchCancelButton": "検索をキャンセル",
