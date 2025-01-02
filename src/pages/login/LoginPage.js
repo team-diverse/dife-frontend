@@ -33,6 +33,7 @@ import IconNotSeePw from "@components/login/IconNotSeePw";
 import IconSeePw from "@components/login/IconSeePw";
 import DifeLine from "@components/common/DifeLine";
 import InfoCircle from "@components/common/InfoCircle";
+import Constants from "expo-constants";
 
 const isMockLoginEnabled = process.env.EXPO_PUBLIC_MOCK_LOGIN === "true";
 const mockEmail = process.env.EXPO_PUBLIC_MOCK_EMAIL || "";
@@ -83,9 +84,17 @@ const LoginPage = () => {
 			const loginResponse = await login(emailRef.val, valuePW);
 			const { status } = await Notifications.requestPermissionsAsync();
 
+			const projectId =
+				Constants?.expoConfig?.extra?.eas?.projectId ??
+				Constants?.easConfig?.projectId;
+			if (!projectId) {
+				console.log("Project ID not found");
+			}
+
 			let token = "";
 			if (status === "granted") {
-				token = (await Notifications.getDevicePushTokenAsync()).data;
+				token = (await Notifications.getExpoPushTokenAsync(projectId))
+					.data;
 			} else {
 				console.log("Push notification permissions not granted");
 			}
@@ -115,9 +124,7 @@ const LoginPage = () => {
 				navigation.navigate("Nickname");
 			}
 
-			if (token) {
-				await createNotificationToken(token, deviceId);
-			}
+			await createNotificationToken(token, deviceId);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
