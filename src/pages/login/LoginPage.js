@@ -33,8 +33,6 @@ import IconNotSeePw from "@components/login/IconNotSeePw";
 import IconSeePw from "@components/login/IconSeePw";
 import DifeLine from "@components/common/DifeLine";
 import InfoCircle from "@components/common/InfoCircle";
-import Constants from "expo-constants";
-
 const isMockLoginEnabled = process.env.EXPO_PUBLIC_MOCK_LOGIN === "true";
 const mockEmail = process.env.EXPO_PUBLIC_MOCK_EMAIL || "";
 const mockPassword = process.env.EXPO_PUBLIC_MOCK_PASSWORD || "";
@@ -84,17 +82,9 @@ const LoginPage = () => {
 			const loginResponse = await login(emailRef.val, valuePW);
 			const { status } = await Notifications.requestPermissionsAsync();
 
-			const projectId =
-				Constants?.expoConfig?.extra?.eas?.projectId ??
-				Constants?.easConfig?.projectId;
-			if (!projectId) {
-				console.log("Project ID not found");
-			}
-
 			let token = "";
 			if (status === "granted") {
-				token = (await Notifications.getExpoPushTokenAsync(projectId))
-					.data;
+				token = (await Notifications.getExpoPushTokenAsync()).data;
 			} else {
 				console.log("Push notification permissions not granted");
 			}
