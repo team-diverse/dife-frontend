@@ -84,17 +84,9 @@ const LoginPage = () => {
 			const loginResponse = await login(emailRef.val, valuePW);
 			const { status } = await Notifications.requestPermissionsAsync();
 
-			const projectId =
-				Constants?.expoConfig?.extra?.eas?.projectId ??
-				Constants?.easConfig?.projectId;
-			if (!projectId) {
-				console.log("Project ID not found");
-			}
-
 			let token = "";
 			if (status === "granted") {
-				token = (await Notifications.getExpoPushTokenAsync(projectId))
-					.data;
+				token = (await Notifications.getExpoPushTokenAsync()).data;
 			} else {
 				console.log("Push notification permissions not granted");
 			}
