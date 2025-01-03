@@ -80,13 +80,23 @@ const LoginPage = () => {
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
-			const { status } = await Notifications.requestPermissionsAsync();
 
 			let token = "";
-			if (status === "granted") {
-				token = (await Notifications.getExpoPushTokenAsync()).data;
-			} else {
+			const { status: existingStatus } =
+				await Notifications.getPermissionsAsync();
+			let finalStatus = existingStatus;
+
+			if (existingStatus !== "granted") {
+				const { status } =
+					await Notifications.requestPermissionsAsync();
+				finalStatus = status;
+			}
+
+			if (finalStatus !== "granted") {
+				token = "undefined";
 				console.log("Push notification permissions not granted");
+			} else {
+				token = (await Notifications.getExpoPushTokenAsync()).data;
 			}
 
 			const id = loginResponse.data.member_id;
@@ -114,7 +124,9 @@ const LoginPage = () => {
 				navigation.navigate("Nickname");
 			}
 
-			await createNotificationToken(token, deviceId);
+			if (token) {
+				await createNotificationToken(token, deviceId);
+			}
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
