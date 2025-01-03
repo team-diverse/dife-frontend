@@ -126,7 +126,6 @@ const LoginPage = () => {
 			if (token) {
 				await createNotificationToken(token, deviceId);
 			}
-
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
