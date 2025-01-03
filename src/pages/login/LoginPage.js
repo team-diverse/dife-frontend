@@ -86,12 +86,6 @@ const LoginPage = () => {
 				await Notifications.getPermissionsAsync();
 			let finalStatus = existingStatus;
 
-			if (existingStatus !== "granted") {
-				const { status } =
-					await Notifications.requestPermissionsAsync();
-				finalStatus = status;
-			}
-
 			if (finalStatus !== "granted") {
 				token = "undefined";
 				console.log("Push notification permissions not granted");
