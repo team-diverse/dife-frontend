@@ -13,18 +13,23 @@ import IconAccessNotification from "@components/login/IconAccessNotification";
 import IconAccessImage from "@components/login/IconAccessImage";
 import IconAccessPhone from "@components/login/IconAccessPhone";
 import GoBack from "@components/common/GoBack";
+import { useNotification } from 'src/contexts/NotificationContext';
 
 const AccessPage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
+	const { setIsNotificationGranted } = useNotification();
 
 	const requestPermissions = async () => {
 		const { status: existingStatus } =
 			await Notifications.getPermissionsAsync();
 
-		if (existingStatus !== "granted") {
-			await Notifications.requestPermissionsAsync();
-		}
+		if (existingStatus !== 'granted') {
+			const { status } = await Notifications.requestPermissionsAsync();
+			setIsNotificationGranted(status === 'granted'); 
+			} else {
+			setIsNotificationGranted(true);  
+			}
 
 		const firstLaunch = await SecureStore.getItem("hasLaunched");
 
