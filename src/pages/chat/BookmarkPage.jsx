@@ -18,7 +18,6 @@ const BookmarkPage = () => {
 		const handleBookmarkPost = async () => {
 			try {
 				const response = await getBookmarkedByChatroomId("");
-				console.log(response.data);
 				const filterdBookmark = response.data.filter(
 					(item) => item.post === null,
 				);
