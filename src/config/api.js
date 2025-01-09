@@ -313,8 +313,12 @@ export const getLikedPost = () => {
 	return api.get("/likes");
 };
 
-export const getBookmarkedPostChat = () => {
-	return api.get("/bookmarks");
+export const getBookmarkedByBoardType = (boardType) => {
+	return api.get("/bookmarks/", {
+		params: {
+			boardType,
+		},
+	});
 };
 
 export const getBookmarkedByChatroomId = (chatroomId) => {
