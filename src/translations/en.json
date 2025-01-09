@@ -123,6 +123,7 @@
 
 	"profileCompletionTitle": "Profile Creation Complete!",
 	"profileCompletionDescription": "Please wait a moment for student verification confirmation",
+	"averageVerificationTime": "It usually takes about 1 day to complete the verification.",
 
 	"connect": "Connect",
 	"newFriendText": "Join with new friends!",

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme.js";
 
-const { fontHead24, fontHead18 } = CustomTheme;
+const { fontHead24, fontHead18, fontSub16 } = CustomTheme;
 
 const CompleteProfileStyles = StyleSheet.create({
 	container: {
@@ -15,8 +15,14 @@ const CompleteProfileStyles = StyleSheet.create({
 	},
 	textSubTitle: {
 		...fontHead18,
-		color: CustomTheme.primaryMedium,
+		color: CustomTheme.textPrimary,
 		marginTop: 12,
+		marginHorizontal: 24,
+	},
+	textDescription: {
+		...fontSub16,
+		color: CustomTheme.primaryMedium,
+		marginTop: 4,
 		marginHorizontal: 24,
 	},
 	iconLoading: {

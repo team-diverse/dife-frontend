@@ -97,7 +97,7 @@ const ProfileLanguagePage = () => {
 			);
 		}
 
-		// navigation.navigate("StudentVerification");
+		navigation.navigate("StudentVerification");
 	};
 
 	const { height: screenHeight } = Dimensions.get("window");
