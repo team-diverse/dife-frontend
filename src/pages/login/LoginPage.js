@@ -81,16 +81,14 @@ const LoginPage = () => {
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
+			const status = await SecureStore.getItem(
+				"notificationPermissionStatus",
+			);
 			let token = "";
-			const { status: existingStatus } =
-				await Notifications.getPermissionsAsync();
-			let finalStatus = existingStatus;
-
-			if (finalStatus !== "granted") {
-				token = "undefined";
-				console.log("Push notification permissions not granted");
-			} else {
+			if (status === "granted") {
 				token = (await Notifications.getExpoPushTokenAsync()).data;
+			} else {
+				token = "undetined";
 			}
 			const id = loginResponse.data.member_id;
 			const accessToken = loginResponse.data.accessToken;
