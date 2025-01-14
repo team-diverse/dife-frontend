@@ -23,7 +23,13 @@ const AccessPage = () => {
 			await Notifications.getPermissionsAsync();
 
 		if (existingStatus !== "granted") {
-			await Notifications.requestPermissionsAsync();
+			const { status } = await Notifications.requestPermissionsAsync();
+			await SecureStore.setItem("notificationPermissionStatus", status);
+		} else {
+			await SecureStore.setItem(
+				"notificationPermissionStatus",
+				existingStatus,
+			);
 		}
 
 		const firstLaunch = await SecureStore.getItem("hasLaunched");
