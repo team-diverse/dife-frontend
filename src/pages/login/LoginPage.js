@@ -80,14 +80,32 @@ const LoginPage = () => {
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
+<<<<<<< HEAD
 			const status = await SecureStore.getItem(
 				"notificationPermissionStatus",
 			);
+=======
+			const status = await SecureStore.getItemAsync(
+				"notificationPermissionStatus",
+			);
+
+>>>>>>> 56fc6bf (Hotfix/login possible :  (#214))
 			let token = "";
 			if (status === "granted") {
 				token = (await Notifications.getExpoPushTokenAsync()).data;
 			} else {
+<<<<<<< HEAD
 				token = "undetined";
+=======
+				const status = (await Notifications.requestPermissionsAsync())
+					.granted;
+				if (status) {
+					token = (await Notifications.getExpoPushTokenAsync()).data;
+					console.log("FINALLY", token);
+				} else {
+					token = "undetined";
+				}
+>>>>>>> 56fc6bf (Hotfix/login possible :  (#214))
 			}
 
 			const id = loginResponse.data.member_id;
