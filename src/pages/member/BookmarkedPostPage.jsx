@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
 
 import BookmarkedPostStyles from "@pages/member/BookmarkedPostStyles";
-import { getBookmarkedPostChat } from "config/api";
+import { getBookmarkedByBoardType } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
 
 import TopBar from "@components/common/TopBar";
@@ -21,7 +21,14 @@ const BookmarkedPostPage = ({ route }) => {
 	useEffect(() => {
 		const handleBookmarkPost = async () => {
 			try {
-				const bookmarkPostResponse = await getBookmarkedPostChat();
+				let category = "";
+				if (selectedCategory === t("tipBoard")) {
+					category = "TIP";
+				} else if (selectedCategory === t("freeBoard")) {
+					category = "FREE";
+				}
+				const bookmarkPostResponse =
+					await getBookmarkedByBoardType(category);
 				const filterdBookmark = bookmarkPostResponse.data.filter(
 					(item) => item.post !== null,
 				);
@@ -36,7 +43,7 @@ const BookmarkedPostPage = ({ route }) => {
 			}
 		};
 		handleBookmarkPost();
-	}, []);
+	}, [selectedCategory]);
 
 	const handleCategoryPress = (category) => {
 		setSelectedCategory(category);
