@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
 
 import BookmarkStyles from "@pages/chat/BookmarkStyles";
-import { getBookmarkedPostChat } from "config/api";
+import { getBookmarkedByChatroomId } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import Bookmark from "@components/chat/Bookmark";
@@ -17,7 +17,7 @@ const BookmarkPage = () => {
 	useEffect(() => {
 		const handleBookmarkPost = async () => {
 			try {
-				const response = await getBookmarkedPostChat();
+				const response = await getBookmarkedByChatroomId("");
 				const filterdBookmark = response.data.filter(
 					(item) => item.post === null,
 				);

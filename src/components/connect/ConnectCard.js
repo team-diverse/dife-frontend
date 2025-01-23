@@ -119,7 +119,10 @@ const ConnectCard = ({
 	};
 
 	return (
-		<View style={[styles.rectangle, fail && { justifyContent: "center" }]}>
+		<TouchableOpacity
+			style={[styles.rectangle, fail && { justifyContent: "center" }]}
+			onPress={handleNavigation}
+		>
 			{fail ? (
 				<View style={styles.containerFail}>
 					<IconSearchFail />
@@ -201,14 +204,12 @@ const ConnectCard = ({
 											: handleCreateHeart
 								}
 							/>
-							<TouchableOpacity onPress={handleNavigation}>
-								<ConnectPlusIcon style={{ marginLeft: 9 }} />
-							</TouchableOpacity>
+							<ConnectPlusIcon style={{ marginLeft: 9 }} />
 						</View>
 					</View>
 				</>
 			)}
-		</View>
+		</TouchableOpacity>
 	);
 };
 
