@@ -25,6 +25,7 @@ import IconComment from "@components/community/IconComment";
 import IconReply from "@components/community/IconReply";
 import ModalKebabMenu from "@components/community/ModalKebabMenu";
 import ModalTranslationsCount from "@components/common/ModalTranslationsCount";
+import LoadingDots from "@components/common/loading/LoadingDots";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
@@ -44,6 +45,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		useState(false);
 	const [translationCount, setTranslationCount] = useState();
 	const [focusParentComment, setFocusParentComment] = useState(null);
+	const [translating, setTranslating] = useState({});
 
 	useEffect(() => {
 		const newHeartStates = commentList.map((post) => ({
@@ -84,6 +86,8 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		if (isComment && translations[commentId]) return;
 		if (!isComment && replyTranslations[commentId]) return;
 
+		setTranslating((prev) => ({ ...prev, [commentId]: true }));
+
 		try {
 			const responseCount = await getMyProfile();
 			const count =
@@ -121,6 +125,8 @@ const ItemComment = ({ commentList = [], onReply }) => {
 				"댓글 번역 오류:",
 				error.response ? error.response.data : error.message,
 			);
+		} finally {
+			setTranslating((prev) => ({ ...prev, [commentId]: false }));
 		}
 	};
 
@@ -367,19 +373,27 @@ const ItemComment = ({ commentList = [], onReply }) => {
 								position={modalPosition}
 							/>
 						)}
-						<TouchableOpacity
-							style={styles.textTranslation}
-							onPress={() => {
-								handleTranslate(comment.id, true);
-								handleToggleTranslation(comment.id, true);
-							}}
-						>
-							<Text style={styles.textTranslation}>
-								{showTranslations[comment.id]
-									? t("viewOriginalButton")
-									: t("translateButton")}
-							</Text>
-						</TouchableOpacity>
+
+						{translating[comment.id] ? (
+							<View style={styles.textTranslation}>
+								<LoadingDots />
+							</View>
+						) : (
+							<TouchableOpacity
+								style={styles.textTranslation}
+								onPress={() => {
+									handleTranslate(comment.id, true);
+									handleToggleTranslation(comment.id, true);
+								}}
+							>
+								<Text style={styles.textTranslation}>
+									{showTranslations[comment.id]
+										? t("viewOriginalButton")
+										: t("translateButton")}
+								</Text>
+							</TouchableOpacity>
+						)}
+
 						<ModalTranslationsCount
 							modalVisible={modalTranslationVisible}
 							setModalVisible={setModalTranslationVisible}
@@ -476,22 +490,30 @@ const ItemComment = ({ commentList = [], onReply }) => {
 										position={modalPosition}
 									/>
 								)}
-								<TouchableOpacity
-									style={styles.textTranslation}
-									onPress={() => {
-										handleTranslate(reply.id, false);
-										handleToggleTranslation(
-											reply.id,
-											false,
-										);
-									}}
-								>
-									<Text style={styles.textTranslation}>
-										{replyShowTranslations[reply.id]
-											? t("viewOriginalButton")
-											: t("translateButton")}
-									</Text>
-								</TouchableOpacity>
+
+								{translating[reply.id] ? (
+									<View style={styles.textTranslation}>
+										<LoadingDots />
+									</View>
+								) : (
+									<TouchableOpacity
+										style={styles.textTranslation}
+										onPress={() => {
+											handleTranslate(reply.id, false);
+											handleToggleTranslation(
+												reply.id,
+												false,
+											);
+										}}
+									>
+										<Text style={styles.textTranslation}>
+											{replyShowTranslations[reply.id]
+												? t("viewOriginalButton")
+												: t("translateButton")}
+										</Text>
+									</TouchableOpacity>
+								)}
+
 								<ModalTranslationsCount
 									modalVisible={modalTranslationVisible}
 									setModalVisible={setModalTranslationVisible}
