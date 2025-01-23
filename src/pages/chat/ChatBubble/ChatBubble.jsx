@@ -12,6 +12,7 @@ import ChatBubbleLeftTrailSVG from "./ChatBubbleLeftTrailSVG";
 import IconChatProfile from "@components/chat/IconChatProfile";
 import ModalMenuChat from "@components/chat/ModalMenuChat";
 import ModalTranslationsCount from "@components/common/ModalTranslationsCount";
+import LoadingDots from "@components/common/loading/LoadingDots";
 
 const { fontNavi } = CustomTheme;
 
@@ -36,6 +37,7 @@ const ChatBubble = ({
 	const [modalTranslationVisible, setModalTranslationVisible] =
 		useState(false);
 	const [chatMessage, setChatMessage] = useState(message);
+	const [translating, setTranslating] = useState(false);
 
 	const handleLongPress = () => {
 		Haptics.selectionAsync();
@@ -60,13 +62,17 @@ const ChatBubble = ({
 				if (translationCount === 0) {
 					setModalTranslationVisible(true);
 					setIsTranslation(true);
+					setTranslating(true);
 					const response = await translationByChatId(chatId);
 					setChatMessage(response.data.translations[0].text);
+					setTranslating(false);
 				} else if (translationCount <= 15) {
 					setModalTranslationVisible(false);
 					setIsTranslation(true);
+					setTranslating(true);
 					const response = await translationByChatId(chatId);
 					setChatMessage(response.data.translations[0].text);
+					setTranslating(false);
 				} else if (translationCount > 15) {
 					setModalTranslationVisible(true);
 				}
@@ -138,18 +144,38 @@ const ChatBubble = ({
 								</TouchableOpacity>
 							)}
 						</View>
-						<TouchableOpacity
-							activeOpacity={1}
-							style={bubbleStyles}
-							onLongPress={handleLongPress}
-						>
-							<Text
-								style={[messageStyles, styles.absoluteText]}
-								ref={bubbleRef}
+						{translating ? (
+							<View
+								style={[
+									bubbleStyles,
+									{
+										height: 35,
+									},
+								]}
 							>
-								{isTranslation ? chatMessage : message}
-							</Text>
-						</TouchableOpacity>
+								<View
+									style={[
+										bubbleStyles,
+										{ left: 2, bottom: -5 },
+									]}
+								>
+									<LoadingDots />
+								</View>
+							</View>
+						) : (
+							<TouchableOpacity
+								activeOpacity={1}
+								style={bubbleStyles}
+								onLongPress={handleLongPress}
+							>
+								<Text
+									style={[messageStyles, styles.absoluteText]}
+									ref={bubbleRef}
+								>
+									{isTranslation ? chatMessage : message}
+								</Text>
+							</TouchableOpacity>
+						)}
 						<View
 							style={[
 								styles.trailContainer,

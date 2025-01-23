@@ -49,6 +49,7 @@ import ModalKebabMenu from "@components/community/ModalKebabMenu";
 import ModalTranslationsCount from "@components/common/ModalTranslationsCount";
 import IconProfileBackground from "@components/community/IconProfileBackground";
 import IconProfileUser24 from "@components/common/IconProfileUser24";
+import LoadingDots from "@components/common/loading/LoadingDots";
 
 const PostPage = ({ route }) => {
 	const { t } = useTranslation();
@@ -82,6 +83,7 @@ const PostPage = ({ route }) => {
 	const [translationCount, setTranslationCount] = useState();
 	const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
+	const [translating, setTranslating] = useState(false);
 
 	const commentRef = useRef(null);
 	const scrollViewRef = useRef(null);
@@ -388,15 +390,19 @@ const PostPage = ({ route }) => {
 				if (translationCount === 0) {
 					setModalTranslationVisible(true);
 					setIsTranslation(true);
+					setTranslating(true);
 					const response = await translationByPostId(postId);
 					setTitle(response.data.translations[0].text);
 					setContext(response.data.translations[1].text);
+					setTranslating(false);
 				} else if (translationCount <= 15) {
 					setModalTranslationVisible(false);
 					setIsTranslation(true);
+					setTranslating(true);
 					const response = await translationByPostId(postId);
 					setTitle(response.data.translations[0].text);
 					setContext(response.data.translations[1].text);
+					setTranslating(false);
 				} else if (translationCount > 15) {
 					setModalTranslationVisible(true);
 				}
@@ -538,16 +544,24 @@ const PostPage = ({ route }) => {
 							<IconBookmark active={pressBookmark} size="24" />
 							<Text style={PostStyles.textIcon}>{bookmark}</Text>
 						</TouchableOpacity>
-						<TouchableOpacity
-							style={PostStyles.textTranslation}
-							onPress={handleTranslations}
-						>
-							<Text style={PostStyles.textTranslation}>
-								{isTranslation
-									? t("viewOriginalButton")
-									: t("translateButton")}
-							</Text>
-						</TouchableOpacity>
+
+						{translating ? (
+							<View style={PostStyles.textTranslation}>
+								<LoadingDots />
+							</View>
+						) : (
+							<TouchableOpacity
+								style={PostStyles.textTranslation}
+								onPress={handleTranslations}
+							>
+								<Text style={PostStyles.textTranslation}>
+									{isTranslation
+										? t("viewOriginalButton")
+										: t("translateButton")}
+								</Text>
+							</TouchableOpacity>
+						)}
+
 						<ModalTranslationsCount
 							modalVisible={modalTranslationVisible}
 							setModalVisible={setModalTranslationVisible}

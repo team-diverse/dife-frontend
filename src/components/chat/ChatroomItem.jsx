@@ -25,8 +25,8 @@ const { fontCaption, fontNavi } = CustomTheme;
 
 const ChatroomItem = ({
 	chatroomInfo,
-	context,
-	time,
+	content,
+	lastChatCreated,
 	myMemberId,
 	onCompleteExit,
 	unreadChatsCount,
@@ -131,14 +131,16 @@ const ChatroomItem = ({
 										},
 									]}
 								>
-									{context}
+									{content}
 								</Text>
 							</View>
 						</View>
 						<View
 							style={{ alignItems: "flex-end", marginRight: 25 }}
 						>
-							<Text style={styles.textTime}>{time}</Text>
+							<Text style={styles.textTime}>
+								{lastChatCreated}
+							</Text>
 							{unreadChatsCount > 0 && (
 								<View style={styles.containerUnreadChatsCount}>
 									<Text style={styles.textUnreadChatsCount}>
