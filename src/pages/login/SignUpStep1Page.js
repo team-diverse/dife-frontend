@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 
 import SignUpStyles from "@pages/login/SignUpStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
-import { checkEmail } from "config/api";
+import { checkEmail, createVerificationCode } from "config/api";
 import { debounce } from "util/debounce";
 
 import ApplyButton from "@components/common/ApplyButton";
@@ -24,6 +24,7 @@ const SignUpStep1Page = ({ goToNext, saveData, stepData }) => {
 	const [validID, setValidID] = useState(true);
 	const [isFormValid, setIsFormValid] = useState(false);
 	const [errorMessage, setErrorMessage] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		setIsFormValid(valueID && validID);
@@ -59,6 +60,21 @@ const SignUpStep1Page = ({ goToNext, saveData, stepData }) => {
 		Keyboard.dismiss();
 	};
 
+	const fetchCreateVerificationCode = async () => {
+		setLoading(true);
+		try {
+			await createVerificationCode(valueID);
+			saveData(1, valueID);
+			goToNext(2);
+			setLoading(false);
+		} catch (error) {
+			console.error(
+				"회원가입 인증번호 전송 실패:",
+				error.response ? error.response.data : error.message,
+			);
+		}
+	};
+
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
 			<SafeAreaView style={SignUpStyles.container}>
@@ -74,7 +90,7 @@ const SignUpStep1Page = ({ goToNext, saveData, stepData }) => {
 					<TextInput
 						style={SignUpStyles.textInputIdPw}
 						placeholder={t("emailPlaceholder")}
-						onChangeText={handleEmailFormat}
+						onChangeText={(text) => handleEmailFormat(text)}
 						value={valueID}
 					/>
 					{!validID && (
@@ -91,10 +107,8 @@ const SignUpStep1Page = ({ goToNext, saveData, stepData }) => {
 					<ApplyButton
 						text={t("passwordResetButton")}
 						disabled={!isFormValid}
-						onPress={() => {
-							saveData(1, valueID);
-							goToNext(2);
-						}}
+						onPress={fetchCreateVerificationCode}
+						loading={loading}
 					/>
 				</View>
 			</SafeAreaView>

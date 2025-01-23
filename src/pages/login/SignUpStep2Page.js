@@ -15,6 +15,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 import ApplyButton from "@components/common/ApplyButton";
 import InfoCircle from "@components/common/InfoCircle";
+import { createVerificationCode, getVerificationCode } from "config/api";
 
 const SignUpStep2Page = ({ saveData, goToNext, stepData }) => {
 	const { t } = useTranslation();
@@ -22,6 +23,7 @@ const SignUpStep2Page = ({ saveData, goToNext, stepData }) => {
 	const [valueVerificationCode, onChangeVerificationCode] = useState(
 		stepData[2] || "",
 	);
+	const [validVerificationCode, setValidVerificationCode] = useState(true);
 	const [timeLeft, setTimeLeft] = useState(3 * 60);
 
 	const handleKeyboard = () => {
@@ -47,6 +49,34 @@ const SignUpStep2Page = ({ saveData, goToNext, stepData }) => {
 		return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
 	};
 
+	const fetchCreateVerificationCode = async () => {
+		setTimeLeft(3 * 60);
+		try {
+			await createVerificationCode(stepData[1]);
+		} catch (error) {
+			console.error(
+				"회원가입 인증번호 전송 실패:",
+				error.response ? error.response.data : error.message,
+			);
+			setValidVerificationCode(false);
+		}
+	};
+
+	const fetchGetVerificationCode = async () => {
+		saveData(2, valueVerificationCode);
+		try {
+			await getVerificationCode(stepData[1], valueVerificationCode);
+			goToNext(3);
+			setValidVerificationCode(true);
+		} catch (error) {
+			console.error(
+				"회원가입 인증 실패:",
+				error.response ? error.response.data : error.message,
+			);
+			setValidVerificationCode(false);
+		}
+	};
+
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
 			<SafeAreaView style={SignUpStyles.container}>
@@ -69,6 +99,7 @@ const SignUpStep2Page = ({ saveData, goToNext, stepData }) => {
 						/>
 						<TouchableOpacity
 							style={SignUpStyles.containerRetransmit}
+							onPress={fetchCreateVerificationCode}
 						>
 							<Text style={SignUpStyles.textResend}>
 								{t("resend")}
@@ -98,21 +129,31 @@ const SignUpStep2Page = ({ saveData, goToNext, stepData }) => {
 								{ justifyContent: "space-between" },
 							]}
 						>
-							<View style={{ flexDirection: "row" }}>
-								<InfoCircle color={CustomTheme.warningRed} />
-								{timeLeft === 0 ? (
+							{!validVerificationCode && (
+								<>
+									<View style={{ flexDirection: "row" }}>
+										<InfoCircle
+											color={CustomTheme.warningRed}
+										/>
+										{timeLeft === 0 ? (
+											<Text
+												style={SignUpStyles.textError}
+											>
+												{t("invalidVerificationCode")}
+											</Text>
+										) : (
+											<Text
+												style={SignUpStyles.textError}
+											>
+												{t("verificationCodeSent")}
+											</Text>
+										)}
+									</View>
 									<Text style={SignUpStyles.textError}>
-										{t("invalidVerificationCode")}
+										{formatTime(timeLeft)}
 									</Text>
-								) : (
-									<Text style={SignUpStyles.textError}>
-										{t("verificationCodeSent")}
-									</Text>
-								)}
-							</View>
-							<Text style={SignUpStyles.textError}>
-								{formatTime(timeLeft)}
-							</Text>
+								</>
+							)}
 						</View>
 					</View>
 				</View>
@@ -120,11 +161,7 @@ const SignUpStep2Page = ({ saveData, goToNext, stepData }) => {
 				<View style={SignUpStyles.buttonMove}>
 					<ApplyButton
 						text={t("confirmButtonText")}
-						// disabled={}
-						onPress={() => {
-							saveData(2, valueVerificationCode);
-							goToNext(3);
-						}}
+						onPress={fetchGetVerificationCode}
 					/>
 				</View>
 			</SafeAreaView>

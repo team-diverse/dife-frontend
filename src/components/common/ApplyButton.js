@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import LoadingDots from "./loading/LoadingDots";
 
 const { fontSub16 } = CustomTheme;
 
@@ -9,6 +10,7 @@ const ApplyButton = ({
 	background = false,
 	onPress = null,
 	disabled = false,
+	loading = false,
 }) => {
 	const rectangleStyle = background
 		? styles.rectangleShadow
@@ -18,11 +20,18 @@ const ApplyButton = ({
 		<View>
 			<View style={rectangleStyle}>
 				<TouchableOpacity
-					style={[styles.apply, disabled && styles.disabled]}
+					style={[
+						styles.apply,
+						(disabled || loading) && styles.disabled,
+					]}
 					onPress={onPress}
-					disabled={disabled}
+					disabled={disabled || loading}
 				>
-					<Text style={styles.text}>{text}</Text>
+					{loading ? (
+						<LoadingDots />
+					) : (
+						<Text style={styles.text}>{text}</Text>
+					)}
 				</TouchableOpacity>
 			</View>
 		</View>

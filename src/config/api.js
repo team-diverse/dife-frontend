@@ -102,6 +102,21 @@ export const getGroupByGroupId = (groupId) => {
 	return api.get(`/chatrooms/${groupId}`);
 };
 
+export const createVerificationCode = (email) => {
+	return api.post("/members/email", {
+		email,
+	});
+};
+
+export const getVerificationCode = (email, verifyCode) => {
+	return api.get("/members/email", {
+		params: {
+			email,
+			verifyCode,
+		},
+	});
+};
+
 export const signUp = (email, password) => {
 	return api.post("/members/register", {
 		email,
