@@ -6,7 +6,7 @@ import * as Sentry from "@sentry/react-native";
 
 import TabBookmarkPostStyles from "@pages/member/TabBookmarkPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { getBookmarkedPostChat } from "config/api";
+import { getBookmarkedByBoardType } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
 
 import ItemLikeBookmark from "@components/member/ItemLikeBookmark";
@@ -22,7 +22,8 @@ const TabBookmarkPostPage = () => {
 		useCallback(() => {
 			const handleBookmarkPost = async () => {
 				try {
-					const bookmarkPostResponse = await getBookmarkedPostChat();
+					const bookmarkPostResponse =
+						await getBookmarkedByBoardType("");
 					const filterdBookmark = bookmarkPostResponse.data.filter(
 						(item) => item.post !== null,
 					);

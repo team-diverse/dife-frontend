@@ -73,7 +73,7 @@ const IconChatProfile = ({ size = 48, fileId, ...props }) => {
 				<View
 					style={[
 						styles.fallbackContainer,
-						{ top: size * 0.25, left: size * 0.125 },
+						{ top: size * 0.18, left: size * 0.125 },
 					]}
 				>
 					{size <= 36 ? <IconProfileUser24 /> : <IconProfileUser32 />}

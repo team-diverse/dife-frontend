@@ -97,19 +97,9 @@ const ChattingPage = () => {
 		try {
 			const response = await getChatroomsByType("SINGLE");
 
-			const sortedChatrooms = response?.data.sort((a, b) => {
-				const latestMessageA =
-					messages[a.id]?.[messages[a.id].length - 1];
-				const latestMessageB =
-					messages[b.id]?.[messages[b.id].length - 1];
-
-				const timeA = latestMessageA
-					? new Date(latestMessageA.created)
-					: new Date(a.created);
-				const timeB = latestMessageB
-					? new Date(latestMessageB.created)
-					: new Date(b.created);
-
+			const sortedChatrooms = response.data.sort((a, b) => {
+				const timeA = new Date(a.lastChat.created);
+				const timeB = new Date(b.lastChat.created);
 				return timeB - timeA;
 			});
 			setSingleChatRoomList(sortedChatrooms);
@@ -162,8 +152,13 @@ const ChattingPage = () => {
 							chatroomInfo={item}
 							myMemberId={myMemberId}
 							name={item.name || "Unknown"}
-							context={getLatestMessage(item.id, item.lastChat)}
-							time={formatKoreanTime(item.created)}
+							content={getLatestMessage(
+								item.id,
+								item.lastChat.message,
+							)}
+							lastChatCreated={formatKoreanTime(
+								item.lastChat.created,
+							)}
 							onCompleteExit={onCompleteExit}
 							unreadChatsCount={item.unreadChatsCount}
 						/>

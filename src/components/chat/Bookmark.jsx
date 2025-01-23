@@ -11,6 +11,7 @@ import IconBookmark from "@components/chat/IconBookmark";
 import ModalNoBookmark from "@components/chat/ModalNoBookmark";
 import DashedLine from "@components/chat/DashedLine";
 import ModalTranslationsCount from "@components/common/ModalTranslationsCount";
+import LoadingDots from "@components/common/loading/LoadingDots";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
@@ -25,6 +26,7 @@ const Bookmark = ({ bookmarkedId, context, created, translations }) => {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [modalTranslationVisible, setModalTranslationVisible] =
 		useState(false);
+	const [translating, setTranslating] = useState(false);
 
 	const rectangleStyle = () =>
 		expanded ? styles.rectangleExpanded : styles.rectangle;
@@ -54,15 +56,19 @@ const Bookmark = ({ bookmarkedId, context, created, translations }) => {
 					if (translationCount === 0) {
 						setModalTranslationVisible(true);
 						setIsTranslation(true);
+						setTranslating(true);
 						const response =
 							await translationByBookmarkedId(bookmarkedId);
 						setContent(response.data.translations[0].text);
+						setTranslating(false);
 					} else if (translationCount <= 15) {
 						setModalTranslationVisible(false);
 						setIsTranslation(true);
+						setTranslating(true);
 						const response =
 							await translationByBookmarkedId(bookmarkedId);
 						setContent(response.data.translations[0].text);
+						setTranslating(false);
 					} else if (translationCount > 15) {
 						setModalTranslationVisible(true);
 					}
@@ -133,13 +139,19 @@ const Bookmark = ({ bookmarkedId, context, created, translations }) => {
 									{context}
 								</Text>
 							</View>
-							<TouchableOpacity onPress={handleTranslations}>
-								<Text style={styles.textTranslation}>
-									{isTranslation
-										? t("viewOriginalOnlyButton")
-										: t("translateButton")}
-								</Text>
-							</TouchableOpacity>
+
+							{translating ? (
+								<LoadingDots />
+							) : (
+								<TouchableOpacity onPress={handleTranslations}>
+									<Text style={styles.textTranslation}>
+										{isTranslation
+											? t("viewOriginalOnlyButton")
+											: t("translateButton")}
+									</Text>
+								</TouchableOpacity>
+							)}
+
 							<ModalTranslationsCount
 								modalVisible={modalTranslationVisible}
 								setModalVisible={setModalTranslationVisible}
