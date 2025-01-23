@@ -218,7 +218,7 @@ const LoginPage = () => {
 										]
 									: LoginStyles.textInputIdPw
 							}
-							placeholder={t("placeholderEmail")}
+							placeholder={t("emailPlaceholder")}
 							autoCorrect={false}
 							onChangeText={(text) => handleEmail(text)}
 						/>

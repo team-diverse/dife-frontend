@@ -1,7 +1,6 @@
 {
 	"loginTitle": "与 Dife 一起的校园生活！",
 	"loginSubtitle": "立即开始",
-	"placeholderEmail": "请输入您的邮箱",
 	"placeholderPassword": "请输入您的密码",
 	"loginError": "请检查输入的 ID 或密码",
 	"signUp": "注册",
@@ -9,8 +8,8 @@
 	"loginForgotPassword": "忘记密码了",
 
 	"signUpTitle": "注册",
-	"emailLabel": "邮箱",
 	"emailPlaceholder": "请输入您的邮箱",
+	"enterVerificationCode": "请输入验证码。",
 	"passwordLabel": "密码",
 	"passwordPlaceholder": "至少 8 位字符，包括字母和数字",
 	"passwordError": "请输入至少 8 位字符，包括字母和数字的密码",
@@ -28,7 +27,10 @@
 	"emailSendingText": "发送邮件中",
 	"emailSentText": "邮件发送成功",
 	"setPasswordTitle": "重置密码",
+	"resend": "重新发送",
 	"verificationCode": "验证码",
+	"invalidVerificationCode": "请再次确认您的验证码。",
+	"verificationCodeSent": "验证码已发送到您的邮箱。",
 	"errorRetry": "发生错误，请再试一次。",
 	"verifyCodePrompt": "请检查验证码。",
 	"setPasswordButton": "重置密码",
