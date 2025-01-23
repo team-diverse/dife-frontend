@@ -23,14 +23,23 @@ const AccessPage = () => {
 			await Notifications.getPermissionsAsync();
 
 		if (existingStatus !== "granted") {
-			await Notifications.requestPermissionsAsync();
+			const { status } = await Notifications.requestPermissionsAsync();
+			await SecureStore.setItemAsync(
+				"notificationPermissionStatus",
+				status,
+			);
+		} else {
+			await SecureStore.setItemAsync(
+				"notificationPermissionStatus",
+				existingStatus,
+			);
 		}
 
 		const firstLaunch = await SecureStore.getItem("hasLaunched");
 
 		if (firstLaunch === null) {
 			navigation.navigate("LandingPage");
-			await SecureStore.setItem("hasLaunched", "true");
+			await SecureStore.setItemAsync("hasLaunched", "true");
 		} else {
 			navigation.navigate("Login");
 		}
