@@ -3,7 +3,7 @@ import { CustomTheme } from "@styles/CustomTheme.js";
 
 const { fontHead24, fontBody18 } = CustomTheme;
 
-const ProfileLanguageStyles = StyleSheet.create({
+const OnboardingStep3Styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
@@ -19,16 +19,23 @@ const ProfileLanguageStyles = StyleSheet.create({
 	},
 	textTitle: {
 		...fontHead24,
-		marginTop: 41,
+		marginTop: 4,
 		marginLeft: 24,
 	},
 	textSubTitle: {
 		...fontBody18,
-		marginTop: 17,
+		marginTop: 12,
 		marginLeft: 24,
 	},
-	containerCheckbox: {
-		marginTop: 44,
+	containerMbti: {
+		alignItems: "center",
+		marginTop: 47,
+	},
+	flexStartMbti: {
+		alignItems: "flex-start",
+	},
+	rowMbti: {
+		flexDirection: "row",
 	},
 	buttonCheck: {
 		position: "absolute",
@@ -36,4 +43,4 @@ const ProfileLanguageStyles = StyleSheet.create({
 	},
 });
 
-export default ProfileLanguageStyles;
+export default OnboardingStep3Styles;
