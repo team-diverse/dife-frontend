@@ -40,10 +40,6 @@ const OnboardingPage = ({ route }) => {
 		6: "",
 	});
 
-	useEffect(() => {
-		console.log(stepData);
-	}, [stepData]);
-
 	const saveData = (step, data) => {
 		setStepData((prev) => ({
 			...prev,

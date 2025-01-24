@@ -10,7 +10,7 @@ import ApplyButton from "@components/common/ApplyButton";
 const OnboardingStep5Page = ({ goToNext, stepData, saveData }) => {
 	const { t } = useTranslation();
 
-	const [selectedLanguages, setSelectedLanguages] = useState(
+	const [setSelectedLanguages] = useState(
 		stepData[5].selectedLanguages || "",
 	);
 	const languages = t("languages", { returnObjects: true });
