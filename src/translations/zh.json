@@ -385,6 +385,9 @@
 	"chatContent": "通过翻译功能实现无限沟通\n同时学习语言",
 	"communityContent": "分享在国外生活所需的信息\n",
 	"startButton": "开始 Dife",
+	"chatGuideTranslate": "点击“翻译”即可查看对方的\n聊天内容。",
+	"chatGuideChatBubble": "长按气泡可以看到书签选项。",
+	"guideCheck": "确认了!",
 
 	"translationFeatureTitle": "翻译功能指南",
 	"translationFeatureContent1": "Dife 提供 ",

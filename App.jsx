@@ -96,6 +96,7 @@ import LandingPage from "@pages/login/LandingPage";
 import SetPasswordPage from "@pages/login/SetPasswordPage";
 import ChatBookmarkPage from "@pages/chat/ChatBookmarkPage";
 import { MatchQueueProvider } from "context/MatchQueueContext";
+import ChatRoomGuidePage from "@pages/chat/ChatRoomGuidePage";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -379,6 +380,10 @@ function MainNavigator() {
 			<Stack.Screen
 				name="ChatBookmarkPage"
 				component={ChatBookmarkPage}
+			/>
+			<Stack.Screen
+				name="ChatRoomGuidePage"
+				component={ChatRoomGuidePage}
 			/>
 		</Stack.Navigator>
 	);

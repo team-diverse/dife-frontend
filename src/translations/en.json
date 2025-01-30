@@ -384,6 +384,9 @@
 	"chatContent": "Limitless communication\n",
 	"communityContent": "Sharing information\n",
 	"startButton": "Start Dife",
+	"chatGuideTranslate": "Tap \"Translate\" to view\nin my language.",
+	"chatGuideChatBubble": "Hold the bubble\nto see the bookmark option.",
+	"guideCheck": "Got it!",
 
 	"translationFeatureTitle": "Translation Feature Guide",
 	"translationFeatureContent1": "Dife offers ",

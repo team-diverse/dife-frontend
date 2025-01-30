@@ -13,6 +13,7 @@ import {
 	GestureHandlerRootView,
 } from "react-native-gesture-handler";
 import { useTranslation } from "react-i18next";
+import * as SecureStore from "expo-secure-store";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { useWebSocket } from "context/WebSocketContext";
@@ -92,6 +93,17 @@ const ChatroomItem = ({
 		);
 	};
 
+	const handleChatroomPage = async () => {
+		const chatFirst = await SecureStore.getItemAsync("chatFirstCheck");
+		if (!isSwiping) {
+			if (chatFirst === "true") {
+				navigation.navigate("ChatRoomPage", { chatroomInfo });
+			} else {
+				navigation.navigate("ChatRoomGuidePage", { chatroomInfo });
+			}
+		}
+	};
+
 	return (
 		<GestureHandlerRootView style={styles.container}>
 			<Swipeable
@@ -104,12 +116,7 @@ const ChatroomItem = ({
 			>
 				<TouchableOpacity
 					style={[styles.rectangle, { width: screenWidth }]}
-					onPress={() => {
-						!isSwiping &&
-							navigation.navigate("ChatRoomPage", {
-								chatroomInfo,
-							});
-					}}
+					onPress={handleChatroomPage}
 					disabled={isSwiping}
 					pointerEvent={isSwiping ? "auto" : "none"}
 				>

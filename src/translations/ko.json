@@ -384,6 +384,9 @@
 	"chatContent": "번역기능으로 한계없는 소통\n언어공부를 동시에",
 	"communityContent": "타지 생활에 필요한 정보를 공유\n",
 	"startButton": "Dife 시작하기",
+	"chatGuideTranslate": "번역하기를 눌러 상대방의\n채팅을 내 언어로 볼 수 있어요",
+	"chatGuideChatBubble": "말풍선을 꾹 누르면 북마크\n옵션이 등장해요",
+	"guideCheck": "확인했어요!",
 
 	"translationFeatureTitle": "번역 기능 안내",
 	"translationFeatureContent1": "Dife는 ",

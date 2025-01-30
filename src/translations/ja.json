@@ -385,6 +385,9 @@
 	"chatContent": "翻訳機能で限界のないコミュニケーション\n同時に言語を学ぶ",
 	"communityContent": "海外生活に必要な情報を共有\n",
 	"startButton": "Difeを始める",
+	"chatGuideTranslate": "「翻訳」を押すと、自分の\n言語でチャットが見れます.",
+	"chatGuideChatBubble": "吹き出しを長押しで\nブックマークが見れる。",
+	"guideCheck": "確認しました!",
 
 	"translationFeatureTitle": "翻訳機能ガイド",
 	"translationFeatureContent1": "Difeは ",
