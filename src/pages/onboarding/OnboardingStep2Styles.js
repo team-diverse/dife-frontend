@@ -4,7 +4,7 @@ import { CustomTheme } from "@styles/CustomTheme.js";
 const { fontHead24, fontBody18, fontSub16, fontSub14, fontCaption } =
 	CustomTheme;
 
-const ProfileStyles = StyleSheet.create({
+const OnboardingStep2Styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
@@ -20,8 +20,8 @@ const ProfileStyles = StyleSheet.create({
 	},
 	textTitle: {
 		...fontHead24,
-		marginTop: 41,
 		marginLeft: 24,
+		marginTop: 4,
 	},
 	textSubTitle: {
 		...fontBody18,
@@ -102,4 +102,4 @@ const ProfileStyles = StyleSheet.create({
 	},
 });
 
-export default ProfileStyles;
+export default OnboardingStep2Styles;

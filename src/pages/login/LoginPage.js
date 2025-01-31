@@ -19,7 +19,6 @@ import { getLocales } from "expo-localization";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import LoginStyles from "@pages/login/LoginStyles";
-import { useOnboarding } from "src/states/OnboardingContext.js";
 import { useAuth } from "src/states/AuthContext";
 import {
 	getMyProfile,
@@ -45,7 +44,6 @@ const LoginPage = () => {
 	const emailRef = useRef("");
 	const [valuePW, setPassword] = useState("");
 	const [showPW, setShowPW] = useState(false);
-	const { updateOnboardingData } = useOnboarding();
 	const { setIsLoggedIn } = useAuth();
 	const [loginFailed, setLoginFailed] = useState(false);
 	const [deviceId, setDeviceId] = useState("");
@@ -80,9 +78,7 @@ const LoginPage = () => {
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
-			const status = await SecureStore.getItemAsync(
-				"notificationPermissionStatus",
-			);
+			const status = await Notifications.requestPermissionsAsync();
 
 			let token = "";
 			if (status === "granted") {
@@ -110,7 +106,6 @@ const LoginPage = () => {
 			await SecureStore.setItemAsync("deviceId", deviceId);
 
 			console.log(accessToken);
-			updateOnboardingData({ id, accessToken, refreshToken });
 
 			if (isFirstLogin) {
 				await updateSettingLanguage();
@@ -121,7 +116,7 @@ const LoginPage = () => {
 			if (profileResponse.data.isVerified) {
 				setIsLoggedIn(true);
 			} else {
-				navigation.navigate("Nickname");
+				navigation.navigate("OnboardingPage");
 			}
 
 			if (token) {
@@ -220,7 +215,7 @@ const LoginPage = () => {
 										]
 									: LoginStyles.textInputIdPw
 							}
-							placeholder={t("placeholderEmail")}
+							placeholder={t("emailPlaceholder")}
 							autoCorrect={false}
 							onChangeText={(text) => handleEmail(text)}
 						/>

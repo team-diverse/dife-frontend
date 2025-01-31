@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontSub14, fontCaption } = CustomTheme;
+const { fontHead24, fontSub16, fontSub14, fontCaption } = CustomTheme;
 
 const SignUpStyles = StyleSheet.create({
 	container: {
@@ -9,34 +9,50 @@ const SignUpStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 	},
 	textTitle: {
-		fontSize: 32,
-		lineHeight: 37,
-		fontFamily: "NotoSansCJKkr-Bold",
+		...fontHead24,
 		marginTop: 33,
 		marginLeft: 24,
 	},
+	textSubTitle: {
+		...fontSub16,
+		marginLeft: 24,
+		marginTop: 12,
+	},
 	containerIdPw: {
 		marginHorizontal: 25,
+		marginBottom: 32,
 	},
 	textIdPw: {
 		...fontSub14,
 		color: CustomTheme.textPrimary,
-		marginTop: 34,
 	},
 	textInputIdPw: {
 		width: "100%",
-		height: 44,
 		padding: 12,
 		borderWidth: 1,
 		borderColor: CustomTheme.borderColor,
 		borderRadius: 6,
 		marginTop: 8,
-
 		alignItems: "center",
 	},
 	textInputPwContainer: {
 		flexDirection: "row",
 		alignItems: "center",
+	},
+	containerRetransmit: {
+		width: 59,
+		height: 28,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: CustomTheme.primaryMedium,
+		borderRadius: 4,
+		position: "absolute",
+		top: 15.5,
+		right: 12,
+	},
+	textResend: {
+		...fontSub14,
+		color: "#FBFBFB",
 	},
 	iconSee: {
 		position: "absolute",

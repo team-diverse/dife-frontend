@@ -3,19 +3,21 @@ import { CustomTheme } from "@styles/CustomTheme.js";
 
 const { fontBody18, fontBody14 } = CustomTheme;
 
-const NicknameStyles = StyleSheet.create({
+const OnboardingStep1Styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
 	},
 	iconArrow: {
 		position: "absolute",
-		marginTop: 5,
-		marginLeft: 14,
+		top: 5,
+		left: 14,
+		bottom: 5,
 	},
 	iconProgress: {
 		alignItems: "center",
 		marginTop: 5,
+		marginBottom: 30,
 	},
 	backgroundLogin: {
 		position: "absolute",
@@ -26,7 +28,7 @@ const NicknameStyles = StyleSheet.create({
 		fontSize: 32,
 		lineHeight: 37,
 		fontFamily: "NotoSansCJKkr-Bold",
-		marginTop: 67,
+		marginTop: 35,
 		marginLeft: 24,
 	},
 	textSubTitle: {
@@ -45,7 +47,6 @@ const NicknameStyles = StyleSheet.create({
 	textInputNickname: {
 		...fontBody18,
 		width: "100%",
-		height: 44,
 		paddingVertical: 11,
 		borderBottomWidth: 2,
 		alignItems: "center",
@@ -71,4 +72,4 @@ const NicknameStyles = StyleSheet.create({
 	},
 });
 
-export default NicknameStyles;
+export default OnboardingStep1Styles;

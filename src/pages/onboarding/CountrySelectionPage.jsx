@@ -87,9 +87,8 @@ const CountrySelectionPage = ({ navigation }) => {
 	};
 
 	const handleCountrySelect = (item) => {
-		navigation.navigate("Profile", {
+		navigation.navigate("OnboardingPage", {
 			selectedCountry: item.name,
-			selectedCountryCode: item.code,
 		});
 	};
 

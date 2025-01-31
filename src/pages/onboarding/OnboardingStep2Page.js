@@ -17,32 +17,22 @@ import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { useTranslation } from "react-i18next";
 
-import ProfileStyles from "@pages/onboarding/ProfileStyles";
+import OnboardingStep2Styles from "@pages/onboarding/OnboardingStep2Styles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { useOnboarding } from "src/states/OnboardingContext.js";
 
-import ArrowRight from "@components/common/ArrowRight";
-import Progress2 from "@components/onboarding/Progress2";
 import ApplyButton from "@components/common/ApplyButton";
 import IconProfileUpload from "@components/onboarding/IconProfileUpload";
 import IconProfileChange from "@components/onboarding/IconProfileChange";
 import IconProfileBorder from "@components/onboarding/IconProfileBorder";
 
-const ProfilePage = ({ route }) => {
+const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 	const { t } = useTranslation();
-
-	const { selectedCountry, selectedCountryCode } = route.params || {};
-	const { onboardingData, updateOnboardingData } = useOnboarding();
 
 	const navigation = useNavigation();
 
-	const handleGoBack = () => {
-		navigation.goBack();
-	};
-
-	const [image, setImage] = useState(onboardingData.profileImg || null);
-	const [text, setText] = useState(onboardingData.bio || "");
-	const [nation, setNation] = useState(onboardingData.country || "");
+	const [image, setImage] = useState(stepData[2].image || null);
+	const [bio, setBio] = useState(stepData[2].bio || "");
+	const [nation, setNotion] = useState(stepData[2].selectedCountry || "");
 
 	const handleKeyboard = () => {
 		Keyboard.dismiss();
@@ -72,17 +62,13 @@ const ProfilePage = ({ route }) => {
 	};
 
 	useEffect(() => {
-		updateOnboardingData({
-			profileImg: image,
-			country: nation,
-			countryCode: selectedCountryCode,
-			bio: text,
-		});
-	}, [image, nation, selectedCountryCode, text]);
+		setNotion(stepData[2].selectedCountry);
+	}, [stepData[2].selectedCountry]);
 
-	useEffect(() => {
-		setNation(selectedCountry || onboardingData.country || "");
-	}, [selectedCountry, onboardingData.country]);
+	const handleProfileSubmit = () => {
+		saveData(2, { image, bio });
+		goToNext(3);
+	};
 
 	return (
 		<KeyboardAvoidingView
@@ -91,30 +77,21 @@ const ProfilePage = ({ route }) => {
 		>
 			<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 				<TouchableWithoutFeedback onPress={handleKeyboard}>
-					<SafeAreaView style={ProfileStyles.container}>
-						<TouchableOpacity onPress={handleGoBack}>
-							<ArrowRight
-								style={ProfileStyles.iconArrow}
-								color={CustomTheme.textPrimary}
-							/>
-						</TouchableOpacity>
-						<View style={[ProfileStyles.iconProgress]}>
-							<Progress2 />
-						</View>
-						<Text style={ProfileStyles.textTitle}>
+					<SafeAreaView style={OnboardingStep2Styles.container}>
+						<Text style={OnboardingStep2Styles.textTitle}>
 							{t("profileCreationTitle")}
 						</Text>
-						<Text style={ProfileStyles.textSubTitle}>
+						<Text style={OnboardingStep2Styles.textSubTitle}>
 							{t("profilePictureSubtitle")}
 						</Text>
 						{image ? (
-							<View style={ProfileStyles.containerImage}>
+							<View style={OnboardingStep2Styles.containerImage}>
 								<Image
 									source={{ uri: image }}
-									style={ProfileStyles.imageProfile}
+									style={OnboardingStep2Styles.imageProfile}
 								/>
 								<IconProfileBorder
-									style={ProfileStyles.imageBorder}
+									style={OnboardingStep2Styles.imageBorder}
 								/>
 								<TouchableOpacity onPress={pickImage}>
 									<IconProfileChange />
@@ -122,35 +99,39 @@ const ProfilePage = ({ route }) => {
 							</View>
 						) : (
 							<TouchableOpacity
-								style={ProfileStyles.containerImage}
+								style={OnboardingStep2Styles.containerImage}
 								onPress={pickImage}
 							>
 								<IconProfileUpload />
 							</TouchableOpacity>
 						)}
-						<View style={ProfileStyles.containerNation}>
+						<View style={OnboardingStep2Styles.containerNation}>
 							<Text
 								style={[
-									ProfileStyles.textNationIntroduction,
+									OnboardingStep2Styles.textNationIntroduction,
 									{ marginLeft: 0 },
 								]}
 							>
 								{t("nationality")}
 							</Text>
 							<TouchableOpacity
-								style={ProfileStyles.containerNationInput}
+								style={
+									OnboardingStep2Styles.containerNationInput
+								}
 								onPress={() =>
 									navigation.navigate("CountrySelectionPage")
 								}
 							>
 								{nation ? (
-									<Text style={ProfileStyles.textNation}>
+									<Text
+										style={OnboardingStep2Styles.textNation}
+									>
 										{nation}
 									</Text>
 								) : (
 									<Text
 										style={[
-											ProfileStyles.textNation,
+											OnboardingStep2Styles.textNation,
 											{
 												color: CustomTheme.borderColor,
 											},
@@ -161,28 +142,34 @@ const ProfilePage = ({ route }) => {
 								)}
 							</TouchableOpacity>
 						</View>
-						<Text style={ProfileStyles.textNationIntroduction}>
+						<Text
+							style={OnboardingStep2Styles.textNationIntroduction}
+						>
 							{t("bio")}
 						</Text>
-						<View style={ProfileStyles.containerTextInput}>
+						<View style={OnboardingStep2Styles.containerTextInput}>
 							<TextInput
-								style={ProfileStyles.textInputIntroduction}
+								style={
+									OnboardingStep2Styles.textInputIntroduction
+								}
 								placeholder={t("bioPlaceholder")}
-								onChangeText={setText}
-								value={text}
+								onChangeText={setBio}
+								value={bio}
 								multiline={true}
 								maxLength={60}
 							/>
-							<Text style={ProfileStyles.textIntroductionCount}>
-								{text.length}/60
+							<Text
+								style={
+									OnboardingStep2Styles.textIntroductionCount
+								}
+							>
+								{bio.length}/60
 							</Text>
 						</View>
-						<View style={ProfileStyles.buttonCheck}>
+						<View style={OnboardingStep2Styles.buttonCheck}>
 							<ApplyButton
 								text={t("nextButton")}
-								onPress={() =>
-									navigation.navigate("ProfileMbti")
-								}
+								onPress={handleProfileSubmit}
 								disabled={!nation}
 							/>
 						</View>
@@ -193,4 +180,4 @@ const ProfilePage = ({ route }) => {
 	);
 };
 
-export default ProfilePage;
+export default OnboardingStep2Page;
