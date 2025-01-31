@@ -41,7 +41,7 @@ const AccessPage = () => {
 			navigation.navigate("LandingPage");
 			await SecureStore.setItemAsync("hasLaunched", "true");
 		} else {
-			navigation.navigate("Login");
+			navigation.replace("Login");
 		}
 	};
 

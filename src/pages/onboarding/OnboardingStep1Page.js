@@ -8,34 +8,24 @@ import {
 	TouchableWithoutFeedback,
 	Keyboard,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
-import NicknameStyles from "@pages/onboarding/NicknameStyles";
-import { CustomTheme } from "@styles/CustomTheme.js";
-import { useOnboarding } from "src/states/OnboardingContext.js";
+import OnboardingStep1Styles from "@pages/onboarding/OnboardingStep1Styles";
 import { checkUsername } from "config/api";
 import { debounce } from "util/debounce";
 
-import ArrowRight from "@components/common/ArrowRight";
-import Progress1 from "@components/onboarding/Progress1";
 import DifeLine from "@components/common/DifeLine";
 import IconDelete from "@components/onboarding/IconDelete";
 import ApplyButton from "@components/common/ApplyButton";
 import * as Sentry from "@sentry/react-native";
 
-const NicknamePage = () => {
+const OnboardingStep1Page = ({ goToNext, saveData, stepData }) => {
 	const { t } = useTranslation();
 
-	const navigation = useNavigation();
-
-	const handleGoBack = () => {
-		navigation.goBack();
-	};
-
-	const [nickname, setNickname] = useState("");
-	const [nicknameValid, setNicknameValid] = useState(null);
-	const { updateOnboardingData } = useOnboarding();
+	const [nickname, setNickname] = useState(stepData[1].nickname || "");
+	const [nicknameValid, setNicknameValid] = useState(
+		stepData[1].nicknameValid || null,
+	);
 
 	const handleNicknameChange = (text) => {
 		setNickname(text);
@@ -53,13 +43,6 @@ const NicknamePage = () => {
 	const handleClearText = () => {
 		setNickname("");
 		setNicknameValid(null);
-	};
-
-	const handleNicknameSubmit = () => {
-		if (nicknameValid) {
-			updateOnboardingData({ username: nickname });
-			navigation.navigate("Profile");
-		}
 	};
 
 	const handleNickname = useCallback(
@@ -80,28 +63,28 @@ const NicknamePage = () => {
 		[],
 	);
 
+	const handleNicknameSubmit = () => {
+		if (nicknameValid) {
+			saveData(1, { nickname, nicknameValid });
+			goToNext(2);
+		}
+	};
+
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
-			<SafeAreaView style={[NicknameStyles.container]}>
-				<TouchableOpacity onPress={handleGoBack}>
-					<ArrowRight
-						style={NicknameStyles.iconArrow}
-						color={CustomTheme.textPrimary}
-					/>
-				</TouchableOpacity>
-				<View style={[NicknameStyles.iconProgress]}>
-					<Progress1 />
-				</View>
-				<DifeLine style={NicknameStyles.backgroundLogin} />
-				<Text style={NicknameStyles.textTitle}>
+			<SafeAreaView style={OnboardingStep1Styles.container}>
+				<DifeLine style={OnboardingStep1Styles.backgroundLogin} />
+				<Text
+					style={[OnboardingStep1Styles.textTitle, { marginTop: 41 }]}
+				>
 					{t("welcomeMessage")}
 				</Text>
-				<Text style={NicknameStyles.textSubTitle}>
+				<Text style={OnboardingStep1Styles.textSubTitle}>
 					{t("nicknamePrompt")}
 				</Text>
-				<View style={NicknameStyles.containerInput}>
+				<View style={OnboardingStep1Styles.containerInput}>
 					<TextInput
-						style={NicknameStyles.textInputNickname}
+						style={OnboardingStep1Styles.textInputNickname}
 						placeholder={t("nicknamePlaceholder")}
 						onChangeText={handleNicknameChange}
 						value={nickname}
@@ -109,7 +92,7 @@ const NicknamePage = () => {
 					/>
 					{nickname.length > 0 && (
 						<TouchableOpacity
-							style={NicknameStyles.iconDelete}
+							style={OnboardingStep1Styles.iconDelete}
 							onPress={handleClearText}
 						>
 							<IconDelete />
@@ -119,15 +102,21 @@ const NicknamePage = () => {
 				{nickname.length > 0 &&
 					typeof nicknameValid === "boolean" &&
 					(nicknameValid ? (
-						<Text style={NicknameStyles.textAvailableNickname}>
+						<Text
+							style={OnboardingStep1Styles.textAvailableNickname}
+						>
 							{t("nicknameAvailable")}
 						</Text>
 					) : (
-						<Text style={NicknameStyles.textUnavailableNickname}>
+						<Text
+							style={
+								OnboardingStep1Styles.textUnavailableNickname
+							}
+						>
 							{t("nicknameUnavailable")}
 						</Text>
 					))}
-				<View style={NicknameStyles.buttonCheck}>
+				<View style={OnboardingStep1Styles.buttonCheck}>
 					<ApplyButton
 						text={t("confirmButtonText")}
 						onPress={handleNicknameSubmit}
@@ -139,4 +128,4 @@ const NicknamePage = () => {
 	);
 };
 
-export default NicknamePage;
+export default OnboardingStep1Page;

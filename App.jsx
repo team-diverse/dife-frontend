@@ -8,7 +8,6 @@ import * as SecureStore from "expo-secure-store";
 import { I18nextProvider } from "react-i18next";
 import i18n from "src/i18n.js";
 
-import { OnboardingProvider } from "src/states/OnboardingContext.js";
 import { PostModifyProvider } from "src/states/PostModifyContext";
 import { AuthProvider, useAuth } from "src/states/AuthContext";
 import { getMyProfile } from "config/api";
@@ -28,12 +27,13 @@ import FindPasswordPage from "@pages/login/FindPasswordPage";
 import FindPasswordVerifyingPage from "@pages/login/FindPasswordVerifyingPage";
 import SignUpPage from "@pages/login/SignUpPage";
 import AccessPage from "@pages/login/AccessPage";
-import NicknamePage from "@pages/onboarding/NicknamePage";
-import ProfilePage from "@pages/onboarding/ProfilePage";
-import ProfileMbtiPage from "@pages/onboarding/ProfileMbtiPage";
-import ProfileHobbyPage from "@pages/onboarding/ProfileHobbyPage";
-import ProfileLanguagePage from "@pages/onboarding/ProfileLanguagePage";
-import StudentVerificationPage from "@pages/onboarding/StudentVerificationPage";
+import OnboardingPage from "@pages/onboarding/OnboardingPage";
+import OnboardingStep1Page from "@pages/onboarding/OnboardingStep1Page";
+import OnboardingStep2Page from "@pages/onboarding/OnboardingStep2Page";
+import OnboardingStep3Page from "@pages/onboarding/OnboardingStep3Page";
+import OnboardingStep4Page from "@pages/onboarding/OnboardingStep4Page";
+import OnboardingStep5Page from "@pages/onboarding/OnboardingStep5Page";
+import OnboardingStep6Page from "@pages/onboarding/OnboardingStep6Page";
 import CompleteProfilePage from "@pages/onboarding/CompleteProfilePage";
 import LoadingVerificationPage from "@pages/onboarding/LoadingVerificationPage";
 import BookmarkPage from "@pages/chat/BookmarkPage";
@@ -272,9 +272,7 @@ function AppContent() {
 			</PostModifyProvider>
 		</WebSocketProvider>
 	) : (
-		<OnboardingProvider>
-			<AuthNavigator initialRoute={initialRoute} />
-		</OnboardingProvider>
+		<AuthNavigator initialRoute={initialRoute} />
 	);
 }
 
@@ -399,20 +397,33 @@ function AuthNavigator({ initialRoute }) {
 				name="FindPasswordVerifying"
 				component={FindPasswordVerifyingPage}
 			/>
-			<Stack.Screen name="Nickname" component={NicknamePage} />
-			<Stack.Screen name="Profile" component={ProfilePage} />
-			<Stack.Screen name="ProfileMbti" component={ProfileMbtiPage} />
-			<Stack.Screen name="ProfileHobby" component={ProfileHobbyPage} />
+			<Stack.Screen name="OnboardingPage" component={OnboardingPage} />
 			<Stack.Screen
-				name="ProfileLanguage"
-				component={ProfileLanguagePage}
+				name="OnboardingStep1Page"
+				component={OnboardingStep1Page}
 			/>
 			<Stack.Screen
-				name="StudentVerification"
-				component={StudentVerificationPage}
+				name="OnboardingStep2Page"
+				component={OnboardingStep2Page}
 			/>
 			<Stack.Screen
-				name="CompleteProfile"
+				name="OnboardingStep3Page"
+				component={OnboardingStep3Page}
+			/>
+			<Stack.Screen
+				name="OnboardingStep4Page"
+				component={OnboardingStep4Page}
+			/>
+			<Stack.Screen
+				name="OnboardingStep5Page"
+				component={OnboardingStep5Page}
+			/>
+			<Stack.Screen
+				name="OnboardingStep6Page"
+				component={OnboardingStep6Page}
+			/>
+			<Stack.Screen
+				name="CompleteProfilePage"
 				component={CompleteProfilePage}
 			/>
 			<Stack.Screen
