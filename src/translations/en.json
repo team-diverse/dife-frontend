@@ -1,7 +1,6 @@
 {
 	"loginTitle": "Campus Life with Dife!",
 	"loginSubtitle": "Start Now",
-	"placeholderEmail": "Enter your email",
 	"placeholderPassword": "Enter your password",
 	"loginError": "Please check the entered ID or password",
 	"signUp": "Sign Up",
@@ -9,8 +8,8 @@
 	"loginForgotPassword": "Forgot your password",
 
 	"signUpTitle": "Sign Up",
-	"emailLabel": "Email",
 	"emailPlaceholder": "Enter your email",
+	"enterVerificationCode": "Please enter the verification code.",
 	"passwordLabel": "Password",
 	"passwordPlaceholder": "At least 8 characters including letters and numbers",
 	"passwordError": "Please enter a password with at least 8 characters including letters and numbers",
@@ -28,7 +27,10 @@
 	"emailSendingText": "Sending email",
 	"emailSentText": "Email sent successfully",
 	"setPasswordTitle": "Reset Password",
+	"resend": "Resend",
 	"verificationCode": "Verification Code",
+	"invalidVerificationCode": "Please check your verification code again.",
+	"verificationCodeSent": "The verification code has been sent to your email.",
 	"errorRetry": "An error occurred. Please try again.",
 	"verifyCodePrompt": "Please check the verification code.",
 	"setPasswordButton": "Reset Password",

@@ -7,6 +7,7 @@ const LoginStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
+		overflow: "hidden",
 	},
 	backgroundLogin: {
 		position: "absolute",

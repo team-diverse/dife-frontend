@@ -10,31 +10,24 @@ import {
 } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import * as ImagePicker from "expo-image-picker";
 import { useTranslation } from "react-i18next";
+import * as Sentry from "@sentry/react-native";
+import * as ImagePicker from "expo-image-picker";
+import * as SecureStore from "expo-secure-store";
 
-import StudentVerificationStyles from "@pages/onboarding/StudentVerificationStyles";
-import { CustomTheme } from "@styles/CustomTheme.js";
-import { useOnboarding } from "src/states/OnboardingContext.js";
+import OnboardingStep6Styles from "@pages/onboarding/OnboardingStep6Styles";
 import { updateMyProfile } from "config/api";
 
-import Progress6 from "@components/onboarding/Progress6";
-import ArrowRight from "@components/common/ArrowRight";
 import BackgroundOnkookminUpload from "@components/onboarding/BackgroundOnkookminUpload";
 import IconOnkookminUpload from "@components/onboarding/IconOnkookminUpload";
 import ApplyButton from "@components/common/ApplyButton";
-import * as Sentry from "@sentry/react-native";
 
-const StudentVerificationPage = () => {
+const OnboardingStep6Page = ({ stepData, saveData }) => {
 	const { t } = useTranslation();
 
 	const [isModalVisible, setModalVisible] = useState(true);
 	const navigation = useNavigation();
 	const [image, setImage] = useState(null);
-
-	const handleGoBack = () => {
-		navigation.goBack();
-	};
 
 	const toggleModal = () => {
 		setModalVisible(!isModalVisible);
@@ -63,21 +56,22 @@ const StudentVerificationPage = () => {
 		}
 	};
 
-	const { onboardingData } = useOnboarding();
-
 	const handleOnboarding = async () => {
+		saveData(6, { image });
 		const formData = new FormData();
-		formData.append("username", onboardingData.username);
-		formData.append("country", onboardingData.country);
-		formData.append("bio", onboardingData.bio);
-		formData.append("mbti", onboardingData.mbti);
-		formData.append("hobbies", JSON.stringify(onboardingData.hobbies));
-		formData.append("languages", onboardingData.languages);
-		const memberId = onboardingData.id;
+		formData.append("username", stepData[1].nickname);
+		formData.append("country", stepData[2].nation);
+		formData.append("bio", stepData[2].bio);
+		if (stepData[3].selectedMBTI !== t("mbtiNoneOption")) {
+			formData.append("mbti", stepData[3].selectedMBTI);
+		}
+		formData.append("hobbies", JSON.stringify(stepData[4].selectedHobby));
+		formData.append("languages", stepData[5].selectedLanguages);
+		const memberId = await SecureStore.getItemAsync("memberId");
 
-		if (onboardingData.profileImg) {
+		if (stepData[2].image) {
 			const file = {
-				uri: onboardingData.profileImg,
+				uri: stepData[2].image,
 				type: "image/jpeg",
 				name: `${memberId}_profile.jpg`,
 			};
@@ -94,7 +88,7 @@ const StudentVerificationPage = () => {
 
 		try {
 			await updateMyProfile(formData);
-			navigation.navigate("CompleteProfile");
+			navigation.replace("CompleteProfilePage");
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -108,31 +102,27 @@ const StudentVerificationPage = () => {
 	const isSmallScreen = screenHeight < 700;
 
 	return (
-		<SafeAreaView style={StudentVerificationStyles.container}>
+		<SafeAreaView style={OnboardingStep6Styles.container}>
 			<Modal
 				transparent={true}
 				visible={isModalVisible}
 				onRequestClose={toggleModal}
 			>
-				<View style={StudentVerificationStyles.modalBackground}>
-					<View style={StudentVerificationStyles.modal}>
+				<View style={OnboardingStep6Styles.modalBackground}>
+					<View style={OnboardingStep6Styles.modal}>
 						<View
-							style={
-								StudentVerificationStyles.containerModalContent
-							}
+							style={OnboardingStep6Styles.containerModalContent}
 						>
 							<Image
-								style={StudentVerificationStyles.imageModal}
+								style={OnboardingStep6Styles.imageModal}
 								source={require("@assets/images/onboardingExample.png")}
 							/>
-							<Text style={StudentVerificationStyles.textModal}>
+							<Text style={OnboardingStep6Styles.textModal}>
 								{t("uploadInstructions")}
 							</Text>
 						</View>
-						<View
-							style={StudentVerificationStyles.buttonModalCheck}
-						>
-							<View style={StudentVerificationStyles.applyButton}>
+						<View style={OnboardingStep6Styles.buttonModalCheck}>
+							<View style={OnboardingStep6Styles.applyButton}>
 								<ApplyButton
 									text={t("completeButtonText")}
 									onPress={toggleModal}
@@ -143,44 +133,35 @@ const StudentVerificationPage = () => {
 				</View>
 			</Modal>
 
-			<TouchableOpacity onPress={handleGoBack}>
-				<ArrowRight
-					style={StudentVerificationStyles.iconArrow}
-					color={CustomTheme.textPrimary}
-				/>
-			</TouchableOpacity>
-			<View style={[StudentVerificationStyles.iconProgress]}>
-				<Progress6 />
-			</View>
-			<Text style={StudentVerificationStyles.textTitle}>
+			<Text style={OnboardingStep6Styles.textTitle}>
 				{t("studentVerificationTitle")}
 			</Text>
 			{image ? (
 				<TouchableOpacity
-					style={StudentVerificationStyles.containerUploadOnkookmin}
+					style={OnboardingStep6Styles.containerUploadOnkookmin}
 					onPress={pickImage}
 				>
 					<Image
 						source={{ uri: image }}
-						style={StudentVerificationStyles.imageOnkookmin}
+						style={OnboardingStep6Styles.imageOnkookmin}
 					/>
 					<IconOnkookminUpload
-						style={StudentVerificationStyles.iconUploadOnkookmin}
+						style={OnboardingStep6Styles.iconUploadOnkookmin}
 					/>
-					<Text style={StudentVerificationStyles.textUploadOnkookmin}>
+					<Text style={OnboardingStep6Styles.textUploadOnkookmin}>
 						{t("reuploadButtonText")}
 					</Text>
 					<BackgroundOnkookminUpload />
 				</TouchableOpacity>
 			) : (
 				<TouchableOpacity
-					style={StudentVerificationStyles.containerUploadOnkookmin}
+					style={OnboardingStep6Styles.containerUploadOnkookmin}
 					onPress={pickImage}
 				>
 					<IconOnkookminUpload
-						style={StudentVerificationStyles.iconUploadOnkookmin}
+						style={OnboardingStep6Styles.iconUploadOnkookmin}
 					/>
-					<Text style={StudentVerificationStyles.textUploadOnkookmin}>
+					<Text style={OnboardingStep6Styles.textUploadOnkookmin}>
 						{t("uploadButtonText")}
 					</Text>
 					<BackgroundOnkookminUpload />
@@ -188,7 +169,7 @@ const StudentVerificationPage = () => {
 			)}
 			<View
 				style={[
-					StudentVerificationStyles.buttonCheck,
+					OnboardingStep6Styles.buttonCheck,
 					isSmallScreen && { bottom: 30 },
 				]}
 			>
@@ -202,4 +183,4 @@ const StudentVerificationPage = () => {
 	);
 };
 
-export default StudentVerificationPage;
+export default OnboardingStep6Page;

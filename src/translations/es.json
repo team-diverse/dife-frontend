@@ -1,7 +1,6 @@
 {
 	"loginTitle": "¡Vida en el campus con Dife!",
 	"loginSubtitle": "Empieza ahora",
-	"placeholderEmail": "Introduce tu correo electrónico",
 	"placeholderPassword": "Introduce tu contraseña",
 	"loginError": "Por favor, revisa el ID o la contraseña introducidos",
 	"signUp": "Registrarse",
@@ -9,8 +8,8 @@
 	"loginForgotPassword": "Olvidé mi contraseña",
 
 	"signUpTitle": "Registrarse",
-	"emailLabel": "Correo electrónico",
 	"emailPlaceholder": "Introduce tu correo electrónico",
+	"enterVerificationCode": "Por favor, ingrese el código de verificación.",
 	"passwordLabel": "Contraseña",
 	"passwordPlaceholder": "Al menos 8 caracteres incluyendo letras y números",
 	"passwordError": "Por favor, introduce una contraseña de al menos 8 caracteres que incluya letras y números",
@@ -28,7 +27,10 @@
 	"emailSendingText": "Enviando correo electrónico",
 	"emailSentText": "Correo electrónico enviado con éxito",
 	"setPasswordTitle": "Restablecer Contraseña",
+	"resend": "Reenviar",
 	"verificationCode": "Código de Verificación",
+	"invalidVerificationCode": "Por favor, verifica tu código de verificación nuevamente.",
+	"verificationCodeSent": "El código de verificación ha sido enviado a tu correo electrónico.",
 	"errorRetry": "Ocurrió un error. Por favor, inténtelo de nuevo.",
 	"verifyCodePrompt": "Por favor, revise el código de verificación.",
 	"setPasswordButton": "Restablecer Contraseña",
