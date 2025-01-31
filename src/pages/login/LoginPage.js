@@ -78,9 +78,7 @@ const LoginPage = () => {
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
-			const status = await SecureStore.getItemAsync(
-				"notificationPermissionStatus",
-			);
+			const status = await Notifications.requestPermissionsAsync();
 
 			let token = "";
 			if (status === "granted") {
