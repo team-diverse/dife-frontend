@@ -239,6 +239,7 @@ function AppContent() {
 				setInitialRoute("Login");
 			} else {
 				console.log("알림 권한 거부");
+				setInitialRoute("Login");
 			}
 		};
 
