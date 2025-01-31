@@ -3,7 +3,7 @@ import { CustomTheme } from "@styles/CustomTheme.js";
 
 const { fontHead24, fontBody18 } = CustomTheme;
 
-const ProfileMbtiStyles = StyleSheet.create({
+const OnboardingStep4Styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
@@ -19,7 +19,7 @@ const ProfileMbtiStyles = StyleSheet.create({
 	},
 	textTitle: {
 		...fontHead24,
-		marginTop: 41,
+		marginTop: 4,
 		marginLeft: 24,
 	},
 	textSubTitle: {
@@ -27,15 +27,12 @@ const ProfileMbtiStyles = StyleSheet.create({
 		marginTop: 12,
 		marginLeft: 24,
 	},
-	containerMbti: {
-		alignItems: "center",
+	containerHobby: {
 		marginTop: 47,
 	},
-	flexStartMbti: {
-		alignItems: "flex-start",
-	},
-	rowMbti: {
+	rowHobby: {
 		flexDirection: "row",
+		justifyContent: "center",
 	},
 	buttonCheck: {
 		position: "absolute",
@@ -43,4 +40,4 @@ const ProfileMbtiStyles = StyleSheet.create({
 	},
 });
 
-export default ProfileMbtiStyles;
+export default OnboardingStep4Styles;

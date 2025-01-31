@@ -3,7 +3,7 @@ import { CustomTheme } from "@styles/CustomTheme.js";
 
 const { fontHead24, fontSub16 } = CustomTheme;
 
-const StudentVerificationStyles = StyleSheet.create({
+const OnboardingStep6Styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
@@ -19,7 +19,7 @@ const StudentVerificationStyles = StyleSheet.create({
 	},
 	textTitle: {
 		...fontHead24,
-		marginTop: 41,
+		marginTop: 4,
 		marginLeft: 24,
 	},
 	modalBackground: {
@@ -85,4 +85,4 @@ const StudentVerificationStyles = StyleSheet.create({
 	},
 });
 
-export default StudentVerificationStyles;
+export default OnboardingStep6Styles;
