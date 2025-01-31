@@ -91,11 +91,15 @@ const LoginPage = () => {
 				const status_permission = (
 					await Notifications.requestPermissionsAsync()
 				).granted;
+				console.log(
+					"로그인에서의 로그인 동의 여부 : ",
+					status_permission,
+				);
 				if (status_permission) {
 					token = (await Notifications.getExpoPushTokenAsync()).data;
 					console.log("FINALLY", token);
 				} else {
-					token = "undetined";
+					token = "undefined";
 				}
 			}
 
@@ -124,9 +128,7 @@ const LoginPage = () => {
 				navigation.navigate("Nickname");
 			}
 
-			if (token) {
-				await createNotificationToken(token, deviceId);
-			}
+			await createNotificationToken(token, deviceId);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
