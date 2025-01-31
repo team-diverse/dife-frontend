@@ -3,7 +3,7 @@ import { CustomTheme } from "@styles/CustomTheme.js";
 
 const { fontHead24, fontBody18 } = CustomTheme;
 
-const ProfileHobbyStyles = StyleSheet.create({
+const OnboardingStep5Styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
@@ -19,20 +19,16 @@ const ProfileHobbyStyles = StyleSheet.create({
 	},
 	textTitle: {
 		...fontHead24,
-		marginTop: 41,
+		marginTop: 4,
 		marginLeft: 24,
 	},
 	textSubTitle: {
 		...fontBody18,
-		marginTop: 12,
+		marginTop: 17,
 		marginLeft: 24,
 	},
-	containerHobby: {
-		marginTop: 47,
-	},
-	rowHobby: {
-		flexDirection: "row",
-		justifyContent: "center",
+	containerCheckbox: {
+		marginTop: 44,
 	},
 	buttonCheck: {
 		position: "absolute",
@@ -40,4 +36,4 @@ const ProfileHobbyStyles = StyleSheet.create({
 	},
 });
 
-export default ProfileHobbyStyles;
+export default OnboardingStep5Styles;

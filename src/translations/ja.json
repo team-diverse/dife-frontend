@@ -1,7 +1,6 @@
 {
 	"loginTitle": "Difeと一緒にキャンパスライフを！",
 	"loginSubtitle": "今すぐ始める",
-	"placeholderEmail": "メールアドレスを入力してください",
 	"placeholderPassword": "パスワードを入力してください",
 	"loginError": "入力されたIDまたはパスワードを確認してください",
 	"signUp": "サインアップ",
@@ -9,8 +8,8 @@
 	"loginForgotPassword": "パスワードを忘れた",
 
 	"signUpTitle": "サインアップ",
-	"emailLabel": "メールアドレス",
 	"emailPlaceholder": "メールアドレスを入力してください",
+	"enterVerificationCode": "認証コードを入力してください。",
 	"passwordLabel": "パスワード",
 	"passwordPlaceholder": "8文字以上、英字と数字を含む",
 	"passwordError": "英字と数字を含む8文字以上のパスワードを入力してください",
@@ -28,7 +27,10 @@
 	"emailSendingText": "メール送信中",
 	"emailSentText": "メール送信完了",
 	"setPasswordTitle": "パスワードのリセット",
+	"resend": "再送",
 	"verificationCode": "認証コード",
+	"invalidVerificationCode": "認証コードを再度確認してください。",
+	"verificationCodeSent": "認証コードがメールに送信されました。",
 	"errorRetry": "エラーが発生しました。再試行してください。",
 	"verifyCodePrompt": "認証コードを確認してください。",
 	"setPasswordButton": "パスワードをリセット",
