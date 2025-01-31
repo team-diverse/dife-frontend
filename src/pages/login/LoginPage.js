@@ -79,17 +79,16 @@ const LoginPage = () => {
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
-			const status = await SecureStore.getItemAsync(
-				"notificationPermissionStatus",
-			);
+			const status = await Notifications.requestPermissionsAsync();
 
 			let token = "";
 			if (status === "granted") {
 				token = (await Notifications.getExpoPushTokenAsync()).data;
 			} else {
-				const status = (await Notifications.requestPermissionsAsync())
-					.granted;
-				if (status) {
+				const status_permission = (
+					await Notifications.requestPermissionsAsync()
+				).granted;
+				if (status_permission) {
 					token = (await Notifications.getExpoPushTokenAsync()).data;
 					console.log("FINALLY", token);
 				} else {
