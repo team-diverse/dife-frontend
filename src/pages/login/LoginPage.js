@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import * as SecureStore from "expo-secure-store";
 import * as Sentry from "@sentry/react-native";
 import * as Notifications from "expo-notifications";
-import { getLocales } from "expo-localization";
+// import { getLocales } from "expo-localization";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import LoginStyles from "@pages/login/LoginStyles";
@@ -24,7 +24,7 @@ import {
 	getMyProfile,
 	login,
 	createNotificationToken,
-	updateMyProfile,
+	// updateMyProfile,
 } from "config/api";
 
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
@@ -158,18 +158,18 @@ const LoginPage = () => {
 		}
 	};
 
-	const updateSettingLanguage = async () => {
-		try {
-			const formData = new FormData();
-			formData.append(
-				"settingLanguage",
-				getLocales()[0].languageCode.toUpperCase(),
-			);
-			await updateMyProfile(formData);
-		} catch (error) {
-			console.error("언어 설정 업데이트 오류:", error);
-		}
-	};
+	// const updateSettingLanguage = async () => {
+	// 	try {
+	// 		const formData = new FormData();
+	// 		formData.append(
+	// 			"settingLanguage",
+	// 			getLocales()[0].languageCode.toUpperCase(),
+	// 		);
+	// 		await updateMyProfile(formData);
+	// 	} catch (error) {
+	// 		console.error("언어 설정 업데이트 오류:", error);
+	// 	}
+	// };
 
 	useEffect(() => {
 		if (isMockLoginEnabled) {
