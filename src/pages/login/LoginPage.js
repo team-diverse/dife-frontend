@@ -78,20 +78,21 @@ const LoginPage = () => {
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
-			// const { status } = await Notifications.getPermissionsAsync();
+			const { status } = await Notifications.getPermissionsAsync();
 
-			// let token = "";
-			// if (status === "granted") {
-			// 	token = (await Notifications.getExpoPushTokenAsync()).data;
-			// } else {
-			// 	const { granted } = await Notifications.requestPermissionsAsync();
-			// 	if (granted) {
-			// 		token = (await Notifications.getExpoPushTokenAsync()).data;
-			// 		console.log("FINALLY", token);
-			// 	} else {
-			// 		token = "undefined";
-			// 	}
-			// }
+			let token = "";
+			if (status === "granted") {
+				token = (await Notifications.getExpoPushTokenAsync()).data;
+			} else {
+				const { granted } =
+					await Notifications.requestPermissionsAsync();
+				if (granted) {
+					token = (await Notifications.getExpoPushTokenAsync()).data;
+					console.log("FINALLY", token);
+				} else {
+					token = "undefined";
+				}
+			}
 
 			const id = loginResponse.data.member_id;
 			const accessToken = loginResponse.data.accessToken;
@@ -117,10 +118,6 @@ const LoginPage = () => {
 				navigation.navigate("OnboardingPage");
 			}
 
-			// if (token) {
-			// 	await createNotificationToken(token, deviceId);
-			// }
-			const token = (await Notifications.getExpoPushTokenAsync()).data;
 			await createNotificationToken(token, deviceId);
 		} catch (error) {
 			Sentry.captureException(error);
