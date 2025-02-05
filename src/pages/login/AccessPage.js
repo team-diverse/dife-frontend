@@ -22,18 +22,12 @@ const AccessPage = () => {
 		const { status: existingStatus } =
 			await Notifications.getPermissionsAsync();
 
-		if (existingStatus !== "granted") {
-			const { status } = await Notifications.requestPermissionsAsync();
-			await SecureStore.setItemAsync(
-				"notificationPermissionStatus",
-				status,
-			);
-		} else {
-			await SecureStore.setItemAsync(
-				"notificationPermissionStatus",
-				existingStatus,
-			);
-		}
+			if (existingStatus !== "granted") {
+				const { granted } = await Notifications.requestPermissionsAsync();
+				if (!granted) {
+					console.warn("알림 권한이 거부되었습니다.");
+				}
+			}
 
 		const firstLaunch = await SecureStore.getItem("hasLaunched");
 
