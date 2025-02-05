@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import * as SecureStore from "expo-secure-store";
 import * as Sentry from "@sentry/react-native";
 import * as Notifications from "expo-notifications";
-import { getLocales } from "expo-localization";
+// import { getLocales } from "expo-localization";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import LoginStyles from "@pages/login/LoginStyles";
@@ -24,7 +24,7 @@ import {
 	getMyProfile,
 	login,
 	createNotificationToken,
-	updateMyProfile,
+	// updateMyProfile,
 } from "config/api";
 
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
@@ -78,27 +78,25 @@ const LoginPage = () => {
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
-			const status = await Notifications.requestPermissionsAsync();
+			// const { status } = await Notifications.getPermissionsAsync();
 
-			let token = "";
-			if (status === "granted") {
-				token = (await Notifications.getExpoPushTokenAsync()).data;
-			} else {
-				const status_permission = (
-					await Notifications.requestPermissionsAsync()
-				).granted;
-				if (status_permission) {
-					token = (await Notifications.getExpoPushTokenAsync()).data;
-					console.log("FINALLY", token);
-				} else {
-					token = "undetined";
-				}
-			}
+			// let token = "";
+			// if (status === "granted") {
+			// 	token = (await Notifications.getExpoPushTokenAsync()).data;
+			// } else {
+			// 	const { granted } = await Notifications.requestPermissionsAsync();
+			// 	if (granted) {
+			// 		token = (await Notifications.getExpoPushTokenAsync()).data;
+			// 		console.log("FINALLY", token);
+			// 	} else {
+			// 		token = "undefined";
+			// 	}
+			// }
 
 			const id = loginResponse.data.member_id;
 			const accessToken = loginResponse.data.accessToken;
 			const refreshToken = loginResponse.data.refreshToken;
-			const isFirstLogin = loginResponse.data.isFirstLogin;
+			// const isFirstLogin = loginResponse.data.isFirstLogin;
 
 			await SecureStore.setItemAsync("memberId", JSON.stringify(id));
 			await SecureStore.setItemAsync("accessToken", accessToken);
@@ -107,9 +105,9 @@ const LoginPage = () => {
 
 			console.log(accessToken);
 
-			if (isFirstLogin) {
-				await updateSettingLanguage();
-			}
+			// if (isFirstLogin) {
+			// 	await updateSettingLanguage();
+			// }
 
 			const profileResponse = await getMyProfile();
 
@@ -119,9 +117,11 @@ const LoginPage = () => {
 				navigation.navigate("OnboardingPage");
 			}
 
-			if (token) {
-				await createNotificationToken(token, deviceId);
-			}
+			// if (token) {
+			// 	await createNotificationToken(token, deviceId);
+			// }
+			const token = (await Notifications.getExpoPushTokenAsync()).data;
+			await createNotificationToken(token, deviceId);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -158,18 +158,18 @@ const LoginPage = () => {
 		}
 	};
 
-	const updateSettingLanguage = async () => {
-		try {
-			const formData = new FormData();
-			formData.append(
-				"settingLanguage",
-				getLocales()[0].languageCode.toUpperCase(),
-			);
-			await updateMyProfile(formData);
-		} catch (error) {
-			console.error("언어 설정 업데이트 오류:", error);
-		}
-	};
+	// const updateSettingLanguage = async () => {
+	// 	try {
+	// 		const formData = new FormData();
+	// 		formData.append(
+	// 			"settingLanguage",
+	// 			getLocales()[0].languageCode.toUpperCase(),
+	// 		);
+	// 		await updateMyProfile(formData);
+	// 	} catch (error) {
+	// 		console.error("언어 설정 업데이트 오류:", error);
+	// 	}
+	// };
 
 	useEffect(() => {
 		if (isMockLoginEnabled) {
