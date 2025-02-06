@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import * as SecureStore from "expo-secure-store";
 import * as Sentry from "@sentry/react-native";
 import * as Notifications from "expo-notifications";
-// import { getLocales } from "expo-localization";
+import { getLocales } from "expo-localization";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import LoginStyles from "@pages/login/LoginStyles";
@@ -24,7 +24,7 @@ import {
 	getMyProfile,
 	login,
 	createNotificationToken,
-	// updateMyProfile,
+	updateMyProfile,
 } from "config/api";
 
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
@@ -88,6 +88,8 @@ const LoginPage = () => {
 				} else {
 					const { granted } =
 						await Notifications.requestPermissionsAsync();
+					
+					console.log("REQUEST", granted);
 					if (granted) {
 						token = (await Notifications.getExpoPushTokenAsync())
 							.data;
@@ -101,7 +103,7 @@ const LoginPage = () => {
 			const id = loginResponse.data.member_id;
 			const accessToken = loginResponse.data.accessToken;
 			const refreshToken = loginResponse.data.refreshToken;
-			// const isFirstLogin = loginResponse.data.isFirstLogin;
+			const isFirstLogin = loginResponse.data.isFirstLogin;
 
 			await SecureStore.setItemAsync("memberId", JSON.stringify(id));
 			await SecureStore.setItemAsync("accessToken", accessToken);
@@ -110,9 +112,9 @@ const LoginPage = () => {
 
 			console.log(accessToken);
 
-			// if (isFirstLogin) {
-			// 	await updateSettingLanguage();
-			// }
+			if (isFirstLogin) {
+				await updateSettingLanguage();
+			}
 
 			const profileResponse = await getMyProfile();
 
@@ -159,18 +161,18 @@ const LoginPage = () => {
 		}
 	};
 
-	// const updateSettingLanguage = async () => {
-	// 	try {
-	// 		const formData = new FormData();
-	// 		formData.append(
-	// 			"settingLanguage",
-	// 			getLocales()[0].languageCode.toUpperCase(),
-	// 		);
-	// 		await updateMyProfile(formData);
-	// 	} catch (error) {
-	// 		console.error("언어 설정 업데이트 오류:", error);
-	// 	}
-	// };
+	const updateSettingLanguage = async () => {
+		try {
+			const formData = new FormData();
+			formData.append(
+				"settingLanguage",
+				getLocales()[0].languageCode.toUpperCase(),
+			);
+			await updateMyProfile(formData);
+		} catch (error) {
+			console.error("언어 설정 업데이트 오류:", error);
+		}
+	};
 
 	useEffect(() => {
 		if (isMockLoginEnabled) {
