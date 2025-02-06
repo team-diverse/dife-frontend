@@ -88,7 +88,7 @@ const LoginPage = () => {
 				} else {
 					const { granted } =
 						await Notifications.requestPermissionsAsync();
-					
+
 					console.log("REQUEST", granted);
 					if (granted) {
 						token = (await Notifications.getExpoPushTokenAsync())
