@@ -80,18 +80,22 @@ const LoginPage = () => {
 			const loginResponse = await login(emailRef.val, valuePW);
 			const { status } = await Notifications.getPermissionsAsync();
 
-			let token = "";
-			if (status === "granted") {
-				token = (await Notifications.getExpoPushTokenAsync()).data;
-			} else {
-				const { granted } =
-					await Notifications.requestPermissionsAsync();
-				if (granted) {
+			let token = "undefined";
+
+			try {
+				if (status === "granted") {
 					token = (await Notifications.getExpoPushTokenAsync()).data;
-					console.log("FINALLY", token);
 				} else {
-					token = "undefined";
+					const { granted } =
+						await Notifications.requestPermissionsAsync();
+					if (granted) {
+						token = (await Notifications.getExpoPushTokenAsync())
+							.data;
+						console.log("FINALLY", token);
+					}
 				}
+			} catch (error) {
+				console.error("푸시 알림 토큰 요청 중 오류 발생:", error);
 			}
 
 			const id = loginResponse.data.member_id;
