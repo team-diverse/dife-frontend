@@ -32,7 +32,6 @@ import IconNotSeePw from "@components/login/IconNotSeePw";
 import IconSeePw from "@components/login/IconSeePw";
 import DifeLine from "@components/common/DifeLine";
 import InfoCircle from "@components/common/InfoCircle";
-
 const isMockLoginEnabled = process.env.EXPO_PUBLIC_MOCK_LOGIN === "true";
 const mockEmail = process.env.EXPO_PUBLIC_MOCK_EMAIL || "";
 const mockPassword = process.env.EXPO_PUBLIC_MOCK_PASSWORD || "";
@@ -79,22 +78,28 @@ const LoginPage = () => {
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
-			const status = await Notifications.requestPermissionsAsync();
+			const { status } = await Notifications.getPermissionsAsync();
 
-			let token = "";
-			if (status === "granted") {
-				token = (await Notifications.getExpoPushTokenAsync()).data;
-			} else {
-				const status_permission = (
-					await Notifications.requestPermissionsAsync()
-				).granted;
-				if (status_permission) {
+			let token = "undefined";
+
+			try {
+				if (status === "granted") {
 					token = (await Notifications.getExpoPushTokenAsync()).data;
-					console.log("FINALLY", token);
 				} else {
-					token = "undetined";
+					const { granted } =
+						await Notifications.requestPermissionsAsync();
+
+					console.log("REQUEST", granted);
+					if (granted) {
+						token = (await Notifications.getExpoPushTokenAsync())
+							.data;
+						console.log("FINALLY", token);
+					}
 				}
+			} catch (error) {
+				console.error("푸시 알림 토큰 요청 중 오류 발생:", error);
 			}
+
 			const id = loginResponse.data.member_id;
 			const accessToken = loginResponse.data.accessToken;
 			const refreshToken = loginResponse.data.refreshToken;
@@ -119,9 +124,7 @@ const LoginPage = () => {
 				navigation.navigate("OnboardingPage");
 			}
 
-			if (token) {
-				await createNotificationToken(token, deviceId);
-			}
+			await createNotificationToken(token, deviceId);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
