@@ -133,8 +133,7 @@ function ConnectStack() {
 		const checkFirst = async () => {
 			const connectFirst =
 				await SecureStore.getItemAsync("connectFirstCheck");
-			if (connectFirst === "true") {
-				// true 아닌 걸로 바꾸기
+			if (connectFirst !== "true") {
 				setIsModalVisible(true);
 			}
 		};

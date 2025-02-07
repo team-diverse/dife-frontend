@@ -204,6 +204,9 @@
 	"group": "Group",
 
 	"connectTitle": "Connect",
+	"savedProfileStorage": "Saved Profile Box",
+	"saveProfileInstruction": "Tap the heart\nto save the profile",
+	"viewDetailsInstruction": "Tap the entire card or\nthe + button to view details",
 
 	"profile": "Profile",
 	"connectCancelAlert": "Do you want to cancel the connect?",

@@ -204,6 +204,9 @@
 	"group": "グループ",
 
 	"connectTitle": "接続",
+	"savedProfileStorage": "プロフィールリスト",
+	"saveProfileInstruction": "ハートを押して\nプロフィールを保存",
+	"viewDetailsInstruction": "カード全体か\n+ボタンで詳細を見る",
 
 	"profile": "プロフィール",
 	"connectCancelAlert": "接続をキャンセルしますか？",

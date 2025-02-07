@@ -204,6 +204,9 @@
 	"group": "Grupo",
 
 	"connectTitle": "Conectar",
+	"savedProfileStorage": "Perfiles guardados",
+	"saveProfileInstruction": "Toca el corazón par\na guardar el perfil.",
+	"viewDetailsInstruction": "Presiona la tarjeta o + para\ndetalles.",
 
 	"profile": "Perfil",
 	"connectCancelAlert": "¿Quieres cancelar la conexión?",

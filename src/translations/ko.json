@@ -203,6 +203,9 @@
 	"group": "그룹",
 
 	"connectTitle": "커넥트",
+	"savedProfileStorage": "저장된 프로필 보관함",
+	"saveProfileInstruction": "하트를 눌러 프로필을\n보관함에 저장하세요.",
+	"viewDetailsInstruction": "카드 전체 혹은 + 버튼을 눌러\n상세보기로 이동해요.",
 
 	"profile": "프로필",
 	"connectCancelAlert": "커넥트를 취소하겠습니까?",

@@ -213,10 +213,10 @@ const ConnectGuidePage = ({ closeModal }) => {
 				<Text
 					style={[
 						ChatRoomStyles.iconGuideChatBubble,
-						{ top: 11, left: 9 },
+						{ top: 11, left: 10 },
 					]}
 				>
-					저장된 프로필 보관함
+					{t("savedProfileStorage")}
 				</Text>
 			</View>
 
@@ -235,7 +235,7 @@ const ConnectGuidePage = ({ closeModal }) => {
 						{ top: 11, left: 9 },
 					]}
 				>
-					하트를 눌러 프로필을{"\n"}보관함에 저장하세요.
+					{t("saveProfileInstruction")}
 				</Text>
 			</View>
 			<IconHeart24
@@ -263,7 +263,7 @@ const ConnectGuidePage = ({ closeModal }) => {
 						{ top: 11, left: 9 },
 					]}
 				>
-					카드 전체 혹은 + 버튼을 눌러{"\n"}상세보기로 이동해요.
+					{t("viewDetailsInstruction")}
 				</Text>
 				<ConnectPlusIcon
 					active={true}

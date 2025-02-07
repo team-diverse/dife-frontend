@@ -204,6 +204,9 @@
 	"group": "群组",
 
 	"connectTitle": "连接",
+	"savedProfileStorage": "已保存的个人资料库",
+	"saveProfileInstruction": "点击爱心，将个人资\n料保存到库中。",
+	"viewDetailsInstruction": "点击整张卡片或 + 按钮查看\n详细信息。",
 
 	"profile": "个人资料",
 	"connectCancelAlert": "你确定要取消连接吗？",
