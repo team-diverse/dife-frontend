@@ -21,7 +21,7 @@ import IconGroupHeadcount from "@components/connect/IconGroupHeadcount";
 import IconSearchFail from "@components/common/IconSearchFail";
 import IconProfileUser48 from "@components/common/IconProfileUser48";
 
-const { fontSub14, fontCaption } = CustomTheme;
+const { fontBody14, fontCaption } = CustomTheme;
 
 const ConnectCard = ({
 	id,
@@ -140,7 +140,12 @@ const ConnectCard = ({
 						)}
 					</View>
 
-					<View style={styles.cardContainer}>
+					<View
+						style={[
+							styles.cardContainer,
+							bio.length !== 0 && { justifyContent: "center" },
+						]}
+					>
 						<Text style={styles.textName}>
 							{groupName ? groupName : username}
 						</Text>
@@ -216,7 +221,7 @@ const styles = StyleSheet.create({
 	rectangle: {
 		flexDirection: "row",
 		width: "100%",
-		height: 173,
+		height: 176,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
 		overflow: "hidden",
@@ -224,7 +229,7 @@ const styles = StyleSheet.create({
 	},
 	profile: {
 		width: 92,
-		height: 173,
+		height: 176,
 		backgroundColor: "#B0D0FF",
 		justifyContent: "center",
 		alignItems: "center",
@@ -250,6 +255,7 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		lineHeight: 17,
 		fontFamily: "NotoSansCJKkr-Bold",
+		marginBottom: 8,
 	},
 	containerHeadcount: {
 		flexDirection: "row",
@@ -270,14 +276,15 @@ const styles = StyleSheet.create({
 	},
 	textBasicInfo: {
 		...fontCaption,
-		marginBottom: 6,
+		marginBottom: 8,
 		maxWidth: 93,
 		overflow: "hidden",
 	},
 	textIntroduction: {
-		...fontSub14,
+		...fontBody14,
+		lineHeight: 17,
 		width: "100%",
-		marginBottom: 6,
+		marginBottom: 8,
 	},
 	tagContainer: {
 		flexDirection: "row",

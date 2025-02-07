@@ -17,7 +17,7 @@ import ChatInputSend from "@components/chat/ChatInputSend";
 import IconHamburgerMenu from "@components/chat/IconHamburgerMenu";
 import formatKoreanTime from "util/formatTime";
 import ChatBubble from "./ChatBubble/ChatBubble";
-import IconChatBubble from "@components/common/IconChatBubble";
+import IconGuideChatBubble from "@components/common/IconGuideChatBubble";
 
 const ChatRoomGuidePage = ({ route }) => {
 	const { t } = useTranslation();
@@ -186,7 +186,7 @@ const ChatRoomGuidePage = ({ route }) => {
 					left: leftPosition2,
 				}}
 			>
-				<IconChatBubble version={1} />
+				<IconGuideChatBubble version={1} />
 				<Text style={[ChatRoomStyles.iconGuideChatBubble, { top: 13 }]}>
 					{t("chatGuideTranslate")}
 				</Text>
@@ -199,7 +199,7 @@ const ChatRoomGuidePage = ({ route }) => {
 					left: leftPosition,
 				}}
 			>
-				<IconChatBubble version={2} />
+				<IconGuideChatBubble version={2} />
 				<Text
 					style={[ChatRoomStyles.iconGuideChatBubble, { bottom: 13 }]}
 				>
