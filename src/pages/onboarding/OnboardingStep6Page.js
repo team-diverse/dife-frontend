@@ -65,7 +65,7 @@ const OnboardingStep6Page = ({ stepData, saveData }) => {
 		if (stepData[3].selectedMBTI !== t("mbtiNoneOption")) {
 			formData.append("mbti", stepData[3].selectedMBTI);
 		}
-		formData.append("hobbies", JSON.stringify(stepData[4].selectedHobby));
+		formData.append("hobbies", stepData[4].selectedHobby);
 		formData.append("languages", stepData[5].selectedLanguages);
 		const memberId = await SecureStore.getItemAsync("memberId");
 
@@ -88,6 +88,7 @@ const OnboardingStep6Page = ({ stepData, saveData }) => {
 
 		try {
 			await updateMyProfile(formData);
+			console.log(formData);
 			navigation.replace("CompleteProfilePage");
 		} catch (error) {
 			Sentry.captureException(error);

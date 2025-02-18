@@ -415,5 +415,7 @@
 	"connectRequestSuccess": "{{username}}にコネクトリクエストを送りました。",
 
 	"exitChatroomButton": "退出",
-	"exitChatroom": "チャットを離れる"
+	"exitChatroom": "チャットを離れる",
+	"close": "閉じる",
+	"notFoundMember": "ユーザーが見つかりません"
 }
