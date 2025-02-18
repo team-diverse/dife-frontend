@@ -132,13 +132,14 @@ const ChattingPage = () => {
 	const data = searchData ? searchData : singleChatRoomList;
 
 	const getLatestMessage = (chatroomId, content) => {
-		if (!messages[chatroomId] || messages[chatroomId]?.length == 0) {
+		if (!messages[chatroomId] || messages[chatroomId]?.length === 0) {
 			subscribeToNewChatroom(chatroomId, token);
-			return content;
+			return typeof content === "object" ? content.message : content;
 		}
-		return (
-			messages[chatroomId][messages[chatroomId].length - 1].message || ""
-		);
+
+		const latestMessage =
+			messages[chatroomId][messages[chatroomId].length - 1].message;
+		return latestMessage || "";
 	};
 
 	const renderCommunity = () => (

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontHead18, fontCaption } = CustomTheme;
+const { fontHead18, fontSub14, fontCaption } = CustomTheme;
 
 const ChatRoomStyles = StyleSheet.create({
 	container: {
@@ -122,6 +122,29 @@ const ChatRoomStyles = StyleSheet.create({
 	chatInputBottom: {
 		height: 34,
 		backgroundColor: "white",
+	},
+	iconGuideChatBubble: {
+		position: "absolute",
+		...fontSub14,
+		color: CustomTheme.primaryMedium,
+		left: 12,
+	},
+	containerCheck: {
+		position: "absolute",
+		left: "50%",
+		bottom: 121,
+		transform: [{ translateX: -233 / 2 }, { translateY: 0 }],
+		backgroundColor: "#fff",
+		width: 233,
+		height: 45,
+		justifyContent: "center",
+		alignItems: "center",
+		borderRadius: 12,
+	},
+	textCheck: {
+		...fontCaption,
+		fontFamily: "NotoSansCJKkr-Bold",
+		color: CustomTheme.primaryMedium,
 	},
 });
 
