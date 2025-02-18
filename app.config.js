@@ -38,9 +38,7 @@ export default {
 			bundleIdentifier: getIOSBundleIdentifier(),
 			infoPlist: {
 				CFBundleDisplayName: getAppName(),
-			},
-			config: {
-				usesNonExemptEncryption: false,
+				UIBackgroundModes: ["fetch", "remote-notification"],
 			},
 		},
 		android: {
