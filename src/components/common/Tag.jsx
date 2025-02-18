@@ -37,7 +37,7 @@ const Tag = ({ tag }) => {
 								width:
 									translatedHobby.length >= 6
 										? translatedHobby.length * 10
-										: 68,
+										: 60,
 							},
 						]}
 					>
