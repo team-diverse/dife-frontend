@@ -177,8 +177,10 @@ const ChattingPage = () => {
 				<View style={ChattingStyles.connectTop}>
 					<ConnectTop />
 				</View>
-				<StatusIndicator />
 
+				<View>
+					<StatusIndicator />
+				</View>
 				<View
 					style={[
 						ChattingStyles.containerTextIcon,
