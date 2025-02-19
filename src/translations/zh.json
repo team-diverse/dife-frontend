@@ -421,5 +421,7 @@
 	"connectRequestSuccess": "您已向{{username}}发送连接请求。",
 
 	"exitChatroomButton": "离开",
-	"exitChatroom": "离开聊天"
+	"exitChatroom": "离开聊天",
+	"close": "关闭",
+	"notFoundMember": "未找到用户"
 }
