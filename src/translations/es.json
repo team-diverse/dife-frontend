@@ -206,6 +206,9 @@
 	"group": "Grupo",
 
 	"connectTitle": "Conectar",
+	"savedProfileStorage": "Perfiles guardados",
+	"saveProfileInstruction": "Toca el corazón par\na guardar el perfil.",
+	"viewDetailsInstruction": "Presiona la tarjeta o + para\ndetalles.",
 
 	"profile": "Perfil",
 	"connectCancelAlert": "¿Quieres cancelar la conexión?",
@@ -387,6 +390,9 @@
 	"chatContent": "Comunicación ilimitada\n",
 	"communityContent": "Compartiendo información\n",
 	"startButton": "Comenzar Dife",
+	"chatGuideTranslate": "Toca \"Traducir\"\npara ver en mi idioma.",
+	"chatGuideChatBubble": "Presiona la burbuja\npara ver marcador.",
+	"guideCheck": "¡Lo confirmé!",
 
 	"translationFeatureTitle": "Guía de Función de Traducción",
 	"translationFeatureContent1": "Dife ofrece ",
@@ -415,5 +421,7 @@
 	"connectRequestSuccess": "Has enviado una solicitud de conexión a {{username}}.",
 
 	"exitChatroomButton": "Salir",
-	"exitChatroom": "Salir del chat"
+	"exitChatroom": "Salir del chat",
+	"close": "Cerrar",
+	"notFoundMember": "Usuario no encontrado"
 }

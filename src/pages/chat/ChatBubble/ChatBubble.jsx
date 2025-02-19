@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { useTranslation } from "react-i18next";
 import * as Haptics from "expo-haptics";
@@ -25,10 +25,13 @@ const ChatBubble = ({
 	isHeadMessage,
 	chatroomId,
 	chatId,
+	handleChatBubblePosition,
+	handleChatBubble2Position,
 }) => {
 	const { t } = useTranslation();
 
 	const bubbleRef = useRef();
+	const bubbleRef2 = useRef();
 
 	const [modalVisible, setModalVisible] = useState(false);
 	const [modalPosition, setModalPosition] = useState(null);
@@ -38,6 +41,35 @@ const ChatBubble = ({
 		useState(false);
 	const [chatMessage, setChatMessage] = useState(message);
 	const [translating, setTranslating] = useState(false);
+
+	useEffect(() => {
+		const measurePosition = () => {
+			if (isMine === false) {
+				if (bubbleRef.current) {
+					bubbleRef.current.measureInWindow((x, y, width, height) => {
+						if (handleChatBubblePosition) {
+							handleChatBubblePosition({ x, y, width, height });
+						}
+					});
+					if (bubbleRef2.current) {
+						bubbleRef2.current.measureInWindow(
+							(x, y, width, height) => {
+								if (handleChatBubble2Position) {
+									handleChatBubble2Position({
+										x,
+										y,
+										width,
+										height,
+									});
+								}
+							},
+						);
+					}
+				}
+			}
+		};
+		setTimeout(measurePosition, 50);
+	}, []);
 
 	const handleLongPress = () => {
 		Haptics.selectionAsync();
@@ -136,7 +168,10 @@ const ChatBubble = ({
 							) : null}
 							{!isMine && (
 								<TouchableOpacity onPress={handleTranslations}>
-									<Text style={styles.textTranslation}>
+									<Text
+										style={styles.textTranslation}
+										ref={bubbleRef2}
+									>
 										{isTranslation
 											? t("viewOriginalButton")
 											: t("translateButton")}

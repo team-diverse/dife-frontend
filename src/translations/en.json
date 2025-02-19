@@ -206,6 +206,9 @@
 	"group": "Group",
 
 	"connectTitle": "Connect",
+	"savedProfileStorage": "Saved Profile Box",
+	"saveProfileInstruction": "Tap the heart\nto save the profile",
+	"viewDetailsInstruction": "Tap the entire card or\nthe + button to view details",
 
 	"profile": "Profile",
 	"connectCancelAlert": "Do you want to cancel the connect?",
@@ -386,6 +389,9 @@
 	"chatContent": "Limitless communication\n",
 	"communityContent": "Sharing information\n",
 	"startButton": "Start Dife",
+	"chatGuideTranslate": "Tap \"Translate\" to view\nin my language.",
+	"chatGuideChatBubble": "Hold the bubble\nto see the bookmark option.",
+	"guideCheck": "Got it!",
 
 	"translationFeatureTitle": "Translation Feature Guide",
 	"translationFeatureContent1": "Dife offers ",
@@ -414,5 +420,7 @@
 	"connectRequestSuccess": "You have sent a connect request to {{username}}.",
 
 	"exitChatroomButton": "Leave",
-	"exitChatroom": "Leave Chat"
+	"exitChatroom": "Leave Chat",
+	"close": "Close",
+	"notFoundMember": "User not found"
 }
