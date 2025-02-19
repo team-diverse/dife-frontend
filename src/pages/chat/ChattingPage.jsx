@@ -45,7 +45,7 @@ const ChattingPage = () => {
 	const [isIndividualTab, setIsIndividualTab] = useState(true);
 	const [token, setToken] = useState(null);
 
-	const showChatStatus = process.env.EXPO_PUBLIC_SHOW_CHAT_STATUS === "true";
+	// const showChatStatus = process.env.EXPO_PUBLIC_SHOW_CHAT_STATUS === "true";
 
 	const handleSearch = async () => {
 		try {
@@ -132,13 +132,14 @@ const ChattingPage = () => {
 	const data = searchData ? searchData : singleChatRoomList;
 
 	const getLatestMessage = (chatroomId, content) => {
-		if (!messages[chatroomId] || messages[chatroomId]?.length == 0) {
+		if (!messages[chatroomId] || messages[chatroomId]?.length === 0) {
 			subscribeToNewChatroom(chatroomId, token);
-			return content;
+			return typeof content === "object" ? content.message : content;
 		}
-		return (
-			messages[chatroomId][messages[chatroomId].length - 1].message || ""
-		);
+
+		const latestMessage =
+			messages[chatroomId][messages[chatroomId].length - 1].message;
+		return latestMessage || "";
 	};
 
 	const renderCommunity = () => (
@@ -176,7 +177,8 @@ const ChattingPage = () => {
 				<View style={ChattingStyles.connectTop}>
 					<ConnectTop />
 				</View>
-				{showChatStatus && <StatusIndicator />}
+				<StatusIndicator />
+
 				<View
 					style={[
 						ChattingStyles.containerTextIcon,

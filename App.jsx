@@ -96,6 +96,9 @@ import LandingPage from "@pages/login/LandingPage";
 import SetPasswordPage from "@pages/login/SetPasswordPage";
 import ChatBookmarkPage from "@pages/chat/ChatBookmarkPage";
 import { MatchQueueProvider } from "context/MatchQueueContext";
+import ChatRoomGuidePage from "@pages/chat/ChatRoomGuidePage";
+import ConnectGuidePage from "@pages/connect/ConnectGuidePage";
+import { Modal } from "react-native";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -124,10 +127,35 @@ function HomeStack() {
 }
 
 function ConnectStack() {
+	const [isModalVisible, setIsModalVisible] = useState(false);
+
+	useEffect(() => {
+		const checkFirst = async () => {
+			const connectFirst =
+				await SecureStore.getItemAsync("connectFirstCheck");
+			if (connectFirst !== "true") {
+				setIsModalVisible(true);
+			}
+		};
+		checkFirst();
+	}, []);
+
+	const closeModal = () => {
+		setIsModalVisible(false);
+		SecureStore.setItemAsync("connectFirstCheck", "true");
+	};
+
 	return (
-		<Stack.Navigator screenOptions={{ headerShown: false }}>
-			<Stack.Screen name="ConnectPage" component={ConnectPage} />
-		</Stack.Navigator>
+		<>
+			<Stack.Navigator screenOptions={{ headerShown: false }}>
+				<Stack.Screen name="ConnectPage" component={ConnectPage} />
+			</Stack.Navigator>
+			{isModalVisible && (
+				<Modal visible={isModalVisible} transparent={true}>
+					<ConnectGuidePage closeModal={closeModal} />
+				</Modal>
+			)}
+		</>
 	);
 }
 
@@ -378,6 +406,10 @@ function MainNavigator() {
 			<Stack.Screen
 				name="ChatBookmarkPage"
 				component={ChatBookmarkPage}
+			/>
+			<Stack.Screen
+				name="ChatRoomGuidePage"
+				component={ChatRoomGuidePage}
 			/>
 		</Stack.Navigator>
 	);

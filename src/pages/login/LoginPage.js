@@ -18,6 +18,7 @@ import * as Notifications from "expo-notifications";
 import { getLocales } from "expo-localization";
 
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 import LoginStyles from "@pages/login/LoginStyles";
 import { useAuth } from "src/states/AuthContext";
 import {
@@ -79,20 +80,28 @@ const LoginPage = () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
 			const { status } = await Notifications.getPermissionsAsync();
+			const projectId = Constants.expoConfig.extra.eas.projectId;
 
 			let token = "undefined";
 
 			try {
 				if (status === "granted") {
-					token = (await Notifications.getExpoPushTokenAsync()).data;
+					token = (
+						await Notifications.getExpoPushTokenAsync({
+							projectId,
+						})
+					).data;
 				} else {
 					const { granted } =
 						await Notifications.requestPermissionsAsync();
 
 					console.log("REQUEST", granted);
 					if (granted) {
-						token = (await Notifications.getExpoPushTokenAsync())
-							.data;
+						token = (
+							await Notifications.getExpoPushTokenAsync({
+								projectId,
+							})
+						).data;
 						console.log("FINALLY", token);
 					}
 				}
