@@ -54,15 +54,13 @@ const NotificationCard = ({
 			"true",
 		);
 		if (type === "CONNECT") {
-			console.log(typeId);
 			const response = await getProfileById(typeId);
-			console.log(response.data);
 			if (response.data.isDeleted) {
 				setModalVisible(true);
 				return;
 			}
 			navigation.navigate("ConnectProfilePage", { memberId: typeId });
-		} else if (type === "CONNECT_ACCEPT") {
+		} else if (type === "REQUEST") {
 			const response = await getProfileById(typeId);
 			console.log(response.data);
 			if (response.data.isDeleted) {
