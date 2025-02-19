@@ -421,5 +421,7 @@
 	"connectRequestSuccess": "Has enviado una solicitud de conexión a {{username}}.",
 
 	"exitChatroomButton": "Salir",
-	"exitChatroom": "Salir del chat"
+	"exitChatroom": "Salir del chat",
+	"close": "Cerrar",
+	"notFoundMember": "Usuario no encontrado"
 }
