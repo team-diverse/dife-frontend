@@ -45,7 +45,7 @@ const ChattingPage = () => {
 	const [isIndividualTab, setIsIndividualTab] = useState(true);
 	const [token, setToken] = useState(null);
 
-	const showChatStatus = process.env.EXPO_PUBLIC_SHOW_CHAT_STATUS === "true";
+	// const showChatStatus = process.env.EXPO_PUBLIC_SHOW_CHAT_STATUS === "true";
 
 	const handleSearch = async () => {
 		try {
@@ -177,7 +177,8 @@ const ChattingPage = () => {
 				<View style={ChattingStyles.connectTop}>
 					<ConnectTop />
 				</View>
-				{showChatStatus && <StatusIndicator />}
+				<StatusIndicator />
+
 				<View
 					style={[
 						ChattingStyles.containerTextIcon,
