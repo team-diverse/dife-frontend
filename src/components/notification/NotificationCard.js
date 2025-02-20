@@ -26,7 +26,7 @@ const NotificationCard = ({
 	let iconSvg;
 	if (type === "CONNECT") {
 		iconSvg = <IconAddFriend24 />;
-	} else if (type === "CONNECT_ACCEPT") {
+	} else if (type === "REQUEST") {
 		iconSvg = <IconAddFriend24 />;
 	} else if (type === "POST") {
 		iconSvg = <IconHeart24 />;
