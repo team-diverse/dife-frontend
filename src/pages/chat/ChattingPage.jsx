@@ -16,8 +16,12 @@ import * as Sentry from "@sentry/react-native";
 
 import ChattingStyles from "@pages/chat/ChattingStyles";
 import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
-import formatKoreanTime from "util/formatTime";
-import { getChatroomSearch, getChatroomsByType } from "config/api";
+import formatTime from "util/formatTime";
+import {
+	getChatroomSearch,
+	getChatroomsByType,
+	getProfileById,
+} from "config/api";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -44,6 +48,7 @@ const ChattingPage = () => {
 	const { messages, subscribeToNewChatroom } = useWebSocket();
 	const [isIndividualTab, setIsIndividualTab] = useState(true);
 	const [token, setToken] = useState(null);
+	const [userLanguage, setUserLanguage] = useState(null);
 
 	// const showChatStatus = process.env.EXPO_PUBLIC_SHOW_CHAT_STATUS === "true";
 
@@ -89,6 +94,9 @@ const ChattingPage = () => {
 
 			const token = await getRefreshToken();
 			setToken(token);
+
+			const userLanguage = await getProfileById(myMemberId);
+			setUserLanguage(userLanguage.data.settingLanguage);
 		};
 		fetchMyMemberId();
 	}, []);
@@ -157,8 +165,9 @@ const ChattingPage = () => {
 								item.id,
 								item.lastChat.message,
 							)}
-							lastChatCreated={formatKoreanTime(
+							lastChatCreated={formatTime(
 								item.lastChat.created,
+								userLanguage,
 							)}
 							onCompleteExit={onCompleteExit}
 							unreadChatsCount={item.unreadChatsCount}
