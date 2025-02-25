@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, StatusBar } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme.js";
 
 const { fontBody18, fontBody14 } = CustomTheme;
@@ -7,7 +7,6 @@ const OnboardingStep1Styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 	},
 	iconArrow: {
 		position: "absolute",

@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, StatusBar } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontCaption } = CustomTheme;
@@ -7,7 +7,6 @@ const MemberStyles = StyleSheet.create({
 	container: {
 		position: "relative",
 		alignItems: "center",
-		marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 	},
 	difeLine: {
 		position: "absolute",

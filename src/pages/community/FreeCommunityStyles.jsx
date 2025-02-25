@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, StatusBar } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead20, fontSub16, fontCaption } = CustomTheme;
@@ -25,8 +25,7 @@ const FreeCommunityStyles = StyleSheet.create({
 		zIndex: 2,
 	},
 	connectTop: {
-		marginTop:
-			Platform.OS === "android" ? StatusBar.currentHeight - 65 : -52,
+		marginTop: -52,
 		zIndex: 1,
 	},
 	containerTextIcon: {

@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, StatusBar } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead24, fontSub16, fontSub14, fontCaption } = CustomTheme;
@@ -7,7 +7,6 @@ const SignUpStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 	},
 	textTitle: {
 		...fontHead24,

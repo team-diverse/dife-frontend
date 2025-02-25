@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, StatusBar } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead20, fontHead18, fontSub16, fontCaption, fontNaviBold } =
@@ -99,8 +99,7 @@ const ConnectStyles = StyleSheet.create({
 		top: -10,
 	},
 	connectTop: {
-		marginTop:
-			Platform.OS === "android" ? StatusBar.currentHeight - 65 : -52,
+		marginTop: -52,
 		zIndex: 1,
 	},
 	midContainer: {

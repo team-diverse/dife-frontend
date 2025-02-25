@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, StatusBar } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontSub16, fontBody14 } = CustomTheme;
@@ -7,7 +7,6 @@ const ConnectProfileStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.primaryMedium,
-		marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 	},
 	scrollView: {
 		width: "100%",
