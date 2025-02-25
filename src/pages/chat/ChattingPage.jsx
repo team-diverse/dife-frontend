@@ -150,6 +150,27 @@ const ChattingPage = () => {
 		return latestMessage || "";
 	};
 
+	const formatChatDate = (created, userLanguage) => {
+		const today = new Date();
+		const chatDate = new Date(created);
+
+		if (chatDate.toDateString() === today.toDateString()) {
+			return formatTime(created, userLanguage);
+		} else {
+			if (chatDate.getFullYear() === today.getFullYear()) {
+				const options = { month: "long", day: "numeric" };
+				return chatDate.toLocaleDateString(userLanguage, options);
+			} else {
+				const options = {
+					year: "numeric",
+					month: "long",
+					day: "numeric",
+				};
+				return chatDate.toLocaleDateString(userLanguage, options);
+			}
+		}
+	};
+
 	const renderCommunity = () => (
 		<View style={ChattingStyles.containerChatItems}>
 			<View style={ChattingStyles.flatlist}>
@@ -165,7 +186,7 @@ const ChattingPage = () => {
 								item.id,
 								item.lastChat.message,
 							)}
-							lastChatCreated={formatTime(
+							lastChatCreated={formatChatDate(
 								item.lastChat.created,
 								userLanguage,
 							)}
