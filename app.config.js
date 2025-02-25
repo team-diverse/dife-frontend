@@ -52,8 +52,7 @@ export default {
 		android: {
 			package: getAndroidPackage(),
 			adaptiveIcon: {
-				foregroundImage: "src/assets/adaptive-icon.png",
-				backgroundColor: "#ffffff",
+				foregroundImage: "src/assets/icon.png",
 			},
 		},
 		web: {
