@@ -1,5 +1,11 @@
 import React from "react";
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import {
+	View,
+	StyleSheet,
+	SafeAreaView,
+	Platform,
+	StatusBar,
+} from "react-native";
 import TopBar from "@components/common/TopBar";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTranslation } from "react-i18next";
@@ -51,6 +57,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "white",
+		marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 	},
 	tabContainer: {
 		flex: 1,

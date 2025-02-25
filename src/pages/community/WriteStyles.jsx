@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform, StatusBar } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontBody18, fontBody14, fontNaviBold } = CustomTheme;
@@ -6,6 +6,7 @@ const { fontBody18, fontBody14, fontNaviBold } = CustomTheme;
 const WriteStyles = StyleSheet.create({
 	container: {
 		backgroundColor: CustomTheme.bgBasic,
+		marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 	},
 	containerWhite: {
 		minHeight: 330,

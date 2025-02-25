@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform, StatusBar } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead24, fontBody14, fontSub16 } = CustomTheme;
@@ -7,6 +7,7 @@ const InquiryStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.primaryBg,
+		marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 	},
 	containerContent: {
 		flex: 1,

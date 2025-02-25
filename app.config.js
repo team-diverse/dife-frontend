@@ -48,7 +48,7 @@ export default {
 			},
 		},
 		web: {
-			favicon: "src/assets/favicon.png",
+			favicon: "src/assets/icon.png",
 		},
 		extra: {
 			eas: {

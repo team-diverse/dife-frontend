@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StatusBar, StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead18, fontSub16, fontCaption } = CustomTheme;
@@ -11,6 +11,7 @@ const HomeStyles = StyleSheet.create({
 	},
 	linearGradient: {
 		flex: 1,
+		marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 	},
 	homebg: {
 		position: "absolute",

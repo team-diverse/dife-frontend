@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform, StatusBar } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme.js";
 
 const { fontBody18, fontBody14 } = CustomTheme;
@@ -7,6 +7,7 @@ const OnboardingStep1Styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
+		marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 	},
 	iconArrow: {
 		position: "absolute",
@@ -43,6 +44,8 @@ const OnboardingStep1Styles = StyleSheet.create({
 		alignItems: "center",
 		marginTop: 116,
 		marginHorizontal: 27,
+		paddingTop: 0,
+		paddingBottom: 0,
 	},
 	textInputNickname: {
 		...fontBody18,
@@ -50,6 +53,8 @@ const OnboardingStep1Styles = StyleSheet.create({
 		paddingVertical: 11,
 		borderBottomWidth: 2,
 		alignItems: "center",
+		paddingTop: 0,
+		paddingBottom: -20,
 	},
 	iconDelete: {
 		position: "absolute",

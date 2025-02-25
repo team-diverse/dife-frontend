@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StatusBar, StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead20, fontSub16, fontBody14, fontCaption } = CustomTheme;
@@ -15,7 +15,8 @@ const ChattingStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.primaryMedium,
 	},
 	connectTop: {
-		marginTop: -52,
+		marginTop:
+			Platform.OS === "android" ? StatusBar.currentHeight - 65 : -52,
 	},
 	iconChatPlus: {
 		position: "absolute",
@@ -65,6 +66,8 @@ const ChattingStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 24,
 		paddingLeft: 20,
+		paddingTop: 0,
+		paddingBottom: 0,
 	},
 	iconArrowRightSearch: {
 		position: "absolute",

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform, StatusBar } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontBody14, fontCaption } = CustomTheme;
@@ -7,6 +7,7 @@ const ModifyProfileInputStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
+		marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
 	},
 	containerBackgroundWhite: {
 		marginTop: 20,

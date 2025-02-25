@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform, StatusBar } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead20, fontSub16, fontCaption } = CustomTheme;
@@ -25,7 +25,8 @@ const FreeCommunityStyles = StyleSheet.create({
 		zIndex: 2,
 	},
 	connectTop: {
-		marginTop: -52,
+		marginTop:
+			Platform.OS === "android" ? StatusBar.currentHeight - 65 : -52,
 		zIndex: 1,
 	},
 	containerTextIcon: {
@@ -71,6 +72,8 @@ const FreeCommunityStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 24,
 		paddingLeft: 20,
+		paddingTop: 0,
+		paddingBottom: 0,
 	},
 	iconArrowRightSearch: {
 		position: "absolute",
