@@ -18,6 +18,14 @@ const getIOSBundleIdentifier = () => {
 	}
 };
 
+const getAndroidPackage = () => {
+	if (process.env.EXPO_PUBLIC_APP_VARIANT === "staging")
+		return "com.teamdiverse.dife.staging";
+	if (process.env.EXPO_PUBLIC_APP_VARIANT === "dev")
+		return "com.teamdiverse.dife.dev";
+	return "com.teamdiverse.dife";
+};
+
 export default {
 	expo: {
 		name: "Dife",
@@ -42,13 +50,13 @@ export default {
 			},
 		},
 		android: {
+			package: getAndroidPackage(),
 			adaptiveIcon: {
-				foregroundImage: "src/assets/adaptive-icon.png",
-				backgroundColor: "#ffffff",
+				foregroundImage: "src/assets/icon.png",
 			},
 		},
 		web: {
-			favicon: "src/assets/favicon.png",
+			favicon: "src/assets/icon.png",
 		},
 		extra: {
 			eas: {
