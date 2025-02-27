@@ -41,10 +41,12 @@ const ModifyProfilePage = () => {
 			const response = await getMyProfile();
 			const updatedData = formatProfileData([response.data]);
 			setProfile(updatedData[0]);
+			console.log(updatedData[0]);
 			if (response.data.profileImg?.id) {
 				const presignUrl = await getProfileImageByFileId(
 					response.data.profileImg.id,
 				);
+
 				setProfilePresignUrl(presignUrl.data);
 			}
 		} catch (error) {

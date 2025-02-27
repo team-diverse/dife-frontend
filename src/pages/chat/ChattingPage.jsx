@@ -16,8 +16,12 @@ import * as Sentry from "@sentry/react-native";
 
 import ChattingStyles from "@pages/chat/ChattingStyles";
 import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
-import formatKoreanTime from "util/formatTime";
-import { getChatroomSearch, getChatroomsByType } from "config/api";
+import formatTime from "util/formatTime";
+import {
+	getChatroomSearch,
+	getChatroomsByType,
+	getProfileById,
+} from "config/api";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -44,6 +48,7 @@ const ChattingPage = () => {
 	const { messages, subscribeToNewChatroom } = useWebSocket();
 	const [isIndividualTab, setIsIndividualTab] = useState(true);
 	const [token, setToken] = useState(null);
+	const [userLanguage, setUserLanguage] = useState(null);
 
 	// const showChatStatus = process.env.EXPO_PUBLIC_SHOW_CHAT_STATUS === "true";
 
@@ -89,6 +94,9 @@ const ChattingPage = () => {
 
 			const token = await getRefreshToken();
 			setToken(token);
+
+			const userLanguage = await getProfileById(myMemberId);
+			setUserLanguage(userLanguage.data.settingLanguage);
 		};
 		fetchMyMemberId();
 	}, []);
@@ -142,6 +150,27 @@ const ChattingPage = () => {
 		return latestMessage || "";
 	};
 
+	const formatChatDate = (created, userLanguage) => {
+		const today = new Date();
+		const chatDate = new Date(created);
+
+		if (chatDate.toDateString() === today.toDateString()) {
+			return formatTime(created, userLanguage);
+		} else {
+			if (chatDate.getFullYear() === today.getFullYear()) {
+				const options = { month: "long", day: "numeric" };
+				return chatDate.toLocaleDateString(userLanguage, options);
+			} else {
+				const options = {
+					year: "numeric",
+					month: "long",
+					day: "numeric",
+				};
+				return chatDate.toLocaleDateString(userLanguage, options);
+			}
+		}
+	};
+
 	const renderCommunity = () => (
 		<View style={ChattingStyles.containerChatItems}>
 			<View style={ChattingStyles.flatlist}>
@@ -157,8 +186,9 @@ const ChattingPage = () => {
 								item.id,
 								item.lastChat.message,
 							)}
-							lastChatCreated={formatKoreanTime(
+							lastChatCreated={formatChatDate(
 								item.lastChat.created,
+								userLanguage,
 							)}
 							onCompleteExit={onCompleteExit}
 							unreadChatsCount={item.unreadChatsCount}
