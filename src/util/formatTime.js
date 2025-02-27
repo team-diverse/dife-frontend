@@ -1,6 +1,18 @@
-const formatKoreanTime = (isoString) => {
+const formatTime = (isoString, userLanguage) => {
+	console.log("userLanguage", userLanguage);
 	const date = new Date(isoString);
-	const formatter = new Intl.DateTimeFormat("ko-KR", {
+
+	const localeMap = {
+		KO: "ko-KR",
+		ES: "es-ES",
+		EN: "en-US",
+		JA: "ja-JP",
+		ZH: "zh-CN",
+	};
+
+	const locale = localeMap[userLanguage] || "en-US";
+
+	const formatter = new Intl.DateTimeFormat(locale, {
 		hour: "numeric",
 		minute: "numeric",
 		hour12: true,
@@ -8,4 +20,4 @@ const formatKoreanTime = (isoString) => {
 	return formatter.format(date);
 };
 
-export default formatKoreanTime;
+export default formatTime;
