@@ -43,6 +43,8 @@ const OnboardingStep1Styles = StyleSheet.create({
 		alignItems: "center",
 		marginTop: 116,
 		marginHorizontal: 27,
+		paddingTop: 0,
+		paddingBottom: 0,
 	},
 	textInputNickname: {
 		...fontBody18,
@@ -50,6 +52,8 @@ const OnboardingStep1Styles = StyleSheet.create({
 		paddingVertical: 11,
 		borderBottomWidth: 2,
 		alignItems: "center",
+		paddingTop: 0,
+		paddingBottom: -20,
 	},
 	iconDelete: {
 		position: "absolute",
