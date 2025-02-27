@@ -19,10 +19,14 @@ import { useTranslation } from "react-i18next";
 
 import ChatRoomStyles from "@pages/chat/ChatRoomStyles";
 import { useWebSocket } from "context/WebSocketContext";
-import formatKoreanTime from "util/formatTime";
+import formatTime from "util/formatTime";
 import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 import { sortByIds } from "util/util";
-import { getBookmarkedByChatroomId, getChatsByChatroomId } from "config/api";
+import {
+	getBookmarkedByChatroomId,
+	getChatsByChatroomId,
+	getProfileById,
+} from "config/api";
 
 import ArrowRight from "@components/common/ArrowRight";
 import ChatInputSend from "@components/chat/ChatInputSend";
@@ -54,6 +58,7 @@ const ChatRoomPage = ({ route }) => {
 	const isAtBottomRef = useRef(true);
 	const scrollOffsetRef = useRef(0);
 	const [token, setToken] = useState(null);
+	const [userLanguage, setUserLanguage] = useState(null);
 
 	useEffect(() => {
 		const fetchToken = async () => {
@@ -68,6 +73,8 @@ const ChatRoomPage = ({ route }) => {
 		const fetchMyMemberId = async () => {
 			const myMemberId = await getMyMemberId();
 			setMemberId(myMemberId);
+			const userLanguage = await getProfileById(myMemberId);
+			setUserLanguage(userLanguage.data.settingLanguage);
 		};
 		fetchMyMemberId();
 	}, []);
@@ -168,12 +175,26 @@ const ChatRoomPage = ({ route }) => {
 		return grouped;
 	};
 
-	const formatDateHeader = (date) => {
+	const formatDateHeader = (date, userLanguage) => {
 		const messageDate = new Date(date);
-		const days = ["일", "월", "화", "수", "목", "금", "토"];
-		const dayOfWeek = days[messageDate.getDay()];
 
-		return `${messageDate.getFullYear()}.${String(messageDate.getMonth() + 1).padStart(2, "0")}.${String(messageDate.getDate()).padStart(2, "0")} ${dayOfWeek}요일`;
+		const localeMap = {
+			KO: "ko-KR",
+			ES: "es-ES",
+			EN: "en-US",
+			JA: "ja-JP",
+			ZH: "zh-CN",
+		};
+		const locale = localeMap[userLanguage] || "en-US";
+
+		const formatter = new Intl.DateTimeFormat(locale, {
+			year: "numeric",
+			month: "2-digit",
+			day: "2-digit",
+			weekday: "long",
+		});
+
+		return formatter.format(messageDate);
 	};
 
 	const isSameDay = (date1, date2) => {
@@ -328,7 +349,10 @@ const ChatRoomPage = ({ route }) => {
 												ChatRoomStyles.dateHeaderText
 											}
 										>
-											{formatDateHeader(item[0].created)}
+											{formatDateHeader(
+												item[0].created,
+												userLanguage,
+											)}
 										</Text>
 									</View>
 								) : (
@@ -340,8 +364,9 @@ const ChatRoomPage = ({ route }) => {
 											message={msg.message}
 											time={
 												msg.showTime
-													? formatKoreanTime(
+													? formatTime(
 															msg.created,
+															userLanguage,
 														)
 													: ""
 											}
