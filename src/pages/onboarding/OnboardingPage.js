@@ -88,7 +88,10 @@ const OnboardingPage = ({ route }) => {
 			<SafeAreaView style={OnboardingStep1Styles.container}>
 				<TouchableOpacity onPress={goToPrevious}>
 					<ArrowRight
-						style={OnboardingStep1Styles.iconArrow}
+						style={[
+							OnboardingStep1Styles.iconArrow,
+							{ marginTop: 10 },
+						]}
 						color={CustomTheme.textPrimary}
 					/>
 				</TouchableOpacity>

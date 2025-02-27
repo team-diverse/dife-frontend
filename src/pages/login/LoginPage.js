@@ -51,7 +51,7 @@ const LoginPage = () => {
 
 	useEffect(() => {
 		const getDeviceId = async () => {
-			const id = Device.modelId;
+			const id = Device.modelName;
 			setDeviceId(id);
 		};
 
@@ -117,7 +117,10 @@ const LoginPage = () => {
 			await SecureStore.setItemAsync("memberId", JSON.stringify(id));
 			await SecureStore.setItemAsync("accessToken", accessToken);
 			await SecureStore.setItemAsync("refreshToken", refreshToken);
-			await SecureStore.setItemAsync("deviceId", deviceId);
+			await SecureStore.setItemAsync(
+				"deviceId",
+				JSON.stringify(deviceId),
+			);
 
 			console.log(accessToken);
 
@@ -274,22 +277,24 @@ const LoginPage = () => {
 					</View>
 				</KeyboardAvoidingView>
 
-				<View style={LoginStyles.containerButtonSignupLogin}>
-					<BottomTwoButtons>
-						<View
-							text={t("signUp")}
-							onPress={() => navigation.navigate("SignUp")}
-						/>
-						<View text={t("login")} onPress={handleLogin} />
-					</BottomTwoButtons>
-					<TouchableOpacity
-						onPress={() => navigation.navigate("FindPassword")}
-					>
-						<Text style={LoginStyles.textReport}>
-							{t("loginForgotPassword")}
-						</Text>
-					</TouchableOpacity>
-				</View>
+				<KeyboardAvoidingView>
+					<View style={LoginStyles.containerButtonSignupLogin}>
+						<BottomTwoButtons>
+							<View
+								text={t("signUp")}
+								onPress={() => navigation.navigate("SignUp")}
+							/>
+							<View text={t("login")} onPress={handleLogin} />
+						</BottomTwoButtons>
+						<TouchableOpacity
+							onPress={() => navigation.navigate("FindPassword")}
+						>
+							<Text style={LoginStyles.textReport}>
+								{t("loginForgotPassword")}
+							</Text>
+						</TouchableOpacity>
+					</View>
+				</KeyboardAvoidingView>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>
 	);
