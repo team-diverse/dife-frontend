@@ -7,6 +7,7 @@ const ChattingStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
+		// private 레포지토리 테스트
 	},
 	backgroundBlue: {
 		position: "absolute",
