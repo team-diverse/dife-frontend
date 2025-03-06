@@ -99,6 +99,7 @@ import { MatchQueueProvider } from "context/MatchQueueContext";
 import ChatRoomGuidePage from "@pages/chat/ChatRoomGuidePage";
 import ConnectGuidePage from "@pages/connect/ConnectGuidePage";
 import { Modal } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -221,6 +222,7 @@ function App() {
 }
 
 function AppContent() {
+	const navigation = useNavigation();
 	const { isLoggedIn, setIsLoggedIn } = useAuth();
 	const [initialRoute, setInitialRoute] = useState("Access");
 
@@ -273,6 +275,42 @@ function AppContent() {
 
 		checkAccess();
 	}, []);
+
+	useEffect(() => {
+		const handleNotificationResponse = (response) => {
+			const { type, typeId } = response.notification.request.content.data;
+
+			console.log(
+				"Notification Response:",
+				response.notification.request.content.data,
+			);
+
+			if (type === "POST") {
+				navigation.navigate("PostPage", { postId: typeId });
+			} else if (type === "CONNECT") {
+				navigation.navigate("ConnectProfilePage", { memberId: typeId });
+			} else if (type === "REQUEST") {
+				navigation.navigate("ConnectListPage", { screen: "그룹" });
+			} else if (type === "CHATROOM") {
+				navigation.navigate("ChatRoomPage", { chatroomInfo: typeId });
+			} else {
+				null;
+			}
+		};
+
+		const subscription =
+			Notifications.addNotificationResponseReceivedListener(
+				handleNotificationResponse,
+			);
+
+		Notifications.getLastNotificationResponseAsync().then((response) => {
+			if (response) {
+				handleNotificationResponse(response);
+			}
+		});
+
+		return () => subscription.remove();
+	}, [navigation]);
 
 	Notifications.setNotificationHandler({
 		handleNotification: async () => ({
