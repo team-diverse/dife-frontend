@@ -27,6 +27,10 @@ const ModifyProfileInputPage = ({ route }) => {
 		languageContent = [],
 	} = route.params;
 
+	// useEffect(() => {
+	// 	console.log(bioContent);
+	// }, []);
+
 	useEffect(() => {
 		const separateTag = (arr) => {
 			const mbtiPattern = /^[A-Z]{4}$/;
@@ -113,11 +117,19 @@ const ModifyProfileInputPage = ({ route }) => {
 	};
 
 	const handleNicknameChange = (text) => {
-		setNicknameInput(text);
-		if (text.length > 0) {
-			handleNickname(text);
-		} else {
-			setNicknameValid(null);
+		if (text.length <= 12) {
+			setNicknameInput(text);
+			if (text.length > 0) {
+				handleNickname(text);
+			} else {
+				setNicknameValid(null);
+			}
+		}
+	};
+
+	const handleBioChange = (text) => {
+		if (text.length <= 60) {
+			setBioInput(text);
 		}
 	};
 
@@ -148,7 +160,7 @@ const ModifyProfileInputPage = ({ route }) => {
 			) {
 				formData.append("username", nicknameInput);
 			}
-			if (bioInput !== originalProfile.bio) {
+			if (bioInput.trim() !== "" && bioInput !== originalProfile.bio) {
 				formData.append("bio", bioInput);
 			}
 			if (selectedMBTI && selectedMBTI !== originalProfile.mbti) {
@@ -169,6 +181,7 @@ const ModifyProfileInputPage = ({ route }) => {
 			) {
 				formData.append("languages", selectedLanguage);
 			}
+			console.log(nicknameInput, bioInput, selectedMBTI, selectedHobby);
 			await updateMyProfile(formData);
 			navigation.navigate("ModifyProfilePage");
 		} catch (error) {
@@ -203,7 +216,6 @@ const ModifyProfileInputPage = ({ route }) => {
 									]}
 									onChangeText={handleNicknameChange}
 									value={nicknameInput}
-									maxLength={12}
 								/>
 								<Text
 									style={ModifyProfileInputStyles.textCount}
@@ -217,10 +229,9 @@ const ModifyProfileInputPage = ({ route }) => {
 							<>
 								<TextInput
 									style={ModifyProfileInputStyles.textInput}
-									onChangeText={setBioInput}
+									onChangeText={handleBioChange}
 									value={bioInput}
 									multiline={true}
-									maxLength={60}
 								/>
 								<Text
 									style={ModifyProfileInputStyles.textCount}

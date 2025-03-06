@@ -36,6 +36,7 @@ const ConnectCard = ({
 	description,
 	count,
 	fail = false,
+	isSmallScreen = false,
 }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
@@ -187,7 +188,7 @@ const ConnectCard = ({
 
 						<Text
 							style={styles.textIntroduction}
-							numberOfLines={3}
+							numberOfLines={isSmallScreen ? 2 : 3}
 							ellipsizeMode="tail"
 						>
 							{description ? description : bio}
