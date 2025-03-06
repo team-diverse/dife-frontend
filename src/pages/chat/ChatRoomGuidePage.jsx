@@ -15,7 +15,7 @@ import ChatRoomStyles from "@pages/chat/ChatRoomStyles";
 import ArrowRight from "@components/common/ArrowRight";
 import ChatInputSend from "@components/chat/ChatInputSend";
 import IconHamburgerMenu from "@components/chat/IconHamburgerMenu";
-import formatKoreanTime from "util/formatTime";
+import formatTime from "util/formatTime";
 import ChatBubble from "./ChatBubble/ChatBubble";
 import IconGuideChatBubble from "@components/common/IconGuideChatBubble";
 
@@ -146,8 +146,9 @@ const ChatRoomGuidePage = ({ route }) => {
 								<ChatBubble
 									username={item.lastChat.member.username}
 									message={item.lastChat.message}
-									time={formatKoreanTime(
+									time={formatTime(
 										item.lastChat.created,
+										"KO",
 									)}
 									isMine={item.lastChat.member.id === "Dife2"}
 									isHeadMessage={true}
