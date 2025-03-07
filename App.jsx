@@ -6,11 +6,28 @@ import { useFonts } from "expo-font";
 import * as Notifications from "expo-notifications";
 import * as SecureStore from "expo-secure-store";
 import { I18nextProvider } from "react-i18next";
-import i18n from "src/i18n.js";
+import { Modal, Platform } from "react-native";
+import * as Sentry from "@sentry/react-native";
 
+import i18n from "src/i18n.js";
 import { PostModifyProvider } from "src/states/PostModifyContext";
 import { AuthProvider, useAuth } from "src/states/AuthContext";
 import { getMyProfile } from "config/api";
+import { WebSocketProvider } from "./src/context/WebSocketContext";
+import { MatchQueueProvider } from "context/MatchQueueContext";
+
+import ChatDf24 from "@components/Icon24/ChatDf24";
+import ConnectDf24 from "@components/Icon24/ConnectDf24";
+import HomeDf24 from "@components/Icon24/HomeDf24";
+import CommuDf24 from "@components/Icon24/CommuDf24";
+import MyDf24 from "@components/Icon24/MyDf24";
+
+import ChatAc32 from "@components/Icon32/ChatAc32";
+import ConnectAc32 from "@components/Icon32/ConnectAc32";
+import HomeAc32 from "@components/Icon32/HomeAc32";
+import CommuAc32 from "@components/Icon32/CommuAc32";
+import MyAc32 from "@components/Icon32/MyAc32";
+import "text-encoding";
 
 import ChattingPage from "@pages/chat/ChattingPage";
 import ConnectPage from "@pages/connect/ConnectPage";
@@ -45,30 +62,6 @@ import WritePage from "@pages/community/WritePage";
 import PostPage from "@pages/community/PostPage";
 import MyPostPage from "@pages/member/MyPostPage";
 import PostModifyPage from "@pages/community/PostModifyPage";
-
-import ChatDf24 from "@components/Icon24/ChatDf24";
-import ConnectDf24 from "@components/Icon24/ConnectDf24";
-import HomeDf24 from "@components/Icon24/HomeDf24";
-import CommuDf24 from "@components/Icon24/CommuDf24";
-import MyDf24 from "@components/Icon24/MyDf24";
-
-import ChatAc32 from "@components/Icon32/ChatAc32";
-import ConnectAc32 from "@components/Icon32/ConnectAc32";
-import HomeAc32 from "@components/Icon32/HomeAc32";
-import CommuAc32 from "@components/Icon32/CommuAc32";
-import MyAc32 from "@components/Icon32/MyAc32";
-import "text-encoding";
-import * as Sentry from "@sentry/react-native";
-
-Sentry.init({
-	dsn: "https://5a585cef4237affff9605bb2182bf1d1@o4507762694422528.ingest.us.sentry.io/4507769192448000",
-	debug: true,
-});
-
-const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
-
-import { WebSocketProvider } from "./src/context/WebSocketContext";
 import MyWrotePage from "@pages/member/MyWrotePage";
 import MyCommentPage from "@pages/member/MyCommentPage";
 import ModifyProfilePage from "@pages/member/ModifyProfilePage";
@@ -95,10 +88,16 @@ import LikeUserOneToOne from "@pages/connect/LikeUserOneToOne";
 import LandingPage from "@pages/login/LandingPage";
 import SetPasswordPage from "@pages/login/SetPasswordPage";
 import ChatBookmarkPage from "@pages/chat/ChatBookmarkPage";
-import { MatchQueueProvider } from "context/MatchQueueContext";
 import ChatRoomGuidePage from "@pages/chat/ChatRoomGuidePage";
 import ConnectGuidePage from "@pages/connect/ConnectGuidePage";
-import { Modal } from "react-native";
+
+Sentry.init({
+	dsn: "https://5a585cef4237affff9605bb2182bf1d1@o4507762694422528.ingest.us.sentry.io/4507769192448000",
+	debug: true,
+});
+
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 const iconMapping = {
 	Chat: { active: ChatAc32, default: ChatDf24 },
@@ -174,7 +173,7 @@ function MainTabs() {
 			screenOptions={({ route }) => ({
 				headerShown: false,
 				tabBarStyle: {
-					height: 84,
+					height: Platform.OS === "android" ? 64 : 84,
 				},
 				tabBarIcon: ({ focused, color, size }) =>
 					getTabBarIcon(route, focused, color, size),
