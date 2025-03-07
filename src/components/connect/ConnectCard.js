@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	Platform,
+} from "react-native";
 import { Image } from "expo-image";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useNavigation } from "@react-navigation/native";
@@ -227,6 +233,11 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		overflow: "hidden",
 		marginVertical: 10,
+		...Platform.select({
+			android: {
+				elevation: 3,
+			},
+		}),
 	},
 	profile: {
 		width: 92,

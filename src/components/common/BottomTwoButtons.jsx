@@ -1,5 +1,11 @@
 import React, { Children } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	StyleSheet,
+	Platform,
+} from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme.js";
 
@@ -46,10 +52,17 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.bgBasic,
-		shadowColor: "#3C454E",
-		shadowOffset: { width: 0, height: -1 },
-		shadowOpacity: 0.1,
-		shadowRadius: 8,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E",
+				shadowOffset: { width: 0, height: -1 },
+				shadowOpacity: 0.1,
+				shadowRadius: 8,
+			},
+			android: {
+				elevation: 3,
+			},
+		}),
 	},
 	button1: {
 		width: 156,

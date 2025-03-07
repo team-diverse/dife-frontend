@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import Constants from "expo-constants";
 
@@ -16,10 +16,17 @@ const EventStyles = StyleSheet.create({
 		alignItems: "center",
 	},
 	eventCard: {
-		shadowColor: "#3C454E4A",
-		shadowOffset: { width: 0, height: 3 },
-		shadowOpacity: 0.71,
-		shadowRadius: 6,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E4A",
+				shadowOffset: { width: 0, height: 3 },
+				shadowOpacity: 0.71,
+				shadowRadius: 6,
+			},
+			android: {
+				elevation: 3,
+			},
+		}),
 	},
 });
 

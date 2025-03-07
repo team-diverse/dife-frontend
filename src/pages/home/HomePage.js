@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	Dimensions,
+	Platform,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
@@ -190,6 +191,7 @@ const HomePage = () => {
 				style={{
 					flexDirection: "row",
 					alignItems: "center",
+					justifyContent: "center",
 				}}
 			>
 				<TouchableOpacity
@@ -197,6 +199,7 @@ const HomePage = () => {
 					style={{
 						opacity: canShowPrevArrow() ? 1 : 0,
 						pointerEvents: canShowPrevArrow() ? "auto" : "none",
+						zIndex: 10,
 					}}
 				>
 					<HomeArrow style={{ transform: [{ scaleX: -1 }] }} />
@@ -272,8 +275,11 @@ const HomePage = () => {
 										HomeStyles.backgroundHomecard,
 										{
 											transform: [{ scale: 0.8 }],
-											right: -5,
-											zIndex: -1,
+											right:
+												Platform.OS === "android"
+													? -18
+													: -5,
+											zIndex: 0,
 										},
 									]}
 								>
@@ -289,6 +295,7 @@ const HomePage = () => {
 					style={{
 						opacity: canShowNextArrow() ? 1 : 0,
 						pointerEvents: canShowNextArrow() ? "auto" : "none",
+						zIndex: 10,
 					}}
 				>
 					<HomeArrow />

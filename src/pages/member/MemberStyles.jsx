@@ -8,7 +8,7 @@ const MemberStyles = StyleSheet.create({
 	container: {
 		position: "relative",
 		alignItems: "center",
-		paddingTop: Constants.statusBarHeight,
+		paddingTop: Constants.statusBarHeight + 10,
 	},
 	difeLine: {
 		position: "absolute",
