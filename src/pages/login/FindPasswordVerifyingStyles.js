@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontHead24, fontSub16, fontBody14 } = CustomTheme;
 
@@ -7,6 +8,7 @@ const FindPasswordVerifyingStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
+		paddingTop: Constants.statusBarHeight,
 	},
 	containerContent: {
 		alignItems: "center",

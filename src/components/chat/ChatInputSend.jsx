@@ -58,7 +58,7 @@ const ChatInputSend = ({ chatroomId, isExited: initialIsExited, onFocus }) => {
 	return (
 		<View style={styles.rectangle}>
 			<TextInput
-				style={[styles.input]}
+				style={styles.input}
 				value={chatInput}
 				onChangeText={setChatInput}
 				multiline

@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontSub16, fontBody14, fontCaption } = CustomTheme;
 
@@ -8,6 +9,7 @@ const GroupProfilePreviewStyles = StyleSheet.create({
 		flex: 1,
 		position: "relative",
 		backgroundColor: CustomTheme.bgBasic,
+		paddingTop: Constants.statusBarHeight,
 	},
 	containerText: {
 		marginTop: 23,

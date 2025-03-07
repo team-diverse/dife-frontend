@@ -81,7 +81,7 @@ const SetPasswordPage = ({ route }) => {
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
-			<SafeAreaView style={[SetPasswordStyles.container]}>
+			<SafeAreaView style={SetPasswordStyles.container}>
 				<GoBack />
 				<Text style={SetPasswordStyles.textTitle}>
 					{t("setPasswordTitle")}

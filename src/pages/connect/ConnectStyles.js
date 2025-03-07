@@ -1,5 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform, StatusBar } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontHead20, fontHead18, fontSub16, fontCaption, fontNaviBold } =
 	CustomTheme;
@@ -8,6 +9,7 @@ const ConnectStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
+		paddingTop: Constants.statusBarHeight,
 	},
 	containerImageNumber: {
 		position: "absolute",
@@ -97,7 +99,8 @@ const ConnectStyles = StyleSheet.create({
 		top: -10,
 	},
 	connectTop: {
-		marginTop: -52,
+		marginTop:
+			Platform.OS === "android" ? StatusBar.currentHeight - 60 : -52,
 		zIndex: 1,
 	},
 	midContainer: {

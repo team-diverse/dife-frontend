@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontHead18, fontSub14, fontCaption } = CustomTheme;
 
@@ -8,6 +9,7 @@ const ChatRoomStyles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: "#D9EAFF",
 		justifyContent: "space-between",
+		paddingTop: Constants.statusBarHeight,
 	},
 	containerTopBar: {
 		flexDirection: "row",

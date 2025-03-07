@@ -1,6 +1,7 @@
 import React from "react";
 import { View, SafeAreaView, StyleSheet } from "react-native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import Constants from "expo-constants";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
@@ -64,6 +65,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
+		paddingTop: Constants.statusBarHeight,
 	},
 	containerConnectCard: {
 		paddingHorizontal: 24,

@@ -22,7 +22,7 @@ const LoadingVerificationPage = () => {
 	return (
 		<SafeAreaView style={LoadingVerificationStyles.container}>
 			<Image
-				style={[LoadingVerificationStyles.imageBackgroud]}
+				style={LoadingVerificationStyles.imageBackgroud}
 				source={require("@assets/images/BlurHomePage.png")}
 			/>
 			<View style={LoadingVerificationStyles.modalBackground}>

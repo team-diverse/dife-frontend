@@ -98,7 +98,7 @@ const FindPasswordPage = () => {
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
-			<SafeAreaView style={[FindPasswordStyles.container]}>
+			<SafeAreaView style={FindPasswordStyles.container}>
 				<GoBack />
 				<Text style={FindPasswordStyles.textTitle}>
 					{t("findPasswordTitle")}

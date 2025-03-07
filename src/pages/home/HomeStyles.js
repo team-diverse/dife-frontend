@@ -1,13 +1,14 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontHead18, fontSub16, fontCaption } = CustomTheme;
 
 const HomeStyles = StyleSheet.create({
 	container: {
 		flex: 1,
-		// flexDirection: "row",
 		backgroundColor: "#0029F4",
+		paddingTop: Constants.statusBarHeight,
 	},
 	linearGradient: {
 		flex: 1,

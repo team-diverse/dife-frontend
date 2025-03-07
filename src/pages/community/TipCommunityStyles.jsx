@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontHead20, fontSub16, fontCaption } = CustomTheme;
 
@@ -7,6 +8,7 @@ const TipCommunityStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
+		paddingTop: Constants.statusBarHeight,
 	},
 	backgroundBlue: {
 		position: "absolute",
@@ -25,7 +27,8 @@ const TipCommunityStyles = StyleSheet.create({
 		zIndex: 2,
 	},
 	connectTop: {
-		marginTop: -52,
+		marginTop:
+			Platform.OS === "android" ? StatusBar.currentHeight - 60 : -52,
 		zIndex: 1,
 	},
 	containerTextIcon: {
