@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import Constants from "expo-constants";
 
@@ -120,6 +120,11 @@ const PostStyles = StyleSheet.create({
 		width: "100%",
 		marginBottom: 6,
 		maxHeight: 130,
+		...Platform.select({
+			android: {
+				height: 60,
+			},
+		}),
 	},
 	iconChatSend: {
 		justifyContent: "center",

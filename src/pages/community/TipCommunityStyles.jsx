@@ -20,16 +20,12 @@ const TipCommunityStyles = StyleSheet.create({
 		position: "absolute",
 		right: 12,
 		bottom: 46,
-
 		...Platform.select({
 			ios: {
 				shadowColor: "#3C454E",
 				shadowOffset: { width: 0, height: 4 },
 				shadowOpacity: 0.4,
 				shadowRadius: 2,
-			},
-			android: {
-				elevation: 3,
 			},
 		}),
 		zIndex: 2,

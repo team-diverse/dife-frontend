@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
 			},
 			android: {
 				elevation: 3,
+				height: 48,
 			},
 		}),
 	},

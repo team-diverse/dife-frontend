@@ -1,6 +1,6 @@
 import * as React from "react";
 import Svg, { Path, Circle, G } from "react-native-svg";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 
 const IconPostPlus = (props) => {
 	return (
@@ -32,8 +32,23 @@ const IconPostPlus = (props) => {
 
 const styles = StyleSheet.create({
 	container: {
+		width: 48,
+		height: 48,
+		borderRadius: 24,
+		backgroundColor: "#D9EAFF",
 		justifyContent: "center",
 		alignItems: "center",
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E",
+				shadowOffset: { width: 0, height: -1 },
+				shadowOpacity: 0.1,
+				shadowRadius: 8,
+			},
+			android: {
+				elevation: 3,
+			},
+		}),
 	},
 	circle: {
 		position: "relative",

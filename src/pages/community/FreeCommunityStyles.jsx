@@ -27,9 +27,6 @@ const FreeCommunityStyles = StyleSheet.create({
 				shadowOpacity: 0.4,
 				shadowRadius: 2,
 			},
-			android: {
-				elevation: 3,
-			},
 		}),
 		zIndex: 2,
 	},
