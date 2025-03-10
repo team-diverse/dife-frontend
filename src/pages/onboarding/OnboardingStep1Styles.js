@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme.js";
 import Constants from "expo-constants";
 
@@ -49,9 +49,18 @@ const OnboardingStep1Styles = StyleSheet.create({
 	textInputNickname: {
 		...fontBody18,
 		width: "100%",
-		paddingVertical: 11,
 		borderBottomWidth: 2,
 		alignItems: "center",
+		...Platform.select({
+			ios: {
+				paddingVertical: 11,
+			},
+			android: {
+				height: 40,
+				paddingTop: 0,
+				paddingBottom: -20,
+			},
+		}),
 	},
 	iconDelete: {
 		position: "absolute",

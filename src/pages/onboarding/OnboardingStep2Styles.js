@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme.js";
 import Constants from "expo-constants";
 
@@ -87,9 +87,13 @@ const OnboardingStep2Styles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: "#B0D0FF",
 		borderRadius: 14,
-		paddingTop: 12,
 		padding: 12,
 		marginTop: 12,
+		...Platform.select({
+			android: {
+				textAlignVertical: "top",
+			},
+		}),
 	},
 	textIntroductionCount: {
 		...fontCaption,
