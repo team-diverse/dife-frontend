@@ -8,6 +8,7 @@ import * as SecureStore from "expo-secure-store";
 import { I18nextProvider } from "react-i18next";
 import { Modal, Platform } from "react-native";
 import * as Sentry from "@sentry/react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import i18n from "src/i18n.js";
 import { PostModifyProvider } from "src/states/PostModifyContext";
