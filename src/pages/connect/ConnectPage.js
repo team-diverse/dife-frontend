@@ -44,7 +44,6 @@ const ConnectPage = () => {
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
-
 	const [modalVisible, setModalVisible] = useState(false);
 
 	const pressButton = () => {
@@ -256,6 +255,7 @@ const ConnectPage = () => {
 									{...item}
 									tags={item.tags}
 									fileId={item.profileImg?.id}
+									isSmallScreen={isSmallScreen}
 								/>
 							)}
 							keyExtractor={(item) => item.id}

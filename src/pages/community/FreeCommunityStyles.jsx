@@ -78,6 +78,8 @@ const FreeCommunityStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 24,
 		paddingLeft: 20,
+		paddingTop: 0,
+		paddingBottom: 0,
 	},
 	iconArrowRightSearch: {
 		position: "absolute",

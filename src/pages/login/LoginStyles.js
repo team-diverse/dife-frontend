@@ -68,9 +68,9 @@ const LoginStyles = StyleSheet.create({
 		marginLeft: 3,
 	},
 	containerButtonSignupLogin: {
-		position: "absolute",
+		position: "relative",
 		width: "100%",
-		bottom: 45,
+		bottom: 0,
 		alignItems: "center",
 	},
 	textReport: {

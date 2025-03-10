@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform, StatusBar } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import Constants from "expo-constants";
 
@@ -78,6 +78,8 @@ const TipCommunityStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 24,
 		paddingLeft: 20,
+		paddingTop: 0,
+		paddingBottom: 0,
 	},
 	iconArrowRightSearch: {
 		position: "absolute",
