@@ -112,7 +112,7 @@ const FindPasswordPage = () => {
 				<View style={FindPasswordStyles.textInputId}>
 					<TextInput
 						placeholder={t("emailPlaceholder")}
-						onChangeText={handleEmailFormat}
+						onChangeText={(text) => handleEmailFormat(text)}
 						value={valueID}
 						editable={isNext ? false : true}
 					/>

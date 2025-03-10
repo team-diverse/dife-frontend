@@ -1,6 +1,5 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
-import Constants from "expo-constants";
 
 const { fontHead24, fontSub16, fontSub14, fontCaption } = CustomTheme;
 
@@ -8,7 +7,6 @@ const SignUpStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Constants.statusBarHeight,
 	},
 	textTitle: {
 		...fontHead24,
@@ -71,8 +69,12 @@ const SignUpStyles = StyleSheet.create({
 		marginLeft: 3,
 	},
 	buttonMove: {
-		position: "absolute",
-		bottom: 126,
+		...Platform.select({
+			ios: {
+				position: "absolute",
+				bottom: 126,
+			},
+		}),
 	},
 });
 

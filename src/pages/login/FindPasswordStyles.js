@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import Constants from "expo-constants";
 
@@ -28,8 +28,14 @@ const FindPasswordStyles = StyleSheet.create({
 		marginLeft: 24,
 	},
 	textInputId: {
-		height: 44,
-		padding: 12,
+		...Platform.select({
+			ios: {
+				padding: 12,
+			},
+			android: {
+				paddingHorizontal: 12,
+			},
+		}),
 		borderWidth: 1,
 		borderColor: CustomTheme.borderColor,
 		borderRadius: 6,
@@ -37,7 +43,6 @@ const FindPasswordStyles = StyleSheet.create({
 		marginHorizontal: 25,
 		justifyContent: "center",
 	},
-
 	containerNotMember: {
 		flexDirection: "row",
 		marginTop: 8,
@@ -49,8 +54,15 @@ const FindPasswordStyles = StyleSheet.create({
 		marginLeft: 3,
 	},
 	applyButton: {
-		position: "absolute",
-		bottom: 126,
+		...Platform.select({
+			ios: {
+				position: "absolute",
+				bottom: 126,
+			},
+			android: {
+				marginTop: 32,
+			},
+		}),
 	},
 });
 

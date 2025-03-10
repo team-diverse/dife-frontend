@@ -8,7 +8,7 @@ const LandingStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Constants.statusBarHeight,
+		paddingTop: Constants.statusBarHeight + 10,
 	},
 	center: {
 		width: "100%",
