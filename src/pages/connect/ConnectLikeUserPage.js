@@ -1,5 +1,6 @@
 import React from "react";
 import { View, StyleSheet, SafeAreaView } from "react-native";
+import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "white",
+		paddingTop: Constants.statusBarHeight,
 	},
 	tabContainer: {
 		flex: 1,

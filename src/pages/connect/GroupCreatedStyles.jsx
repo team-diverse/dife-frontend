@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontSub14, fontBody14, fontCaption } = CustomTheme;
 
@@ -7,6 +8,7 @@ const GroupCreatedStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.primaryBg,
+		paddingTop: Constants.statusBarHeight,
 	},
 	textTitle: {
 		...fontSub14,

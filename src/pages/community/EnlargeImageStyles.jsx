@@ -1,10 +1,12 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const EnlargeImageStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
+		paddingTop: Constants.statusBarHeight,
 	},
 	imageBig: {
 		resizeMode: "contain",

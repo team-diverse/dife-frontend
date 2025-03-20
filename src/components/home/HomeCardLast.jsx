@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	Platform,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
@@ -45,6 +51,17 @@ const styles = StyleSheet.create({
 		height: 360,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E4A",
+				shadowOffset: { width: 0, height: 3 },
+				shadowOpacity: 0.71,
+				shadowRadius: 3,
+			},
+			android: {
+				elevation: 3,
+			},
+		}),
 	},
 	homecardDifeF: {
 		position: "absolute",

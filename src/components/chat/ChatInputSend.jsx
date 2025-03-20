@@ -5,6 +5,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	Keyboard,
+	Platform,
 } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
@@ -58,7 +59,7 @@ const ChatInputSend = ({ chatroomId, isExited: initialIsExited, onFocus }) => {
 	return (
 		<View style={styles.rectangle}>
 			<TextInput
-				style={[styles.input]}
+				style={styles.input}
 				value={chatInput}
 				onChangeText={setChatInput}
 				multiline
@@ -87,10 +88,18 @@ const styles = StyleSheet.create({
 		alignItems: "flex-start",
 		justifyContent: "space-between",
 		backgroundColor: CustomTheme.bgBasic,
-		shadowColor: "#3C454E",
-		shadowOffset: { width: 0, height: -4 },
-		shadowOpacity: 0.05,
-		shadowRadius: 3,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E",
+				shadowOffset: { width: 0, height: -4 },
+				shadowOpacity: 0.05,
+				shadowRadius: 3,
+			},
+			android: {
+				elevation: 3,
+				height: 48,
+			},
+		}),
 	},
 	iconImage: {
 		alignItems: "center",

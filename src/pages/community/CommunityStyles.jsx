@@ -1,5 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform, StatusBar } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontHead20, fontSub16, fontBody14, fontCaption } = CustomTheme;
 
@@ -7,6 +8,7 @@ const ChattingStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
+		paddingTop: Constants.statusBarHeight,
 	},
 	backgroundBlue: {
 		position: "absolute",
@@ -15,16 +17,24 @@ const ChattingStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.primaryMedium,
 	},
 	connectTop: {
-		marginTop: -52,
+		marginTop:
+			Platform.OS === "android" ? StatusBar.currentHeight - 60 : -52,
 	},
 	iconChatPlus: {
 		position: "absolute",
 		right: 12,
 		bottom: 12,
-		shadowColor: "#3C454E",
-		shadowOffset: { width: 0, height: 4 },
-		shadowOpacity: 0.4,
-		shadowRadius: 2,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E",
+				shadowOffset: { width: 0, height: 4 },
+				shadowOpacity: 0.4,
+				shadowRadius: 2,
+			},
+			android: {
+				elevation: 3,
+			},
+		}),
 		zIndex: 2,
 	},
 	containerTextIcon: {

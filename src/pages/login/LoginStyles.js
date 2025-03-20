@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontHead18, fontSub14, fontBody14, fontCaption } = CustomTheme;
 
@@ -8,6 +9,7 @@ const LoginStyles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
 		overflow: "hidden",
+		paddingTop: Constants.statusBarHeight,
 	},
 	backgroundLogin: {
 		position: "absolute",

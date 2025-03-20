@@ -6,6 +6,7 @@ import {
 	TextInput,
 	TouchableWithoutFeedback,
 	Keyboard,
+	Platform,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 
@@ -103,7 +104,12 @@ const SignUpStep1Page = ({ goToNext, saveData, stepData }) => {
 					)}
 				</View>
 
-				<View style={[SignUpStyles.buttonMove, { top: 265 }]}>
+				<View
+					style={[
+						SignUpStyles.buttonMove,
+						Platform.OS === "ios" && { top: 265 },
+					]}
+				>
 					<ApplyButton
 						text={t("passwordResetButton")}
 						disabled={!isFormValid}

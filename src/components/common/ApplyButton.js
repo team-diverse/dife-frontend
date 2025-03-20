@@ -1,7 +1,12 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	StyleSheet,
+	Platform,
+} from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
-// import LoadingDots from "./loading/LoadingDots";
 
 const { fontSub16 } = CustomTheme;
 
@@ -58,10 +63,17 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 24,
 		paddingVertical: 14,
 		backgroundColor: CustomTheme.bgBasic,
-		shadowColor: "#3C454E",
-		shadowOffset: { width: 0, height: -1 },
-		shadowOpacity: 0.1,
-		shadowRadius: 8,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E",
+				shadowOffset: { width: 0, height: -1 },
+				shadowOpacity: 0.1,
+				shadowRadius: 8,
+			},
+			android: {
+				elevation: 3,
+			},
+		}),
 	},
 	apply: {
 		flexDirection: "row",

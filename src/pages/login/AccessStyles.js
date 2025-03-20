@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontHead24, fontHead18, fontCaption, fontBody14 } = CustomTheme;
 
@@ -7,6 +8,7 @@ const AccessStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
+		paddingTop: Constants.statusBarHeight,
 	},
 	textTitle: {
 		...fontHead24,

@@ -19,7 +19,7 @@ const FindPasswordVerifyingPage = () => {
 	};
 
 	return (
-		<SafeAreaView style={[FindPasswordVerifyingStyles.container]}>
+		<SafeAreaView style={FindPasswordVerifyingStyles.container}>
 			<GoBack />
 			<View style={FindPasswordVerifyingStyles.containerContent}>
 				<IconEmail style={FindPasswordVerifyingStyles.iconEmail} />

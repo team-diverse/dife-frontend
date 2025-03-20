@@ -3,6 +3,7 @@ import { View, StyleSheet, SafeAreaView } from "react-native";
 import TopBar from "@components/common/TopBar";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTranslation } from "react-i18next";
+import Constants from "expo-constants";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "white",
+		paddingTop: Constants.statusBarHeight,
 	},
 	tabContainer: {
 		flex: 1,
