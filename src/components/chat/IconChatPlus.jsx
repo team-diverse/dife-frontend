@@ -1,6 +1,6 @@
 import * as React from "react";
 import Svg, { Path, Circle } from "react-native-svg";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Platform } from "react-native";
 
 const IconChatPlus = (props) => {
 	return (
@@ -39,8 +39,23 @@ const IconChatPlus = (props) => {
 
 const styles = StyleSheet.create({
 	container: {
+		width: 48,
+		height: 48,
+		borderRadius: 24,
+		backgroundColor: "#D9EAFF",
 		justifyContent: "center",
 		alignItems: "center",
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E",
+				shadowOffset: { width: 0, height: 4 },
+				shadowOpacity: 0.4,
+				shadowRadius: 2,
+			},
+			android: {
+				elevation: 3,
+			},
+		}),
 	},
 	circle: {
 		position: "relative",

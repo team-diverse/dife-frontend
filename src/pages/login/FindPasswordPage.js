@@ -98,7 +98,7 @@ const FindPasswordPage = () => {
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
-			<SafeAreaView style={[FindPasswordStyles.container]}>
+			<SafeAreaView style={FindPasswordStyles.container}>
 				<GoBack />
 				<Text style={FindPasswordStyles.textTitle}>
 					{t("findPasswordTitle")}
@@ -112,7 +112,7 @@ const FindPasswordPage = () => {
 				<View style={FindPasswordStyles.textInputId}>
 					<TextInput
 						placeholder={t("emailPlaceholder")}
-						onChangeText={handleEmailFormat}
+						onChangeText={(text) => handleEmailFormat(text)}
 						value={valueID}
 						editable={isNext ? false : true}
 					/>

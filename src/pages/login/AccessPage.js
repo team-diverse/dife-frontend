@@ -46,7 +46,7 @@ const AccessPage = () => {
 	};
 
 	return (
-		<SafeAreaView style={[AccessStyles.container]}>
+		<SafeAreaView style={AccessStyles.container}>
 			<GoBack />
 			<Text style={AccessStyles.textTitle}>{t("accessPageTitle")}</Text>
 			<View style={AccessStyles.containerContent}>

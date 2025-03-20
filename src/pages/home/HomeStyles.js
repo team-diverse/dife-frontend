@@ -1,19 +1,21 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontHead18, fontSub16, fontCaption } = CustomTheme;
 
 const HomeStyles = StyleSheet.create({
 	container: {
 		flex: 1,
-		// flexDirection: "row",
 		backgroundColor: "#0029F4",
+		paddingTop: Constants.statusBarHeight + 10,
 	},
 	linearGradient: {
 		flex: 1,
 	},
 	homebg: {
 		position: "absolute",
+		marginTop: Platform.OS === "android" ? 10 : 0,
 	},
 	topContainer: {
 		flexDirection: "row",
@@ -44,19 +46,11 @@ const HomeStyles = StyleSheet.create({
 	},
 	homecard: {
 		marginTop: 8,
-		shadowColor: "#3C454E4A",
-		shadowOffset: { width: 0, height: 3 },
-		shadowOpacity: 0.71,
-		shadowRadius: 3,
 	},
 	containerShoolInfoEvents: {
 		flexDirection: "row",
 		justifyContent: "center",
 		marginTop: 32,
-		shadowColor: "#3C454E4A",
-		shadowOffset: { width: 0, height: 3 },
-		shadowOpacity: 0.71,
-		shadowRadius: 3,
 	},
 	containerShoolInfoEventsMargin: {
 		marginHorizontal: 10,
@@ -81,14 +75,13 @@ const HomeStyles = StyleSheet.create({
 		position: "absolute",
 		top: 60,
 		bottom: 10,
-		right: 30,
+		right: Platform.OS === "android" ? 17 : 30,
 		transform: [{ scale: 0.9 }],
-		opacity: 0.5,
 		shadowColor: "#3C454E4A",
 		shadowOffset: { width: 0, height: 3 },
 		shadowOpacity: 0.71,
 		shadowRadius: 3,
-		zIndex: 0,
+		zIndex: 1,
 	},
 	containerWhite: {
 		position: "absolute",

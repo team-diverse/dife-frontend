@@ -576,8 +576,12 @@ const PostPage = ({ route }) => {
 						{
 							minHeight:
 								images.length !== 0
-									? windowHeight - 400
-									: windowHeight - 300,
+									? windowHeight > 805
+										? windowHeight - 400
+										: windowHeight - 340
+									: windowHeight > 805
+										? windowHeight - 300
+										: windowHeight - 240,
 						},
 					]}
 				>

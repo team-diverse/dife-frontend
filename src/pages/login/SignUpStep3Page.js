@@ -96,7 +96,7 @@ const SignUpStep3Page = ({ stepData }) => {
 					</Text>
 					<View style={SignUpStyles.textInputPwContainer}>
 						<TextInput
-							style={[SignUpStyles.textInputIdPw]}
+							style={SignUpStyles.textInputIdPw}
 							placeholder={t("passwordPlaceholder")}
 							onChangeText={handlePasswordError}
 							value={valuePW}

@@ -21,7 +21,7 @@ const StudentVerificationErrorPage = () => {
 	return (
 		<SafeAreaView style={StudentVerificationErrorStyles.container}>
 			<Image
-				style={[StudentVerificationErrorStyles.imageBackgroud]}
+				style={StudentVerificationErrorStyles.imageBackgroud}
 				source={require("@assets/images/BlurHomePage.png")}
 			/>
 			<View style={StudentVerificationErrorStyles.modalBackground}>

@@ -1,11 +1,13 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontBody18, fontBody14, fontNaviBold } = CustomTheme;
 
 const WriteStyles = StyleSheet.create({
 	container: {
 		backgroundColor: CustomTheme.bgBasic,
+		paddingTop: Constants.statusBarHeight,
 	},
 	containerWhite: {
 		minHeight: 330,
@@ -27,18 +29,37 @@ const WriteStyles = StyleSheet.create({
 		width: "100%",
 		height: 1,
 		backgroundColor: CustomTheme.bgList,
-		marginVertical: 12,
+		...Platform.select({
+			ios: {
+				marginVertical: 12,
+			},
+			android: {
+				marginBottom: 12,
+			},
+		}),
 	},
 	textInputTitle: {
 		...fontBody18,
 		width: "100%",
-		height: 30,
+		...Platform.select({
+			ios: {
+				height: 30,
+			},
+			android: {
+				height: 60,
+			},
+		}),
 		marginTop: 12,
 	},
 	textInputContext: {
 		...fontBody14,
 		width: "100%",
 		minHeight: 177,
+		...Platform.select({
+			android: {
+				textAlignVertical: "top",
+			},
+		}),
 	},
 	containerImage: {
 		marginHorizontal: -10,

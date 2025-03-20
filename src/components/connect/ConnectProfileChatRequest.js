@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	StyleSheet,
+	Platform,
+} from "react-native";
 import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
@@ -29,10 +35,17 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.bgBasic,
-		shadowColor: "#3C454E",
-		shadowOffset: { width: 0, height: -1 },
-		shadowOpacity: 0.1,
-		shadowRadius: 8,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E",
+				shadowOffset: { width: 0, height: -1 },
+				shadowOpacity: 0.1,
+				shadowRadius: 8,
+			},
+			android: {
+				elevation: 3,
+			},
+		}),
 	},
 	chat: {
 		height: 44,
