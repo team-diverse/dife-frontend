@@ -13,7 +13,11 @@ import { useTranslation } from "react-i18next";
 import SecurityStyles from "@pages/member/SecurityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useAuth } from "src/states/AuthContext";
-import { getMyProfile, updateMyProfile } from "config/api";
+import {
+	getMyProfile,
+	updateMyProfile,
+	logoutNotificationToken,
+} from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import ArrowRight from "@components/common/ArrowRight";
@@ -59,6 +63,9 @@ const SecurityPage = () => {
 
 	const handleLogout = async () => {
 		try {
+			const deviceId = await SecureStore.getItemAsync("deviceId");
+			const cleanedDeviceId = deviceId.replace(/^"|"$/g, "");
+			await logoutNotificationToken(cleanedDeviceId);
 			await SecureStore.deleteItemAsync("memberId");
 			await SecureStore.deleteItemAsync("accessToken");
 			await SecureStore.deleteItemAsync("refreshToken");
