@@ -574,6 +574,10 @@ export const getNotifications = (deviceId) => {
 	return api.get(`/notifications/${deviceId}`);
 };
 
+export const logoutNotificationToken = (deviceId) => {
+	return api.put(`/notifications/${deviceId}`);
+};
+
 export const reportPost = (type, postId) => {
 	return api.post("/reports", {
 		type,

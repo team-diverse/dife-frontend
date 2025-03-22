@@ -277,7 +277,8 @@ function AppContent() {
 
 	useEffect(() => {
 		const handleNotificationResponse = (response) => {
-			const { type, typeId } = response.notification.request.content.data;
+			const { type, typeId, chatroomInfo } =
+				response.notification.request.content.data;
 
 			console.log(
 				"Notification Response:",
@@ -290,8 +291,8 @@ function AppContent() {
 				navigation.navigate("ConnectProfilePage", { memberId: typeId });
 			} else if (type === "REQUEST") {
 				navigation.navigate("ConnectListPage", { screen: "그룹" });
-			} else if (type === "CHATROOM") {
-				navigation.navigate("ChatRoomPage", { chatroomInfo: typeId });
+			} else if (type === "CHATROOM" && chatroomInfo) {
+				navigation.navigate("ChatRoomPage", chatroomInfo);
 			} else {
 				null;
 			}
