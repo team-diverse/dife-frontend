@@ -293,7 +293,7 @@ function AppContent() {
 			} else if (type === "REQUEST") {
 				navigation.navigate("ConnectListPage", { screen: "그룹" });
 			} else if (type === "CHATROOM" && chatroomInfo) {
-				navigation.navigate("ChatRoomPage", chatroomInfo);
+				navigation.navigate("ChatRoomPage", { chatroomInfo });
 			} else {
 				null;
 			}
