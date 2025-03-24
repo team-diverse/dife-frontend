@@ -659,3 +659,7 @@ export const translationByBookmarkedId = (bookmarkId) => {
 export const changeChatroomStatus = (chatroomId) => {
 	return api.put(`/chatrooms/${chatroomId}/status`);
 };
+
+export const changeChatroomHold = (chatroomId) => {
+	return api.put(`/chatrooms/${chatroomId}/hold`);
+};
