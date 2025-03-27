@@ -23,9 +23,6 @@ const EventStyles = StyleSheet.create({
 				shadowOpacity: 0.71,
 				shadowRadius: 6,
 			},
-			android: {
-				elevation: 3,
-			},
 		}),
 	},
 });
