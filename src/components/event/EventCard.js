@@ -5,6 +5,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	Linking,
+	Platform,
 } from "react-native";
 import { Image } from "expo-image";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -42,6 +43,11 @@ const styles = StyleSheet.create({
 		borderRadius: 20,
 		marginVertical: 8,
 		overflow: "hidden",
+		...Platform.select({
+			android: {
+				elevation: 3,
+			},
+		}),
 	},
 	image: {
 		width: "100%",

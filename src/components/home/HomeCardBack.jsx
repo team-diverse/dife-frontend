@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	Platform,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
@@ -167,6 +173,17 @@ const styles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
 		alignItems: "center",
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E4A",
+				shadowOffset: { width: 0, height: 3 },
+				shadowOpacity: 0.71,
+				shadowRadius: 6,
+			},
+			android: {
+				elevation: 3,
+			},
+		}),
 	},
 	homecardDifeB: {
 		position: "absolute",
