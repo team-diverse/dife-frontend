@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, {
+	useState,
+	useRef,
+	useEffect,
+	useMemo,
+	useCallback,
+} from "react";
 import {
 	SafeAreaView,
 	View,
@@ -12,6 +18,7 @@ import {
 	NativeModules,
 	Keyboard,
 	KeyboardAvoidingView,
+	AppState,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -19,6 +26,7 @@ import { useTranslation } from "react-i18next";
 
 import ChatRoomStyles from "@pages/chat/ChatRoomStyles";
 import { useWebSocket } from "context/WebSocketContext";
+import { useFocusEffect } from "@react-navigation/native";
 import formatTime from "util/formatTime";
 import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 import { sortByIds } from "util/util";
@@ -26,6 +34,7 @@ import {
 	getBookmarkedByChatroomId,
 	getChatsByChatroomId,
 	getProfileById,
+	changeChatroomHold,
 } from "config/api";
 
 import ArrowRight from "@components/common/ArrowRight";
@@ -48,6 +57,7 @@ const ChatRoomPage = ({ route }) => {
 	const { messages } = useWebSocket();
 	const [initialMessages, setInitialMessages] = useState([]);
 	const { chatroomInfo, isExited } = route.params;
+	const appState = useRef(AppState.currentState);
 	const [memberId, setMemberId] = useState(null);
 	const members = sortByIds(chatroomInfo.members);
 	const otherMember = members.find((member) => member.id !== memberId);
@@ -104,6 +114,35 @@ const ChatRoomPage = ({ route }) => {
 			}, 100);
 		}
 	};
+
+	useFocusEffect(
+		useCallback(() => {
+			return async () => {
+				await changeChatroomHold(chatroomInfo.id);
+			};
+		}, [chatroomInfo.id]),
+	);
+
+	useEffect(() => {
+		const handleAppStateChange = async (nextAppState) => {
+			if (
+				appState.current === "active" &&
+				(nextAppState === "background" || nextAppState === "inactive")
+			) {
+				await changeChatroomHold(chatroomInfo.id);
+			}
+			appState.current = nextAppState;
+		};
+
+		const subscription = AppState.addEventListener(
+			"change",
+			handleAppStateChange,
+		);
+
+		return () => {
+			subscription.remove();
+		};
+	}, [chatroomInfo.id]);
 
 	useEffect(() => {
 		const fetchChatroomMessages = async () => {
@@ -187,11 +226,14 @@ const ChatRoomPage = ({ route }) => {
 		};
 		const locale = localeMap[userLanguage] || "en-US";
 
+		const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 		const formatter = new Intl.DateTimeFormat(locale, {
 			year: "numeric",
 			month: "2-digit",
 			day: "2-digit",
 			weekday: "long",
+			userTimeZone,
 		});
 
 		return formatter.format(messageDate);
