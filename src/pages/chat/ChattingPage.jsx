@@ -125,7 +125,7 @@ const ChattingPage = () => {
 	useFocusEffect(
 		useCallback(() => {
 			fetchSingleChatroomList();
-		}, [messages]),
+		}, []),
 	);
 
 	const onCompleteExit = () => {
