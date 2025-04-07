@@ -355,7 +355,15 @@ const ChatRoomPage = ({ route }) => {
 					<View style={ChatRoomStyles.containerBackName}>
 						<TouchableOpacity
 							style={ChatRoomStyles.iconArrow}
-							onPress={() => {
+							onPress={async () => {
+								try {
+									await changeChatroomHold(chatroomInfo.id);
+								} catch (err) {
+									console.error(
+										"Failed to change chatroom hold:",
+										err,
+									);
+								}
 								navigation.goBack();
 							}}
 						>
