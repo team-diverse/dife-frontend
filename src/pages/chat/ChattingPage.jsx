@@ -120,7 +120,7 @@ const ChattingPage = () => {
 		} catch (error) {
 			console.error("Failed to fetch single chatrooms:", error);
 		}
-	}, []);
+	}, [messages]);
 
 	useFocusEffect(
 		useCallback(() => {
