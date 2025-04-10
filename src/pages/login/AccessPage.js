@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, Text, SafeAreaView } from "react-native";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
@@ -39,7 +39,6 @@ const AccessPage = () => {
 			});
 		}
 	};
-
 
 	return (
 		<SafeAreaView style={[AccessStyles.container]}>
