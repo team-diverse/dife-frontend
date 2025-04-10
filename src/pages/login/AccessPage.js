@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, SafeAreaView } from "react-native";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
@@ -28,16 +28,27 @@ const AccessPage = () => {
 				console.warn("알림 권한이 거부되었습니다.");
 			}
 		}
+		await new Promise((resolve) => setTimeout(resolve, 300));
 
-		const firstLaunch = await SecureStore.getItem("hasLaunched");
+		const firstLaunch = await SecureStore.getItemAsync("hasLaunched");
 
 		if (firstLaunch === null) {
-			navigation.navigate("LandingPage");
 			await SecureStore.setItemAsync("hasLaunched", "true");
+			navigation.reset({
+				index: 0,
+				routes: [{ name: "LandingPage" }],
+			});
 		} else {
-			navigation.replace("Login");
+			navigation.reset({
+				index: 0,
+				routes: [{ name: "Login" }],
+			});
 		}
 	};
+
+	useEffect(() => {
+		requestPermissions();
+	}, []);
 
 	return (
 		<SafeAreaView style={[AccessStyles.container]}>
