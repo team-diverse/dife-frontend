@@ -224,7 +224,6 @@ function App() {
 function AppContent() {
 	const navigation = useNavigation();
 	const { isLoggedIn, setIsLoggedIn } = useAuth();
-	const [initialRoute, setInitialRoute] = useState("Access");
 
 	useEffect(() => {
 		const checkAutoLogin = async () => {
@@ -264,13 +263,7 @@ function AppContent() {
 	useEffect(() => {
 		const checkAccess = async () => {
 			const { status } = await Notifications.getPermissionsAsync();
-			if (status === "granted") {
-				console.log("알림 권한 부여");
-				setInitialRoute("Login");
-			} else {
-				console.log("알림 권한 거부");
-				setInitialRoute("Login");
-			}
+			console.log("알림 권한 상태:", status);
 		};
 
 		checkAccess();
@@ -340,7 +333,7 @@ function AppContent() {
 			</PostModifyProvider>
 		</WebSocketProvider>
 	) : (
-		<AuthNavigator initialRoute={initialRoute} />
+		<AuthNavigator />
 	);
 }
 
