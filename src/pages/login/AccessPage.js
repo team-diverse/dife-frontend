@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView } from "react-native";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
@@ -17,33 +17,44 @@ import GoBack from "@components/common/GoBack";
 const AccessPage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		const checkPermissions = async () => {
+			const { status: existingStatus } =
+				await Notifications.getPermissionsAsync();
+
+			if (existingStatus === "granted") {
+				await SecureStore.setItemAsync(
+					"notificationPermissionStatus",
+					existingStatus,
+				);
+				navigation.reset({
+					index: 0,
+					routes: [{ name: "Login" }],
+				});
+			} else {
+				setIsLoading(false);
+			}
+		};
+
+		checkPermissions();
+	}, []);
 
 	const requestPermissions = async () => {
-		const { status: existingStatus } =
-			await Notifications.getPermissionsAsync();
+		const { status } = await Notifications.requestPermissionsAsync();
+		await SecureStore.setItemAsync("notificationPermissionStatus", status);
 
-		if (existingStatus !== "granted") {
-			const { status } = await Notifications.requestPermissionsAsync();
-			await SecureStore.setItemAsync(
-				"notificationPermissionStatus",
-				status,
-			);
-
-			navigation.reset({
-				index: 0,
-				routes: [{ name: "LandingPage" }],
-			});
-		} else {
-			await SecureStore.setItemAsync(
-				"notificationPermissionStatus",
-				existingStatus,
-			);
-			navigation.replace("Login");
-		}
+		navigation.reset({
+			index: 0,
+			routes: [{ name: "LandingPage" }],
+		});
 	};
 
+	if (isLoading) return null;
+
 	return (
-		<SafeAreaView style={AccessStyles.container}>
+		<SafeAreaView style={[AccessStyles.container]}>
 			<GoBack />
 			<Text style={AccessStyles.textTitle}>{t("accessPageTitle")}</Text>
 			<View style={AccessStyles.containerContent}>
