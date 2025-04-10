@@ -40,9 +40,6 @@ const AccessPage = () => {
 		}
 	};
 
-	useEffect(() => {
-		requestPermissions();
-	}, []);
 
 	return (
 		<SafeAreaView style={[AccessStyles.container]}>
