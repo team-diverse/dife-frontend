@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView } from "react-native";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
@@ -17,38 +17,41 @@ import GoBack from "@components/common/GoBack";
 const AccessPage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
-
-	const requestPermissions = async () => {
-		const { status: existingStatus } =
-			await Notifications.getPermissionsAsync();
-
-		if (existingStatus !== "granted") {
-			const { granted } = await Notifications.requestPermissionsAsync();
-			if (!granted) {
-				console.warn("알림 권한이 거부되었습니다.");
-			}
-		}
-		await new Promise((resolve) => setTimeout(resolve, 300));
-
-		const firstLaunch = await SecureStore.getItemAsync("hasLaunched");
-
-		if (firstLaunch === null) {
-			await SecureStore.setItemAsync("hasLaunched", "true");
-			navigation.reset({
-				index: 0,
-				routes: [{ name: "LandingPage" }],
-			});
-		} else {
-			navigation.reset({
-				index: 0,
-				routes: [{ name: "Login" }],
-			});
-		}
-	};
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		requestPermissions();
+		const checkPermissions = async () => {
+			const { status: existingStatus } =
+				await Notifications.getPermissionsAsync();
+
+			if (existingStatus === "granted") {
+				await SecureStore.setItemAsync(
+					"notificationPermissionStatus",
+					existingStatus,
+				);
+				navigation.reset({
+					index: 0,
+					routes: [{ name: "Login" }],
+				});
+			} else {
+				setIsLoading(false);
+			}
+		};
+
+		checkPermissions();
 	}, []);
+
+	const requestPermissions = async () => {
+		const { status } = await Notifications.requestPermissionsAsync();
+		await SecureStore.setItemAsync("notificationPermissionStatus", status);
+
+		navigation.reset({
+			index: 0,
+			routes: [{ name: "LandingPage" }],
+		});
+	};
+
+	if (isLoading) return null;
 
 	return (
 		<SafeAreaView style={[AccessStyles.container]}>
