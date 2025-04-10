@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { View, Text, SafeAreaView } from "react-native";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
@@ -28,33 +28,19 @@ const AccessPage = () => {
 				"notificationPermissionStatus",
 				status,
 			);
-		} else {
-			await SecureStore.setItemAsync(
-				"notificationPermissionStatus",
-				existingStatus,
-			);
-		}
-		await new Promise((resolve) => setTimeout(resolve, 300));
 
-		const firstLaunch = await SecureStore.getItemAsync("hasLaunched");
-
-		if (firstLaunch === null) {
-			await SecureStore.setItemAsync("hasLaunched", "true");
 			navigation.reset({
 				index: 0,
 				routes: [{ name: "LandingPage" }],
 			});
 		} else {
-			navigation.reset({
-				index: 0,
-				routes: [{ name: "Login" }],
-			});
+			await SecureStore.setItemAsync(
+				"notificationPermissionStatus",
+				existingStatus,
+			);
+			navigation.replace("Login");
 		}
 	};
-
-	useEffect(() => {
-		requestPermissions();
-	}, []);
 
 	return (
 		<SafeAreaView style={AccessStyles.container}>
