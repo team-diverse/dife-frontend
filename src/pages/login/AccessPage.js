@@ -23,17 +23,11 @@ const AccessPage = () => {
 			await Notifications.getPermissionsAsync();
 
 		if (existingStatus !== "granted") {
-			const { granted } = await Notifications.requestPermissionsAsync();
-			if (!granted) {
-				console.warn("알림 권한이 거부되었습니다.");
-			}
-		}
-		await new Promise((resolve) => setTimeout(resolve, 300));
-
-		const firstLaunch = await SecureStore.getItemAsync("hasLaunched");
-
-		if (firstLaunch === null) {
-			await SecureStore.setItemAsync("hasLaunched", "true");
+			const { status } = await Notifications.requestPermissionsAsync();
+			await SecureStore.setItemAsync(
+				"notificationPermissionStatus",
+				status,
+			);
 			navigation.reset({
 				index: 0,
 				routes: [{ name: "LandingPage" }],
