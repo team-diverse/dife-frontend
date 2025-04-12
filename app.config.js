@@ -2,7 +2,7 @@ const getAppName = () => {
 	if (process.env.EXPO_PUBLIC_APP_VARIANT === "staging") {
 		return "Dife(Staging)";
 	} else if (process.env.EXPO_PUBLIC_APP_VARIANT === "dev") {
-		return "Dife(Dev)";
+		return "Dife(KR)";
 	} else {
 		return "Dife";
 	}
@@ -12,7 +12,7 @@ const getIOSBundleIdentifier = () => {
 	if (process.env.EXPO_PUBLIC_APP_VARIANT === "staging") {
 		return "com.teamdiverse.dife.staging";
 	} else if (process.env.EXPO_PUBLIC_APP_VARIANT === "dev") {
-		return "com.teamdiverse.dife.dev";
+		return "com.teamdiverse.dife.staging.kr";
 	} else {
 		return "com.teamdiverse.dife";
 	}
