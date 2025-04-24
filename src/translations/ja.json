@@ -141,6 +141,7 @@
 	"cancelRequestButtonText": "リクエストをキャンセル",
 	"acceptRequestButtonText": "リクエストを承認",
 	"cancelConnectButtonText": "接続をキャンセル",
+	"connectCaution": "問題のあるユーザーには、プロフィールの‘ブロックと報告’機能を使用して対応してください。",
 	"noButtonText": "いいえ",
 	"serviceUnderConstruction": "まだ準備中のサービスです",
 
@@ -151,6 +152,7 @@
 	"tipBoard": "ヒント掲示板",
 	"freeBoard": "自由掲示板",
 	"entire": "すべて",
+	"boardCaution": "不適切または攻撃的なコンテンツには制裁が科される可能性があります。",
 
 	"searchError": "検索中にエラーが発生しました",
 	"searchCancelButton": "検索をキャンセル",
@@ -199,6 +201,7 @@
 	"impersonation": "他人を装う",
 	"other": "その他",
 	"reportComplete": "通報完了",
+	"reportCompleteInformation": "審査には最大24時間かかる場合があります。",
 	"submitReport": "通報する",
 
 	"likeListTitle": "いいねリスト",
