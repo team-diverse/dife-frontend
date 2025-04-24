@@ -141,6 +141,7 @@
 	"cancelRequestButtonText": "Cancelar Solicitud",
 	"acceptRequestButtonText": "Aceptar Solicitud",
 	"cancelConnectButtonText": "Cancelar Conexión",
+	"connectCaution": "Usa la función ‘Bloquear e Informar’ en su perfil para manejar usuarios problemáticos.",
 	"noButtonText": "No",
 	"serviceUnderConstruction": "Este servicio aún está en desarrollo",
 
@@ -151,6 +152,7 @@
 	"tipBoard": "Tablero de Consejos",
 	"freeBoard": "Tablero Libre",
 	"entire": "Todo",
+	"boardCaution": "El contenido inapropiado u ofensivo puede estar sujeto a sanciones.",
 
 	"searchError": "Se produjo un error durante la búsqueda",
 	"searchCancelButton": "Cancelar Búsqueda",
@@ -199,6 +201,7 @@
 	"impersonation": "Suplantación",
 	"other": "Otro",
 	"reportComplete": "Reporte Completo",
+	"reportCompleteInformation": "Por favor, espere hasta 24 horas para la revisión.",
 	"submitReport": "Enviar Reporte",
 
 	"likeListTitle": "Lista de Me Gusta",
