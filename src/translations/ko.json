@@ -139,6 +139,7 @@
 	"cancelRequestButtonText": "요청 취소",
 	"acceptRequestButtonText": "요청 수락",
 	"cancelConnectButtonText": "커넥트 취소",
+	"connectCaution": "문제가 되는 사용자는 프로필에서 ‘차단 및 신고’로 처리하세요.",
 	"noButtonText": "아니오",
 	"serviceUnderConstruction": "아직 준비중인 서비스입니다",
 
@@ -149,6 +150,7 @@
 	"tipBoard": "꿀팁게시판",
 	"freeBoard": "자유게시판",
 	"entire": "전체",
+	"boardCaution": "부적절하거나 공격적인 콘텐츠는 제재를 받을 수 있습니다.",
 
 	"searchError": "검색 중 오류가 발생했습니다",
 	"searchCancelButton": "검색 취소",
@@ -198,6 +200,7 @@
 	"impersonation": "다른 사람을 사칭함",
 	"other": "기타",
 	"reportComplete": "신고 완료",
+	"reportCompleteInformation": "검토까지 최대 24시간이 소요될 수 있습니다.",
 	"submitReport": "신고하기",
 
 	"likeListTitle": "좋아요 목록",

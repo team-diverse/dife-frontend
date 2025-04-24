@@ -141,6 +141,7 @@
 	"cancelRequestButtonText": "Cancel Request",
 	"acceptRequestButtonText": "Accept Request",
 	"cancelConnectButtonText": "Cancel Connect",
+	"connectCaution": "Use ‘Block and Report’ on their profile to handle problematic users.",
 	"noButtonText": "No",
 	"serviceUnderConstruction": "This service is still under development",
 
@@ -151,6 +152,7 @@
 	"tipBoard": "Tips Board",
 	"freeBoard": "Free Board",
 	"entire": "All",
+	"boardCaution": "Inappropriate or offensive content may be subject to sanctions.",
 
 	"searchError": "An error occurred during the search",
 	"searchCancelButton": "Cancel Search",
@@ -199,6 +201,7 @@
 	"impersonation": "Impersonation",
 	"other": "Other",
 	"reportComplete": "Report Completed",
+	"reportCompleteInformation": "Please allow up to 24 hours for review.",
 	"submitReport": "Submit Report",
 
 	"likeListTitle": "Like List",
