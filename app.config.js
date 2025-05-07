@@ -47,7 +47,7 @@ export default {
 			infoPlist: {
 				CFBundleDisplayName: getAppName(),
 				UIBackgroundModes: ["fetch", "remote-notification"],
-
+				CFBundleLocalizations: ["en", "ko", "zh", "ja", "es"],
 				NSPhotoLibraryUsageDescription:
 					"Access to your photo library is required to verify your student status, upload a profile photo for using the service, and attach images to community posts.",
 			},
