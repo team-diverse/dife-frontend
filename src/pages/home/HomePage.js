@@ -20,7 +20,7 @@ import {
 	deleteLikeMember,
 	getNotifications,
 } from "config/api";
-
+import { useStatusBar } from "util/useStatusBar";
 import HomeBg from "@assets/images/svg_js/HomeBg.js";
 import LogoBr from "@components/Logo/LogoBr.js";
 import Notification32 from "@components/Icon32/Notification32.js";
@@ -41,6 +41,11 @@ const HomePage = () => {
 	const { homeProfiles, canFetch, fetchAndDistributeProfiles } =
 		useMatchQueue();
 	const [notificationNumber, setNotificationNumber] = useState(0);
+
+	useStatusBar({
+		color: "#0029F4",
+		barStyle: "light-content",
+	});
 
 	const getNotificationNumber = async () => {
 		try {
