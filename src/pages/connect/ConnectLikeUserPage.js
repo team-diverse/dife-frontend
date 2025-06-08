@@ -1,9 +1,10 @@
 import React from "react";
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import { View, StyleSheet, SafeAreaView, Platform } from "react-native";
 import Constants from "expo-constants";
 import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -13,6 +14,11 @@ import LikeUserGroup from "@pages/connect/LikeUserGroup";
 const ConnectLikeUserPage = () => {
 	const { t } = useTranslation();
 	const Tab = createMaterialTopTabNavigator();
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -50,7 +56,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "white",
-		paddingTop: Constants.statusBarHeight,
+		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	tabContainer: {
 		flex: 1,
