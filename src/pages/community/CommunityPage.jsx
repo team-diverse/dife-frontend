@@ -16,6 +16,8 @@ import * as Sentry from "@sentry/react-native";
 import CommunityStyles from "@pages/community/CommunityStyles";
 import { getPostsByType, getCommunitySearch } from "config/api";
 
+import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
 import ConnectSearchCancel from "@components/connect/ConnectSearchCancel";
@@ -35,6 +37,11 @@ const CommunityPage = () => {
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
+
+	useStatusBar({
+		color: CustomTheme.primaryMedium,
+		barStyle: "light-content",
+	});
 
 	const handleSearch = async () => {
 		try {

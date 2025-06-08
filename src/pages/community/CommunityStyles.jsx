@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, StatusBar } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import Constants from "expo-constants";
 
@@ -8,7 +8,7 @@ const ChattingStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Constants.statusBarHeight,
+		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	backgroundBlue: {
 		position: "absolute",
@@ -17,8 +17,7 @@ const ChattingStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.primaryMedium,
 	},
 	connectTop: {
-		marginTop:
-			Platform.OS === "android" ? StatusBar.currentHeight - 60 : -52,
+		marginTop: Platform.OS === "android" ? -45 : -52,
 	},
 	iconChatPlus: {
 		position: "absolute",
@@ -41,7 +40,7 @@ const ChattingStyles = StyleSheet.create({
 		flexDirection: "row",
 		position: "absolute",
 		alignItems: "center",
-		marginTop: 59,
+		marginTop: Platform.OS === "android" ? 12 : 59,
 	},
 	textChattingTitle: {
 		flex: 1,
@@ -57,7 +56,7 @@ const ChattingStyles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		position: "absolute",
-		marginTop: 105,
+		marginTop: Platform.OS === "android" ? 58 : 105,
 	},
 	containerSearchIcon: {
 		flexDirection: "row",
