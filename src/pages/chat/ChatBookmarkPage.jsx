@@ -5,7 +5,9 @@ import * as Sentry from "@sentry/react-native";
 import * as SecureStore from "expo-secure-store";
 
 import BookmarkStyles from "@pages/chat/BookmarkStyles";
+import { CustomTheme } from "@styles/CustomTheme";
 import { getBookmarkedByChatroomId } from "config/api";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import Bookmark from "@components/chat/Bookmark";
@@ -15,6 +17,11 @@ const ChatBookmarkPage = ({ route }) => {
 	const { chatroomId, userName } = route.params;
 
 	const [bookmarkedList, setBookmarkPostList] = useState();
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	useEffect(() => {
 		const handleBookmarkPost = async () => {
