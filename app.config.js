@@ -63,9 +63,7 @@ export default {
 				projectId: "7ec133fc-2004-4a77-9b59-25d22dede97b",
 			},
 		},
-		runtimeVersion: {
-			policy: "appVersion",
-		},
+		runtimeVersion: "1.0.0",
 		updates: {
 			url: "https://u.expo.dev/7ec133fc-2004-4a77-9b59-25d22dede97b",
 		},
