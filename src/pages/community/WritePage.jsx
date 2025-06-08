@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 
 import WriteStyles from "@pages/community/WriteStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import IconImage from "@components/community/IconImage";
@@ -35,6 +36,11 @@ const WritePage = ({ route }) => {
 	const [valueContext, onChangeContext] = useState("");
 	const [isBoardType, setIsBoardType] = useState("");
 	const [images, setImages] = useState("");
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	const handlePress = () => {
 		setIsChecked(!isChecked);

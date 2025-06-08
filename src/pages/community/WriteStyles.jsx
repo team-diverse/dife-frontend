@@ -7,7 +7,7 @@ const { fontBody18, fontBody14, fontNaviBold } = CustomTheme;
 const WriteStyles = StyleSheet.create({
 	container: {
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Constants.statusBarHeight,
+		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	containerWhite: {
 		minHeight: 330,
