@@ -6,6 +6,7 @@ import * as Sentry from "@sentry/react-native";
 import BookmarkedPostStyles from "@pages/member/BookmarkedPostStyles";
 import { getBookmarkedByBoardType } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import ItemCommunity from "@components/community/ItemCommunity";
@@ -17,6 +18,11 @@ const BookmarkedPostPage = ({ route }) => {
 	const [selectedCategory, setSelectedCategory] = useState(
 		route?.params?.category || t("entire"),
 	);
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	useEffect(() => {
 		const handleBookmarkPost = async () => {

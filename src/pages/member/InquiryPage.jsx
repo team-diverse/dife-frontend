@@ -10,12 +10,18 @@ import { useTranslation } from "react-i18next";
 
 import InquiryStyles from "@pages/member/InquiryStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import IconEmail from "@components/login/IconEmail";
 
 const InquiryPage = () => {
 	const { t } = useTranslation();
+
+	useStatusBar({
+		color: CustomTheme.primaryBg,
+		barStyle: "dark-content",
+	});
 
 	const handleEmailPress = async () => {
 		const emailUrl = "mailto:EXAMPLE_APPLE_ID";
