@@ -232,11 +232,14 @@ const ChatRoomPage = ({ route }) => {
 		};
 		const locale = localeMap[userLanguage] || "en-US";
 
+		const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 		const formatter = new Intl.DateTimeFormat(locale, {
 			year: "numeric",
 			month: "2-digit",
 			day: "2-digit",
 			weekday: "long",
+			userTimeZone,
 		});
 
 		return formatter.format(messageDate);
@@ -358,7 +361,15 @@ const ChatRoomPage = ({ route }) => {
 					<View style={ChatRoomStyles.containerBackName}>
 						<TouchableOpacity
 							style={ChatRoomStyles.iconArrow}
-							onPress={() => {
+							onPress={async () => {
+								try {
+									await changeChatroomHold(chatroomInfo.id);
+								} catch (err) {
+									console.error(
+										"Failed to change chatroom hold:",
+										err,
+									);
+								}
 								navigation.goBack();
 							}}
 						>

@@ -18,6 +18,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 import { getPostsByType, getFreeCommunitySearch } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
 import { useStatusBar } from "util/useStatusBar";
+import BoardCaution from "@components/community/BoardCaution";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import IconPostPlus from "@components/community/IconPostPlus";
@@ -192,6 +193,10 @@ const FreeCommunityPage = () => {
 							/>
 						)}
 					</View>
+				</View>
+
+				<View>
+					<BoardCaution text={t("boardCaution")} />
 				</View>
 
 				<ScrollView>

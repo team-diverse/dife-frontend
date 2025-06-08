@@ -47,6 +47,18 @@ export default {
 			infoPlist: {
 				CFBundleDisplayName: getAppName(),
 				UIBackgroundModes: ["fetch", "remote-notification"],
+				CFBundleLocalizations: ["en", "ko", "zh", "ja", "es"],
+				NSPhotoLibraryUsageDescription:
+					"Access to your photo library is required to verify your student status, upload a profile photo for using the service, and attach images to community posts.",
+			},
+			localization: {
+				locales: {
+					ko: "./locales/ko/InfoPlist.strings",
+					en: "./locales/en/InfoPlist.strings",
+					es: "./locales/es/InfoPlist.strings",
+					zh: "./locales/zh/InfoPlist.strings",
+					ja: "./locales/ja/InfoPlist.strings",
+				},
 			},
 		},
 		android: {

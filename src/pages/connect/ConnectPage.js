@@ -20,6 +20,7 @@ import { getConnectSearch } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
 import { useStatusBar } from "util/useStatusBar";
 
+import ConnectCaution from "@components/connect/ConnectCaution";
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
 import ConnectSearchCancel from "@components/connect/ConnectSearchCancel";
@@ -223,6 +224,7 @@ const ConnectPage = () => {
 								</Text>
 							</View>
 						)}
+
 						<TouchableOpacity
 							style={ConnectStyles.resetContainer}
 							onPress={handleReset}
@@ -231,6 +233,7 @@ const ConnectPage = () => {
 							<ConnectReset />
 						</TouchableOpacity>
 					</View>
+					<ConnectCaution text={t("connectCaution")} />
 				</View>
 			</TouchableWithoutFeedback>
 
