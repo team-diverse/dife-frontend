@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import Constants from "expo-constants";
 
@@ -8,7 +8,8 @@ const MemberStyles = StyleSheet.create({
 	container: {
 		position: "relative",
 		alignItems: "center",
-		paddingTop: Constants.statusBarHeight + 10,
+		paddingTop:
+			Platform.OS === "android" ? 0 : Constants.statusBarHeight + 10,
 	},
 	difeLine: {
 		position: "absolute",

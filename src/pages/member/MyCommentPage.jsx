@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import MyPostStyles from "@pages/member/MyPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { getMyComments } from "config/api";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import ItemCommunity from "@components/community/ItemCommunity";
@@ -14,6 +15,11 @@ import * as Sentry from "@sentry/react-native";
 const MyCommentPage = () => {
 	const { t } = useTranslation();
 	const [myCommentList, setMyCommentList] = useState();
+
+	useStatusBar({
+		color: CustomTheme.primaryBg,
+		barStyle: "dark-content",
+	});
 
 	const getMyCommentList = async () => {
 		try {

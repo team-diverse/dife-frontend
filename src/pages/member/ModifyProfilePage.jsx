@@ -21,6 +21,7 @@ import {
 	updateMyProfile,
 	getProfileImageByFileId,
 } from "config/api";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import IconLock from "@components/member/IconLock";
@@ -35,6 +36,11 @@ const ModifyProfilePage = () => {
 	const [profile, setProfile] = useState();
 	const [, setProfileImage] = useState(null);
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
+
+	useStatusBar({
+		color: CustomTheme.primaryBg,
+		barStyle: "dark-content",
+	});
 
 	const getMyProfileInfo = async () => {
 		try {

@@ -7,6 +7,7 @@ import ModifyProfileInputStyles from "@pages/member/ModifyProfileInputStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { checkUsername, updateMyProfile } from "config/api";
 import { debounce } from "util/debounce";
+import { useStatusBar } from "util/useStatusBar";
 
 import ModifyProfileTopBar from "@components/common/ModifyProfileTopBar";
 import FilterCategory from "@components/connect/FilterCategory";
@@ -27,9 +28,10 @@ const ModifyProfileInputPage = ({ route }) => {
 		languageContent = [],
 	} = route.params;
 
-	// useEffect(() => {
-	// 	console.log(bioContent);
-	// }, []);
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	useEffect(() => {
 		const separateTag = (arr) => {
