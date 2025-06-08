@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import Constants from "expo-constants";
 
@@ -9,7 +9,7 @@ const LoginStyles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
 		overflow: "hidden",
-		paddingTop: Constants.statusBarHeight,
+		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	backgroundLogin: {
 		position: "absolute",
