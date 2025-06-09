@@ -44,23 +44,28 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.bgBasic,
+		paddingVertical: 14,
+		paddingBottom: Platform.OS == "android" ? 0 : 9,
 	},
 	rectangleShadow: {
 		flexDirection: "row",
 		width: "100%",
-		height: 110,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.bgBasic,
+		paddingVertical: 14,
 		...Platform.select({
 			ios: {
 				shadowColor: "#3C454E",
 				shadowOffset: { width: 0, height: -1 },
 				shadowOpacity: 0.1,
 				shadowRadius: 8,
+				paddingBottom: 9,
 			},
 			android: {
-				elevation: 3,
+				borderTopWidth: 1,
+				borderBottomWidth: 1,
+				borderColor: "rgba(205, 207, 213, 0.3)",
 			},
 		}),
 	},
@@ -75,8 +80,6 @@ const styles = StyleSheet.create({
 		borderRadius: 27,
 		marginLeft: 24,
 		marginRight: 8,
-		marginVertical: 9,
-		marginBottom: 14,
 	},
 	button2: {
 		width: 156,
@@ -89,8 +92,6 @@ const styles = StyleSheet.create({
 		borderRadius: 27,
 		marginRight: 24,
 		marginLeft: 8,
-		marginVertical: 9,
-		marginBottom: 14,
 	},
 	text1: {
 		...fontSub16,
