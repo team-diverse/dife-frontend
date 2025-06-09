@@ -157,6 +157,7 @@ const HomePage = () => {
 		navigation.navigate("NotificationPage");
 	};
 
+	const { width: screenWidth } = Dimensions.get("window");
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
 
@@ -272,7 +273,17 @@ const HomePage = () => {
 							</View>
 						) : currentProfileIndex < homeProfiles.length - 1 ? (
 							<>
-								<View style={HomeStyles.backgroundHomecard}>
+								<View
+									style={[
+										HomeStyles.backgroundHomecard,
+										{
+											right:
+												Platform.OS === "android"
+													? screenWidth * 0.1
+													: 30,
+										},
+									]}
+								>
 									<HomeCard />
 								</View>
 								<View
@@ -282,7 +293,7 @@ const HomePage = () => {
 											transform: [{ scale: 0.8 }],
 											right:
 												Platform.OS === "android"
-													? -18
+													? screenWidth * 0.01
 													: -5,
 											zIndex: 0,
 										},
