@@ -27,21 +27,18 @@ const FindPasswordStyles = StyleSheet.create({
 		marginTop: 120,
 		marginLeft: 24,
 	},
+	containerTextInputId: {
+		marginHorizontal: 24,
+	},
 	textInputId: {
-		...Platform.select({
-			ios: {
-				padding: 12,
-			},
-			android: {
-				paddingHorizontal: 12,
-			},
-		}),
+		width: "100%",
+		height: 44,
+		padding: 12,
 		borderWidth: 1,
 		borderColor: CustomTheme.borderColor,
 		borderRadius: 6,
 		marginTop: 8,
-		marginHorizontal: 25,
-		justifyContent: "center",
+		alignItems: "center",
 	},
 	containerNotMember: {
 		flexDirection: "row",

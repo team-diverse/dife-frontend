@@ -52,8 +52,15 @@ const SetPasswordStyles = StyleSheet.create({
 		marginLeft: 3,
 	},
 	applyButton: {
-		position: "absolute",
-		bottom: 126,
+		...Platform.select({
+			ios: {
+				position: "absolute",
+				bottom: 126,
+			},
+			android: {
+				marginTop: 32,
+			},
+		}),
 	},
 });
 
