@@ -75,7 +75,6 @@ const HomeStyles = StyleSheet.create({
 		position: "absolute",
 		top: 60,
 		bottom: 10,
-		right: Platform.OS === "android" ? 17 : 30,
 		transform: [{ scale: 0.9 }],
 		shadowColor: "#3C454E4A",
 		shadowOffset: { width: 0, height: 3 },
