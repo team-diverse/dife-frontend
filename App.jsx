@@ -1,3 +1,4 @@
+import i18n from "src/i18n.js";
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -9,8 +10,6 @@ import { I18nextProvider } from "react-i18next";
 import { Modal, Platform } from "react-native";
 import * as Sentry from "@sentry/react-native";
 import { useNavigation } from "@react-navigation/native";
-
-import i18n from "src/i18n.js";
 import { PostModifyProvider } from "src/states/PostModifyContext";
 import { AuthProvider, useAuth } from "src/states/AuthContext";
 import { getMyProfile } from "config/api";
