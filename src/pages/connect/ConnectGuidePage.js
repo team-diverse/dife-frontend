@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 	FlatList,
 	Dimensions,
+	Platform,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -41,7 +42,7 @@ const TabBarUI = () => {
 				backgroundColor: "#fff",
 				borderTopWidth: 1,
 				borderTopColor: CustomTheme.bgList,
-				height: 84 - bottom,
+				height: Platform.OS === "android" ? 64 : 84 - bottom,
 			}}
 		>
 			<ChatDf24 />
@@ -204,7 +205,10 @@ const ConnectGuidePage = ({ closeModal }) => {
 			<View
 				style={{
 					position: "absolute",
-					top: likeUserPosition.y + top,
+					top:
+						Platform.OS == "android"
+							? likeUserPosition.y + 7
+							: likeUserPosition.y + top,
 					left: likeUserPosition.x - 151,
 					zIndex: 10,
 				}}
@@ -213,7 +217,7 @@ const ConnectGuidePage = ({ closeModal }) => {
 				<Text
 					style={[
 						ChatRoomStyles.iconGuideChatBubble,
-						{ top: 11, left: 10 },
+						{ top: 11, left: Platform.OS == "android" ? 5 : 10 },
 					]}
 				>
 					{t("savedProfileStorage")}
@@ -223,7 +227,11 @@ const ConnectGuidePage = ({ closeModal }) => {
 			<View
 				style={{
 					position: "absolute",
-					top: likePosition?.height && likePosition.height - 5,
+					top:
+						likePosition?.height &&
+						(Platform.OS == "android"
+							? likePosition.height - 60
+							: likePosition.height - 5),
 					left: likePosition?.width && likePosition.width - 155,
 					zIndex: 10,
 				}}
@@ -232,7 +240,7 @@ const ConnectGuidePage = ({ closeModal }) => {
 				<Text
 					style={[
 						ChatRoomStyles.iconGuideChatBubble,
-						{ top: 11, left: 9 },
+						{ top: 11, left: Platform.OS == "android" ? 4 : 9 },
 					]}
 				>
 					{t("saveProfileInstruction")}
@@ -242,7 +250,11 @@ const ConnectGuidePage = ({ closeModal }) => {
 				active={true}
 				style={{
 					position: "absolute",
-					top: likePosition?.height && likePosition.height + 65,
+					top:
+						likePosition?.height &&
+						(Platform.OS == "android"
+							? likePosition.height + 12
+							: likePosition.height + 65),
 					left: likePosition?.width && likePosition.width - 38,
 					zIndex: 10,
 				}}
@@ -251,7 +263,11 @@ const ConnectGuidePage = ({ closeModal }) => {
 			<View
 				style={{
 					position: "absolute",
-					top: likePosition?.height && likePosition.height * 2 - 5,
+					top:
+						likePosition?.height &&
+						(Platform.OS == "android"
+							? likePosition.height + 140
+							: likePosition.height * 2 - 5),
 					left: likePosition?.width && likePosition.width - 155,
 					zIndex: 10,
 				}}
@@ -260,7 +276,7 @@ const ConnectGuidePage = ({ closeModal }) => {
 				<Text
 					style={[
 						ChatRoomStyles.iconGuideChatBubble,
-						{ top: 11, left: 9 },
+						{ top: 11, left: Platform.OS == "android" ? 4 : 9 },
 					]}
 				>
 					{t("viewDetailsInstruction")}
@@ -269,7 +285,9 @@ const ConnectGuidePage = ({ closeModal }) => {
 					active={true}
 					style={{
 						position: "absolute",
-						top: likePosition?.height && 73,
+						top:
+							likePosition?.height &&
+							(Platform.OS == "android" ? 72 : 73),
 						left: likePosition?.width && 150,
 						zIndex: 10,
 					}}
