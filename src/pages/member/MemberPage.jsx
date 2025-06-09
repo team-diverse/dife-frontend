@@ -2,8 +2,8 @@ import React, { useState, useCallback } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTranslation } from "react-i18next";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import * as Sentry from "@sentry/react-native";
 
 import MemberStyles from "@pages/member/MemberStyles";
