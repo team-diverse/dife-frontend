@@ -109,8 +109,9 @@ const FindPasswordPage = () => {
 				<Text style={FindPasswordStyles.textId}>
 					ID (Email Address)
 				</Text>
-				<View style={FindPasswordStyles.textInputId}>
+				<View style={FindPasswordStyles.containerTextInputId}>
 					<TextInput
+						style={FindPasswordStyles.textInputId}
 						placeholder={t("emailPlaceholder")}
 						onChangeText={(text) => handleEmailFormat(text)}
 						value={valueID}
@@ -135,8 +136,9 @@ const FindPasswordPage = () => {
 						>
 							{t("verificationCode")}
 						</Text>
-						<View style={FindPasswordStyles.textInputId}>
+						<View style={FindPasswordStyles.containerTextInputId}>
 							<TextInput
+								style={FindPasswordStyles.textInputId}
 								onChangeText={(text) =>
 									setVerificationCode(text)
 								}
