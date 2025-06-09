@@ -45,6 +45,7 @@ export default {
 			supportsTablet: true,
 			bundleIdentifier: getIOSBundleIdentifier(),
 			infoPlist: {
+				ITSAppUsesNonExemptEncryption: false,
 				CFBundleDisplayName: getAppName(),
 				UIBackgroundModes: ["fetch", "remote-notification"],
 				CFBundleLocalizations: ["en", "ko", "zh", "ja", "es"],
