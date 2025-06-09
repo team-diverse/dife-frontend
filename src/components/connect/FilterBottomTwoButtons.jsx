@@ -84,7 +84,9 @@ const styles = StyleSheet.create({
 				shadowRadius: 8,
 			},
 			android: {
-				elevation: 3,
+				borderTopWidth: 1,
+				borderBottomWidth: 1,
+				borderColor: "rgba(205, 207, 213, 0.3)",
 			},
 		}),
 	},
