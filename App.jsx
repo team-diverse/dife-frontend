@@ -7,7 +7,6 @@ import { useFonts } from "expo-font";
 import * as Notifications from "expo-notifications";
 import * as SecureStore from "expo-secure-store";
 import { I18nextProvider } from "react-i18next";
-
 import { PostModifyProvider } from "src/states/PostModifyContext";
 import { AuthProvider, useAuth } from "src/states/AuthContext";
 import { getMyProfile } from "config/api";
