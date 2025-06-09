@@ -24,9 +24,9 @@ const CompleteProfilePage = () => {
 			<Text style={CompleteProfileStyles.textSubTitle}>
 				{t("profileCompletionDescription")}
 			</Text>
-			<Text style={CompleteProfileStyles.textDescription}>
+			{/* <Text style={CompleteProfileStyles.textDescription}>
 				{t("averageVerificationTime")}
-			</Text>
+			</Text> */}
 			<View style={CompleteProfileStyles.iconLoading}>
 				<IconLoading />
 			</View>
