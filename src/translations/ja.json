@@ -118,7 +118,7 @@
 	"retryInstructions": "学生認証を再試行してください",
 	"retryButtonText": "学生認証を再試行",
 
-	"waitingVerificationTitle": "学生認証待ち",
+	"waitingVerificationTitle": "在学生認証処理中(最大2分)",
 	"waitingVerificationDescription": "認証が完了すると、\nすべての機能が利用可能になります",
 	"receiveNotification": "認証完了通知を受け取る",
 	"returnToLogin": "ログイン画面に戻る",

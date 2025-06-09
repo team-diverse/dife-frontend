@@ -21,7 +21,9 @@
 	"dependencies": {
 		"@ptomasroos/react-native-multi-slider": "^2.2.2",
 		"@react-native-async-storage/async-storage": "2.1.2",
+		"@react-native-async-storage/async-storage": "2.1.2",
 		"@react-native-community/masked-view": "^0.1.11",
+		"@react-native-community/slider": "4.5.6",
 		"@react-native-community/slider": "4.5.6",
 		"@react-navigation/bottom-tabs": "^6.5.20",
 		"@react-navigation/drawer": "^6.6.15",
@@ -100,7 +102,6 @@
 		"@expo/metro-config": "~0.20.0",
 		"@stylistic/eslint-plugin-ts": "^2.8.0",
 		"@types/eslint-config-prettier": "^6.11.3",
-		"@types/eslint__js": "^8.42.3",
 		"@types/react-native-dotenv": "^0.2.2",
 		"@typescript-eslint/eslint-plugin": "^7.16.1",
 		"@typescript-eslint/parser": "^7.16.1",
@@ -113,6 +114,5 @@
 		"prettier": "^3.4.2",
 		"typescript-eslint": "^7.16.1"
 	},
-	"type": "module",
 	"private": true
 }

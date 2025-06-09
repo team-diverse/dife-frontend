@@ -1,22 +1,168 @@
-import React, { useState } from "react";
-import { View, Text, SafeAreaView } from "react-native";
-import { Image } from "expo-image";
-import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import { SafeAreaView, View, Text, Image } from "react-native";
 import { useTranslation } from "react-i18next";
-
-import LoadingVerificationStyles from "@pages/onboarding/LoadingVerificationStyles";
-import IconLoading from "@components/onboarding/IconLoading";
+import { useNavigation } from "@react-navigation/native";
+import LoadingVerificationStyles from "./LoadingVerificationStyles";
 import Checkbox from "@components/common/Checkbox";
+import IconLoading from "@components/onboarding/IconLoading";
+import { checkIsVerified } from "config/api";
+
+const loadingMessages = [
+	"📋 학생증 인식 중...",
+	"🔍 서버 확인 중...",
+	"⚙️ 데이터 처리 중...",
+	"🖼️ 이미지 분석 중...",
+	"🎓 재학생 판별 중...",
+];
 
 const LoadingVerificationPage = () => {
 	const { t } = useTranslation();
-
 	const navigation = useNavigation();
 
 	const [isChecked, setIsChecked] = useState(false);
+	const [messageIndex, setMessageIndex] = useState(0);
+	const [verificationStatus, setVerificationStatus] = useState("loading");
+	const [isPolling, setIsPolling] = useState(true);
 
 	const handlePress = () => {
 		setIsChecked(!isChecked);
+	};
+
+	const checkVerificationStatus = async () => {
+		try {
+			const response = await checkIsVerified();
+			if (response.status === 200) {
+				setVerificationStatus("verified");
+				setIsPolling(false);
+				return true;
+			}
+		} catch (error) {
+			console.log("Verification check failed:", error);
+		}
+		return false;
+	};
+
+	useEffect(() => {
+		let messageInterval;
+		let pollingInterval;
+		let timeoutTimer;
+
+		if (verificationStatus === "loading") {
+			messageInterval = setInterval(() => {
+				setMessageIndex(
+					(prevIndex) => (prevIndex + 1) % loadingMessages.length,
+				);
+			}, 5000);
+		}
+
+		if (isPolling) {
+			pollingInterval = setInterval(async () => {
+				await checkVerificationStatus();
+			}, 3000);
+
+			checkVerificationStatus();
+		}
+
+		timeoutTimer = setTimeout(() => {
+			if (verificationStatus === "loading") {
+				setVerificationStatus("timeout");
+				setIsPolling(false);
+			}
+		}, 90000);
+
+		return () => {
+			if (messageInterval) clearInterval(messageInterval);
+			if (pollingInterval) clearInterval(pollingInterval);
+			if (timeoutTimer) clearTimeout(timeoutTimer);
+		};
+	}, [verificationStatus, isPolling]);
+
+	const renderContent = () => {
+		switch (verificationStatus) {
+			case "verified":
+				return (
+					<>
+						<Text style={LoadingVerificationStyles.textModal}>
+							🎉 국민대 학생인증되었습니다!
+						</Text>
+						<View style={LoadingVerificationStyles.iconLoading}>
+							<Text style={{ fontSize: 50 }}>✅</Text>
+						</View>
+						<View
+							style={LoadingVerificationStyles.checkboxRememberMe}
+						>
+							<Checkbox
+								checked={isChecked}
+								onPress={handlePress}
+								text={t("receiveNotification")}
+								basic="true"
+							/>
+						</View>
+						<Text
+							style={LoadingVerificationStyles.textMove}
+							onPress={() => navigation.navigate("Login")}
+						>
+							{t("returnToLogin")}
+						</Text>
+					</>
+				);
+
+			case "timeout":
+				return (
+					<>
+						<Text style={LoadingVerificationStyles.textModal}>
+							⚠️ 자동 학생 인증이 되지 않았습니다
+						</Text>
+						<Text style={LoadingVerificationStyles.textModal}>
+							관리자 확인 후에 인증을 추가로 진행해드릴게요
+						</Text>
+						<Text style={LoadingVerificationStyles.textModal}>
+							⏰ 최대 24시간 소요됩니다
+						</Text>
+						<View
+							style={LoadingVerificationStyles.checkboxRememberMe}
+						>
+							<Checkbox
+								checked={isChecked}
+								onPress={handlePress}
+								text={t("receiveNotification")}
+								basic="true"
+							/>
+						</View>
+						<Text
+							style={LoadingVerificationStyles.textMove}
+							onPress={() => navigation.navigate("Login")}
+						>
+							{t("returnToLogin")}
+						</Text>
+					</>
+				);
+
+			default:
+				return (
+					<>
+						<Text style={LoadingVerificationStyles.textModal}>
+							{t("waitingVerificationTitle")}
+						</Text>
+						<View style={LoadingVerificationStyles.iconLoading}>
+							<IconLoading />
+						</View>
+						<Text style={LoadingVerificationStyles.textModal}>
+							{loadingMessages[messageIndex]}
+						</Text>
+						<View
+							style={LoadingVerificationStyles.checkboxRememberMe}
+						>
+							<Checkbox
+								checked={isChecked}
+								onPress={handlePress}
+								text={t("receiveNotification")}
+								basic="true"
+							/>
+						</View>
+					</>
+				);
+		}
 	};
 
 	return (
@@ -30,33 +176,7 @@ const LoadingVerificationPage = () => {
 					<View
 						style={LoadingVerificationStyles.containerModalContent}
 					>
-						<Text style={LoadingVerificationStyles.textModal}>
-							{t("waitingVerificationTitle")}
-						</Text>
-						<View style={LoadingVerificationStyles.iconLoading}>
-							<IconLoading />
-						</View>
-						<Text style={LoadingVerificationStyles.textModal}>
-							{t("waitingVerificationDescription")}
-						</Text>
-						<View
-							style={LoadingVerificationStyles.checkboxRememberMe}
-						>
-							<Checkbox
-								checked={isChecked}
-								onPress={() => {
-									handlePress();
-								}}
-								text={t("receiveNotification")}
-								basic="true"
-							/>
-						</View>
-						<Text
-							style={LoadingVerificationStyles.textMove}
-							onPress={() => navigation.navigate("Login")}
-						>
-							{t("returnToLogin")}
-						</Text>
+						{renderContent()}
 					</View>
 				</View>
 			</View>

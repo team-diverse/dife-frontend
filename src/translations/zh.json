@@ -118,7 +118,7 @@
 	"retryInstructions": "请重新尝试学生认证",
 	"retryButtonText": "重新尝试学生认证",
 
-	"waitingVerificationTitle": "等待学生认证",
+	"waitingVerificationTitle": "在校生认证处理中( 最多 2 分钟)",
 	"waitingVerificationDescription": "认证完成后，\n所有功能将可用",
 	"receiveNotification": "接收认证完成通知",
 	"returnToLogin": "返回登录界面",

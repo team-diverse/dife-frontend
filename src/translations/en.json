@@ -118,7 +118,7 @@
 	"retryInstructions": "Please try student verification\nagain",
 	"retryButtonText": "Retry Student Verification",
 
-	"waitingVerificationTitle": "Waiting for Student Verification",
+	"waitingVerificationTitle": "Processing of enrollment certification (up to 2 minutes)",
 	"waitingVerificationDescription": "Once verified,\nall features will be available",
 	"receiveNotification": "Receive verification completion notification",
 	"returnToLogin": "Return to login screen",
