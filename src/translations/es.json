@@ -118,7 +118,7 @@
 	"retryInstructions": "Por favor, intenta nuevamente la verificación de estudiante",
 	"retryButtonText": "Reintentar Verificación de Estudiante",
 
-	"waitingVerificationTitle": "Esperando Verificación de Estudiante",
+	"waitingVerificationTitle": "Certificado de estudiante en proceso (máximo de 2 minutos)",
 	"waitingVerificationDescription": "Una vez verificado,\nse habilitarán todas las funciones",
 	"receiveNotification": "Recibir notificación de finalización de verificación",
 	"returnToLogin": "Regresar a la pantalla de inicio de sesión",

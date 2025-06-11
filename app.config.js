@@ -30,7 +30,7 @@ export default {
 	expo: {
 		name: "Dife",
 		slug: "dife",
-		version: "1.0.0",
+		version: "1.0.3",
 		owner: "team-diverse",
 		orientation: "portrait",
 		icon: "src/assets/icon.png",
@@ -45,6 +45,7 @@ export default {
 			supportsTablet: true,
 			bundleIdentifier: getIOSBundleIdentifier(),
 			infoPlist: {
+				ITSAppUsesNonExemptEncryption: false,
 				CFBundleDisplayName: getAppName(),
 				UIBackgroundModes: ["fetch", "remote-notification"],
 				CFBundleLocalizations: ["en", "ko", "zh", "ja", "es"],
