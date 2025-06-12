@@ -16,6 +16,7 @@ import * as ImagePicker from "expo-image-picker";
 
 import WriteStyles from "@pages/community/WriteStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import IconImage from "@components/community/IconImage";
@@ -35,6 +36,11 @@ const PostModifyPage = () => {
 	const [valueContext, onChangeContext] = useState(postModifyData.context);
 	const [valueImage, onChangeImage] = useState(postModifyData.images || []);
 	const [boardType, setBoardType] = useState("");
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	const handlePress = () => {
 		setIsChecked(!isChecked);

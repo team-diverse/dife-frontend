@@ -7,6 +7,7 @@ import MyPostStyles from "@pages/member/MyPostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { getMyPosts } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import ItemCommunity from "@components/community/ItemCommunity";
@@ -15,6 +16,11 @@ import * as Sentry from "@sentry/react-native";
 const MyWrotePage = () => {
 	const { t } = useTranslation();
 	const [myPostList, setMyPostList] = useState();
+
+	useStatusBar({
+		color: CustomTheme.primaryBg,
+		barStyle: "dark-content",
+	});
 
 	const getMyPostList = async () => {
 		try {

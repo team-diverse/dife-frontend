@@ -17,6 +17,7 @@ import FreeCommunityStyles from "@pages/community/FreeCommunityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { getPostsByType, getFreeCommunitySearch } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
+import { useStatusBar } from "util/useStatusBar";
 import BoardCaution from "@components/community/BoardCaution";
 
 import ConnectTop from "@components/connect/ConnectTop";
@@ -42,6 +43,11 @@ const FreeCommunityPage = () => {
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
+
+	useStatusBar({
+		color: CustomTheme.primaryMedium,
+		barStyle: "light-content",
+	});
 
 	const handleSearch = async () => {
 		try {

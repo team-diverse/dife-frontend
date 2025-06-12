@@ -6,6 +6,8 @@ import ConnectLikeUserStyles from "@pages/connect/ConnectLikeUserStyles.js";
 import ConnectStyles from "@pages/connect/ConnectStyles";
 import { getLikeMember } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import ConnectCard from "@components/connect/ConnectCard.js";
 import TopBar from "@components/common/TopBar";
@@ -14,6 +16,11 @@ const LikeUserOneToOne = () => {
 	const { t } = useTranslation();
 
 	const [connectData, setConnectData] = useState(null);
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	const getLikedMember = async () => {
 		try {

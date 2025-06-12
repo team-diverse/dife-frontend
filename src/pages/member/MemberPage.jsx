@@ -10,6 +10,7 @@ import MemberStyles from "@pages/member/MemberStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { getMyProfile, getProfileImageByFileId } from "config/api";
 
+import { useStatusBar } from "util/useStatusBar";
 import DifeLogo from "@components/member/DifeLogo";
 import DifeLine from "@components/member/DifeLine";
 import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";
@@ -32,6 +33,11 @@ const MemberPage = () => {
 	const [name, setName] = useState("");
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
+
+	useStatusBar({
+		color: "#0029F4",
+		barStyle: "light-content",
+	});
 
 	const handleProfile = async () => {
 		try {

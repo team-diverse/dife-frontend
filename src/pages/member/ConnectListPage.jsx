@@ -1,11 +1,12 @@
 import React from "react";
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import { View, StyleSheet, SafeAreaView, Platform } from "react-native";
 import TopBar from "@components/common/TopBar";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTranslation } from "react-i18next";
 import Constants from "expo-constants";
 
 import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import FriendListPage from "@pages/chat/FriendListPage";
 import RequestConnectListPage from "@pages/member/RequestConnectListPage";
@@ -14,6 +15,11 @@ const ConnectListPage = () => {
 	const { t } = useTranslation();
 
 	const Tab = createMaterialTopTabNavigator();
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "white",
-		paddingTop: Constants.statusBarHeight,
+		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	tabContainer: {
 		flex: 1,

@@ -18,6 +18,7 @@ import ConnectStyles from "@pages/connect/ConnectStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { getConnectSearch } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
+import { useStatusBar } from "util/useStatusBar";
 
 import ConnectCaution from "@components/connect/ConnectCaution";
 import ConnectTop from "@components/connect/ConnectTop";
@@ -46,6 +47,11 @@ const ConnectPage = () => {
 	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
 	const [modalVisible, setModalVisible] = useState(false);
+
+	useStatusBar({
+		color: CustomTheme.primaryMedium,
+		barStyle: "light-content",
+	});
 
 	const pressButton = () => {
 		setModalVisible(true);

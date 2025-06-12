@@ -4,11 +4,17 @@ import { useTranslation } from "react-i18next";
 
 import TremsStyles from "@pages/member/TremsStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 
 const TremsPage = () => {
 	const { t } = useTranslation();
+
+	useStatusBar({
+		color: CustomTheme.primaryBg,
+		barStyle: "dark-content",
+	});
 
 	return (
 		<SafeAreaView style={TremsStyles.container}>

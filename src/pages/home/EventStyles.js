@@ -6,7 +6,7 @@ const EventStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Constants.statusBarHeight,
+		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	flatlist: {
 		flex: 1,
@@ -22,9 +22,6 @@ const EventStyles = StyleSheet.create({
 				shadowOffset: { width: 0, height: 3 },
 				shadowOpacity: 0.71,
 				shadowRadius: 6,
-			},
-			android: {
-				elevation: 3,
 			},
 		}),
 	},

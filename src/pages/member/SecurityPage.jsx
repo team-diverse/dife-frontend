@@ -18,6 +18,7 @@ import {
 	updateMyProfile,
 	logoutNotificationToken,
 } from "config/api";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import ArrowRight from "@components/common/ArrowRight";
@@ -30,6 +31,11 @@ const SecurityPage = () => {
 
 	const { setIsLoggedIn } = useAuth();
 	const [switchOn, setSwitchOn] = useState(false);
+
+	useStatusBar({
+		color: CustomTheme.primaryBg,
+		barStyle: "dark-content",
+	});
 
 	const getIsPublic = async () => {
 		try {

@@ -36,6 +36,7 @@ import {
 	getProfileById,
 	changeChatroomHold,
 } from "config/api";
+import { useStatusBar } from "util/useStatusBar";
 
 import ArrowRight from "@components/common/ArrowRight";
 import ChatInputSend from "@components/chat/ChatInputSend";
@@ -69,6 +70,11 @@ const ChatRoomPage = ({ route }) => {
 	const scrollOffsetRef = useRef(0);
 	const [token, setToken] = useState(null);
 	const [userLanguage, setUserLanguage] = useState(null);
+
+	useStatusBar({
+		color: "#D9EAFF",
+		barStyle: "dark-content",
+	});
 
 	useEffect(() => {
 		const fetchToken = async () => {

@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import * as SecureStore from "expo-secure-store";
 
 import AccessStyles from "@pages/login/AccessStyles";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import ApplyButton from "@components/common/ApplyButton";
 import IconAccessCamera from "@components/login/IconAccessCamera";
@@ -40,6 +42,11 @@ const AccessPage = () => {
 
 		checkPermissions();
 	}, []);
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	const requestPermissions = async () => {
 		const { status } = await Notifications.requestPermissionsAsync();

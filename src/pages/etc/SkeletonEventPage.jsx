@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, SafeAreaView, StyleSheet } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, Platform } from "react-native";
 import Constants from "expo-constants";
 
 import { CustomTheme } from "@styles/CustomTheme";
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
 		alignItems: "center",
-		paddingTop: Constants.statusBarHeight,
+		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	rectangle: {
 		position: "relative",

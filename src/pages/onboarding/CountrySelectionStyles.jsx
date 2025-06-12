@@ -1,11 +1,11 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import Constants from "expo-constants";
 
 const CountrySelectionStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "#fff",
-		paddingTop: Constants.statusBarHeight,
+		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	imageBackground: {
 		resizeMode: "contain",

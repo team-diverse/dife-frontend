@@ -5,6 +5,7 @@ import {
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
+	Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
@@ -55,7 +56,12 @@ const SignUpPage = () => {
 			<SafeAreaView
 				style={[
 					SignUpStyles.container,
-					{ paddingTop: Constants.statusBarHeight },
+					{
+						paddingTop:
+							Platform.OS === "android"
+								? 0
+								: Constants.statusBarHeight,
+					},
 				]}
 			>
 				<TouchableOpacity onPress={goToPrevious}>

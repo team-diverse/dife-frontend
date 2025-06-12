@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import Constants from "expo-constants";
 
@@ -8,7 +8,8 @@ const LandingStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Constants.statusBarHeight + 10,
+		paddingTop:
+			Platform.OS === "android" ? 0 : Constants.statusBarHeight + 10,
 	},
 	center: {
 		width: "100%",
