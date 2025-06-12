@@ -10,6 +10,7 @@ import {
 	PanResponder,
 	TouchableOpacity,
 	ScrollView,
+	Platform,
 } from "react-native";
 import { useTranslation } from "react-i18next";
 
@@ -415,7 +416,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "white",
 		borderTopLeftRadius: 24,
 		borderTopRightRadius: 24,
-		paddingBottom: 75,
+		paddingBottom: Platform.OS === "android" ? 1 : 75,
 	},
 	line: {
 		width: 47,
