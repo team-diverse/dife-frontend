@@ -17,6 +17,7 @@ import TipCommunityStyles from "@pages/community/TipCommunityStyles";
 import { CustomTheme } from "@styles/CustomTheme";
 import { getPostsByType, getTipCommunitySearch } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
+import { useStatusBar } from "util/useStatusBar";
 
 import BoardCaution from "@components/community/BoardCaution";
 import ConnectTop from "@components/connect/ConnectTop";
@@ -42,6 +43,11 @@ const TipCommunityPage = () => {
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
+
+	useStatusBar({
+		color: CustomTheme.primaryMedium,
+		barStyle: "light-content",
+	});
 
 	const handleSearch = async () => {
 		try {

@@ -3,12 +3,19 @@ import { View, FlatList, SafeAreaView } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import EventStyles from "@pages/home/EventStyles";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import EventCard from "@components/event/EventCard";
 
 const EventPage = () => {
 	const { t } = useTranslation();
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	const eventData = [
 		{

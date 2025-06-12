@@ -4,7 +4,9 @@ import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
 
 import BookmarkStyles from "@pages/chat/BookmarkStyles";
+import { CustomTheme } from "@styles/CustomTheme";
 import { getBookmarkedByChatroomId } from "config/api";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import Bookmark from "@components/chat/Bookmark";
@@ -13,6 +15,11 @@ const BookmarkPage = () => {
 	const { t } = useTranslation();
 
 	const [bookmarkedList, setBookmarkPostList] = useState();
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	useEffect(() => {
 		const handleBookmarkPost = async () => {

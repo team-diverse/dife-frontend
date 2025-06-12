@@ -6,7 +6,7 @@ import sytlisticTs from "@stylistic/eslint-plugin-ts";
 import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
-	{ ignores: ["**/.expo/"] },
+	{ ignores: ["android/**", "ios/**", ".expo/**"] },
 	{ files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
 	{ languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } } },
 	{

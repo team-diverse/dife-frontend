@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import NotificationStyles from "@pages/home/NotificationStyles.js";
 import { getNotifications } from "config/api";
 import { formatDate } from "util/formatDate";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import NotificationCard from "@components/notification/NotificationCard.js";
@@ -14,6 +16,11 @@ const NotificationPage = () => {
 	const { t } = useTranslation();
 
 	const [notificationData, setNotificationData] = useState([]);
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	const handleNotification = async () => {
 		try {
