@@ -113,6 +113,9 @@ const Report = ({
 						<Text style={styles.reportCompleteText}>
 							{t("reportComplete")}
 						</Text>
+						<Text style={styles.reportCompleteInformation}>
+							{t("reportCompleteInformation")}
+						</Text>
 					</View>
 				) : (
 					<>
@@ -171,6 +174,12 @@ const styles = StyleSheet.create({
 	reportCompleteText: {
 		marginTop: 16,
 		fontSize: 16,
+		lineHeight: 24,
+		fontFamily: "NotoSansCJKkr-Bold",
+	},
+	reportCompleteInformation: {
+		marginTop: 16,
+		fontSize: 12,
 		lineHeight: 24,
 		fontFamily: "NotoSansCJKkr-Bold",
 	},

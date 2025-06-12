@@ -20,7 +20,7 @@ import {
 	deleteLikeMember,
 	getNotifications,
 } from "config/api";
-
+import { useStatusBar } from "util/useStatusBar";
 import HomeBg from "@assets/images/svg_js/HomeBg.js";
 import LogoBr from "@components/Logo/LogoBr.js";
 import Notification32 from "@components/Icon32/Notification32.js";
@@ -41,6 +41,11 @@ const HomePage = () => {
 	const { homeProfiles, canFetch, fetchAndDistributeProfiles } =
 		useMatchQueue();
 	const [notificationNumber, setNotificationNumber] = useState(0);
+
+	useStatusBar({
+		color: "#0029F4",
+		barStyle: "light-content",
+	});
 
 	const getNotificationNumber = async () => {
 		try {
@@ -152,6 +157,7 @@ const HomePage = () => {
 		navigation.navigate("NotificationPage");
 	};
 
+	const { width: screenWidth } = Dimensions.get("window");
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
 
@@ -267,7 +273,17 @@ const HomePage = () => {
 							</View>
 						) : currentProfileIndex < homeProfiles.length - 1 ? (
 							<>
-								<View style={HomeStyles.backgroundHomecard}>
+								<View
+									style={[
+										HomeStyles.backgroundHomecard,
+										{
+											right:
+												Platform.OS === "android"
+													? screenWidth * 0.1
+													: 30,
+										},
+									]}
+								>
 									<HomeCard />
 								</View>
 								<View
@@ -277,7 +293,7 @@ const HomePage = () => {
 											transform: [{ scale: 0.8 }],
 											right:
 												Platform.OS === "android"
-													? -18
+													? screenWidth * 0.01
 													: -5,
 											zIndex: 0,
 										},

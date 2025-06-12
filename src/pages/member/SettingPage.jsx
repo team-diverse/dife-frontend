@@ -16,6 +16,8 @@ import * as Sentry from "@sentry/react-native";
 
 import SettingStyles from "@pages/member/SettingStyles";
 import { getMyProfile } from "config/api";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import ArrowRight from "@components/common/ArrowRight";
@@ -35,6 +37,11 @@ const SettingPage = () => {
 
 	const [switchOn, setSwitchOn] = useState(false);
 	const [defaultLanguage, setDefaultLanguage] = useState();
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	const checkNotificationPermissions = async () => {
 		const { status } = await Notifications.getPermissionsAsync();

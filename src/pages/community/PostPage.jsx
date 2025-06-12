@@ -36,6 +36,7 @@ import {
 	getMyProfile,
 } from "config/api";
 import { formatDate } from "util/formatDate";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import IconKebabMenu from "@components/community/IconKebabMenu";
@@ -87,6 +88,11 @@ const PostPage = ({ route }) => {
 
 	const commentRef = useRef(null);
 	const scrollViewRef = useRef(null);
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	useEffect(() => {
 		if (images.length === 1) {

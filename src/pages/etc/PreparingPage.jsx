@@ -3,11 +3,18 @@ import { SafeAreaView, View, Text } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import PreparingStyles from "@pages/etc/PreparingStyles";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import Preparing from "@components/common/Preparing";
 
 const PreparingPage = () => {
 	const { t } = useTranslation();
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	return (
 		<SafeAreaView style={PreparingStyles.container}>

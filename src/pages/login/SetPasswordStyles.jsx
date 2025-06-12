@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import Constants from "expo-constants";
 
@@ -8,7 +8,7 @@ const SetPasswordStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Constants.statusBarHeight,
+		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	textTitle: {
 		...fontHead24,
@@ -52,8 +52,15 @@ const SetPasswordStyles = StyleSheet.create({
 		marginLeft: 3,
 	},
 	applyButton: {
-		position: "absolute",
-		bottom: 126,
+		...Platform.select({
+			ios: {
+				position: "absolute",
+				bottom: 126,
+			},
+			android: {
+				marginTop: 32,
+			},
+		}),
 	},
 });
 

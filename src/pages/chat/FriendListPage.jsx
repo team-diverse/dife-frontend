@@ -6,6 +6,8 @@ import { useFocusEffect } from "@react-navigation/native";
 import FriendListStyles from "@pages/chat/FriendListStyles";
 import { getMyAcceptedConnects } from "config/api";
 import { getMyMemberId } from "util/secureStoreUtils";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import IconFriendNumber from "@components/chat/IconFriendNumber";
@@ -24,6 +26,11 @@ const FriendListPage = ({ route }) => {
 			? connect.to_member
 			: connect.from_member;
 	};
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	const fetchMyMemberIDAndConnects = async () => {
 		const myMemberId = await getMyMemberId();

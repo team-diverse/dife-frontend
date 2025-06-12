@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
 
 import ChattingStyles from "@pages/chat/ChattingStyles";
+import { CustomTheme } from "@styles/CustomTheme";
 import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 import formatTime from "util/formatTime";
 import {
@@ -22,6 +23,7 @@ import {
 	getChatroomsByType,
 	getProfileById,
 } from "config/api";
+import { useStatusBar } from "util/useStatusBar";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -51,6 +53,11 @@ const ChattingPage = () => {
 	const [userLanguage, setUserLanguage] = useState(null);
 
 	// const showChatStatus = process.env.EXPO_PUBLIC_SHOW_CHAT_STATUS === "true";
+
+	useStatusBar({
+		color: CustomTheme.primaryMedium,
+		barStyle: "light-content",
+	});
 
 	const handleSearch = async () => {
 		try {
@@ -125,7 +132,7 @@ const ChattingPage = () => {
 	useFocusEffect(
 		useCallback(() => {
 			fetchSingleChatroomList();
-		}, [messages]),
+		}, []),
 	);
 
 	const onCompleteExit = () => {

@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import LikedPostStyles from "@pages/member/LikedPostStyles";
 import { getLikedPost } from "config/api";
 import { communityPresignUrl } from "util/communityPresignUrl";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import TopBar from "@components/common/TopBar";
 import ItemCommunity from "@components/community/ItemCommunity";
@@ -14,6 +16,11 @@ import * as Sentry from "@sentry/react-native";
 const LikedPostPage = () => {
 	const { t } = useTranslation();
 	const [likedPostList, setLikedPostList] = useState([]);
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	useEffect(() => {
 		const handleLikedPost = async () => {

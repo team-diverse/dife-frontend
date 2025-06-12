@@ -8,7 +8,8 @@ const HomeStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "#0029F4",
-		paddingTop: Constants.statusBarHeight + 10,
+		paddingTop:
+			Platform.OS === "android" ? 0 : Constants.statusBarHeight + 10,
 	},
 	linearGradient: {
 		flex: 1,
@@ -75,7 +76,6 @@ const HomeStyles = StyleSheet.create({
 		position: "absolute",
 		top: 60,
 		bottom: 10,
-		right: Platform.OS === "android" ? 17 : 30,
 		transform: [{ scale: 0.9 }],
 		shadowColor: "#3C454E4A",
 		shadowOffset: { width: 0, height: 3 },

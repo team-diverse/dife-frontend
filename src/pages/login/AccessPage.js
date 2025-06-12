@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView } from "react-native";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
@@ -6,6 +6,8 @@ import { useTranslation } from "react-i18next";
 import * as SecureStore from "expo-secure-store";
 
 import AccessStyles from "@pages/login/AccessStyles";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import ApplyButton from "@components/common/ApplyButton";
 import IconAccessCamera from "@components/login/IconAccessCamera";
@@ -17,36 +19,49 @@ import GoBack from "@components/common/GoBack";
 const AccessPage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		const checkPermissions = async () => {
+			const { status: existingStatus } =
+				await Notifications.getPermissionsAsync();
+
+			if (existingStatus === "granted") {
+				await SecureStore.setItemAsync(
+					"notificationPermissionStatus",
+					existingStatus,
+				);
+				navigation.reset({
+					index: 0,
+					routes: [{ name: "Login" }],
+				});
+			} else {
+				setIsLoading(false);
+			}
+		};
+
+		checkPermissions();
+	}, []);
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	const requestPermissions = async () => {
-		const { status: existingStatus } =
-			await Notifications.getPermissionsAsync();
+		const { status } = await Notifications.requestPermissionsAsync();
+		await SecureStore.setItemAsync("notificationPermissionStatus", status);
 
-		if (existingStatus !== "granted") {
-			const { status } = await Notifications.requestPermissionsAsync();
-			await SecureStore.setItemAsync(
-				"notificationPermissionStatus",
-				status,
-			);
-		} else {
-			await SecureStore.setItemAsync(
-				"notificationPermissionStatus",
-				existingStatus,
-			);
-		}
-
-		const firstLaunch = await SecureStore.getItem("hasLaunched");
-
-		if (firstLaunch === null) {
-			navigation.navigate("LandingPage");
-			await SecureStore.setItemAsync("hasLaunched", "true");
-		} else {
-			navigation.replace("Login");
-		}
+		navigation.reset({
+			index: 0,
+			routes: [{ name: "LandingPage" }],
+		});
 	};
 
+	if (isLoading) return null;
+
 	return (
-		<SafeAreaView style={AccessStyles.container}>
+		<SafeAreaView style={[AccessStyles.container]}>
 			<GoBack />
 			<Text style={AccessStyles.textTitle}>{t("accessPageTitle")}</Text>
 			<View style={AccessStyles.containerContent}>

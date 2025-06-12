@@ -27,6 +27,7 @@ import {
 	createNotificationToken,
 	updateMyProfile,
 } from "config/api";
+import { useStatusBar } from "util/useStatusBar";
 
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import IconNotSeePw from "@components/login/IconNotSeePw";
@@ -48,6 +49,11 @@ const LoginPage = () => {
 	const { setIsLoggedIn } = useAuth();
 	const [loginFailed, setLoginFailed] = useState(false);
 	const [deviceId, setDeviceId] = useState("");
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	useEffect(() => {
 		const getDeviceId = async () => {

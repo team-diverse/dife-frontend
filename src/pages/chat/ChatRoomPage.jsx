@@ -36,6 +36,7 @@ import {
 	getProfileById,
 	changeChatroomHold,
 } from "config/api";
+import { useStatusBar } from "util/useStatusBar";
 
 import ArrowRight from "@components/common/ArrowRight";
 import ChatInputSend from "@components/chat/ChatInputSend";
@@ -69,6 +70,11 @@ const ChatRoomPage = ({ route }) => {
 	const scrollOffsetRef = useRef(0);
 	const [token, setToken] = useState(null);
 	const [userLanguage, setUserLanguage] = useState(null);
+
+	useStatusBar({
+		color: "#D9EAFF",
+		barStyle: "dark-content",
+	});
 
 	useEffect(() => {
 		const fetchToken = async () => {
@@ -226,11 +232,14 @@ const ChatRoomPage = ({ route }) => {
 		};
 		const locale = localeMap[userLanguage] || "en-US";
 
+		const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 		const formatter = new Intl.DateTimeFormat(locale, {
 			year: "numeric",
 			month: "2-digit",
 			day: "2-digit",
 			weekday: "long",
+			userTimeZone,
 		});
 
 		return formatter.format(messageDate);
@@ -352,7 +361,15 @@ const ChatRoomPage = ({ route }) => {
 					<View style={ChatRoomStyles.containerBackName}>
 						<TouchableOpacity
 							style={ChatRoomStyles.iconArrow}
-							onPress={() => {
+							onPress={async () => {
+								try {
+									await changeChatroomHold(chatroomInfo.id);
+								} catch (err) {
+									console.error(
+										"Failed to change chatroom hold:",
+										err,
+									);
+								}
 								navigation.goBack();
 							}}
 						>

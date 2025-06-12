@@ -30,7 +30,7 @@ export default {
 	expo: {
 		name: "Dife",
 		slug: "dife",
-		version: "1.0.0",
+		version: "1.0.3",
 		owner: "team-diverse",
 		orientation: "portrait",
 		icon: "src/assets/icon.png",
@@ -45,8 +45,21 @@ export default {
 			supportsTablet: true,
 			bundleIdentifier: getIOSBundleIdentifier(),
 			infoPlist: {
+				ITSAppUsesNonExemptEncryption: false,
 				CFBundleDisplayName: getAppName(),
 				UIBackgroundModes: ["fetch", "remote-notification"],
+				CFBundleLocalizations: ["en", "ko", "zh", "ja", "es"],
+				NSPhotoLibraryUsageDescription:
+					"Access to your photo library is required to verify your student status, upload a profile photo for using the service, and attach images to community posts.",
+			},
+			localization: {
+				locales: {
+					ko: "./locales/ko/InfoPlist.strings",
+					en: "./locales/en/InfoPlist.strings",
+					es: "./locales/es/InfoPlist.strings",
+					zh: "./locales/zh/InfoPlist.strings",
+					ja: "./locales/ja/InfoPlist.strings",
+				},
 			},
 		},
 		android: {
@@ -63,9 +76,7 @@ export default {
 				projectId: "7ec133fc-2004-4a77-9b59-25d22dede97b",
 			},
 		},
-		runtimeVersion: {
-			policy: "appVersion",
-		},
+		runtimeVersion: "1.0.0",
 		updates: {
 			url: "https://u.expo.dev/7ec133fc-2004-4a77-9b59-25d22dede97b",
 		},
