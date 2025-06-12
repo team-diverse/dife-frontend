@@ -84,7 +84,6 @@
 		"react-native-web": "^0.20.0",
 		"reanimated-bottom-sheet": "^1.0.0-alpha.22",
 		"rn-range-slider": "^2.2.2",
-		"sentry-expo": "~7.0.0",
 		"sha1-file": "^3.0.0",
 		"text-encoding": "^0.7.0",
 		"tmpl": "^1.0.5",
@@ -95,6 +94,7 @@
 	"devDependencies": {
 		"@babel/core": "^7.24.0",
 		"@eslint/js": "^9.7.0",
+		"@sentry/cli": "^2.46.0",
 		"@stylistic/eslint-plugin-ts": "^2.3.0",
 		"@types/eslint__js": "^8.42.3",
 		"@types/eslint-config-prettier": "^6.11.3",
