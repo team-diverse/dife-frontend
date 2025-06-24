@@ -2,9 +2,9 @@ const getAppName = () => {
 	if (process.env.EXPO_PUBLIC_APP_VARIANT === "staging") {
 		return "Dife";
 	} else if (process.env.EXPO_PUBLIC_APP_VARIANT === "dev") {
-		return "Dife(Dev)";
+		return "Dife(dev)";
 	} else {
-		return "Dife(Prod)";
+		return "Dife(prod)";
 	}
 };
 
