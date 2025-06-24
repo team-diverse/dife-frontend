@@ -19,6 +19,7 @@ import { getLocales } from "expo-localization";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import Constants from "expo-constants";
+import * as Updates from "expo-updates";
 import LoginStyles from "@pages/login/LoginStyles";
 import { useAuth } from "src/states/AuthContext";
 import {
@@ -80,7 +81,10 @@ const LoginPage = () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
 			const { status } = await Notifications.getPermissionsAsync();
-			const projectId = Constants.expoConfig.extra.eas.projectId;
+			const projectId =
+				Constants.expoConfig?.extra?.eas?.projectId ||
+				Updates.manifest?.extra?.eas?.projectId ||
+				null;
 
 			let token = "undefined";
 
