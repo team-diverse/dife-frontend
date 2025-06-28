@@ -21,6 +21,10 @@ const ConnectProfileTopBar = (props) => {
 	const [iconPosition, setIconPosition] = useState({ x: 0, y: 0 });
 
 	const handleGoBack = () => {
+		if (modalVisible) {
+			setModalVisible(false);
+			return;
+		}
 		navigation.goBack();
 	};
 
