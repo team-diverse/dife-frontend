@@ -46,11 +46,11 @@ export const WebSocketProvider = ({ children }) => {
 				setIsConnected(true);
 			},
 			onStompError: (frame) => {
-				console.error(
+				(console.error(
 					"Broker reported error:",
 					frame.headers["message"],
 				),
-					setIsConnected(false);
+					setIsConnected(false));
 			},
 			onWebSocketError: (error) => {
 				console.error("WebSocket error:", error);
