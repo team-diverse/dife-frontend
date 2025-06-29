@@ -26,6 +26,8 @@ export default [
 		rules: {
 			"@stylistic/ts/semi": ["error", "always"],
 			"react/prop-types": "off",
+			"@typescript-eslint/no-unused-expressions": "warn",
+			"@typescript-eslint/no-require-imports": "warn",
 		},
 		settings: {
 			react: {
