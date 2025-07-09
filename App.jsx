@@ -1,3 +1,14 @@
+import { BackHandler } from "react-native";
+
+if (!BackHandler.removeEventListener) {
+	BackHandler.removeEventListener = () => {
+		console.warn(
+			"BackHandler.removeEventListener는 RN 0.77 이상에서 제거되었습니다. " +
+				"관련 라이브러리를 업데이트하세요.",
+		);
+	};
+}
+import i18n from "src/i18n.js";
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
