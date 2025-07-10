@@ -64,7 +64,7 @@ const MemberPage = () => {
 	useFocusEffect(
 		useCallback(() => {
 			handleProfile();
-		}, [profilePresignUrl]),
+		}, []),
 	);
 
 	return (
