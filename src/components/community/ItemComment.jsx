@@ -342,6 +342,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 
 						<TouchableOpacity
 							style={styles.iconKebabMenu}
+							ref={(ref) => (iconRefs.current[comment.id] = ref)}
 							onPress={() =>
 								handleIconPress(
 									comment.id,
@@ -351,13 +352,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 								)
 							}
 						>
-							<View
-								ref={(ref) =>
-									(iconRefs.current[comment.id] = ref)
-								}
-							>
-								<IconKebabMenu />
-							</View>
+							<IconKebabMenu />
 						</TouchableOpacity>
 						{modalPosition && (
 							<ModalKebabMenu
@@ -459,6 +454,9 @@ const ItemComment = ({ commentList = [], onReply }) => {
 
 								<TouchableOpacity
 									style={styles.iconKebabMenu}
+									ref={(ref) =>
+										(iconRefs.current[reply.id] = ref)
+									}
 									onPress={() =>
 										handleCommentKebabMenu(
 											reply.id,
@@ -468,13 +466,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 										)
 									}
 								>
-									<View
-										ref={(ref) =>
-											(iconRefs.current[reply.id] = ref)
-										}
-									>
-										<IconKebabMenu />
-									</View>
+									<IconKebabMenu />
 								</TouchableOpacity>
 								{modalPosition && (
 									<ModalKebabMenu
