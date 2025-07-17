@@ -174,11 +174,10 @@ const ItemRequestConnectList = ({
 							</TouchableOpacity>
 							<TouchableOpacity
 								style={styles.iconMenu}
+								ref={iconRef}
 								onPress={handleIconPress}
 							>
-								<View ref={iconRef}>
-									<IconMenu />
-								</View>
+								<IconMenu />
 							</TouchableOpacity>
 							{modalPosition && (
 								<ModalKebabMenuConnectList
