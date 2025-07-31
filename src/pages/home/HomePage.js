@@ -250,9 +250,11 @@ const HomePage = () => {
 									country={profileData.country}
 									onPress={() => setShowNewCard(true)}
 									isLikedOnPress={() => {
-										heart[profileData.id]
-											? handleDeleteHeart()
-											: handleCreateHeart();
+										if (heart[profileData.id]) {
+											handleDeleteHeart();
+										} else {
+											handleCreateHeart();
+										}
 									}}
 									isLikedActive={heart[profileData.id]}
 								/>

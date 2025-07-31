@@ -293,8 +293,6 @@ function AppContent() {
 				navigation.navigate("ConnectListPage", { screen: "그룹" });
 			} else if (type === "CHATROOM" && chatroomInfo) {
 				navigation.navigate("ChatRoomPage", chatroomInfo);
-			} else {
-				null;
 			}
 		};
 
@@ -321,8 +319,11 @@ function AppContent() {
 	});
 
 	const [loaded] = useFonts({
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
 		"NotoSansCJKkr-Bold": require("@assets/fonts/NotoSansCJKkr-Bold.otf"),
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
 		"NotoSansCJKkr-Medium": require("@assets/fonts/NotoSansCJKkr-Medium.otf"),
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
 		"NotoSansCJKkr-Regular": require("@assets/fonts/NotoSansCJKkr-Regular.otf"),
 	});
 
