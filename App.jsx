@@ -8,7 +8,6 @@ if (!BackHandler.removeEventListener) {
 		);
 	};
 }
-import i18n from "src/i18n.js";
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
