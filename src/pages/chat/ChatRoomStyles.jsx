@@ -118,9 +118,6 @@ const ChatRoomStyles = StyleSheet.create({
 		transform: [{ scaleX: -1 }],
 		marginRight: 11,
 	},
-	chatInput: {
-		backgroundColor: CustomTheme.bgBasic,
-	},
 	chatInputBottom: {
 		height: 34,
 		backgroundColor: "white",
