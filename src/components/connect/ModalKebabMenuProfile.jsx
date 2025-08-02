@@ -135,9 +135,9 @@ const ModalKebabMenuProfile = ({
 				</View>
 			) : (
 				<View style={styles.rectangle}>
-					<TouchableOpacity onPress={handleShareProfile}>
+					{/* <TouchableOpacity onPress={handleShareProfile}>
 						<Text style={styles.textIsMe}>{t("profileShare")}</Text>
-					</TouchableOpacity>
+					</TouchableOpacity> */}
 					<View style={styles.line} />
 					<TouchableOpacity onPress={handleBlockAlert}>
 						<Text style={styles.textIsMe}>{t("block")}</Text>
@@ -176,7 +176,8 @@ const styles = StyleSheet.create({
 	},
 	rectangle: {
 		width: 95,
-		height: 110,
+		// height: 110,
+		height: 75,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 10,
 		position: "relative",
