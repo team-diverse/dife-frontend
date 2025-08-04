@@ -137,8 +137,8 @@ const ModalKebabMenuProfile = ({
 				<View style={styles.rectangle}>
 					{/* <TouchableOpacity onPress={handleShareProfile}>
 						<Text style={styles.textIsMe}>{t("profileShare")}</Text>
-					</TouchableOpacity> */}
-					<View style={styles.line} />
+					</TouchableOpacity>
+					<View style={styles.line} /> */}
 					<TouchableOpacity onPress={handleBlockAlert}>
 						<Text style={styles.textIsMe}>{t("block")}</Text>
 					</TouchableOpacity>
