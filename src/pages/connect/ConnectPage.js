@@ -38,8 +38,13 @@ const ConnectPage = () => {
 	const navigation = useNavigation();
 	const showRefreshTimer = process.env.EXPO_PUBLIC_SHOW_REFRESH_TIMER;
 
-	const { allProfiles, formattedTimeRemaining, fetchAndDistributeProfiles } =
-		useMatchQueue();
+	const {
+		allProfiles,
+		formattedTimeRemaining,
+		fetchAndDistributeProfiles,
+		likesById,
+		toggleLike,
+	} = useMatchQueue();
 
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
@@ -261,6 +266,12 @@ const ConnectPage = () => {
 									{...item}
 									tags={item.tags}
 									fileId={item.profileImg?.id}
+									isLiked={
+										likesById[item.id] !== undefined
+											? likesById[item.id]
+											: item.isLiked
+									}
+									onToggleLike={toggleLike}
 									isSmallScreen={isSmallScreen}
 								/>
 							)}
