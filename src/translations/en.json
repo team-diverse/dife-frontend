@@ -119,8 +119,15 @@
 	"retryButtonText": "Retry Student Verification",
 
 	"waitingVerificationTitle": "Processing of enrollment certification (up to 2 minutes)",
-	"waitingVerificationDescription": "Once verified,\nall features will be available",
-	"receiveNotification": "Receive verification completion notification",
+	"loadingVerification1": "📋 Recognizing student ID...",
+	"loadingVerification2": "🔍 Verifying server...",
+	"loadingVerification3": "⚙️ Processing data...",
+	"loadingVerification4": "🖼️ Analyzing image...",
+	"loadingVerification5": "🎓 Verifying current student...",
+	"completeVerification": "🎉 You have been verified as a student of Kookmin University!",
+	"waitingVerificationDescription1": "⚠️ Automatic student verification has not been completed",
+	"waitingVerificationDescription2": "We will proceed with additional verification after admin review",
+	"waitingVerificationDescription3": "⏰ It may take up to 24 hours",
 	"returnToLogin": "Return to login screen",
 
 	"profileCompletionTitle": "Profile Creation Complete!",

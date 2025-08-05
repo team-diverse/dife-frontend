@@ -119,8 +119,15 @@
 	"retryButtonText": "재학생 인증 재시도하기",
 
 	"waitingVerificationTitle": "재학생 인증 처리 중 (최대 2분)",
-	"waitingVerificationDescription": "인증이 완료되면\n모든 기능을 사용할 수 있어요",
-	"receiveNotification": "인증 완료 알림 받기",
+	"loadingVerification1": "📋 학생증 인식 중...",
+	"loadingVerification2": "🔍 서버 확인 중...",
+	"loadingVerification3": "⚙️ 데이터 처리 중...",
+	"loadingVerification4": "🖼️ 이미지 분석 중...",
+	"loadingVerification5": "🎓 재학생 판별 중...",
+	"completeVerification": "🎉 국민대 학생인증되었습니다!",
+	"waitingVerificationDescription1": "⚠️ 자동 학생 인증이 되지 않았습니다",
+	"waitingVerificationDescription2": "관리자 확인 후에 인증을 추가로 진행해드릴게요",
+	"waitingVerificationDescription3": "⏰ 최대 24시간 소요됩니다",
 	"returnToLogin": "로그인 화면으로 돌아가기",
 
 	"profileCompletionTitle": "프로필 생성 완료!",
