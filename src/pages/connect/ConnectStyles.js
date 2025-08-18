@@ -82,6 +82,7 @@ const ConnectStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 24,
 		paddingLeft: 20,
+		paddingRight: 35,
 		paddingTop: 0,
 		paddingBottom: 0,
 	},

@@ -126,17 +126,21 @@ const ConnectCard = ({
 	};
 
 	return (
-		<TouchableOpacity
-			style={[styles.rectangle, fail && { justifyContent: "center" }]}
-			onPress={handleNavigation}
-		>
+		<>
 			{fail ? (
-				<View style={styles.containerFail}>
-					<IconSearchFail />
-					<Text style={styles.textFail}>{t("searchNoResults")}</Text>
+				<View style={[styles.rectangle, { justifyContent: "center" }]}>
+					<View style={styles.containerFail}>
+						<IconSearchFail />
+						<Text style={styles.textFail}>
+							{t("searchNoResults")}
+						</Text>
+					</View>
 				</View>
 			) : (
-				<>
+				<TouchableOpacity
+					style={styles.rectangle}
+					onPress={handleNavigation}
+				>
 					<View style={styles.profile}>
 						{profilePresignUrl ? (
 							<Image
@@ -219,9 +223,9 @@ const ConnectCard = ({
 							<ConnectPlusIcon style={{ marginLeft: 9 }} />
 						</View>
 					</View>
-				</>
+				</TouchableOpacity>
 			)}
-		</TouchableOpacity>
+		</>
 	);
 };
 
