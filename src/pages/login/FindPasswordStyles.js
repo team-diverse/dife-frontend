@@ -35,11 +35,30 @@ const FindPasswordStyles = StyleSheet.create({
 		marginHorizontal: 25,
 		justifyContent: "center",
 	},
+<<<<<<< HEAD
 
 	containerNotMember: {
+=======
+	containerRetransmit: {
+		width: 59,
+		height: 28,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: CustomTheme.primaryMedium,
+		borderRadius: 4,
+		position: "absolute",
+		top: 15.5,
+		right: 12,
+	},
+	textResend: {
+		...fontSub14,
+		color: "#FBFBFB",
+	},
+	containerError: {
+>>>>>>> 5abafc6 (Fix/multiple improvements 5: 좋아요 UI 불일치 문제, 자동 인증 UI/UX, 비밀번호 찾기 인증번호 재전송 및 타이머 (#292))
 		flexDirection: "row",
 		marginTop: 8,
-		marginLeft: 25,
+		marginHorizontal: 25,
 	},
 	textNotMember: {
 		...fontCaption,

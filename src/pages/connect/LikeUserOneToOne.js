@@ -6,13 +6,16 @@ import ConnectLikeUserStyles from "@pages/connect/ConnectLikeUserStyles.js";
 import ConnectStyles from "@pages/connect/ConnectStyles";
 import { getLikeMember } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
+import { useMatchQueue } from "context/MatchQueueContext";
 
 import ConnectCard from "@components/connect/ConnectCard.js";
 import TopBar from "@components/common/TopBar";
 
 const LikeUserOneToOne = () => {
 	const { t } = useTranslation();
-
+	const { likesById, toggleLike } = useMatchQueue();
 	const [connectData, setConnectData] = useState(null);
 
 	const getLikedMember = async () => {
@@ -42,14 +45,25 @@ const LikeUserOneToOne = () => {
 							contentContainerStyle={
 								ConnectStyles.flatlistContent
 							}
-							data={connectData}
+							data={connectData.filter((item) => {
+								const isLiked =
+									likesById[item.id] !== undefined
+										? likesById[item.id]
+										: item.isLiked;
+								return isLiked;
+							})}
 							renderItem={({ item }) => (
 								<View style={ConnectStyles.cardContainer}>
 									<ConnectCard
 										{...item}
-										isLiked={true}
 										tag={item.tags}
 										fileId={item.profileImg?.id}
+										isLiked={
+											likesById[item.id] !== undefined
+												? likesById[item.id]
+												: item.isLiked
+										}
+										onToggleLike={toggleLike}
 									/>
 								</View>
 							)}

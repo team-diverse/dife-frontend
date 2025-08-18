@@ -14,12 +14,8 @@ import { useTranslation } from "react-i18next";
 import GestureRecognizer from "react-native-swipe-gestures";
 
 import HomeStyles from "@pages/home/HomeStyles";
-import {
-	createLikeMember,
-	deleteLikeMember,
-	getNotifications,
-} from "config/api";
-
+import { getNotifications } from "config/api";
+import { useStatusBar } from "util/useStatusBar";
 import HomeBg from "@assets/images/svg_js/HomeBg.js";
 import LogoBr from "@components/Logo/LogoBr.js";
 import Notification32 from "@components/Icon32/Notification32.js";
@@ -37,8 +33,13 @@ const HomePage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
-	const { homeProfiles, canFetch, fetchAndDistributeProfiles } =
-		useMatchQueue();
+	const {
+		homeProfiles,
+		canFetch,
+		fetchAndDistributeProfiles,
+		likesById,
+		toggleLike,
+	} = useMatchQueue();
 	const [notificationNumber, setNotificationNumber] = useState(0);
 
 	const getNotificationNumber = async () => {
@@ -112,39 +113,12 @@ const HomePage = () => {
 
 	const profileData = homeProfiles[currentProfileIndex];
 
+	const isLiked =
+		profileData && likesById[profileData.id] !== undefined
+			? likesById[profileData.id]
+			: profileData?.liked;
+
 	const [showNewCard, setShowNewCard] = useState(false);
-
-	const [heart, setHeart] = useState({});
-
-	const handleCreateHeart = async () => {
-		try {
-			await createLikeMember(profileData.id);
-			setHeart((prev) => ({
-				...prev,
-				[profileData.id]: true,
-			}));
-		} catch (error) {
-			console.error(
-				"멤버 좋아요 생성 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
-	const handleDeleteHeart = async () => {
-		try {
-			await deleteLikeMember(profileData.id);
-			setHeart((prev) => ({
-				...prev,
-				[profileData.id]: false,
-			}));
-		} catch (error) {
-			console.error(
-				"멤버 좋아요 취소 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
 
 	const handleNaviNotification = () => {
 		setNotificationNumber(0);
@@ -240,12 +214,10 @@ const HomePage = () => {
 									name={profileData.username}
 									country={profileData.country}
 									onPress={() => setShowNewCard(true)}
-									isLikedOnPress={() => {
-										heart[profileData.id]
-											? handleDeleteHeart()
-											: handleCreateHeart();
-									}}
-									isLikedActive={heart[profileData.id]}
+									isLikedOnPress={() =>
+										toggleLike(profileData.id, !isLiked)
+									}
+									isLikedActive={isLiked}
 								/>
 							</View>
 						)}

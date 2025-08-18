@@ -8,8 +8,6 @@ import * as Sentry from "@sentry/react-native";
 
 import {
 	getProfileImageByFileId,
-	createLikeMember,
-	deleteLikeMember,
 	createLikeChatroom,
 	deleteLikeChatroom,
 } from "config/api";
@@ -26,6 +24,7 @@ const { fontBody14, fontCaption } = CustomTheme;
 const ConnectCard = ({
 	id,
 	isLiked = false,
+	onToggleLike,
 	fileId = null,
 	username,
 	country,
@@ -40,7 +39,6 @@ const ConnectCard = ({
 }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
-	const [heart, setHeart] = useState(isLiked);
 	const [groupHeart, setGroupHeart] = useState(isLiked);
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
 
@@ -62,30 +60,6 @@ const ConnectCard = ({
 			getProfilePresignUrl();
 		}
 	}, []);
-
-	const handleCreateHeart = async () => {
-		try {
-			await createLikeMember(id);
-			setHeart(true);
-		} catch (error) {
-			console.error(
-				"멤버 좋아요 생성 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
-	const handleDeleteHeart = async () => {
-		try {
-			await deleteLikeMember(id);
-			setHeart(false);
-		} catch (error) {
-			console.error(
-				"멤버 좋아요 취소 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
 
 	const handleGroupCreateHeart = async () => {
 		try {
@@ -203,15 +177,13 @@ const ConnectCard = ({
 
 						<View style={styles.iconContainer}>
 							<IconHeart24
-								active={count ? groupHeart : heart}
+								active={count ? groupHeart : isLiked}
 								onPress={
 									count
 										? groupHeart
 											? handleGroupDeleteHeart
 											: handleGroupCreateHeart
-										: heart
-											? handleDeleteHeart
-											: handleCreateHeart
+										: () => onToggleLike(id, !isLiked)
 								}
 							/>
 							<ConnectPlusIcon style={{ marginLeft: 9 }} />

@@ -10,8 +10,6 @@ import {
 	requestConnectById,
 	acceptedConnectByMemberId,
 	rejectedConnectByConnectId,
-	createLikeMember,
-	deleteLikeMember,
 } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
 import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
@@ -38,11 +36,20 @@ const ConnectProfilePage = ({ route }) => {
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
 	const [requestSent, setRequestSent] = useState(false);
-	const [heart, setHeart] = useState(false);
 	const [name, setName] = useState();
 	const [token, setToken] = useState(null);
 	const [buttonText, setButtonText] = useState(t("requestButtonText"));
-	const { removeProfile } = useMatchQueue();
+	const { removeProfile, likesById, toggleLike } = useMatchQueue();
+	const isLiked =
+		profileData && likesById[memberId] !== undefined
+			? likesById[memberId]
+			: profileData?.isLiked || false;
+
+	useStatusBar({
+		color: CustomTheme.primaryMedium,
+		barStyle: "dark-content",
+	});
+
 	useEffect(() => {
 		const fetchToken = async () => {
 			const token = await getRefreshToken();
@@ -58,7 +65,6 @@ const ConnectProfilePage = ({ route }) => {
 			const updatedData = formatProfileData([response.data]);
 			setProfileData(updatedData[0]);
 			setName(response.data.username);
-			setHeart(response.data.isLiked);
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
@@ -188,30 +194,6 @@ const ConnectProfilePage = ({ route }) => {
 		}
 	};
 
-	const handleCreateHeart = async () => {
-		try {
-			await createLikeMember(memberId);
-			setHeart(true);
-		} catch (error) {
-			console.error(
-				"멤버 좋아요 생성 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
-	const handleDeleteHeart = async () => {
-		try {
-			await deleteLikeMember(memberId);
-			setHeart(false);
-		} catch (error) {
-			console.error(
-				"멤버 좋아요 취소 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
 	useEffect(() => {
 		if (requestSent) {
 			const timer = setTimeout(() => {
@@ -235,8 +217,8 @@ const ConnectProfilePage = ({ route }) => {
 		>
 			<ConnectProfileTopBar
 				topBar={t("profile")}
-				active={heart}
-				onPressHeart={heart ? handleDeleteHeart : handleCreateHeart}
+				active={isLiked}
+				onPressHeart={() => toggleLike(memberId, !isLiked)}
 				memberId={memberId}
 			/>
 			<View style={ConnectProfileStyles.scrollView}>

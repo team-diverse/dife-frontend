@@ -119,8 +119,15 @@
 	"retryButtonText": "Reintentar Verificación de Estudiante",
 
 	"waitingVerificationTitle": "Certificado de estudiante en proceso (máximo de 2 minutos)",
-	"waitingVerificationDescription": "Una vez verificado,\nse habilitarán todas las funciones",
-	"receiveNotification": "Recibir notificación de finalización de verificación",
+	"loadingVerification1": "📋 Reconociendo tarjeta estudiantil...",
+	"loadingVerification2": "🔍 Verificando servidor...",
+	"loadingVerification3": "⚙️ Procesando datos...",
+	"loadingVerification4": "🖼️ Analizando imagen...",
+	"loadingVerification5": "🎓 Verificando estudiante activo...",
+	"completeVerification": "🎉 ¡Has sido verificado como estudiante de la Universidad Kookmin!",
+	"waitingVerificationDescription1": "⚠️ La verificación automática de estudiante no se ha completado",
+	"waitingVerificationDescription2": "Procederemos con la verificación adicional tras la revisión del administrador",
+	"waitingVerificationDescription3": "⏰ Puede tardar hasta 24 horas",
 	"returnToLogin": "Regresar a la pantalla de inicio de sesión",
 
 	"profileCompletionTitle": "¡Creación de Perfil Completa!",
@@ -141,7 +148,6 @@
 	"cancelRequestButtonText": "Cancelar Solicitud",
 	"acceptRequestButtonText": "Aceptar Solicitud",
 	"cancelConnectButtonText": "Cancelar Conexión",
-	"connectCaution": "Usa la función ‘Bloquear e Informar’ en su perfil para manejar usuarios problemáticos.",
 	"noButtonText": "No",
 	"serviceUnderConstruction": "Este servicio aún está en desarrollo",
 
@@ -152,7 +158,6 @@
 	"tipBoard": "Tablero de Consejos",
 	"freeBoard": "Tablero Libre",
 	"entire": "Todo",
-	"boardCaution": "El contenido inapropiado u ofensivo puede estar sujeto a sanciones.",
 
 	"searchError": "Se produjo un error durante la búsqueda",
 	"searchCancelButton": "Cancelar Búsqueda",
@@ -201,7 +206,6 @@
 	"impersonation": "Suplantación",
 	"other": "Otro",
 	"reportComplete": "Reporte Completo",
-	"reportCompleteInformation": "Por favor, espere hasta 24 horas para la revisión.",
 	"submitReport": "Enviar Reporte",
 
 	"likeListTitle": "Lista de Me Gusta",
