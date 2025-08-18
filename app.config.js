@@ -54,6 +54,7 @@ export default {
 			adaptiveIcon: {
 				foregroundImage: "src/assets/icon.png",
 			},
+			targetSdkVersion: 35,
 		},
 		web: {
 			favicon: "src/assets/icon.png",

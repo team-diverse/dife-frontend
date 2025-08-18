@@ -43,8 +43,6 @@ import ChatInputSend from "@components/chat/ChatInputSend";
 import IconHamburgerMenu from "@components/chat/IconHamburgerMenu";
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconChatOut from "@components/chat/IconChatOut";
-import IconChatNotification from "@components/chat/IconChatNotification";
-import IconChatSetting from "@components/chat/IconChatSetting";
 import ChatBubble from "@pages/chat/ChatBubble/ChatBubble";
 
 const ChatRoomPage = ({ route }) => {
@@ -96,11 +94,11 @@ const ChatRoomPage = ({ route }) => {
 	}, []);
 
 	useEffect(() => {
-		Platform.OS == "ios"
-			? StatusBarManager.getHeight((statusBarFrameData) => {
-					setStatusBarHeight(statusBarFrameData.height);
-				})
-			: null;
+		if (Platform.OS === "ios") {
+			StatusBarManager.getHeight((statusBarFrameData) => {
+				setStatusBarHeight(statusBarFrameData.height);
+			});
+		}
 	}, []);
 
 	useEffect(() => {
@@ -441,8 +439,13 @@ const ChatRoomPage = ({ route }) => {
 					onFocus={handleInputFocus}
 				/>
 			</KeyboardAvoidingView>
-			<View style={ChatRoomStyles.chatInput} />
-			<View style={ChatRoomStyles.chatInputBottom} />
+			<View
+				style={
+					Platform.OS === "ios"
+						? ChatRoomStyles.chatInputBottom
+						: null
+				}
+			/>
 			{menuOpen && (
 				<TouchableOpacity
 					onPress={toggleMenu}
@@ -465,13 +468,6 @@ const ChatRoomPage = ({ route }) => {
 					>
 						<IconChatOut />
 					</TouchableOpacity>
-
-					<View style={ChatRoomStyles.containerIcon}>
-						<View style={{ marginRight: 7 }}>
-							<IconChatNotification />
-						</View>
-						<IconChatSetting />
-					</View>
 				</View>
 				<View style={{ marginBottom: 4 }}>
 					<Text
