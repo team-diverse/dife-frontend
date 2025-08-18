@@ -45,10 +45,6 @@ const LoadingVerificationStyles = StyleSheet.create({
 	iconLoading: {
 		marginBottom: 6,
 	},
-	checkboxRememberMe: {
-		color: CustomTheme.textSecondary,
-		marginTop: 4,
-	},
 	textMove: {
 		...fontBody14,
 		color: CustomTheme.textSecondary,

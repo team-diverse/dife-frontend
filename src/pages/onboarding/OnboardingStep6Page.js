@@ -87,9 +87,9 @@ const OnboardingStep6Page = ({ stepData, saveData }) => {
 		}
 
 		try {
+			navigation.replace("CompleteProfilePage");
 			await updateMyProfile(formData);
 			console.log(formData);
-			navigation.replace("CompleteProfilePage");
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(

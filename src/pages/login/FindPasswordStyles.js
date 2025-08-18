@@ -40,10 +40,25 @@ const FindPasswordStyles = StyleSheet.create({
 		marginTop: 8,
 		alignItems: "center",
 	},
-	containerNotMember: {
+	containerRetransmit: {
+		width: 59,
+		height: 28,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: CustomTheme.primaryMedium,
+		borderRadius: 4,
+		position: "absolute",
+		top: 15.5,
+		right: 12,
+	},
+	textResend: {
+		...fontSub14,
+		color: "#FBFBFB",
+	},
+	containerError: {
 		flexDirection: "row",
 		marginTop: 8,
-		marginLeft: 25,
+		marginHorizontal: 25,
 	},
 	textNotMember: {
 		...fontCaption,
