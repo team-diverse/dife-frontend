@@ -119,8 +119,20 @@
 	"retryButtonText": "Reintentar Verificación de Estudiante",
 
 	"waitingVerificationTitle": "Certificado de estudiante en proceso (máximo de 2 minutos)",
+<<<<<<< HEAD
 	"waitingVerificationDescription": "Una vez verificado,\nse habilitarán todas las funciones",
 	"receiveNotification": "Recibir notificación de finalización de verificación",
+=======
+	"loadingVerification1": "📋 Reconociendo tarjeta estudiantil...",
+	"loadingVerification2": "🔍 Verificando servidor...",
+	"loadingVerification3": "⚙️ Procesando datos...",
+	"loadingVerification4": "🖼️ Analizando imagen...",
+	"loadingVerification5": "🎓 Verificando estudiante activo...",
+	"completeVerification": "🎉 ¡Has sido verificado como estudiante de la Universidad Kookmin!",
+	"waitingVerificationDescription1": "⚠️ La verificación automática de estudiante no se ha completado",
+	"waitingVerificationDescription2": "Procederemos con la verificación adicional tras la revisión del administrador",
+	"waitingVerificationDescription3": "⏰ Puede tardar hasta 24 horas",
+>>>>>>> 5abafc6 (Fix/multiple improvements 5: 좋아요 UI 불일치 문제, 자동 인증 UI/UX, 비밀번호 찾기 인증번호 재전송 및 타이머 (#292))
 	"returnToLogin": "Regresar a la pantalla de inicio de sesión",
 
 	"profileCompletionTitle": "¡Creación de Perfil Completa!",
