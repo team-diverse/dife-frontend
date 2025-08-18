@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -6,13 +6,18 @@ import {
 	TextInput,
 	TouchableWithoutFeedback,
 	Keyboard,
+	TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
 import FindPasswordStyles from "@pages/login/FindPasswordStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
-import { getVerifyCode, changePassword } from "config/api";
+import {
+	getVerifyCode,
+	changePassword,
+	createVerificationCode,
+} from "config/api";
 
 import InfoCircle from "@components/common/InfoCircle";
 import ApplyButton from "@components/common/ApplyButton";
@@ -32,6 +37,40 @@ const FindPasswordPage = () => {
 		useState(false);
 	const [verificationCode, setVerificationCode] = useState();
 	const [modalConnectVisible, setModalConnectVisible] = useState(false);
+	const [timeLeft, setTimeLeft] = useState(3 * 60);
+
+	useEffect(() => {
+		const timer = setInterval(() => {
+			setTimeLeft((prevTime) => {
+				if (prevTime <= 1) {
+					clearInterval(timer);
+					return 0;
+				}
+				return prevTime - 1;
+			});
+		}, 1000);
+		return () => clearInterval(timer);
+	}, []);
+
+	const formatTime = (seconds) => {
+		const minutes = Math.floor(seconds / 60);
+		const secs = seconds % 60;
+		return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+	};
+
+	const fetchCreateVerificationCode = async () => {
+		setTimeLeft(3 * 60);
+		try {
+			await createVerificationCode(valueID);
+		} catch (error) {
+			console.error(
+				"비밀번호 찾기 인증번호 전송 실패:",
+				error.response ? error.response.data : error.message,
+			);
+			setInvalidVerificationCode(true);
+			setErrorMessage(t("verifyCodePrompt"));
+		}
+	};
 
 	const handleKeyboard = () => {
 		Keyboard.dismiss();
@@ -117,9 +156,19 @@ const FindPasswordPage = () => {
 						value={valueID}
 						editable={isNext ? false : true}
 					/>
+					{isNext && (
+						<TouchableOpacity
+							style={FindPasswordStyles.containerRetransmit}
+							onPress={fetchCreateVerificationCode}
+						>
+							<Text style={FindPasswordStyles.textResend}>
+								{t("resend")}
+							</Text>
+						</TouchableOpacity>
+					)}
 				</View>
 				{validID == false && (
-					<View style={FindPasswordStyles.containerNotMember}>
+					<View style={FindPasswordStyles.containerError}>
 						<InfoCircle color={CustomTheme.warningRed} />
 						<Text style={FindPasswordStyles.textNotMember}>
 							{errorMessage}
@@ -145,14 +194,44 @@ const FindPasswordPage = () => {
 								value={verificationCode}
 							/>
 						</View>
-						{invalidVerificationCode && (
-							<View style={FindPasswordStyles.containerNotMember}>
-								<InfoCircle color={CustomTheme.warningRed} />
-								<Text style={FindPasswordStyles.textNotMember}>
-									{errorMessage}
-								</Text>
-							</View>
-						)}
+						<View
+							style={[
+								FindPasswordStyles.containerError,
+								{ justifyContent: "space-between" },
+							]}
+						>
+							{!invalidVerificationCode && (
+								<>
+									<View style={{ flexDirection: "row" }}>
+										<InfoCircle
+											color={CustomTheme.warningRed}
+										/>
+										{timeLeft === 0 ? (
+											<Text
+												style={
+													FindPasswordStyles.textNotMember
+												}
+											>
+												{t("invalidVerificationCode")}
+											</Text>
+										) : (
+											<Text
+												style={
+													FindPasswordStyles.textNotMember
+												}
+											>
+												{t("verificationCodeSent")}
+											</Text>
+										)}
+									</View>
+									<Text
+										style={FindPasswordStyles.textNotMember}
+									>
+										{formatTime(timeLeft)}
+									</Text>
+								</>
+							)}
+						</View>
 						<View style={FindPasswordStyles.applyButton}>
 							<ApplyButton
 								text={t("setPasswordButton")}
