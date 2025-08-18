@@ -38,8 +38,8 @@ const ConnectProfileTopBar = (props) => {
 	};
 
 	const modalPosition = {
-		top: iconPosition.height,
-		width: iconPosition.width,
+		top: iconPosition.height - 7,
+		width: iconPosition.width - 10,
 	};
 
 	return (
