@@ -21,7 +21,12 @@ const StudentVerificationErrorPage = () => {
 	return (
 		<SafeAreaView style={StudentVerificationErrorStyles.container}>
 			<Image
+<<<<<<< HEAD
 				style={[StudentVerificationErrorStyles.imageBackgroud]}
+=======
+				style={StudentVerificationErrorStyles.imageBackgroud}
+				// eslint-disable-next-line @typescript-eslint/no-require-imports
+>>>>>>> af6c753 (fix: 탭 글씨와 아이콘이 안 뜨는 문제 해결을 위해 커스텀 탭바 구현 (#293))
 				source={require("@assets/images/BlurHomePage.png")}
 			/>
 			<View style={StudentVerificationErrorStyles.modalBackground}>
