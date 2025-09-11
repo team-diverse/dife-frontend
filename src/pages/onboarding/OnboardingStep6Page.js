@@ -116,6 +116,7 @@ const OnboardingStep6Page = ({ stepData, saveData }) => {
 						>
 							<Image
 								style={OnboardingStep6Styles.imageModal}
+								// eslint-disable-next-line @typescript-eslint/no-require-imports
 								source={require("@assets/images/onboardingExample.png")}
 							/>
 							<Text style={OnboardingStep6Styles.textModal}>

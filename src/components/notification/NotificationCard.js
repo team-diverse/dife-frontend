@@ -71,7 +71,7 @@ const NotificationCard = ({
 		} else if (type === "POST") {
 			navigation.navigate("PostPage", { postId: typeId });
 		} else {
-			null;
+			return;
 		}
 	};
 

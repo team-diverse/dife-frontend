@@ -13,9 +13,7 @@ import TopBar from "@components/common/TopBar";
 import IconFriendNumber from "@components/chat/IconFriendNumber";
 import FriendList from "@components/chat/FriendList";
 
-const FriendListPage = ({ route }) => {
-	const { member } = route.params || {};
-
+const FriendListPage = ({ member }) => {
 	const { t } = useTranslation();
 
 	const [connects, setConnects] = useState([]);
