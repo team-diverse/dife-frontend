@@ -3,7 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { TabView } from "react-native-tab-view";
 import * as Sentry from "@sentry/react-native";
 
 import MemberStyles from "@pages/member/MemberStyles";
@@ -24,15 +24,44 @@ import IconProfileEdit from "@components/member/IconProfileEdit";
 import IconLike from "@components/member/IconLike";
 import IconBookmark from "@components/member/IconBookmark";
 import IconProfileUser64 from "@components/common/IconProfileUser64";
+import CustomTabBar from "@components/member/CustomTabBar";
 
 const MemberPage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
-	const Tab = createMaterialTopTabNavigator();
 
 	const [name, setName] = useState("");
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [index, setIndex] = useState(0);
+	const [routes] = useState([
+		{
+			key: "LikedPost",
+			title: "LikedPost",
+			icon: ({ focused }) => (
+				<IconLike
+					color={
+						focused
+							? CustomTheme.primaryMedium
+							: CustomTheme.borderColor
+					}
+				/>
+			),
+		},
+		{
+			key: "BookmarkedPost",
+			title: "BookmarkedPost",
+			icon: ({ focused }) => (
+				<IconBookmark
+					color={
+						focused
+							? CustomTheme.primaryMedium
+							: CustomTheme.borderColor
+					}
+				/>
+			),
+		},
+	]);
 
 	useStatusBar({
 		color: "#0029F4",
@@ -68,7 +97,7 @@ const MemberPage = () => {
 	);
 
 	return (
-		<>
+		<View style={{ flex: 1 }}>
 			<LinearGradient
 				colors={["#0029F4", "#6199C1"]}
 				locations={[0, 0.8]}
@@ -143,49 +172,19 @@ const MemberPage = () => {
 			</LinearGradient>
 
 			<View style={MemberStyles.tabContainer}>
-				<Tab.Navigator
-					initialRouteName="TabLikedPostPage"
-					screenOptions={{
-						tabBarIndicatorStyle: {
-							backgroundColor: "#B0D0FF",
-						},
+				<TabView
+					navigationState={{ index, routes }}
+					renderScene={({ route }) => {
+						if (route.key === "LikedPost")
+							return <TabLikedPostPage />;
+						if (route.key === "BookmarkedPost")
+							return <TabBookmarkPostPage />;
 					}}
-				>
-					<Tab.Screen
-						name="좋아요"
-						component={TabLikedPostPage}
-						options={{
-							tabBarIcon: ({ focused }) => (
-								<IconLike
-									color={
-										focused
-											? CustomTheme.primaryMedium
-											: CustomTheme.borderColor
-									}
-								/>
-							),
-							tabBarLabel: () => null,
-						}}
-					/>
-					<Tab.Screen
-						name="북마크"
-						component={TabBookmarkPostPage}
-						options={{
-							tabBarIcon: ({ focused }) => (
-								<IconBookmark
-									color={
-										focused
-											? CustomTheme.primaryMedium
-											: CustomTheme.borderColor
-									}
-								/>
-							),
-							tabBarLabel: () => null,
-						}}
-					/>
-				</Tab.Navigator>
+					onIndexChange={setIndex}
+					renderTabBar={(props) => <CustomTabBar {...props} />}
+				/>
 			</View>
-		</>
+		</View>
 	);
 };
 export default MemberPage;
