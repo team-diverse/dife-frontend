@@ -22,6 +22,7 @@ const StudentVerificationErrorPage = () => {
 		<SafeAreaView style={StudentVerificationErrorStyles.container}>
 			<Image
 				style={StudentVerificationErrorStyles.imageBackgroud}
+				// eslint-disable-next-line @typescript-eslint/no-require-imports
 				source={require("@assets/images/BlurHomePage.png")}
 			/>
 			<View style={StudentVerificationErrorStyles.modalBackground}>
