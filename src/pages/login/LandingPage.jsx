@@ -37,14 +37,18 @@ const LandingPage = () => {
 			id: "1",
 			title: t("connectTitle"),
 			content: t("connectContent"),
+			// eslint-disable-next-line @typescript-eslint/no-require-imports
 			image: require("src/assets/images/landing/landing_connect.png"),
+			// eslint-disable-next-line @typescript-eslint/no-require-imports
 			imagePlus: require("src/assets/images/landing/profile.png"),
 		},
 		{
 			id: "2",
 			title: t("chatTitle"),
 			content: t("chatContent"),
+			// eslint-disable-next-line @typescript-eslint/no-require-imports
 			image: require("src/assets/images/landing/landing_chat.png"),
+			// eslint-disable-next-line @typescript-eslint/no-require-imports
 			imagePlus: require("src/assets/images/landing/chat_bubble.png"),
 			chat: true,
 		},
@@ -52,6 +56,7 @@ const LandingPage = () => {
 			id: "3",
 			title: t("boardTitle"),
 			content: t("communityContent"),
+			// eslint-disable-next-line @typescript-eslint/no-require-imports
 			image: require("src/assets/images/landing/landing_community.png"),
 		},
 	];
