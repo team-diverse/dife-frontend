@@ -1,6 +1,10 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
-import { getRandomMembersByCount } from "config/api";
+import {
+	getRandomMembersByCount,
+	createLikeMember,
+	deleteLikeMember,
+} from "config/api";
 import { formatProfileData } from "util/formatProfileData";
 
 const MatchQueueContext = createContext();
@@ -11,6 +15,13 @@ export const MatchQueueProvider = ({ children }) => {
 	const [homeProfiles, setHomeProfiles] = useState([]);
 	const [lastFetchTime, setLastFetchTime] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState(QUEUE_REFRESH_TIME);
+	const [likesById, setLikesById] = useState({});
+
+	useEffect(() => {
+		if (allProfiles.length > 0) {
+			setLikesById(initializeLikesById(allProfiles));
+		}
+	}, [allProfiles]);
 
 	const distributeProfiles = (profiles) => {
 		setAllProfiles(profiles);
@@ -27,6 +38,9 @@ export const MatchQueueProvider = ({ children }) => {
 			const formattedProfiles = formatProfileData(response.data);
 
 			distributeProfiles(formattedProfiles);
+
+			const initialLikesById = initializeLikesById(formattedProfiles);
+			setLikesById(initialLikesById);
 
 			const currentTime = Date.now();
 			setLastFetchTime(currentTime);
@@ -104,6 +118,28 @@ export const MatchQueueProvider = ({ children }) => {
 		setAllProfiles(removedProfiles);
 	};
 
+	const initializeLikesById = (profiles) => {
+		const likes = {};
+		profiles.forEach((profile) => {
+			likes[profile.id] = !!profile.isLiked;
+		});
+		return likes;
+	};
+
+	const toggleLike = async (profileId, liked) => {
+		setLikesById((prev) => ({ ...prev, [profileId]: liked }));
+		try {
+			if (liked) {
+				await createLikeMember(profileId);
+			} else {
+				await deleteLikeMember(profileId);
+			}
+		} catch (error) {
+			setLikesById((prev) => ({ ...prev, [profileId]: !liked }));
+			console.error("좋아요 토글 실패:", error);
+		}
+	};
+
 	return (
 		<MatchQueueContext.Provider
 			value={{
@@ -112,8 +148,10 @@ export const MatchQueueProvider = ({ children }) => {
 				timeRemaining,
 				formattedTimeRemaining: formatTime(timeRemaining),
 				canFetch: timeRemaining <= 0,
+				likesById,
 				fetchAndDistributeProfiles: fetchNewQueue,
 				removeProfile,
+				toggleLike,
 			}}
 		>
 			{children}

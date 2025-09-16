@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	Dimensions,
+	Platform,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
@@ -14,12 +15,8 @@ import { useTranslation } from "react-i18next";
 import GestureRecognizer from "react-native-swipe-gestures";
 
 import HomeStyles from "@pages/home/HomeStyles";
-import {
-	createLikeMember,
-	deleteLikeMember,
-	getNotifications,
-} from "config/api";
-
+import { getNotifications } from "config/api";
+import { useStatusBar } from "util/useStatusBar";
 import HomeBg from "@assets/images/svg_js/HomeBg.js";
 import LogoBr from "@components/Logo/LogoBr.js";
 import Notification32 from "@components/Icon32/Notification32.js";
@@ -37,9 +34,19 @@ const HomePage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
-	const { homeProfiles, canFetch, fetchAndDistributeProfiles } =
-		useMatchQueue();
+	const {
+		homeProfiles,
+		canFetch,
+		fetchAndDistributeProfiles,
+		likesById,
+		toggleLike,
+	} = useMatchQueue();
 	const [notificationNumber, setNotificationNumber] = useState(0);
+
+	useStatusBar({
+		color: "#0029F4",
+		barStyle: "light-content",
+	});
 
 	const getNotificationNumber = async () => {
 		try {
@@ -112,45 +119,19 @@ const HomePage = () => {
 
 	const profileData = homeProfiles[currentProfileIndex];
 
+	const isLiked =
+		profileData && likesById[profileData.id] !== undefined
+			? likesById[profileData.id]
+			: profileData?.liked;
+
 	const [showNewCard, setShowNewCard] = useState(false);
-
-	const [heart, setHeart] = useState({});
-
-	const handleCreateHeart = async () => {
-		try {
-			await createLikeMember(profileData.id);
-			setHeart((prev) => ({
-				...prev,
-				[profileData.id]: true,
-			}));
-		} catch (error) {
-			console.error(
-				"멤버 좋아요 생성 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
-
-	const handleDeleteHeart = async () => {
-		try {
-			await deleteLikeMember(profileData.id);
-			setHeart((prev) => ({
-				...prev,
-				[profileData.id]: false,
-			}));
-		} catch (error) {
-			console.error(
-				"멤버 좋아요 취소 실패:",
-				error.response ? error.response.data : error.message,
-			);
-		}
-	};
 
 	const handleNaviNotification = () => {
 		setNotificationNumber(0);
 		navigation.navigate("NotificationPage");
 	};
 
+	const { width: screenWidth } = Dimensions.get("window");
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
 
@@ -190,6 +171,7 @@ const HomePage = () => {
 				style={{
 					flexDirection: "row",
 					alignItems: "center",
+					justifyContent: "center",
 				}}
 			>
 				<TouchableOpacity
@@ -197,6 +179,7 @@ const HomePage = () => {
 					style={{
 						opacity: canShowPrevArrow() ? 1 : 0,
 						pointerEvents: canShowPrevArrow() ? "auto" : "none",
+						zIndex: 10,
 					}}
 				>
 					<HomeArrow style={{ transform: [{ scaleX: -1 }] }} />
@@ -240,12 +223,10 @@ const HomePage = () => {
 									name={profileData.username}
 									country={profileData.country}
 									onPress={() => setShowNewCard(true)}
-									isLikedOnPress={() => {
-										heart[profileData.id]
-											? handleDeleteHeart()
-											: handleCreateHeart();
-									}}
-									isLikedActive={heart[profileData.id]}
+									isLikedOnPress={() =>
+										toggleLike(profileData.id, !isLiked)
+									}
+									isLikedActive={isLiked}
 								/>
 							</View>
 						)}
@@ -264,7 +245,17 @@ const HomePage = () => {
 							</View>
 						) : currentProfileIndex < homeProfiles.length - 1 ? (
 							<>
-								<View style={HomeStyles.backgroundHomecard}>
+								<View
+									style={[
+										HomeStyles.backgroundHomecard,
+										{
+											right:
+												Platform.OS === "android"
+													? screenWidth * 0.1
+													: 30,
+										},
+									]}
+								>
 									<HomeCard />
 								</View>
 								<View
@@ -272,8 +263,11 @@ const HomePage = () => {
 										HomeStyles.backgroundHomecard,
 										{
 											transform: [{ scale: 0.8 }],
-											right: -5,
-											zIndex: -1,
+											right:
+												Platform.OS === "android"
+													? screenWidth * 0.01
+													: -5,
+											zIndex: 0,
 										},
 									]}
 								>
@@ -289,6 +283,7 @@ const HomePage = () => {
 					style={{
 						opacity: canShowNextArrow() ? 1 : 0,
 						pointerEvents: canShowNextArrow() ? "auto" : "none",
+						zIndex: 10,
 					}}
 				>
 					<HomeArrow />

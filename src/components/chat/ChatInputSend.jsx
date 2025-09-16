@@ -5,6 +5,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	Keyboard,
+	Platform,
 } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
@@ -51,26 +52,19 @@ const ChatInputSend = ({ chatroomId, isExited: initialIsExited, onFocus }) => {
 			}
 			setChatInput("");
 		} else {
-			console.log("Token is missing or input is empty");
+			console.log("토큰 또는 입력창이 빈 값입니다.");
 		}
 	};
 
 	return (
 		<View style={styles.rectangle}>
 			<TextInput
-				style={[styles.input]}
+				style={styles.input}
 				value={chatInput}
 				onChangeText={setChatInput}
 				multiline
 				onFocus={onFocus}
 				onBlur={Keyboard.dismiss}
-				onContentSizeChange={(contentHeight) => {
-					if (contentHeight <= 6 * 17) {
-						contentHeight;
-					} else {
-						6 * 17;
-					}
-				}}
 			/>
 
 			<TouchableOpacity style={styles.rectangleBlue} onPress={handleSend}>
@@ -87,10 +81,22 @@ const styles = StyleSheet.create({
 		alignItems: "flex-start",
 		justifyContent: "space-between",
 		backgroundColor: CustomTheme.bgBasic,
-		shadowColor: "#3C454E",
-		shadowOffset: { width: 0, height: -4 },
-		shadowOpacity: 0.05,
-		shadowRadius: 3,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E",
+				shadowOffset: { width: 0, height: -4 },
+				shadowOpacity: 0.05,
+				shadowRadius: 3,
+				paddingTop: 10,
+				paddingBottom: 13,
+			},
+			android: {
+				elevation: 3,
+				paddingVertical: 3.5,
+			},
+		}),
+		paddingRight: 55,
+		paddingHorizontal: 17,
 	},
 	iconImage: {
 		alignItems: "center",
@@ -122,11 +128,6 @@ const styles = StyleSheet.create({
 		...fontBody14,
 		alignItems: "center",
 		width: "100%",
-		marginTop: 10,
-		marginBottom: 13,
-		marginRight: 55,
-		paddingLeft: 17,
-		paddingRight: 17,
 		maxHeight: 6 * 17,
 	},
 	rectangleBlue: {

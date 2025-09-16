@@ -1,47 +1,51 @@
-import React from "react";
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, SafeAreaView, Platform } from "react-native";
 import TopBar from "@components/common/TopBar";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { useTranslation } from "react-i18next";
+import Constants from "expo-constants";
 
 import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import FriendListPage from "@pages/chat/FriendListPage";
 import RequestConnectListPage from "@pages/member/RequestConnectListPage";
+import { TabView } from "react-native-tab-view";
+import CustomTabBar from "@components/member/CustomTabBar";
 
 const ConnectListPage = () => {
 	const { t } = useTranslation();
+	const [index, setIndex] = useState(0);
+	const [routes] = useState([
+		{
+			key: "friend",
+			title: t("friend"),
+		},
+		{
+			key: "connectRequest",
+			title: t("connectRequest"),
+		},
+	]);
 
-	const Tab = createMaterialTopTabNavigator();
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<TopBar topBar={t("connectList")} color="#000" />
 			<View style={styles.tabContainer}>
-				<Tab.Navigator
-					initialRouteName="LikeUserOneToOne"
-					screenOptions={{
-						tabBarActiveTintColor: CustomTheme.primaryMedium,
-						tabBarInactiveTintColor: CustomTheme.bgList,
-						tabBarLabelStyle: {
-							fontSize: 18,
-							lineHeight: 26,
-							fontFamily: "NotoSansCJKkr-Bold",
-						},
+				<TabView
+					navigationState={{ index, routes }}
+					renderScene={({ route }) => {
+						if (route.key === "friend")
+							return <FriendListPage member={true} />;
+						if (route.key === "connectRequest")
+							return <RequestConnectListPage />;
 					}}
-				>
-					<Tab.Screen
-						name="1:1"
-						component={FriendListPage}
-						initialParams={{ member: true }}
-						options={{ tabBarLabel: t("friend") }}
-					/>
-					<Tab.Screen
-						name="그룹"
-						component={RequestConnectListPage}
-						options={{ tabBarLabel: t("connectRequest") }}
-					/>
-				</Tab.Navigator>
+					onIndexChange={setIndex}
+					renderTabBar={(props) => <CustomTabBar {...props} />}
+				/>
 			</View>
 		</SafeAreaView>
 	);
@@ -51,10 +55,9 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "white",
+		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
-	tabContainer: {
-		flex: 1,
-	},
+	tabContainer: { flex: 1 },
 });
 
 export default ConnectListPage;

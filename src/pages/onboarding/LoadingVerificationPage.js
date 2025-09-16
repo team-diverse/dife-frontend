@@ -3,30 +3,24 @@ import { SafeAreaView, View, Text, Image } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 import LoadingVerificationStyles from "./LoadingVerificationStyles";
-import Checkbox from "@components/common/Checkbox";
 import IconLoading from "@components/onboarding/IconLoading";
 import { checkIsVerified } from "config/api";
-
-const loadingMessages = [
-	"📋 학생증 인식 중...",
-	"🔍 서버 확인 중...",
-	"⚙️ 데이터 처리 중...",
-	"🖼️ 이미지 분석 중...",
-	"🎓 재학생 판별 중...",
-];
 
 const LoadingVerificationPage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
-	const [isChecked, setIsChecked] = useState(false);
 	const [messageIndex, setMessageIndex] = useState(0);
 	const [verificationStatus, setVerificationStatus] = useState("loading");
 	const [isPolling, setIsPolling] = useState(true);
 
-	const handlePress = () => {
-		setIsChecked(!isChecked);
-	};
+	const loadingMessages = [
+		t("loadingVerification1"),
+		t("loadingVerification2"),
+		t("loadingVerification3"),
+		t("loadingVerification4"),
+		t("loadingVerification5"),
+	];
 
 	const checkVerificationStatus = async () => {
 		try {
@@ -83,20 +77,10 @@ const LoadingVerificationPage = () => {
 				return (
 					<>
 						<Text style={LoadingVerificationStyles.textModal}>
-							🎉 국민대 학생인증되었습니다!
+							{t("completeVerification")}
 						</Text>
 						<View style={LoadingVerificationStyles.iconLoading}>
 							<Text style={{ fontSize: 50 }}>✅</Text>
-						</View>
-						<View
-							style={LoadingVerificationStyles.checkboxRememberMe}
-						>
-							<Checkbox
-								checked={isChecked}
-								onPress={handlePress}
-								text={t("receiveNotification")}
-								basic="true"
-							/>
 						</View>
 						<Text
 							style={LoadingVerificationStyles.textMove}
@@ -111,24 +95,14 @@ const LoadingVerificationPage = () => {
 				return (
 					<>
 						<Text style={LoadingVerificationStyles.textModal}>
-							⚠️ 자동 학생 인증이 되지 않았습니다
+							{t("waitingVerificationDescription1")}
 						</Text>
 						<Text style={LoadingVerificationStyles.textModal}>
-							관리자 확인 후에 인증을 추가로 진행해드릴게요
+							{t("waitingVerificationDescription2")}
 						</Text>
 						<Text style={LoadingVerificationStyles.textModal}>
-							⏰ 최대 24시간 소요됩니다
+							{t("waitingVerificationDescription3")}
 						</Text>
-						<View
-							style={LoadingVerificationStyles.checkboxRememberMe}
-						>
-							<Checkbox
-								checked={isChecked}
-								onPress={handlePress}
-								text={t("receiveNotification")}
-								basic="true"
-							/>
-						</View>
 						<Text
 							style={LoadingVerificationStyles.textMove}
 							onPress={() => navigation.navigate("Login")}
@@ -150,16 +124,6 @@ const LoadingVerificationPage = () => {
 						<Text style={LoadingVerificationStyles.textModal}>
 							{loadingMessages[messageIndex]}
 						</Text>
-						<View
-							style={LoadingVerificationStyles.checkboxRememberMe}
-						>
-							<Checkbox
-								checked={isChecked}
-								onPress={handlePress}
-								text={t("receiveNotification")}
-								basic="true"
-							/>
-						</View>
 					</>
 				);
 		}
@@ -169,6 +133,7 @@ const LoadingVerificationPage = () => {
 		<SafeAreaView style={LoadingVerificationStyles.container}>
 			<Image
 				style={LoadingVerificationStyles.imageBackgroud}
+				// eslint-disable-next-line @typescript-eslint/no-require-imports
 				source={require("@assets/images/BlurHomePage.png")}
 			/>
 			<View style={LoadingVerificationStyles.modalBackground}>

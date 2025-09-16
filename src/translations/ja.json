@@ -119,8 +119,15 @@
 	"retryButtonText": "学生認証を再試行",
 
 	"waitingVerificationTitle": "在学生認証処理中(最大2分)",
-	"waitingVerificationDescription": "認証が完了すると、\nすべての機能が利用可能になります",
-	"receiveNotification": "認証完了通知を受け取る",
+	"loadingVerification1": "📋 学生証認識中...",
+	"loadingVerification2": "🔍 サーバー確認中...",
+	"loadingVerification3": "⚙️ データ処理中...",
+	"loadingVerification4": "🖼️ 画像分析中...",
+	"loadingVerification5": "🎓 在学生判定中...",
+	"completeVerification": "🎉 国民大学の学生認証が完了しました！",
+	"waitingVerificationDescription1": "⚠️ 自動学生認証が完了していません",
+	"waitingVerificationDescription2": "管理者の確認後に追加認証を行います",
+	"waitingVerificationDescription3": "⏰ 最大24時間かかる場合があります",
 	"returnToLogin": "ログイン画面に戻る",
 
 	"profileCompletionTitle": "プロフィール作成完了！",
@@ -141,7 +148,6 @@
 	"cancelRequestButtonText": "リクエストをキャンセル",
 	"acceptRequestButtonText": "リクエストを承認",
 	"cancelConnectButtonText": "接続をキャンセル",
-	"connectCaution": "問題のあるユーザーには、プロフィールの‘ブロックと報告’機能を使用して対応してください。",
 	"noButtonText": "いいえ",
 	"serviceUnderConstruction": "まだ準備中のサービスです",
 
@@ -152,7 +158,6 @@
 	"tipBoard": "ヒント掲示板",
 	"freeBoard": "自由掲示板",
 	"entire": "すべて",
-	"boardCaution": "不適切または攻撃的なコンテンツには制裁が科される可能性があります。",
 
 	"searchError": "検索中にエラーが発生しました",
 	"searchCancelButton": "検索をキャンセル",
@@ -201,7 +206,6 @@
 	"impersonation": "他人を装う",
 	"other": "その他",
 	"reportComplete": "通報完了",
-	"reportCompleteInformation": "審査には最大24時間かかる場合があります。",
 	"submitReport": "通報する",
 
 	"likeListTitle": "いいねリスト",

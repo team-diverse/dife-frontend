@@ -15,6 +15,7 @@ const EventPage = () => {
 			id: "1",
 			title: "🤿 Dife 베타 테스트 설문 / Dife Beta Test Questions",
 			date: "2024.11.25 ~ 2024.12.01",
+			// eslint-disable-next-line @typescript-eslint/no-require-imports
 			eventImg: require("src/assets/dife_header.png"),
 			url: "https://forms.gle/7kX3YJRKpnk51qvh9",
 		},

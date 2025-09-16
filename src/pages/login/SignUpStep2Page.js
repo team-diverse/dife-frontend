@@ -129,7 +129,7 @@ const SignUpStep2Page = ({ saveData, goToNext, stepData }) => {
 								{ justifyContent: "space-between" },
 							]}
 						>
-							{!validVerificationCode && (
+							{validVerificationCode && (
 								<>
 									<View style={{ flexDirection: "row" }}>
 										<InfoCircle
