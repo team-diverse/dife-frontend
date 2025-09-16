@@ -1,5 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
+import Constants from "expo-constants";
 
 const { fontHead24, fontSub16, fontSub14, fontCaption } = CustomTheme;
 
@@ -7,6 +8,7 @@ const FindPasswordStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
+		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	textTitle: {
 		...fontHead24,
@@ -25,20 +27,19 @@ const FindPasswordStyles = StyleSheet.create({
 		marginTop: 120,
 		marginLeft: 24,
 	},
+	containerTextInputId: {
+		marginHorizontal: 24,
+	},
 	textInputId: {
+		width: "100%",
 		height: 44,
 		padding: 12,
 		borderWidth: 1,
 		borderColor: CustomTheme.borderColor,
 		borderRadius: 6,
 		marginTop: 8,
-		marginHorizontal: 25,
-		justifyContent: "center",
+		alignItems: "center",
 	},
-<<<<<<< HEAD
-
-	containerNotMember: {
-=======
 	containerRetransmit: {
 		width: 59,
 		height: 28,
@@ -55,7 +56,6 @@ const FindPasswordStyles = StyleSheet.create({
 		color: "#FBFBFB",
 	},
 	containerError: {
->>>>>>> 5abafc6 (Fix/multiple improvements 5: 좋아요 UI 불일치 문제, 자동 인증 UI/UX, 비밀번호 찾기 인증번호 재전송 및 타이머 (#292))
 		flexDirection: "row",
 		marginTop: 8,
 		marginHorizontal: 25,
@@ -66,8 +66,15 @@ const FindPasswordStyles = StyleSheet.create({
 		marginLeft: 3,
 	},
 	applyButton: {
-		position: "absolute",
-		bottom: 126,
+		...Platform.select({
+			ios: {
+				position: "absolute",
+				bottom: 126,
+			},
+			android: {
+				marginTop: 32,
+			},
+		}),
 	},
 });
 

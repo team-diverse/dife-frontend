@@ -15,6 +15,8 @@ import { formatProfileData } from "util/formatProfileData";
 import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
 import { useWebSocket } from "context/WebSocketContext";
 import { createChatroom } from "util/createChatroom";
+import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
 
 import ConnectProfileTopBar from "@components/connect/ConnectProfileTopBar";
 import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";

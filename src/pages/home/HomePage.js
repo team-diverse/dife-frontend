@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	Dimensions,
+	Platform,
 } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
@@ -41,6 +42,11 @@ const HomePage = () => {
 		toggleLike,
 	} = useMatchQueue();
 	const [notificationNumber, setNotificationNumber] = useState(0);
+
+	useStatusBar({
+		color: "#0029F4",
+		barStyle: "light-content",
+	});
 
 	const getNotificationNumber = async () => {
 		try {
@@ -125,6 +131,7 @@ const HomePage = () => {
 		navigation.navigate("NotificationPage");
 	};
 
+	const { width: screenWidth } = Dimensions.get("window");
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
 
@@ -164,6 +171,7 @@ const HomePage = () => {
 				style={{
 					flexDirection: "row",
 					alignItems: "center",
+					justifyContent: "center",
 				}}
 			>
 				<TouchableOpacity
@@ -171,6 +179,7 @@ const HomePage = () => {
 					style={{
 						opacity: canShowPrevArrow() ? 1 : 0,
 						pointerEvents: canShowPrevArrow() ? "auto" : "none",
+						zIndex: 10,
 					}}
 				>
 					<HomeArrow style={{ transform: [{ scaleX: -1 }] }} />
@@ -236,7 +245,17 @@ const HomePage = () => {
 							</View>
 						) : currentProfileIndex < homeProfiles.length - 1 ? (
 							<>
-								<View style={HomeStyles.backgroundHomecard}>
+								<View
+									style={[
+										HomeStyles.backgroundHomecard,
+										{
+											right:
+												Platform.OS === "android"
+													? screenWidth * 0.1
+													: 30,
+										},
+									]}
+								>
 									<HomeCard />
 								</View>
 								<View
@@ -244,8 +263,11 @@ const HomePage = () => {
 										HomeStyles.backgroundHomecard,
 										{
 											transform: [{ scale: 0.8 }],
-											right: -5,
-											zIndex: -1,
+											right:
+												Platform.OS === "android"
+													? screenWidth * 0.01
+													: -5,
+											zIndex: 0,
 										},
 									]}
 								>
@@ -261,6 +283,7 @@ const HomePage = () => {
 					style={{
 						opacity: canShowNextArrow() ? 1 : 0,
 						pointerEvents: canShowNextArrow() ? "auto" : "none",
+						zIndex: 10,
 					}}
 				>
 					<HomeArrow />

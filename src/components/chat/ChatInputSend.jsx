@@ -5,6 +5,7 @@ import {
 	StyleSheet,
 	TouchableOpacity,
 	Keyboard,
+	Platform,
 } from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
@@ -58,7 +59,7 @@ const ChatInputSend = ({ chatroomId, isExited: initialIsExited, onFocus }) => {
 	return (
 		<View style={styles.rectangle}>
 			<TextInput
-				style={[styles.input]}
+				style={styles.input}
 				value={chatInput}
 				onChangeText={setChatInput}
 				multiline

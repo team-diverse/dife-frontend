@@ -18,6 +18,11 @@ const LikeUserOneToOne = () => {
 	const { likesById, toggleLike } = useMatchQueue();
 	const [connectData, setConnectData] = useState(null);
 
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
+
 	const getLikedMember = async () => {
 		try {
 			const response = await getLikeMember();
