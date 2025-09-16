@@ -118,9 +118,16 @@
 	"retryInstructions": "请重新尝试学生认证",
 	"retryButtonText": "重新尝试学生认证",
 
-	"waitingVerificationTitle": "在校生认证处理中( 最多 2 分钟)",
-	"waitingVerificationDescription": "认证完成后，\n所有功能将可用",
-	"receiveNotification": "接收认证完成通知",
+	"waitingVerificationTitle": "在校生认证处理中(最多 2 分钟)",
+	"loadingVerification1": "📋 识别学生证中...",
+	"loadingVerification2": "🔍 服务器确认中...",
+	"loadingVerification3": "⚙️ 数据处理中...",
+	"loadingVerification4": "🖼️ 图像分析中...",
+	"loadingVerification5": "🎓 在校生判定中...",
+	"completeVerification": "🎉 您已通过国民大学学生认证！",
+	"waitingVerificationDescription1": "⚠️ 自动学生认证未完成",
+	"waitingVerificationDescription2": "管理员确认后将进行额外认证",
+	"waitingVerificationDescription3": "⏰ 最长需要24小时",
 	"returnToLogin": "返回登录界面",
 
 	"profileCompletionTitle": "个人资料创建完成！",
@@ -141,7 +148,6 @@
 	"cancelRequestButtonText": "取消请求",
 	"acceptRequestButtonText": "接受请求",
 	"cancelConnectButtonText": "取消连接",
-	"connectCaution": "请使用他们个人资料中的‘屏蔽与举报’功能来处理问题用户。",
 	"noButtonText": "否",
 	"serviceUnderConstruction": "该服务仍在开发中",
 
@@ -152,7 +158,6 @@
 	"tipBoard": "技巧论坛",
 	"freeBoard": "自由论坛",
 	"entire": "全部",
-	"boardCaution": "不当或冒犯性的内容可能会受到处罚。",
 
 	"searchError": "搜索时发生错误",
 	"searchCancelButton": "取消搜索",
@@ -201,7 +206,6 @@
 	"impersonation": "冒充",
 	"other": "其他",
 	"reportComplete": "举报完成",
-	"reportCompleteInformation": "请允许最多24小时进行审核。",
 	"submitReport": "提交举报",
 
 	"likeListTitle": "喜欢列表",

@@ -99,7 +99,7 @@ const FilterBottomSlide = ({
 	const [selectedHobby, setSelectedHobby] = useState([]);
 	const [selectedLanguage, setSelectedLanguage] = useState([]);
 
-	const mbti = [...MBTI_OPTIONS, t("mbtiNoneOption")];
+	const mbti = [...MBTI_OPTIONS];
 	const hobby = t("hobbyOptions", { returnObjects: true });
 	const languages = t("languages", { returnObjects: true });
 
