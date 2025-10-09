@@ -287,7 +287,7 @@ const LoginPage = () => {
 					<View style={LoginStyles.containerButtonSignupLogin}>
 						<BottomTwoButtons>
 							<View
-								text={t("signUp")}
+								text={t("signUpTitle")}
 								onPress={() => navigation.navigate("SignUp")}
 							/>
 							<View text={t("login")} onPress={handleLogin} />
