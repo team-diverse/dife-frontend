@@ -61,6 +61,12 @@ export default {
 					ja: "./locales/ja/InfoPlist.strings",
 				},
 			},
+			entitlements: {
+				"aps-environment":
+					process.env.APP_VARIANT === "staging"
+						? "production"
+						: "development",
+			},
 		},
 		android: {
 			package: getAndroidPackage(),
@@ -84,6 +90,7 @@ export default {
 			url: "https://u.expo.dev/7ec133fc-2004-4a77-9b59-25d22dede97b",
 		},
 		plugins: [
+			"expo-notifications",
 			"expo-secure-store",
 			[
 				"@sentry/react-native/expo",
