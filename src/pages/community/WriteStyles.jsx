@@ -1,13 +1,11 @@
 import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
-import Constants from "expo-constants";
 
 const { fontBody18, fontBody14, fontNaviBold } = CustomTheme;
 
 const WriteStyles = StyleSheet.create({
 	container: {
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	containerWhite: {
 		minHeight: 330,

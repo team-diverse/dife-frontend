@@ -1,11 +1,6 @@
 import React from "react";
-import {
-	SafeAreaView,
-	View,
-	Text,
-	Linking,
-	TouchableOpacity,
-} from "react-native";
+import { View, Text, Linking, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 
 import InquiryStyles from "@pages/member/InquiryStyles";

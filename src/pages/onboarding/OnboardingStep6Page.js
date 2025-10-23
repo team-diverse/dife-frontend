@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
 	View,
 	Text,
-	SafeAreaView,
 	TouchableOpacity,
 	Modal,
 	Alert,
@@ -103,7 +102,7 @@ const OnboardingStep6Page = ({ stepData, saveData }) => {
 	const isSmallScreen = screenHeight < 700;
 
 	return (
-		<SafeAreaView style={OnboardingStep6Styles.container}>
+		<View style={OnboardingStep6Styles.container}>
 			<Modal
 				transparent={true}
 				visible={isModalVisible}
@@ -181,7 +180,7 @@ const OnboardingStep6Page = ({ stepData, saveData }) => {
 					disabled={!image}
 				/>
 			</View>
-		</SafeAreaView>
+		</View>
 	);
 };
 

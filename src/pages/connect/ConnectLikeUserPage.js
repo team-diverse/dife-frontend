@@ -1,6 +1,6 @@
 import React from "react";
-import { View, StyleSheet, SafeAreaView, Platform } from "react-native";
-import Constants from "expo-constants";
+import { View, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "white",
-		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	tabContainer: {
 		flex: 1,

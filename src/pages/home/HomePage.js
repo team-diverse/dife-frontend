@@ -3,12 +3,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import {
 	View,
 	Text,
-	SafeAreaView,
 	TouchableOpacity,
 	ScrollView,
 	Dimensions,
 	Platform,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import { useTranslation } from "react-i18next";
@@ -330,7 +330,10 @@ const HomePage = () => {
 					<View style={HomeStyles.containerWhite} />
 				</>
 			) : (
-				<>{renderHome()}</>
+				<>
+					{renderHome()}
+					<View style={HomeStyles.containerWhite} />
+				</>
 			)}
 		</SafeAreaView>
 	);

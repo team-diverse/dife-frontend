@@ -4,7 +4,6 @@ import {
 	Text,
 	TextInput,
 	View,
-	SafeAreaView,
 	ScrollView,
 	KeyboardAvoidingView,
 	Platform,
@@ -14,6 +13,7 @@ import {
 	FlatList,
 	Image,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";

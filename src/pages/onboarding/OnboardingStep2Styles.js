@@ -1,6 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme.js";
-import Constants from "expo-constants";
 
 const { fontHead24, fontBody18, fontSub16, fontSub14, fontCaption } =
 	CustomTheme;
@@ -9,7 +8,6 @@ const OnboardingStep2Styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	iconArrow: {
 		position: "absolute",

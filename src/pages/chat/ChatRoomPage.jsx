@@ -6,7 +6,6 @@ import React, {
 	useCallback,
 } from "react";
 import {
-	SafeAreaView,
 	View,
 	Text,
 	TouchableOpacity,
@@ -20,6 +19,7 @@ import {
 	KeyboardAvoidingView,
 	AppState,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";

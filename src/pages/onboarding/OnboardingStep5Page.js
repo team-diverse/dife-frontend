@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, SafeAreaView, Dimensions } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import OnboardingStep5Styles from "@pages/onboarding/OnboardingStep5Styles";
@@ -49,7 +49,7 @@ const OnboardingStep5Page = ({ goToNext, stepData, saveData }) => {
 	const isSmallScreen = screenHeight < 700;
 
 	return (
-		<SafeAreaView style={OnboardingStep5Styles.container}>
+		<View style={OnboardingStep5Styles.container}>
 			<Text style={OnboardingStep5Styles.textTitle}>
 				{t("profileCreationTitle")}
 			</Text>
@@ -78,7 +78,7 @@ const OnboardingStep5Page = ({ goToNext, stepData, saveData }) => {
 					disabled={!isCheckedList.some((isChecked) => isChecked)}
 				/>
 			</View>
-		</SafeAreaView>
+		</View>
 	);
 };
 

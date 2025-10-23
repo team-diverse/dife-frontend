@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
 	View,
-	SafeAreaView,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 
 import { CustomTheme } from "@styles/CustomTheme.js";

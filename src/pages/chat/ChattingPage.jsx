@@ -3,13 +3,13 @@ import {
 	View,
 	Text,
 	TextInput,
-	SafeAreaView,
 	FlatList,
 	Keyboard,
 	TouchableOpacity,
 	Dimensions,
 	TouchableWithoutFeedback,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";

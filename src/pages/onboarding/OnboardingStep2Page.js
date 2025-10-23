@@ -3,7 +3,6 @@ import {
 	View,
 	Text,
 	TextInput,
-	SafeAreaView,
 	ScrollView,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
@@ -71,7 +70,7 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 	return (
 		<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
 			<TouchableWithoutFeedback onPress={handleKeyboard}>
-				<SafeAreaView style={OnboardingStep2Styles.container}>
+				<View style={OnboardingStep2Styles.container}>
 					<Text style={OnboardingStep2Styles.textTitle}>
 						{t("profileCreationTitle")}
 					</Text>
@@ -157,7 +156,7 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 							disabled={!nation}
 						/>
 					</View>
-				</SafeAreaView>
+				</View>
 			</TouchableWithoutFeedback>
 		</ScrollView>
 	);
