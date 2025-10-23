@@ -16,7 +16,7 @@ import { useFonts } from "expo-font";
 import * as Notifications from "expo-notifications";
 import * as SecureStore from "expo-secure-store";
 import { I18nextProvider } from "react-i18next";
-import { Modal, Platform } from "react-native";
+import { Modal } from "react-native";
 import * as Sentry from "@sentry/react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -183,9 +183,6 @@ function MainTabs() {
 			initialRouteName="Home"
 			screenOptions={({ route }) => ({
 				headerShown: false,
-				tabBarStyle: {
-					height: Platform.OS === "android" ? 64 : 84,
-				},
 				tabBarIcon: ({ focused, color, size }) =>
 					getTabBarIcon(route, focused, color, size),
 				tabBarLabel: () => null,
@@ -195,7 +192,7 @@ function MainTabs() {
 				name="Chat"
 				component={ChattingStack}
 				options={{
-					unmountOnBlur: true,
+					unmountOnBlur: false,
 				}}
 			/>
 			<Tab.Screen name="Connect" component={ConnectStack} />
