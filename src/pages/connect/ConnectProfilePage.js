@@ -1,6 +1,9 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { ScrollView, View, Text, Alert } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+	SafeAreaView,
+	useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as Sentry from "@sentry/react-native";
@@ -33,6 +36,8 @@ const ConnectProfilePage = ({ route }) => {
 	const { memberId } = route.params;
 	const { t } = useTranslation();
 	const navigation = useNavigation();
+	const insets = useSafeAreaInsets();
+
 	const { chatrooms, subscribeToNewChatroom, fetchChatroomMessages } =
 		useWebSocket();
 	const [profileData, setProfileData] = useState([]);
@@ -269,7 +274,12 @@ const ConnectProfilePage = ({ route }) => {
 					<View style={ConnectProfileStyles.margin} />
 				</ScrollView>
 			</View>
-			<View style={ConnectProfileStyles.bottomTwoButtons}>
+			<View
+				style={[
+					ConnectProfileStyles.bottomTwoButtons,
+					{ paddingBottom: insets.bottom },
+				]}
+			>
 				<BottomTwoButtons shadow="true">
 					<View
 						text={t("chat")}

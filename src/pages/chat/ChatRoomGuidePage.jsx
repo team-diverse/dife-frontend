@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
@@ -79,7 +79,9 @@ const ChatRoomGuidePage = ({ route }) => {
 	const topPosition =
 		chatBubblePosition?.y !== undefined &&
 		chatBubblePosition?.height !== undefined
-			? chatBubblePosition.y + chatBubblePosition.height * 2
+			? Platform.OS == "android"
+				? chatBubblePosition.y + chatBubblePosition.height * 5
+				: chatBubblePosition.y + chatBubblePosition.height * 2
 			: 0;
 
 	const leftPosition =
@@ -90,7 +92,9 @@ const ChatRoomGuidePage = ({ route }) => {
 	const topPosition2 =
 		chatBubble2Position?.y !== undefined &&
 		chatBubble2Position?.height !== undefined
-			? chatBubble2Position.y - 80
+			? Platform.OS == "android"
+				? chatBubblePosition.y - 5
+				: chatBubble2Position.y - 80
 			: 0;
 
 	const leftPosition2 =

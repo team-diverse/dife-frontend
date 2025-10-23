@@ -6,7 +6,6 @@ import {
 	View,
 	ScrollView,
 	KeyboardAvoidingView,
-	Platform,
 	Dimensions,
 	Alert,
 	Keyboard,
@@ -613,9 +612,7 @@ const PostPage = ({ route }) => {
 				</View>
 			</ScrollView>
 
-			<KeyboardAvoidingView
-				behavior={Platform.OS === "ios" ? "padding" : "height"}
-			>
+			<KeyboardAvoidingView behavior={"padding"}>
 				<View style={PostStyles.containerInputComment}>
 					<View style={PostStyles.checkbox}>
 						<Checkbox

@@ -116,10 +116,6 @@ const ChatRoomStyles = StyleSheet.create({
 		transform: [{ scaleX: -1 }],
 		marginRight: 11,
 	},
-	chatInputBottom: {
-		height: 34,
-		backgroundColor: "white",
-	},
 	iconGuideChatBubble: {
 		position: "absolute",
 		...fontSub14,

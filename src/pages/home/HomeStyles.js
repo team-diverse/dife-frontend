@@ -13,6 +13,7 @@ const HomeStyles = StyleSheet.create({
 	},
 	homebg: {
 		position: "absolute",
+		marginTop: 13,
 	},
 	topContainer: {
 		flexDirection: "row",

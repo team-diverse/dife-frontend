@@ -205,10 +205,7 @@ const ConnectGuidePage = ({ closeModal }) => {
 			<View
 				style={{
 					position: "absolute",
-					top:
-						Platform.OS == "android"
-							? likeUserPosition.y + 7
-							: likeUserPosition.y + top,
+					top: likeUserPosition.y + top,
 					left: likeUserPosition.x - 151,
 					zIndex: 10,
 				}}
@@ -230,7 +227,7 @@ const ConnectGuidePage = ({ closeModal }) => {
 					top:
 						likePosition?.height &&
 						(Platform.OS == "android"
-							? likePosition.height - 60
+							? likePosition.height - 30
 							: likePosition.height - 5),
 					left: likePosition?.width && likePosition.width - 155,
 					zIndex: 10,
@@ -253,7 +250,7 @@ const ConnectGuidePage = ({ closeModal }) => {
 					top:
 						likePosition?.height &&
 						(Platform.OS == "android"
-							? likePosition.height + 12
+							? likePosition.height + 44
 							: likePosition.height + 65),
 					left: likePosition?.width && likePosition.width - 38,
 					zIndex: 10,
@@ -266,7 +263,7 @@ const ConnectGuidePage = ({ closeModal }) => {
 					top:
 						likePosition?.height &&
 						(Platform.OS == "android"
-							? likePosition.height + 140
+							? likePosition.height + 170
 							: likePosition.height * 2 - 5),
 					left: likePosition?.width && likePosition.width - 155,
 					zIndex: 10,
@@ -285,9 +282,7 @@ const ConnectGuidePage = ({ closeModal }) => {
 					active={true}
 					style={{
 						position: "absolute",
-						top:
-							likePosition?.height &&
-							(Platform.OS == "android" ? 72 : 73),
+						top: likePosition?.height && 73,
 						left: likePosition?.width && 150,
 						zIndex: 10,
 					}}
