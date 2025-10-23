@@ -112,9 +112,10 @@ const ChattingPage = () => {
 		try {
 			const response = await getChatroomsByType("SINGLE");
 
-			const sortedChatrooms = response.data.sort((a, b) => {
-				const timeA = new Date(a.lastChat.created);
-				const timeB = new Date(b.lastChat.created);
+			const data = response?.data ?? [];
+			const sortedChatrooms = data.sort((a, b) => {
+				const timeA = new Date(a.lastChat?.created ?? 0);
+				const timeB = new Date(b.lastChat?.created ?? 0);
 				return timeB - timeA;
 			});
 			setSingleChatRoomList(sortedChatrooms);
@@ -153,7 +154,8 @@ const ChattingPage = () => {
 		}
 
 		const latestMessage =
-			messages[chatroomId][messages[chatroomId].length - 1].message;
+			messages[chatroomId][messages[chatroomId].length - 1]?.message ??
+			"";
 		return latestMessage || "";
 	};
 
@@ -191,7 +193,7 @@ const ChattingPage = () => {
 							name={item.name || "Unknown"}
 							content={getLatestMessage(
 								item.id,
-								item.lastChat.message,
+								item.lastChat?.message ?? "",
 							)}
 							lastChatCreated={formatChatDate(
 								item.lastChat.created,
