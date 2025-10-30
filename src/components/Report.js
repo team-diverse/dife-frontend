@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
 	},
 	textNo: {
 		...fontSub14,
-		textAlign: "center"
+		textAlign: "center",
 	},
 	buttonReport: {
 		width: 102,
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
 	textReport: {
 		...fontSub14,
 		color: CustomTheme.bgBasic,
-		textAlign: "center"
+		textAlign: "center",
 	},
 });
 
