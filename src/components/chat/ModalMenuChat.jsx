@@ -159,8 +159,7 @@ const styles = StyleSheet.create({
 		position: "relative",
 	},
 	line: {
-		minWidth: 86,
-		maxWidth: 101,
+		width: "auto",
 		height: 1,
 		backgroundColor: CustomTheme.bgList,
 		marginHorizontal: 5,
