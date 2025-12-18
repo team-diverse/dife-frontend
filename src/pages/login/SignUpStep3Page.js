@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
-	SafeAreaView,
 	TextInput,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
@@ -71,7 +70,7 @@ const SignUpStep3Page = ({ stepData }) => {
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
-			<SafeAreaView style={SignUpStyles.container}>
+			<View style={SignUpStyles.container}>
 				<Text style={[SignUpStyles.textSubTitle, { marginBottom: 21 }]}>
 					{t("placeholderPassword")}
 				</Text>
@@ -153,7 +152,7 @@ const SignUpStep3Page = ({ stepData }) => {
 						onPress={handleSignUp}
 					/>
 				</View>
-			</SafeAreaView>
+			</View>
 		</TouchableWithoutFeedback>
 	);
 };

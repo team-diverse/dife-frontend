@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-	SafeAreaView,
 	View,
 	Text,
 	TextInput,
@@ -10,6 +9,7 @@ import {
 	Platform,
 	TouchableWithoutFeedback,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import Slider from "@react-native-community/slider";
 import { useTranslation } from "react-i18next";

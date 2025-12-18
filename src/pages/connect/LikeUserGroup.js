@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, View, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import ConnectLikeUserStyles from "@pages/connect/ConnectLikeUserStyles";
 import ConnectStyles from "@pages/connect/ConnectStyles";

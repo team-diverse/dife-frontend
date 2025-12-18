@@ -1,7 +1,7 @@
 import React from "react";
-import { View, SafeAreaView, StyleSheet, Platform } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import Constants from "expo-constants";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
@@ -65,7 +65,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	containerConnectCard: {
 		paddingHorizontal: 24,

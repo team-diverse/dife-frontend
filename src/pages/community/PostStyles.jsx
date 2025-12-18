@@ -1,6 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
-import Constants from "expo-constants";
 
 const { fontBody14, fontCaption, fontNavi } = CustomTheme;
 
@@ -8,7 +7,6 @@ const PostStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	containerWhite: {
 		paddingHorizontal: 24,

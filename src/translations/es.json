@@ -3,7 +3,6 @@
 	"loginSubtitle": "Empieza ahora",
 	"placeholderPassword": "Introduce tu contraseña",
 	"loginError": "Por favor, revisa el ID o la contraseña introducidos",
-	"signUp": "Registrarse",
 	"login": "Iniciar sesión",
 	"loginForgotPassword": "Olvidé mi contraseña",
 
@@ -284,7 +283,6 @@
 
 	"connectList": "Lista de Conexiones",
 	"friend": "Amigo",
-	"connectRequest": "Solicitud de Conexión",
 
 	"defaultLanguageSettings": "Configuración de Idioma Predeterminada",
 	"english": "English / English",

@@ -1,6 +1,5 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
-import Constants from "expo-constants";
 
 const { fontBody14, fontSub16, fontCaption } = CustomTheme;
 
@@ -8,7 +7,6 @@ const DeleteMemberStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	iconDeleteMember: {
 		marginTop: 8,

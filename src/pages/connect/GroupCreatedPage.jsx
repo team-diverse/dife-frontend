@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import {
-	SafeAreaView,
 	View,
 	Text,
 	TextInput,
@@ -9,6 +8,7 @@ import {
 	TouchableWithoutFeedback,
 	Alert,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";

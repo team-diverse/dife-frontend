@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import {
 	Text,
-	SafeAreaView,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
-	Platform,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
-import Constants from "expo-constants";
 
 import SignUpStyles from "@pages/login/SignUpStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -53,17 +51,7 @@ const SignUpPage = () => {
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
-			<SafeAreaView
-				style={[
-					SignUpStyles.container,
-					{
-						paddingTop:
-							Platform.OS === "android"
-								? 0
-								: Constants.statusBarHeight,
-					},
-				]}
-			>
+			<SafeAreaView style={SignUpStyles.container}>
 				<TouchableOpacity onPress={goToPrevious}>
 					<ArrowRight
 						style={{ marginTop: 5, marginLeft: 14 }}

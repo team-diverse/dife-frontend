@@ -57,10 +57,9 @@ const styles = StyleSheet.create({
 		...Platform.select({
 			ios: {
 				shadowColor: "#3C454E",
-				shadowOffset: { width: 0, height: -1 },
-				shadowOpacity: 0.1,
-				shadowRadius: 8,
-				paddingBottom: 9,
+				shadowOffset: { width: 0, height: -4 },
+				shadowOpacity: 0.07,
+				shadowRadius: 3,
 			},
 			android: {
 				borderTopWidth: 1,

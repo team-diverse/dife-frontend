@@ -1,6 +1,5 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
-import Constants from "expo-constants";
 
 const { fontHead18, fontSub14, fontCaption } = CustomTheme;
 
@@ -9,7 +8,6 @@ const ChatRoomStyles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: "#D9EAFF",
 		justifyContent: "space-between",
-		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	containerTopBar: {
 		flexDirection: "row",
@@ -117,10 +115,6 @@ const ChatRoomStyles = StyleSheet.create({
 	iconReverseArrow: {
 		transform: [{ scaleX: -1 }],
 		marginRight: 11,
-	},
-	chatInputBottom: {
-		height: 34,
-		backgroundColor: "white",
 	},
 	iconGuideChatBubble: {
 		position: "absolute",

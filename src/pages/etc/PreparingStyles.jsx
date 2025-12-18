@@ -1,6 +1,5 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
-import Constants from "expo-constants";
 
 const { fontHead20 } = CustomTheme;
 
@@ -10,7 +9,6 @@ const PreparingStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.bgBasic,
 		alignItems: "center",
 		justifyContent: "center",
-		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	containerText: {
 		position: "absolute",
