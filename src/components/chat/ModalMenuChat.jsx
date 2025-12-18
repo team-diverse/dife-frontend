@@ -34,14 +34,14 @@ const ModalMenuChat = ({
 			await createChatBookmark(chatroomId, chatId);
 			Alert.alert(
 				"",
-				"북마크되었습니다.",
+				t("bookmarked"),
 				[
 					{
 						text: t("cancelButton"),
 						style: "cancel",
 					},
 					{
-						text: "북마크로 이동",
+						text: t("goToBookmarks"),
 						onPress: () => {
 							navigation.navigate("BookmarkPage");
 						},
@@ -52,10 +52,10 @@ const ModalMenuChat = ({
 		} catch (error) {
 			Alert.alert(
 				"",
-				"이미 북마크된 채팅입니다.",
+				t("alreadyBookmarkedChat"),
 				[
 					{
-						text: "확인",
+						text: t("confirmButtonText"),
 					},
 				],
 				{ cancelable: false },
@@ -102,7 +102,7 @@ const ModalMenuChat = ({
 					style={styles.containerIconText}
 					onPress={handleBookmarkAlert}
 				>
-					<Text style={styles.textIsMe}>북마크</Text>
+					<Text style={styles.textIsMe}>{t("chatBookmark")}</Text>
 					<IconModalBookmark />
 				</TouchableOpacity>
 				<View style={styles.line} />
@@ -110,7 +110,7 @@ const ModalMenuChat = ({
 					style={styles.containerIconText}
 					onPress={handleCopyToClipboard}
 				>
-					<Text style={styles.textIsMe}>복사</Text>
+					<Text style={styles.textIsMe}>{t("chatCopy")}</Text>
 					<IconModalCopy />
 				</TouchableOpacity>
 				<View style={styles.line} />
@@ -143,21 +143,23 @@ const styles = StyleSheet.create({
 		justifyContent: "flex-start",
 	},
 	rectangle: {
-		width: 95,
+		alignSelf: "flex-start",
+		width: "auto",
 		height: 110,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 10,
 		position: "relative",
 	},
 	rectangleIsGroup: {
-		width: 95,
+		alignSelf: "flex-start",
+		width: "auto",
 		height: 72,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 10,
 		position: "relative",
 	},
 	line: {
-		width: 86,
+		width: "auto",
 		height: 1,
 		backgroundColor: CustomTheme.bgList,
 		marginHorizontal: 5,
@@ -166,6 +168,7 @@ const styles = StyleSheet.create({
 		...fontBody14,
 		color: CustomTheme.textSecondary,
 		marginLeft: 11,
+		marginRight: 5,
 		marginVertical: 8,
 	},
 	containerIconText: {
