@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
-	SafeAreaView,
 	TextInput,
 	TouchableWithoutFeedback,
 	Keyboard,
 	TouchableOpacity,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";

@@ -3,12 +3,12 @@ import {
 	Text,
 	TextInput,
 	View,
-	SafeAreaView,
 	ScrollView,
 	TouchableOpacity,
 	Alert,
 	FlatList,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";

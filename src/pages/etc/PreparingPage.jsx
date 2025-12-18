@@ -1,5 +1,6 @@
 import React from "react";
-import { SafeAreaView, View, Text } from "react-native";
+import { View, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 
 import PreparingStyles from "@pages/etc/PreparingStyles";

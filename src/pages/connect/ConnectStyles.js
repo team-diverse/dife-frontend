@@ -35,7 +35,7 @@ const ConnectStyles = StyleSheet.create({
 		flexDirection: "row",
 		position: "absolute",
 		alignItems: "center",
-		marginTop: 59,
+		marginTop: Platform.OS === "android" ? 45 : 59,
 		zIndex: 2,
 	},
 	connectTitle: {
@@ -52,7 +52,7 @@ const ConnectStyles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		position: "absolute",
-		marginTop: 105,
+		marginTop: Platform.OS === "android" ? 90 : 105,
 		zIndex: 2,
 	},
 	searchFilter: {

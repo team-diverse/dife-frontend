@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
 	Text,
-	SafeAreaView,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 

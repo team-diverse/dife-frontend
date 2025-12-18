@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, SafeAreaView } from "react-native";
+import React from "react";
+import { View, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import * as Notifications from "expo-notifications";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";

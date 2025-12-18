@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
-	SafeAreaView,
 	TextInput,
 	TouchableWithoutFeedback,
 	Keyboard,
 	TouchableOpacity,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
@@ -35,7 +35,7 @@ const FindPasswordPage = () => {
 	const [isNext, setIsNext] = useState(false);
 	const [invalidVerificationCode, setInvalidVerificationCode] =
 		useState(false);
-	const [verificationCode, setVerificationCode] = useState();
+	const [verificationCode, setVerificationCode] = useState("");
 	const [modalConnectVisible, setModalConnectVisible] = useState(false);
 	const [timeLeft, setTimeLeft] = useState(3 * 60);
 

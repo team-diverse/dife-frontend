@@ -31,7 +31,7 @@ const ChattingStyles = StyleSheet.create({
 		flexDirection: "row",
 		position: "absolute",
 		alignItems: "center",
-		marginTop: 59,
+		marginTop: Platform.OS === "android" ? 45 : 59,
 	},
 	textChattingTitle: {
 		flex: 1,
@@ -47,7 +47,7 @@ const ChattingStyles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		position: "absolute",
-		marginTop: 105,
+		marginTop: Platform.OS === "android" ? 90 : 105,
 	},
 	containerSearchIcon: {
 		flexDirection: "row",

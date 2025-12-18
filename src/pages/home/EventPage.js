@@ -1,5 +1,6 @@
 import React from "react";
-import { View, FlatList, SafeAreaView } from "react-native";
+import { View, FlatList } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 
 import EventStyles from "@pages/home/EventStyles";

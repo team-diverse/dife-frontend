@@ -3,11 +3,11 @@ import {
 	View,
 	Text,
 	TextInput,
-	SafeAreaView,
 	TouchableOpacity,
 	FlatList,
 	Dimensions,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
@@ -223,7 +223,11 @@ const ConnectGuidePage = ({ closeModal }) => {
 			<View
 				style={{
 					position: "absolute",
-					top: likePosition?.height && likePosition.height - 5,
+					top:
+						likePosition?.height &&
+						(Platform.OS == "android"
+							? likePosition.height - 30
+							: likePosition.height - 5),
 					left: likePosition?.width && likePosition.width - 155,
 					zIndex: 10,
 				}}
@@ -242,7 +246,11 @@ const ConnectGuidePage = ({ closeModal }) => {
 				active={true}
 				style={{
 					position: "absolute",
-					top: likePosition?.height && likePosition.height + 65,
+					top:
+						likePosition?.height &&
+						(Platform.OS == "android"
+							? likePosition.height + 44
+							: likePosition.height + 65),
 					left: likePosition?.width && likePosition.width - 38,
 					zIndex: 10,
 				}}
@@ -251,7 +259,11 @@ const ConnectGuidePage = ({ closeModal }) => {
 			<View
 				style={{
 					position: "absolute",
-					top: likePosition?.height && likePosition.height * 2 - 5,
+					top:
+						likePosition?.height &&
+						(Platform.OS == "android"
+							? likePosition.height + 170
+							: likePosition.height * 2 - 5),
 					left: likePosition?.width && likePosition.width - 155,
 					zIndex: 10,
 				}}

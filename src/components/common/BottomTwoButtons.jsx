@@ -46,10 +46,20 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.bgBasic,
-		shadowColor: "#3C454E",
-		shadowOffset: { width: 0, height: -1 },
-		shadowOpacity: 0.1,
-		shadowRadius: 8,
+		paddingVertical: 14,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E",
+				shadowOffset: { width: 0, height: -4 },
+				shadowOpacity: 0.07,
+				shadowRadius: 3,
+			},
+			android: {
+				borderTopWidth: 1,
+				borderBottomWidth: 1,
+				borderColor: "rgba(205, 207, 213, 0.3)",
+			},
+		}),
 	},
 	button1: {
 		width: 156,
