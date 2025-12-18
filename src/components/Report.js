@@ -209,7 +209,6 @@ const styles = StyleSheet.create({
 		right: 20,
 	},
 	buttonNo: {
-		flex: 1,
 		width: 102,
 		padding: 10,
 		backgroundColor: CustomTheme.bgBasic,
@@ -222,9 +221,9 @@ const styles = StyleSheet.create({
 	},
 	textNo: {
 		...fontSub14,
+		textAlign: "center",
 	},
 	buttonReport: {
-		flex: 1,
 		width: 102,
 		padding: 10,
 		backgroundColor: CustomTheme.warningRed,
@@ -238,6 +237,7 @@ const styles = StyleSheet.create({
 	textReport: {
 		...fontSub14,
 		color: CustomTheme.bgBasic,
+		textAlign: "center",
 	},
 });
 
