@@ -29,6 +29,8 @@ import { MBTI_OPTIONS } from "constants";
 
 const { fontCaption, fontNaviBold } = CustomTheme;
 
+const screenHeight = Dimensions.get("screen").height;
+
 const FilterBottomSlide = ({
 	modalVisible,
 	setModalVisible,
@@ -38,8 +40,6 @@ const FilterBottomSlide = ({
 	isReset,
 }) => {
 	const { t } = useTranslation();
-
-	const screenHeight = Dimensions.get("screen").height;
 	const panY = useRef(new Animated.Value(screenHeight)).current;
 
 	const translateY = panY.interpolate({
@@ -411,7 +411,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	bottomSheetContainer: {
-		height: 650,
+		height: screenHeight * 0.8,
 		alignItems: "center",
 		backgroundColor: "white",
 		borderTopLeftRadius: 24,

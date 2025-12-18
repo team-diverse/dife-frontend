@@ -130,9 +130,10 @@
 	"searchPlaceholder": "검색",
 	"searchNoResults": "일치하는 검색 결과가 없습니다",
 	"moreButton": "더보기",
-	"tipBoard": "꿀팁게시판",
-	"freeBoard": "자유게시판",
+	"tip": "꿀팁",
+	"gathering": "모임",
 	"entire": "전체",
+	"postTopic": "게시글 주제",
 
 	"searchError": "검색 중 오류가 발생했습니다",
 	"searchCancelButton": "검색 취소",

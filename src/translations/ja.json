@@ -132,9 +132,10 @@
 	"searchPlaceholder": "検索",
 	"searchNoResults": "一致する検索結果がありません",
 	"moreButton": "もっと見る",
-	"tipBoard": "ヒント掲示板",
-	"freeBoard": "自由掲示板",
+	"tip": "ヒント",
+	"gathering": "聚会",
 	"entire": "すべて",
+	"postTopic": "投稿のテーマ",
 
 	"searchError": "検索中にエラーが発生しました",
 	"searchCancelButton": "検索をキャンセル",

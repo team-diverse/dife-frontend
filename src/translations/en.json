@@ -132,9 +132,10 @@
 	"searchPlaceholder": "Search",
 	"searchNoResults": "No matching results found",
 	"moreButton": "More",
-	"tipBoard": "Tips Board",
-	"freeBoard": "Free Board",
+	"tip": "Tips",
+	"gathering": "Gathering",
 	"entire": "All",
+	"postTopic": "Post Topic",
 
 	"searchError": "An error occurred during the search",
 	"searchCancelButton": "Cancel Search",

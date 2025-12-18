@@ -132,9 +132,10 @@
 	"searchPlaceholder": "Buscar",
 	"searchNoResults": "No se encontraron resultados coincidentes",
 	"moreButton": "Más",
-	"tipBoard": "Tablero de Consejos",
-	"freeBoard": "Tablero Libre",
+	"tip": "Consejos",
+	"gathering": "Reunión",
 	"entire": "Todo",
+	"postTopic": "Tema de la publicación",
 
 	"searchError": "Se produjo un error durante la búsqueda",
 	"searchCancelButton": "Cancelar Búsqueda",
