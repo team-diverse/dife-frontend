@@ -110,27 +110,26 @@ const styles = StyleSheet.create({
 	},
 	rectangle: {
 		width: 260,
-		height: 360,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
 		position: "relative",
-		paddingHorizontal: 20,
 	},
 	container: {
-		flex: 1,
 		alignItems: "center",
+		paddingHorizontal: 20,
+		paddingTop: 21,
+		paddingBottom: 105,
 	},
 	iconTranslation: {
 		position: "absolute",
 		top: 112,
 		right: 0,
-		zIndex: -10,
+		zIndex: 0,
 	},
 	textTitle: {
 		fontSize: 14,
 		lineHeight: 20,
 		fontFamily: "NotoSansCJKkr-Bold",
-		marginTop: 21,
 	},
 	textSubTitle: {
 		...fontSub16,
