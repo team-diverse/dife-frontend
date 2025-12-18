@@ -3,7 +3,6 @@
 	"loginSubtitle": "지금 바로 시작하기",
 	"placeholderPassword": "비밀번호를 입력해주세요",
 	"loginError": "입력하신 아이디 또는 비밀번호를 확인해주세요",
-	"signUp": "회원가입",
 	"login": "로그인",
 	"loginForgotPassword": "비밀번호를 까먹었어요",
 
@@ -283,7 +282,6 @@
 
 	"connectList": "커넥트 목록",
 	"friend": "친구",
-	"connectRequest": "커넥트 요청",
 
 	"defaultLanguageSettings": "기본 언어 설정",
 	"english": "English / English",

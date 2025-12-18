@@ -4,16 +4,15 @@ import {
 	Text,
 	TextInput,
 	View,
-	SafeAreaView,
 	ScrollView,
 	KeyboardAvoidingView,
-	Platform,
 	Dimensions,
 	Alert,
 	Keyboard,
 	FlatList,
 	Image,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
@@ -613,9 +612,7 @@ const PostPage = ({ route }) => {
 				</View>
 			</ScrollView>
 
-			<KeyboardAvoidingView
-				behavior={Platform.OS === "ios" ? "padding" : "height"}
-			>
+			<KeyboardAvoidingView behavior={"padding"}>
 				<View style={PostStyles.containerInputComment}>
 					<View style={PostStyles.checkbox}>
 						<Checkbox

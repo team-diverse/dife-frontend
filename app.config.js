@@ -10,9 +10,9 @@ const getAppName = () => {
 
 const getIOSBundleIdentifier = () => {
 	if (process.env.EXPO_PUBLIC_APP_VARIANT === "staging") {
-		return "com.teamdiverse.dife.staging";
+		return "com.teamdiverse.dife";
 	} else if (process.env.EXPO_PUBLIC_APP_VARIANT === "dev") {
-		return "com.teamdiverse.dife.dev";
+		return "com.teamdiverse.dife";
 	} else {
 		return "com.teamdiverse.dife";
 	}
@@ -20,9 +20,9 @@ const getIOSBundleIdentifier = () => {
 
 const getAndroidPackage = () => {
 	if (process.env.EXPO_PUBLIC_APP_VARIANT === "staging")
-		return "com.teamdiverse.dife.staging";
+		return "com.teamdiverse.dife";
 	if (process.env.EXPO_PUBLIC_APP_VARIANT === "dev")
-		return "com.teamdiverse.dife.dev";
+		return "com.teamdiverse.dife";
 	return "com.teamdiverse.dife";
 };
 
@@ -30,7 +30,7 @@ export default {
 	expo: {
 		name: "Dife",
 		slug: "dife",
-		version: "1.0.0",
+		version: "1.0.9",
 		owner: "team-diverse",
 		orientation: "portrait",
 		icon: "src/assets/icon.png",
@@ -55,6 +55,7 @@ export default {
 				foregroundImage: "src/assets/icon.png",
 			},
 			targetSdkVersion: 35,
+			versionCode: 44,
 		},
 		web: {
 			favicon: "src/assets/icon.png",

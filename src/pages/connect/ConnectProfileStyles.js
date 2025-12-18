@@ -1,6 +1,5 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
-import Constants from "expo-constants";
 
 const { fontSub16, fontBody14 } = CustomTheme;
 
@@ -8,7 +7,6 @@ const ConnectProfileStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.primaryMedium,
-		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	scrollView: {
 		width: "100%",
@@ -54,6 +52,7 @@ const ConnectProfileStyles = StyleSheet.create({
 		position: "absolute",
 		width: "100%",
 		bottom: 0,
+		backgroundColor: CustomTheme.bgBasic,
 	},
 });
 

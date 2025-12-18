@@ -1,5 +1,6 @@
 import React from "react";
-import { SafeAreaView, ScrollView, Text } from "react-native";
+import { ScrollView, Text } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 
 import TremsStyles from "@pages/member/TremsStyles";

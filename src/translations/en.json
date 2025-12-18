@@ -3,7 +3,6 @@
 	"loginSubtitle": "Start Now",
 	"placeholderPassword": "Enter your password",
 	"loginError": "Please check the entered ID or password",
-	"signUp": "Sign Up",
 	"login": "Login",
 	"loginForgotPassword": "Forgot your password",
 
@@ -284,7 +283,6 @@
 
 	"connectList": "Connect List",
 	"friend": "Friend",
-	"connectRequest": "Connect Request",
 
 	"defaultLanguageSettings": "Default Language Settings",
 	"english": "English / English",

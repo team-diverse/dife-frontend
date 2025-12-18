@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { View, StyleSheet, SafeAreaView, Platform } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import TopBar from "@components/common/TopBar";
 import { useTranslation } from "react-i18next";
-import Constants from "expo-constants";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { useStatusBar } from "util/useStatusBar";
@@ -22,7 +22,7 @@ const ConnectListPage = () => {
 		},
 		{
 			key: "connectRequest",
-			title: t("connectRequest"),
+			title: t("requestButtonText"),
 		},
 	]);
 
@@ -55,7 +55,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "white",
-		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	tabContainer: { flex: 1 },
 });

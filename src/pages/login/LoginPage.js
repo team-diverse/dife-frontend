@@ -2,13 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import {
 	View,
 	Text,
-	SafeAreaView,
 	TextInput,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
 	KeyboardAvoidingView,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import * as Device from "expo-device";
 import { useTranslation } from "react-i18next";
@@ -287,7 +287,7 @@ const LoginPage = () => {
 					<View style={LoginStyles.containerButtonSignupLogin}>
 						<BottomTwoButtons>
 							<View
-								text={t("signUp")}
+								text={t("signUpTitle")}
 								onPress={() => navigation.navigate("SignUp")}
 							/>
 							<View text={t("login")} onPress={handleLogin} />

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
-	SafeAreaView,
 	View,
 	Text,
 	TouchableOpacity,
@@ -9,6 +8,7 @@ import {
 	Linking,
 	AppState,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import * as Notifications from "expo-notifications";
 import { useTranslation } from "react-i18next";

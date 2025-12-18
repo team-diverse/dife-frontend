@@ -1,6 +1,5 @@
 import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
-import Constants from "expo-constants";
 
 const { fontHead20, fontSub16, fontBody14, fontCaption } = CustomTheme;
 
@@ -8,7 +7,6 @@ const ChattingStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	backgroundBlue: {
 		position: "absolute",
@@ -40,7 +38,7 @@ const ChattingStyles = StyleSheet.create({
 		flexDirection: "row",
 		position: "absolute",
 		alignItems: "center",
-		marginTop: Platform.OS === "android" ? 12 : 59,
+		marginTop: Platform.OS === "android" ? 45 : 59,
 	},
 	textChattingTitle: {
 		flex: 1,
@@ -56,7 +54,7 @@ const ChattingStyles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		position: "absolute",
-		marginTop: Platform.OS === "android" ? 58 : 105,
+		marginTop: Platform.OS === "android" ? 90 : 105,
 	},
 	containerSearchIcon: {
 		flexDirection: "row",

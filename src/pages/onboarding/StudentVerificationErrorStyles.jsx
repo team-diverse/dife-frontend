@@ -1,6 +1,5 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme.js";
-import Constants from "expo-constants";
 
 const { fontSub14, fontBody14 } = CustomTheme;
 
@@ -8,7 +7,6 @@ const StudentVerificationErrorStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
-		paddingTop: Platform.OS === "android" ? 0 : Constants.statusBarHeight,
 	},
 	imageimageBackgroud: {
 		position: "relative",

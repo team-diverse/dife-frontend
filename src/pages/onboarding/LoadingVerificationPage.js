@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, View, Text, Image } from "react-native";
+import { View, Text, Image } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 import LoadingVerificationStyles from "./LoadingVerificationStyles";

@@ -1,6 +1,5 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
-import Constants from "expo-constants";
 
 const { fontHead18, fontSub16, fontCaption } = CustomTheme;
 
@@ -8,15 +7,13 @@ const HomeStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: "#0029F4",
-		paddingTop:
-			Platform.OS === "android" ? 0 : Constants.statusBarHeight + 10,
 	},
 	linearGradient: {
 		flex: 1,
 	},
 	homebg: {
 		position: "absolute",
-		marginTop: Platform.OS === "android" ? 10 : 0,
+		marginTop: 13,
 	},
 	topContainer: {
 		flexDirection: "row",
@@ -87,7 +84,7 @@ const HomeStyles = StyleSheet.create({
 		position: "absolute",
 		bottom: 0,
 		width: "100%",
-		height: 200,
+		height: 500,
 		backgroundColor: CustomTheme.bgBasic,
 		zIndex: -1,
 	},
