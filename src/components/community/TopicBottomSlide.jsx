@@ -22,6 +22,7 @@ import FilterBottomTwoButtons from "@components/connect/FilterBottomTwoButtons";
 
 const { fontSub16 } = CustomTheme;
 
+const screenWidth = Dimensions.get("screen").width;
 const screenHeight = Dimensions.get("screen").height;
 
 const TopicBottomSlide = ({
@@ -91,6 +92,17 @@ const TopicBottomSlide = ({
 	];
 
 	const handleSelect = (topic) => {
+		const singleSelectMode = isReset == null;
+
+		if (singleSelectMode) {
+			if (selectedTopic[0] === topic) {
+				setSelectedTopic([]);
+			} else {
+				setSelectedTopic([topic]);
+			}
+			return;
+		}
+
 		if (selectedTopic.includes(topic)) {
 			setSelectedTopic(selectedTopic.filter((item) => item !== topic));
 		} else {
@@ -128,6 +140,11 @@ const TopicBottomSlide = ({
 		}
 	};
 
+	const handleTopic = () => {
+		onFilterResponse(selectedTopic);
+		setModalVisible(false);
+	};
+
 	const renderButton = ({ label, value }) => {
 		const isSelected = selectedTopic.includes(value);
 		return (
@@ -141,7 +158,7 @@ const TopicBottomSlide = ({
 			>
 				<Text
 					style={[
-						styles.containerText,
+						styles.textButton,
 						isSelected && styles.selectedText,
 					]}
 				>
@@ -177,15 +194,26 @@ const TopicBottomSlide = ({
 						</View>
 					</ScrollView>
 
-					<FilterBottomTwoButtons>
-						<View
-							totalSelection={selectedTopic.length}
-							text={t("clearAll")}
-							onPress={() => reset()}
-							disabled={selectedTopic.length === 0}
-						/>
-						<View text={t("apply")} onPress={handleFilter} />
-					</FilterBottomTwoButtons>
+					{isReset == null ? (
+						<TouchableOpacity
+							style={styles.containerButtonComplete}
+							onPress={handleTopic}
+						>
+							<Text style={styles.textButtonComplete}>
+								{t("selectionComplete")}
+							</Text>
+						</TouchableOpacity>
+					) : (
+						<FilterBottomTwoButtons>
+							<View
+								totalSelection={selectedTopic.length}
+								text={t("clearAll")}
+								onPress={() => reset()}
+								disabled={selectedTopic.length === 0}
+							/>
+							<View text={t("apply")} onPress={handleFilter} />
+						</FilterBottomTwoButtons>
+					)}
 				</Animated.View>
 			</View>
 		</Modal>
@@ -224,7 +252,7 @@ const styles = StyleSheet.create({
 		borderColor: "#D9EAFF",
 		borderRadius: 43,
 	},
-	containerText: {
+	textButton: {
 		...fontSub16,
 		color: CustomTheme.textSecondary,
 	},
@@ -260,6 +288,21 @@ const styles = StyleSheet.create({
 		marginLeft: 24,
 		marginTop: 24,
 		marginBottom: 12,
+	},
+	containerButtonComplete: {
+		width: screenWidth * 0.4053,
+		height: 44,
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: CustomTheme.primaryMedium,
+		borderWidth: 2,
+		borderColor: CustomTheme.primaryMedium,
+		borderRadius: 27,
+		marginVertical: 14,
+	},
+	textButtonComplete: {
+		...fontSub16,
+		color: CustomTheme.bgBasic,
 	},
 });
 

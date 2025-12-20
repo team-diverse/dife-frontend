@@ -23,6 +23,10 @@ const WriteStyles = StyleSheet.create({
 	textNoticeboard: {
 		...fontBody14,
 	},
+	containerCategory: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
 	line: {
 		width: "100%",
 		height: 1,
