@@ -32,6 +32,7 @@ const TopicBottomSlide = ({
 	onSearchResponse,
 	onTotalSelection,
 	isReset,
+	initialSelected,
 }) => {
 	const { t } = useTranslation();
 
@@ -75,7 +76,8 @@ const TopicBottomSlide = ({
 		if (modalVisible) {
 			resetBottomSheet.start();
 		}
-	}, [modalVisible]);
+		setSelectedTopic(initialSelected ? [initialSelected] : []);
+	}, [modalVisible, initialSelected]);
 
 	const closeModal = () => {
 		closeBottomSheet.start(() => {
