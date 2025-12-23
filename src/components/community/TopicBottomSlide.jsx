@@ -6,13 +6,13 @@ import {
 	Text,
 	Animated,
 	TouchableWithoutFeedback,
-	Dimensions,
+	useWindowDimensions,
 	PanResponder,
 	TouchableOpacity,
-	ScrollView,
 	Platform,
 } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import * as Sentry from "@sentry/react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
@@ -21,9 +21,6 @@ import { getCommunitySearchByType } from "config/api";
 import FilterBottomTwoButtons from "@components/connect/FilterBottomTwoButtons";
 
 const { fontSub16 } = CustomTheme;
-
-const screenWidth = Dimensions.get("screen").width;
-const screenHeight = Dimensions.get("screen").height;
 
 const TopicBottomSlide = ({
 	modalVisible,
@@ -35,8 +32,10 @@ const TopicBottomSlide = ({
 	initialSelected,
 }) => {
 	const { t } = useTranslation();
+	const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+	const insets = useSafeAreaInsets();
 
-	const panY = useRef(new Animated.Value(screenHeight)).current;
+	const panY = useRef(new Animated.Value(windowHeight)).current;
 
 	const translateY = panY.interpolate({
 		inputRange: [-1, 0, 1],
@@ -50,7 +49,7 @@ const TopicBottomSlide = ({
 	});
 
 	const closeBottomSheet = Animated.timing(panY, {
-		toValue: screenHeight,
+		toValue: windowHeight,
 		duration: 300,
 		useNativeDriver: true,
 	});
@@ -185,26 +184,33 @@ const TopicBottomSlide = ({
 					style={{
 						...styles.bottomSheetContainer,
 						transform: [{ translateY: translateY }],
+						height: windowHeight * 0.326,
+						paddingBottom: insets.bottom + 12,
 					}}
 					{...panResponders.panHandlers}
 				>
 					<View style={styles.line} />
-					<ScrollView style={styles.containerTopic}>
+					<View style={styles.containerTopic}>
 						<Text style={styles.textTopic}>{t("postTopic")}</Text>
 						<View style={styles.buttonRow}>
 							{topics.map((topic) => renderButton(topic))}
 						</View>
-					</ScrollView>
+					</View>
 
 					{isReset == null ? (
-						<TouchableOpacity
-							style={styles.containerButtonComplete}
-							onPress={handleTopic}
-						>
-							<Text style={styles.textButtonComplete}>
-								{t("selectionComplete")}
-							</Text>
-						</TouchableOpacity>
+						<View style={styles.containerRectangleShadow}>
+							<TouchableOpacity
+								style={[
+									styles.containerButtonComplete,
+									{ width: windowWidth * 0.4053 },
+								]}
+								onPress={handleTopic}
+							>
+								<Text style={styles.textButtonComplete}>
+									{t("selectionComplete")}
+								</Text>
+							</TouchableOpacity>
+						</View>
 					) : (
 						<FilterBottomTwoButtons>
 							<View
@@ -232,12 +238,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	bottomSheetContainer: {
-		height: screenHeight * 0.326,
 		alignItems: "center",
 		backgroundColor: "white",
 		borderTopLeftRadius: 24,
 		borderTopRightRadius: 24,
-		paddingBottom: Platform.OS === "android" ? 1 : 75,
 	},
 	buttonRow: {
 		flexDirection: "row",
@@ -282,6 +286,7 @@ const styles = StyleSheet.create({
 	},
 	containerTopic: {
 		width: "100%",
+		marginBottom: 42,
 	},
 	textTopic: {
 		fontSize: 18,
@@ -291,8 +296,29 @@ const styles = StyleSheet.create({
 		marginTop: 24,
 		marginBottom: 12,
 	},
+	containerRectangleShadow: {
+		flexDirection: "row",
+		width: "100%",
+		height: 72,
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: CustomTheme.bgBasic,
+		paddingHorizontal: 24,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E",
+				shadowOffset: { width: 0, height: -1 },
+				shadowOpacity: 0.1,
+				shadowRadius: 8,
+			},
+			android: {
+				borderTopWidth: 1,
+				borderBottomWidth: 1,
+				borderColor: "rgba(205, 207, 213, 0.3)",
+			},
+		}),
+	},
 	containerButtonComplete: {
-		width: screenWidth * 0.4053,
 		height: 44,
 		alignItems: "center",
 		justifyContent: "center",
