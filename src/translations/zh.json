@@ -107,30 +107,8 @@
 		"其他"
 	],
 
-	"studentVerificationTitle": "学生认证",
-	"uploadInstructions": "请上传Onnukmin的截图。\n(包括学号/姓名，用于学生认证)",
-	"uploadButtonText": "上传照片",
-	"reuploadButtonText": "重新上传",
 	"completeButtonText": "完成",
-
-	"studentVerificationErrorTitle": "学生认证错误",
-	"retryInstructions": "请重新尝试学生认证",
-	"retryButtonText": "重新尝试学生认证",
-
-	"waitingVerificationTitle": "在校生认证处理中(最多 2 分钟)",
-	"loadingVerification1": "📋 识别学生证中...",
-	"loadingVerification2": "🔍 服务器确认中...",
-	"loadingVerification3": "⚙️ 数据处理中...",
-	"loadingVerification4": "🖼️ 图像分析中...",
-	"loadingVerification5": "🎓 在校生判定中...",
-	"completeVerification": "🎉 您已通过国民大学学生认证！",
-	"waitingVerificationDescription1": "⚠️ 自动学生认证未完成",
-	"waitingVerificationDescription2": "管理员确认后将进行额外认证",
-	"waitingVerificationDescription3": "⏰ 最长需要24小时",
-	"returnToLogin": "返回登录界面",
-
 	"profileCompletionTitle": "个人资料创建完成！",
-	"profileCompletionDescription": "请稍等片刻以确认学生认证",
 
 	"connect": "连接",
 	"newFriendText": "和新朋友一起加入吧！",

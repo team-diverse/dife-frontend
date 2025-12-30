@@ -107,30 +107,8 @@
 		"Otros"
 	],
 
-	"studentVerificationTitle": "Verificación de Estudiante",
-	"uploadInstructions": "Por favor, sube una captura de pantalla de Onnukmin.\n(Incluye ID de estudiante/nombre, para verificación de estudiante)",
-	"uploadButtonText": "Subir Foto",
-	"reuploadButtonText": "Volver a Subir",
 	"completeButtonText": "Completar",
-
-	"studentVerificationErrorTitle": "Error de Verificación de Estudiante",
-	"retryInstructions": "Por favor, intenta nuevamente la verificación de estudiante",
-	"retryButtonText": "Reintentar Verificación de Estudiante",
-
-	"waitingVerificationTitle": "Certificado de estudiante en proceso (máximo de 2 minutos)",
-	"loadingVerification1": "📋 Reconociendo tarjeta estudiantil...",
-	"loadingVerification2": "🔍 Verificando servidor...",
-	"loadingVerification3": "⚙️ Procesando datos...",
-	"loadingVerification4": "🖼️ Analizando imagen...",
-	"loadingVerification5": "🎓 Verificando estudiante activo...",
-	"completeVerification": "🎉 ¡Has sido verificado como estudiante de la Universidad Kookmin!",
-	"waitingVerificationDescription1": "⚠️ La verificación automática de estudiante no se ha completado",
-	"waitingVerificationDescription2": "Procederemos con la verificación adicional tras la revisión del administrador",
-	"waitingVerificationDescription3": "⏰ Puede tardar hasta 24 horas",
-	"returnToLogin": "Regresar a la pantalla de inicio de sesión",
-
 	"profileCompletionTitle": "¡Creación de Perfil Completa!",
-	"profileCompletionDescription": "Por favor, espera un momento para la confirmación de la verificación de estudiante",
 
 	"connect": "Conectar",
 	"newFriendText": "¡Con nuevos amigos!",

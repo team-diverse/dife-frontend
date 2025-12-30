@@ -107,30 +107,8 @@
 		"その他"
 	],
 
-	"studentVerificationTitle": "学生認証",
-	"uploadInstructions": "Onnukminのスクリーンショットをアップロードしてください。\n(学生ID/名前を含む、学生認証用)",
-	"uploadButtonText": "写真をアップロード",
-	"reuploadButtonText": "再アップロード",
 	"completeButtonText": "完了",
-
-	"studentVerificationErrorTitle": "学生認証エラー",
-	"retryInstructions": "学生認証を再試行してください",
-	"retryButtonText": "学生認証を再試行",
-
-	"waitingVerificationTitle": "在学生認証処理中(最大2分)",
-	"loadingVerification1": "📋 学生証認識中...",
-	"loadingVerification2": "🔍 サーバー確認中...",
-	"loadingVerification3": "⚙️ データ処理中...",
-	"loadingVerification4": "🖼️ 画像分析中...",
-	"loadingVerification5": "🎓 在学生判定中...",
-	"completeVerification": "🎉 国民大学の学生認証が完了しました！",
-	"waitingVerificationDescription1": "⚠️ 自動学生認証が完了していません",
-	"waitingVerificationDescription2": "管理者の確認後に追加認証を行います",
-	"waitingVerificationDescription3": "⏰ 最大24時間かかる場合があります",
-	"returnToLogin": "ログイン画面に戻る",
-
 	"profileCompletionTitle": "プロフィール作成完了！",
-	"profileCompletionDescription": "学生認証確認までしばらくお待ちください",
 
 	"connect": "コネクト",
 	"newFriendText": "新しい友達と参加しよう！",

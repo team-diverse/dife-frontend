@@ -179,10 +179,6 @@ export const getMyProfile = () => {
 	return api.get("/members/profile");
 };
 
-export const checkIsVerified = () => {
-	return api.get("/members/verified");
-};
-
 export const checkUsername = (username) => {
 	return api.head("/members/check", {
 		params: {
