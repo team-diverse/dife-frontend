@@ -61,9 +61,7 @@ import OnboardingStep2Page from "@pages/onboarding/OnboardingStep2Page";
 import OnboardingStep3Page from "@pages/onboarding/OnboardingStep3Page";
 import OnboardingStep4Page from "@pages/onboarding/OnboardingStep4Page";
 import OnboardingStep5Page from "@pages/onboarding/OnboardingStep5Page";
-import OnboardingStep6Page from "@pages/onboarding/OnboardingStep6Page";
 import CompleteProfilePage from "@pages/onboarding/CompleteProfilePage";
-import LoadingVerificationPage from "@pages/onboarding/LoadingVerificationPage";
 import BookmarkPage from "@pages/chat/BookmarkPage";
 import FriendListPage from "@pages/chat/FriendListPage";
 import ChatRoomPage from "@pages/chat/ChatRoomPage";
@@ -244,7 +242,8 @@ function AppContent() {
 				if (memberId && (accessToken || refreshToken)) {
 					try {
 						const profileResponse = await getMyProfile();
-						if (profileResponse.data.isVerified) {
+						const { username } = profileResponse.data;
+						if (username && username !== "Diver") {
 							setIsLoggedIn(true);
 						} else {
 							setIsLoggedIn(false);
@@ -498,16 +497,8 @@ function AuthNavigator({ initialRoute }) {
 				component={OnboardingStep5Page}
 			/>
 			<Stack.Screen
-				name="OnboardingStep6Page"
-				component={OnboardingStep6Page}
-			/>
-			<Stack.Screen
 				name="CompleteProfilePage"
 				component={CompleteProfilePage}
-			/>
-			<Stack.Screen
-				name="LoadingVerification"
-				component={LoadingVerificationPage}
 			/>
 			<Stack.Screen name="Home" component={HomeStack} />
 			<Stack.Screen

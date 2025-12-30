@@ -22,12 +22,6 @@ const CompleteProfilePage = () => {
 			<Text style={CompleteProfileStyles.textTitle}>
 				{t("profileCompletionTitle")}
 			</Text>
-			<Text style={CompleteProfileStyles.textSubTitle}>
-				{t("profileCompletionDescription")}
-			</Text>
-			{/* <Text style={CompleteProfileStyles.textDescription}>
-				{t("averageVerificationTime")}
-			</Text> */}
 			<View style={CompleteProfileStyles.iconLoading}>
 				<IconLoading />
 			</View>
@@ -38,8 +32,8 @@ const CompleteProfilePage = () => {
 				]}
 			>
 				<ApplyButton
-					text={t("confirmButtonText")}
-					onPress={() => navigation.navigate("LoadingVerification")}
+					text={t("loginPageButton")}
+					onPress={() => navigation.navigate("Login")}
 				/>
 			</View>
 		</SafeAreaView>
