@@ -16,14 +16,12 @@ import Progress2 from "@components/onboarding/Progress2";
 import Progress3 from "@components/onboarding/Progress3";
 import Progress4 from "@components/onboarding/Progress4";
 import Progress5 from "@components/onboarding/Progress5";
-import Progress6 from "@components/onboarding/Progress6";
 import OnboardingStep1Page from "@pages/onboarding/OnboardingStep1Page";
 import OnboardingStep1Styles from "@pages/onboarding/OnboardingStep1Styles";
 import OnboardingStep2Page from "@pages/onboarding/OnboardingStep2Page";
 import OnboardingStep3Page from "@pages/onboarding/OnboardingStep3Page";
 import OnboardingStep4Page from "@pages/onboarding/OnboardingStep4Page";
 import OnboardingStep5Page from "@pages/onboarding/OnboardingStep5Page";
-import OnboardingStep6Page from "@pages/onboarding/OnboardingStep6Page";
 
 const OnboardingPage = ({ route }) => {
 	const navigation = useNavigation();
@@ -37,7 +35,6 @@ const OnboardingPage = ({ route }) => {
 		3: "",
 		4: "",
 		5: "",
-		6: "",
 	});
 
 	const saveData = (step, data) => {
@@ -72,7 +69,6 @@ const OnboardingPage = ({ route }) => {
 		3: Progress3,
 		4: Progress4,
 		5: Progress5,
-		6: Progress6,
 	};
 
 	const ProgressComponent = progressComponents[currentStep];
@@ -129,13 +125,6 @@ const OnboardingPage = ({ route }) => {
 				)}
 				{currentStep === 5 && (
 					<OnboardingStep5Page
-						goToNext={goToNext}
-						saveData={saveData}
-						stepData={stepData}
-					/>
-				)}
-				{currentStep === 6 && (
-					<OnboardingStep6Page
 						saveData={saveData}
 						stepData={stepData}
 					/>

@@ -82,6 +82,27 @@ const LoginPage = () => {
 		setLoginFailed(false);
 	};
 
+	const DEVICE_LANG_FLAG_KEY = "didSendDeviceLanguage";
+
+	const deviceLanguageOnce = async () => {
+		const alreadySent =
+			await SecureStore.getItemAsync(DEVICE_LANG_FLAG_KEY);
+		if (alreadySent === "true") return;
+
+		try {
+			const formData = new FormData();
+			formData.append(
+				"settingLanguage",
+				getLocales()[0].languageCode.toUpperCase(),
+			);
+			await updateMyProfile(formData);
+
+			await SecureStore.setItemAsync(DEVICE_LANG_FLAG_KEY, "true");
+		} catch (error) {
+			console.error("언어 설정 업데이트 오류:", error);
+		}
+	};
+
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
@@ -118,7 +139,6 @@ const LoginPage = () => {
 			const id = loginResponse.data.member_id;
 			const accessToken = loginResponse.data.accessToken;
 			const refreshToken = loginResponse.data.refreshToken;
-			const isFirstLogin = loginResponse.data.isFirstLogin;
 
 			await SecureStore.setItemAsync("memberId", JSON.stringify(id));
 			await SecureStore.setItemAsync("accessToken", accessToken);
@@ -130,13 +150,12 @@ const LoginPage = () => {
 
 			console.log(accessToken);
 
-			if (isFirstLogin) {
-				await updateSettingLanguage();
-			}
+			await deviceLanguageOnce();
 
 			const profileResponse = await getMyProfile();
+			const { username } = profileResponse.data;
 
-			if (profileResponse.data.isVerified) {
+			if (username && username !== "Diver") {
 				setIsLoggedIn(true);
 			} else {
 				navigation.navigate("OnboardingPage");
@@ -165,8 +184,6 @@ const LoginPage = () => {
 					);
 					if (error.response.data.message === "탈퇴한 회원입니다!") {
 						setLoginFailed(true);
-					} else {
-						navigation.navigate("LoadingVerification");
 					}
 
 					break;
@@ -176,19 +193,6 @@ const LoginPage = () => {
 						error.response ? error.response.data : error.message,
 					);
 			}
-		}
-	};
-
-	const updateSettingLanguage = async () => {
-		try {
-			const formData = new FormData();
-			formData.append(
-				"settingLanguage",
-				getLocales()[0].languageCode.toUpperCase(),
-			);
-			await updateMyProfile(formData);
-		} catch (error) {
-			console.error("언어 설정 업데이트 오류:", error);
 		}
 	};
 
