@@ -1,4 +1,5 @@
 import axios from "axios";
+import qs from "qs";
 import * as SecureStore from "expo-secure-store";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -229,12 +230,11 @@ export const getCommunitySearch = (keyword) => {
 	});
 };
 
-export const getCommunitySearchByType = (types, keyword) => {
+export const getCommunitySearchByType = (types) => {
 	return api.get("/posts/search", {
-		params: {
-			type: types,
-			keyword,
-		},
+		params: { types },
+		paramsSerializer: (params) =>
+			qs.stringify(params, { arrayFormat: "repeat" }),
 	});
 };
 
