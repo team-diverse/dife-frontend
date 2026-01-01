@@ -13,11 +13,7 @@ import { useTranslation } from "react-i18next";
 
 import FindPasswordStyles from "@pages/login/FindPasswordStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";
-import {
-	getVerifyCode,
-	changePassword,
-	createVerificationCode,
-} from "config/api";
+import { getVerifyCode, changePassword } from "config/api";
 
 import InfoCircle from "@components/common/InfoCircle";
 import ApplyButton from "@components/common/ApplyButton";
@@ -38,19 +34,21 @@ const FindPasswordPage = () => {
 	const [verificationCode, setVerificationCode] = useState("");
 	const [modalConnectVisible, setModalConnectVisible] = useState(false);
 	const [timeLeft, setTimeLeft] = useState(3 * 60);
+	const [timerKey, setTimerKey] = useState(0);
 
 	useEffect(() => {
 		const timer = setInterval(() => {
-			setTimeLeft((prevTime) => {
-				if (prevTime <= 1) {
+			setTimeLeft((prev) => {
+				if (prev <= 1) {
 					clearInterval(timer);
 					return 0;
 				}
-				return prevTime - 1;
+				return prev - 1;
 			});
 		}, 1000);
+
 		return () => clearInterval(timer);
-	}, []);
+	}, [timerKey]);
 
 	const formatTime = (seconds) => {
 		const minutes = Math.floor(seconds / 60);
@@ -59,9 +57,13 @@ const FindPasswordPage = () => {
 	};
 
 	const fetchCreateVerificationCode = async () => {
+		setVerificationCode("");
+		setInvalidVerificationCode(false);
+		setErrorMessage("");
 		setTimeLeft(3 * 60);
+		setTimerKey((prev) => prev + 1);
 		try {
-			await createVerificationCode(valueID);
+			await getVerifyCode(valueID);
 		} catch (error) {
 			console.error(
 				"비밀번호 찾기 인증번호 전송 실패:",
@@ -130,6 +132,7 @@ const FindPasswordPage = () => {
 				"인증번호 매치 실패: ",
 				error.response ? error.response.data : error.message,
 			);
+			setIsNext(true);
 			setInvalidVerificationCode(true);
 			setErrorMessage(t("verifyCodePrompt"));
 		}
@@ -152,7 +155,7 @@ const FindPasswordPage = () => {
 					<TextInput
 						style={FindPasswordStyles.textInputId}
 						placeholder={t("emailPlaceholder")}
-						onChangeText={(text) => handleEmailFormat(text)}
+						onChangeText={(text) => handleEmailFormat(text.trim())}
 						value={valueID}
 						editable={isNext ? false : true}
 					/>
@@ -200,38 +203,37 @@ const FindPasswordPage = () => {
 								{ justifyContent: "space-between" },
 							]}
 						>
-							{!invalidVerificationCode && (
-								<>
-									<View style={{ flexDirection: "row" }}>
-										<InfoCircle
-											color={CustomTheme.warningRed}
-										/>
-										{timeLeft === 0 ? (
-											<Text
-												style={
-													FindPasswordStyles.textNotMember
-												}
-											>
-												{t("invalidVerificationCode")}
-											</Text>
-										) : (
-											<Text
-												style={
-													FindPasswordStyles.textNotMember
-												}
-											>
-												{t("verificationCodeSent")}
-											</Text>
-										)}
-									</View>
+							<View style={{ flexDirection: "row" }}>
+								<InfoCircle color={CustomTheme.warningRed} />
+
+								{invalidVerificationCode ? (
 									<Text
 										style={FindPasswordStyles.textNotMember}
 									>
-										{formatTime(timeLeft)}
+										{t("verifyCodePrompt")}
 									</Text>
-								</>
+								) : timeLeft === 0 ? (
+									<Text
+										style={FindPasswordStyles.textNotMember}
+									>
+										{t("invalidVerificationCode")}
+									</Text>
+								) : (
+									<Text
+										style={FindPasswordStyles.textNotMember}
+									>
+										{t("verificationCodeSent")}
+									</Text>
+								)}
+							</View>
+
+							{!invalidVerificationCode && timeLeft > 0 && (
+								<Text style={FindPasswordStyles.textNotMember}>
+									{formatTime(timeLeft)}
+								</Text>
 							)}
 						</View>
+
 						<View style={FindPasswordStyles.applyButton}>
 							<ApplyButton
 								text={t("setPasswordButton")}
