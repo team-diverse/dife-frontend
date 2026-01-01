@@ -65,8 +65,6 @@ import CompleteProfilePage from "@pages/onboarding/CompleteProfilePage";
 import BookmarkPage from "@pages/chat/BookmarkPage";
 import FriendListPage from "@pages/chat/FriendListPage";
 import ChatRoomPage from "@pages/chat/ChatRoomPage";
-import TipCommunityPage from "@pages/community/TipCommunityPage";
-import FreeCommunityPage from "@pages/community/FreeCommunityPage";
 import WritePage from "@pages/community/WritePage";
 import PostPage from "@pages/community/PostPage";
 import MyPostPage from "@pages/member/MyPostPage";
@@ -378,14 +376,6 @@ function MainNavigator() {
 			<Stack.Screen name="BookmarkPage" component={BookmarkPage} />
 			<Stack.Screen name="FriendListPage" component={FriendListPage} />
 			<Stack.Screen name="ChatRoomPage" component={ChatRoomPage} />
-			<Stack.Screen
-				name="TipCommunityPage"
-				component={TipCommunityPage}
-			/>
-			<Stack.Screen
-				name="FreeCommunityPage"
-				component={FreeCommunityPage}
-			/>
 			<Stack.Screen name="WritePage" component={WritePage} />
 			<Stack.Screen name="PostPage" component={PostPage} />
 			<Stack.Screen name="PostModifyPage" component={PostModifyPage} />

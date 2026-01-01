@@ -76,6 +76,8 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.bgBasic,
+		gap: 23,
+		paddingHorizontal: 24,
 		...Platform.select({
 			ios: {
 				shadowColor: "#3C454E",
@@ -91,20 +93,18 @@ const styles = StyleSheet.create({
 		}),
 	},
 	button1: {
-		width: 156,
+		flex: 1,
 		height: 44,
 		alignItems: "center",
 		justifyContent: "center",
 		backgroundColor: CustomTheme.primaryBg,
-		borderWidth: 3,
+		borderWidth: 2,
 		borderColor: CustomTheme.primaryMedium,
 		borderRadius: 27,
-		marginLeft: 24,
-		marginRight: 8,
 		marginVertical: 14,
 	},
 	button2: {
-		width: 156,
+		flex: 1,
 		height: 44,
 		alignItems: "center",
 		justifyContent: "center",
@@ -112,8 +112,6 @@ const styles = StyleSheet.create({
 		borderWidth: 2,
 		borderColor: CustomTheme.primaryMedium,
 		borderRadius: 27,
-		marginRight: 24,
-		marginLeft: 8,
 		marginVertical: 14,
 	},
 	text1: {

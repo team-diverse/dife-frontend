@@ -13,19 +13,21 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as ImagePicker from "expo-image-picker";
+import * as Sentry from "@sentry/react-native";
 
 import WriteStyles from "@pages/community/WriteStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { updatePost } from "config/api";
 import { useStatusBar } from "util/useStatusBar";
+import { usePostModify } from "states/PostModifyContext";
 
 import TopBar from "@components/common/TopBar";
 import IconImage from "@components/community/IconImage";
 import Checkbox from "@components/common/Checkbox";
-import { usePostModify } from "states/PostModifyContext";
-import { updatePost } from "config/api";
-import * as Sentry from "@sentry/react-native";
 import IconCircleNumber from "@components/community/IconCircleNumber";
 import IconDelete from "@components/onboarding/IconDelete";
+import IconChevronDown from "@components/community/IconChevronDown";
+import TopicBottomSlide from "@components/community/TopicBottomSlide";
 
 const PostModifyPage = () => {
 	const { t } = useTranslation();
@@ -36,23 +38,32 @@ const PostModifyPage = () => {
 	const [valueContext, onChangeContext] = useState(postModifyData.context);
 	const [valueImage, onChangeImage] = useState(postModifyData.images || []);
 	const [boardType, setBoardType] = useState("");
+	const [modalVisible, setModalVisible] = useState(false);
+
+	const topics = [
+		{ label: t("free"), value: "FREE" },
+		{ label: t("gathering"), value: "GATHERING" },
+		{ label: t("tip"), value: "TIP" },
+	];
 
 	useStatusBar({
 		color: CustomTheme.bgBasic,
 		barStyle: "dark-content",
 	});
 
-	const handlePress = () => {
-		setIsChecked(!isChecked);
-	};
-
 	useEffect(() => {
-		if (postModifyData.boardType === t("tipBoard")) {
-			setBoardType(t("tipBoard"));
+		if (postModifyData.boardType == "TIP") {
+			setBoardType("TIP");
+		} else if (postModifyData.boardType == "FREE") {
+			setBoardType("FREE");
 		} else {
-			setBoardType(t("freeBoard"));
+			setBoardType("GATHERING");
 		}
 	}, [postModifyData.boardType]);
+
+	const handleAnonymousCheckPress = () => {
+		setIsChecked(!isChecked);
+	};
 
 	const handleModify = async () => {
 		try {
@@ -61,7 +72,7 @@ const PostModifyPage = () => {
 				valueTitle,
 				valueContext,
 				isChecked,
-				postModifyData.boardType,
+				boardType,
 				valueImage,
 			);
 			navigation.navigate("PostPage", { postId: postModifyData.id });
@@ -108,20 +119,50 @@ const PostModifyPage = () => {
 		onChangeImage(valueImage.filter((image) => image !== uri));
 	};
 
+	const pressTopic = () => {
+		setModalVisible(true);
+	};
+
+	const handleTopicResponse = (response) => {
+		setBoardType(Array.isArray(response) ? response[0] : response);
+	};
+
 	return (
 		<SafeAreaView style={WriteStyles.container}>
 			<TopBar topBar={t("modifyPageTitle")} color="#000" />
 			<ScrollView>
 				<View style={WriteStyles.containerWhite}>
 					<View style={WriteStyles.containerNoticeboard}>
-						<Text
-							style={[
-								WriteStyles.textNoticeboard,
-								{ color: CustomTheme.textSecondary },
-							]}
+						<TouchableOpacity
+							style={WriteStyles.containerCategory}
+							onPress={pressTopic}
 						>
-							{boardType}
-						</Text>
+							<Text
+								style={[
+									WriteStyles.textNoticeboard,
+									{
+										color: CustomTheme.textSecondary,
+										marginRight: 4,
+									},
+								]}
+							>
+								{
+									topics.find(
+										(item) => item.value === boardType,
+									)?.label
+								}
+							</Text>
+							<IconChevronDown />
+						</TouchableOpacity>
+						<TopicBottomSlide
+							modalVisible={modalVisible}
+							setModalVisible={setModalVisible}
+							onFilterResponse={handleTopicResponse}
+							onSearchResponse={null}
+							onTotalSelection={null}
+							isReset={null}
+							initialSelected={boardType}
+						/>
 						<TouchableOpacity onPress={handleModify}>
 							<Text style={WriteStyles.textNoticeboard}>
 								{t("completeModifyButton")}
@@ -184,7 +225,7 @@ const PostModifyPage = () => {
 						<Checkbox
 							checked={isChecked}
 							onPress={() => {
-								handlePress();
+								handleAnonymousCheckPress();
 							}}
 							text={t("anonymousCheckboxLabel")}
 							basic="true"

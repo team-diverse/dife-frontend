@@ -3,7 +3,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead20, fontSub16, fontBody14, fontCaption } = CustomTheme;
 
-const ChattingStyles = StyleSheet.create({
+const CommunityStyles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: CustomTheme.bgBasic,
@@ -13,6 +13,20 @@ const ChattingStyles = StyleSheet.create({
 		width: "100%",
 		height: 100,
 		backgroundColor: CustomTheme.primaryMedium,
+	},
+	iconPostPlus: {
+		position: "absolute",
+		right: 12,
+		bottom: 46,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E",
+				shadowOffset: { width: 0, height: 4 },
+				shadowOpacity: 0.4,
+				shadowRadius: 2,
+			},
+		}),
+		zIndex: 2,
 	},
 	connectTop: {
 		marginTop: Platform.OS === "android" ? -45 : -52,
@@ -56,13 +70,17 @@ const ChattingStyles = StyleSheet.create({
 		position: "absolute",
 		marginTop: Platform.OS === "android" ? 90 : 105,
 	},
+	iconSearchFilter: {
+		flex: 1,
+		marginLeft: 20,
+	},
 	containerSearchIcon: {
 		flexDirection: "row",
 		alignItems: "center",
 		flex: 1,
 		justifyContent: "flex-end",
-		marginLeft: 25,
-		marginRight: 25,
+		marginLeft: 12,
+		marginRight: 24,
 	},
 	search: {
 		...fontSub16,
@@ -138,4 +156,4 @@ const ChattingStyles = StyleSheet.create({
 	},
 });
 
-export default ChattingStyles;
+export default CommunityStyles;
