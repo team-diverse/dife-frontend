@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
 	Text,
 	TextInput,
@@ -11,46 +11,54 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
-import * as ImagePicker from "expo-image-picker";
 import { useTranslation } from "react-i18next";
+import * as ImagePicker from "expo-image-picker";
+import * as Sentry from "@sentry/react-native";
 
 import WriteStyles from "@pages/community/WriteStyles";
 import { CustomTheme } from "@styles/CustomTheme";
+import { useStatusBar } from "util/useStatusBar";
+import { createPost } from "config/api";
 
 import TopBar from "@components/common/TopBar";
 import IconImage from "@components/community/IconImage";
 import Checkbox from "@components/common/Checkbox";
-import { createPost } from "config/api";
+
 import IconDelete from "@components/onboarding/IconDelete";
 import IconCircleNumber from "@components/community/IconCircleNumber";
-import * as Sentry from "@sentry/react-native";
+import IconChevronDown from "@components/community/IconChevronDown";
+import TopicBottomSlide from "@components/community/TopicBottomSlide";
 
-const WritePage = ({ route }) => {
-	const { noticeboard } = route.params;
+const WritePage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
 	const [isChecked, setIsChecked] = useState(true);
 	const [valueTitle, onChangeTitle] = useState("");
 	const [valueContext, onChangeContext] = useState("");
-	const [isBoardType, setIsBoardType] = useState("");
+	const [boardType, setBoardType] = useState("");
 	const [images, setImages] = useState("");
+	const [modalVisible, setModalVisible] = useState(false);
+
+	const topics = [
+		{ label: t("free"), value: "FREE" },
+		{ label: t("gathering"), value: "GATHERING" },
+		{ label: t("tip"), value: "TIP" },
+	];
+
+	useStatusBar({
+		color: CustomTheme.bgBasic,
+		barStyle: "dark-content",
+	});
 
 	const handlePress = () => {
 		setIsChecked(!isChecked);
 	};
 
-	useEffect(() => {
-		if (noticeboard === t("freeBoard")) {
-			setIsBoardType("FREE");
-		} else {
-			setIsBoardType("TIP");
-		}
-	}, [noticeboard]);
-
 	const handleWrite = async () => {
 		try {
 			if (
+				boardType.length !== 0 &&
 				valueTitle.trim().length !== 0 &&
 				valueContext.trim().length !== 0
 			) {
@@ -58,7 +66,7 @@ const WritePage = ({ route }) => {
 					valueTitle,
 					valueContext,
 					isChecked,
-					isBoardType,
+					boardType,
 					images,
 				);
 				navigation.goBack();
@@ -117,20 +125,49 @@ const WritePage = ({ route }) => {
 		setImages(images.filter((image) => image !== uri));
 	};
 
+	const pressTopic = () => {
+		setModalVisible(true);
+	};
+
+	const handleTopicResponse = (response) => {
+		setBoardType(Array.isArray(response) ? response[0] : response);
+	};
+
 	return (
 		<SafeAreaView style={WriteStyles.container}>
 			<TopBar topBar={t("writePageTitle")} color="#000" />
 			<ScrollView>
 				<View style={WriteStyles.containerWhite}>
 					<View style={WriteStyles.containerNoticeboard}>
-						<Text
-							style={[
-								WriteStyles.textNoticeboard,
-								{ color: CustomTheme.textSecondary },
-							]}
+						<TouchableOpacity
+							style={WriteStyles.containerCategory}
+							onPress={pressTopic}
 						>
-							{noticeboard}
-						</Text>
+							<Text
+								style={[
+									WriteStyles.textNoticeboard,
+									{
+										color: CustomTheme.textSecondary,
+										marginRight: 4,
+									},
+								]}
+							>
+								{boardType
+									? topics.find(
+											(item) => item.value === boardType,
+										)?.label
+									: t("selectCategory")}
+							</Text>
+							<IconChevronDown />
+						</TouchableOpacity>
+						<TopicBottomSlide
+							modalVisible={modalVisible}
+							setModalVisible={setModalVisible}
+							onFilterResponse={handleTopicResponse}
+							onSearchResponse={null}
+							onTotalSelection={null}
+							isReset={null}
+						/>
 						<TouchableOpacity onPress={handleWrite}>
 							<Text style={WriteStyles.textNoticeboard}>
 								{t("completeWriteButton")}
