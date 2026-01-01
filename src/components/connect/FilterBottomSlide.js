@@ -6,13 +6,14 @@ import {
 	Text,
 	Animated,
 	TouchableWithoutFeedback,
-	Dimensions,
+	useWindowDimensions,
 	PanResponder,
 	TouchableOpacity,
 	ScrollView,
 	Platform,
 } from "react-native";
 import { useTranslation } from "react-i18next";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { getConnectFilter } from "config/api";
@@ -38,9 +39,10 @@ const FilterBottomSlide = ({
 	isReset,
 }) => {
 	const { t } = useTranslation();
+	const { height: windowHeight } = useWindowDimensions();
+	const insets = useSafeAreaInsets();
 
-	const screenHeight = Dimensions.get("screen").height;
-	const panY = useRef(new Animated.Value(screenHeight)).current;
+	const panY = useRef(new Animated.Value(windowHeight)).current;
 
 	const translateY = panY.interpolate({
 		inputRange: [-1, 0, 1],
@@ -54,7 +56,7 @@ const FilterBottomSlide = ({
 	});
 
 	const closeBottomSheet = Animated.timing(panY, {
-		toValue: screenHeight,
+		toValue: windowHeight,
 		duration: 300,
 		useNativeDriver: true,
 	});
@@ -219,6 +221,8 @@ const FilterBottomSlide = ({
 					style={{
 						...styles.bottomSheetContainer,
 						transform: [{ translateY: translateY }],
+						height: windowHeight * 0.8,
+						paddingBottom: insets.bottom + 12,
 					}}
 					{...panResponders.panHandlers}
 				>
@@ -411,7 +415,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	bottomSheetContainer: {
-		height: 650,
 		alignItems: "center",
 		backgroundColor: "white",
 		borderTopLeftRadius: 24,
