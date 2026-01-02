@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, SafeAreaView, Dimensions } from "react-native";
+import { View, Text, Dimensions } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
@@ -21,12 +22,6 @@ const CompleteProfilePage = () => {
 			<Text style={CompleteProfileStyles.textTitle}>
 				{t("profileCompletionTitle")}
 			</Text>
-			<Text style={CompleteProfileStyles.textSubTitle}>
-				{t("profileCompletionDescription")}
-			</Text>
-			{/* <Text style={CompleteProfileStyles.textDescription}>
-				{t("averageVerificationTime")}
-			</Text> */}
 			<View style={CompleteProfileStyles.iconLoading}>
 				<IconLoading />
 			</View>
@@ -37,8 +32,8 @@ const CompleteProfilePage = () => {
 				]}
 			>
 				<ApplyButton
-					text={t("confirmButtonText")}
-					onPress={() => navigation.navigate("LoadingVerification")}
+					text={t("loginPageButton")}
+					onPress={() => navigation.navigate("Login")}
 				/>
 			</View>
 		</SafeAreaView>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, SafeAreaView, FlatList } from "react-native";
+import { Text, View, FlatList } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 
 import GroupListStyles from "@pages/member/GroupListStyles";

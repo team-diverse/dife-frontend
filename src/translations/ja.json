@@ -3,7 +3,6 @@
 	"loginSubtitle": "今すぐ始める",
 	"placeholderPassword": "パスワードを入力してください",
 	"loginError": "入力されたIDまたはパスワードを確認してください",
-	"signUp": "サインアップ",
 	"login": "ログイン",
 	"loginForgotPassword": "パスワードを忘れた",
 
@@ -108,30 +107,8 @@
 		"その他"
 	],
 
-	"studentVerificationTitle": "学生認証",
-	"uploadInstructions": "Onnukminのスクリーンショットをアップロードしてください。\n(学生ID/名前を含む、学生認証用)",
-	"uploadButtonText": "写真をアップロード",
-	"reuploadButtonText": "再アップロード",
 	"completeButtonText": "完了",
-
-	"studentVerificationErrorTitle": "学生認証エラー",
-	"retryInstructions": "学生認証を再試行してください",
-	"retryButtonText": "学生認証を再試行",
-
-	"waitingVerificationTitle": "在学生認証処理中(最大2分)",
-	"loadingVerification1": "📋 学生証認識中...",
-	"loadingVerification2": "🔍 サーバー確認中...",
-	"loadingVerification3": "⚙️ データ処理中...",
-	"loadingVerification4": "🖼️ 画像分析中...",
-	"loadingVerification5": "🎓 在学生判定中...",
-	"completeVerification": "🎉 国民大学の学生認証が完了しました！",
-	"waitingVerificationDescription1": "⚠️ 自動学生認証が完了していません",
-	"waitingVerificationDescription2": "管理者の確認後に追加認証を行います",
-	"waitingVerificationDescription3": "⏰ 最大24時間かかる場合があります",
-	"returnToLogin": "ログイン画面に戻る",
-
 	"profileCompletionTitle": "プロフィール作成完了！",
-	"profileCompletionDescription": "学生認証確認までしばらくお待ちください",
 
 	"connect": "コネクト",
 	"newFriendText": "新しい友達と参加しよう！",
@@ -155,9 +132,11 @@
 	"searchPlaceholder": "検索",
 	"searchNoResults": "一致する検索結果がありません",
 	"moreButton": "もっと見る",
-	"tipBoard": "ヒント掲示板",
-	"freeBoard": "自由掲示板",
+	"tip": "ヒント",
+	"gathering": "聚会",
 	"entire": "すべて",
+	"postTopic": "投稿のテーマ",
+	"selectionComplete": "完了",
 
 	"searchError": "検索中にエラーが発生しました",
 	"searchCancelButton": "検索をキャンセル",
@@ -166,9 +145,10 @@
 	"modifyPageTitle": "投稿を編集",
 	"completeWriteButton": "投稿完了",
 	"completeModifyButton": "編集を完了",
+	"selectCategory": "カテゴリーを選択",
 	"titlePlaceholder": "タイトル",
 	"contentPlaceholder": "内容",
-	"titleAndContentRequired": "タイトルと内容は必須項目です。",
+	"titleAndContentRequired": "カテゴリー、タイトル、内容を入力してください。",
 	"deleteImageAlert": "最大9枚まで選択できます。",
 	"anonymousCheckboxLabel": "匿名",
 	"ruleTitle": "Difeコミュニティ利用規則",
@@ -284,7 +264,6 @@
 
 	"connectList": "コネクトリスト",
 	"friend": "友達",
-	"connectRequest": "コネクトリクエスト",
 
 	"defaultLanguageSettings": "デフォルト言語設定",
 	"english": "English / English",
@@ -417,6 +396,10 @@
 	"myFriend": "私の友達",
 	"chatParticipant": "参加者",
 	"chatBookmark": "ブックマーク",
+	"bookmarked": "ブックマークしました。",
+	"goToBookmarks": "ブックマークへ移動",
+	"alreadyBookmarkedChat": "このチャットはすでにブックマークされています。",
+	"chatCopy": "コピー",
 	"chatAlbum": "アルバム",
 	"bookmarkUnsetPrompt": "ブックマークを解除しますか？",
 	"removeButtonText": "解除する",

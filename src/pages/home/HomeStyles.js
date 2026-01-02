@@ -14,6 +14,7 @@ const HomeStyles = StyleSheet.create({
 	},
 	homebg: {
 		position: "absolute",
+		marginTop: 13,
 	},
 	topContainer: {
 		flexDirection: "row",
@@ -94,7 +95,7 @@ const HomeStyles = StyleSheet.create({
 		position: "absolute",
 		bottom: 0,
 		width: "100%",
-		height: 200,
+		height: 500,
 		backgroundColor: CustomTheme.bgBasic,
 		zIndex: -1,
 	},

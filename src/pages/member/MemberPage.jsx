@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import { TabView } from "react-native-tab-view";

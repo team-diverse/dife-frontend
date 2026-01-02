@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, Dimensions } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import OnboardingStep3Styles from "@pages/onboarding/OnboardingStep3Styles";
@@ -38,7 +38,7 @@ const OnboardingStep3Page = ({ goToNext, saveData, stepData }) => {
 	const isSmallScreen = screenHeight < 700;
 
 	return (
-		<SafeAreaView style={OnboardingStep3Styles.container}>
+		<View style={OnboardingStep3Styles.container}>
 			<Text style={OnboardingStep3Styles.textTitle}>
 				{t("profileCreationTitle")}
 			</Text>
@@ -78,7 +78,7 @@ const OnboardingStep3Page = ({ goToNext, saveData, stepData }) => {
 					disabled={selectedMBTI.length === 0}
 				/>
 			</View>
-		</SafeAreaView>
+		</View>
 	);
 };
 

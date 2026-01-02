@@ -3,7 +3,6 @@
 	"loginSubtitle": "Start Now",
 	"placeholderPassword": "Enter your password",
 	"loginError": "Please check the entered ID or password",
-	"signUp": "Sign Up",
 	"login": "Login",
 	"loginForgotPassword": "Forgot your password",
 
@@ -108,30 +107,8 @@
 		"Others"
 	],
 
-	"studentVerificationTitle": "Student Verification",
-	"uploadInstructions": "Please upload a screenshot of Onnukmin.\n(Include student ID/name, for student verification)",
-	"uploadButtonText": "Upload Photo",
-	"reuploadButtonText": "Re-upload",
 	"completeButtonText": "Complete",
-
-	"studentVerificationErrorTitle": "Student Verification Error",
-	"retryInstructions": "Please try student verification\nagain",
-	"retryButtonText": "Retry Student Verification",
-
-	"waitingVerificationTitle": "Processing of enrollment certification (up to 2 minutes)",
-	"loadingVerification1": "📋 Recognizing student ID...",
-	"loadingVerification2": "🔍 Verifying server...",
-	"loadingVerification3": "⚙️ Processing data...",
-	"loadingVerification4": "🖼️ Analyzing image...",
-	"loadingVerification5": "🎓 Verifying current student...",
-	"completeVerification": "🎉 You have been verified as a student of Kookmin University!",
-	"waitingVerificationDescription1": "⚠️ Automatic student verification has not been completed",
-	"waitingVerificationDescription2": "We will proceed with additional verification after admin review",
-	"waitingVerificationDescription3": "⏰ It may take up to 24 hours",
-	"returnToLogin": "Return to login screen",
-
 	"profileCompletionTitle": "Profile Creation Complete!",
-	"profileCompletionDescription": "Please wait a moment for student verification confirmation",
 
 	"connect": "Connect",
 	"newFriendText": "Join with new friends!",
@@ -155,9 +132,11 @@
 	"searchPlaceholder": "Search",
 	"searchNoResults": "No matching results found",
 	"moreButton": "More",
-	"tipBoard": "Tips Board",
-	"freeBoard": "Free Board",
+	"tip": "Tips",
+	"gathering": "Gathering",
 	"entire": "All",
+	"postTopic": "Post Topic",
+	"selectionComplete": "Done",
 
 	"searchError": "An error occurred during the search",
 	"searchCancelButton": "Cancel Search",
@@ -166,9 +145,10 @@
 	"modifyPageTitle": "Edit Post",
 	"completeWriteButton": "Complete Writing",
 	"completeModifyButton": "Complete Edit",
+	"selectCategory": "Select category",
 	"titlePlaceholder": "Title",
 	"contentPlaceholder": "Content",
-	"titleAndContentRequired": "Title and content are required fields.",
+	"titleAndContentRequired": "Please enter the category, title, and content.",
 	"deleteImageAlert": "You can only select up to 9 images.",
 	"anonymousCheckboxLabel": "Anonymous",
 	"ruleTitle": "Dife Community Rules",
@@ -284,7 +264,6 @@
 
 	"connectList": "Connect List",
 	"friend": "Friend",
-	"connectRequest": "Connect Request",
 
 	"defaultLanguageSettings": "Default Language Settings",
 	"english": "English / English",
@@ -416,6 +395,10 @@
 	"myFriend": "My Friend",
 	"chatParticipant": "Participant",
 	"chatBookmark": "Bookmark",
+	"bookmarked": "Bookmarked.",
+	"goToBookmarks": "Go to bookmarks",
+	"alreadyBookmarkedChat": "This chat is already bookmarked.",
+	"chatCopy": "Copy",
 	"chatAlbum": "Album",
 	"bookmarkUnsetPrompt": "Are you sure you want to unset the bookmark?",
 	"removeButtonText": "Remove",

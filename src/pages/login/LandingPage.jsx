@@ -2,11 +2,11 @@ import React, { useState, useCallback } from "react";
 import {
 	View,
 	Text,
-	SafeAreaView,
 	FlatList,
 	TouchableOpacity,
 	Dimensions,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";

@@ -2,12 +2,12 @@ import React, { useState, useRef, useCallback } from "react";
 import {
 	View,
 	Text,
-	SafeAreaView,
 	FlatList,
 	TouchableOpacity,
 	Dimensions,
 	Alert,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";

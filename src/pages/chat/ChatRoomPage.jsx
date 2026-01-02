@@ -6,7 +6,6 @@ import React, {
 	useCallback,
 } from "react";
 import {
-	SafeAreaView,
 	View,
 	Text,
 	TouchableOpacity,
@@ -20,8 +19,11 @@ import {
 	KeyboardAvoidingView,
 	AppState,
 } from "react-native";
+import {
+	SafeAreaView,
+	useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 
 import ChatRoomStyles from "@pages/chat/ChatRoomStyles";
@@ -445,11 +447,10 @@ const ChatRoomPage = ({ route }) => {
 				/>
 			</KeyboardAvoidingView>
 			<View
-				style={
-					Platform.OS === "ios"
-						? ChatRoomStyles.chatInputBottom
-						: null
-				}
+				style={{
+					paddingBottom: insets.bottom,
+					backgroundColor: "white",
+				}}
 			/>
 			{menuOpen && (
 				<TouchableOpacity

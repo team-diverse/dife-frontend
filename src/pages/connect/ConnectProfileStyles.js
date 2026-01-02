@@ -52,6 +52,7 @@ const ConnectProfileStyles = StyleSheet.create({
 		position: "absolute",
 		width: "100%",
 		bottom: 0,
+		backgroundColor: CustomTheme.bgBasic,
 	},
 });
 

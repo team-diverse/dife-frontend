@@ -171,13 +171,14 @@ const styles = StyleSheet.create({
 		alignItems: "flex-start",
 	},
 	rectangle: {
-		width: 95,
+		alignSelf: "flex-start",
+		width: "auto",
 		height: 75,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 10,
 	},
 	line: {
-		width: 86,
+		width: "auto",
 		height: 1,
 		backgroundColor: CustomTheme.bgList,
 		marginHorizontal: 5,
@@ -185,7 +186,7 @@ const styles = StyleSheet.create({
 	text: {
 		...fontBody14,
 		color: CustomTheme.textSecondary,
-		marginLeft: 11,
+		marginHorizontal: 11,
 		marginVertical: 9,
 	},
 });

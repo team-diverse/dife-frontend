@@ -1,11 +1,6 @@
 import React, { useCallback, useState } from "react";
-import {
-	SafeAreaView,
-	View,
-	Text,
-	TouchableOpacity,
-	Alert,
-} from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";

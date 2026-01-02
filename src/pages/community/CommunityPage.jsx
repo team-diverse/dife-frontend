@@ -3,18 +3,23 @@ import {
 	View,
 	Text,
 	TextInput,
-	SafeAreaView,
 	Keyboard,
 	TouchableOpacity,
 	ScrollView,
 	Dimensions,
 	TouchableWithoutFeedback,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
+
 import CommunityStyles from "@pages/community/CommunityStyles";
-import { getPostsByType, getCommunitySearch } from "config/api";
+import ConnectStyles from "@pages/connect/ConnectStyles";
+import { CustomTheme } from "@styles/CustomTheme";
+import { getPosts, getCommunitySearch } from "config/api";
+import { useStatusBar } from "util/useStatusBar";
+import { communityPresignUrl } from "util/communityPresignUrl";
 
 import ConnectTop from "@components/connect/ConnectTop";
 import ConnectSearchIcon from "@components/connect/ConnectSearchIcon";
@@ -23,18 +28,31 @@ import IconBookmark from "@components/chat/IconBookmark";
 import ArrowRight from "@components/common/ArrowRight";
 import IconSearchFail from "@components/common/IconSearchFail";
 import ItemCommunity from "@components/community/ItemCommunity";
-import CommunitySection from "./CommunitySection";
+import FilterIcon from "@components/connect/FilterIcon";
+import TopicBottomSlide from "@components/community/TopicBottomSlide";
+import IconCircleNumber from "@components/community/IconCircleNumber";
+import IconPostPlus from "@components/community/IconPostPlus";
 
 const CommunityPage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
-	const [tipPostList, setTipPostList] = useState([]);
-	const [freePostList, setFreePostList] = useState([]);
+	const [postList, setPostList] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
+
+	const [modalVisible, setModalVisible] = useState(false);
+
+	useStatusBar({
+		color: CustomTheme.primaryMedium,
+		barStyle: "light-content",
+	});
+
+	const pressButton = () => {
+		setModalVisible(true);
+	};
 
 	const handleSearch = async () => {
 		try {
@@ -43,17 +61,11 @@ const CommunityPage = () => {
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
-				"커넥트 검색 오류:",
+				"커뮤니티 검색 오류:",
 				error.response ? error.response.data : error.message,
 			);
 			setSearchFail(true);
 		}
-	};
-
-	const handleSearchBack = () => {
-		setSearchFail(false);
-		setSearchData(null);
-		setSearchTerm(null);
 	};
 
 	const handleFocus = () => {
@@ -70,16 +82,41 @@ const CommunityPage = () => {
 		Keyboard.dismiss();
 	};
 
+	const handleFilterResponse = (response) => {
+		setSearchData(response);
+	};
+
+	const handleFilterSearchFail = (response) => {
+		setSearchFail(response);
+	};
+
+	const [totalSelection, setTotalSelection] = useState(null);
+
+	const handleTotalSelection = (response) => {
+		setTotalSelection(response);
+	};
+
+	const [isReset, setIsReset] = useState(false);
+
+	const handleReset = () => {
+		setTotalSelection(null);
+		setIsReset(!isReset);
+	};
+
+	const handleSearchBack = () => {
+		setSearchFail(false);
+		setSearchData(null);
+		setSearchTerm(null);
+		handleReset();
+	};
+
 	useFocusEffect(
 		useCallback(() => {
-			const fetchPosts = async () => {
+			const freeCommunity = async () => {
 				try {
-					const [responseTip, responseFree] = await Promise.all([
-						getPostsByType("TIP"),
-						getPostsByType("FREE"),
-					]);
-					setTipPostList(responseTip.data.slice(0, 3));
-					setFreePostList(responseFree.data.slice(0, 3));
+					const response = await getPosts("");
+					const presignUrl = await communityPresignUrl(response.data);
+					setPostList(presignUrl);
 				} catch (error) {
 					Sentry.captureException(error);
 					console.error(
@@ -89,7 +126,7 @@ const CommunityPage = () => {
 				}
 			};
 
-			fetchPosts();
+			freeCommunity();
 		}, []),
 	);
 
@@ -118,16 +155,11 @@ const CommunityPage = () => {
 
 		return (
 			<>
-				<CommunitySection
-					title="tipBoard"
-					postList={tipPostList}
-					onMorePress={() => navigation.navigate("TipCommunityPage")}
-				/>
-				<CommunitySection
-					title="freeBoard"
-					postList={freePostList}
-					onMorePress={() => navigation.navigate("FreeCommunityPage")}
-				/>
+				<View style={CommunityStyles.itemCommunity}>
+					<ItemCommunity
+						postList={searchData === null ? postList : searchData}
+					/>
+				</View>
 			</>
 		);
 	};
@@ -136,6 +168,12 @@ const CommunityPage = () => {
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
 			<SafeAreaView style={CommunityStyles.container}>
 				<View style={CommunityStyles.backgroundBlue} />
+				<TouchableOpacity
+					style={CommunityStyles.iconPostPlus}
+					onPress={() => navigation.navigate("WritePage")}
+				>
+					<IconPostPlus />
+				</TouchableOpacity>
 				<View style={CommunityStyles.connectTop}>
 					<ConnectTop />
 				</View>
@@ -162,6 +200,28 @@ const CommunityPage = () => {
 						isSmallScreen && { top: -25 },
 					]}
 				>
+					<TouchableOpacity onPress={pressButton}>
+						<FilterIcon style={CommunityStyles.iconSearchFilter} />
+						{totalSelection > 0 && (
+							<View style={ConnectStyles.containerImageNumber}>
+								<IconCircleNumber
+									style={ConnectStyles.iconCircleNumber}
+									color={CustomTheme.bgBasic}
+								/>
+								<Text style={ConnectStyles.textImageNumber}>
+									{totalSelection}
+								</Text>
+							</View>
+						)}
+					</TouchableOpacity>
+					<TopicBottomSlide
+						modalVisible={modalVisible}
+						setModalVisible={setModalVisible}
+						onFilterResponse={handleFilterResponse}
+						onSearchResponse={handleFilterSearchFail}
+						onTotalSelection={handleTotalSelection}
+						isReset={isReset}
+					/>
 					<View style={CommunityStyles.containerSearchIcon}>
 						<TextInput
 							style={[

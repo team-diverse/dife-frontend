@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-	SafeAreaView,
-	View,
-	Text,
-	TouchableOpacity,
-	Alert,
-} from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import * as SecureStore from "expo-secure-store";
 import { useTranslation } from "react-i18next";
