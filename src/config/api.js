@@ -1,4 +1,5 @@
 import axios from "axios";
+import qs from "qs";
 import * as SecureStore from "expo-secure-store";
 const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
@@ -179,10 +180,6 @@ export const getMyProfile = () => {
 	return api.get("/members/profile");
 };
 
-export const checkIsVerified = () => {
-	return api.get("/members/verified");
-};
-
 export const checkUsername = (username) => {
 	return api.head("/members/check", {
 		params: {
@@ -217,12 +214,8 @@ export const getRandomMembersByCount = (count) => {
 	});
 };
 
-export const getPostsByType = (type) => {
-	return api.get("/posts", {
-		params: {
-			type,
-		},
-	});
+export const getPosts = () => {
+	return api.get("/posts");
 };
 
 export const getPostById = (id) => {
@@ -237,21 +230,11 @@ export const getCommunitySearch = (keyword) => {
 	});
 };
 
-export const getFreeCommunitySearch = (keyword) => {
+export const getCommunitySearchByType = (types) => {
 	return api.get("/posts/search", {
-		params: {
-			type: "FREE",
-			keyword,
-		},
-	});
-};
-
-export const getTipCommunitySearch = (keyword) => {
-	return api.get("/posts/search", {
-		params: {
-			type: "TIP",
-			keyword,
-		},
+		params: { types },
+		paramsSerializer: (params) =>
+			qs.stringify(params, { arrayFormat: "repeat" }),
 	});
 };
 

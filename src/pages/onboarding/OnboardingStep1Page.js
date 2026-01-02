@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import {
 	View,
 	Text,
-	SafeAreaView,
 	TextInput,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
@@ -72,7 +71,7 @@ const OnboardingStep1Page = ({ goToNext, saveData, stepData }) => {
 
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
-			<SafeAreaView style={OnboardingStep1Styles.container}>
+			<View style={OnboardingStep1Styles.container}>
 				<DifeLine style={OnboardingStep1Styles.backgroundLogin} />
 				<Text
 					style={[OnboardingStep1Styles.textTitle, { marginTop: 41 }]}
@@ -123,7 +122,7 @@ const OnboardingStep1Page = ({ goToNext, saveData, stepData }) => {
 						disabled={!nicknameValid || nickname.length === 0}
 					/>
 				</View>
-			</SafeAreaView>
+			</View>
 		</TouchableWithoutFeedback>
 	);
 };

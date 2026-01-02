@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead20, fontHead18, fontSub16, fontCaption } = CustomTheme;
@@ -41,7 +41,7 @@ const ChattingStyles = StyleSheet.create({
 		flexDirection: "row",
 		position: "absolute",
 		alignItems: "center",
-		marginTop: 59,
+		marginTop: Platform.OS === "android" ? 45 : 59,
 		zIndex: 2,
 	},
 	textChattingTitle: {
@@ -58,7 +58,7 @@ const ChattingStyles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		position: "absolute",
-		marginTop: 105,
+		marginTop: Platform.OS === "android" ? 90 : 105,
 		zIndex: 2,
 	},
 	containerSearchIcon: {

@@ -3,7 +3,6 @@
 	"loginSubtitle": "立即开始",
 	"placeholderPassword": "请输入您的密码",
 	"loginError": "请检查输入的 ID 或密码",
-	"signUp": "注册",
 	"login": "登录",
 	"loginForgotPassword": "忘记密码了",
 
@@ -108,30 +107,8 @@
 		"其他"
 	],
 
-	"studentVerificationTitle": "学生认证",
-	"uploadInstructions": "请上传Onnukmin的截图。\n(包括学号/姓名，用于学生认证)",
-	"uploadButtonText": "上传照片",
-	"reuploadButtonText": "重新上传",
 	"completeButtonText": "完成",
-
-	"studentVerificationErrorTitle": "学生认证错误",
-	"retryInstructions": "请重新尝试学生认证",
-	"retryButtonText": "重新尝试学生认证",
-
-	"waitingVerificationTitle": "在校生认证处理中(最多 2 分钟)",
-	"loadingVerification1": "📋 识别学生证中...",
-	"loadingVerification2": "🔍 服务器确认中...",
-	"loadingVerification3": "⚙️ 数据处理中...",
-	"loadingVerification4": "🖼️ 图像分析中...",
-	"loadingVerification5": "🎓 在校生判定中...",
-	"completeVerification": "🎉 您已通过国民大学学生认证！",
-	"waitingVerificationDescription1": "⚠️ 自动学生认证未完成",
-	"waitingVerificationDescription2": "管理员确认后将进行额外认证",
-	"waitingVerificationDescription3": "⏰ 最长需要24小时",
-	"returnToLogin": "返回登录界面",
-
 	"profileCompletionTitle": "个人资料创建完成！",
-	"profileCompletionDescription": "请稍等片刻以确认学生认证",
 
 	"connect": "连接",
 	"newFriendText": "和新朋友一起加入吧！",
@@ -155,9 +132,11 @@
 	"searchPlaceholder": "搜索",
 	"searchNoResults": "没有匹配的搜索结果",
 	"moreButton": "更多",
-	"tipBoard": "技巧论坛",
-	"freeBoard": "自由论坛",
+	"tip": "技巧",
+	"gathering": "聚会",
 	"entire": "全部",
+	"postTopic": "帖子主题",
+	"selectionComplete": "完成",
 
 	"searchError": "搜索时发生错误",
 	"searchCancelButton": "取消搜索",
@@ -166,9 +145,10 @@
 	"modifyPageTitle": "编辑文章",
 	"completeWriteButton": "完成写作",
 	"completeModifyButton": "完成编辑",
+	"selectCategory": "选择分类",
 	"titlePlaceholder": "标题",
 	"contentPlaceholder": "内容",
-	"titleAndContentRequired": "标题和内容是必填项。",
+	"titleAndContentRequired": "请输入类别、标题和内容。",
 	"deleteImageAlert": "最多只能选择9张图片。",
 	"anonymousCheckboxLabel": "匿名",
 	"ruleTitle": "Dife 社区规则",
@@ -284,7 +264,6 @@
 
 	"connectList": "连接列表",
 	"friend": "朋友",
-	"connectRequest": "连接请求",
 
 	"defaultLanguageSettings": "默认语言设置",
 	"english": "English / English",
@@ -417,6 +396,10 @@
 	"myFriend": "我的好友",
 	"chatParticipant": "参与者",
 	"chatBookmark": "书签",
+	"bookmarked": "已添加书签。",
+	"goToBookmarks": "前往书签",
+	"alreadyBookmarkedChat": "此聊天已被添加到书签。",
+	"chatCopy": "复制",
 	"chatAlbum": "相册",
 	"bookmarkUnsetPrompt": "您确定要取消书签吗？",
 	"removeButtonText": "取消",

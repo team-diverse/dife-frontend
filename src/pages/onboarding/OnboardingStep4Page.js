@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, Dimensions } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import { useTranslation } from "react-i18next";
 
 import OnboardingStep4Styles from "@pages/onboarding/OnboardingStep4Styles";
@@ -38,7 +38,7 @@ const OnboardingStep4Page = ({ goToNext, saveData, stepData }) => {
 	const isSmallScreen = screenHeight < 700;
 
 	return (
-		<SafeAreaView style={OnboardingStep4Styles.container}>
+		<View style={OnboardingStep4Styles.container}>
 			<Text style={OnboardingStep4Styles.textTitle}>
 				{t("profileCreationTitle")}
 			</Text>
@@ -72,7 +72,7 @@ const OnboardingStep4Page = ({ goToNext, saveData, stepData }) => {
 					disabled={selectedHobby.length === 0}
 				/>
 			</View>
-		</SafeAreaView>
+		</View>
 	);
 };
 

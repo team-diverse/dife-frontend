@@ -3,7 +3,6 @@
 	"loginSubtitle": "지금 바로 시작하기",
 	"placeholderPassword": "비밀번호를 입력해주세요",
 	"loginError": "입력하신 아이디 또는 비밀번호를 확인해주세요",
-	"signUp": "회원가입",
 	"login": "로그인",
 	"loginForgotPassword": "비밀번호를 까먹었어요",
 
@@ -108,30 +107,8 @@
 		"기타 / Others"
 	],
 
-	"studentVerificationTitle": "재학생 인증",
-	"uploadInstructions": "온국민 캡쳐 화면을 업로드 해주세요.\n(학번/이름 포함, 재학생 인증 용도)",
-	"uploadButtonText": "사진 업로드하기",
-	"reuploadButtonText": "다시 업로드하기",
 	"completeButtonText": "완료",
-
-	"studentVerificationErrorTitle": "재학생 인증 오류",
-	"retryInstructions": "재학생 인증을\n다시 한번 시도해주세요",
-	"retryButtonText": "재학생 인증 재시도하기",
-
-	"waitingVerificationTitle": "재학생 인증 처리 중 (최대 2분)",
-	"loadingVerification1": "📋 학생증 인식 중...",
-	"loadingVerification2": "🔍 서버 확인 중...",
-	"loadingVerification3": "⚙️ 데이터 처리 중...",
-	"loadingVerification4": "🖼️ 이미지 분석 중...",
-	"loadingVerification5": "🎓 재학생 판별 중...",
-	"completeVerification": "🎉 국민대 학생인증되었습니다!",
-	"waitingVerificationDescription1": "⚠️ 자동 학생 인증이 되지 않았습니다",
-	"waitingVerificationDescription2": "관리자 확인 후에 인증을 추가로 진행해드릴게요",
-	"waitingVerificationDescription3": "⏰ 최대 24시간 소요됩니다",
-	"returnToLogin": "로그인 화면으로 돌아가기",
-
 	"profileCompletionTitle": "프로필 생성 완료!",
-	"profileCompletionDescription": "재학생 인증 확인까지 잠시만 기다려주세요",
 
 	"connect": "커넥트",
 	"newFriendText": "새로운 친구와 함께해요!",
@@ -153,9 +130,11 @@
 	"searchPlaceholder": "검색",
 	"searchNoResults": "일치하는 검색 결과가 없습니다",
 	"moreButton": "더보기",
-	"tipBoard": "꿀팁게시판",
-	"freeBoard": "자유게시판",
+	"tip": "꿀팁",
+	"gathering": "모임",
 	"entire": "전체",
+	"postTopic": "게시글 주제",
+	"selectionComplete": "선택 완료",
 
 	"searchError": "검색 중 오류가 발생했습니다",
 	"searchCancelButton": "검색 취소",
@@ -164,9 +143,10 @@
 	"modifyPageTitle": "글 수정하기",
 	"completeWriteButton": "작성 완료",
 	"completeModifyButton": "수정 완료",
+	"selectCategory": "카테고리 선택",
 	"titlePlaceholder": "제목",
 	"contentPlaceholder": "내용",
-	"titleAndContentRequired": "제목과 내용은 필수 입력 항목입니다.",
+	"titleAndContentRequired": "카테고리, 제목, 내용은 필수 입력 항목입니다.",
 	"deleteImageAlert": "최대 9장까지만 선택할 수 있습니다.",
 	"anonymousCheckboxLabel": "익명",
 	"ruleTitle": "Dife 커뮤니티 이용 규칙",
@@ -283,7 +263,6 @@
 
 	"connectList": "커넥트 목록",
 	"friend": "친구",
-	"connectRequest": "커넥트 요청",
 
 	"defaultLanguageSettings": "기본 언어 설정",
 	"english": "English / English",
@@ -416,6 +395,10 @@
 	"myFriend": "내 친구",
 	"chatParticipant": "참가자",
 	"chatBookmark": "북마크",
+	"bookmarked": "북마크되었습니다.",
+	"goToBookmarks": "북마크로 이동",
+	"alreadyBookmarkedChat": "이미 북마크된 채팅입니다.",
+	"chatCopy": "복사",
 	"chatAlbum": "앨범",
 	"bookmarkUnsetPrompt": "북마크를 해제하시겠어요?",
 	"removeButtonText": "해제하기",
