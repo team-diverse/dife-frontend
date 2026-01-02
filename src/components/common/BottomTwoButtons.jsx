@@ -1,5 +1,11 @@
 import React, { Children } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import {
+	View,
+	Text,
+	TouchableOpacity,
+	StyleSheet,
+	Platform,
+} from "react-native";
 
 import { CustomTheme } from "@styles/CustomTheme.js";
 
