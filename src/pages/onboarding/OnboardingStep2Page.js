@@ -4,8 +4,6 @@ import {
 	Text,
 	TextInput,
 	ScrollView,
-	KeyboardAvoidingView,
-	Platform,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
