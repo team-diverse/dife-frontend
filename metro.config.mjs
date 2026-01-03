@@ -1,5 +1,6 @@
-import { getSentryExpoConfig } from "@sentry/react-native/metro";
+import { getDefaultConfig } from "expo/metro-config.js";
+import sentryMetro from "@sentry/react-native/metro.js";
 
-const config = getSentryExpoConfig(__dirname);
+const config = getDefaultConfig(import.meta.dirname);
 
-export default config;
+export default sentryMetro(config);
