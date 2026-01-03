@@ -97,7 +97,7 @@ export default {
 				"@sentry/react-native/expo",
 				{
 					url: "https://sentry.io/",
-					enabled: false,
+					enabled: true,
 				},
 			],
 			"expo-localization",
