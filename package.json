@@ -90,7 +90,7 @@
 		"sha1-file": "^3.0.0",
 		"text-encoding": "^0.7.0",
 		"tmpl": "^1.0.5",
-		"typescript": "~5.9.2",
+		"typescript": "~5.8.3",
 		"undefined": "../..",
 		"use-latest-callback": "^0.2.4",
 		"uuid": "^9.0.1"
