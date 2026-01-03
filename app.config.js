@@ -101,6 +101,18 @@ export default {
 				},
 			],
 			"expo-localization",
+			[
+				"expo-build-properties",
+				{
+					ios: {
+						useFrameworks: "static",
+						podfileProperties: {
+							"use_modular_headers!": true,
+						},
+						buildReactNativeFromSource: true,
+					},
+				},
+			],
 		],
 	},
 };
