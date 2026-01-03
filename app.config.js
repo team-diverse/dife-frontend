@@ -10,9 +10,9 @@ const getAppName = () => {
 
 const getIOSBundleIdentifier = () => {
 	if (process.env.EXPO_PUBLIC_APP_VARIANT === "staging") {
-		return "com.teamdiverse.dife";
+		return "com.teamdiverse.dife.staging";
 	} else if (process.env.EXPO_PUBLIC_APP_VARIANT === "dev") {
-		return "com.teamdiverse.dife";
+		return "com.teamdiverse.dife.dev";
 	} else {
 		return "com.teamdiverse.dife";
 	}
@@ -97,7 +97,7 @@ export default {
 				"@sentry/react-native/expo",
 				{
 					url: "https://sentry.io/",
-					enabled: true,
+					enabled: false,
 				},
 			],
 			"expo-localization",
