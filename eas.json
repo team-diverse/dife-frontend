@@ -36,6 +36,7 @@
 		},
 		"staging": {
 			"autoIncrement": true,
+			"node": "20.18.1",
 			"ios": {
 				"image": "macos-sequoia-15.6-xcode-26.1"
 			},
