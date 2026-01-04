@@ -110,7 +110,7 @@ export default {
 						podfileProperties: {
 							"use_modular_headers!": true,
 						},
-						buildReactNativeFromSource: true,
+						buildReactNativeFromSource: false,
 					},
 				},
 			],
