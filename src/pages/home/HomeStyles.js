@@ -10,6 +10,12 @@ const HomeStyles = StyleSheet.create({
 	},
 	linearGradient: {
 		flex: 1,
+		alignItems: "center",
+	},
+	containerCircle: {
+		alignItems: "center",
+		position: "absolute",
+		marginTop: 165,
 	},
 	homebg: {
 		position: "absolute",
