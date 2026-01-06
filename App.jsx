@@ -26,6 +26,7 @@ import { AuthProvider, useAuth } from "src/states/AuthContext";
 import { getMyProfile } from "config/api";
 import { WebSocketProvider } from "./src/context/WebSocketContext";
 import { MatchQueueProvider } from "context/MatchQueueContext";
+import { syncLanguageWithServer } from "src/util/syncLanguageWithServer";
 
 import ChatDf24 from "@components/Icon24/ChatDf24";
 import ConnectDf24 from "@components/Icon24/ConnectDf24";
@@ -227,6 +228,7 @@ function AppContent() {
 	const navigation = useNavigation();
 	const { isLoggedIn, setIsLoggedIn } = useAuth();
 	const [initialRoute, setInitialRoute] = useState("Access");
+	const [languageReady, setLanguageReady] = useState(false);
 
 	useEffect(() => {
 		const checkAutoLogin = async () => {
@@ -240,6 +242,16 @@ function AppContent() {
 				if (memberId && (accessToken || refreshToken)) {
 					try {
 						const profileResponse = await getMyProfile();
+						const memberId =
+							await SecureStore.getItemAsync("memberId");
+						const parsedMemberId = memberId
+							? JSON.parse(memberId)
+							: null;
+						if (parsedMemberId)
+							await syncLanguageWithServer(
+								profileResponse.data,
+								parsedMemberId,
+							);
 						const { username } = profileResponse.data;
 						if (username && username !== "Diver") {
 							setIsLoggedIn(true);
@@ -258,6 +270,8 @@ function AppContent() {
 					error.response ? error.response.data : error.message,
 				);
 				setIsLoggedIn(false);
+			} finally {
+				setLanguageReady(true);
 			}
 		};
 
@@ -332,6 +346,9 @@ function AppContent() {
 	});
 
 	if (!loaded) {
+		return null;
+	}
+	if (!languageReady) {
 		return null;
 	}
 
