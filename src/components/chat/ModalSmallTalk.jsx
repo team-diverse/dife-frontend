@@ -1,14 +1,15 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import IconSmallTalkClose from "@components/chat/IconSmallTalkClose";
 
 const { fontCaption } = CustomTheme;
 
-const ModalSmallTalk = ({ visible, onClose, style }) => {
+const ModalSmallTalk = ({ visible, onClose, style, subject }) => {
+	const { t } = useTranslation();
 	if (!visible) return null;
-
 	return (
 		<View pointerEvents="box-none" style={[styles.overlay, style]}>
 			<View style={styles.modalRectangle}>
@@ -20,12 +21,11 @@ const ModalSmallTalk = ({ visible, onClose, style }) => {
 				</TouchableOpacity>
 
 				<Text style={styles.textSmallTalkProposal}>
-					대화를 이어보고 싶다면 이런 주제는 어때요?
+					{t("smallTalkProposal")}
 				</Text>
-				<Text style={styles.textSmallTalkSubject}>
-					요즘 듣고 있는 노래 하나 추천해 줄 수 있어?
-				</Text>
-				{/* TODO: 번역 추가 및 API 연결 */}
+				<Text
+					style={styles.textSmallTalkSubject}
+				>{`"${subject}"`}</Text>
 			</View>
 		</View>
 	);
@@ -41,8 +41,7 @@ const styles = StyleSheet.create({
 	},
 	modalRectangle: {
 		alignSelf: "stretch",
-		height: 56,
-		padding: 8,
+		paddingVertical: 8,
 		marginHorizontal: 16,
 		backgroundColor: "#B0D0FF",
 		borderRadius: 8,
@@ -63,6 +62,8 @@ const styles = StyleSheet.create({
 		lineHeight: 20,
 		fontFamily: "NotoSansCJKkr-Medium",
 		color: CustomTheme.primaryMedium,
+		width: 250,
+		textAlign: "center",
 	},
 });
 

@@ -37,6 +37,7 @@ import {
 	getChatsByChatroomId,
 	getProfileById,
 	changeChatroomHold,
+	chatSmallTalk,
 } from "config/api";
 import { useStatusBar } from "util/useStatusBar";
 
@@ -75,6 +76,7 @@ const ChatRoomPage = ({ route }) => {
 	const [token, setToken] = useState(null);
 	const [userLanguage, setUserLanguage] = useState(null);
 	const [showSmallTalk, setShowSmallTalk] = useState(true);
+	const [smallTalkSubject, setSmallTalkSubject] = useState(null);
 
 	useStatusBar({
 		color: "#D9EAFF",
@@ -82,11 +84,18 @@ const ChatRoomPage = ({ route }) => {
 	});
 
 	useEffect(() => {
+		const fetchSmallTalk = async () => {
+			const smallTalk = await chatSmallTalk(chatroomInfo.id);
+			setSmallTalkSubject(smallTalk.data.content);
+		};
+		fetchSmallTalk();
+	}, [chatroomInfo.id]);
+
+	useEffect(() => {
 		const fetchToken = async () => {
 			const token = await getRefreshToken();
 			setToken(token);
 		};
-
 		fetchToken();
 	}, []);
 
@@ -387,6 +396,7 @@ const ChatRoomPage = ({ route }) => {
 						visible={showSmallTalk}
 						onClose={() => setShowSmallTalk(false)}
 						style={{ top: modalTop }}
+						subject={smallTalkSubject}
 					/>
 					<FlatList
 						ref={flatListRef}
