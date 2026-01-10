@@ -46,30 +46,35 @@ import IconHamburgerMenu from "@components/chat/IconHamburgerMenu";
 import IconChatProfile from "@components/chat/IconChatProfile";
 import IconChatOut from "@components/chat/IconChatOut";
 import ChatBubble from "@pages/chat/ChatBubble/ChatBubble";
+import ModalSmallTalk from "@components/chat/ModalSmallTalk";
 
 const ChatRoomPage = ({ route }) => {
 	const { t } = useTranslation();
-	const navigation = useNavigation();
-	const insets = useSafeAreaInsets();
-	const [menuOpen, setMenuOpen] = useState(false);
-	const menuWidth = 259;
-	const screenWidth = Dimensions.get("window").width;
-	const menuAnim = useRef(new Animated.Value(screenWidth)).current;
+	const { StatusBarManager } = NativeModules;
+	const { publishMessage, unsubscribeToChatroom } = useWebSocket();
 	const { messages } = useWebSocket();
-	const [initialMessages, setInitialMessages] = useState([]);
 	const { chatroomInfo, isExited } = route.params;
 	const appState = useRef(AppState.currentState);
-	const [memberId, setMemberId] = useState(null);
+	const flatListRef = useRef(null);
+	const isAtBottomRef = useRef(true);
+	const navigation = useNavigation();
+	const insets = useSafeAreaInsets();
+
+	const screenWidth = Dimensions.get("window").width;
+	const menuAnim = useRef(new Animated.Value(screenWidth)).current;
 	const members = sortByIds(chatroomInfo.members);
 	const otherMember = members.find((member) => member.id !== memberId);
-	const flatListRef = useRef(null);
+	const menuWidth = 259;
+	const modalTop = 8;
+	const BannerHeight = 56;
+
+	const [menuOpen, setMenuOpen] = useState(false);
+	const [initialMessages, setInitialMessages] = useState([]);
+	const [memberId, setMemberId] = useState(null);
 	const [bookmarkedCount, setBookmarkedCount] = useState(0);
-	const { publishMessage, unsubscribeToChatroom } = useWebSocket();
-	const { StatusBarManager } = NativeModules;
-	const isAtBottomRef = useRef(true);
-	const scrollOffsetRef = useRef(0);
 	const [token, setToken] = useState(null);
 	const [userLanguage, setUserLanguage] = useState(null);
+	const [showSmallTalk, setShowSmallTalk] = useState(true);
 
 	useStatusBar({
 		color: "#D9EAFF",
@@ -114,10 +119,10 @@ const ChatRoomPage = ({ route }) => {
 	const [statusBarHeight, setStatusBarHeight] = useState(0);
 
 	const handleContentSizeChange = () => {
-		if (flatListRef.current) {
+		if (isAtBottomRef.current && flatListRef.current) {
 			setTimeout(() => {
 				flatListRef.current.scrollToEnd({ animated: false });
-			}, 100);
+			}, 50);
 		}
 	};
 
@@ -321,10 +326,11 @@ const ChatRoomPage = ({ route }) => {
 	const handleScroll = (event) => {
 		const { contentOffset, contentSize, layoutMeasurement } =
 			event.nativeEvent;
-		scrollOffsetRef.current = contentOffset.y;
+
 		const isNearBottom =
 			contentOffset.y + layoutMeasurement.height >=
 			contentSize.height - 20;
+
 		isAtBottomRef.current = isNearBottom;
 	};
 
@@ -377,6 +383,11 @@ const ChatRoomPage = ({ route }) => {
 				</View>
 
 				<View style={ChatRoomStyles.containerChat}>
+					<ModalSmallTalk
+						visible={showSmallTalk}
+						onClose={() => setShowSmallTalk(false)}
+						style={{ top: modalTop }}
+					/>
 					<FlatList
 						ref={flatListRef}
 						data={data}
@@ -426,6 +437,12 @@ const ChatRoomPage = ({ route }) => {
 						)}
 						onContentSizeChange={handleContentSizeChange}
 						onScroll={handleScroll}
+						scrollEventThrottle={16}
+						contentContainerStyle={{
+							paddingTop: showSmallTalk
+								? modalTop + BannerHeight
+								: 0,
+						}}
 					/>
 				</View>
 			</SafeAreaView>
