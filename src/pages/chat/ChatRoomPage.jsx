@@ -428,7 +428,10 @@ const ChatRoomPage = ({ route }) => {
 											}
 											isMine={msg.member.id === memberId}
 											isHeadMessage={idx === 0}
-											chatroomId={msg.singleChatroom.id}
+											chatroomId={
+												msg.singleChatroom?.id ??
+												chatroomInfo.id
+											}
 											chatId={msg.id}
 										/>
 									))
