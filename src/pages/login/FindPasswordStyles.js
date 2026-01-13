@@ -23,7 +23,6 @@ const FindPasswordStyles = StyleSheet.create({
 		...fontSub14,
 		color: CustomTheme.textPrimary,
 		marginTop: 120,
-		marginLeft: 24,
 	},
 	containerTextInputId: {
 		marginHorizontal: 24,

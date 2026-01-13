@@ -148,10 +148,10 @@ const FindPasswordPage = () => {
 				<Text style={FindPasswordStyles.textSubTitle}>
 					{t("findPasswordSubtitle")}
 				</Text>
-				<Text style={FindPasswordStyles.textId}>
-					ID (Email Address)
-				</Text>
 				<View style={FindPasswordStyles.containerTextInputId}>
+					<Text style={FindPasswordStyles.textId}>
+						ID (Email Address)
+					</Text>
 					<TextInput
 						style={FindPasswordStyles.textInputId}
 						placeholder={t("emailPlaceholder")}
@@ -180,15 +180,15 @@ const FindPasswordPage = () => {
 				)}
 				{isNext ? (
 					<>
-						<Text
-							style={[
-								FindPasswordStyles.textId,
-								{ marginTop: 36 },
-							]}
-						>
-							{t("verificationCode")}
-						</Text>
 						<View style={FindPasswordStyles.containerTextInputId}>
+							<Text
+								style={[
+									FindPasswordStyles.textId,
+									{ marginTop: 36 },
+								]}
+							>
+								{t("verificationCode")}
+							</Text>
 							<TextInput
 								style={FindPasswordStyles.textInputId}
 								onChangeText={(text) =>
