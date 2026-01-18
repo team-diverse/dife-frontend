@@ -18,6 +18,10 @@ api.interceptors.request.use(async (config) => {
 	return config;
 });
 
+export const getChatroomById = (chatroomId) => {
+	return api.get(`/chatrooms/${chatroomId}`);
+};
+
 export const getChatroomsByType = (type) => {
 	return api.get("/chatrooms", {
 		params: {
