@@ -6,9 +6,10 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 import IconAddFriend24 from "@components/Icon24/IconAddFriend24";
 import IconHeart24 from "@components/Icon24/IconHeart24";
-import { getProfileById } from "config/api";
+import { getProfileById, getChatroomById } from "config/api";
 import { useNavigation } from "@react-navigation/native";
 import ModalKebabNotFoundMember from "@components/member/ModalKebabNotFoundMember";
+import IconChat24 from "@components/Icon24/IconChat24";
 
 const { fontCaption, fontNavi } = CustomTheme;
 
@@ -30,6 +31,8 @@ const NotificationCard = ({
 		iconSvg = <IconAddFriend24 />;
 	} else if (type === "POST") {
 		iconSvg = <IconHeart24 />;
+	} else if (type === "SMALLTALK") {
+		iconSvg = <IconChat24 />;
 	} else {
 		iconSvg = <Text>icon</Text>;
 	}
@@ -49,6 +52,7 @@ const NotificationCard = ({
 
 	const handleNotification = async () => {
 		setIsRead(true);
+
 		await SecureStore.setItemAsync(
 			`notification-${notificationId}`,
 			"true",
@@ -70,6 +74,11 @@ const NotificationCard = ({
 			navigation.navigate("ConnectListPage", { screen: "그룹" });
 		} else if (type === "POST") {
 			navigation.navigate("PostPage", { postId: typeId });
+		} else if (type == "SMALLTALK") {
+			const response = await getChatroomById(typeId);
+			navigation.navigate("ChatRoomPage", {
+				chatroomInfo: response.data,
+			});
 		} else {
 			return;
 		}
