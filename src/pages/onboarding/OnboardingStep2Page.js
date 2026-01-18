@@ -29,7 +29,9 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 
 	const [image, setImage] = useState(stepData[2].image || null);
 	const [bio, setBio] = useState(stepData[2].bio || "");
-	const [nation, setNotion] = useState(stepData[2].selectedCountry || "");
+	const [nation, setNation] = useState(
+		stepData[2].nation || stepData[2].selectedCountry || "",
+	);
 
 	const handleKeyboard = () => {
 		Keyboard.dismiss();
@@ -59,11 +61,13 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 	};
 
 	useEffect(() => {
-		setNotion(stepData[2].selectedCountry);
+		if (stepData[2].selectedCountry) {
+			setNation(stepData[2].selectedCountry);
+		}
 	}, [stepData[2].selectedCountry]);
 
 	const handleProfileSubmit = () => {
-		saveData(2, { image, bio });
+		saveData(2, { image, bio, nation: nation });
 		goToNext(3);
 	};
 
