@@ -15,17 +15,14 @@ const OnboardingStep5Page = ({ stepData, saveData }) => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
-	const [selectedLanguages, setSelectedLanguages] = useState(
-		stepData[5].selectedLanguages || "",
-	);
 	const languages = t("languages", { returnObjects: true });
+
 	const [isCheckedList, setIsCheckedList] = useState(
 		new Array(languages.length).fill(false),
 	);
 
 	useEffect(() => {
-		if (stepData[5]) {
-			setSelectedLanguages(stepData[5].selectedLanguages);
+		if (stepData[5] && stepData[5].isCheckedList) {
 			setIsCheckedList(stepData[5].isCheckedList);
 		}
 	}, [stepData, languages.length]);
@@ -39,24 +36,42 @@ const OnboardingStep5Page = ({ stepData, saveData }) => {
 	};
 
 	const handleOnboarding = async () => {
-		const tmp = isCheckedList.reduce((selected, isChecked, index) => {
-			if (isChecked) {
-				selected.push(languages[index]);
-			}
-			return selected;
-		}, []);
+		const currentSelectedLanguages = isCheckedList.reduce(
+			(selected, isChecked, index) => {
+				if (isChecked) {
+					selected.push(languages[index]);
+				}
+				return selected;
+			},
+			[],
+		);
 
-		saveData(5, { selectedLanguages: tmp, isCheckedList });
+		saveData(5, {
+			selectedLanguages: currentSelectedLanguages,
+			isCheckedList,
+		});
 
 		const formData = new FormData();
 		formData.append("username", stepData[1].nickname);
 		formData.append("country", stepData[2].nation);
 		formData.append("bio", stepData[2].bio);
+
 		if (stepData[3].selectedMBTI !== t("mbtiNoneOption")) {
 			formData.append("mbti", stepData[3].selectedMBTI);
 		}
-		formData.append("hobbies", stepData[4].selectedHobby);
-		formData.append("languages", selectedLanguages);
+
+		if (Array.isArray(stepData[4].selectedHobby)) {
+			stepData[4].selectedHobby.forEach((hobby) => {
+				formData.append("hobbies", hobby);
+			});
+		} else {
+			formData.append("hobbies", stepData[4].selectedHobby);
+		}
+
+		currentSelectedLanguages.forEach((lang) => {
+			formData.append("languages", lang);
+		});
+
 		const memberId = await SecureStore.getItemAsync("memberId");
 
 		if (stepData[2].image) {
@@ -69,9 +84,8 @@ const OnboardingStep5Page = ({ stepData, saveData }) => {
 		}
 
 		try {
-			navigation.replace("CompleteProfilePage");
 			await updateMyProfile(formData);
-			console.log(formData);
+			navigation.replace("CompleteProfilePage");
 		} catch (error) {
 			Sentry.captureException(error);
 			console.error(
