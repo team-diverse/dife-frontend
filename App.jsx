@@ -103,6 +103,14 @@ Sentry.init({
 	debug: true,
 });
 
+Notifications.setNotificationHandler({
+	handleNotification: async () => ({
+		shouldShowAlert: true,
+		shouldPlaySound: true,
+		shouldSetBadge: false,
+	}),
+});
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -297,6 +305,8 @@ function AppContent() {
 				navigation.navigate("ConnectListPage", { screen: "그룹" });
 			} else if (type === "CHATROOM" && chatroomInfo) {
 				navigation.navigate("ChatRoomPage", chatroomInfo);
+			} else if (type === "SMALLTALK" && chatroomInfo) {
+				navigation.navigate("ChatRoomPage", chatroomInfo);
 			}
 		};
 
@@ -313,14 +323,6 @@ function AppContent() {
 
 		return () => subscription.remove();
 	}, [navigation]);
-
-	Notifications.setNotificationHandler({
-		handleNotification: async () => ({
-			shouldShowAlert: true,
-			shouldPlaySound: false,
-			shouldSetBadge: false,
-		}),
-	});
 
 	const [loaded] = useFonts({
 		// eslint-disable-next-line @typescript-eslint/no-require-imports
