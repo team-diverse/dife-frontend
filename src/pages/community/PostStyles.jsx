@@ -60,6 +60,10 @@ const PostStyles = StyleSheet.create({
 		borderRadius: 10,
 		marginHorizontal: 6,
 	},
+	textCategory: {
+		...fontBody14,
+		color: CustomTheme.primaryMedium,
+	},
 	containerIconRow: {
 		flexDirection: "row",
 		marginTop: 20,

@@ -83,6 +83,13 @@ const PostPage = ({ route }) => {
 	const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
 	const [profilePresignUrl, setProfilePresignUrl] = useState(null);
 	const [translating, setTranslating] = useState(false);
+	const [boardType, setBoardType] = useState("");
+
+	const topics = [
+		{ label: t("free"), value: "FREE" },
+		{ label: t("gathering"), value: "GATHERING" },
+		{ label: t("tip"), value: "TIP" },
+	];
 
 	const commentRef = useRef(null);
 	const scrollViewRef = useRef(null);
@@ -107,7 +114,6 @@ const PostPage = ({ route }) => {
 	const getPost = async () => {
 		try {
 			const myMemberId = await getMyMemberId();
-
 			const postByIdResponse = await getPostById(postId);
 			setTitle(postByIdResponse.data.title);
 			setContext(postByIdResponse.data.content);
@@ -116,6 +122,7 @@ const PostPage = ({ route }) => {
 			setMemberId(postByIdResponse.data.writer.id);
 			setHeart(postByIdResponse.data.likesCount);
 			setBookmark(postByIdResponse.data.bookmarkCount);
+			setBoardType(postByIdResponse.data.boardType);
 			const fileIds = postByIdResponse.data.files.map((file) => file.id);
 			const responses = await Promise.all(
 				fileIds.map((fileId) => getProfileImageByFileId(fileId)),
@@ -524,6 +531,11 @@ const PostPage = ({ route }) => {
 							)}
 						</View>
 					)}
+					<Text style={PostStyles.textCategory}>
+						#
+						{topics.find((item) => item.value === boardType)?.label}
+						{t("post")}
+					</Text>
 					<View style={PostStyles.containerIconRow}>
 						<TouchableOpacity
 							style={PostStyles.iconRow}

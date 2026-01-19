@@ -127,6 +127,7 @@
 	"serviceUnderConstruction": "아직 준비중인 서비스입니다",
 
 	"boardTitle": "게시판",
+	"post": "게시글",
 	"searchPlaceholder": "검색",
 	"searchNoResults": "일치하는 검색 결과가 없습니다",
 	"moreButton": "더보기",

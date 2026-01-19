@@ -153,9 +153,12 @@ const WritePage = () => {
 								]}
 							>
 								{boardType
-									? topics.find(
-											(item) => item.value === boardType,
-										)?.label
+									? `${
+											topics.find(
+												(item) =>
+													item.value === boardType,
+											)?.label
+										}${t("post")}`
 									: t("selectCategory")}
 							</Text>
 							<IconChevronDown />
