@@ -1,5 +1,4 @@
 const formatTime = (isoString, userLanguage) => {
-	console.log("userLanguage", userLanguage);
 	const date = new Date(isoString);
 
 	const localeMap = {
