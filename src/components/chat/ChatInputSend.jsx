@@ -129,6 +129,12 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		width: "100%",
 		maxHeight: 6 * 17,
+		...Platform.select({
+			android: {
+				includeFontPadding: false,
+				textAlignVertical: "center",
+			},
+		}),
 	},
 	rectangleBlue: {
 		position: "absolute",

@@ -70,6 +70,9 @@ const ChatRoomPage = ({ route }) => {
 	const scrollOffsetRef = useRef(0);
 	const [token, setToken] = useState(null);
 	const [userLanguage, setUserLanguage] = useState(null);
+	const [showSmallTalk, setShowSmallTalk] = useState(true);
+	const [smallTalkSubject, setSmallTalkSubject] = useState(null);
+	const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
 	useStatusBar({
 		color: "#D9EAFF",
@@ -83,6 +86,23 @@ const ChatRoomPage = ({ route }) => {
 		};
 
 		fetchToken();
+	}, []);
+
+	useEffect(() => {
+		if (Platform.OS !== "android") {
+			return undefined;
+		}
+		const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+			setIsKeyboardVisible(true);
+		});
+		const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+			setIsKeyboardVisible(false);
+		});
+
+		return () => {
+			showSubscription.remove();
+			hideSubscription.remove();
+		};
 	}, []);
 
 	useEffect(() => {
@@ -431,8 +451,11 @@ const ChatRoomPage = ({ route }) => {
 			</SafeAreaView>
 			<KeyboardAvoidingView
 				style={{ marginBottom: 0 }}
-				behavior="padding"
-				keyboardVerticalOffset={statusBarHeight - 55}
+				behavior={Platform.OS === "ios" ? "padding" : "position"}
+				enabled={Platform.OS === "ios" || isKeyboardVisible}
+				keyboardVerticalOffset={
+					Platform.OS === "ios" ? statusBarHeight - 55 : 0
+				}
 				onContentSizeChange={handleContentSizeChange}
 			>
 				<ChatInputSend
