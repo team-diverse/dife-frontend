@@ -270,7 +270,7 @@ const CommunityPage = () => {
 						{renderCommunity()}
 					</ScrollView>
 				) : (
-					<>{renderCommunity()}</>
+					<ScrollView>{renderCommunity()}</ScrollView>
 				)}
 			</SafeAreaView>
 		</TouchableWithoutFeedback>

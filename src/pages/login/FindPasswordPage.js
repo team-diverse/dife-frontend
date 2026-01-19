@@ -6,6 +6,8 @@ import {
 	TouchableWithoutFeedback,
 	Keyboard,
 	TouchableOpacity,
+	KeyboardAvoidingView,
+	Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -141,124 +143,157 @@ const FindPasswordPage = () => {
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
 			<SafeAreaView style={FindPasswordStyles.container}>
-				<GoBack />
-				<Text style={FindPasswordStyles.textTitle}>
-					{t("findPasswordTitle")}
-				</Text>
-				<Text style={FindPasswordStyles.textSubTitle}>
-					{t("findPasswordSubtitle")}
-				</Text>
-				<Text style={FindPasswordStyles.textId}>
-					ID (Email Address)
-				</Text>
-				<View style={FindPasswordStyles.containerTextInputId}>
-					<TextInput
-						style={FindPasswordStyles.textInputId}
-						placeholder={t("emailPlaceholder")}
-						onChangeText={(text) => handleEmailFormat(text.trim())}
-						value={valueID}
-						editable={isNext ? false : true}
-					/>
-					{isNext && (
-						<TouchableOpacity
-							style={FindPasswordStyles.containerRetransmit}
-							onPress={fetchCreateVerificationCode}
-						>
-							<Text style={FindPasswordStyles.textResend}>
-								{t("resend")}
-							</Text>
-						</TouchableOpacity>
-					)}
-				</View>
-				{validID == false && (
-					<View style={FindPasswordStyles.containerError}>
-						<InfoCircle color={CustomTheme.warningRed} />
-						<Text style={FindPasswordStyles.textNotMember}>
-							{errorMessage}
+				<KeyboardAvoidingView
+					behavior={Platform.OS === "ios" ? "padding" : "height"}
+					style={{ flex: 1 }}
+				>
+					<GoBack />
+					<Text style={FindPasswordStyles.textTitle}>
+						{t("findPasswordTitle")}
+					</Text>
+					<Text style={FindPasswordStyles.textSubTitle}>
+						{t("findPasswordSubtitle")}
+					</Text>
+					<View style={FindPasswordStyles.containerTextInputId}>
+						<Text style={FindPasswordStyles.textId}>
+							ID (Email Address)
 						</Text>
-					</View>
-				)}
-				{isNext ? (
-					<>
-						<Text
-							style={[
-								FindPasswordStyles.textId,
-								{ marginTop: 36 },
-							]}
-						>
-							{t("verificationCode")}
-						</Text>
-						<View style={FindPasswordStyles.containerTextInputId}>
+						<View style={FindPasswordStyles.textInputIdWrapper}>
 							<TextInput
-								style={FindPasswordStyles.textInputId}
+								style={[
+									FindPasswordStyles.textInputId,
+									isNext &&
+										FindPasswordStyles.textInputIdWithButton,
+								]}
+								placeholder={t("emailPlaceholder")}
 								onChangeText={(text) =>
-									setVerificationCode(text)
+									handleEmailFormat(text.trim())
 								}
-								value={verificationCode}
+								value={valueID}
+								editable={isNext ? false : true}
 							/>
+							{isNext && (
+								<TouchableOpacity
+									style={
+										FindPasswordStyles.containerRetransmit
+									}
+									onPress={fetchCreateVerificationCode}
+								>
+									<Text style={FindPasswordStyles.textResend}>
+										{t("resend")}
+									</Text>
+								</TouchableOpacity>
+							)}
 						</View>
-						<View
-							style={[
-								FindPasswordStyles.containerError,
-								{ justifyContent: "space-between" },
-							]}
-						>
-							<View style={{ flexDirection: "row" }}>
-								<InfoCircle color={CustomTheme.warningRed} />
+					</View>
+					{validID == false && (
+						<View style={FindPasswordStyles.containerError}>
+							<InfoCircle color={CustomTheme.warningRed} />
+							<Text style={FindPasswordStyles.textNotMember}>
+								{errorMessage}
+							</Text>
+						</View>
+					)}
+					{isNext ? (
+						<>
+							<View
+								style={FindPasswordStyles.containerTextInputId}
+							>
+								<Text
+									style={[
+										FindPasswordStyles.textId,
+										{ marginTop: 36 },
+									]}
+								>
+									{t("verificationCode")}
+								</Text>
+								<View
+									style={
+										FindPasswordStyles.textInputIdWrapper
+									}
+								>
+									<TextInput
+										style={FindPasswordStyles.textInputId}
+										onChangeText={(text) =>
+											setVerificationCode(text)
+										}
+										value={verificationCode}
+									/>
+								</View>
+							</View>
+							<View
+								style={[
+									FindPasswordStyles.containerError,
+									{ justifyContent: "space-between" },
+								]}
+							>
+								<View style={{ flexDirection: "row" }}>
+									<InfoCircle
+										color={CustomTheme.warningRed}
+									/>
 
-								{invalidVerificationCode ? (
+									{invalidVerificationCode ? (
+										<Text
+											style={
+												FindPasswordStyles.textNotMember
+											}
+										>
+											{t("verifyCodePrompt")}
+										</Text>
+									) : timeLeft === 0 ? (
+										<Text
+											style={
+												FindPasswordStyles.textNotMember
+											}
+										>
+											{t("invalidVerificationCode")}
+										</Text>
+									) : (
+										<Text
+											style={
+												FindPasswordStyles.textNotMember
+											}
+										>
+											{t("verificationCodeSent")}
+										</Text>
+									)}
+								</View>
+
+								{!invalidVerificationCode && timeLeft > 0 && (
 									<Text
 										style={FindPasswordStyles.textNotMember}
 									>
-										{t("verifyCodePrompt")}
-									</Text>
-								) : timeLeft === 0 ? (
-									<Text
-										style={FindPasswordStyles.textNotMember}
-									>
-										{t("invalidVerificationCode")}
-									</Text>
-								) : (
-									<Text
-										style={FindPasswordStyles.textNotMember}
-									>
-										{t("verificationCodeSent")}
+										{formatTime(timeLeft)}
 									</Text>
 								)}
 							</View>
 
-							{!invalidVerificationCode && timeLeft > 0 && (
-								<Text style={FindPasswordStyles.textNotMember}>
-									{formatTime(timeLeft)}
-								</Text>
-							)}
-						</View>
-
-						<View style={FindPasswordStyles.applyButton}>
-							<ApplyButton
-								text={t("setPasswordButton")}
-								disabled={!verificationCode}
-								onPress={handleSetPassword}
+							<View style={FindPasswordStyles.applyButton}>
+								<ApplyButton
+									text={t("setPasswordButton")}
+									disabled={!verificationCode}
+									onPress={handleSetPassword}
+								/>
+							</View>
+						</>
+					) : (
+						<>
+							<View style={{ marginTop: 37 }}>
+								<ApplyButton
+									text={t("passwordResetButton")}
+									disabled={!validID}
+									onPress={handleFindPassword}
+								/>
+							</View>
+							<ModalRequest
+								modalVisible={modalConnectVisible}
+								setModalVisible={setModalConnectVisible}
+								textLoading={t("emailSendingText")}
+								textComplete={t("emailSentText")}
 							/>
-						</View>
-					</>
-				) : (
-					<>
-						<View style={{ marginTop: 37 }}>
-							<ApplyButton
-								text={t("passwordResetButton")}
-								disabled={!validID}
-								onPress={handleFindPassword}
-							/>
-						</View>
-						<ModalRequest
-							modalVisible={modalConnectVisible}
-							setModalVisible={setModalConnectVisible}
-							textLoading={t("emailSendingText")}
-							textComplete={t("emailSentText")}
-						/>
-					</>
-				)}
+						</>
+					)}
+				</KeyboardAvoidingView>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>
 	);
