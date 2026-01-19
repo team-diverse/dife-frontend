@@ -151,6 +151,7 @@ const PostModifyPage = () => {
 										(item) => item.value === boardType,
 									)?.label
 								}
+								{t("post")}
 							</Text>
 							<IconChevronDown />
 						</TouchableOpacity>
