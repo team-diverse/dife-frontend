@@ -654,3 +654,11 @@ export const changeChatroomStatus = (chatroomId) => {
 export const changeChatroomHold = (chatroomId) => {
 	return api.put(`/chatrooms/${chatroomId}/hold`);
 };
+
+export const chatSmallTalk = (chatroomId) => {
+	return api.get("/chatrooms/small-talk", {
+		params: {
+			chatroomId,
+		},
+	});
+};
