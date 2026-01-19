@@ -117,17 +117,24 @@ const SetPasswordPage = ({ route }) => {
 							</Text>
 						</View>
 					)}
-					<Text style={[SetPasswordStyles.textPw, { marginTop: 36 }]}>
-						{t("confirmPasswordLabel")}
-					</Text>
-					<View style={SetPasswordStyles.textInputPwContainer}>
-						<TextInput
-							style={SetPasswordStyles.textInputPw}
-							placeholder={t("confirmPasswordPlaceholder")}
-							onChangeText={handleCheckPassword}
-							value={valueCheckPW}
-							secureTextEntry={!showPW}
-						/>
+					<View style={SetPasswordStyles.containerTextInputPw}>
+						<Text
+							style={[
+								SetPasswordStyles.textPw,
+								{ marginTop: 36 },
+							]}
+						>
+							{t("confirmPasswordLabel")}
+						</Text>
+						<View style={SetPasswordStyles.textInputPwContainer}>
+							<TextInput
+								style={SetPasswordStyles.textInputPw}
+								placeholder={t("confirmPasswordPlaceholder")}
+								onChangeText={handleCheckPassword}
+								value={valueCheckPW}
+								secureTextEntry={!showPW}
+							/>
+						</View>
 					</View>
 					{!passwordMatch && (
 						<View style={SetPasswordStyles.containerError}>
