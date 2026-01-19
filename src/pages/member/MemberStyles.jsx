@@ -8,11 +8,6 @@ const MemberStyles = StyleSheet.create({
 		position: "relative",
 		alignItems: "center",
 	},
-	difeLine: {
-		position: "absolute",
-		marginTop: 75,
-		left: -20,
-	},
 	circleBackground: {
 		position: "absolute",
 		marginTop: 145,

@@ -136,20 +136,24 @@ const FilterBottomSlide = ({
 	};
 
 	const handleSelectLanguage = (index) => {
+		const language = languages[index];
+
 		setIsCheckedList((prevState) => {
 			const newState = [...prevState];
-			newState[index] = !newState[index];
+			const nextChecked = !prevState[index];
+			newState[index] = nextChecked;
+
+			setSelectedLanguage((prevSelected) => {
+				if (nextChecked) {
+					return prevSelected.includes(language)
+						? prevSelected
+						: [...prevSelected, language];
+				}
+				return prevSelected.filter((item) => item !== language);
+			});
+
 			return newState;
 		});
-
-		const language = languages[index];
-		if (isCheckedList[index]) {
-			setSelectedLanguage(
-				selectedLanguage.filter((item) => item !== language),
-			);
-		} else {
-			setSelectedLanguage([...selectedLanguage, language]);
-		}
 	};
 
 	const encoded = (selected) => {
