@@ -13,7 +13,6 @@ import { getMyProfile, getProfileImageByFileId } from "config/api";
 
 import { useStatusBar } from "util/useStatusBar";
 import DifeLogo from "@components/member/DifeLogo";
-import DifeLine from "@components/member/DifeLine";
 import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";
 import IconSetting from "@components/member/IconSetting";
 import MemberProfileBackground from "@components/member/MemberProfileBackground";
@@ -106,9 +105,6 @@ const MemberPage = () => {
 				end={{ x: 1, y: 1 }}
 			>
 				<SafeAreaView style={MemberStyles.container}>
-					<View style={MemberStyles.difeLine}>
-						<DifeLine />
-					</View>
 					<View style={MemberStyles.circleBackground}>
 						<ConnectProfileBackground />
 					</View>

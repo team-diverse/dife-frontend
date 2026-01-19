@@ -17,7 +17,6 @@ import GestureRecognizer from "react-native-swipe-gestures";
 import HomeStyles from "@pages/home/HomeStyles";
 import { getNotifications } from "config/api";
 import { useStatusBar } from "util/useStatusBar";
-import HomeBg from "@assets/images/svg_js/HomeBg.js";
 import LogoBr from "@components/Logo/LogoBr.js";
 import Notification32 from "@components/Icon32/Notification32.js";
 import HomeSchEv from "@components/home/HomeSchEv.js";
@@ -29,6 +28,7 @@ import HomeCardFront from "@components/home/HomeCardFront";
 import HomeCard from "@components/home/HomeCard";
 import HomeCardLast from "@components/home/HomeCardLast";
 import { useMatchQueue } from "context/MatchQueueContext";
+import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";
 
 const HomePage = () => {
 	const { t } = useTranslation();
@@ -153,7 +153,9 @@ const HomePage = () => {
 			style={HomeStyles.linearGradient}
 			colors={["#0029F4", "#6199C1", "#6199C1"]}
 		>
-			<HomeBg style={HomeStyles.homebg} preserveAspectRatio="none" />
+			<View style={HomeStyles.containerCircle}>
+				<ConnectProfileBackground />
+			</View>
 
 			<View style={HomeStyles.topContainer}>
 				<View style={HomeStyles.logo}>

@@ -15,19 +15,14 @@ import { useTranslation } from "react-i18next";
 import * as SecureStore from "expo-secure-store";
 import * as Sentry from "@sentry/react-native";
 import * as Notifications from "expo-notifications";
-import { getLocales } from "expo-localization";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import Constants from "expo-constants";
 import LoginStyles from "@pages/login/LoginStyles";
 import { useAuth } from "src/states/AuthContext";
-import {
-	getMyProfile,
-	login,
-	createNotificationToken,
-	updateMyProfile,
-} from "config/api";
+import { getMyProfile, login, createNotificationToken } from "config/api";
 import { useStatusBar } from "util/useStatusBar";
+import { syncLanguageWithServer } from "src/util/syncLanguageWithServer";
 
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import IconNotSeePw from "@components/login/IconNotSeePw";
@@ -82,27 +77,6 @@ const LoginPage = () => {
 		setLoginFailed(false);
 	};
 
-	const DEVICE_LANG_FLAG_KEY = "didSendDeviceLanguage";
-
-	const deviceLanguageOnce = async () => {
-		const alreadySent =
-			await SecureStore.getItemAsync(DEVICE_LANG_FLAG_KEY);
-		if (alreadySent === "true") return;
-
-		try {
-			const formData = new FormData();
-			formData.append(
-				"settingLanguage",
-				getLocales()[0].languageCode.toUpperCase(),
-			);
-			await updateMyProfile(formData);
-
-			await SecureStore.setItemAsync(DEVICE_LANG_FLAG_KEY, "true");
-		} catch (error) {
-			console.error("언어 설정 업데이트 오류:", error);
-		}
-	};
-
 	const handleLogin = async () => {
 		try {
 			const loginResponse = await login(emailRef.val, valuePW);
@@ -150,9 +124,8 @@ const LoginPage = () => {
 
 			console.log(accessToken);
 
-			await deviceLanguageOnce();
-
 			const profileResponse = await getMyProfile();
+			await syncLanguageWithServer(profileResponse.data, id);
 			const { username } = profileResponse.data;
 
 			if (username && username !== "Diver") {
