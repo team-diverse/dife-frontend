@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import {
 	View,
 	Text,
-	TextInput,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
@@ -15,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import * as SecureStore from "expo-secure-store";
 import * as Sentry from "@sentry/react-native";
 import * as Notifications from "expo-notifications";
+import TextInput from "@components/common/TextInput";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import Constants from "expo-constants";

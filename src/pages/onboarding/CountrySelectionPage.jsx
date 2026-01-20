@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
 	View,
-	TextInput,
 	SectionList,
 	Text,
 	TouchableOpacity,
@@ -14,6 +13,7 @@ import {
 	countrySelectionTick,
 	countries,
 } from "@components/onboarding/Constants";
+import TextInput from "@components/common/TextInput";
 
 const ItemView = ({ item, selected, action }) => {
 	let text = `${item.name}`;

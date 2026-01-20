@@ -2,12 +2,12 @@ import React, { useState, useCallback } from "react";
 import {
 	View,
 	Text,
-	TextInput,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
 } from "react-native";
 import { useTranslation } from "react-i18next";
+import TextInput from "@components/common/TextInput";
 
 import OnboardingStep1Styles from "@pages/onboarding/OnboardingStep1Styles";
 import { checkUsername } from "config/api";

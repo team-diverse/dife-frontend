@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
 	View,
 	Text,
-	TextInput,
 	FlatList,
 	Keyboard,
 	TouchableOpacity,
@@ -13,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
+import TextInput from "@components/common/TextInput";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
 import { CustomTheme } from "@styles/CustomTheme";

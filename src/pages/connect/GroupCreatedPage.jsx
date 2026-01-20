@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import {
 	View,
 	Text,
-	TextInput,
 	TouchableOpacity,
 	Keyboard,
 	TouchableWithoutFeedback,
@@ -13,6 +12,7 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { useTranslation } from "react-i18next";
+import TextInput from "@components/common/TextInput";
 
 import GroupCreatedStyles from "@pages/connect/GroupCreatedStyles";
 import { CustomTheme } from "@styles/CustomTheme";

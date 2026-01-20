@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import {
 	View,
 	Text,
-	TextInput,
 	Keyboard,
 	TouchableOpacity,
 	ScrollView,
@@ -13,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
+import TextInput from "@components/common/TextInput";
 
 import CommunityStyles from "@pages/community/CommunityStyles";
 import ConnectStyles from "@pages/connect/ConnectStyles";

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import {
 	View,
-	TextInput,
 	StyleSheet,
 	TouchableOpacity,
 	Keyboard,
 	Platform,
 } from "react-native";
+import TextInput from "@components/common/TextInput";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { useWebSocket } from "context/WebSocketContext";
@@ -63,6 +63,7 @@ const ChatInputSend = ({ chatroomId, isExited: initialIsExited, onFocus }) => {
 				value={chatInput}
 				onChangeText={setChatInput}
 				multiline
+				androidCursorFix
 				onFocus={onFocus}
 				onBlur={Keyboard.dismiss}
 			/>
@@ -129,12 +130,6 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		width: "100%",
 		maxHeight: 6 * 17,
-		...Platform.select({
-			android: {
-				includeFontPadding: false,
-				textAlignVertical: "center",
-			},
-		}),
 	},
 	rectangleBlue: {
 		position: "absolute",
