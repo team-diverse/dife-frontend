@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-	View,
-	SectionList,
-	Text,
-	TouchableOpacity,
-} from "react-native";
+import { View, SectionList, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import CountrySelectionStyles from "@pages/onboarding/CountrySelectionStyles";
