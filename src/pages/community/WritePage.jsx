@@ -170,6 +170,7 @@ const WritePage = () => {
 							onSearchResponse={null}
 							onTotalSelection={null}
 							isReset={null}
+							initialSelected={boardType}
 						/>
 						<TouchableOpacity onPress={handleWrite}>
 							<Text style={WriteStyles.textNoticeboard}>
