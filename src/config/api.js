@@ -234,11 +234,20 @@ export const getCommunitySearch = (keyword) => {
 	});
 };
 
-export const getCommunitySearchByType = (types) => {
+export const getCommunitySearchByType = (keyword = "", types = []) => {
+	const params = { keyword };
+	if (types && types.length > 0) {
+		params.types = types;
+	}
+
 	return api.get("/posts/search", {
-		params: { types },
-		paramsSerializer: (params) =>
-			qs.stringify(params, { arrayFormat: "repeat" }),
+		params,
+		paramsSerializer: {
+			serialize: (requestParams) =>
+				qs.stringify(requestParams, {
+					arrayFormat: "repeat",
+				}),
+		},
 	});
 };
 

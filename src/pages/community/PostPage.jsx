@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
 	TouchableOpacity,
 	Text,
-	TextInput,
 	View,
 	ScrollView,
 	KeyboardAvoidingView,
@@ -16,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
+import TextInput from "@components/common/TextInput";
 
 import PostStyles from "@pages/community/PostStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -645,6 +645,7 @@ const PostPage = ({ route }) => {
 						onChangeText={(text) => onChangeComment(text)}
 						value={valueComment}
 						multiline
+						androidCursorFix
 					/>
 					<TouchableOpacity
 						style={PostStyles.iconChatSend}

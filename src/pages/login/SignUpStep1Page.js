@@ -2,12 +2,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import {
 	View,
 	Text,
-	TextInput,
 	TouchableWithoutFeedback,
 	Keyboard,
 	Platform,
 } from "react-native";
 import { useTranslation } from "react-i18next";
+import TextInput from "@components/common/TextInput";
 
 import SignUpStyles from "@pages/login/SignUpStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";

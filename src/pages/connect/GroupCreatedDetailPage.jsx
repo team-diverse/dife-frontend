@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
 	View,
 	Text,
-	TextInput,
 	ScrollView,
 	Keyboard,
 	KeyboardAvoidingView,
@@ -13,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import Slider from "@react-native-community/slider";
 import { useTranslation } from "react-i18next";
+import TextInput from "@components/common/TextInput";
 
 import GroupCreatedDetailStyles from "@pages/connect/GroupCreatedDetailStyles";
 import { useCreateGroup } from "src/states/CreateGroupDataContext.js";

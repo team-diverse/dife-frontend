@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-	View,
-	TextInput,
-	SectionList,
-	Text,
-	TouchableOpacity,
-} from "react-native";
+import { View, SectionList, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 import CountrySelectionStyles from "@pages/onboarding/CountrySelectionStyles";
@@ -14,6 +8,7 @@ import {
 	countrySelectionTick,
 	countries,
 } from "@components/onboarding/Constants";
+import TextInput from "@components/common/TextInput";
 
 const ItemView = ({ item, selected, action }) => {
 	let text = `${item.name}`;

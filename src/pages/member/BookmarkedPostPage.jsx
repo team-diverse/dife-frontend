@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
@@ -29,10 +29,12 @@ const BookmarkedPostPage = ({ route }) => {
 		const handleBookmarkPost = async () => {
 			try {
 				let category = "";
-				if (selectedCategory === t("tipBoard")) {
+				if (selectedCategory === t("tip")) {
 					category = "TIP";
-				} else if (selectedCategory === t("freeBoard")) {
+				} else if (selectedCategory === t("free")) {
 					category = "FREE";
+				} else if (selectedCategory === t("gathering")) {
+					category = "GATHERING";
 				}
 				const bookmarkPostResponse =
 					await getBookmarkedByBoardType(category);
@@ -60,7 +62,12 @@ const BookmarkedPostPage = ({ route }) => {
 		<SafeAreaView style={BookmarkedPostStyles.container}>
 			<TopBar topBar={t("bookmarkedPosts")} color="#000" />
 
-			<View style={BookmarkedPostStyles.containerCategory}>
+			<ScrollView
+				horizontal
+				showsHorizontalScrollIndicator={false}
+				style={BookmarkedPostStyles.scrollCategory}
+				contentContainerStyle={BookmarkedPostStyles.containerCategory}
+			>
 				<TouchableOpacity
 					style={[
 						BookmarkedPostStyles.category,
@@ -84,44 +91,67 @@ const BookmarkedPostPage = ({ route }) => {
 				<TouchableOpacity
 					style={[
 						BookmarkedPostStyles.category,
-						selectedCategory === t("tipBoard") && {
+						selectedCategory === t("tip") && {
 							borderColor: CustomTheme.primaryMedium,
 						},
 					]}
-					onPress={() => handleCategoryPress(t("tipBoard"))}
+					onPress={() => handleCategoryPress(t("tip"))}
 				>
 					<Text
 						style={[
 							BookmarkedPostStyles.textCategory,
-							selectedCategory === t("tipBoard") && {
+							selectedCategory === t("tip") && {
 								color: CustomTheme.primaryMedium,
 							},
 						]}
 					>
-						{t("tipBoard")}
+						{t("tip")}
+						{t("boardTitle")}
 					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={[
 						BookmarkedPostStyles.category,
-						selectedCategory === t("freeBoard") && {
+						selectedCategory === t("free") && {
 							borderColor: CustomTheme.primaryMedium,
 						},
 					]}
-					onPress={() => handleCategoryPress(t("freeBoard"))}
+					onPress={() => handleCategoryPress(t("free"))}
 				>
 					<Text
 						style={[
 							BookmarkedPostStyles.textCategory,
-							selectedCategory === t("freeBoard") && {
+							selectedCategory === t("free") && {
 								color: CustomTheme.primaryMedium,
 							},
 						]}
 					>
-						{t("freeBoard")}
+						{t("free")}
+						{t("boardTitle")}
 					</Text>
 				</TouchableOpacity>
-			</View>
+				<TouchableOpacity
+					style={[
+						BookmarkedPostStyles.category,
+						selectedCategory === t("gathering") && {
+							borderColor: CustomTheme.primaryMedium,
+						},
+					]}
+					onPress={() => handleCategoryPress(t("gathering"))}
+				>
+					<Text
+						style={[
+							BookmarkedPostStyles.textCategory,
+							selectedCategory === t("gathering") && {
+								color: CustomTheme.primaryMedium,
+							},
+						]}
+					>
+						{t("gathering")}
+						{t("boardTitle")}
+					</Text>
+				</TouchableOpacity>
+			</ScrollView>
 
 			<View style={BookmarkedPostStyles.itemCommunity}>
 				<ItemCommunity
