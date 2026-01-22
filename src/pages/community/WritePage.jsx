@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
 	Text,
-	TextInput,
 	View,
 	ScrollView,
 	TouchableOpacity,
@@ -14,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as ImagePicker from "expo-image-picker";
 import * as Sentry from "@sentry/react-native";
+import TextInput from "@components/common/TextInput";
 
 import WriteStyles from "@pages/community/WriteStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -153,9 +153,12 @@ const WritePage = () => {
 								]}
 							>
 								{boardType
-									? topics.find(
-											(item) => item.value === boardType,
-										)?.label
+									? `${
+											topics.find(
+												(item) =>
+													item.value === boardType,
+											)?.label
+										}${t("post")}`
 									: t("selectCategory")}
 							</Text>
 							<IconChevronDown />
@@ -167,6 +170,7 @@ const WritePage = () => {
 							onSearchResponse={null}
 							onTotalSelection={null}
 							isReset={null}
+							initialSelected={boardType}
 						/>
 						<TouchableOpacity onPress={handleWrite}>
 							<Text style={WriteStyles.textNoticeboard}>

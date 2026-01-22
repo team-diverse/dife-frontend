@@ -1,13 +1,8 @@
 import React, { useState, useRef } from "react";
-import {
-	View,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	StyleSheet,
-} from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Modal from "react-native-modal";
 import { useTranslation } from "react-i18next";
+import TextInput from "@components/common/TextInput";
 
 import { CustomTheme } from "@styles/CustomTheme";
 

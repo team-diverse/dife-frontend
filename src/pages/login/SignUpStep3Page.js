@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
-	TextInput,
 	TouchableOpacity,
 	TouchableWithoutFeedback,
 	Keyboard,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
+import TextInput from "@components/common/TextInput";
 
 import SignUpStyles from "@pages/login/SignUpStyles";
 import { CustomTheme } from "@styles/CustomTheme";

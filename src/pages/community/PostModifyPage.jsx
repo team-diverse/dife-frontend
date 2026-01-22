@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
 	Text,
-	TextInput,
 	View,
 	ScrollView,
 	TouchableOpacity,
@@ -14,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as ImagePicker from "expo-image-picker";
 import * as Sentry from "@sentry/react-native";
+import TextInput from "@components/common/TextInput";
 
 import WriteStyles from "@pages/community/WriteStyles";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -151,6 +151,7 @@ const PostModifyPage = () => {
 										(item) => item.value === boardType,
 									)?.label
 								}
+								{t("post")}
 							</Text>
 							<IconChevronDown />
 						</TouchableOpacity>

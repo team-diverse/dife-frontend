@@ -14,15 +14,12 @@ const TopBar = ({ topBar, color, backgroundColor }) => {
 		navigation.goBack();
 	};
 
-	const isLongText = topBar === "Configuración de Idioma Predeterminada";
-
 	return (
 		<View
 			style={[
 				styles.rectangle,
 				{
 					backgroundColor: backgroundColor || CustomTheme.bgBasic,
-					marginVertical: isLongText ? 13 : 0,
 				},
 			]}
 		>
@@ -32,9 +29,9 @@ const TopBar = ({ topBar, color, backgroundColor }) => {
 						<ArrowRight color={color} />
 					</View>
 				</TouchableOpacity>
-				<View style={styles.text}>
-					<Text style={styles.textStyle}>{topBar}</Text>
-				</View>
+				<Text numberOfLines={2} style={styles.textStyle}>
+					{topBar}
+				</Text>
 			</View>
 		</View>
 	);
@@ -45,15 +42,15 @@ const styles = StyleSheet.create({
 		position: "relative",
 		justifyContent: "center",
 		width: "100%",
-		height: 48,
+		minHeight: 48,
 	},
 	container: {
-		position: "absolute",
 		flexDirection: "row",
 		alignItems: "center",
+		paddingHorizontal: 20,
 	},
 	arrow: {
-		marginLeft: 20,
+		marginRight: 4,
 	},
 	textStyle: {
 		...fontHead20,

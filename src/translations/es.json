@@ -41,7 +41,7 @@
 
 	"accessPageTitle": "Permisos de acceso a los servicios de la aplicación",
 	"accessPhoneSubtitle": "Información del dispositivo e ID",
-	"accessPhoneDescription": "Verificación de estudiantes y comprobación de errores",
+	"accessPhoneDescription": "Comprobación de errores",
 	"accessNotificationSubtitle": "Notificaciones (Opcional)",
 	"accessNotificationDescription": "Notificaciones push y guía de recepción",
 	"accessImageSubtitle": "Almacenamiento",
@@ -129,6 +129,7 @@
 	"serviceUnderConstruction": "Este servicio aún está en desarrollo",
 
 	"boardTitle": "Tablero",
+	"post": "Publicación",
 	"searchPlaceholder": "Buscar",
 	"searchNoResults": "No se encontraron resultados coincidentes",
 	"moreButton": "Más",
@@ -396,6 +397,7 @@
 	"myFriend": "Mi Amigo",
 	"chatParticipant": "Participante",
 	"chatBookmark": "Marcador",
+	"smallTalkProposal": "¿Seguimos hablando?",
 	"bookmarked": "Marcado como favorito.",
 	"goToBookmarks": "Ir a marcadores",
 	"alreadyBookmarkedChat": "Este chat ya está marcado como favorito.",

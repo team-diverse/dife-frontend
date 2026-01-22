@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import {
 	View,
 	Text,
-	TextInput,
 	Keyboard,
 	TouchableOpacity,
 	ScrollView,
@@ -13,11 +12,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
+import TextInput from "@components/common/TextInput";
 
 import CommunityStyles from "@pages/community/CommunityStyles";
 import ConnectStyles from "@pages/connect/ConnectStyles";
 import { CustomTheme } from "@styles/CustomTheme";
-import { getPosts, getCommunitySearch } from "config/api";
+import { getPosts, getCommunitySearchByType } from "config/api";
 import { useStatusBar } from "util/useStatusBar";
 import { communityPresignUrl } from "util/communityPresignUrl";
 
@@ -37,13 +37,19 @@ const CommunityPage = () => {
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 
+	const { height: screenHeight } = Dimensions.get("window");
+	const isSmallScreen = screenHeight < 700;
+
 	const [postList, setPostList] = useState([]);
 	const [searchTerm, setSearchTerm] = useState("");
+	const [appliedSearchTerm, setAppliedSearchTerm] = useState("");
 	const [searchData, setSearchData] = useState(null);
 	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
-
+	const [selectedTopics, setSelectedTopics] = useState([]);
 	const [modalVisible, setModalVisible] = useState(false);
+	const [totalSelection, setTotalSelection] = useState(null);
+	const [isReset, setIsReset] = useState(false);
 
 	useStatusBar({
 		color: CustomTheme.primaryMedium,
@@ -54,9 +60,14 @@ const CommunityPage = () => {
 		setModalVisible(true);
 	};
 
-	const handleSearch = async () => {
+	const fetchCommunitySearch = async (keyword, topics) => {
 		try {
-			const response = await getCommunitySearch(searchTerm);
+			const response = await getCommunitySearchByType(
+				keyword,
+				topics && topics.length > 0
+					? topics
+					: ["FREE", "GATHERING", "TIP"],
+			);
 			setSearchData(response.data);
 		} catch (error) {
 			Sentry.captureException(error);
@@ -66,6 +77,11 @@ const CommunityPage = () => {
 			);
 			setSearchFail(true);
 		}
+	};
+
+	const handleSearch = async () => {
+		setAppliedSearchTerm(searchTerm);
+		await fetchCommunitySearch(searchTerm, selectedTopics);
 	};
 
 	const handleFocus = () => {
@@ -82,37 +98,37 @@ const CommunityPage = () => {
 		Keyboard.dismiss();
 	};
 
-	const handleFilterResponse = (response) => {
-		setSearchData(response);
-	};
+	const handleFilterResponse = (topics) => {
+		const topicList = Array.isArray(topics) ? topics : [];
+		setSelectedTopics(topicList);
+		setTotalSelection(topicList.length);
 
-	const handleFilterSearchFail = (response) => {
-		setSearchFail(response);
-	};
+		if (topicList.length === 0) {
+			if (appliedSearchTerm) {
+				fetchCommunitySearch(appliedSearchTerm, []);
+				return;
+			}
+			setSearchData(null);
+			setSearchFail(false);
+			return;
+		}
 
-	const [totalSelection, setTotalSelection] = useState(null);
-
-	const handleTotalSelection = (response) => {
-		setTotalSelection(response);
-	};
-
-	const [isReset, setIsReset] = useState(false);
-
-	const handleReset = () => {
-		setTotalSelection(null);
-		setIsReset(!isReset);
+		fetchCommunitySearch(appliedSearchTerm, topicList);
 	};
 
 	const handleSearchBack = () => {
 		setSearchFail(false);
 		setSearchData(null);
-		setSearchTerm(null);
-		handleReset();
+		setTotalSelection(null);
+		setIsReset(!isReset);
+		setSelectedTopics([]);
+		setSearchTerm("");
+		setAppliedSearchTerm("");
 	};
 
 	useFocusEffect(
 		useCallback(() => {
-			const freeCommunity = async () => {
+			const community = async () => {
 				try {
 					const response = await getPosts("");
 					const presignUrl = await communityPresignUrl(response.data);
@@ -126,12 +142,9 @@ const CommunityPage = () => {
 				}
 			};
 
-			freeCommunity();
+			community();
 		}, []),
 	);
-
-	const { height: screenHeight } = Dimensions.get("window");
-	const isSmallScreen = screenHeight < 700;
 
 	const renderCommunity = () => {
 		if (searchFail) {
@@ -149,6 +162,17 @@ const CommunityPage = () => {
 			return (
 				<View style={CommunityStyles.itemCommunity}>
 					<ItemCommunity postList={searchData} />
+				</View>
+			);
+		}
+
+		if (searchData && searchData.length === 0) {
+			return (
+				<View style={CommunityStyles.containerFail}>
+					<IconSearchFail />
+					<Text style={CommunityStyles.textFail}>
+						{t("searchNoResults")}
+					</Text>
 				</View>
 			);
 		}
@@ -218,16 +242,14 @@ const CommunityPage = () => {
 						modalVisible={modalVisible}
 						setModalVisible={setModalVisible}
 						onFilterResponse={handleFilterResponse}
-						onSearchResponse={handleFilterSearchFail}
-						onTotalSelection={handleTotalSelection}
 						isReset={isReset}
+						initialSelected={selectedTopics}
 					/>
 					<View style={CommunityStyles.containerSearchIcon}>
 						<TextInput
 							style={[
 								CommunityStyles.search,
-								(searchFail ||
-									(searchData && searchData.length > 0)) && {
+								(searchFail || searchData !== null) && {
 									paddingLeft: 40,
 								},
 							]}
@@ -238,8 +260,7 @@ const CommunityPage = () => {
 							onBlur={handleBlur}
 							onSubmitEditing={handleSearch}
 						/>
-						{(searchFail ||
-							(searchData && searchData.length > 0)) && (
+						{(searchFail || searchData !== null) && (
 							<TouchableOpacity
 								style={CommunityStyles.iconArrowRightSearch}
 								onPress={handleSearchBack}
@@ -270,7 +291,7 @@ const CommunityPage = () => {
 						{renderCommunity()}
 					</ScrollView>
 				) : (
-					<>{renderCommunity()}</>
+					<ScrollView>{renderCommunity()}</ScrollView>
 				)}
 			</SafeAreaView>
 		</TouchableWithoutFeedback>

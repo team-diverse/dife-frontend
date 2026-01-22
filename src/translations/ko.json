@@ -41,7 +41,7 @@
 
 	"accessPageTitle": "앱 서비스 접근 권한 허용",
 	"accessPhoneSubtitle": "기기정보 및 ID",
-	"accessPhoneDescription": "재학생 인증 및 오류 확인",
+	"accessPhoneDescription": "오류 확인",
 	"accessNotificationSubtitle": "알림(선택)",
 	"accessNotificationDescription": "푸시 알림 및 수신 안내",
 	"accessImageSubtitle": "저장공간",
@@ -127,6 +127,7 @@
 	"serviceUnderConstruction": "아직 준비중인 서비스입니다",
 
 	"boardTitle": "게시판",
+	"post": "게시글",
 	"searchPlaceholder": "검색",
 	"searchNoResults": "일치하는 검색 결과가 없습니다",
 	"moreButton": "더보기",
@@ -395,6 +396,7 @@
 	"myFriend": "내 친구",
 	"chatParticipant": "참가자",
 	"chatBookmark": "북마크",
+	"smallTalkProposal": "대화를 이어보고 싶다면 이런 주제는 어때요?",
 	"bookmarked": "북마크되었습니다.",
 	"goToBookmarks": "북마크로 이동",
 	"alreadyBookmarkedChat": "이미 북마크된 채팅입니다.",

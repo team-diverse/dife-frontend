@@ -23,10 +23,13 @@ const FindPasswordStyles = StyleSheet.create({
 		...fontSub14,
 		color: CustomTheme.textPrimary,
 		marginTop: 120,
-		marginLeft: 24,
 	},
 	containerTextInputId: {
 		marginHorizontal: 24,
+	},
+	textInputIdWrapper: {
+		position: "relative",
+		marginTop: 8,
 	},
 	textInputId: {
 		width: "100%",
@@ -35,8 +38,10 @@ const FindPasswordStyles = StyleSheet.create({
 		borderWidth: 1,
 		borderColor: CustomTheme.borderColor,
 		borderRadius: 6,
-		marginTop: 8,
 		alignItems: "center",
+	},
+	textInputIdWithButton: {
+		paddingRight: 80,
 	},
 	containerRetransmit: {
 		width: 59,
@@ -46,8 +51,9 @@ const FindPasswordStyles = StyleSheet.create({
 		backgroundColor: CustomTheme.primaryMedium,
 		borderRadius: 4,
 		position: "absolute",
-		top: 15.5,
 		right: 12,
+		top: "50%",
+		transform: [{ translateY: -14 }],
 	},
 	textResend: {
 		...fontSub14,

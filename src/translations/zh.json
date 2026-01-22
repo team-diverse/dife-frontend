@@ -41,7 +41,7 @@
 
 	"accessPageTitle": "应用服务访问权限",
 	"accessPhoneSubtitle": "设备信息和 ID",
-	"accessPhoneDescription": "学生认证和错误检查",
+	"accessPhoneDescription": "错误检查",
 	"accessNotificationSubtitle": "通知（可选）",
 	"accessNotificationDescription": "推送通知和接收指南",
 	"accessImageSubtitle": "存储",
@@ -129,6 +129,7 @@
 	"serviceUnderConstruction": "该服务仍在开发中",
 
 	"boardTitle": "论坛",
+	"post": "帖子",
 	"searchPlaceholder": "搜索",
 	"searchNoResults": "没有匹配的搜索结果",
 	"moreButton": "更多",
@@ -396,6 +397,7 @@
 	"myFriend": "我的好友",
 	"chatParticipant": "参与者",
 	"chatBookmark": "书签",
+	"smallTalkProposal": "想继续聊吗？试试这个。",
 	"bookmarked": "已添加书签。",
 	"goToBookmarks": "前往书签",
 	"alreadyBookmarkedChat": "此聊天已被添加到书签。",
