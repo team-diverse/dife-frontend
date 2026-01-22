@@ -1,3 +1,58 @@
+# Dife – Global Community App
+
+<p>
+<img width="48%" src="https://github.com/user-attachments/assets/575d4454-e5e4-4701-9371-2310f0069810" />
+<img width="48%" src="https://github.com/user-attachments/assets/34c4c396-2173-46f3-a2f2-e14a4efbe162" />
+</p>
+
+## 🚀 Now Available
+[📱 Download on the App Store](https://apps.apple.com/kr/app/dife/id6670191789)
+
+[🤖 Download on the Google Play](https://play.google.com/store/apps/details?id=com.teamdiverse.dife&hl=ko)
+
+- - -
+
+## 📌 About Dife
+**Dife** is a global community app that connects Koreans and foreigners who are interested in Korean culture.  
+Users can communicate, share interests, and build meaningful connections beyond language and cultural barriers.
+
+**Dife**는 한국 문화에 관심 있는 외국인과 한국인을 연결하는 글로벌 커뮤니티 앱입니다.  
+언어와 문화의 장벽을 넘어, 공통의 관심사를 바탕으로 자연스러운 소통과 교류를 돕습니다.
+
+---
+
+## ✨ Key Features
+🌐 **Global Community / 글로벌 커뮤니티**
+  - Supports 5 languages: Korean, English, Japanese, Chinese, Spanish  
+  - 한국어, 영어, 일본어, 중국어, 스페인어 총 5개 국어 지원  
+  - Provides automatic translation based on each user’s selected language  
+  - 각 사용자가 설정한 언어에 따라 자동 번역 기능 제공  
+
+💬 **Real-time Communication / 실시간 커뮤니케이션**
+  - WebSocket-based real-time messaging  
+  - WebSocket 기반의 실시간 메시징
+  - Small talk topic recommendations to support natural conversations  
+  - 자연스러운 대화를 돕는 스몰톡 주제 추천 기능  
+
+👤 **Profile-based Matching / 프로필 기반 매칭**
+  - Discover users with similar interests and preferences based on tags  
+  - 태그 기반 관심사와 취향이 비슷한 사용자 탐색
+
+---
+
+## 🛠 Tech Stack
+
+| Category                | Technology |
+| ----------------------- | ---------- |
+| **Framework / Library** | ![ReactNative](https://img.shields.io/badge/ReactNative-61DAFB?style=for-the-badge&logo=react&logoColor=black) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black) |
+| **Network**             | ![REST API](https://img.shields.io/badge/REST_API-121212?style=for-the-badge&logo=postman&logoColor=white) ![WebSocket](https://img.shields.io/badge/WebSocket-4A90E2?style=for-the-badge&logo=socket.io&logoColor=white) |
+
+<br><br>
+
+- - -
+
+<br><br>
+
 # Dife Frontend
 
 ## Github Rules
