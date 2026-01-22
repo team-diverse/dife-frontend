@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
-	TextInput,
 	TouchableWithoutFeedback,
 	Keyboard,
 	TouchableOpacity,
@@ -11,6 +10,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 import * as Sentry from "@sentry/react-native";
+import TextInput from "@components/common/TextInput";
 
 import SetPasswordStyles from "@pages/login/SetPasswordStyles";
 import { CustomTheme } from "@styles/CustomTheme.js";

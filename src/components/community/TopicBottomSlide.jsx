@@ -13,10 +13,8 @@ import {
 } from "react-native";
 import { useTranslation } from "react-i18next";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import * as Sentry from "@sentry/react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
-import { getCommunitySearchByType } from "config/api";
 
 import FilterBottomTwoButtons from "@components/connect/FilterBottomTwoButtons";
 
@@ -26,10 +24,10 @@ const TopicBottomSlide = ({
 	modalVisible,
 	setModalVisible,
 	onFilterResponse,
-	onSearchResponse,
 	onTotalSelection,
 	isReset,
 	initialSelected,
+	onSelectionChange,
 }) => {
 	const { t } = useTranslation();
 	const { width: windowWidth, height: windowHeight } = useWindowDimensions();
@@ -75,7 +73,13 @@ const TopicBottomSlide = ({
 		if (modalVisible) {
 			resetBottomSheet.start();
 		}
-		setSelectedTopic(initialSelected ? [initialSelected] : []);
+		if (Array.isArray(initialSelected)) {
+			setSelectedTopic(initialSelected);
+		} else if (initialSelected) {
+			setSelectedTopic([initialSelected]);
+		} else {
+			setSelectedTopic([]);
+		}
 	}, [modalVisible, initialSelected]);
 
 	const closeModal = () => {
@@ -123,26 +127,16 @@ const TopicBottomSlide = ({
 		reset();
 	}, [isReset]);
 
-	const handleFilter = async () => {
-		try {
-			const response = await getCommunitySearchByType(selectedTopic);
-			reset(true);
-			onFilterResponse(response.data);
-			onTotalSelection(selectedTopic.length);
-		} catch (error) {
-			Sentry.captureException(error);
-			console.error(
-				"커뮤니티 필터 검색 오류:",
-				error.response ? error.response.data : error.message,
-			);
-			reset(true);
-			onSearchResponse(true);
-			onTotalSelection(selectedTopic.length);
-		}
+	const handleFilter = () => {
+		reset(true);
+		onFilterResponse(selectedTopic);
+		onTotalSelection?.(selectedTopic.length);
+		onSelectionChange?.(selectedTopic);
 	};
 
 	const handleTopic = () => {
 		onFilterResponse(selectedTopic);
+		onSelectionChange?.(selectedTopic);
 		setModalVisible(false);
 	};
 

@@ -11,8 +11,11 @@ const BookmarkedPostStyles = StyleSheet.create({
 	containerCategory: {
 		flexDirection: "row",
 		alignItems: "center",
+		paddingHorizontal: 24,
+	},
+	scrollCategory: {
 		marginTop: 8,
-		marginHorizontal: 24,
+		flexGrow: 0,
 	},
 	category: {
 		paddingVertical: 8,

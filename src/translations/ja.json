@@ -41,7 +41,7 @@
 
 	"accessPageTitle": "アプリサービスのアクセス権限を許可",
 	"accessPhoneSubtitle": "デバイス情報とID",
-	"accessPhoneDescription": "学生認証とエラー確認",
+	"accessPhoneDescription": "エラー確認",
 	"accessNotificationSubtitle": "通知（オプション）",
 	"accessNotificationDescription": "プッシュ通知と受信案内",
 	"accessImageSubtitle": "ストレージ",
