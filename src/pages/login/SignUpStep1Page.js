@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import {
-	View,
-	Text,
-	TouchableWithoutFeedback,
-	Keyboard,
-} from "react-native";
+import { View, Text, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useTranslation } from "react-i18next";
 import TextInput from "@components/common/TextInput";
 
