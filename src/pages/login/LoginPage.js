@@ -21,12 +21,8 @@ import Constants from "expo-constants";
 import * as Updates from "expo-updates";
 import LoginStyles from "@pages/login/LoginStyles";
 import { useAuth } from "src/states/AuthContext";
-import {
-	getMyProfile,
-	login,
-	createNotificationToken,
-	updateMyProfile,
-} from "config/api";
+import { getMyProfile, login, createNotificationToken } from "config/api";
+import { syncLanguageWithServer } from "src/util/syncLanguageWithServer";
 
 import BottomTwoButtons from "@components/common/BottomTwoButtons";
 import IconNotSeePw from "@components/login/IconNotSeePw";
@@ -97,15 +93,12 @@ const LoginPage = () => {
 				} else {
 					const { granted } =
 						await Notifications.requestPermissionsAsync();
-
-					console.log("REQUEST", granted);
 					if (granted) {
 						token = (
 							await Notifications.getExpoPushTokenAsync({
 								projectId,
 							})
 						).data;
-						console.log("FINALLY", token);
 					}
 				}
 			} catch (error) {
