@@ -77,6 +77,7 @@ const ChatRoomPage = ({ route }) => {
 	const [userLanguage, setUserLanguage] = useState(null);
 	const [showSmallTalk, setShowSmallTalk] = useState(true);
 	const [smallTalkSubject, setSmallTalkSubject] = useState(null);
+	const [smallTalkHeight, setSmallTalkHeight] = useState(BannerHeight);
 	const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
 	useStatusBar({
@@ -369,6 +370,11 @@ const ChatRoomPage = ({ route }) => {
 		}
 	};
 
+	const handleSmallTalkLayout = useCallback((event) => {
+		const { height } = event.nativeEvent.layout;
+		setSmallTalkHeight((prev) => (prev === height ? prev : height));
+	}, []);
+
 	const data = useMemo(() => {
 		const allMessages = [
 			...(initialMessages || []),
@@ -415,6 +421,7 @@ const ChatRoomPage = ({ route }) => {
 						onClose={() => setShowSmallTalk(false)}
 						style={{ top: modalTop }}
 						subject={smallTalkSubject}
+						onLayout={handleSmallTalkLayout}
 					/>
 					<FlatList
 						ref={flatListRef}
@@ -471,7 +478,7 @@ const ChatRoomPage = ({ route }) => {
 						scrollEventThrottle={16}
 						contentContainerStyle={{
 							paddingTop: showSmallTalk
-								? modalTop + BannerHeight
+								? modalTop + smallTalkHeight + 8
 								: 0,
 						}}
 					/>
