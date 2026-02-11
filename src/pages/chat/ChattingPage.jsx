@@ -211,7 +211,10 @@ const ChattingPage = () => {
 
 	return (
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-			<SafeAreaView style={ChattingStyles.container}>
+			<SafeAreaView
+				edges={["top", "left", "right"]}
+				style={ChattingStyles.container}
+			>
 				<View style={ChattingStyles.backgroundBlue} />
 				<View style={ChattingStyles.connectTop}>
 					<ConnectTop />
