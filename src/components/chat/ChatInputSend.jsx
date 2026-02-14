@@ -16,11 +16,16 @@ import IconChatSend from "@components/chat/IconChatSend";
 
 const { fontBody14 } = CustomTheme;
 
-const ChatInputSend = ({ chatroomId, isExited: initialIsExited, onFocus }) => {
+const ChatInputSend = ({
+	chatroomId,
+	isExited: initialIsExited,
+	onFocus,
+	onEntered,
+}) => {
 	const [chatInput, setChatInput] = useState("");
 	const { publishMessage } = useWebSocket();
 	const [token, setToken] = useState(null);
-	const [isExited, setIsExited] = useState(initialIsExited);
+	const [isExited, setIsExited] = useState(Boolean(initialIsExited));
 
 	useEffect(() => {
 		const fetchToken = async () => {
@@ -31,12 +36,22 @@ const ChatInputSend = ({ chatroomId, isExited: initialIsExited, onFocus }) => {
 		fetchToken();
 	}, []);
 
+	useEffect(() => {
+		setIsExited(Boolean(initialIsExited));
+	}, [initialIsExited, chatroomId]);
+
 	const handleSend = async () => {
 		const trimmedChatInput = chatInput.trim();
 		if (trimmedChatInput && token) {
 			if (isExited) {
+				let canSend = true;
+				if (typeof onEntered === "function") {
+					canSend = await onEntered();
+				}
+				if (!canSend) return;
+
 				publishMessage({
-					chatType: "ENTER",
+					chatType: "CHAT",
 					chatroomId,
 					message: trimmedChatInput,
 					token,
@@ -51,8 +66,6 @@ const ChatInputSend = ({ chatroomId, isExited: initialIsExited, onFocus }) => {
 				});
 			}
 			setChatInput("");
-		} else {
-			console.log("토큰 또는 입력창이 빈 값입니다.");
 		}
 	};
 

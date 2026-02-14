@@ -10,47 +10,71 @@ export const createChatroom = async (
 	otherMemberId,
 	otherMemberName,
 	chatrooms,
-	subscribeToNewChatroom,
-	fetchChatroomMessages,
-	token,
 ) => {
+	const toUpper = (value) => String(value ?? "").toUpperCase();
+	const toIdString = (value) => String(value ?? "");
+
+	const isExitedStatus = (chatroom) => {
+		return (
+			toUpper(
+				chatroom?.status ??
+					chatroom?.chatroomStatus ??
+					chatroom?.chatroom_status,
+			) === "EXITED"
+		);
+	};
+
 	const isRelevantSingleChatroom = (chatroom, myMemberId, otherMemberId) => {
-		if (chatroom.chatroom_type !== "SINGLE") {
+		const roomType =
+			chatroom?.chatroom_type ?? chatroom?.chatroomType ?? chatroom?.type;
+		if (toUpper(roomType) !== "SINGLE") {
 			return false;
 		}
-		const members = chatroom.members;
-		const memberIds = members.map((member) => member.id);
-		return (
-			memberIds.includes(myMemberId) && memberIds.includes(otherMemberId)
-		);
+		const members = Array.isArray(chatroom?.members)
+			? chatroom.members
+			: [];
+		const memberIds = members.map((member) => toIdString(member?.id));
+		const myId = toIdString(myMemberId);
+		const otherId = toIdString(otherMemberId);
+		return memberIds.includes(myId) && memberIds.includes(otherId);
 	};
 
 	try {
 		const myMemberId = await getMyMemberId();
-		let chatroomInfo = chatrooms.find((chatroom) =>
+		const latestSingleChatrooms = await getChatroomsByType("SINGLE");
+		const activeSingleChatrooms = (
+			latestSingleChatrooms?.data ??
+			chatrooms ??
+			[]
+		).filter((chatroom) => !isExitedStatus(chatroom));
+
+		let chatroomInfo = activeSingleChatrooms.find((chatroom) =>
 			isRelevantSingleChatroom(chatroom, myMemberId, otherMemberId),
 		);
+		if (chatroomInfo) {
+			return chatroomInfo;
+		}
+
 		const exitedChatrooms = await getChatroomsByType("EXITED");
-		const exitedChatroomData = exitedChatrooms?.data;
-		const exitedChatroomInfo = exitedChatroomData.find((chatroom) => {
-			const memberIds = chatroom.members.map((member) => member.id);
-			return memberIds.includes(otherMemberId);
-		});
+		const exitedChatroomData = exitedChatrooms?.data ?? [];
+		const exitedChatroomInfo = exitedChatroomData.find((chatroom) =>
+			isRelevantSingleChatroom(chatroom, myMemberId, otherMemberId),
+		);
 
 		if (exitedChatroomInfo) {
 			await changeChatroomStatus(exitedChatroomInfo.id);
-			subscribeToNewChatroom(exitedChatroomInfo.id, token);
-			fetchChatroomMessages(exitedChatroomInfo.id);
-			return exitedChatroomInfo;
-		} else if (!chatroomInfo) {
-			const response = await createSingleChatroom(
-				otherMemberId,
-				otherMemberName,
+			const singleChatrooms = await getChatroomsByType("SINGLE");
+			chatroomInfo = (singleChatrooms?.data ?? []).find((chatroom) =>
+				isRelevantSingleChatroom(chatroom, myMemberId, otherMemberId),
 			);
-			chatroomInfo = response.data;
-			subscribeToNewChatroom(chatroomInfo.id, token);
-			fetchChatroomMessages(chatroomInfo.id);
+			return chatroomInfo || exitedChatroomInfo;
 		}
+
+		const response = await createSingleChatroom(
+			otherMemberId,
+			otherMemberName,
+		);
+		chatroomInfo = response.data;
 		return chatroomInfo;
 	} catch (error) {
 		Sentry.captureException(error);
