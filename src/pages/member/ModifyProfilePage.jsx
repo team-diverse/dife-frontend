@@ -335,26 +335,6 @@ const ModifyProfilePage = () => {
 										</Text>
 									</View>
 									<View
-										style={
-											ModifyProfileStyles.containerBasicInfoContent
-										}
-									>
-										<Text
-											style={
-												ModifyProfileStyles.textBasicInfo
-											}
-										>
-											{t("realName")}
-										</Text>
-										<Text
-											style={
-												ModifyProfileStyles.textContent
-											}
-										>
-											{profile.name}
-										</Text>
-									</View>
-									<View
 										style={[
 											ModifyProfileStyles.containerBasicInfoContent,
 											{ marginBottom: 0 },
@@ -365,14 +345,22 @@ const ModifyProfilePage = () => {
 												ModifyProfileStyles.textBasicInfo
 											}
 										>
-											{t("major")}
+											{t("생년월일")}
 										</Text>
 										<Text
 											style={
 												ModifyProfileStyles.textContent
 											}
 										>
-											{profile.major}
+											{profile.birth
+												.map((value, i) =>
+													i === 0
+														? String(value)
+														: String(
+																value,
+															).padStart(2, "0"),
+												)
+												.join(".")}
 										</Text>
 									</View>
 								</View>
