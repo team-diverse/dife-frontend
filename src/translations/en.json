@@ -61,6 +61,8 @@
 	"profilePictureSubtitle": "Profile Picture",
 	"selectImage": "Select Image",
 	"uploadProfilePicture": "Upload Profile Picture",
+	"birthDate": "Date of Birth",
+	"birthDatePlaceholder": "Please enter your date of birth in 8 digits.",
 	"nationality": "Nationality",
 	"selectNationality": "Please select your nationality",
 	"bio": "Bio",

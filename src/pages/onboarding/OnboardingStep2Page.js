@@ -22,16 +22,38 @@ import IconProfileUpload from "@components/onboarding/IconProfileUpload";
 import IconProfileChange from "@components/onboarding/IconProfileChange";
 import IconProfileBorder from "@components/onboarding/IconProfileBorder";
 
+const BIRTH_MAX_DIGITS = 8;
+const BIRTH_PLACEHOLDER_FORMAT = "YYYY-MM-DD";
+
+const formatBirthDateInput = (value) => {
+	const digits = String(value).replace(/\D/g, "").slice(0, BIRTH_MAX_DIGITS);
+
+	if (digits.length <= 4) return digits;
+	if (digits.length <= 6) {
+		return `${digits.slice(0, 4)}-${digits.slice(4)}`;
+	}
+
+	return `${digits.slice(0, 4)}-${digits.slice(4, 6)}-${digits.slice(6)}`;
+};
+
 const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 	const { t } = useTranslation();
 
 	const navigation = useNavigation();
 
 	const [image, setImage] = useState(stepData[2].image || null);
+	const [birth, setBirth] = useState(
+		formatBirthDateInput(stepData[2].birth || ""),
+	);
+	const [isBirthFocused, setIsBirthFocused] = useState(false);
 	const [bio, setBio] = useState(stepData[2].bio || "");
 	const [nation, setNation] = useState(
 		stepData[2].nation || stepData[2].selectedCountry || "",
 	);
+
+	const handleBirthChange = (value) => {
+		setBirth(formatBirthDateInput(value));
+	};
 
 	const handleKeyboard = () => {
 		Keyboard.dismiss();
@@ -67,9 +89,11 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 	}, [stepData[2].selectedCountry]);
 
 	const handleProfileSubmit = () => {
-		saveData(2, { image, bio, nation: nation });
+		saveData(2, { image, birth, bio, nation: nation });
 		goToNext(3);
 	};
+
+	const birthDigitsLength = birth.replace(/\D/g, "").length;
 
 	return (
 		<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
@@ -102,6 +126,31 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 							<IconProfileUpload />
 						</TouchableOpacity>
 					)}
+					<View style={OnboardingStep2Styles.containerBirthDate}>
+						<Text
+							style={[
+								OnboardingStep2Styles.textNationIntroduction,
+								{ marginLeft: 0 },
+							]}
+						>
+							{t("birthDate")}
+						</Text>
+						<TextInput
+							style={OnboardingStep2Styles.textInputBirthDate}
+							placeholder={
+								isBirthFocused
+									? BIRTH_PLACEHOLDER_FORMAT
+									: t("birthDatePlaceholder")
+							}
+							placeholderTextColor={CustomTheme.borderColor}
+							onChangeText={handleBirthChange}
+							onFocus={() => setIsBirthFocused(true)}
+							onBlur={() => setIsBirthFocused(false)}
+							value={birth}
+							keyboardType="number-pad"
+							maxLength={10}
+						/>
+					</View>
 					<View style={OnboardingStep2Styles.containerNation}>
 						<Text
 							style={[
@@ -157,7 +206,7 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 						<ApplyButton
 							text={t("nextButton")}
 							onPress={handleProfileSubmit}
-							disabled={!nation}
+							disabled={!nation || birthDigitsLength !== 8}
 						/>
 					</View>
 				</View>

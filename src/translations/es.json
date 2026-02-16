@@ -61,6 +61,8 @@
 	"profilePictureSubtitle": "Foto de Perfil",
 	"selectImage": "Seleccionar Imagen",
 	"uploadProfilePicture": "Subir Foto de Perfil",
+	"birthDate": "Fecha de nacimiento",
+	"birthDatePlaceholder": "Ingresa tu fecha de nacimiento en 8 dígitos.",
 	"nationality": "Nacionalidad",
 	"selectNationality": "Por favor selecciona tu nacionalidad",
 	"bio": "Biografía",

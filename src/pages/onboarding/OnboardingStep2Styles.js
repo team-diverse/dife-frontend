@@ -51,11 +51,25 @@ const OnboardingStep2Styles = StyleSheet.create({
 	containerNation: {
 		marginHorizontal: 23,
 	},
+	containerBirthDate: {
+		marginHorizontal: 23,
+	},
 	textNationIntroduction: {
 		...fontSub16,
 		color: CustomTheme.textPrimary,
 		marginTop: 28,
 		marginLeft: 23,
+	},
+	textInputBirthDate: {
+		...fontSub14,
+		height: 43,
+		marginTop: 12,
+		justifyContent: "center",
+		paddingHorizontal: 13,
+		backgroundColor: CustomTheme.bgBasic,
+		borderRadius: 14,
+		borderWidth: 1,
+		borderColor: "#B0D0FF",
 	},
 	containerNationInput: {
 		...fontSub14,

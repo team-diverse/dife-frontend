@@ -61,6 +61,8 @@
 	"profilePictureSubtitle": "个人照片",
 	"selectImage": "选择图片",
 	"uploadProfilePicture": "上传个人照片",
+	"birthDate": "出生日期",
+	"birthDatePlaceholder": "请以8位数字输入出生日期。",
 	"nationality": "国籍",
 	"selectNationality": "请选择您的国籍",
 	"bio": "简介",
