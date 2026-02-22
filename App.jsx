@@ -318,9 +318,13 @@ function AppContent() {
 			} else if (type === "REQUEST") {
 				navigation.navigate("ConnectListPage", { screen: "그룹" });
 			} else if (type === "CHATROOM" && chatroomInfo) {
-				navigation.navigate("ChatRoomPage", chatroomInfo);
+				navigation.navigate("ChatRoomPage", {
+					chatroomInfo: chatroomInfo,
+				});
 			} else if (type === "SMALLTALK" && chatroomInfo) {
-				navigation.navigate("ChatRoomPage", chatroomInfo);
+				navigation.navigate("ChatRoomPage", {
+					chatroomInfo: chatroomInfo,
+				});
 			}
 		};
 
