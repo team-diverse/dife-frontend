@@ -16,7 +16,7 @@ import {
 	rejectedConnectByConnectId,
 } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
-import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
+import { getMyMemberId } from "util/secureStoreUtils";
 import { useWebSocket } from "context/WebSocketContext";
 import { createChatroom } from "util/createChatroom";
 import { CustomTheme } from "@styles/CustomTheme";
@@ -38,14 +38,12 @@ const ConnectProfilePage = ({ route }) => {
 	const navigation = useNavigation();
 	const insets = useSafeAreaInsets();
 
-	const { chatrooms, subscribeToNewChatroom, fetchChatroomMessages } =
-		useWebSocket();
+	const { chatrooms } = useWebSocket();
 	const [profileData, setProfileData] = useState([]);
 	const [connectStatus, setConnectStatus] = useState(undefined);
 	const [connectId, setConnectId] = useState();
 	const [requestSent, setRequestSent] = useState(false);
 	const [name, setName] = useState();
-	const [token, setToken] = useState(null);
 	const [buttonText, setButtonText] = useState(t("requestButtonText"));
 	const { removeProfile, likesById, toggleLike } = useMatchQueue();
 	const isLiked =
@@ -57,15 +55,6 @@ const ConnectProfilePage = ({ route }) => {
 		color: CustomTheme.primaryMedium,
 		barStyle: "dark-content",
 	});
-
-	useEffect(() => {
-		const fetchToken = async () => {
-			const token = await getRefreshToken();
-			setToken(token);
-		};
-
-		fetchToken();
-	}, []);
 
 	const getConnectProfile = async () => {
 		try {
@@ -190,9 +179,6 @@ const ConnectProfilePage = ({ route }) => {
 				memberId,
 				name,
 				chatrooms,
-				subscribeToNewChatroom,
-				fetchChatroomMessages,
-				token,
 			);
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,

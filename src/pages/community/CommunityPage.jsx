@@ -190,7 +190,10 @@ const CommunityPage = () => {
 
 	return (
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-			<SafeAreaView style={CommunityStyles.container}>
+			<SafeAreaView
+				edges={["top", "left", "right"]}
+				style={CommunityStyles.container}
+			>
 				<View style={CommunityStyles.backgroundBlue} />
 				<TouchableOpacity
 					style={CommunityStyles.iconPostPlus}

@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Sentry from "@sentry/react-native";
 
 import { CustomTheme } from "@styles/CustomTheme";
 import { useWebSocket } from "context/WebSocketContext";
-import { getRefreshToken } from "util/secureStoreUtils";
 import { createChatroom } from "util/createChatroom";
 
 import IconChatProfile from "@components/chat/IconChatProfile";
@@ -15,18 +14,7 @@ import ModalKebabMenuConnectList from "@components/member/ModalKebabMenuConnectL
 
 const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
 	const navigation = useNavigation();
-	const { chatrooms, subscribeToNewChatroom, fetchChatroomMessages } =
-		useWebSocket();
-	const [token, setToken] = useState(null);
-
-	useEffect(() => {
-		const fetchToken = async () => {
-			const token = await getRefreshToken();
-			setToken(token);
-		};
-
-		fetchToken();
-	}, []);
+	const { chatrooms } = useWebSocket();
 
 	const handleCreateSingleChatroom = async () => {
 		try {
@@ -34,9 +22,6 @@ const FriendList = ({ connectId, memberId, name, fileId, onStatusChange }) => {
 				memberId,
 				name,
 				chatrooms,
-				subscribeToNewChatroom,
-				fetchChatroomMessages,
-				token,
 			);
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,
