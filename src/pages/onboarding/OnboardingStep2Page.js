@@ -249,16 +249,23 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 								<Text style={OnboardingStep2Styles.modalTitle}>
 									{t("profileSubmitConfirmTitle")}
 								</Text>
-								<Text style={OnboardingStep2Styles.modalDescription}>
+								<Text
+									style={
+										OnboardingStep2Styles.modalDescription
+									}
+								>
 									{t("profileSubmitConfirmDescription")}
 								</Text>
-								<View style={OnboardingStep2Styles.modalButtonRow}>
+								<View
+									style={OnboardingStep2Styles.modalButtonRow}
+								>
 									<TouchableOpacity
 										style={[
 											OnboardingStep2Styles.modalButton,
 											{
 												borderWidth: 1,
-												borderColor: CustomTheme.primaryMedium,
+												borderColor:
+													CustomTheme.primaryMedium,
 											},
 										]}
 										onPress={handleCloseConfirmModal}
