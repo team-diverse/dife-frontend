@@ -671,3 +671,7 @@ export const chatSmallTalk = (chatroomId) => {
 		},
 	});
 };
+
+export const resetSmallTalkNotiCnt = (chatroomId) => {
+	return api.patch(`/chatrooms/${chatroomId}/reset/small-talk`);
+};
