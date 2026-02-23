@@ -21,8 +21,8 @@ const ConnectProfileStyles = StyleSheet.create({
 		marginBottom: 30,
 	},
 	detailProfileContainer: {
-		marginLeft: 17,
-		marginRight: 17,
+		alignSelf: "stretch",
+		marginHorizontal: 24,
 		matginTop: 25,
 		marginBottom: 50,
 	},

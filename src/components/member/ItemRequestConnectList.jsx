@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
@@ -9,7 +9,6 @@ import {
 	acceptedConnectByMemberId,
 	rejectedConnectByConnectId,
 } from "config/api";
-import { getRefreshToken } from "util/secureStoreUtils";
 import { useWebSocket } from "context/WebSocketContext";
 import { createChatroom } from "util/createChatroom";
 
@@ -31,8 +30,7 @@ const ItemRequestConnectList = ({
 	const { t } = useTranslation();
 	const navigation = useNavigation();
 	const iconRef = useRef();
-	const { chatrooms, subscribeToNewChatroom, fetchChatroomMessages } =
-		useWebSocket();
+	const { chatrooms } = useWebSocket();
 
 	const [modalVisible, setModalVisible] = useState(false);
 	const [modalPosition, setModalPosition] = useState({
@@ -41,17 +39,6 @@ const ItemRequestConnectList = ({
 		width: 0,
 		height: 0,
 	});
-	const [token, setToken] = useState(null);
-
-	useEffect(() => {
-		const fetchToken = async () => {
-			const token = await getRefreshToken();
-			setToken(token);
-		};
-
-		fetchToken();
-	}, []);
-
 	const handleIconPress = () => {
 		setModalVisible(true);
 		if (iconRef.current) {
@@ -91,9 +78,6 @@ const ItemRequestConnectList = ({
 				memberId,
 				name,
 				chatrooms,
-				subscribeToNewChatroom,
-				fetchChatroomMessages,
-				token,
 			);
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,

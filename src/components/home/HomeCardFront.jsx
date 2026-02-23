@@ -11,7 +11,6 @@ import * as Sentry from "@sentry/react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 import { useNavigation } from "@react-navigation/native";
 import { useWebSocket } from "context/WebSocketContext";
-import { getRefreshToken } from "util/secureStoreUtils";
 import { createChatroom } from "util/createChatroom";
 
 import Tag from "@components/common/Tag";
@@ -36,21 +35,10 @@ const HomeCardFront = ({
 	isLikedActive,
 }) => {
 	const navigation = useNavigation();
-	const { chatrooms, subscribeToNewChatroom, fetchChatroomMessages } =
-		useWebSocket();
+	const { chatrooms } = useWebSocket();
 
 	const [tagHeight, setTagHeight] = useState(0);
 	const [introductionLines, setIntroductionLines] = useState(1);
-	const [token, setToken] = useState(null);
-
-	useEffect(() => {
-		const fetchToken = async () => {
-			const token = await getRefreshToken();
-			setToken(token);
-		};
-
-		fetchToken();
-	}, []);
 
 	useEffect(() => {
 		if (tagHeight > 40) {
@@ -71,9 +59,6 @@ const HomeCardFront = ({
 				memberId,
 				name,
 				chatrooms,
-				subscribeToNewChatroom,
-				fetchChatroomMessages,
-				token,
 			);
 			navigation.navigate("ChatRoomPage", {
 				chatroomInfo,
