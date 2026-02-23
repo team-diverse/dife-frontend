@@ -68,6 +68,9 @@
 	"bio": "Biografía",
 	"bioPlaceholder": "Ingresa una breve introducción",
 	"nextButton": "Siguiente",
+	"profileSubmitConfirmTitle": "¿Deseas completar el registro?",
+	"profileSubmitConfirmDescription": "Los campos Fecha de nacimiento / Nacionalidad\nson difíciles de modificar después.",
+	"previousButtonText": "Anterior",
 	"imagePermissionAlertTitle": "Alerta",
 	"imagePermissionAlertMessage": "Por favor, permite los permisos de imagen en la configuración.",
 

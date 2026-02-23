@@ -68,6 +68,9 @@
 	"bio": "简介",
 	"bioPlaceholder": "输入简短的自我介绍",
 	"nextButton": "下一步",
+	"profileSubmitConfirmTitle": "要完成填写吗？",
+	"profileSubmitConfirmDescription": "出生日期 / 国籍项目\n填写后难以修改",
+	"previousButtonText": "上一步",
 	"imagePermissionAlertTitle": "提示",
 	"imagePermissionAlertMessage": "请在设置中允许图片权限。",
 

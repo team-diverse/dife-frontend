@@ -68,6 +68,9 @@
 	"bio": "自己紹介",
 	"bioPlaceholder": "簡単な自己紹介を入力してください",
 	"nextButton": "次へ",
+	"profileSubmitConfirmTitle": "入力を完了しますか？",
+	"profileSubmitConfirmDescription": "生年月日 / 国籍項目は\n入力後の修正が難しいです",
+	"previousButtonText": "前へ",
 	"imagePermissionAlertTitle": "通知",
 	"imagePermissionAlertMessage": "設定で画像の権限を許可してください。",
 

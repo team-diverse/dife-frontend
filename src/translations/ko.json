@@ -68,6 +68,9 @@
 	"bio": "한줄소개",
 	"bioPlaceholder": "간단한 자기소개를 입력해주세요",
 	"nextButton": "다음",
+	"profileSubmitConfirmTitle": "작성을 완료하시겠습니까?",
+	"profileSubmitConfirmDescription": "생년월일 / 국적 항목은\n입력 후 수정이 어려워요",
+	"previousButtonText": "이전",
 	"imagePermissionAlertTitle": "알림",
 	"imagePermissionAlertMessage": "설정에서 이미지 권한을 허용해주세요.",
 

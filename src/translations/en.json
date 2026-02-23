@@ -68,6 +68,9 @@
 	"bio": "Bio",
 	"bioPlaceholder": "Enter a brief introduction",
 	"nextButton": "Next",
+	"profileSubmitConfirmTitle": "Would you like to complete your profile?",
+	"profileSubmitConfirmDescription": "Date of Birth / Nationality can be difficult to edit after submission.",
+	"previousButtonText": "Previous",
 	"imagePermissionAlertTitle": "Alert",
 	"imagePermissionAlertMessage": "Please allow image permissions in settings.",
 
