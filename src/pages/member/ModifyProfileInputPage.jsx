@@ -28,6 +28,14 @@ const ModifyProfileInputPage = ({ route }) => {
 		tagContent = [],
 		languageContent = [],
 	} = route.params;
+	const hasTagParam = Object.prototype.hasOwnProperty.call(
+		route.params,
+		"tagContent",
+	);
+	const hasLanguageParam = Object.prototype.hasOwnProperty.call(
+		route.params,
+		"languageContent",
+	);
 
 	// useEffect(() => {
 	// 	console.log(bioContent);
@@ -263,7 +271,7 @@ const ModifyProfileInputPage = ({ route }) => {
 
 			{nicknameContent == null && bioContent == null && (
 				<>
-					{languageContent.length == 0 && tagContent && (
+					{hasTagParam && (
 						<ScrollView>
 							<Text style={ModifyProfileInputStyles.textTagTitle}>
 								{t("mbti")}
@@ -351,7 +359,7 @@ const ModifyProfileInputPage = ({ route }) => {
 						</ScrollView>
 					)}
 
-					{tagContent.length == 0 && languageContent && (
+					{hasLanguageParam && (
 						<View style={ModifyProfileInputStyles.checkbox}>
 							{languages.map((language, index) => (
 								<Checkbox
