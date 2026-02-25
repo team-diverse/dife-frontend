@@ -31,9 +31,6 @@ const SetPasswordStyles = StyleSheet.create({
 		marginTop: 8,
 		alignItems: "center",
 	},
-	containerTextInputPw: {
-		marginHorizontal: 24,
-	},
 	textInputPwContainer: {
 		flexDirection: "row",
 		alignItems: "center",
