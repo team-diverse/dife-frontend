@@ -49,14 +49,15 @@ export default {
 				UIBackgroundModes: ["fetch", "remote-notification"],
 			},
 		},
-		android: {
-			package: getAndroidPackage(),
-			adaptiveIcon: {
-				foregroundImage: "src/assets/icon.png",
+			android: {
+				package: getAndroidPackage(),
+				softwareKeyboardLayoutMode: "resize",
+				adaptiveIcon: {
+					foregroundImage: "src/assets/icon.png",
+				},
+				targetSdkVersion: 35,
+				versionCode: 45,
 			},
-			targetSdkVersion: 35,
-			versionCode: 45,
-		},
 		web: {
 			favicon: "src/assets/icon.png",
 		},

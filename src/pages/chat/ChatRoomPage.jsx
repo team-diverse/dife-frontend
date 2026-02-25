@@ -65,9 +65,13 @@ const ChatRoomPage = ({ route }) => {
 	const appState = useRef(AppState.currentState);
 	const flatListRef = useRef(null);
 	const isAtBottomRef = useRef(true);
+	const scrollOffsetRef = useRef(0);
+	const distanceFromBottomRef = useRef(0);
+	const listViewportHeightRef = useRef(0);
 	const navigation = useNavigation();
 	const insets = useSafeAreaInsets();
 	const [memberId, setMemberId] = useState(null);
+	const NEAR_BOTTOM_THRESHOLD = 20;
 
 	const screenWidth = Dimensions.get("window").width;
 	const menuAnim = useRef(new Animated.Value(screenWidth)).current;
@@ -149,22 +153,99 @@ const ChatRoomPage = ({ route }) => {
 		fetchToken();
 	}, []);
 
-	useEffect(() => {
-		if (Platform.OS !== "android") {
-			return undefined;
+	const scrollToEndSafely = useCallback((animated = false) => {
+		if (!flatListRef.current) return;
+		setTimeout(() => {
+			flatListRef.current?.scrollToEnd({ animated });
+		}, 0);
+		setTimeout(() => {
+			flatListRef.current?.scrollToEnd({ animated: false });
+		}, 140);
+		setTimeout(() => {
+			flatListRef.current?.scrollToEnd({ animated: false });
+		}, 280);
+	}, []);
+
+	const adjustScrollForKeyboard = useCallback(
+		(nextKeyboardHeight) => {
+			const normalizedHeight = Math.max(0, nextKeyboardHeight ?? 0);
+			if (!flatListRef.current) {
+				return;
+			}
+
+			const isNearBottom =
+				distanceFromBottomRef.current <= NEAR_BOTTOM_THRESHOLD;
+
+			if (normalizedHeight > 0 && isNearBottom) {
+				isAtBottomRef.current = true;
+				scrollToEndSafely(true);
+			}
+		},
+		[NEAR_BOTTOM_THRESHOLD, scrollToEndSafely],
+	);
+
+	const handleListLayout = useCallback((event) => {
+		const nextHeight = event?.nativeEvent?.layout?.height ?? 0;
+		const prevHeight = listViewportHeightRef.current;
+		listViewportHeightRef.current = nextHeight;
+
+		if (!prevHeight || !flatListRef.current || isAtBottomRef.current) {
+			return;
 		}
-		const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+
+		const deltaHeight = prevHeight - nextHeight;
+		if (!deltaHeight) {
+			return;
+		}
+
+		const nextOffset = Math.max(0, scrollOffsetRef.current + deltaHeight);
+		flatListRef.current.scrollToOffset({
+			offset: nextOffset,
+			animated: true,
+		});
+		scrollOffsetRef.current = nextOffset;
+	}, []);
+
+	useEffect(() => {
+		const showEvent =
+			Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
+		const hideEvent =
+			Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
+		const frameEvent =
+			Platform.OS === "ios" ? "keyboardWillChangeFrame" : null;
+
+		const handleKeyboardShow = (event) => {
 			setIsKeyboardVisible(true);
-		});
-		const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+			adjustScrollForKeyboard(event?.endCoordinates?.height);
+		};
+		const handleKeyboardHide = () => {
 			setIsKeyboardVisible(false);
-		});
+			adjustScrollForKeyboard(0);
+		};
+		const handleKeyboardFrameChange = (event) => {
+			const height = event?.endCoordinates?.height ?? 0;
+			setIsKeyboardVisible(height > 0);
+			adjustScrollForKeyboard(height);
+		};
+
+		const showSubscription = Keyboard.addListener(
+			showEvent,
+			handleKeyboardShow,
+		);
+		const hideSubscription = Keyboard.addListener(
+			hideEvent,
+			handleKeyboardHide,
+		);
+		const frameSubscription = frameEvent
+			? Keyboard.addListener(frameEvent, handleKeyboardFrameChange)
+			: null;
 
 		return () => {
 			showSubscription.remove();
 			hideSubscription.remove();
+			frameSubscription?.remove();
 		};
-	}, []);
+	}, [adjustScrollForKeyboard]);
 
 	useEffect(() => {
 		const fetchMyMemberId = async () => {
@@ -186,21 +267,24 @@ const ChatRoomPage = ({ route }) => {
 
 	useEffect(() => {
 		if (isAtBottomRef.current && flatListRef.current) {
-			setTimeout(() => {
-				flatListRef.current.scrollToEnd({ animated: true });
-			}, 100);
+			scrollToEndSafely(false);
 		}
-	}, [messages]);
+	}, [messages, scrollToEndSafely]);
 
 	const [statusBarHeight, setStatusBarHeight] = useState(0);
 
 	const handleContentSizeChange = () => {
 		if (isAtBottomRef.current && flatListRef.current) {
-			setTimeout(() => {
-				flatListRef.current.scrollToEnd({ animated: false });
-			}, 50);
+			scrollToEndSafely(false);
 		}
 	};
+
+	const handleInputFocus = useCallback(() => {
+		if (!isAtBottomRef.current) {
+			return;
+		}
+		scrollToEndSafely(false);
+	}, [scrollToEndSafely]);
 
 	useFocusEffect(
 		useCallback(() => {
@@ -467,20 +551,15 @@ const ChatRoomPage = ({ route }) => {
 	const handleScroll = (event) => {
 		const { contentOffset, contentSize, layoutMeasurement } =
 			event.nativeEvent;
+		scrollOffsetRef.current = contentOffset.y;
 
+		const distanceFromBottom =
+			contentSize.height - (contentOffset.y + layoutMeasurement.height);
+		distanceFromBottomRef.current = Math.max(0, distanceFromBottom);
 		const isNearBottom =
-			contentOffset.y + layoutMeasurement.height >=
-			contentSize.height - 20;
+			distanceFromBottomRef.current <= NEAR_BOTTOM_THRESHOLD;
 
 		isAtBottomRef.current = isNearBottom;
-	};
-
-	const handleInputFocus = () => {
-		if (flatListRef.current) {
-			setTimeout(() => {
-				flatListRef.current.scrollToEnd({ animated: true });
-			}, 100);
-		}
 	};
 
 	const handleSmallTalkLayout = useCallback((event) => {
@@ -564,159 +643,169 @@ const ChatRoomPage = ({ route }) => {
 
 	return (
 		<>
-			<SafeAreaView style={ChatRoomStyles.container}>
-				<View style={ChatRoomStyles.containerTopBar}>
-					<View style={ChatRoomStyles.containerBackName}>
-						<TouchableOpacity
-							style={ChatRoomStyles.iconArrow}
-							onPress={() => {
-								navigation.goBack();
-							}}
-						>
-							<ArrowRight color="#000" />
-						</TouchableOpacity>
-						<Text style={ChatRoomStyles.textTopBar}>
-							{otherMember?.username ??
-								chatroomInfo?.name ??
-								"Unknown"}
-						</Text>
-					</View>
-					<TouchableOpacity
-						style={ChatRoomStyles.iconHamburgerMenu}
-						onPress={toggleMenu}
-					>
-						<IconHamburgerMenu />
-					</TouchableOpacity>
-				</View>
-
-				<View style={ChatRoomStyles.containerChat}>
-					<ModalSmallTalk
-						visible={showSmallTalk}
-						onClose={() => setShowSmallTalk(false)}
-						style={{ top: modalTop }}
-						subject={smallTalkSubject}
-						onLayout={handleSmallTalkLayout}
-					/>
-					<FlatList
-						ref={flatListRef}
-						data={data}
-						keyExtractor={(item, index) => {
-							const first = item?.[0];
-							if (first?.isDateHeader) {
-								return `date-${String(first.id)}-${index}`;
-							}
-							const memberKey =
-								first?.member?.id ??
-								first?.memberId ??
-								first?.member_id ??
-								"unknown";
-							const createdKey = String(first?.created ?? "");
-							const idKey = String(
-								first?.key ?? first?.id ?? "no-id",
-							);
-							return `group-${index}-${idKey}-${memberKey}-${createdKey}`;
-						}}
-						renderItem={({ item }) => (
-							<>
-								{item[0].isDateHeader ? (
-									<View
-										style={
-											ChatRoomStyles.dateHeaderContainer
-										}
-									>
-										<Text
-											style={
-												ChatRoomStyles.dateHeaderText
-											}
-										>
-											{formatDateHeader(
-												item[0].created,
-												userLanguage,
-											)}
-										</Text>
-									</View>
-								) : (
-									item.map((msg, idx) => {
-										const msgMemberId =
-											msg?.member?.id ??
-											msg?.memberId ??
-											msg?.member_id;
-										const msgUsername =
-											msg?.member?.username ??
-											otherMember?.username ??
-											"Unknown";
-										return (
-											<ChatBubble
-												key={[
-													msg?.key ??
-														msg?.id ??
-														"no-id",
-													msgMemberId ?? "unknown",
-													String(msg?.created ?? ""),
-													idx,
-												].join("|")}
-												fileId={
-													otherMember?.profileImg?.id
-												}
-												username={msgUsername}
-												message={msg.message}
-												time={
-													msg.showTime
-														? formatTime(
-																msg.created,
-																userLanguage,
-															)
-														: ""
-												}
-												isMine={
-													String(msgMemberId) ===
-													String(memberId)
-												}
-												isHeadMessage={idx === 0}
-												chatroomId={
-													msg.singleChatroom?.id ??
-													chatroomInfo.id
-												}
-												chatId={msg.id}
-											/>
-										);
-									})
-								)}
-							</>
-						)}
-						onContentSizeChange={handleContentSizeChange}
-						onScroll={handleScroll}
-						scrollEventThrottle={16}
-						contentContainerStyle={{
-							paddingTop: showSmallTalk
-								? modalTop + smallTalkHeight + 8
-								: 0,
-						}}
-					/>
-				</View>
-			</SafeAreaView>
 			<KeyboardAvoidingView
-				style={{ marginBottom: 0 }}
-				behavior={Platform.OS === "ios" ? "padding" : "position"}
-				enabled={Platform.OS === "ios" || isKeyboardVisible}
+				style={{ flex: 1 }}
+				behavior={Platform.OS === "ios" ? "padding" : "height"}
+				enabled
 				keyboardVerticalOffset={
 					Platform.OS === "ios" ? statusBarHeight - 55 : 0
 				}
-				onContentSizeChange={handleContentSizeChange}
 			>
-				<ChatInputSend
-					chatroomId={chatroomInfo.id}
-					isExited={isExitedRoom}
-					onFocus={handleInputFocus}
-					onEntered={handleEnteredChatroom}
-				/>
+				<SafeAreaView
+					style={ChatRoomStyles.container}
+					edges={["top", "left", "right"]}
+				>
+					<View style={ChatRoomStyles.containerTopBar}>
+						<View style={ChatRoomStyles.containerBackName}>
+							<TouchableOpacity
+								style={ChatRoomStyles.iconArrow}
+								onPress={() => {
+									navigation.goBack();
+								}}
+							>
+								<ArrowRight color="#000" />
+							</TouchableOpacity>
+							<Text style={ChatRoomStyles.textTopBar}>
+								{otherMember?.username ??
+									chatroomInfo?.name ??
+									"Unknown"}
+							</Text>
+						</View>
+						<TouchableOpacity
+							style={ChatRoomStyles.iconHamburgerMenu}
+							onPress={toggleMenu}
+						>
+							<IconHamburgerMenu />
+						</TouchableOpacity>
+					</View>
+
+					<View style={ChatRoomStyles.containerChat}>
+						<ModalSmallTalk
+							visible={isSmallTalkVisible}
+							onClose={handleSmallTalkModalClose}
+							style={{ top: modalTop }}
+							subject={smallTalkSubject}
+							onLayout={handleSmallTalkLayout}
+						/>
+						<FlatList
+							ref={flatListRef}
+							onLayout={handleListLayout}
+							data={data}
+							keyExtractor={(item, index) => {
+								const first = item?.[0];
+								if (first?.isDateHeader) {
+									return `date-${String(first.id)}-${index}`;
+								}
+								const memberKey =
+									first?.member?.id ??
+									first?.memberId ??
+									first?.member_id ??
+									"unknown";
+								const createdKey = String(first?.created ?? "");
+								const idKey = String(
+									first?.key ?? first?.id ?? "no-id",
+								);
+								return `group-${index}-${idKey}-${memberKey}-${createdKey}`;
+							}}
+							renderItem={({ item }) => (
+								<>
+									{item[0].isDateHeader ? (
+										<View
+											style={
+												ChatRoomStyles.dateHeaderContainer
+											}
+										>
+											<Text
+												style={
+													ChatRoomStyles.dateHeaderText
+												}
+											>
+												{formatDateHeader(
+													item[0].created,
+													userLanguage,
+												)}
+											</Text>
+										</View>
+									) : (
+										item.map((msg, idx) => {
+											const msgMemberId =
+												msg?.member?.id ??
+												msg?.memberId ??
+												msg?.member_id;
+											const msgUsername =
+												msg?.member?.username ??
+												otherMember?.username ??
+												"Unknown";
+											return (
+												<ChatBubble
+													key={[
+														msg?.key ??
+															msg?.id ??
+															"no-id",
+														msgMemberId ??
+															"unknown",
+														String(
+															msg?.created ?? "",
+														),
+														idx,
+													].join("|")}
+													fileId={
+														otherMember?.profileImg
+															?.id
+													}
+													username={msgUsername}
+													message={msg.message}
+													time={
+														msg.showTime
+															? formatTime(
+																	msg.created,
+																	userLanguage,
+																)
+															: ""
+													}
+													isMine={
+														String(msgMemberId) ===
+														String(memberId)
+													}
+													isHeadMessage={idx === 0}
+													chatroomId={
+														msg.singleChatroom
+															?.id ??
+														chatroomInfo.id
+													}
+													chatId={msg.id}
+												/>
+											);
+										})
+									)}
+								</>
+							)}
+							onContentSizeChange={handleContentSizeChange}
+							onScroll={handleScroll}
+							scrollEventThrottle={16}
+							contentContainerStyle={{
+								paddingTop: isSmallTalkVisible
+									? modalTop + smallTalkHeight + 8
+									: 0,
+							}}
+						/>
+					</View>
+					<ChatInputSend
+						chatroomId={chatroomInfo.id}
+						isExited={isExitedRoom}
+						onFocus={handleInputFocus}
+						onEntered={handleEnteredChatroom}
+					/>
+					<View
+						style={{
+							paddingBottom: isKeyboardVisible
+								? 0
+								: insets.bottom,
+							backgroundColor: "white",
+						}}
+					/>
+				</SafeAreaView>
 			</KeyboardAvoidingView>
-			<View
-				style={{
-					paddingBottom: insets.bottom,
-					backgroundColor: "white",
-				}}
-			/>
 			{menuOpen && (
 				<TouchableOpacity
 					onPress={toggleMenu}
