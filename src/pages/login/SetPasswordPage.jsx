@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	View,
 	Text,
 	TouchableWithoutFeedback,
 	Keyboard,
 	TouchableOpacity,
+	ScrollView,
+	Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
@@ -34,12 +36,34 @@ const SetPasswordPage = ({ route }) => {
 	const [passwordMatch, setPasswordMatch] = useState(true);
 	const [passwordError, setPasswordError] = useState(false);
 	const [isFormValid, setIsFormValid] = useState(false);
+	const [keyboardHeight, setKeyboardHeight] = useState(0);
+	const scrollViewRef = useRef(null);
 
 	useEffect(() => {
 		setIsFormValid(
 			valuePW && valueCheckPW && passwordMatch && !passwordError,
 		);
 	}, [valuePW, valueCheckPW, passwordMatch, passwordError]);
+
+	useEffect(() => {
+		const showEvent =
+			Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
+		const hideEvent =
+			Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
+
+		const showSubscription = Keyboard.addListener(showEvent, (event) => {
+			setKeyboardHeight(event.endCoordinates?.height ?? 0);
+		});
+		const hideSubscription = Keyboard.addListener(hideEvent, () => {
+			scrollViewRef.current?.scrollTo({ y: 0, animated: false });
+			setKeyboardHeight(0);
+		});
+
+		return () => {
+			showSubscription.remove();
+			hideSubscription.remove();
+		};
+	}, []);
 
 	const handleShowPW = () => {
 		setShowPW(!showPW);
@@ -83,41 +107,53 @@ const SetPasswordPage = ({ route }) => {
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
 			<SafeAreaView style={SetPasswordStyles.container}>
 				<GoBack />
-				<Text style={SetPasswordStyles.textTitle}>
-					{t("setPasswordTitle")}
-				</Text>
-				<View style={SetPasswordStyles.containerPw}>
-					<Text style={SetPasswordStyles.textPw}>
-						{t("passwordLabel")}
+				<ScrollView
+					ref={scrollViewRef}
+					contentContainerStyle={{
+						paddingBottom:
+							keyboardHeight > 0
+								? keyboardHeight +
+									(Platform.OS === "ios" ? 72 : 56)
+								: 180,
+					}}
+					keyboardShouldPersistTaps="handled"
+					showsVerticalScrollIndicator={false}
+					scrollEnabled={keyboardHeight > 0}
+				>
+					<Text style={SetPasswordStyles.textTitle}>
+						{t("setPasswordTitle")}
 					</Text>
-					<View style={SetPasswordStyles.textInputPwContainer}>
-						<TextInput
-							style={SetPasswordStyles.textInputPw}
-							placeholder={t("passwordPlaceholder")}
-							onChangeText={handlePasswordError}
-							value={valuePW}
-							secureTextEntry={!showPW}
-						/>
-						<TouchableOpacity
-							style={SetPasswordStyles.iconSee}
-							onPress={handleShowPW}
-						>
-							{valuePW == "" ? null : showPW ? (
-								<IconSeePw />
-							) : (
-								<IconNotSeePw />
-							)}
-						</TouchableOpacity>
-					</View>
-					{passwordError && (
-						<View style={SetPasswordStyles.containerError}>
-							<InfoCircle color={CustomTheme.warningRed} />
-							<Text style={SetPasswordStyles.textError}>
-								{t("passwordError")}
-							</Text>
+					<View style={SetPasswordStyles.containerPw}>
+						<Text style={SetPasswordStyles.textPw}>
+							{t("passwordLabel")}
+						</Text>
+						<View style={SetPasswordStyles.textInputPwContainer}>
+							<TextInput
+								style={SetPasswordStyles.textInputPw}
+								placeholder={t("passwordPlaceholder")}
+								onChangeText={handlePasswordError}
+								value={valuePW}
+								secureTextEntry={!showPW}
+							/>
+							<TouchableOpacity
+								style={SetPasswordStyles.iconSee}
+								onPress={handleShowPW}
+							>
+								{valuePW == "" ? null : showPW ? (
+									<IconSeePw />
+								) : (
+									<IconNotSeePw />
+								)}
+							</TouchableOpacity>
 						</View>
-					)}
-					<View style={SetPasswordStyles.containerTextInputPw}>
+						{passwordError && (
+							<View style={SetPasswordStyles.containerError}>
+								<InfoCircle color={CustomTheme.warningRed} />
+								<Text style={SetPasswordStyles.textError}>
+									{t("passwordError")}
+								</Text>
+							</View>
+						)}
 						<Text
 							style={[
 								SetPasswordStyles.textPw,
@@ -135,23 +171,23 @@ const SetPasswordPage = ({ route }) => {
 								secureTextEntry={!showPW}
 							/>
 						</View>
+						{!passwordMatch && (
+							<View style={SetPasswordStyles.containerError}>
+								<InfoCircle color={CustomTheme.warningRed} />
+								<Text style={SetPasswordStyles.textError}>
+									{t("passwordMismatchError")}
+								</Text>
+							</View>
+						)}
 					</View>
-					{!passwordMatch && (
-						<View style={SetPasswordStyles.containerError}>
-							<InfoCircle color={CustomTheme.warningRed} />
-							<Text style={SetPasswordStyles.textError}>
-								{t("passwordMismatchError")}
-							</Text>
-						</View>
-					)}
-				</View>
-				<View style={SetPasswordStyles.applyButton}>
-					<ApplyButton
-						text={t("loginPageButton")}
-						disabled={!isFormValid}
-						onPress={handleSetPassword}
-					/>
-				</View>
+					<View style={SetPasswordStyles.applyButton}>
+						<ApplyButton
+							text={t("loginPageButton")}
+							disabled={!isFormValid}
+							onPress={handleSetPassword}
+						/>
+					</View>
+				</ScrollView>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>
 	);
