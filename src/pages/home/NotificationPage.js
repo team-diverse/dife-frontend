@@ -33,7 +33,7 @@ const NotificationPage = () => {
 			setNotificationData(filteredData.reverse());
 			await SecureStore.setItemAsync(
 				"readNotificationCount",
-				response.data.length.toString(),
+				filteredData.length.toString(),
 			);
 		} catch (error) {
 			console.error(

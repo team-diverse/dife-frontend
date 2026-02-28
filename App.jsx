@@ -23,7 +23,7 @@ import { useNavigation } from "@react-navigation/native";
 import i18n from "src/i18n.js";
 import { PostModifyProvider } from "src/states/PostModifyContext";
 import { AuthProvider, useAuth } from "src/states/AuthContext";
-import { getMyProfile } from "config/api";
+import { getMyProfile, resetSmallTalkNotiCnt } from "config/api";
 import { WebSocketProvider } from "./src/context/WebSocketContext";
 import { MatchQueueProvider } from "context/MatchQueueContext";
 import { syncLanguageWithServer } from "src/util/syncLanguageWithServer";
@@ -302,7 +302,7 @@ function AppContent() {
 	}, []);
 
 	useEffect(() => {
-		const handleNotificationResponse = (response) => {
+		const handleNotificationResponse = async (response) => {
 			const { type, typeId, chatroomInfo } =
 				response.notification.request.content.data;
 
@@ -325,6 +325,11 @@ function AppContent() {
 				navigation.navigate("ChatRoomPage", {
 					chatroomInfo: chatroomInfo,
 				});
+				try {
+					await resetSmallTalkNotiCnt(chatroomInfo.id);
+				} catch (error) {
+					console.error("알림 카운트 초기화 실패:", error);
+				}
 			}
 		};
 
