@@ -15,7 +15,6 @@ import * as Sentry from "@sentry/react-native";
 import TextInput from "@components/common/TextInput";
 
 import ChattingStyles from "@pages/chat/ChattingStyles";
-import { CustomTheme } from "@styles/CustomTheme";
 import { getMyMemberId } from "util/secureStoreUtils";
 import formatTime from "util/formatTime";
 import {
