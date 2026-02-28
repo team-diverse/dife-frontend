@@ -6,7 +6,11 @@ import { CustomTheme } from "@styles/CustomTheme";
 
 import IconAddFriend24 from "@components/Icon24/IconAddFriend24";
 import IconHeart24 from "@components/Icon24/IconHeart24";
-import { getProfileById, getChatroomById } from "config/api";
+import {
+	getProfileById,
+	getChatroomById,
+	resetSmallTalkNotiCnt,
+} from "config/api";
 import { useNavigation } from "@react-navigation/native";
 import ModalKebabNotFoundMember from "@components/member/ModalKebabNotFoundMember";
 import IconChat24 from "@components/Icon24/IconChat24";
@@ -75,10 +79,18 @@ const NotificationCard = ({
 		} else if (type === "POST") {
 			navigation.navigate("PostPage", { postId: typeId });
 		} else if (type == "SMALLTALK") {
-			const response = await getChatroomById(typeId);
-			navigation.navigate("ChatRoomPage", {
-				chatroomInfo: response.data,
-			});
+			try {
+				const response = await getChatroomById(typeId);
+				const chatroomData = response.data;
+
+				navigation.navigate("ChatRoomPage", {
+					chatroomInfo: chatroomData,
+				});
+
+				await resetSmallTalkNotiCnt(chatroomData.id);
+			} catch (error) {
+				console.error("SMALLTALK 처리 중 오류:", error);
+			}
 		} else {
 			return;
 		}

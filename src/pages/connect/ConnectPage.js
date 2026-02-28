@@ -119,7 +119,10 @@ const ConnectPage = () => {
 	const isSmallScreen = screenHeight < 700;
 
 	return (
-		<SafeAreaView style={ConnectStyles.container}>
+		<SafeAreaView
+			edges={["top", "left", "right"]}
+			style={ConnectStyles.container}
+		>
 			<View style={ConnectStyles.backgroundBlue} />
 
 			<View style={ConnectStyles.connectTop}>

@@ -15,7 +15,7 @@ import * as Sentry from "@sentry/react-native";
 import TextInput from "@components/common/TextInput";
 
 import ChattingStyles from "@pages/chat/ChattingStyles";
-import { getMyMemberId, getRefreshToken } from "util/secureStoreUtils";
+import { getMyMemberId } from "util/secureStoreUtils";
 import formatTime from "util/formatTime";
 import {
 	getChatroomSearch,
@@ -45,9 +45,8 @@ const ChattingPage = () => {
 	const [searchData, setSearchData] = useState("");
 	const [searchFail, setSearchFail] = useState(false);
 	const [isSearching, setIsSearching] = useState(false);
-	const { messages, subscribeToNewChatroom } = useWebSocket();
+	const { messages } = useWebSocket();
 	const [isIndividualTab, setIsIndividualTab] = useState(true);
-	const [token, setToken] = useState(null);
 	const [userLanguage, setUserLanguage] = useState(null);
 
 	// const showChatStatus = process.env.EXPO_PUBLIC_SHOW_CHAT_STATUS === "true";
@@ -91,9 +90,6 @@ const ChattingPage = () => {
 		const fetchMyMemberId = async () => {
 			const myMemberId = await getMyMemberId();
 			setMyMemberId(myMemberId);
-
-			const token = await getRefreshToken();
-			setToken(token);
 
 			const userLanguage = await getProfileById(myMemberId);
 			setUserLanguage(userLanguage.data.settingLanguage);
@@ -142,7 +138,6 @@ const ChattingPage = () => {
 
 	const getLatestMessage = (chatroomId, content) => {
 		if (!messages[chatroomId] || messages[chatroomId]?.length === 0) {
-			subscribeToNewChatroom(chatroomId, token);
 			return typeof content === "object" ? content.message : content;
 		}
 
@@ -204,7 +199,10 @@ const ChattingPage = () => {
 
 	return (
 		<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-			<SafeAreaView style={ChattingStyles.container}>
+			<SafeAreaView
+				edges={["top", "left", "right"]}
+				style={ChattingStyles.container}
+			>
 				<View style={ChattingStyles.backgroundBlue} />
 				<View style={ChattingStyles.connectTop}>
 					<ConnectTop />

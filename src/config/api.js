@@ -107,9 +107,10 @@ export const getGroupByGroupId = (groupId) => {
 	return api.get(`/chatrooms/${groupId}`);
 };
 
-export const createVerificationCode = (email) => {
+export const createVerificationCode = (email, countryCode) => {
 	return api.post("/members/email", {
 		email,
+		countryCode,
 	});
 };
 
@@ -670,4 +671,8 @@ export const chatSmallTalk = (chatroomId) => {
 			chatroomId,
 		},
 	});
+};
+
+export const resetSmallTalkNotiCnt = (chatroomId) => {
+	return api.patch(`/chatrooms/${chatroomId}/reset/small-talk`);
 };
