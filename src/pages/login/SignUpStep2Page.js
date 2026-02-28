@@ -6,6 +6,7 @@ import {
 	Keyboard,
 	TouchableOpacity,
 } from "react-native";
+import { getLocales } from "expo-localization";
 import { useTranslation } from "react-i18next";
 import TextInput from "@components/common/TextInput";
 
@@ -17,6 +18,10 @@ import InfoCircle from "@components/common/InfoCircle";
 import { createVerificationCode, getVerificationCode } from "config/api";
 
 const SignUpStep2Page = ({ saveData, goToNext, stepData }) => {
+	const getDeviceLang = () => {
+		const lang = getLocales()?.[0]?.languageCode?.toLowerCase();
+		return ["ko", "en", "ja", "zh", "es"].includes(lang) ? lang : "en";
+	};
 	const { t } = useTranslation();
 
 	const [valueVerificationCode, onChangeVerificationCode] = useState(
@@ -51,7 +56,7 @@ const SignUpStep2Page = ({ saveData, goToNext, stepData }) => {
 	const fetchCreateVerificationCode = async () => {
 		setTimeLeft(3 * 60);
 		try {
-			await createVerificationCode(stepData[1]);
+			await createVerificationCode(stepData[1], getDeviceLang());
 		} catch (error) {
 			console.error(
 				"회원가입 인증번호 전송 실패:",
