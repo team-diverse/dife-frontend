@@ -107,9 +107,10 @@ export const getGroupByGroupId = (groupId) => {
 	return api.get(`/chatrooms/${groupId}`);
 };
 
-export const createVerificationCode = (email) => {
+export const createVerificationCode = (email, countryCode) => {
 	return api.post("/members/email", {
 		email,
+		countryCode,
 	});
 };
 
