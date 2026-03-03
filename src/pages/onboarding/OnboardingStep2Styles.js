@@ -51,11 +51,25 @@ const OnboardingStep2Styles = StyleSheet.create({
 	containerNation: {
 		marginHorizontal: 23,
 	},
+	containerBirthDate: {
+		marginHorizontal: 23,
+	},
 	textNationIntroduction: {
 		...fontSub16,
 		color: CustomTheme.textPrimary,
 		marginTop: 28,
 		marginLeft: 23,
+	},
+	textInputBirthDate: {
+		...fontSub14,
+		height: 43,
+		marginTop: 12,
+		justifyContent: "center",
+		paddingHorizontal: 13,
+		backgroundColor: CustomTheme.bgBasic,
+		borderRadius: 14,
+		borderWidth: 1,
+		borderColor: "#B0D0FF",
 	},
 	containerNationInput: {
 		...fontSub14,
@@ -103,6 +117,54 @@ const OnboardingStep2Styles = StyleSheet.create({
 	},
 	buttonCheck: {
 		marginTop: 28,
+	},
+	modalBackdrop: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "rgba(0, 0, 0, 0.3)",
+	},
+	modalContainer: {
+		width: 286,
+		backgroundColor: CustomTheme.bgBasic,
+		borderRadius: 20,
+		paddingHorizontal: 20,
+		paddingTop: 44.5,
+		paddingBottom: 20,
+		alignItems: "center",
+	},
+	modalTitle: {
+		...fontSub16,
+		color: CustomTheme.textPrimary,
+	},
+	modalDescription: {
+		...fontSub14,
+		color: CustomTheme.primaryMedium,
+		textAlign: "center",
+		marginTop: 16,
+		marginBottom: 36.5,
+	},
+	modalButtonRow: {
+		flexDirection: "row",
+		width: "100%",
+	},
+	modalButton: {
+		flex: 1,
+		padding: 10,
+		borderRadius: 12,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	modalButtonSpacing: {
+		marginLeft: 16,
+	},
+	modalPrevButtonText: {
+		...fontSub14,
+		color: CustomTheme.textPrimary,
+	},
+	modalConfirmButtonText: {
+		...fontSub14,
+		color: CustomTheme.bgBasic,
 	},
 });
 

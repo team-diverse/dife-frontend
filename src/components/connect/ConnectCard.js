@@ -17,6 +17,7 @@ import {
 	createLikeChatroom,
 	deleteLikeChatroom,
 } from "config/api";
+import { formatAge } from "util/formatAge";
 
 import IconHeart24 from "@components/Icon24/IconHeart24";
 import ConnectPlusIcon from "@components/connect/ConnectPlusIcon";
@@ -34,7 +35,7 @@ const ConnectCard = ({
 	fileId = null,
 	username,
 	country,
-	major,
+	birth,
 	bio,
 	tags,
 	groupName,
@@ -165,7 +166,7 @@ const ConnectCard = ({
 									numberOfLines={1}
 									ellipsizeMode="tail"
 								>
-									{major}
+									{formatAge(birth)}
 								</Text>
 							</View>
 						)}
