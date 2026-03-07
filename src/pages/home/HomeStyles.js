@@ -1,7 +1,7 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
-const { fontHead18, fontSub16, fontCaption } = CustomTheme;
+const { fontHead18, fontCaption, fontNavi } = CustomTheme;
 
 const HomeStyles = StyleSheet.create({
 	container: {
@@ -9,8 +9,9 @@ const HomeStyles = StyleSheet.create({
 		backgroundColor: "#0029F4",
 	},
 	linearGradient: {
-		flex: 1,
+		width: "100%",
 		alignItems: "center",
+		paddingBottom: 8,
 	},
 	containerCircle: {
 		alignItems: "center",
@@ -34,65 +35,129 @@ const HomeStyles = StyleSheet.create({
 		marginRight: 20,
 	},
 	textConnectWithContainer: {
-		flexDirection: "row",
-		alignItems: "flex-end",
 		marginTop: 25,
 		marginLeft: 9,
 	},
 	textConnect: {
 		...fontHead18,
 		color: CustomTheme.bgList,
-		marginRight: 4,
 	},
 	textWithnewfriend: {
 		...fontCaption,
 		color: CustomTheme.bgList,
 	},
-	homecard: {
+	carouselSection: {
+		width: "100%",
+	},
+	carouselGesture: {
+		width: "100%",
+		zIndex: 10,
+	},
+	carouselViewport: {
+		width: "100%",
+		height: 360,
 		marginTop: 8,
 	},
-	containerShoolInfoEvents: {
-		flexDirection: "row",
-		justifyContent: "center",
-		marginTop: 32,
+	carouselTrack: {
+		width: "100%",
+		height: "100%",
 	},
-	containerShoolInfoEventsMargin: {
-		marginHorizontal: 10,
-	},
-	textSchoolInfoEvents: {
-		...fontSub16,
+	carouselCard: {
 		position: "absolute",
-		top: 12,
-		left: 12,
+		top: 0,
+		height: 360,
 	},
-	iconSchoolInfo: {
-		position: "absolute",
-		top: 35,
-		left: 40,
+	carouselCenterCard: {
+		zIndex: 2,
+		backfaceVisibility: "hidden",
+		renderToHardwareTextureAndroid: true,
 	},
-	iconEvents: {
-		position: "absolute",
-		top: 48,
-		left: 47,
-	},
-	backgroundHomecard: {
-		position: "absolute",
-		top: 60,
-		bottom: 10,
-		transform: [{ scale: 0.9 }],
-		shadowColor: "#3C454E4A",
-		shadowOffset: { width: 0, height: 3 },
-		shadowOpacity: 0.71,
-		shadowRadius: 3,
+	carouselSideCard: {
 		zIndex: 1,
 	},
 	containerWhite: {
-		position: "absolute",
-		bottom: 0,
 		width: "100%",
-		height: 500,
 		backgroundColor: CustomTheme.bgBasic,
-		zIndex: -1,
+		marginTop: 26,
+		paddingBottom: 100,
+	},
+	sectionBoard: {
+		width: "100%",
+	},
+	sectionBoardTop: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		marginBottom: 16,
+	},
+	sectionBoardTitleRow: {
+		flexDirection: "row",
+		alignItems: "baseline",
+	},
+	textBoardTitleMain: {
+		...fontHead18,
+		color: CustomTheme.primaryMedium,
+		marginRight: 4,
+	},
+	textBoardTitleSub: {
+		...fontCaption,
+		color: CustomTheme.primaryMedium,
+	},
+	buttonMore: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	textMore: {
+		fontSize: 12,
+		lineHeight: 16,
+		fontFamily: "NotoSansCJKkr-Medium",
+		color: CustomTheme.primaryMedium,
+	},
+	cardPopularPost: {
+		backgroundColor: CustomTheme.bgBasic,
+		borderRadius: 12,
+		paddingHorizontal: 20,
+		paddingVertical: 10,
+		marginBottom: 14,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E4A",
+				shadowOffset: { width: 0, height: 3 },
+				shadowOpacity: 0.71,
+				shadowRadius: 3,
+			},
+			android: {
+				elevation: 3,
+			},
+		}),
+	},
+	containerPopularPost: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+	},
+	textPopularTitle: {
+		fontSize: 12,
+		lineHeight: 16,
+		fontFamily: "NotoSansCJKkr-Bold",
+		color: CustomTheme.textPrimary,
+	},
+	countainerPopularMeta: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+	textPopularMeta: {
+		...fontNavi,
+		color: CustomTheme.textSecondary,
+		marginLeft: 1,
+	},
+	textPopularContent: {
+		...fontCaption,
+		color: "#212228",
+		marginTop: 8,
+	},
+	textPopularEmpty: {
+		...fontCaption,
+		color: "#8C8D91",
 	},
 });
 

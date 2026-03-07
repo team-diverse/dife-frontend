@@ -1,13 +1,19 @@
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
-const ArrowRight = ({ color = "#2964E0", size = 32, ...props }) => (
+const ArrowRight = ({
+	color = "#2964E0",
+	size = 32,
+	isFlipped = false,
+	...props
+}) => (
 	<Svg
 		xmlns="http://www.w3.org/2000/svg"
 		width={size}
 		height={size}
 		viewBox="0 0 32 32"
 		fill="none"
+		style={[isFlipped && { transform: [{ scaleX: -1 }] }]}
 		{...props}
 	>
 		<Path

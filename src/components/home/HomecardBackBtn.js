@@ -19,7 +19,7 @@ const HomecardBackBtn = ({ btnText, onPress }) => {
 			: styles.btnTextA;
 
 	return (
-		<TouchableOpacity onPress={onPress}>
+		<TouchableOpacity onPress={onPress} style={styles.touchable}>
 			<View style={[styles.btn, btnStyle]}>
 				<Text style={btnTextStyle}>{btnText}</Text>
 			</View>
@@ -28,8 +28,11 @@ const HomecardBackBtn = ({ btnText, onPress }) => {
 };
 
 const styles = StyleSheet.create({
+	touchable: {
+		width: "100%",
+	},
 	btn: {
-		width: 102,
+		width: "100%",
 		height: 37,
 		backgroundColor: CustomTheme.bgBasic,
 		borderWidth: 1,
@@ -37,7 +40,6 @@ const styles = StyleSheet.create({
 		borderRadius: 12,
 		justifyContent: "center",
 		alignItems: "center",
-		marginHorizontal: 8,
 	},
 	btnApply: {
 		backgroundColor: CustomTheme.primaryMedium,

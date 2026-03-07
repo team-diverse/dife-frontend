@@ -47,7 +47,7 @@ const HomeCardLast = () => {
 
 const styles = StyleSheet.create({
 	rectangle: {
-		width: 260,
+		width: "100%",
 		height: 360,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
 	},
 	homeProfile: {
 		position: "absolute",
-		marginHorizontal: 20,
+		left: 20,
+		right: 20,
 		top: 20,
 	},
 	containerImage: {
@@ -92,7 +93,7 @@ const styles = StyleSheet.create({
 		marginTop: 8,
 	},
 	buttonAddProfile: {
-		width: 220,
+		width: "100%",
 		height: 37,
 		backgroundColor: CustomTheme.primaryMedium,
 		borderRadius: 12,

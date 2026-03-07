@@ -11,43 +11,53 @@ const HomeProfile = ({ fileId, back = false }) => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	useEffect(() => {
+		let isMounted = true;
+
 		const getPresignUrl = async () => {
 			try {
-				setPresignUrl(null);
 				setIsLoading(true);
 
 				if (fileId == null) {
+					if (isMounted) {
+						setPresignUrl(null);
+					}
 					return;
 				}
 
 				const response = await getProfileImageByFileId(fileId);
-				setPresignUrl(response.data);
+				if (isMounted) {
+					setPresignUrl(response.data);
+				}
 			} catch (error) {
 				console.error(
 					"홈 카드 프로필 이미지 조회 실패:",
 					error.response ? error.response.data : error.message,
 				);
 			} finally {
-				setIsLoading(false);
+				if (isMounted) {
+					setIsLoading(false);
+				}
 			}
 		};
 		getPresignUrl();
+
+		return () => {
+			isMounted = false;
+		};
 	}, [fileId]);
 
 	return (
 		<>
 			<View style={[styles.rectangle, containerStyle]}>
-				{!isLoading ? (
-					presignUrl ? (
-						<Image
-							source={{ uri: presignUrl }}
-							style={styles.image}
-							cachePolicy="memory-disk"
-							transition={150}
-						/>
-					) : (
-						<IconProfileUser48 />
-					)
+				{presignUrl ? (
+					<Image
+						source={{ uri: presignUrl }}
+						style={styles.image}
+						cachePolicy="memory-disk"
+						transition={0}
+					/>
+				) : !isLoading ? (
+					<IconProfileUser48 />
 				) : null}
 			</View>
 		</>

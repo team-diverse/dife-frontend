@@ -159,8 +159,25 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 				</View>
 			</View>
 			<View style={styles.homecardBackBtn}>
-				<HomecardBackBtn btnText={buttonText1} onPress={onPress} />
-				<HomecardBackBtn btnText={buttonText2} onPress={pressButton} />
+				<View
+					style={[
+						styles.homecardBackBtnItem,
+						styles.homecardBackBtnItemLeft,
+					]}
+				>
+					<HomecardBackBtn btnText={buttonText1} onPress={onPress} />
+				</View>
+				<View
+					style={[
+						styles.homecardBackBtnItem,
+						styles.homecardBackBtnItemRight,
+					]}
+				>
+					<HomecardBackBtn
+						btnText={buttonText2}
+						onPress={pressButton}
+					/>
+				</View>
 			</View>
 		</View>
 	);
@@ -168,7 +185,7 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 
 const styles = StyleSheet.create({
 	rectangle: {
-		width: 260,
+		width: "100%",
 		height: 360,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
@@ -218,7 +235,18 @@ const styles = StyleSheet.create({
 	homecardBackBtn: {
 		position: "absolute",
 		flexDirection: "row",
+		left: 20,
+		right: 20,
 		bottom: 20,
+	},
+	homecardBackBtnItem: {
+		flex: 1,
+	},
+	homecardBackBtnItemLeft: {
+		marginRight: 8,
+	},
+	homecardBackBtnItemRight: {
+		marginLeft: 8,
 	},
 });
 
