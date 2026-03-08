@@ -16,6 +16,7 @@ import {
 	rejectedConnectByConnectId,
 } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
+import { formatAge } from "util/formatAge";
 import { getMyMemberId } from "util/secureStoreUtils";
 import { useWebSocket } from "context/WebSocketContext";
 import { createChatroom } from "util/createChatroom";
@@ -226,7 +227,8 @@ const ConnectProfilePage = ({ route }) => {
 							{profileData.username}
 						</Text>
 						<Text style={ConnectProfileStyles.countryAgeMajor}>
-							{profileData.country} | {profileData.major}
+							{profileData.country} |{" "}
+							{formatAge(profileData.birth)}
 						</Text>
 					</View>
 					<View style={ConnectProfileStyles.detailProfileContainer}>

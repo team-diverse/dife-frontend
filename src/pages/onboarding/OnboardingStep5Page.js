@@ -55,6 +55,8 @@ const OnboardingStep5Page = ({ stepData, saveData }) => {
 		formData.append("username", stepData[1].nickname);
 		formData.append("country", stepData[2].nation);
 		formData.append("bio", stepData[2].bio);
+		formData.append("birth", stepData[2].birth);
+		console.log(stepData[2].birth);
 
 		if (stepData[3].selectedMBTI !== t("mbtiNoneOption")) {
 			formData.append("mbti", stepData[3].selectedMBTI);
