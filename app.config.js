@@ -51,6 +51,7 @@ export default {
 		},
 		android: {
 			package: getAndroidPackage(),
+			softwareKeyboardLayoutMode: "resize",
 			adaptiveIcon: {
 				foregroundImage: "src/assets/icon.png",
 			},

@@ -1,4 +1,4 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 import { CustomTheme } from "@styles/CustomTheme";
 
 const { fontHead24, fontSub16, fontSub14, fontCaption } = CustomTheme;
@@ -70,15 +70,7 @@ const FindPasswordStyles = StyleSheet.create({
 		marginLeft: 3,
 	},
 	applyButton: {
-		...Platform.select({
-			ios: {
-				position: "absolute",
-				bottom: 126,
-			},
-			android: {
-				marginTop: 32,
-			},
-		}),
+		marginTop: 204,
 	},
 });
 

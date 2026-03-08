@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	View,
 	Text,
 	TouchableWithoutFeedback,
 	Keyboard,
 	TouchableOpacity,
-	KeyboardAvoidingView,
+	ScrollView,
 	Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -37,6 +37,8 @@ const FindPasswordPage = () => {
 	const [modalConnectVisible, setModalConnectVisible] = useState(false);
 	const [timeLeft, setTimeLeft] = useState(3 * 60);
 	const [timerKey, setTimerKey] = useState(0);
+	const [keyboardHeight, setKeyboardHeight] = useState(0);
+	const scrollViewRef = useRef(null);
 
 	useEffect(() => {
 		const timer = setInterval(() => {
@@ -51,6 +53,26 @@ const FindPasswordPage = () => {
 
 		return () => clearInterval(timer);
 	}, [timerKey]);
+
+	useEffect(() => {
+		const showEvent =
+			Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
+		const hideEvent =
+			Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
+
+		const showSubscription = Keyboard.addListener(showEvent, (event) => {
+			setKeyboardHeight(event.endCoordinates?.height ?? 0);
+		});
+		const hideSubscription = Keyboard.addListener(hideEvent, () => {
+			scrollViewRef.current?.scrollTo({ y: 0, animated: false });
+			setKeyboardHeight(0);
+		});
+
+		return () => {
+			showSubscription.remove();
+			hideSubscription.remove();
+		};
+	}, []);
 
 	const formatTime = (seconds) => {
 		const minutes = Math.floor(seconds / 60);
@@ -143,11 +165,17 @@ const FindPasswordPage = () => {
 	return (
 		<TouchableWithoutFeedback onPress={handleKeyboard}>
 			<SafeAreaView style={FindPasswordStyles.container}>
-				<KeyboardAvoidingView
-					behavior={Platform.OS === "ios" ? "padding" : "height"}
-					style={{ flex: 1 }}
+				<GoBack />
+				<ScrollView
+					ref={scrollViewRef}
+					contentContainerStyle={{
+						paddingBottom:
+							keyboardHeight > 0 ? keyboardHeight + 56 : 180,
+					}}
+					keyboardShouldPersistTaps="handled"
+					showsVerticalScrollIndicator={false}
+					scrollEnabled={keyboardHeight > 0}
 				>
-					<GoBack />
 					<Text style={FindPasswordStyles.textTitle}>
 						{t("findPasswordTitle")}
 					</Text>
@@ -293,7 +321,7 @@ const FindPasswordPage = () => {
 							/>
 						</>
 					)}
-				</KeyboardAvoidingView>
+				</ScrollView>
 			</SafeAreaView>
 		</TouchableWithoutFeedback>
 	);

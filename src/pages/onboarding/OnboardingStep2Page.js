@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
 	View,
 	Text,
@@ -7,6 +7,7 @@ import {
 	TouchableWithoutFeedback,
 	Keyboard,
 	Alert,
+	Platform,
 	Modal,
 } from "react-native";
 import { Image } from "expo-image";
@@ -52,6 +53,8 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 		stepData[2].nation || stepData[2].selectedCountry || "",
 	);
 	const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+	const [keyboardHeight, setKeyboardHeight] = useState(0);
+	const scrollViewRef = useRef(null);
 
 	const handleBirthChange = (value) => {
 		setBirth(formatBirthDateInput(value));
@@ -90,6 +93,26 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 		}
 	}, [stepData[2].selectedCountry]);
 
+	useEffect(() => {
+		const showEvent =
+			Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
+		const hideEvent =
+			Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
+
+		const showSubscription = Keyboard.addListener(showEvent, (event) => {
+			setKeyboardHeight(event.endCoordinates?.height ?? 0);
+		});
+		const hideSubscription = Keyboard.addListener(hideEvent, () => {
+			scrollViewRef.current?.scrollTo({ y: 0, animated: false });
+			setKeyboardHeight(0);
+		});
+
+		return () => {
+			showSubscription.remove();
+			hideSubscription.remove();
+		};
+	}, []);
+
 	const handleConfirmProfileSubmit = () => {
 		setIsConfirmModalVisible(false);
 		saveData(2, { image, birth, bio, nation: nation });
@@ -109,7 +132,19 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 
 	return (
 		<>
-			<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+			<ScrollView
+				ref={scrollViewRef}
+				contentContainerStyle={[
+					{ flexGrow: 1 },
+					{
+						paddingBottom:
+							keyboardHeight > 0 ? keyboardHeight + 56 : 0,
+					},
+				]}
+				keyboardShouldPersistTaps="handled"
+				showsVerticalScrollIndicator={false}
+				scrollEnabled={keyboardHeight > 0}
+			>
 				<TouchableWithoutFeedback onPress={handleKeyboard}>
 					<View style={OnboardingStep2Styles.container}>
 						<Text style={OnboardingStep2Styles.textTitle}>
