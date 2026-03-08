@@ -39,6 +39,7 @@ import {
 	changeChatroomStatus,
 	changeChatroomHold,
 	chatSmallTalk,
+	changeSmallTalkStatus,
 } from "config/api";
 import { useStatusBar } from "util/useStatusBar";
 
@@ -85,8 +86,9 @@ const ChatRoomPage = ({ route }) => {
 	const [bookmarkedCount, setBookmarkedCount] = useState(0);
 	const [token, setToken] = useState(null);
 	const [userLanguage, setUserLanguage] = useState(null);
-	const [isSmallTalkVisible, setIsSmallTalkVisible] = useState(true);
+	const [showSmallTalk, setShowSmallTalk] = useState(true);
 	const [smallTalkSubject, setSmallTalkSubject] = useState(null);
+	const [smallTalkIsHold, setSmallTalkIsHold] = useState(null);
 	const [smallTalkHeight, setSmallTalkHeight] = useState(BannerHeight);
 	const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 	const getChatroomStatusValue = useCallback((chatroom) => {
@@ -141,6 +143,7 @@ const ChatRoomPage = ({ route }) => {
 		const fetchSmallTalk = async () => {
 			const smallTalk = await chatSmallTalk(chatroomInfo.id);
 			setSmallTalkSubject(smallTalk.data.content);
+			setSmallTalkIsHold(smallTalk.data.isHold);
 		};
 		fetchSmallTalk();
 	}, [chatroomInfo.id]);
@@ -566,9 +569,6 @@ const ChatRoomPage = ({ route }) => {
 		const { height } = event.nativeEvent.layout;
 		setSmallTalkHeight((prev) => (prev === height ? prev : height));
 	}, []);
-	const handleSmallTalkModalClose = useCallback(() => {
-		setIsSmallTalkVisible(false);
-	}, []);
 
 	const getCreatedVariants = useCallback((created) => {
 		if (!created) return { epochSec: "", compact: "", utcCompact: "" };
@@ -643,6 +643,17 @@ const ChatRoomPage = ({ route }) => {
 
 		return groupMessages(uniqueMessages);
 	}, [messages, chatroomInfo.id, dedupeMessages]);
+
+	const isSmallTalkVisible = showSmallTalk && smallTalkIsHold === false;
+
+	const handleSmallTalkModalClose = useCallback(async () => {
+		setShowSmallTalk(false);
+		try {
+			await changeSmallTalkStatus(chatroomInfo.id);
+		} catch (error) {
+			console.error("스몰톡 닫기 상태 변경 오류:", error);
+		}
+	}, [chatroomInfo.id]);
 
 	return (
 		<>
