@@ -8,6 +8,7 @@ import {
 	Keyboard,
 	Alert,
 	Platform,
+	Modal,
 } from "react-native";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native";
@@ -52,12 +53,12 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 		stepData[2].nation || stepData[2].selectedCountry || "",
 	);
 	const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+	const [keyboardHeight, setKeyboardHeight] = useState(0);
+	const scrollViewRef = useRef(null);
 
 	const handleBirthChange = (value) => {
 		setBirth(formatBirthDateInput(value));
 	};
-	const [keyboardHeight, setKeyboardHeight] = useState(0);
-	const scrollViewRef = useRef(null);
 
 	const handleKeyboard = () => {
 		Keyboard.dismiss();
@@ -112,26 +113,6 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 		};
 	}, []);
 
-	useEffect(() => {
-		const showEvent =
-			Platform.OS === "ios" ? "keyboardWillShow" : "keyboardDidShow";
-		const hideEvent =
-			Platform.OS === "ios" ? "keyboardWillHide" : "keyboardDidHide";
-
-		const showSubscription = Keyboard.addListener(showEvent, (event) => {
-			setKeyboardHeight(event.endCoordinates?.height ?? 0);
-		});
-		const hideSubscription = Keyboard.addListener(hideEvent, () => {
-			scrollViewRef.current?.scrollTo({ y: 0, animated: false });
-			setKeyboardHeight(0);
-		});
-
-		return () => {
-			showSubscription.remove();
-			hideSubscription.remove();
-		};
-	}, []);
-
 	const handleConfirmProfileSubmit = () => {
 		setIsConfirmModalVisible(false);
 		saveData(2, { image, birth, bio, nation: nation });
@@ -150,109 +131,214 @@ const OnboardingStep2Page = ({ goToNext, saveData, stepData }) => {
 	const birthDigitsLength = birth.replace(/\D/g, "").length;
 
 	return (
-		<ScrollView
-			ref={scrollViewRef}
-			contentContainerStyle={[
-				{ flexGrow: 1 },
-				{
-					paddingBottom:
-						keyboardHeight > 0 ? keyboardHeight + 56 : 0,
-				},
-			]}
-			keyboardShouldPersistTaps="handled"
-			showsVerticalScrollIndicator={false}
-			scrollEnabled={keyboardHeight > 0}
-		>
-			<TouchableWithoutFeedback onPress={handleKeyboard}>
-				<View style={OnboardingStep2Styles.container}>
-					<Text style={OnboardingStep2Styles.textTitle}>
-						{t("profileCreationTitle")}
-					</Text>
-					<Text style={OnboardingStep2Styles.textSubTitle}>
-						{t("profilePictureSubtitle")}
-					</Text>
-					{image ? (
-						<View style={OnboardingStep2Styles.containerImage}>
-							<Image
-								source={{ uri: image }}
-								style={OnboardingStep2Styles.imageProfile}
+		<>
+			<ScrollView
+				ref={scrollViewRef}
+				contentContainerStyle={[
+					{ flexGrow: 1 },
+					{
+						paddingBottom:
+							keyboardHeight > 0 ? keyboardHeight + 56 : 0,
+					},
+				]}
+				keyboardShouldPersistTaps="handled"
+				showsVerticalScrollIndicator={false}
+				scrollEnabled={keyboardHeight > 0}
+			>
+				<TouchableWithoutFeedback onPress={handleKeyboard}>
+					<View style={OnboardingStep2Styles.container}>
+						<Text style={OnboardingStep2Styles.textTitle}>
+							{t("profileCreationTitle")}
+						</Text>
+						<Text style={OnboardingStep2Styles.textSubTitle}>
+							{t("profilePictureSubtitle")}
+						</Text>
+						{image ? (
+							<View style={OnboardingStep2Styles.containerImage}>
+								<Image
+									source={{ uri: image }}
+									style={OnboardingStep2Styles.imageProfile}
+								/>
+								<IconProfileBorder
+									style={OnboardingStep2Styles.imageBorder}
+								/>
+								<TouchableOpacity onPress={pickImage}>
+									<IconProfileChange />
+								</TouchableOpacity>
+							</View>
+						) : (
+							<TouchableOpacity
+								style={OnboardingStep2Styles.containerImage}
+								onPress={pickImage}
+							>
+								<IconProfileUpload />
+							</TouchableOpacity>
+						)}
+						<View style={OnboardingStep2Styles.containerBirthDate}>
+							<Text
+								style={[
+									OnboardingStep2Styles.textNationIntroduction,
+									{ marginLeft: 0 },
+								]}
+							>
+								{t("birthDate")}
+							</Text>
+							<TextInput
+								style={OnboardingStep2Styles.textInputBirthDate}
+								placeholder={
+									isBirthFocused
+										? BIRTH_PLACEHOLDER_FORMAT
+										: t("birthDatePlaceholder")
+								}
+								placeholderTextColor={CustomTheme.borderColor}
+								onChangeText={handleBirthChange}
+								onFocus={() => setIsBirthFocused(true)}
+								onBlur={() => setIsBirthFocused(false)}
+								value={birth}
+								keyboardType="number-pad"
+								maxLength={10}
 							/>
-							<IconProfileBorder
-								style={OnboardingStep2Styles.imageBorder}
-							/>
-							<TouchableOpacity onPress={pickImage}>
-								<IconProfileChange />
+						</View>
+						<View style={OnboardingStep2Styles.containerNation}>
+							<Text
+								style={[
+									OnboardingStep2Styles.textNationIntroduction,
+									{ marginLeft: 0 },
+								]}
+							>
+								{t("nationality")}
+							</Text>
+							<TouchableOpacity
+								style={
+									OnboardingStep2Styles.containerNationInput
+								}
+								onPress={() =>
+									navigation.navigate("CountrySelectionPage")
+								}
+							>
+								{nation ? (
+									<Text
+										style={OnboardingStep2Styles.textNation}
+									>
+										{nation}
+									</Text>
+								) : (
+									<Text
+										style={[
+											OnboardingStep2Styles.textNation,
+											{
+												color: CustomTheme.borderColor,
+											},
+										]}
+									>
+										{t("selectNationality")}
+									</Text>
+								)}
 							</TouchableOpacity>
 						</View>
-					) : (
-						<TouchableOpacity
-							style={OnboardingStep2Styles.containerImage}
-							onPress={pickImage}
-						>
-							<IconProfileUpload />
-						</TouchableOpacity>
-					)}
-					<View style={OnboardingStep2Styles.containerNation}>
 						<Text
-							style={[
-								OnboardingStep2Styles.textNationIntroduction,
-								{ marginLeft: 0 },
-							]}
+							style={OnboardingStep2Styles.textNationIntroduction}
 						>
-							{t("nationality")}
+							{t("bio")}
 						</Text>
-						<TouchableOpacity
-							style={OnboardingStep2Styles.containerNationInput}
-							onPress={() =>
-								navigation.navigate("CountrySelectionPage")
-							}
-						>
-							{nation ? (
-								<Text style={OnboardingStep2Styles.textNation}>
-									{nation}
+						<View style={OnboardingStep2Styles.containerTextInput}>
+							<TextInput
+								style={
+									OnboardingStep2Styles.textInputIntroduction
+								}
+								placeholder={t("bioPlaceholder")}
+								onChangeText={setBio}
+								value={bio}
+								multiline={true}
+								maxLength={60}
+							/>
+							<Text
+								style={
+									OnboardingStep2Styles.textIntroductionCount
+								}
+							>
+								{bio.length}/60
+							</Text>
+						</View>
+						<View style={OnboardingStep2Styles.buttonCheck}>
+							<ApplyButton
+								text={t("nextButton")}
+								onPress={handleOpenConfirmModal}
+								disabled={!nation || birthDigitsLength !== 8}
+							/>
+						</View>
+					</View>
+				</TouchableWithoutFeedback>
+			</ScrollView>
+
+			<Modal
+				animationType="fade"
+				transparent={true}
+				visible={isConfirmModalVisible}
+				onRequestClose={handleCloseConfirmModal}
+			>
+				<TouchableWithoutFeedback onPress={handleCloseConfirmModal}>
+					<View style={OnboardingStep2Styles.modalBackdrop}>
+						<TouchableWithoutFeedback onPress={() => {}}>
+							<View style={OnboardingStep2Styles.modalContainer}>
+								<Text style={OnboardingStep2Styles.modalTitle}>
+									{t("profileSubmitConfirmTitle")}
 								</Text>
-							) : (
 								<Text
-									style={[
-										OnboardingStep2Styles.textNation,
-										{
-											color: CustomTheme.borderColor,
-										},
-									]}
+									style={
+										OnboardingStep2Styles.modalDescription
+									}
 								>
-									{t("selectNationality")}
+									{t("profileSubmitConfirmDescription")}
 								</Text>
-							)}
-						</TouchableOpacity>
+								<View
+									style={OnboardingStep2Styles.modalButtonRow}
+								>
+									<TouchableOpacity
+										style={[
+											OnboardingStep2Styles.modalButton,
+											{
+												borderWidth: 1,
+												borderColor:
+													CustomTheme.primaryMedium,
+											},
+										]}
+										onPress={handleCloseConfirmModal}
+									>
+										<Text
+											style={
+												OnboardingStep2Styles.modalPrevButtonText
+											}
+										>
+											{t("previousButtonText")}
+										</Text>
+									</TouchableOpacity>
+									<TouchableOpacity
+										style={[
+											OnboardingStep2Styles.modalButton,
+											OnboardingStep2Styles.modalButtonSpacing,
+											{
+												backgroundColor:
+													CustomTheme.primaryMedium,
+											},
+										]}
+										onPress={handleConfirmProfileSubmit}
+									>
+										<Text
+											style={
+												OnboardingStep2Styles.modalConfirmButtonText
+											}
+										>
+											{t("confirmButtonText")}
+										</Text>
+									</TouchableOpacity>
+								</View>
+							</View>
+						</TouchableWithoutFeedback>
 					</View>
-					<Text style={OnboardingStep2Styles.textNationIntroduction}>
-						{t("bio")}
-					</Text>
-					<View style={OnboardingStep2Styles.containerTextInput}>
-						<TextInput
-							style={OnboardingStep2Styles.textInputIntroduction}
-							placeholder={t("bioPlaceholder")}
-							onChangeText={setBio}
-							value={bio}
-							multiline={true}
-							maxLength={60}
-						/>
-						<Text
-							style={OnboardingStep2Styles.textIntroductionCount}
-						>
-							{bio.length}/60
-						</Text>
-					</View>
-					<View style={OnboardingStep2Styles.buttonCheck}>
-						<ApplyButton
-							text={t("nextButton")}
-							onPress={handleProfileSubmit}
-							disabled={!nation}
-						/>
-					</View>
-				</View>
-			</TouchableWithoutFeedback>
-		</ScrollView>
+				</TouchableWithoutFeedback>
+			</Modal>
+		</>
 	);
 };
 

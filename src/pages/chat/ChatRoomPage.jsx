@@ -85,7 +85,7 @@ const ChatRoomPage = ({ route }) => {
 	const [bookmarkedCount, setBookmarkedCount] = useState(0);
 	const [token, setToken] = useState(null);
 	const [userLanguage, setUserLanguage] = useState(null);
-	const [showSmallTalk, setShowSmallTalk] = useState(true);
+	const [isSmallTalkVisible, setIsSmallTalkVisible] = useState(true);
 	const [smallTalkSubject, setSmallTalkSubject] = useState(null);
 	const [smallTalkHeight, setSmallTalkHeight] = useState(BannerHeight);
 	const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
@@ -565,6 +565,9 @@ const ChatRoomPage = ({ route }) => {
 	const handleSmallTalkLayout = useCallback((event) => {
 		const { height } = event.nativeEvent.layout;
 		setSmallTalkHeight((prev) => (prev === height ? prev : height));
+	}, []);
+	const handleSmallTalkModalClose = useCallback(() => {
+		setIsSmallTalkVisible(false);
 	}, []);
 
 	const getCreatedVariants = useCallback((created) => {
