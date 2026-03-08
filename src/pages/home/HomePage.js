@@ -25,6 +25,7 @@ import * as SecureStore from "expo-secure-store";
 import { getNotifications, getPosts } from "config/api";
 import { useStatusBar } from "util/useStatusBar";
 import { useMatchQueue } from "context/MatchQueueContext";
+import { CustomTheme } from "@styles/CustomTheme";
 
 import HomeStyles from "@pages/home/HomeStyles";
 import SkeletonHomePage from "@pages/etc/SkeletonHomePage";
@@ -421,8 +422,7 @@ const HomePage = () => {
 							</Text>
 							<View style={HomeStyles.countainerPopularMeta}>
 								<IconHeart
-									likedPostBlue={false}
-									active={post.isLiked}
+									color={CustomTheme.primaryBg}
 								/>
 								<Text style={HomeStyles.textPopularMeta}>
 									{post.likesCount ?? 0}

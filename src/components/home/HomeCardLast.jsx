@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
-import HomecardDifeF from "@components/home/HomecardDifeF";
+import HomeCardLine from "@components/home/HomeCardLine";
 import IconTwoUsers from "@components/home/IconTwoUsers";
 
 const { fontCaption, fontButton } = CustomTheme;
@@ -22,8 +22,8 @@ const HomeCardLast = () => {
 
 	return (
 		<View style={styles.rectangle}>
-			<View style={styles.homecardDifeF}>
-				<HomecardDifeF />
+			<View style={styles.homeCardLine}>
+				<HomeCardLine style={styles.homeCardLineSvg} />
 			</View>
 			<View style={styles.homeProfile}>
 				<View style={styles.containerImage}>
@@ -63,9 +63,16 @@ const styles = StyleSheet.create({
 			},
 		}),
 	},
-	homecardDifeF: {
+	homeCardLine: {
 		position: "absolute",
-		top: 69,
+		top: 34,
+		left: 0,
+		width: "100%",
+		height: 77,
+		overflow: "hidden",
+	},
+	homeCardLineSvg: {
+		marginLeft: "-24%",
 	},
 	homeProfile: {
 		position: "absolute",

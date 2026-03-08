@@ -20,7 +20,7 @@ import IconHeart24 from "@components/Icon24/IconHeart24";
 import IconAddFriend24 from "@components/Icon24/IconAddFriend24";
 import IconChat24 from "@components/Icon24/IconChat24";
 import HomeLine from "@components/home/HomeLine";
-import HomecardDifeF from "@components/home/HomecardDifeF";
+import HomeCardLine from "./HomeCardLine";
 
 const { fontBody16, fontBody14 } = CustomTheme;
 
@@ -65,8 +65,8 @@ const HomeCardFront = ({ profile, onPress, isLikedOnPress, isLikedActive }) => {
 
 	return (
 		<View style={styles.rectangle}>
-			<View style={styles.homecardDifeF}>
-				<HomecardDifeF />
+			<View pointerEvents="none" style={styles.homeCardLine}>
+				<HomeCardLine style={styles.homeCardLineSvg} />
 			</View>
 			<View style={styles.homeProfile}>
 				<HomeProfile fileId={profile.fileId} />
@@ -150,9 +150,16 @@ const styles = StyleSheet.create({
 			},
 		}),
 	},
-	homecardDifeF: {
+	homeCardLine: {
 		position: "absolute",
-		top: 69,
+		top: 34,
+		left: 0,
+		width: "100%",
+		height: 77,
+		overflow: "hidden",
+	},
+	homeCardLineSvg: {
+		marginLeft: "-24%",
 	},
 	homeProfile: {
 		position: "absolute",

@@ -19,7 +19,7 @@ import {
 import { getMyMemberId } from "util/secureStoreUtils";
 import { useMatchQueue } from "context/MatchQueueContext";
 
-import HomecardDifeB from "@components/home/HomecardDifeB";
+import HomeCardLine from "./HomeCardLine";
 import HomeProfile from "@components/home/HomeProfile";
 import HomecardBackBtn from "@components/home/HomecardBackBtn";
 
@@ -124,8 +124,8 @@ const HomeCardBack = ({ memberId, fileId, name, onPress }) => {
 
 	return (
 		<View style={styles.rectangle}>
-			<View style={styles.homecardDifeB}>
-				<HomecardDifeB />
+			<View style={styles.homeCardLine}>
+				<HomeCardLine style={styles.homeCardLineSvg} />
 			</View>
 			<View style={styles.homecardBack}>
 				<HomeProfile fileId={fileId} back={true} />
@@ -202,9 +202,16 @@ const styles = StyleSheet.create({
 			},
 		}),
 	},
-	homecardDifeB: {
+	homeCardLine: {
 		position: "absolute",
-		top: 69,
+		top: 34,
+		left: 0,
+		width: "100%",
+		height: 77,
+		overflow: "hidden",
+	},
+	homeCardLineSvg: {
+		marginLeft: "-24%",
 	},
 	homecardBack: {
 		position: "absolute",
