@@ -1,4 +1,10 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, {
+	createContext,
+	useState,
+	useContext,
+	useEffect,
+	useRef,
+} from "react";
 import * as SecureStore from "expo-secure-store";
 import {
 	getRandomMembersByCount,
@@ -16,6 +22,8 @@ export const MatchQueueProvider = ({ children }) => {
 	const [lastFetchTime, setLastFetchTime] = useState(null);
 	const [timeRemaining, setTimeRemaining] = useState(QUEUE_REFRESH_TIME);
 	const [likesById, setLikesById] = useState({});
+	const [isInitialLoading, setIsInitialLoading] = useState(true);
+	const initialFetchSettledRef = useRef(false);
 
 	useEffect(() => {
 		if (allProfiles.length > 0) {
@@ -33,6 +41,8 @@ export const MatchQueueProvider = ({ children }) => {
 	};
 
 	const fetchNewQueue = async () => {
+		const shouldFinalizeInitialLoading = !initialFetchSettledRef.current;
+
 		try {
 			const response = await getRandomMembersByCount(10);
 			const formattedProfiles = formatProfileData(response.data);
@@ -50,6 +60,11 @@ export const MatchQueueProvider = ({ children }) => {
 			);
 		} catch (error) {
 			console.error("Match queue fetch error:", error);
+		} finally {
+			if (shouldFinalizeInitialLoading) {
+				initialFetchSettledRef.current = true;
+				setIsInitialLoading(false);
+			}
 		}
 	};
 
@@ -148,6 +163,7 @@ export const MatchQueueProvider = ({ children }) => {
 				timeRemaining,
 				formattedTimeRemaining: formatTime(timeRemaining),
 				canFetch: timeRemaining <= 0,
+				isInitialLoading,
 				likesById,
 				fetchAndDistributeProfiles: fetchNewQueue,
 				removeProfile,

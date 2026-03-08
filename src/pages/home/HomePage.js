@@ -27,6 +27,7 @@ import { useStatusBar } from "util/useStatusBar";
 import { useMatchQueue } from "context/MatchQueueContext";
 
 import HomeStyles from "@pages/home/HomeStyles";
+import SkeletonHomePage from "@pages/etc/SkeletonHomePage";
 import LogoBr from "@components/Logo/LogoBr";
 import Notification32 from "@components/Icon32/Notification32";
 import HomeCardBack from "@components/home/HomeCardBack";
@@ -46,6 +47,7 @@ const HomePage = () => {
 	const {
 		homeProfiles,
 		canFetch,
+		isInitialLoading,
 		fetchAndDistributeProfiles,
 		likesById,
 		toggleLike,
@@ -567,6 +569,10 @@ const HomePage = () => {
 			</View>
 		</LinearGradient>
 	);
+
+	if (isInitialLoading) {
+		return <SkeletonHomePage />;
+	}
 
 	return (
 		<SafeAreaView style={HomeStyles.container}>

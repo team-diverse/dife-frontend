@@ -83,10 +83,8 @@ import CountrySelectionPage from "@pages/onboarding/CountrySelectionPage";
 import ConnectListPage from "@pages/member/ConnectListPage";
 import DefaultLanguagePage from "@pages/member/DefaultLanguagePage";
 import EnlargeImagePage from "@pages/community/EnlargeImagePage";
-import PreparingPage from "@pages/etc/PreparingPage";
 import StudentVerificationErrorPage from "@pages/onboarding/StudentVerificationErrorPage";
 import SkeletonHomePage from "@pages/etc/SkeletonHomePage";
-import SkeletonEventPage from "@pages/etc/SkeletonEventPage";
 import SkeletonConnectPage from "@pages/etc/SkeletonConnectPage";
 import SkeletonConnectLikePage from "@pages/etc/SkeletonConnectLikePage";
 import DeleteMemberPage from "@pages/member/DeleteMemberPage";
@@ -436,14 +434,9 @@ function MainNavigator() {
 				name="EnlargeImagePage"
 				component={EnlargeImagePage}
 			/>
-			<Stack.Screen name="PreparingPage" component={PreparingPage} />
 			<Stack.Screen
 				name="SkeletonHomePage"
 				component={SkeletonHomePage}
-			/>
-			<Stack.Screen
-				name="SkeletonEventPage"
-				component={SkeletonEventPage}
 			/>
 			<Stack.Screen
 				name="SkeletonConnectPage"
