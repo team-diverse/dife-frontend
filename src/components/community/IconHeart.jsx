@@ -2,11 +2,7 @@ import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
 const IconHeart = (props) => {
-	const {
-		color,
-		size = 16,
-		...restProps
-	} = props;
+	const { color, size = 16, ...restProps } = props;
 
 	return (
 		<>

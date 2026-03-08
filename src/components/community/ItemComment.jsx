@@ -415,9 +415,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 									<View>
 										<Text style={styles.textPostTitle}>
 											{reply.isPublic
-												? t(
-														"anonymousCheckboxLabel",
-													)
+												? t("anonymousCheckboxLabel")
 												: reply.writer.username}
 										</Text>
 										<Text style={styles.textPostContext}>
@@ -445,9 +443,7 @@ const ItemComment = ({ commentList = [], onReply }) => {
 														0}
 												</Text>
 											</TouchableOpacity>
-											<View
-												style={styles.containerText}
-											>
+											<View style={styles.containerText}>
 												<Text style={styles.text}>
 													{formatDate(reply.created)}
 												</Text>
@@ -498,7 +494,10 @@ const ItemComment = ({ commentList = [], onReply }) => {
 										<TouchableOpacity
 											style={styles.textTranslation}
 											onPress={() => {
-												handleTranslate(reply.id, false);
+												handleTranslate(
+													reply.id,
+													false,
+												);
 												handleToggleTranslation(
 													reply.id,
 													false,

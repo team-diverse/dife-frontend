@@ -421,9 +421,7 @@ const HomePage = () => {
 								{post.title}
 							</Text>
 							<View style={HomeStyles.countainerPopularMeta}>
-								<IconHeart
-									color={CustomTheme.primaryBg}
-								/>
+								<IconHeart color={CustomTheme.primaryBg} />
 								<Text style={HomeStyles.textPopularMeta}>
 									{post.likesCount ?? 0}
 								</Text>
