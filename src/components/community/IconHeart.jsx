@@ -1,15 +1,12 @@
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
-import { CustomTheme } from "@styles/CustomTheme";
 
 const IconHeart = (props) => {
-	const { active, likedPostBlue, size = 16, ...restProps } = props;
-
-	const color = likedPostBlue
-		? CustomTheme.primaryMedium
-		: active
-			? CustomTheme.warningRed
-			: CustomTheme.borderColor;
+	const {
+		color,
+		size = 16,
+		...restProps
+	} = props;
 
 	return (
 		<>

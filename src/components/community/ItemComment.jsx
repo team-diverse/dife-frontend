@@ -275,6 +275,12 @@ const ItemComment = ({ commentList = [], onReply }) => {
 		const commentText = showTranslations[comment.id]
 			? translations[comment.id] || comment.content
 			: comment.content;
+		const commentHeartState = heartStates.find(
+			(item) => item.id === comment.id,
+		);
+		const commentHeartColor = commentHeartState?.isLiked
+			? CustomTheme.warningRed
+			: CustomTheme.borderColor;
 
 		return (
 			<View key={comment.id}>
@@ -307,18 +313,9 @@ const ItemComment = ({ commentList = [], onReply }) => {
 										)
 									}
 								>
-									<IconHeart
-										active={
-											heartStates.find(
-												(item) =>
-													item.id === comment.id,
-											)?.isLiked
-										}
-									/>
+									<IconHeart color={commentHeartColor} />
 									<Text style={styles.text}>
-										{heartStates.find(
-											(item) => item.id === comment.id,
-										)?.likesCount ?? 0}
+										{commentHeartState?.likesCount ?? 0}
 									</Text>
 								</TouchableOpacity>
 								<TouchableOpacity
@@ -402,127 +399,134 @@ const ItemComment = ({ commentList = [], onReply }) => {
 					</View>
 				</View>
 
-				{replies.map((reply) => (
-					<View
-						key={reply.id}
-						style={{ flexDirection: "row", marginRight: 24 }}
-					>
-						<IconReply style={{ marginRight: 4 }} />
-						<View style={styles.ItemCommunity}>
-							<View style={styles.containerRow}>
-								<View>
-									<Text style={styles.textPostTitle}>
-										{reply.isPublic
-											? t("anonymousCheckboxLabel")
-											: reply.writer.username}
-									</Text>
-									<Text style={styles.textPostContext}>
-										{replyShowTranslations[reply.id]
-											? replyTranslations[reply.id] ||
-												reply.content
-											: reply.content}
-									</Text>
+				{replies.map((reply) => {
+					const replyHeartState = heartStates.find(
+						(item) => item.id === reply.id,
+					);
+					const replyHeartColor = replyHeartState?.isLiked
+						? CustomTheme.warningRed
+						: CustomTheme.borderColor;
 
-									<View style={styles.containerTextRow}>
-										<TouchableOpacity
-											style={styles.containerText}
-											onPress={() =>
-												handleCommentHeart(
-													reply.id,
-													reply.isLiked,
-												)
-											}
-										>
-											<IconHeart
-												active={
-													heartStates.find(
-														(item) =>
-															item.id ===
-															reply.id,
-													)?.isLiked
+					return (
+						<View key={reply.id} style={styles.replyRow}>
+							<IconReply style={{ marginRight: 4 }} />
+							<View style={styles.ItemCommunity}>
+								<View style={styles.containerRow}>
+									<View>
+										<Text style={styles.textPostTitle}>
+											{reply.isPublic
+												? t(
+														"anonymousCheckboxLabel",
+													)
+												: reply.writer.username}
+										</Text>
+										<Text style={styles.textPostContext}>
+											{replyShowTranslations[reply.id]
+												? replyTranslations[reply.id] ||
+													reply.content
+												: reply.content}
+										</Text>
+
+										<View style={styles.containerTextRow}>
+											<TouchableOpacity
+												style={styles.containerText}
+												onPress={() =>
+													handleCommentHeart(
+														reply.id,
+														reply.isLiked,
+													)
 												}
-											/>
-											<Text style={styles.text}>
-												{heartStates.find(
-													(item) =>
-														item.id === reply.id,
-												)?.likesCount ?? 0}
-											</Text>
-										</TouchableOpacity>
-										<View style={styles.containerText}>
-											<Text style={styles.text}>
-												{formatDate(reply.created)}
-											</Text>
+											>
+												<IconHeart
+													color={replyHeartColor}
+												/>
+												<Text style={styles.text}>
+													{replyHeartState?.likesCount ??
+														0}
+												</Text>
+											</TouchableOpacity>
+											<View
+												style={styles.containerText}
+											>
+												<Text style={styles.text}>
+													{formatDate(reply.created)}
+												</Text>
+											</View>
 										</View>
 									</View>
-								</View>
 
-								<TouchableOpacity
-									style={styles.iconKebabMenu}
-									onPress={() =>
-										handleCommentKebabMenu(
-											reply.id,
-											reply.writer.id,
-											reply.isPublic,
-											reply.writer.id === myMemberId,
-										)
-									}
-								>
-									<View
-										ref={(ref) =>
-											(iconRefs.current[reply.id] = ref)
-										}
-									>
-										<IconKebabMenu />
-									</View>
-								</TouchableOpacity>
-								{modalPosition && (
-									<ModalKebabMenu
-										modalVisible={
-											modalData.modalVisible &&
-											modalData.commentId === reply.id
-										}
-										setModalVisible={closeModal}
-										memberId={modalData.commentWriterId}
-										commentId={modalData.commentId}
-										isPublic={modalData.commentIsPublic}
-										isMe={modalData.commentIsMe}
-										position={modalPosition}
-									/>
-								)}
-
-								{translating[reply.id] ? (
-									<View style={styles.textTranslation}>
-										<LoadingDots />
-									</View>
-								) : (
 									<TouchableOpacity
-										style={styles.textTranslation}
-										onPress={() => {
-											handleTranslate(reply.id, false);
-											handleToggleTranslation(
+										style={styles.iconKebabMenu}
+										onPress={() =>
+											handleCommentKebabMenu(
 												reply.id,
-												false,
-											);
-										}}
+												reply.writer.id,
+												reply.isPublic,
+												reply.writer.id === myMemberId,
+											)
+										}
 									>
-										<Text style={styles.textTranslation}>
-											{replyShowTranslations[reply.id]
-												? t("viewOriginalButton")
-												: t("translateButton")}
-										</Text>
+										<View
+											ref={(ref) =>
+												(iconRefs.current[reply.id] =
+													ref)
+											}
+										>
+											<IconKebabMenu />
+										</View>
 									</TouchableOpacity>
-								)}
+									{modalPosition && (
+										<ModalKebabMenu
+											modalVisible={
+												modalData.modalVisible &&
+												modalData.commentId === reply.id
+											}
+											setModalVisible={closeModal}
+											memberId={modalData.commentWriterId}
+											commentId={modalData.commentId}
+											isPublic={modalData.commentIsPublic}
+											isMe={modalData.commentIsMe}
+											position={modalPosition}
+										/>
+									)}
 
-								<ModalTranslationsCount
-									modalVisible={modalTranslationVisible}
-									setModalVisible={setModalTranslationVisible}
-									translationCount={translationCount}
-								/>
+									{translating[reply.id] ? (
+										<View style={styles.textTranslation}>
+											<LoadingDots />
+										</View>
+									) : (
+										<TouchableOpacity
+											style={styles.textTranslation}
+											onPress={() => {
+												handleTranslate(reply.id, false);
+												handleToggleTranslation(
+													reply.id,
+													false,
+												);
+											}}
+										>
+											<Text
+												style={styles.textTranslation}
+											>
+												{replyShowTranslations[reply.id]
+													? t("viewOriginalButton")
+													: t("translateButton")}
+											</Text>
+										</TouchableOpacity>
+									)}
+
+									<ModalTranslationsCount
+										modalVisible={modalTranslationVisible}
+										setModalVisible={
+											setModalTranslationVisible
+										}
+										translationCount={translationCount}
+									/>
+								</View>
 							</View>
 						</View>
-					</View>
-				))}
+					);
+				})}
 			</View>
 		);
 	};
@@ -553,6 +557,10 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "space-between",
+	},
+	replyRow: {
+		flexDirection: "row",
+		marginRight: 24,
 	},
 	textPostTitle: {
 		fontSize: 12,
