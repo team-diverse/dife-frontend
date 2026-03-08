@@ -39,6 +39,7 @@ import {
 	changeChatroomStatus,
 	changeChatroomHold,
 	chatSmallTalk,
+	changeSmallTalkStatus,
 } from "config/api";
 import { useStatusBar } from "util/useStatusBar";
 
@@ -83,8 +84,10 @@ const ChatRoomPage = ({ route }) => {
 	const [userLanguage, setUserLanguage] = useState(null);
 	const [showSmallTalk, setShowSmallTalk] = useState(true);
 	const [smallTalkSubject, setSmallTalkSubject] = useState(null);
+	const [smallTalkIsHold, setSmallTalkIsHold] = useState(null);
 	const [smallTalkHeight, setSmallTalkHeight] = useState(BannerHeight);
 	const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
+
 	const getChatroomStatusValue = useCallback((chatroom) => {
 		return String(
 			chatroom?.status ??
@@ -93,6 +96,7 @@ const ChatRoomPage = ({ route }) => {
 				"",
 		).toUpperCase();
 	}, []);
+
 	const initialIsExitedRoom = useMemo(() => {
 		const status = getChatroomStatusValue(chatroomInfo);
 		return Boolean(isExited) || status === "EXITED";
@@ -137,6 +141,7 @@ const ChatRoomPage = ({ route }) => {
 		const fetchSmallTalk = async () => {
 			const smallTalk = await chatSmallTalk(chatroomInfo.id);
 			setSmallTalkSubject(smallTalk.data.content);
+			setSmallTalkIsHold(smallTalk.data.isHold);
 		};
 		fetchSmallTalk();
 	}, [chatroomInfo.id]);
@@ -562,6 +567,17 @@ const ChatRoomPage = ({ route }) => {
 		return groupMessages(uniqueMessages);
 	}, [messages, chatroomInfo.id, dedupeMessages]);
 
+	const isSmallTalkVisible = showSmallTalk && smallTalkIsHold === false;
+
+	const handleSmallTalkModalClose = async () => {
+		setShowSmallTalk(false);
+		try {
+			await changeSmallTalkStatus(chatroomInfo.id);
+		} catch (error) {
+			console.error("스몰톡 닫기 상태 변경 오류: ", error);
+		}
+	};
+
 	return (
 		<>
 			<SafeAreaView style={ChatRoomStyles.container}>
@@ -591,8 +607,8 @@ const ChatRoomPage = ({ route }) => {
 
 				<View style={ChatRoomStyles.containerChat}>
 					<ModalSmallTalk
-						visible={showSmallTalk}
-						onClose={() => setShowSmallTalk(false)}
+						visible={isSmallTalkVisible}
+						onClose={handleSmallTalkModalClose}
 						style={{ top: modalTop }}
 						subject={smallTalkSubject}
 						onLayout={handleSmallTalkLayout}
@@ -688,7 +704,7 @@ const ChatRoomPage = ({ route }) => {
 						onScroll={handleScroll}
 						scrollEventThrottle={16}
 						contentContainerStyle={{
-							paddingTop: showSmallTalk
+							paddingTop: isSmallTalkVisible
 								? modalTop + smallTalkHeight + 8
 								: 0,
 						}}
