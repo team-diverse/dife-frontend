@@ -17,7 +17,7 @@ const ItemCommunity = ({
 	postList = [],
 	comment = false,
 	apiPost = false,
-	likedPostBlue = false,
+	heartColor = null,
 	bookmarkedPostBlue = false,
 }) => {
 	const { t } = useTranslation();
@@ -29,6 +29,12 @@ const ItemCommunity = ({
 				const commentText = comment
 					? `'${post.post.title}' ${t("commentOnPost")}`
 					: post.title;
+				const isLiked = apiPost ? post.post.isLiked : post.isLiked;
+				const resolvedHeartColor = heartColor
+					? heartColor
+					: isLiked
+						? CustomTheme.warningRed
+						: CustomTheme.borderColor;
 
 				return (
 					<TouchableOpacity
@@ -66,14 +72,7 @@ const ItemCommunity = ({
 
 								<View style={styles.containerTextRow}>
 									<View style={styles.containerText}>
-										<IconHeart
-											likedPostBlue={likedPostBlue}
-											active={
-												apiPost
-													? post.post.isLiked
-													: post.isLiked
-											}
-										/>
+										<IconHeart color={resolvedHeartColor} />
 										<Text style={styles.text}>
 											{apiPost
 												? post.post.likesCount

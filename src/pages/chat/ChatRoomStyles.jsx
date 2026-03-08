@@ -15,9 +15,6 @@ const ChatRoomStyles = StyleSheet.create({
 		alignItems: "center",
 		height: 56,
 	},
-	modalSmallTalk: {
-		// padding: 10,
-	},
 	containerChat: {
 		flex: 1,
 		paddingRight: -10,

@@ -134,6 +134,8 @@
 	"serviceUnderConstruction": "Este servicio aún está en desarrollo",
 
 	"boardTitle": "Tablero",
+	"popularPost": "Publicaciones populares",
+	"noPopularPosts": "No hay publicaciones populares para mostrar.",
 	"post": "Publicación",
 	"searchPlaceholder": "Buscar",
 	"searchNoResults": "No se encontraron resultados coincidentes",

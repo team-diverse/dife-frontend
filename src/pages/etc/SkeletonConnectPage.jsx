@@ -11,11 +11,6 @@ import ConnectLikeUser from "@components/connect/ConnectLikeUser";
 import FilterIcon from "@components/connect/FilterIcon";
 import ConnectDife from "@components/connect/ConnectDife";
 import ConnectReset from "@components/connect/ConnectReset";
-import ChatDf24 from "@components/Icon24/ChatDf24";
-import ConnectAc32 from "@components/Icon32/ConnectAc32";
-import HomeDf24 from "@components/Icon24/HomeDf24";
-import CommuDf24 from "@components/Icon24/CommuDf24";
-import MyDf24 from "@components/Icon24/MyDf24";
 
 const { fontSub16 } = CustomTheme;
 
@@ -32,64 +27,51 @@ const SkeletonConnectPage = () => {
 	);
 
 	return (
-		<>
-			<View style={ConnectStyles.container}>
-				<View style={ConnectStyles.backgroundBlue} />
-				<SafeAreaView style={ConnectStyles.safeAreaView}>
-					<View style={ConnectStyles.connectTop}>
-						<ConnectTop />
-					</View>
-					<View style={ConnectStyles.textIconContainer}>
-						<Text style={ConnectStyles.connectTitle}>Connect</Text>
-						<ConnectLikeUser style={ConnectStyles.addUserIcon} />
-					</View>
-					<View style={ConnectStyles.searchContainer}>
-						<View>
-							<FilterIcon style={ConnectStyles.searchFilter} />
-						</View>
-
-						<View style={ConnectStyles.searchIconContainer}>
-							<View style={styles.containerSearch} />
-
-							<ConnectSearchIcon
-								style={ConnectStyles.searchIcon}
-							/>
-						</View>
+		<View style={ConnectStyles.container}>
+			<View style={ConnectStyles.backgroundBlue} />
+			<SafeAreaView style={ConnectStyles.safeAreaView}>
+				<View style={ConnectStyles.connectTop}>
+					<ConnectTop />
+				</View>
+				<View style={ConnectStyles.textIconContainer}>
+					<Text style={ConnectStyles.connectTitle}>Connect</Text>
+					<ConnectLikeUser style={ConnectStyles.addUserIcon} />
+				</View>
+				<View style={ConnectStyles.searchContainer}>
+					<View>
+						<FilterIcon style={ConnectStyles.searchFilter} />
 					</View>
 
-					<View style={ConnectStyles.containerDife}>
-						<View style={ConnectStyles.connectDife}>
-							<ConnectDife />
-						</View>
-					</View>
-					<View style={ConnectStyles.midContainer}>
-						<View style={ConnectStyles.tabContainer}>
-							<Text style={ConnectStyles.textActiveTab}>
-								1 : 1
-							</Text>
-							<Text style={ConnectStyles.textTab}>그룹</Text>
-						</View>
-						<View style={ConnectStyles.resetContainer}>
-							<Text style={ConnectStyles.textReset}>Reset</Text>
-							<ConnectReset />
-						</View>
-					</View>
+					<View style={ConnectStyles.searchIconContainer}>
+						<View style={styles.containerSearch} />
 
-					<View style={styles.containerConnectCard}>
-						{Array.from({ length: 3 }).map((_, index) => (
-							<ConnectItem key={index.toString()} />
-						))}
+						<ConnectSearchIcon style={ConnectStyles.searchIcon} />
 					</View>
-				</SafeAreaView>
-			</View>
-			<View style={styles.navigation}>
-				<ChatDf24 />
-				<ConnectAc32 />
-				<HomeDf24 />
-				<CommuDf24 />
-				<MyDf24 />
-			</View>
-		</>
+				</View>
+
+				<View style={ConnectStyles.containerDife}>
+					<View style={ConnectStyles.connectDife}>
+						<ConnectDife />
+					</View>
+				</View>
+				<View style={ConnectStyles.midContainer}>
+					<View style={ConnectStyles.tabContainer}>
+						<Text style={ConnectStyles.textActiveTab}>1 : 1</Text>
+						<Text style={ConnectStyles.textTab}>그룹</Text>
+					</View>
+					<View style={ConnectStyles.resetContainer}>
+						<Text style={ConnectStyles.textReset}>Refresh</Text>
+						<ConnectReset />
+					</View>
+				</View>
+
+				<View style={styles.containerConnectCard}>
+					{Array.from({ length: 3 }).map((_, index) => (
+						<ConnectItem key={index.toString()} />
+					))}
+				</View>
+			</SafeAreaView>
+		</View>
 	);
 };
 
@@ -161,21 +143,6 @@ const styles = StyleSheet.create({
 		marginLeft: 104,
 		backgroundColor: "#E4E6EF",
 		borderRadius: 10,
-	},
-	navigation: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		paddingHorizontal: 36,
-		paddingTop: 13,
-		paddingBottom: 39,
-		width: "100%",
-		height: 90,
-		backgroundColor: CustomTheme.bgBasic,
-		marginBottom: -10,
-		borderTopWidth: 1,
-		borderTopColor: CustomTheme.bgList,
-		zIndex: 10,
 	},
 });
 

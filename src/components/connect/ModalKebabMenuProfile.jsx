@@ -176,7 +176,6 @@ const styles = StyleSheet.create({
 	},
 	rectangle: {
 		width: 95,
-		// height: 110,
 		height: 75,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 10,

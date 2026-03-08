@@ -50,7 +50,7 @@ const LikedPostPage = () => {
 				<ItemCommunity
 					postList={likedPostList}
 					apiPost={true}
-					likedPostBlue={true}
+					heartColor={CustomTheme.primaryMedium}
 				/>
 			</View>
 		</SafeAreaView>

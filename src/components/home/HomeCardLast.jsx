@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 
 import { CustomTheme } from "@styles/CustomTheme";
 
-import HomecardDifeF from "@components/home/HomecardDifeF";
+import HomeCardLine from "@components/home/HomeCardLine";
 import IconTwoUsers from "@components/home/IconTwoUsers";
 
 const { fontCaption, fontButton } = CustomTheme;
@@ -22,8 +22,8 @@ const HomeCardLast = () => {
 
 	return (
 		<View style={styles.rectangle}>
-			<View style={styles.homecardDifeF}>
-				<HomecardDifeF />
+			<View style={styles.homeCardLine}>
+				<HomeCardLine style={styles.homeCardLineSvg} />
 			</View>
 			<View style={styles.homeProfile}>
 				<View style={styles.containerImage}>
@@ -47,7 +47,7 @@ const HomeCardLast = () => {
 
 const styles = StyleSheet.create({
 	rectangle: {
-		width: 260,
+		width: "100%",
 		height: 360,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
@@ -63,13 +63,21 @@ const styles = StyleSheet.create({
 			},
 		}),
 	},
-	homecardDifeF: {
+	homeCardLine: {
 		position: "absolute",
-		top: 69,
+		top: 34,
+		left: 0,
+		width: "100%",
+		height: 77,
+		overflow: "hidden",
+	},
+	homeCardLineSvg: {
+		marginLeft: "-24%",
 	},
 	homeProfile: {
 		position: "absolute",
-		marginHorizontal: 20,
+		left: 20,
+		right: 20,
 		top: 20,
 	},
 	containerImage: {
@@ -92,7 +100,7 @@ const styles = StyleSheet.create({
 		marginTop: 8,
 	},
 	buttonAddProfile: {
-		width: 220,
+		width: "100%",
 		height: 37,
 		backgroundColor: CustomTheme.primaryMedium,
 		borderRadius: 12,

@@ -134,6 +134,8 @@
 	"serviceUnderConstruction": "该服务仍在开发中",
 
 	"boardTitle": "论坛",
+	"popularPost": "热门帖子",
+	"noPopularPosts": "暂无可显示的热门帖子。",
 	"post": "帖子",
 	"searchPlaceholder": "搜索",
 	"searchNoResults": "没有匹配的搜索结果",

@@ -1,158 +1,258 @@
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { View, Text, StyleSheet } from "react-native";
+import {
+	View,
+	StyleSheet,
+	Dimensions,
+	ScrollView,
+	Platform,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import HomeStyles from "@pages/home/HomeStyles.js";
 import { CustomTheme } from "@styles/CustomTheme";
+import HomeStyles from "@pages/home/HomeStyles.js";
 
-import HomeBg from "@assets/images/svg_js/HomeBg";
 import LogoBr from "@components/Logo/LogoBr";
 import Notification32 from "@components/Icon32/Notification32";
-import HomeArrow from "@components/home/HomeArrow.js";
-import ChatDf24 from "@components/Icon24/ChatDf24";
-import ConnectDf24 from "@components/Icon24/ConnectDf24";
-import HomeAc32 from "@components/Icon32/HomeAc32";
-import CommuDf24 from "@components/Icon24/CommuDf24";
-import MyDf24 from "@components/Icon24/MyDf24";
+import ConnectProfileBackground from "@components/connect/ConnectProfileBackground";
+
+const SKELETON_BLOCK_COLOR = "#E4E6EF";
+
+const SkeletonProfileCard = ({ faded = false }) => (
+	<View style={[styles.homeCard, faded && styles.homeCardFaded]}>
+		<View style={styles.homeCardProfile} />
+		<View style={styles.homeCardGray} />
+		<View style={styles.homeCardBodyLine} />
+		<View style={styles.homeCardBodyLine} />
+	</View>
+);
 
 const SkeletonHomePage = () => {
-	return (
-		<>
-			<SafeAreaView style={HomeStyles.container}>
-				<LinearGradient
-					style={HomeStyles.linearGradient}
-					colors={["#0029F4", "#6199C1", "#6199C1"]}
-				>
-					<HomeBg
-						style={HomeStyles.homebg}
-						preserveAspectRatio="none"
-					/>
+	const { width: screenWidth, height: screenHeight } =
+		Dimensions.get("window");
+	const cardWidth = screenWidth - 64;
+	const sidePeekWidth = 16;
+	const cardStep = cardWidth + sidePeekWidth;
+	const cardLeftInset = (screenWidth - cardWidth) / 2;
+	const isSmallScreen = screenHeight < 700;
 
-					<View style={HomeStyles.topContainer}>
-						<View style={HomeStyles.logo}>
-							<LogoBr />
-						</View>
-						<View style={HomeStyles.notify}>
-							<Notification32 count={3} />
-						</View>
-					</View>
-
-					<View style={HomeStyles.textConnectWithContainer}>
-						<Text style={HomeStyles.textConnect}>커넥트</Text>
-						<Text style={HomeStyles.textWithnewfriend}>
-							새로운 친구와 함께해요!
-						</Text>
-					</View>
-
-					<View
-						style={{ flexDirection: "row", alignItems: "center" }}
-					>
-						<View>
-							<HomeArrow
-								style={{ transform: [{ scaleX: -1 }] }}
-							/>
-						</View>
-
-						<View style={styles.homeCard}>
-							<View style={styles.homeCardProfile} />
-							<View style={styles.homeCardGray} />
-							<View style={styles.homeCardGraySmall} />
-							<View
-								style={[
-									styles.homeCardGraySmall,
-									{ marginTop: 224 },
-								]}
-							/>
-						</View>
-
-						<View>
-							<HomeArrow />
-						</View>
-					</View>
-
-					<View style={styles.containerSmallCards}>
-						<View>
-							<View style={styles.smallCard} />
-							<View style={styles.smallCardGray} />
-						</View>
-						<View>
-							<View style={styles.smallCard} />
-							<View style={styles.smallCardGray} />
-						</View>
-					</View>
-				</LinearGradient>
-			</SafeAreaView>
-			<View style={styles.navigation}>
-				<ChatDf24 />
-				<ConnectDf24 />
-				<HomeAc32 />
-				<CommuDf24 />
-				<MyDf24 />
+	const renderHome = () => (
+		<LinearGradient
+			style={HomeStyles.linearGradient}
+			colors={["#0029F4", "#6199C1", "#6199C1"]}
+		>
+			<View style={HomeStyles.containerCircle}>
+				<ConnectProfileBackground />
 			</View>
-		</>
+
+			<View style={HomeStyles.topContainer}>
+				<View style={HomeStyles.logo}>
+					<LogoBr />
+				</View>
+				<View style={HomeStyles.notify}>
+					<Notification32 count={0} />
+				</View>
+			</View>
+
+			<View style={HomeStyles.carouselSection}>
+				<View
+					style={[
+						HomeStyles.textConnectWithContainer,
+						{ marginLeft: cardLeftInset },
+					]}
+				>
+					<View style={styles.sectionTitleMain} />
+					<View style={styles.sectionTitleSub} />
+				</View>
+
+				<View style={HomeStyles.carouselViewport}>
+					<View style={HomeStyles.carouselTrack}>
+						<View
+							pointerEvents="none"
+							style={[
+								HomeStyles.carouselCard,
+								HomeStyles.carouselSideCard,
+								{
+									width: cardWidth,
+									left: 32 - cardStep,
+								},
+							]}
+						>
+							<SkeletonProfileCard faded={true} />
+						</View>
+
+						<View
+							style={[
+								HomeStyles.carouselCard,
+								HomeStyles.carouselCenterCard,
+								{
+									width: cardWidth,
+									left: 32,
+								},
+							]}
+						>
+							<SkeletonProfileCard />
+						</View>
+
+						<View
+							pointerEvents="none"
+							style={[
+								HomeStyles.carouselCard,
+								HomeStyles.carouselSideCard,
+								{
+									width: cardWidth,
+									left: 32 + cardStep,
+								},
+							]}
+						>
+							<SkeletonProfileCard faded={true} />
+						</View>
+					</View>
+				</View>
+			</View>
+
+			<View style={HomeStyles.containerWhite}>
+				<View
+					style={[
+						HomeStyles.sectionBoard,
+						{ width: cardWidth, alignSelf: "center" },
+					]}
+				>
+					<View style={HomeStyles.sectionBoardTop}>
+						<View style={styles.boardTitleMain} />
+						<View style={styles.boardMore} />
+					</View>
+
+					{Array.from({ length: 2 }).map((_, index) => (
+						<View
+							style={styles.cardPopularPost}
+							key={index.toString()}
+						>
+							<View style={styles.popularTitle} />
+						</View>
+					))}
+				</View>
+			</View>
+		</LinearGradient>
+	);
+
+	return (
+		<SafeAreaView style={HomeStyles.container}>
+			{isSmallScreen ? (
+				<ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+					{renderHome()}
+				</ScrollView>
+			) : (
+				renderHome()
+			)}
+		</SafeAreaView>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: CustomTheme.bgBasic,
-	},
 	homeCard: {
-		width: 260,
+		width: "100%",
 		height: 360,
 		backgroundColor: "#F7F8FD",
 		borderRadius: 20,
-		marginTop: 8,
+		paddingHorizontal: 20,
+		paddingTop: 20,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E4A",
+				shadowOffset: { width: 0, height: 3 },
+				shadowOpacity: 0.71,
+				shadowRadius: 3,
+			},
+			android: {
+				elevation: 3,
+			},
+		}),
+	},
+	homeCardFaded: {
+		opacity: 0.8,
 	},
 	homeCardProfile: {
-		position: "absolute",
 		width: 116,
 		height: 136,
-		backgroundColor: "#E4E6EF",
+		backgroundColor: SKELETON_BLOCK_COLOR,
 		borderRadius: 16,
-		marginTop: 20,
-		marginLeft: 20,
 	},
 	homeCardGray: {
-		position: "absolute",
-		width: 206,
+		width: "80%",
 		height: 16,
-		marginTop: 180,
-		marginLeft: 20,
-		backgroundColor: "#E4E6EF",
+		marginTop: 16,
+		marginBottom: 19,
+		backgroundColor: SKELETON_BLOCK_COLOR,
 		borderRadius: 16,
 	},
-	homeCardGraySmall: {
-		position: "absolute",
-		width: 124,
+	homeCardBodyLine: {
+		width: "60%",
 		height: 10,
-		marginTop: 207,
-		marginLeft: 20,
-		backgroundColor: "#E4E6EF",
-		borderRadius: 16,
+		backgroundColor: SKELETON_BLOCK_COLOR,
+		borderRadius: 8,
+		marginBottom: 7,
 	},
-	containerSmallCards: {
+	homeCardActions: {
+		position: "absolute",
+		left: 20,
+		right: 20,
+		bottom: 18,
 		flexDirection: "row",
-		marginTop: 28,
-		shadowRadius: 6,
+		alignItems: "center",
+		justifyContent: "space-between",
 	},
-	smallCard: {
-		width: 120,
-		height: 148,
+	sectionTitleMain: {
+		width: 54,
+		height: 18,
+		borderRadius: 9,
+		backgroundColor: SKELETON_BLOCK_COLOR,
+	},
+	sectionTitleSub: {
+		width: 132,
+		height: 14,
+		borderRadius: 7,
+		backgroundColor: SKELETON_BLOCK_COLOR,
+		marginTop: 8,
+	},
+	boardTitleMain: {
+		width: 109,
+		height: 18,
+		borderRadius: 9,
+		backgroundColor: SKELETON_BLOCK_COLOR,
+		marginRight: 6,
+	},
+	boardMore: {
+		width: 30,
+		height: 12,
+		borderRadius: 6,
+		backgroundColor: SKELETON_BLOCK_COLOR,
+		marginRight: 6,
+	},
+	cardPopularPost: {
 		backgroundColor: "#F7F8FD",
-		borderRadius: 20,
-		marginHorizontal: 10,
+		height: 62,
+		borderRadius: 12,
+		paddingHorizontal: 20,
+		paddingVertical: 10,
+		marginBottom: 14,
+		...Platform.select({
+			ios: {
+				shadowColor: "#3C454E4A",
+				shadowOffset: { width: 0, height: 3 },
+				shadowOpacity: 0.71,
+				shadowRadius: 3,
+			},
+			android: {
+				elevation: 3,
+			},
+		}),
 	},
-	smallCardGray: {
-		position: "absolute",
-		top: 12,
-		left: 24,
-		width: 41,
-		height: 10,
-		backgroundColor: "#E4E6EF",
-		borderRadius: 16,
+	popularTitle: {
+		width: "62%",
+		height: 14,
+		borderRadius: 7,
+		backgroundColor: SKELETON_BLOCK_COLOR,
 	},
 	navigation: {
 		flexDirection: "row",

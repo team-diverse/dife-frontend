@@ -1,74 +1,41 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-
-import { CustomTheme } from "@styles/CustomTheme";
+import ConnectLikeUserStyles from "@pages/connect/ConnectLikeUserStyles";
+import ConnectStyles from "@pages/connect/ConnectStyles";
 
 import TopBar from "@components/common/TopBar";
 
-const ConnectItem = () => (
-	<View style={styles.connectCard}>
-		<View style={styles.profile} />
-		<View style={styles.connectCardGray} />
-		<View style={styles.connectCardGray2} />
-		<View style={styles.connectCardGray3} />
-		<View style={[styles.connectCardGray3, { marginTop: 119 }]} />
-		<View style={styles.connectCardGray4} />
-	</View>
-);
-
-const Connect = () => (
-	<SafeAreaView style={styles.container}>
-		<View style={styles.containerConnectCard}>
-			{Array.from({ length: 4 }).map((_, index) => (
-				<ConnectItem key={index.toString()} />
-			))}
-		</View>
-	</SafeAreaView>
-);
-
 const SkeletonConnectLikePage = () => {
-	const Tab = createMaterialTopTabNavigator();
+	const ConnectItem = () => (
+		<View style={styles.connectCard}>
+			<View style={styles.profile} />
+			<View style={styles.connectCardGray} />
+			<View style={styles.connectCardGray2} />
+			<View style={styles.connectCardGray3} />
+			<View style={[styles.connectCardGray3, { marginTop: 119 }]} />
+			<View style={styles.connectCardGray4} />
+		</View>
+	);
 
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView style={ConnectLikeUserStyles.container}>
 			<TopBar topBar="좋아요 목록" />
-			<Tab.Navigator
-				// initialRouteName="LikeUserOneToOne"
-				screenOptions={{
-					tabBarActiveTintColor: CustomTheme.primaryMedium,
-					tabBarInactiveTintColor: CustomTheme.bgList,
-					tabBarLabelStyle: {
-						fontSize: 18,
-						lineHeight: 26,
-						fontFamily: "NotoSansCJKkr-Bold",
-					},
-				}}
-			>
-				<Tab.Screen
-					name="1:1"
-					component={Connect}
-					options={{ tabBarLabel: "1:1" }}
-				/>
-				<Tab.Screen
-					name="그룹"
-					component={Connect}
-					options={{ tabBarLabel: "그룹" }}
-				/>
-			</Tab.Navigator>
+			<View style={[ConnectStyles.cardContainer, { marginTop: 14 }]}>
+				<View style={[ConnectStyles.flatlist, styles.listContent]}>
+					{Array.from({ length: 4 }).map((_, index) => (
+						<ConnectItem key={index} />
+					))}
+				</View>
+			</View>
 		</SafeAreaView>
 	);
 };
 
 const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: CustomTheme.bgBasic,
-	},
-	containerConnectCard: {
+	listContent: {
 		paddingHorizontal: 24,
-		marginTop: 24,
+		paddingBottom: 24,
 	},
 	connectCard: {
 		flexDirection: "row",
@@ -120,6 +87,15 @@ const styles = StyleSheet.create({
 		marginLeft: 104,
 		backgroundColor: "#E4E6EF",
 		borderRadius: 10,
+	},
+	headerRow: {
+		position: "absolute",
+		top: 14,
+		left: 104,
+		right: 12,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
 	},
 });
 

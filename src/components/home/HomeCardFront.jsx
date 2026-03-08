@@ -12,6 +12,7 @@ import { CustomTheme } from "@styles/CustomTheme";
 import { useNavigation } from "@react-navigation/native";
 import { useWebSocket } from "context/WebSocketContext";
 import { createChatroom } from "util/createChatroom";
+import { formatAge } from "util/formatAge";
 
 import Tag from "@components/common/Tag";
 import HomeProfile from "@components/home/HomeProfile";
@@ -19,21 +20,11 @@ import IconHeart24 from "@components/Icon24/IconHeart24";
 import IconAddFriend24 from "@components/Icon24/IconAddFriend24";
 import IconChat24 from "@components/Icon24/IconChat24";
 import HomeLine from "@components/home/HomeLine";
-import HomecardDifeF from "@components/home/HomecardDifeF";
+import HomeCardLine from "./HomeCardLine";
 
-const { fontCaption } = CustomTheme;
+const { fontBody16, fontBody14 } = CustomTheme;
 
-const HomeCardFront = ({
-	memberId,
-	fileId,
-	tags,
-	introduction,
-	name,
-	country,
-	onPress,
-	isLikedOnPress,
-	isLikedActive,
-}) => {
+const HomeCardFront = ({ profile, onPress, isLikedOnPress, isLikedActive }) => {
 	const navigation = useNavigation();
 	const { chatrooms } = useWebSocket();
 
@@ -54,10 +45,14 @@ const HomeCardFront = ({
 	};
 
 	const handleCreateSingleChatroom = async () => {
+		if (!profile.memberId) {
+			return;
+		}
+
 		try {
 			const chatroomInfo = await createChatroom(
-				memberId,
-				name,
+				profile.memberId,
+				profile.name,
 				chatrooms,
 			);
 			navigation.navigate("ChatRoomPage", {
@@ -70,55 +65,68 @@ const HomeCardFront = ({
 
 	return (
 		<View style={styles.rectangle}>
-			<View style={styles.homecardDifeF}>
-				<HomecardDifeF />
+			<View pointerEvents="none" style={styles.homeCardLine}>
+				<HomeCardLine style={styles.homeCardLineSvg} />
 			</View>
 			<View style={styles.homeProfile}>
-				<HomeProfile fileId={fileId} />
+				<HomeProfile fileId={profile.fileId} />
+				<Text
+					style={styles.userInfo}
+					numberOfLines={1}
+					ellipsizeMode="tail"
+				>
+					<Text style={styles.textName}>{profile.username}</Text> |{" "}
+					{profile.country} | {formatAge(profile.birth)}
+				</Text>
 				<View style={styles.tagContainer} onLayout={handleTagLayout}>
-					<Tag tag={tags} />
+					<Tag
+						tag={profile.tags}
+						style={{ height: 22 }}
+						textStyle={{ color: CustomTheme.primaryPressed }}
+						maxPerRow={3}
+					/>
 				</View>
 				<Text
 					style={styles.introduction}
 					numberOfLines={introductionLines}
 					ellipsizeMode="tail"
 				>
-					{introduction}
+					{profile.bio}
 				</Text>
-				<View style={styles.myinfoContainer}>
-					<Text
-						style={styles.myinfo}
-						numberOfLines={1}
-						ellipsizeMode="tail"
-					>
-						<Text style={styles.textName}>{name}</Text> | {country}
-					</Text>
-				</View>
 			</View>
 			<View style={styles.connectIconContainer}>
-				<TouchableOpacity
-					style={styles.iconTouchable}
-					onPress={isLikedOnPress}
-				>
-					<IconHeart24
-						style={styles.connectIcon}
-						active={isLikedActive}
-					/>
-				</TouchableOpacity>
+				<View style={styles.iconSlot}>
+					<TouchableOpacity
+						style={styles.iconTouchable}
+						onPress={isLikedOnPress}
+					>
+						<IconHeart24
+							style={styles.connectIcon}
+							active={isLikedActive}
+						/>
+					</TouchableOpacity>
+				</View>
 				<HomeLine style={styles.connectIcon} />
-				<TouchableOpacity
-					style={styles.iconTouchable}
-					onPress={onPress}
-				>
-					<IconAddFriend24 style={styles.connectIcon} active="true" />
-				</TouchableOpacity>
+				<View style={styles.iconSlot}>
+					<TouchableOpacity
+						style={styles.iconTouchable}
+						onPress={onPress}
+					>
+						<IconAddFriend24
+							style={styles.connectIcon}
+							active="true"
+						/>
+					</TouchableOpacity>
+				</View>
 				<HomeLine style={styles.connectIcon} />
-				<TouchableOpacity
-					style={styles.iconTouchable}
-					onPress={handleCreateSingleChatroom}
-				>
-					<IconChat24 style={styles.connectIcon} active="true" />
-				</TouchableOpacity>
+				<View style={styles.iconSlot}>
+					<TouchableOpacity
+						style={styles.iconTouchable}
+						onPress={handleCreateSingleChatroom}
+					>
+						<IconChat24 style={styles.connectIcon} active="true" />
+					</TouchableOpacity>
+				</View>
 			</View>
 		</View>
 	);
@@ -126,7 +134,7 @@ const HomeCardFront = ({
 
 const styles = StyleSheet.create({
 	rectangle: {
-		width: 260,
+		width: "100%",
 		height: 360,
 		backgroundColor: CustomTheme.bgBasic,
 		borderRadius: 20,
@@ -142,53 +150,62 @@ const styles = StyleSheet.create({
 			},
 		}),
 	},
-	homecardDifeF: {
+	homeCardLine: {
 		position: "absolute",
-		top: 69,
+		top: 34,
+		left: 0,
+		width: "100%",
+		height: 77,
+		overflow: "hidden",
+	},
+	homeCardLineSvg: {
+		marginLeft: "-24%",
 	},
 	homeProfile: {
 		position: "absolute",
 		left: 20,
-		top: 20,
+		right: 20,
+		top: 16,
 	},
 	tagContainer: {
-		flexDirection: "row",
-		maxWidth: 200,
-		marginTop: 12,
-		marginBottom: 6,
+		width: "100%",
+		marginTop: 10,
 	},
 	introduction: {
-		...fontCaption,
-		maxWidth: 200,
-		marginTop: 6,
-		marginBottom: 12,
-	},
-	myinfoContainer: {
-		flexDirection: "row",
-		maxWidth: 200,
+		...fontBody14,
+		width: "100%",
+		marginTop: 10,
 	},
 	textName: {
-		fontSize: 12,
-		lineHeight: 16,
+		fontSize: 16,
+		lineHeight: 24,
 		fontFamily: "NotoSansCJKkr-Bold",
+		color: "#141D45",
 	},
-	myinfo: {
-		...fontCaption,
+	userInfo: {
+		...fontBody16,
+		color: "#141D45",
+		marginTop: 7,
 	},
 	connectIconContainer: {
 		position: "absolute",
-		left: 10,
-		bottom: 13,
+		bottom: 12,
 		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+	},
+	iconSlot: {
+		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
 	},
 	iconTouchable: {
-		height: "100%",
+		width: "100%",
+		alignItems: "center",
 		justifyContent: "center",
 	},
 	connectIcon: {
-		marginHorizontal: 28,
+		marginHorizontal: 0,
 	},
 });
 

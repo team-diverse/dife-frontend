@@ -15,6 +15,7 @@ import * as Sentry from "@sentry/react-native";
 import TextInput from "@components/common/TextInput";
 
 import ConnectStyles from "@pages/connect/ConnectStyles";
+import SkeletonConnectPage from "@pages/etc/SkeletonConnectPage";
 import { CustomTheme } from "@styles/CustomTheme";
 import { getConnectSearch } from "config/api";
 import { formatProfileData } from "util/formatProfileData";
@@ -41,6 +42,7 @@ const ConnectPage = () => {
 	const {
 		allProfiles,
 		formattedTimeRemaining,
+		isInitialLoading,
 		fetchAndDistributeProfiles,
 		likesById,
 		toggleLike,
@@ -122,6 +124,10 @@ const ConnectPage = () => {
 
 	const { height: screenHeight } = Dimensions.get("window");
 	const isSmallScreen = screenHeight < 700;
+
+	if (isInitialLoading) {
+		return <SkeletonConnectPage />;
+	}
 
 	return (
 		<SafeAreaView

@@ -134,6 +134,8 @@
 	"serviceUnderConstruction": "まだ準備中のサービスです",
 
 	"boardTitle": "掲示板",
+	"popularPost": "人気の投稿",
+	"noPopularPosts": "表示できる人気投稿はありません。",
 	"post": "投稿",
 	"searchPlaceholder": "検索",
 	"searchNoResults": "一致する検索結果がありません",

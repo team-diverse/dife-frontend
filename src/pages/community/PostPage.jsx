@@ -547,7 +547,14 @@ const PostPage = ({ route }) => {
 							style={PostStyles.iconRow}
 							onPress={handleHeart}
 						>
-							<IconHeart active={pressHeart} size="24" />
+							<IconHeart
+								size="24"
+								color={
+									pressHeart
+										? CustomTheme.warningRed
+										: CustomTheme.borderColor
+								}
+							/>
 							<Text style={PostStyles.textIcon}>{heart}</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
