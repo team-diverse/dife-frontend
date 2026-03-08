@@ -91,8 +91,6 @@ const ProfileLanguagePage = () => {
 				error.response ? error.response.data : error.message,
 			);
 		}
-
-		// navigation.navigate("StudentVerification");
 	};
 
 	const { height: screenHeight } = Dimensions.get("window");
